@@ -1,0 +1,22 @@
+.productCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: inherit;
+  transition: box-shadow 0.15s ease;
+}
+
+.productCard:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.productName {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.productPrice {
+  margin: 0;
+  color: var(--color-primary);
+  font-weight: 600;
+}

@@ -1,0 +1,11 @@
+# Chuẩn hoá line ending: luôn lưu LF trong repo, tránh diff do khác hệ điều hành
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary

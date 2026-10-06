@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Environment — chỉ commit .env.example
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Editor / OS
+.claude/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.sw?
+.DS_Store
+Thumbs.db

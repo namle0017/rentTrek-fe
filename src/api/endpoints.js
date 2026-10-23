@@ -12,6 +12,7 @@ export const API_ENDPOINTS = {
     ME: '/users/me',
   },
   PRODUCTS: {
+    CATEGORIES: '/products/categories',
     ROOT: '/products',
     BY_ID: (id) => `/products/${id}`,
     IMAGES: (id) => `/products/${id}/images`,

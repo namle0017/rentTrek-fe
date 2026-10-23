@@ -1,7 +1,8 @@
 .productCard {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  padding: 0;
+  overflow: hidden;
   color: inherit;
   transition: box-shadow 0.15s ease;
 }
@@ -15,8 +16,66 @@
   font-size: 1rem;
 }
 
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px;
+}
+
+.productImage {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #edf2ec;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rentalBadge,
+.saleBadge {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.rentalBadge {
+  color: #185537;
+  background: #e8f3eb;
+}
+.saleBadge {
+  color: #83531d;
+  background: #fff2da;
+}
+.category {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+.detailLink {
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 0.875rem;
+  color: var(--color-primary);
+}
+.productCard:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
 .productPrice {
   margin: 0;
   color: var(--color-primary);
-  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.productPrice span {
+  color: var(--color-text-muted);
 }

@@ -36,9 +36,23 @@ npm run dev                  # http://localhost:5173
 
 | Biến | Mô tả | Ví dụ |
 |---|---|---|
-| `VITE_API_BASE_URL` | Base URL của BE, đã gồm `/api/v1` | `https://localhost:7001/api/v1` |
+| `VITE_API_BASE_URL` | Base URL của BE, đã gồm `/api/v1` | `https://localhost:7000/api/v1` |
 
 ## Cấu trúc
 
 Xem [mục 2 — Cấu trúc thư mục](docs/01-CONVENTIONS.md#2-cấu-trúc-thư-mục).
 Feature mẫu để copy khi làm module mới: `src/features/products/`.
+
+## Danh sách và chi tiết sản phẩm
+
+- `/products`: danh sách sản phẩm thuê / bán, tìm kiếm, lọc danh mục / hình thức, sắp xếp và phân trang.
+- `/products/:productId`: ảnh, biến thể, giá bán và bảng giá thuê theo số ngày.
+- Dùng React Query → productService → Axios instance chung. Các API ghi và chức năng khác giữ nguyên.
+- Chạy migration và script mẫu `BE/docs/database/seed_product_catalog.sql` nếu cần dữ liệu demo.
+  Ảnh SVG đi kèm là minh hoạ cho dữ liệu mẫu.
+
+Kiểm tra tích hợp Axios và React render (BE đang chạy, có dữ liệu demo, Node 24+, chứng chỉ dev đã trust):
+
+```bash
+node --use-system-ca --test tests/product-catalog.render.test.mjs
+```

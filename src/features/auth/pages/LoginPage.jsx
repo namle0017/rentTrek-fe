@@ -1,16 +1,22 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import FormField from '@/components/FormField';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import { applyServerErrors } from '@/utils/applyServerErrors';
+import AuthLayout from '../components/AuthLayout';
 import { useLogin } from '../hooks/useLogin';
+import styles from './AuthForm.module.css';
 
 export default function LoginPage() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const loginMutation = useLogin();
+  const [showPassword, setShowPassword] = useState(false);
+  const [serverErrorMsg, setServerErrorMsg] = useState('');
+
   const {
     register,
     handleSubmit,
@@ -22,30 +28,39 @@ export default function LoginPage() {
 
   if (isAuthenticated) return <Navigate to={redirectTo} replace />;
 
-  // TODO: đồng bộ tên field với API Contract 1.2 (POST /auth/login) khi BE chốt
   const handleLogin = (values) => {
+    setServerErrorMsg('');
     loginMutation.mutate(
       { email: values.email.trim(), password: values.password },
       {
         onSuccess: () => navigate(redirectTo, { replace: true }),
-        onError: (error) => applyServerErrors(error, setError),
+        onError: (error) => {
+          if (error.statusCode === 401 || error.statusCode === 403) {
+            setServerErrorMsg(error.message);
+          }
+          applyServerErrors(error, setError);
+        },
       },
     );
   };
 
   return (
-    <div className="auth-page">
-      <form className="card auth-card" onSubmit={handleSubmit(handleLogin)} noValidate>
-        <Link to={ROUTES.HOME} className="auth-logo">
-          renTrek
-        </Link>
-        <h1 className="page-title">Đăng nhập</h1>
+    <AuthLayout
+      title="Đăng nhập"
+      subtitle="Chào mừng trở lại! Vui lòng nhập thông tin để tiếp tục trải nghiệm"
+      alternateText="Chưa có tài khoản renTrek?"
+      alternateLinkText="Đăng ký ngay"
+      alternateLinkTo={ROUTES.REGISTER}
+    >
+      <form className={styles.authForm} onSubmit={handleSubmit(handleLogin)} noValidate>
+        {serverErrorMsg && <div className={styles.errorBanner}>{serverErrorMsg}</div>}
 
-        <FormField label="Email" htmlFor="email" error={errors.email}>
+        <FormField label="Địa chỉ Email" htmlFor="email" error={errors.email}>
           <input
             id="email"
             type="email"
             className="input"
+            placeholder="name@example.com"
             autoComplete="email"
             {...register('email', {
               required: 'Email không được để trống',
@@ -55,19 +70,34 @@ export default function LoginPage() {
         </FormField>
 
         <FormField label="Mật khẩu" htmlFor="password" error={errors.password}>
-          <input
-            id="password"
-            type="password"
-            className="input"
-            autoComplete="current-password"
-            {...register('password', { required: 'Mật khẩu không được để trống' })}
-          />
+          <div className={styles.passwordInputWrapper}>
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              className="input"
+              placeholder="Nhập mật khẩu của bạn"
+              autoComplete="current-password"
+              {...register('password', { required: 'Mật khẩu không được để trống' })}
+            />
+            <button
+              type="button"
+              className={styles.passwordToggleBtn}
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+            >
+              {showPassword ? 'Ẩn' : 'Hiện'}
+            </button>
+          </div>
         </FormField>
 
-        <button type="submit" className="btn btn-primary btn-block" disabled={loginMutation.isPending}>
+        <button
+          type="submit"
+          className={`btn btn-primary btn-block ${styles.submitBtn}`}
+          disabled={loginMutation.isPending}
+        >
           {loginMutation.isPending ? 'Đang đăng nhập...' : 'Đăng nhập'}
         </button>
       </form>
-    </div>
+    </AuthLayout>
   );
 }

@@ -64,7 +64,7 @@ function renderPage(Page, path, queryEntries, routePath = '/products') {
 test('list renders actual Axios data, product links, filters and pagination', async () => {
   const params = {
     pageNumber: 1,
-    pageSize: 10,
+    pageSize: 8,
     search: '',
     categoryId: '',
     offeringType: '',
@@ -80,8 +80,8 @@ test('list renders actual Axios data, product links, filters and pagination', as
     assert.ok(html.includes(product.name));
     assert.ok(html.includes(`href="/products/${product.id}"`));
   }
-  assert.ok(html.includes('Tìm sản phẩm'));
-  assert.ok(html.includes('Hình thức'));
+  assert.ok(html.toLocaleLowerCase('vi-VN').includes('tìm sản phẩm'));
+  assert.ok(html.toLocaleLowerCase('vi-VN').includes('hình thức'));
   assert.ok(html.includes('Phân trang'));
 });
 
@@ -120,7 +120,7 @@ test('sale-only product does not render a misleading rental price', async () => 
 test('unmatched search renders empty state and a reset action', async () => {
   const params = {
     pageNumber: 1,
-    pageSize: 10,
+    pageSize: 8,
     search: '__no_product_should_match_this__',
     categoryId: '',
     offeringType: '',

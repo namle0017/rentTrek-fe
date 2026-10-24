@@ -1,47 +1,331 @@
-.layout {
+﻿.layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
-
-.header {
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+.layout :global(.container) {
+  max-width: 1344px;
 }
-
+.header {
+  background: #1c4333;
+  color: #fff;
+  border-bottom: 1px solid #315344;
+}
 .headerInner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  min-height: 64px;
+  gap: 26px;
+  min-height: 74px;
 }
-
 .logo {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  white-space: nowrap;
 }
-
+/* Reserved space for the owner's logo asset. */
+.logoSlot {
+  width: 36px;
+  height: 34px;
+  display: inline-block;
+  flex-shrink: 0;
+}
 .nav {
   display: flex;
   align-items: center;
-  gap: 16px;
-}
-
-.nav :global(a.active) {
-  color: var(--color-primary);
+  justify-content: center;
+  gap: 32px;
+  margin-left: auto;
+  font-size: 14px;
   font-weight: 600;
 }
-
+.nav > a,
+.upcoming {
+  position: relative;
+  white-space: nowrap;
+  color: #dbe7e0;
+}
+.nav :global(a.active) {
+  color: #e4b74f;
+}
+.soon {
+  display: block;
+  position: absolute;
+  top: 20px;
+  font-size: 9px;
+  color: #b8cfc0;
+  font-weight: 400;
+}
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+.headerSearch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 220px;
+  border-radius: 24px;
+  padding: 8px 14px;
+  background: #123326;
+  color: #c7dacb;
+}
+.headerSearch input {
+  min-width: 0;
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+.headerSearch:focus-within {
+  outline: 2px solid #d6efda;
+  outline-offset: 3px;
+}
+.headerSearch input::placeholder {
+  color: #b6cebd;
+}
+.listButton {
+  padding: 11px 20px;
+  border-radius: 7px;
+  background: #d9f3dd;
+  color: #254f3d;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.listButton:hover {
+  background: #bfe8c5;
+}
+.login {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.account {
+  position: relative;
+}
+.account summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  list-style: none;
+}
+.account summary::-webkit-details-marker {
+  display: none;
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  border: 1px solid #c4dabd;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #385845;
+}
+.accountMenu {
+  position: absolute;
+  right: 0;
+  top: 46px;
+  z-index: 5;
+  display: grid;
+  gap: 12px;
+  min-width: 210px;
+  max-width: 280px;
+  overflow-wrap: anywhere;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: white;
+  color: var(--color-text);
+  box-shadow: var(--shadow-hover);
+  font-size: 13px;
+}
+.accountMenu button {
+  padding: 8px;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  background: #f7f9f7;
+  color: var(--color-primary);
+  font: inherit;
+}
 .main {
   flex: 1;
-  padding-block: 24px;
+  padding-block: 32px;
 }
-
+.catalogMain {
+  flex: 1;
+  min-width: 0;
+}
 .footer {
-  padding-block: 16px;
-  border-top: 1px solid var(--color-border);
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
+  padding: 64px 0 28px;
+  background: #071e16;
+  color: #b7ccbd;
+  font-size: 14px;
+}
+.footerGrid {
+  display: grid;
+  grid-template-columns: 2.3fr 1fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 44px;
+}
+.footerAbout > p {
+  max-width: 365px;
+  margin: 24px 0 0;
+  line-height: 1.65;
+}
+.footerGrid h2 {
+  margin: 0 0 12px;
+  color: #edf3ee;
+  font-size: 14px;
+  font-weight: 700;
+}
+.footerGrid > div:not(:first-child) > a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin: 8px 0;
+}
+.footerGrid > div > p {
+  line-height: 1.65;
+}
+.footerGrid a:hover {
+  color: #fff;
+}
+.footerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 32px;
+  border-top: 1px solid #204132;
+  font-size: 12px;
+}
+.footerBottom p {
+  margin: 0;
+}
+.skipLink {
+  position: fixed;
+  left: 16px;
+  top: -100px;
+  padding: 10px;
+  background: white;
+  color: #1c4333;
+  z-index: 20;
+}
+.skipLink:focus {
+  top: 10px;
+}
+@media (max-width: 1100px) {
+  .headerInner {
+    gap: 18px;
+  }
+  .nav {
+    gap: 20px;
+  }
+  .headerActions {
+    gap: 12px;
+  }
+  .headerSearch {
+    width: 185px;
+  }
+  .login span {
+    display: none;
+  }
+  .footerGrid {
+    gap: 30px;
+  }
+}
+@media (max-width: 800px) {
+  .headerInner {
+    flex-wrap: wrap;
+    padding-block: 15px;
+    gap: 18px;
+  }
+  .nav {
+    order: 3;
+    justify-content: flex-start;
+    margin: 0;
+  }
+  .headerActions {
+    margin-left: auto;
+  }
+  .headerSearch {
+    width: 190px;
+  }
+  .listButton {
+    padding: 9px 12px;
+  }
+  .footerGrid {
+    grid-template-columns: 1.5fr 1fr;
+    gap: 32px;
+  }
+  .footerBottom {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+@media (max-width: 540px) {
+  .logo {
+    gap: 4px;
+    font-size: 18px;
+  }
+  .logoSlot {
+    width: 20px;
+  }
+  .headerInner {
+    gap: 16px 10px;
+  }
+  .headerActions {
+    gap: 10px;
+  }
+  .headerSearch {
+    position: absolute;
+    left: 47%;
+    right: 20px;
+    bottom: 13px;
+    width: auto;
+  }
+  .header {
+    position: relative;
+  }
+  .nav {
+    min-height: 30px;
+    flex-basis: 100%;
+    width: 100%;
+    gap: 18px;
+    font-size: 12px;
+  }
+  .nav .upcoming {
+    display: none;
+  }
+  .listButton {
+    font-size: 11px;
+  }
+  .footer {
+    padding-top: 40px;
+  }
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 20px;
+  }
+  .footerAbout {
+    grid-column: 1 / -1;
+  }
+  .footerGrid > div:last-child {
+    grid-column: 1 / -1;
+  }
 }

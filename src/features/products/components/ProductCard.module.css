@@ -1,43 +1,152 @@
-.productCard {
+﻿.productCard {
   display: flex;
   flex-direction: column;
-  padding: 0;
+  min-width: 0;
   overflow: hidden;
-  color: inherit;
-  transition: box-shadow 0.15s ease;
+  border: 1px solid #e0e5eb;
+  border-radius: 12px;
+  background: #fff;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
 }
-
 .productCard:hover {
-  box-shadow: var(--shadow-hover);
+  box-shadow: 0 8px 24px rgb(23 55 40 / 10%);
+  transform: translateY(-3px);
 }
-
-.productName {
-  margin: 0;
-  font-size: 1rem;
+.imageLink {
+  display: block;
+  position: relative;
+  overflow: hidden;
 }
-
+.productImage {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.55;
+  object-fit: cover;
+  background: #edf2ec;
+  transition: transform 0.3s;
+}
+.productCard:hover .productImage {
+  transform: scale(1.035);
+}
+.imageBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #d8efdd;
+  color: #285540;
+  font-size: 10px;
+  font-weight: 800;
+}
 .content {
   display: flex;
   flex: 1;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 20px;
+  min-width: 0;
+  padding: 14px;
 }
-
-.productImage {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  background: #edf2ec;
+.productName {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #333e4c;
 }
-
+.productName a {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.specTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-height: 25px;
+  margin-bottom: 10px;
+}
+.specTags > span {
+  align-self: flex-start;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #7c8492;
+  background: #f1f3f1;
+  font-size: 10px;
+}
+.prices {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding: 12px 0 14px;
+  border-top: 1px solid #e7e9ed;
+}
+.prices > div {
+  display: flex;
+  flex-direction: column;
+}
+.prices span {
+  color: #85909f;
+  font-size: 10px;
+}
+.rentalPrice strong {
+  color: #29523f;
+  font-size: 17px;
+  line-height: 1.5;
+  font-weight: 800;
+}
+.rentalPrice small {
+  font-size: 13px;
+}
+.salePrice {
+  text-align: right;
+  margin-left: auto;
+}
+.salePrice strong {
+  color: #3e4858;
+  font-size: 13px;
+}
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.detailLink,
+.rentLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 42px;
+  border-radius: 7px;
+  padding: 8px 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.detailLink {
+  border: 1px solid #e0e5eb;
+  color: #3c4655;
+  background: white;
+}
+.detailLink:hover {
+  background: #f3f7f3;
+  border-color: #91b49b;
+}
+.rentLink {
+  color: white;
+  background: #1c4534;
+}
+.rentLink:hover {
+  background: #2e604a;
+}
 .badges {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
-
 .rentalBadge,
 .saleBadge {
   padding: 3px 10px;
@@ -45,7 +154,6 @@
   font-size: 0.75rem;
   font-weight: 600;
 }
-
 .rentalBadge {
   color: #185537;
   background: #e8f3eb;
@@ -54,28 +162,37 @@
   color: #83531d;
   background: #fff2da;
 }
-.category {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
+@media (prefers-reduced-motion: reduce) {
+  .productCard,
+  .productImage {
+    transition: none;
+  }
+  .productCard:hover,
+  .productCard:hover .productImage {
+    transform: none;
+  }
 }
-.detailLink {
-  margin-top: auto;
-  padding-top: 8px;
-  font-size: 0.875rem;
-  color: var(--color-primary);
-}
-.productCard:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
-.productPrice {
-  margin: 0;
-  color: var(--color-primary);
-  font-size: 0.875rem;
-}
-
-.productPrice span {
-  color: var(--color-text-muted);
+@media (min-width: 421px) and (max-width: 540px) {
+  .content {
+    padding: 11px;
+  }
+  .productName {
+    font-size: 13px;
+  }
+  .actions {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .salePrice {
+    text-align: left;
+    margin-left: 0;
+  }
+  .rentalPrice strong {
+    font-size: 15px;
+  }
+  .imageBadge {
+    font-size: 8px;
+    top: 8px;
+    left: 8px;
+  }
 }

@@ -20,6 +20,7 @@ export default function MainLayout() {
           </Link>
           <nav className={styles.nav}>
             <NavLink to={ROUTES.PRODUCTS}>Sản phẩm</NavLink>
+            <NavLink to={ROUTES.TOURS}>Tour Trekking</NavLink>
             {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
             {isAuthenticated ? (
               <button

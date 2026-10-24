@@ -1,0 +1,98 @@
+.headerSection {
+  margin-bottom: 28px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tabBtn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tabBtn:hover {
+  background: #f1f5f9;
+  color: var(--color-text);
+}
+
+.tabActive {
+  background: #e8f5e9;
+  color: var(--color-primary-dark);
+  border-color: #c8e6c9;
+}
+
+.filterControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.selectInput {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  outline: none;
+  cursor: pointer;
+}
+
+.selectInput:focus {
+  border-color: var(--color-primary);
+}
+
+.searchInput {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  min-width: 240px;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: var(--color-primary);
+}
+
+.tourGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}

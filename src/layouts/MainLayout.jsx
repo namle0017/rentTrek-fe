@@ -14,6 +14,7 @@ export default function MainLayout() {
   const getRoleBadgeClass = (role) => {
     if (role === USER_ROLE.ADMIN) return `${styles.roleBadge} ${styles.roleBadgeAdmin}`;
     if (role === USER_ROLE.STAFF) return `${styles.roleBadge} ${styles.roleBadgeStaff}`;
+    if (role === USER_ROLE.TOUR_GUIDE) return `${styles.roleBadge} ${styles.roleBadgeTourGuide}`;
     return styles.roleBadge;
   };
 
@@ -34,7 +35,12 @@ export default function MainLayout() {
               {isAuthenticated ? (
                 <>
                   <div className={styles.userInfo}>
-                    <span className={styles.userName}>{currentUser?.fullName || currentUser?.email}</span>
+                    <Link to={ROUTES.PROFILE} className={styles.userNameLink} title="Xem hồ sơ cá nhân">
+                      <span className={styles.userAvatar}>
+                        {(currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()}
+                      </span>
+                      <span className={styles.userName}>{currentUser?.fullName || currentUser?.email}</span>
+                    </Link>
                     {currentUser?.role && (
                       <span className={getRoleBadgeClass(currentUser.role)}>
                         {USER_ROLE_LABEL[currentUser.role] || currentUser.role}

@@ -16,4 +16,8 @@ export const API_ENDPOINTS = {
     BY_ID: (id) => `/products/${id}`,
     IMAGES: (id) => `/products/${id}/images`,
   },
+  TOURS: {
+    ROOT: '/tours',
+    BY_ID: (id) => `/tours/${id}`,
+  },
 };

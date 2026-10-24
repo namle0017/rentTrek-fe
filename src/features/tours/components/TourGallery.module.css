@@ -1,0 +1,72 @@
+.galleryContainer {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 200px 200px;
+  gap: 10px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.mainImageWrapper {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #e2e8f0;
+}
+
+.subImageWrapper {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #e2e8f0;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.mainImageWrapper:hover .image,
+.subImageWrapper:hover .image {
+  transform: scale(1.04);
+}
+
+.btnViewAll {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a202c;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease;
+}
+
+.btnViewAll:hover {
+  background: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .galleryContainer {
+    grid-template-columns: 1fr;
+    grid-template-rows: 280px;
+  }
+  .subImageWrapper {
+    display: none;
+  }
+}

@@ -7,6 +7,8 @@ import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { formatDate, formatDateTime } from '@/utils/formatDate';
+import ActiveSessionsList from '../components/ActiveSessionsList';
+import ChangePasswordForm from '../components/ChangePasswordForm';
 import { useProfile } from '../hooks/useProfile';
 import { useUpdateProfile } from '../hooks/useUpdateProfile';
 import styles from './ProfilePage.module.css';
@@ -15,6 +17,7 @@ export default function ProfilePage() {
   const { data: profile, isLoading, isError } = useProfile();
   const updateProfileMutation = useUpdateProfile();
   const [serverErrorMsg, setServerErrorMsg] = useState('');
+  const [activeTab, setActiveTab] = useState('profile'); // 'profile' | 'password' | 'sessions'
 
   const {
     register,
@@ -61,7 +64,6 @@ export default function ProfilePage() {
       },
       {
         onSuccess: (res) => {
-          // Reset form state with newly updated values so isDirty resets to false
           reset({
             fullName: res.data?.fullName || values.fullName.trim(),
             phone: res.data?.phone || values.phone?.trim() || '',
@@ -111,7 +113,7 @@ export default function ProfilePage() {
       <header className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Thông tin tài khoản</h1>
         <p className={styles.pageSubtitle}>
-          Quản lý thông tin hồ sơ, thông tin liên hệ và cài đặt bảo mật của bạn tại renTrek.
+          Quản lý thông tin hồ sơ, bảo mật mật khẩu và theo dõi các phiên đăng nhập tại renTrek.
         </p>
       </header>
 
@@ -156,102 +158,140 @@ export default function ProfilePage() {
             <div className={styles.securityNoteTitle}>
               <span>🔒 Bảo mật tài khoản</span>
             </div>
-            Phiên làm việc được mã hóa JWT 2 lớp kết hợp cơ chế Refresh Token Rotation tự động
-            phát hiện và ngăn chặn đăng nhập trái phép.
+            Phiên làm việc được mã hóa JWT 2 lớp kết hợp cơ chế Refresh Token Rotation và quản lý
+            thiết bị truy cập độc quyền.
           </div>
         </aside>
 
-        {/* Right Column: Update Profile Form */}
+        {/* Right Column: Dynamic Form / Card */}
         <main className={styles.formCard}>
-          <h2 className={styles.formCardTitle}>Chỉnh sửa thông tin</h2>
-          <p className={styles.formCardSubtitle}>
-            Cập nhật họ tên và số điện thoại liên lạc để nhận thông báo đặt đồ trekking nhanh nhất.
-          </p>
+          {/* Sub Navigation Tabs */}
+          <nav className={styles.tabNav} aria-label="Cài đặt tài khoản">
+            <button
+              type="button"
+              className={`${styles.tabButton} ${activeTab === 'profile' ? styles.tabButtonActive : ''}`}
+              onClick={() => setActiveTab('profile')}
+            >
+              <span>👤</span> Thông tin cá nhân
+            </button>
+            <button
+              type="button"
+              className={`${styles.tabButton} ${activeTab === 'password' ? styles.tabButtonActive : ''}`}
+              onClick={() => setActiveTab('password')}
+            >
+              <span>🔒</span> Đổi mật khẩu
+            </button>
+            <button
+              type="button"
+              className={`${styles.tabButton} ${activeTab === 'sessions' ? styles.tabButtonActive : ''}`}
+              onClick={() => setActiveTab('sessions')}
+            >
+              <span>💻</span> Thiết bị & Phiên làm việc
+            </button>
+          </nav>
 
-          <form className={styles.profileForm} onSubmit={handleSubmit(handleUpdate)} noValidate>
-            {serverErrorMsg && <div className={styles.errorBanner}>{serverErrorMsg}</div>}
-
-            <FormField label="Họ và tên" htmlFor="fullName" error={errors.fullName}>
-              <input
-                id="fullName"
-                type="text"
-                className="input"
-                placeholder="Nhập họ và tên đầy đủ"
-                {...register('fullName', {
-                  required: 'Họ và tên không được để trống',
-                  minLength: { value: 2, message: 'Họ và tên tối thiểu 2 ký tự' },
-                  maxLength: { value: 100, message: 'Họ và tên không vượt quá 100 ký tự' },
-                })}
-              />
-            </FormField>
-
-            <FormField label="Số điện thoại" htmlFor="phone" error={errors.phone}>
-              <input
-                id="phone"
-                type="tel"
-                className="input"
-                placeholder="Ví dụ: 0912345678"
-                {...register('phone', {
-                  pattern: {
-                    value: /^(03|05|07|08|09)\d{8}$/,
-                    message:
-                      'Số điện thoại không đúng định dạng VN (10 chữ số, bắt đầu bằng 03, 05, 07, 08, 09)',
-                  },
-                })}
-              />
-              <div className={styles.inputHelper}>
-                Dùng để liên hệ khi giao nhận thiết bị leo núi hoặc thông báo lịch trình tour.
+          {/* Tab 1: Profile Form */}
+          {activeTab === 'profile' && (
+            <div>
+              <div className={styles.tabHeader}>
+                <h2 className={styles.formCardTitle}>Chỉnh sửa thông tin</h2>
+                <p className={styles.formCardSubtitle}>
+                  Cập nhật họ tên và số điện thoại liên lạc để nhận thông báo đơn thuê hoặc tour trekking.
+                </p>
               </div>
-            </FormField>
 
-            <div className={styles.formRow}>
-              <FormField label="Địa chỉ Email (Cố định)" htmlFor="email">
-                <input
-                  id="email"
-                  type="email"
-                  className={`input ${styles.readOnlyInput}`}
-                  value={profile.email}
-                  disabled
-                  readOnly
-                />
-                <div className={styles.inputHelper}>
-                  Email tài khoản không thể chỉnh sửa để bảo vệ dữ liệu.
+              <form className={styles.profileForm} onSubmit={handleSubmit(handleUpdate)} noValidate>
+                {serverErrorMsg && <div className={styles.errorBanner}>{serverErrorMsg}</div>}
+
+                <FormField label="Họ và tên" htmlFor="fullName" error={errors.fullName}>
+                  <input
+                    id="fullName"
+                    type="text"
+                    className="input"
+                    placeholder="Nhập họ và tên đầy đủ"
+                    {...register('fullName', {
+                      required: 'Họ và tên không được để trống',
+                      minLength: { value: 2, message: 'Họ và tên tối thiểu 2 ký tự' },
+                      maxLength: { value: 100, message: 'Họ và tên không vượt quá 100 ký tự' },
+                    })}
+                  />
+                </FormField>
+
+                <FormField label="Số điện thoại" htmlFor="phone" error={errors.phone}>
+                  <input
+                    id="phone"
+                    type="tel"
+                    className="input"
+                    placeholder="Ví dụ: 0912345678"
+                    {...register('phone', {
+                      pattern: {
+                        value: /^(03|05|07|08|09)\d{8}$/,
+                        message:
+                          'Số điện thoại không đúng định dạng VN (10 chữ số, bắt đầu bằng 03, 05, 07, 08, 09)',
+                      },
+                    })}
+                  />
+                  <div className={styles.inputHelper}>
+                    Dùng để liên hệ khi giao nhận thiết bị leo núi hoặc thông báo lịch trình tour.
+                  </div>
+                </FormField>
+
+                <div className={styles.formRow}>
+                  <FormField label="Địa chỉ Email (Cố định)" htmlFor="email">
+                    <input
+                      id="email"
+                      type="email"
+                      className={`input ${styles.readOnlyInput}`}
+                      value={profile.email}
+                      disabled
+                      readOnly
+                    />
+                    <div className={styles.inputHelper}>
+                      Email tài khoản không thể chỉnh sửa để bảo vệ dữ liệu.
+                    </div>
+                  </FormField>
+
+                  <FormField label="Vai trò hệ thống" htmlFor="role">
+                    <input
+                      id="role"
+                      type="text"
+                      className={`input ${styles.readOnlyInput}`}
+                      value={USER_ROLE_LABEL[profile.role] || profile.role}
+                      disabled
+                      readOnly
+                    />
+                    <div className={styles.inputHelper}>
+                      Phân quyền chức năng tự động theo cấp độ tài khoản.
+                    </div>
+                  </FormField>
                 </div>
-              </FormField>
 
-              <FormField label="Vai trò hệ thống" htmlFor="role">
-                <input
-                  id="role"
-                  type="text"
-                  className={`input ${styles.readOnlyInput}`}
-                  value={USER_ROLE_LABEL[profile.role] || profile.role}
-                  disabled
-                  readOnly
-                />
-                <div className={styles.inputHelper}>
-                  Phân quyền chức năng tự động theo cấp độ tài khoản.
+                <div className={styles.buttonGroup}>
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    onClick={handleResetForm}
+                    disabled={!isDirty || updateProfileMutation.isPending}
+                  >
+                    Đặt lại
+                  </button>
+                  <button
+                    type="submit"
+                    className={`btn btn-primary ${styles.btnSubmit}`}
+                    disabled={!isDirty || updateProfileMutation.isPending}
+                  >
+                    {updateProfileMutation.isPending ? 'Đang lưu...' : 'Lưu thay đổi'}
+                  </button>
                 </div>
-              </FormField>
+              </form>
             </div>
+          )}
 
-            <div className={styles.buttonGroup}>
-              <button
-                type="button"
-                className="btn btn-outline"
-                onClick={handleResetForm}
-                disabled={!isDirty || updateProfileMutation.isPending}
-              >
-                Đặt lại
-              </button>
-              <button
-                type="submit"
-                className={`btn btn-primary ${styles.btnSubmit}`}
-                disabled={!isDirty || updateProfileMutation.isPending}
-              >
-                {updateProfileMutation.isPending ? 'Đang lưu...' : 'Lưu thay đổi'}
-              </button>
-            </div>
-          </form>
+          {/* Tab 2: Change Password */}
+          {activeTab === 'password' && <ChangePasswordForm />}
+
+          {/* Tab 3: Active Sessions */}
+          {activeTab === 'sessions' && <ActiveSessionsList />}
         </main>
       </div>
     </div>

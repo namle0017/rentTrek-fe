@@ -208,6 +208,45 @@
   box-shadow: var(--shadow);
 }
 
+/* Sub Navigation Tabs */
+.tabNav {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 28px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.tabButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 16px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tabButton:hover {
+  color: var(--color-text);
+}
+
+.tabButtonActive {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.tabHeader {
+  margin-bottom: 20px;
+}
+
 .formCardTitle {
   font-size: 1.25rem;
   font-weight: 700;
@@ -218,7 +257,7 @@
 .formCardSubtitle {
   font-size: 0.875rem;
   color: var(--color-text-muted);
-  margin: 0 0 24px;
+  margin: 0;
 }
 
 .profileForm {

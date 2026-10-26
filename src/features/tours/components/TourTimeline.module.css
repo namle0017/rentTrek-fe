@@ -1,0 +1,89 @@
+.timelineContainer {
+  margin-top: 24px;
+}
+
+.daySection {
+  margin-bottom: 28px;
+}
+
+.dayTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dayBadge {
+  background: var(--color-primary);
+  color: #ffffff;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.activityList {
+  position: relative;
+  padding-left: 24px;
+  border-left: 2px solid #d1fae5;
+  margin-left: 12px;
+}
+
+.activityItem {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.activityItem:last-child {
+  margin-bottom: 0;
+}
+
+.activityDot {
+  position: absolute;
+  left: -31px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.activityHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.activityTime {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  background: #ecfdf5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.activityTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.activityDesc {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 4px 0 0;
+}
+
+.activityLocation {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 2px;
+}

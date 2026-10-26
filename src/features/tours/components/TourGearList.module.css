@@ -1,0 +1,84 @@
+.gearContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.gearBox {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.boxHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.boxHeaderProvided {
+  color: #1b5e20;
+}
+
+.boxHeaderPrepared {
+  color: #b45309;
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.itemIcon {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.itemContent {
+  flex: 1;
+}
+
+.itemName {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.mandatoryBadge {
+  margin-left: 6px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.itemNote {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+@media (max-width: 640px) {
+  .gearContainer {
+    grid-template-columns: 1fr;
+  }
+}

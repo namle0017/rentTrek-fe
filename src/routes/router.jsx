@@ -33,6 +33,14 @@ export const router = createBrowserRouter([
             path: ROUTES.PRODUCT_DETAIL(),
             lazy: lazyPage(() => import('@/features/products/pages/ProductDetailPage')),
           },
+          {
+            path: ROUTES.TOURS,
+            lazy: lazyPage(() => import('@/features/tours/pages/TourListPage')),
+          },
+          {
+            path: ROUTES.TOUR_DETAIL(),
+            lazy: lazyPage(() => import('@/features/tours/pages/TourDetailPage')),
+          },
           { path: ROUTES.FORBIDDEN, element: <ForbiddenPage /> },
 
           // Yêu cầu đăng nhập (Customer, Staff, Admin, TourGuide)

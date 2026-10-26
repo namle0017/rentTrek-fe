@@ -1,10 +1,45 @@
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-400.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-500.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-600.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-700.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/be-vietnam-pro-800.ttf') format('truetype');
+}
 /* ===== Design tokens ===== */
 :root {
-  --color-primary: #1f6f4a;
+  --color-primary: #204b39;
   --color-primary-dark: #154d33;
-  --color-bg: #f6f7f5;
+  --color-bg: #fafafa;
   --color-surface: #ffffff;
-  --color-border: #e1e4df;
+  --color-border: #e1e5e9;
   --color-text: #1d2420;
   --color-text-muted: #66706a;
   --color-error: #c62828;
@@ -34,6 +69,11 @@
 body {
   margin: 0;
   min-width: 320px;
+}
+
+:focus-visible {
+  outline: 2px solid #d3933d;
+  outline-offset: 4px;
 }
 
 a {

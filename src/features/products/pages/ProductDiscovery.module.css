@@ -1,0 +1,320 @@
+﻿.catalog {
+  background: #fafafa;
+}
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 480px;
+  display: flex;
+  align-items: flex-end;
+  color: #fff;
+  background: #183a32 url('/images/discovery/hero.jpg') center 53% / cover no-repeat;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(5 26 23 / 78%), rgb(8 29 25 / 40%)),
+    linear-gradient(0deg, rgb(4 22 16 / 55%), rgb(9 30 28 / 20%));
+}
+.heroInner {
+  padding-block: 100px 62px;
+}
+.heroBadge {
+  display: inline-block;
+  padding: 5px 13px;
+  border-radius: 24px;
+  background: #ef7154;
+  font-size: 12px;
+  font-weight: 800;
+}
+.hero h1 {
+  max-width: 750px;
+  margin: 24px 0;
+  font-size: clamp(30px, 3.2vw, 42px);
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  font-weight: 800;
+}
+.hero p {
+  max-width: 745px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #dce2de;
+}
+.benefits {
+  padding-top: 36px;
+  scroll-margin-top: 24px;
+}
+.benefitsHeading {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.benefitsHeading > p {
+  margin: 0 0 5px;
+  color: #ed7155;
+  font-size: 14px;
+  font-weight: 700;
+}
+.benefitsHeading h2,
+.equipmentHeading h2 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.35;
+  color: #204c3b;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.benefitGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.benefitCard {
+  padding: 24px;
+  border: 1px solid #e1e5e9;
+  border-radius: 12px;
+  background: white;
+}
+.benefitIcon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #daf3df;
+  color: #285441;
+}
+.benefitCard h3 {
+  margin: 12px 0 8px;
+  color: #264e3e;
+  font-size: 18px;
+}
+.benefitCard > p {
+  margin: 0;
+  color: #808898;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.discoveryFilters {
+  display: grid;
+  grid-template-columns: 1.3fr 1.2fr 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 16px;
+  margin-top: 30px;
+  border: 1px solid #e1e5e9;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 7px 16px rgb(20 31 26 / 7%);
+}
+.discoveryFilters label {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.discoveryFilters label > span {
+  font-size: 11px;
+  font-weight: 800;
+  color: #828a99;
+}
+.discoveryFilters input,
+.discoveryFilters select {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  color: #374151;
+  padding: 3px 0;
+}
+.discoveryFilters input::placeholder {
+  color: #46505f;
+  opacity: 1;
+}
+.findButton {
+  border: 0;
+  border-radius: 7px;
+  padding: 13px 20px;
+  background: #ed7054;
+  color: white;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.findButton:hover {
+  background: #d85a40;
+}
+.equipment {
+  padding: 42px 0 58px;
+  scroll-margin-top: 24px;
+}
+.equipmentHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.equipmentHeading p {
+  margin: 6px 0 0;
+  color: #81899a;
+  font-size: 15px;
+}
+.sortControls {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.sortControls button,
+.sortControls select {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #3c4655;
+  background: transparent;
+  border: 1px solid #e1e5e9;
+  border-radius: 7px;
+  padding: 11px 16px;
+  cursor: pointer;
+}
+.sortControls button[aria-pressed='true'] {
+  background: #daf3df;
+  color: #285441;
+  border-color: #daf3df;
+}
+.sortControls select {
+  max-width: 140px;
+}
+.resultCount {
+  color: #81899a;
+  font-size: 12px;
+  margin: -12px 0 16px;
+}
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+.activeFilters {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  font-size: 13px;
+  color: #52685a;
+}
+.activeFilters button {
+  border: 1px solid #d4e5d8;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #eef7ee;
+  color: #285441;
+  font: inherit;
+  cursor: pointer;
+}
+@media (max-width: 1100px) {
+  .equipmentHeading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .productGrid {
+    gap: 18px;
+  }
+  .benefitCard {
+    padding: 20px;
+  }
+}
+@media (max-width: 900px) {
+  .productGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .benefitGrid {
+    gap: 16px;
+  }
+  .benefitCard h3 {
+    font-size: 16px;
+  }
+  .discoveryFilters {
+    gap: 18px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero h1 {
+    max-width: 660px;
+  }
+}
+@media (max-width: 640px) {
+  .hero {
+    min-height: 420px;
+  }
+  .heroInner {
+    padding-block: 65px 45px;
+  }
+  .heroBadge {
+    font-size: 9px;
+    padding: 6px 10px;
+  }
+  .hero h1 {
+    margin-block: 20px;
+    font-size: 32px;
+  }
+  .hero p {
+    font-size: 14px;
+  }
+  .benefitsHeading h2,
+  .equipmentHeading h2 {
+    font-size: 24px;
+  }
+  .benefitGrid {
+    grid-template-columns: 1fr;
+  }
+  .benefitCard {
+    position: relative;
+    padding: 20px 20px 20px 82px;
+  }
+  .benefitIcon {
+    position: absolute;
+    left: 18px;
+    top: 24px;
+  }
+  .benefitCard h3 {
+    margin-top: 0;
+  }
+  .discoveryFilters {
+    padding: 20px;
+    gap: 20px;
+  }
+  .searchField {
+    grid-column: 1 / -1;
+  }
+  .findButton {
+    grid-column: 1 / -1;
+  }
+  .equipment {
+    padding-block: 32px 40px;
+  }
+  .sortControls {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .sortControls button,
+  .sortControls select {
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+  .productGrid {
+    gap: 14px;
+  }
+}
+@media (max-width: 420px) {
+  .productGrid {
+    grid-template-columns: 1fr;
+  }
+}

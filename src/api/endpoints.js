@@ -16,6 +16,7 @@ export const API_ENDPOINTS = {
     REVOKE_OTHER_SESSIONS: '/users/me/sessions/revoke-others',
   },
   PRODUCTS: {
+    CATEGORIES: '/products/categories',
     ROOT: '/products',
     BY_ID: (id) => `/products/${id}`,
     IMAGES: (id) => `/products/${id}/images`,

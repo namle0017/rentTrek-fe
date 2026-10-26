@@ -1,177 +1,154 @@
 .bookingCard {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   position: sticky;
-  top: 90px;
+  top: 92px;
+  padding: 26px;
+  overflow: hidden;
+  color: #173d2d;
+  background: #fffdf7;
+  border: 1px solid #d8e0d8;
+  border-radius: 22px;
+  box-shadow: 0 18px 50px rgb(27 67 49 / 0.12);
 }
 
-.priceSection {
-  margin-bottom: 20px;
+.bookingCard::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  content: '';
+  background: #ef765f;
 }
 
-.priceRow {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-}
-
-.price {
-  font-size: 1.75rem;
+.eyebrow {
+  margin-bottom: 8px;
+  color: #b84e3b;
+  font-size: 0.72rem;
   font-weight: 800;
-  color: var(--color-primary-dark);
+  letter-spacing: 0.14em;
 }
 
-.priceUnit {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-}
+.priceSection { margin-bottom: 18px; }
+.priceRow { display: flex; gap: 7px; align-items: baseline; }
+.price { color: #173d2d; font-size: clamp(1.65rem, 3vw, 2rem); font-weight: 800; }
 
-.depositText {
-  font-size: 0.85rem;
-  color: #64748b;
-  margin-top: 4px;
-}
+.priceUnit,
+.priceHint,
+.slotHint,
+.summaryNote,
+.emptyText,
+.unavailable { color: #69766f; font-size: 0.78rem; }
+
+.priceHint,
+.summaryNote,
+.emptyText,
+.unavailable { margin: 3px 0 0; }
 
 .inspectionBadge {
   display: flex;
+  gap: 9px;
   align-items: center;
-  gap: 8px;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: 8px;
-  padding: 10px 12px;
+  padding: 11px 12px;
   margin-bottom: 20px;
-  font-size: 0.825rem;
-  color: #166534;
+  color: #245b42;
+  font-size: 0.79rem;
   font-weight: 600;
+  background: #edf5ee;
+  border: 1px solid #d4e6d7;
+  border-radius: 12px;
 }
 
-.formGroup {
-  margin-bottom: 16px;
-}
+.inspectionBadge svg { flex: 0 0 auto; color: #ef765f; }
+.formGroup { margin-bottom: 18px; }
 
 .label {
   display: block;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-text);
   margin-bottom: 8px;
+  color: #263d33;
+  font-size: 0.84rem;
+  font-weight: 700;
 }
 
 .select {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  font-size: 0.9rem;
-  background-color: #fff;
-  color: var(--color-text);
-  outline: none;
-  cursor: pointer;
+  min-height: 46px;
+  padding: 10px 36px 10px 12px;
+  color: #213b30;
+  font: inherit;
+  font-size: 0.86rem;
+  background: #fff;
+  border: 1px solid #cfd9d0;
+  border-radius: 11px;
 }
 
-.select:focus {
-  border-color: var(--color-primary);
-}
-
-.counterRow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.select:focus-visible { border-color: #204b39; }
+.counterRow { display: flex; gap: 10px; align-items: center; }
 
 .counterBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
+  display: grid;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  color: #173d2d;
+  font: inherit;
   font-size: 1.2rem;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.counterBtn:hover:not(:disabled) {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-}
-
-.counterBtn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.counterValue {
-  font-size: 1.1rem;
   font-weight: 700;
-  min-width: 24px;
-  text-align: center;
+  cursor: pointer;
+  background: #f3f0e7;
+  border: 1px solid #d8d6cc;
+  border-radius: 10px;
+  place-items: center;
 }
+
+.counterBtn:hover:not(:disabled) { color: #fff; background: #204b39; border-color: #204b39; }
+.counterBtn:disabled,
+.btnBook:disabled { cursor: not-allowed; opacity: 0.48; }
+.counterValue { min-width: 28px; color: #173d2d; font-size: 1.08rem; font-weight: 800; text-align: center; }
+.slotHint { margin-left: 2px; }
 
 .summaryBox {
-  background: #f8fafc;
-  border-radius: 8px;
-  padding: 14px;
+  padding: 15px;
   margin: 20px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 0.875rem;
+  background: #f3f0e7;
+  border-radius: 13px;
 }
 
-.summaryRow {
-  display: flex;
-  justify-content: space-between;
-  color: var(--color-text-muted);
-}
-
-.summaryTotalRow {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 8px;
-  border-top: 1px dashed var(--color-border);
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--color-text);
-}
+.summaryRow { display: flex; gap: 12px; justify-content: space-between; color: #31473d; font-size: 0.86rem; }
+.summaryRow strong { color: #173d2d; white-space: nowrap; }
+.summaryNote { padding-top: 9px; margin-top: 9px; border-top: 1px dashed #ccd3cb; }
 
 .btnBook {
+  display: flex;
   width: 100%;
-  padding: 14px;
-  background: var(--color-primary);
-  color: #ffffff;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 700;
+  min-height: 50px;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 18px;
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(31, 111, 74, 0.3);
-  transition: all 0.2s ease;
+  background: #204b39;
+  border: 0;
+  border-radius: 13px;
+  box-shadow: 0 10px 24px rgb(32 75 57 / 0.22);
 }
 
-.btnBook:hover {
-  background: var(--color-primary-dark);
-  transform: translateY(-1px);
-}
+.btnBook:hover:not(:disabled) { background: #153c2c; transform: translateY(-1px); }
+.unavailable { color: #a34434; text-align: center; }
 
 .guaranteeList {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 0.775rem;
-  color: #64748b;
+  display: grid;
+  gap: 8px;
+  padding: 17px 0 0;
+  margin: 0;
+  color: #69766f;
+  font-size: 0.76rem;
+  list-style: none;
 }
 
-.guaranteeItem {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.guaranteeList li { display: flex; gap: 7px; align-items: center; }
+.guaranteeList svg { flex: 0 0 auto; color: #ef765f; }
+
+@media (max-width: 900px) {
+  .bookingCard { position: static; }
 }

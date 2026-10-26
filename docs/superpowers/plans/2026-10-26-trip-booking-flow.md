@@ -170,25 +170,25 @@ Expected: PASS.
 - Consumes: `tour.availableTrips[]` with `id`, `tripOptionTitle`, `availableSlots`, `pricePerPerson`, and `status`
 - Produces: navigation to `ROUTES.TRIP_BOOKING_CREATE` with `tripId`, `tourId`, and requested additional-participant count
 
-- [ ] **Step 1: Write failing booking-card tests**
+- [x] **Step 1: Write failing booking-card tests**
 
 Assert options render from `availableTrips`, closed/full trips cannot be submitted, price uses the selected trip, member count never exceeds available slots, and the CTA opens checkout instead of showing the current fake success toast.
 
-- [ ] **Step 2: Run the component test and verify RED**
+- [x] **Step 2: Run the component test and verify RED**
 
 Run: `npm test -- src/features/tours/components/TourBookingCard.test.jsx`
 
 Expected: FAIL because the component currently reads `upcomingTrips`, `departureText`, and `slotText`.
 
-- [ ] **Step 3: Replace the stale DTO mapping**
+- [x] **Step 3: Replace the stale DTO mapping**
 
 Use backend field names exactly. Keep pricing display informational; never place price in the booking request.
 
-- [ ] **Step 4: Match the Figma booking card**
+- [x] **Step 4: Match the Figma booking card**
 
 Retain the dark-green heading/CTA, cream surfaces, coral emphasis, rounded card, sticky desktop behavior, and stacked mobile layout. Replace emoji-only affordances with existing `OutdoorIcon` or text where possible.
 
-- [ ] **Step 5: Run the component test and verify GREEN**
+- [x] **Step 5: Run the component test and verify GREEN**
 
 Run: `npm test -- src/features/tours/components/TourBookingCard.test.jsx`
 

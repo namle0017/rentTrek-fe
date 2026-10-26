@@ -120,39 +120,39 @@ Expected: PASS.
 - Produces: `tripBookingService.create(payload, idempotencyKey)`, `getById(orderId)`, `generateInvitations(orderId)`, `claimInvitation(token)`
 - Produces: `useTripBooking(orderId)`, `useCreateTripBooking()`, `useGenerateParticipantInvitations()`, `useClaimParticipantInvitation()`
 
-- [ ] **Step 1: Write failing endpoint and header tests**
+- [x] **Step 1: Write failing endpoint and header tests**
 
 Mock the shared Axios client. Assert exact paths, methods, payloads, and `{ headers: { 'Idempotency-Key': key } }` for create.
 
-- [ ] **Step 2: Run service tests and verify RED**
+- [x] **Step 2: Run service tests and verify RED**
 
 Run: `npm test -- src/features/trip-bookings/api/tripBookingService.test.js`
 
 Expected: FAIL because endpoints and service do not exist.
 
-- [ ] **Step 3: Add endpoint constants and booking enums**
+- [x] **Step 3: Add endpoint constants and booking enums**
 
 Add root, by-id, invitation-generation, and claim paths. Add exact backend values for `PendingPayment`, `Confirmed`, `Unpaid`, and `Paid`, plus Vietnamese labels.
 
-- [ ] **Step 4: Implement the service through `axiosClient`**
+- [x] **Step 4: Implement the service through `axiosClient`**
 
 No token handling, toast, navigation, or `try/catch` belongs in this file.
 
-- [ ] **Step 5: Run service tests and verify GREEN**
+- [x] **Step 5: Run service tests and verify GREEN**
 
 Run: `npm test -- src/features/trip-bookings/api/tripBookingService.test.js`
 
 Expected: PASS.
 
-- [ ] **Step 6: Write failing hook tests**
+- [x] **Step 6: Write failing hook tests**
 
 Assert detail queries use `tripBookingKeys.detail(orderId)`, mutations expose the service responses, successful create caches the returned booking, and invitation/claim mutations invalidate the affected detail query without caching raw invitation tokens.
 
-- [ ] **Step 7: Implement query keys and hooks**
+- [x] **Step 7: Implement query keys and hooks**
 
 Use global error handling from `queryClient`. Add only success toasts that describe completed backend actions.
 
-- [ ] **Step 8: Run hook tests and verify GREEN**
+- [x] **Step 8: Run hook tests and verify GREEN**
 
 Run: `npm test -- src/features/trip-bookings/hooks/useTripBookings.test.jsx`
 

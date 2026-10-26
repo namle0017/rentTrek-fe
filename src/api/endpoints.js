@@ -25,4 +25,10 @@ export const API_ENDPOINTS = {
     ROOT: '/tours',
     BY_ID: (id) => `/tours/${id}`,
   },
+  TRIP_BOOKINGS: {
+    ROOT: '/trip-bookings',
+    BY_ID: (orderId) => `/trip-bookings/${orderId}`,
+    INVITATIONS: (orderId) => `/trip-bookings/${orderId}/participant-invitations`,
+    CLAIM_INVITATION: '/trip-bookings/participant-invitations/claim',
+  },
 };

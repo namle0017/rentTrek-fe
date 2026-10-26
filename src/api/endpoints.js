@@ -10,11 +10,19 @@ export const API_ENDPOINTS = {
   USERS: {
     ROOT: '/users',
     ME: '/users/me',
+    PASSWORD: '/users/me/password',
+    SESSIONS: '/users/me/sessions',
+    SESSION_BY_ID: (familyId) => `/users/me/sessions/${familyId}`,
+    REVOKE_OTHER_SESSIONS: '/users/me/sessions/revoke-others',
   },
   PRODUCTS: {
     CATEGORIES: '/products/categories',
     ROOT: '/products',
     BY_ID: (id) => `/products/${id}`,
     IMAGES: (id) => `/products/${id}/images`,
+  },
+  TOURS: {
+    ROOT: '/tours',
+    BY_ID: (id) => `/tours/${id}`,
   },
 };

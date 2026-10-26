@@ -208,29 +208,29 @@ Expected: PASS.
 - Consumes: authenticated buyer email, `tripId` and optional initial participant count from URL search params, `useCreateTripBooking()`
 - Produces: normalized create payload and navigation to `ROUTES.TRIP_BOOKING_DETAIL(orderId)` after `201`
 
-- [ ] **Step 1: Write failing checkout render and behavior tests**
+- [x] **Step 1: Write failing checkout render and behavior tests**
 
 Cover missing `tripId`, zero additional participants, add/remove participant, maximum 20, connected field errors, duplicate/buyer email errors, disabled submit while pending, retained values after API validation errors, and successful navigation by returned `orderId`.
 
-- [ ] **Step 2: Run the page test and verify RED**
+- [x] **Step 2: Run the page test and verify RED**
 
 Run: `npm test -- src/features/trip-bookings/pages/TripBookingCreatePage.test.jsx`
 
 Expected: FAIL because page and fields do not exist.
 
-- [ ] **Step 3: Implement accessible participant fields with React Hook Form**
+- [x] **Step 3: Implement accessible participant fields with React Hook Form**
 
 Use `useFieldArray`. Required: `fullName`, `email`. Optional: `phone`, `dateOfBirth`, emergency name/phone. Connect each error through `aria-invalid`, `aria-describedby`, and `role="alert"`.
 
-- [ ] **Step 4: Implement idempotent submission**
+- [x] **Step 4: Implement idempotent submission**
 
 Store only the current payload snapshot and key in a ref. Reuse after timeout/unknown result with unchanged values. Clear the snapshot after a known successful or known business-validation response.
 
-- [ ] **Step 5: Implement the Figma-aligned checkout composition**
+- [x] **Step 5: Implement the Figma-aligned checkout composition**
 
 Use a compact progress header, left participant form, right sticky trip/order summary, dark-green/cream/coral tokens, and a single-column mobile breakpoint. Do not show a payment step or payment button.
 
-- [ ] **Step 6: Run the page test and verify GREEN**
+- [x] **Step 6: Run the page test and verify GREEN**
 
 Run: `npm test -- src/features/trip-bookings/pages/TripBookingCreatePage.test.jsx`
 

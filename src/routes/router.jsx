@@ -51,6 +51,12 @@ export const router = createBrowserRouter([
                 path: ROUTES.PROFILE,
                 lazy: lazyPage(() => import('@/features/users/pages/ProfilePage')),
               },
+              {
+                path: ROUTES.TRIP_BOOKING_CREATE,
+                lazy: lazyPage(() =>
+                  import('@/features/trip-bookings/pages/TripBookingCreatePage'),
+                ),
+              },
             ],
           },
         ],

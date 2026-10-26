@@ -1,0 +1,58 @@
+.page { padding: 42px 0 72px; }
+.hero { display: flex; gap: 28px; align-items: flex-end; justify-content: space-between; padding-bottom: 26px; margin-bottom: 28px; border-bottom: 1px solid #dce3dc; }
+.hero h1 { margin: 5px 0 7px; color: #173d2d; font-size: clamp(1.8rem, 4vw, 2.7rem); line-height: 1.12; }
+.hero p { margin: 0; color: #6b776f; }
+.kicker { color: #c55742; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em; }
+.progress { display: grid; grid-template-columns: 28px 72px 28px; align-items: center; min-width: 160px; }
+.progress span { display: grid; width: 28px; height: 28px; color: #617067; font-size: 0.74rem; font-weight: 800; background: #e9ece7; border-radius: 50%; place-items: center; }
+.progress .progressActive { color: #fff; background: #204b39; }
+.progress i { height: 2px; background: #d5dcd5; }
+.progress small { margin-top: 5px; color: #69766f; font-size: 0.64rem; text-align: center; }
+.progress small:last-child { grid-column: 3; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 28px; align-items: start; }
+.formColumn { display: grid; gap: 18px; }
+.buyerCard { display: flex; gap: 13px; align-items: center; padding: 16px 18px; color: #244f3d; background: #edf5ee; border: 1px solid #d5e5d7; border-radius: 15px; }
+.buyerCard div { display: grid; }
+.buyerCard span,
+.buyerCard small { color: #66766d; font-size: 0.72rem; }
+.buyerCard strong { font-size: 0.92rem; }
+.sectionHeading { display: flex; gap: 18px; align-items: flex-end; justify-content: space-between; padding-top: 8px; }
+.sectionHeading h2 { margin: 3px 0 0; color: #173d2d; font-size: 1.3rem; }
+.addButton,
+.backLink,
+.tourLink { color: #204b39; font: inherit; font-size: 0.8rem; font-weight: 800; cursor: pointer; background: #fff; border: 1px solid #bfcfc3; border-radius: 10px; }
+.addButton { padding: 9px 12px; }
+.addButton:disabled { cursor: not-allowed; opacity: 0.5; }
+.emptyParticipants { padding: 22px; margin: 0; color: #647169; text-align: center; background: #f4f1e9; border: 1px dashed #cad2c9; border-radius: 15px; }
+.noteField { display: grid; gap: 8px; padding: 20px; background: #fff; border: 1px solid #dde4dd; border-radius: 16px; }
+.noteField label { color: #34483f; font-size: 0.82rem; font-weight: 700; }
+.noteField textarea { width: 100%; padding: 11px; resize: vertical; color: #1d3028; font: inherit; background: #fffdf9; border: 1px solid #ccd6cd; border-radius: 10px; }
+.noteField p { margin: 0; color: #ad3d34; font-size: 0.74rem; }
+.summary { position: sticky; top: 92px; padding: 24px; overflow: hidden; background: #fffdf7; border: 1px solid #d9e0d8; border-radius: 20px; box-shadow: 0 16px 45px rgb(31 72 53 / 0.11); }
+.summary::before { position: absolute; inset: 0 0 auto; height: 5px; content: ''; background: #ef765f; }
+.summary h2 { margin: 6px 0 20px; color: #173d2d; font-size: 1.25rem; }
+.summary dl { display: grid; gap: 10px; margin: 0; }
+.summary dl div { display: flex; gap: 12px; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px dashed #d8ded7; }
+.summary dt { color: #6a776f; font-size: 0.76rem; }
+.summary dd { max-width: 190px; margin: 0; overflow: hidden; color: #293d34; font-size: 0.76rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.tourLink { display: inline-flex; padding: 8px 10px; margin-top: 15px; }
+.holdNote { color: #6a776f; font-size: 0.75rem; }
+.serverError { padding: 10px; margin: 12px 0; color: #9f392f; font-size: 0.78rem; background: #fff0ed; border: 1px solid #efc0b7; border-radius: 10px; }
+.submitButton { width: 100%; min-height: 49px; padding: 12px 16px; color: #fff; font: inherit; font-weight: 800; cursor: pointer; background: #204b39; border: 0; border-radius: 12px; }
+.submitButton:disabled { cursor: wait; opacity: 0.58; }
+.missingState { max-width: 620px; padding: 64px 28px; margin: 42px auto; text-align: center; background: #fffdf7; border: 1px solid #dce3dc; border-radius: 22px; }
+.missingState h1 { margin: 7px 0; color: #173d2d; }
+.missingState p { margin: 0 0 22px; color: #69766f; }
+.backLink { display: inline-flex; padding: 10px 14px; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .summary { position: static; }
+}
+
+@media (max-width: 640px) {
+  .page { padding-top: 26px; }
+  .hero { display: grid; }
+  .sectionHeading { align-items: flex-start; flex-direction: column; }
+  .addButton { width: 100%; }
+}

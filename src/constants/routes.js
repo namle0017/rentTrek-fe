@@ -8,6 +8,7 @@ export const ROUTES = {
   TOURS: '/tours',
   TOUR_DETAIL: (tourId = ':tourId') => `/tours/${tourId}`,
   TRIP_BOOKING_CREATE: '/trip-bookings/new',
+  TRIP_BOOKING_DETAIL: (orderId = ':orderId') => `/trip-bookings/${orderId}`,
   ADMIN: '/admin',
   ADMIN_PRODUCT_CREATE: '/admin/products/new',
   FORBIDDEN: '/403',

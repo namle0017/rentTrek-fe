@@ -3,6 +3,14 @@ import { toast } from 'react-toastify';
 import { productKeys } from '../api/productKeys';
 import { productService } from '../api/productService';
 
+export function useProductCategories() {
+  return useQuery({
+    queryKey: productKeys.categories(),
+    queryFn: productService.getCategories,
+    select: (res) => res.data,
+  });
+}
+
 export function useProducts(params) {
   return useQuery({
     queryKey: productKeys.list(params),

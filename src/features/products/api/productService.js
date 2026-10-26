@@ -3,6 +3,7 @@ import { API_ENDPOINTS } from '@/api/endpoints';
 import { cleanParams } from '@/utils/cleanParams';
 
 export const productService = {
+  getCategories: () => axiosClient.get(API_ENDPOINTS.PRODUCTS.CATEGORIES),
   getAll: (params) => axiosClient.get(API_ENDPOINTS.PRODUCTS.ROOT, { params: cleanParams(params) }),
   getById: (id) => axiosClient.get(API_ENDPOINTS.PRODUCTS.BY_ID(id)),
   create: (payload) => axiosClient.post(API_ENDPOINTS.PRODUCTS.ROOT, payload),

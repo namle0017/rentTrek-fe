@@ -1,0 +1,1 @@
+﻿The equipment image `tent-forest.jpg` was extracted from the user-provided design reference `product-detail-rental.png` for the product detail redesign. It is used only in place of the bundled demo image `/images/products/tent.svg` on this page. Custom product photos continue to use their API URLs.

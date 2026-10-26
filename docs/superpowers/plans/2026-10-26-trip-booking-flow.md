@@ -48,17 +48,17 @@
 - Consumes: existing `useAuth`, `useLogout`, `ROUTES`, `USER_ROLE`, `OutdoorIcon`
 - Produces: one Figma-aligned public header/footer shell that compiles and hosts booking pages
 
-- [ ] **Step 1: Re-run the failing build**
+- [x] **Step 1: Re-run the failing build**
 
 Run: `npm run build`
 
 Expected: FAIL because `Link`, `NavLink`, `Outlet`, and `USER_ROLE` are declared twice in `MainLayout.jsx`.
 
-- [ ] **Step 2: Remove only the duplicated legacy layout branch**
+- [x] **Step 2: Remove only the duplicated legacy layout branch**
 
 Keep the current TrekRent header/search/account/footer composition used by the product screenshots. Remove duplicate imports, the second `renTrek` logo/nav/auth block, the undefined `handleLogoutClick`, and the duplicate footer copyright line.
 
-- [ ] **Step 3: Run the build**
+- [x] **Step 3: Run the build**
 
 Run: `npm run build`
 
@@ -77,29 +77,29 @@ Expected: PASS before booking code begins.
 **Interfaces:**
 - Produces: `normalizeBookingPayload(values, buyerEmail)`, `resolveBookingSubmission(previousSubmission, payload)`, and a jsdom test environment
 
-- [ ] **Step 1: Add a failing helper test**
+- [x] **Step 1: Add a failing helper test**
 
 Test that normalization trims names/phones/note, lowercases emails, omits empty optional values, rejects more than 20 additional participants, rejects duplicate participant emails, and rejects the buyer email.
 
-- [ ] **Step 2: Run the focused test and verify RED**
+- [x] **Step 2: Run the focused test and verify RED**
 
 Run: `npm test -- src/features/trip-bookings/utils/bookingSubmission.test.js`
 
 Expected: FAIL because the helper module does not exist.
 
-- [ ] **Step 3: Add Vitest, Testing Library, user-event, and jsdom**
+- [x] **Step 3: Add Vitest, Testing Library, user-event, and jsdom**
 
 Add `test` and `test:watch` scripts. Configure jsdom and `src/test/setup.js` without replacing the existing Node integration test.
 
-- [ ] **Step 4: Implement payload normalization**
+- [x] **Step 4: Implement payload normalization**
 
 `normalizeBookingPayload(values, buyerEmail)` returns only `tripId`, optional `note`, and `additionalParticipants`. Throw a validation error map keyed by React Hook Form field paths for invalid or duplicate data.
 
-- [ ] **Step 5: Test idempotency submission resolution**
+- [x] **Step 5: Test idempotency submission resolution**
 
 `resolveBookingSubmission(previousSubmission, payload)` must reuse the prior UUID when the normalized payload snapshot matches and return a fresh `crypto.randomUUID()` when it differs.
 
-- [ ] **Step 6: Run the focused tests and verify GREEN**
+- [x] **Step 6: Run the focused tests and verify GREEN**
 
 Run: `npm test -- src/features/trip-bookings/utils/bookingSubmission.test.js`
 

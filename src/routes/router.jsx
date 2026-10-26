@@ -63,6 +63,12 @@ export const router = createBrowserRouter([
                   import('@/features/trip-bookings/pages/TripBookingDetailPage'),
                 ),
               },
+              {
+                path: ROUTES.PARTICIPANT_INVITATION_CLAIM,
+                lazy: lazyPage(() =>
+                  import('@/features/trip-bookings/pages/ParticipantInvitationClaimPage'),
+                ),
+              },
             ],
           },
         ],

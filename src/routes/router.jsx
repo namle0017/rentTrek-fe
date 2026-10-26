@@ -3,6 +3,7 @@ import Spinner from '@/components/Spinner';
 import { USER_ROLE } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import LoginPage from '@/features/auth/pages/LoginPage';
+import RegisterPage from '@/features/auth/pages/RegisterPage';
 import AdminLayout from '@/layouts/AdminLayout';
 import MainLayout from '@/layouts/MainLayout';
 import ForbiddenPage from '@/pages/ForbiddenPage';
@@ -32,12 +33,32 @@ export const router = createBrowserRouter([
             path: ROUTES.PRODUCT_DETAIL(),
             lazy: lazyPage(() => import('@/features/products/pages/ProductDetailPage')),
           },
+          {
+            path: ROUTES.TOURS,
+            lazy: lazyPage(() => import('@/features/tours/pages/TourListPage')),
+          },
+          {
+            path: ROUTES.TOUR_DETAIL(),
+            lazy: lazyPage(() => import('@/features/tours/pages/TourDetailPage')),
+          },
           { path: ROUTES.FORBIDDEN, element: <ForbiddenPage /> },
+
+          // Yêu cầu đăng nhập (Customer, Staff, Admin, TourGuide)
+          {
+            element: <ProtectedRoute />,
+            children: [
+              {
+                path: ROUTES.PROFILE,
+                lazy: lazyPage(() => import('@/features/users/pages/ProfilePage')),
+              },
+            ],
+          },
         ],
       },
 
-      // Trang không có layout
+      // Trang không có layout (Auth split-screen)
       { path: ROUTES.LOGIN, element: <LoginPage /> },
+      { path: ROUTES.REGISTER, element: <RegisterPage /> },
 
       // Admin — cần đăng nhập + role Admin
       {

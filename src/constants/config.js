@@ -1,4 +1,4 @@
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7000/api/v1';
 export const REQUEST_TIMEOUT_MS = 15000;
 
 export const DEFAULT_PAGE_NUMBER = 1;

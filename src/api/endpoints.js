@@ -10,6 +10,10 @@ export const API_ENDPOINTS = {
   USERS: {
     ROOT: '/users',
     ME: '/users/me',
+    PASSWORD: '/users/me/password',
+    SESSIONS: '/users/me/sessions',
+    SESSION_BY_ID: (familyId) => `/users/me/sessions/${familyId}`,
+    REVOKE_OTHER_SESSIONS: '/users/me/sessions/revoke-others',
   },
   PRODUCTS: {
     ROOT: '/products',

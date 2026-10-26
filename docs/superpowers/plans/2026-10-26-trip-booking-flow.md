@@ -292,25 +292,25 @@ Expected: PASS.
 - Consumes: manual one-time token input and `useClaimParticipantInvitation()`
 - Produces: participant-scoped booking result and navigation to booking detail
 
-- [ ] **Step 1: Write failing claim-page tests**
+- [x] **Step 1: Write failing claim-page tests**
 
 Assert token is required, whitespace is trimmed, pending disables submit, server errors stay visible, success clears the input, no token appears in the URL, and the returned `orderId` links to booking detail.
 
-- [ ] **Step 2: Run the page test and verify RED**
+- [x] **Step 2: Run the page test and verify RED**
 
 Run: `npm test -- src/features/trip-bookings/pages/ParticipantInvitationClaimPage.test.jsx`
 
 Expected: FAIL because the page does not exist.
 
-- [ ] **Step 3: Implement the protected claim form**
+- [x] **Step 3: Implement the protected claim form**
 
 Use a password-style or masked text input with an explicit reveal control, autocomplete off, connected errors, and no persistence.
 
-- [ ] **Step 4: Add lazy protected routes**
+- [x] **Step 4: Add lazy protected routes**
 
 Add `/trip-bookings/new`, `/trip-bookings/:orderId`, and `/trip-bookings/invitations/claim` under the existing authenticated `ProtectedRoute` and `MainLayout`.
 
-- [ ] **Step 5: Run the page test and verify GREEN**
+- [x] **Step 5: Run the page test and verify GREEN**
 
 Run: `npm test -- src/features/trip-bookings/pages/ParticipantInvitationClaimPage.test.jsx`
 

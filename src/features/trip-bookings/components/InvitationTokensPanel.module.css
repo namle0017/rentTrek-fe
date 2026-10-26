@@ -1,0 +1,15 @@
+.panel { padding: 22px; background: #fff8e9; border: 1px solid #ead8aa; border-radius: 18px; }
+.kicker { color: #a84a38; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.13em; }
+.panel h2 { margin: 4px 0 6px; color: #173d2d; font-size: 1.15rem; }
+.warning { margin: 0 0 16px; color: #7c5e25; font-size: 0.79rem; }
+.list { display: grid; gap: 12px; }
+.item { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(160px, 1.5fr) auto; gap: 10px 14px; align-items: center; padding: 14px; background: #fff; border: 1px solid #e9ddbf; border-radius: 12px; }
+.item div { display: grid; }
+.item span,
+.item small { color: #6d766f; font-size: 0.7rem; }
+.item code { padding: 7px 9px; overflow: hidden; color: #204b39; background: #edf4ee; border-radius: 7px; text-overflow: ellipsis; }
+.item button { padding: 8px 10px; color: #fff; font: inherit; font-size: 0.72rem; font-weight: 700; cursor: pointer; background: #204b39; border: 0; border-radius: 8px; }
+
+@media (max-width: 700px) {
+  .item { grid-template-columns: 1fr; }
+}

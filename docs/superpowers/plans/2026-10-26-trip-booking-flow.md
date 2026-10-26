@@ -251,29 +251,29 @@ Expected: PASS.
 - Consumes: `useTripBooking(orderId)` and invitation mutation
 - Produces: buyer/participant-scoped status UI and transient invitation token panel
 
-- [ ] **Step 1: Write failing status and countdown tests**
+- [x] **Step 1: Write failing status and countdown tests**
 
 Assert buyer money fields are shown only when `canManage`; participant scope hides them; remaining time never goes negative; zero invokes one refetch callback; invitation eligibility requires `canManage && Confirmed && Paid`.
 
-- [ ] **Step 2: Run tests and verify RED**
+- [x] **Step 2: Run tests and verify RED**
 
 Run: `npm test -- src/features/trip-bookings/utils/bookingStatus.test.js src/features/trip-bookings/pages/TripBookingDetailPage.test.jsx`
 
 Expected: FAIL because status helpers and page do not exist.
 
-- [ ] **Step 3: Implement status helpers and countdown**
+- [x] **Step 3: Implement status helpers and countdown**
 
 Use backend timestamps. Announce expiry with `aria-live="polite"`; refetch once at zero. Never mutate status or payment state locally.
 
-- [ ] **Step 4: Implement booking detail states**
+- [x] **Step 4: Implement booking detail states**
 
 Render loading, error with retry, not-found/empty, and data. Show order code, trip dates, participant list, backend totals, status badges, and a clear “payment integration not available yet” notice for `PendingPayment/Unpaid`.
 
-- [ ] **Step 5: Implement guarded invitation generation**
+- [x] **Step 5: Implement guarded invitation generation**
 
 Require explicit user click. Render returned tokens in a transient panel grouped by participant, with copy buttons and expiry. A regenerate action must warn that prior pending tokens are revoked. Do not put the mutation response in React Query cache.
 
-- [ ] **Step 6: Run tests and verify GREEN**
+- [x] **Step 6: Run tests and verify GREEN**
 
 Run: `npm test -- src/features/trip-bookings/utils/bookingStatus.test.js src/features/trip-bookings/pages/TripBookingDetailPage.test.jsx`
 

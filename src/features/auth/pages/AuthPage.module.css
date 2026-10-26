@@ -1,0 +1,416 @@
+.splitPage {
+  display: grid;
+  grid-template-columns: 1.5fr 2.5fr;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--color-bg);
+}
+
+/* ==================== CỘT TRÁI (HERO BANNER - 1.5) ==================== */
+.heroColumn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #0b2318;
+  background-image:
+    linear-gradient(135deg, rgba(6, 21, 15, 0.82) 0%, rgba(15, 60, 40, 0.86) 100%),
+    url('https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=1600&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  padding: 56px 48px;
+  overflow: hidden;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 30%, rgba(31, 111, 74, 0.45) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  gap: 36px;
+}
+
+.brandLogo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.brandIcon {
+  color: #4ade80;
+  font-size: 1.5rem;
+}
+
+.heroTextGroup {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.heroTag {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #a7f3d0;
+}
+
+.heroHeading {
+  margin: 0;
+  font-size: clamp(2rem, 2.8vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.heroDescription {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.featurePills {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.featurePill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.pillIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background-color: rgba(74, 222, 128, 0.2);
+  border: 1px solid #4ade80;
+  color: #4ade80;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.heroFooter {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ==================== CỘT PHẢI (FORM CONTAINER - 2.5) ==================== */
+.formColumn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 32px;
+  background-color: #f6f5f0; /* Tông màu cát sáng từ Figma */
+  overflow-y: auto;
+}
+
+.cardWrapper {
+  width: 100%;
+  max-width: 520px;
+  background-color: #ffffff;
+  border: 1px solid #e7e5dc;
+  border-radius: 20px;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.05);
+  padding: 36px 36px 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileBrand {
+  display: none;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.brandLogoMobile {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+/* ==================== TAB SWITCHER (SLIDING PILL) ==================== */
+.tabSwitcher {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: #f0eee6;
+  border-radius: 9999px;
+  padding: 4px;
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.tabBtn {
+  border: none;
+  background: transparent;
+  padding: 10px 16px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.tabBtnActive {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.tabGlider {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  background-color: #ffffff;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 1;
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.gliderRegister {
+  transform: translateX(100%);
+}
+
+.gliderLogin {
+  transform: translateX(0);
+}
+
+/* ==================== HEADER FORM ==================== */
+.formHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.formTitle {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  transition: all 0.3s ease;
+}
+
+.formSubtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* ==================== SLIDER CAROUSEL TRACK ==================== */
+.sliderViewport {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.sliderTrack {
+  display: flex;
+  width: 200%;
+  transition: transform 0.48s cubic-bezier(0.25, 1, 0.5, 1);
+  align-items: flex-start;
+}
+
+.slide {
+  width: 50%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  padding: 0 2px;
+}
+
+.slideActive {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.slideInactive {
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ==================== FORM ELEMENTS ==================== */
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.passwordInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInputWrapper input {
+  padding-right: 52px;
+}
+
+.passwordToggleBtn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  padding: 4px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.passwordToggleBtn:hover {
+  color: var(--color-primary);
+}
+
+.errorBanner {
+  padding: 10px 14px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius);
+  color: var(--color-error);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.submitBtn {
+  margin-top: 8px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  transition: all 0.2s ease;
+}
+
+.termsText {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.formFooter {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f0eee6;
+}
+
+.switchModeBtn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 4px;
+  font-size: inherit;
+  font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.switchModeBtn:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 992px) {
+  .splitPage {
+    grid-template-columns: 1fr;
+  }
+
+  .heroColumn {
+    display: none;
+  }
+
+  .mobileBrand {
+    display: block;
+  }
+
+  .formColumn {
+    padding: 32px 16px;
+  }
+
+  .cardWrapper {
+    padding: 28px 20px;
+    box-shadow: none;
+    border-color: transparent;
+    background: transparent;
+  }
+}

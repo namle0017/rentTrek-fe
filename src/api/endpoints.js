@@ -14,6 +14,21 @@ export const API_ENDPOINTS = {
     SESSIONS: '/users/me/sessions',
     SESSION_BY_ID: (familyId) => `/users/me/sessions/${familyId}`,
     REVOKE_OTHER_SESSIONS: '/users/me/sessions/revoke-others',
+    MY_ORDERS: '/users/me/orders',
+  },
+  BUNDLES: {
+    ROOT: '/bundles',
+    BY_ID: (id) => `/bundles/${id}`,
+  },
+  RENTAL_AVAILABILITY: '/rental-availability',
+  RENTAL_ORDERS: {
+    ROOT: '/rental-orders',
+    QUOTE: '/rental-orders/quote',
+    BY_ID: (orderId) => `/rental-orders/${orderId}`,
+  },
+  PAYMENTS: {
+    BY_ORDER: (orderId) => `/orders/${orderId}/payments`,
+    BY_ID: (orderId, paymentId) => `/orders/${orderId}/payments/${paymentId}`,
   },
   PRODUCTS: {
     CATEGORIES: '/products/categories',
@@ -24,5 +39,11 @@ export const API_ENDPOINTS = {
   TOURS: {
     ROOT: '/tours',
     BY_ID: (id) => `/tours/${id}`,
+  },
+  TRIP_BOOKINGS: {
+    ROOT: '/trip-bookings',
+    BY_ID: (orderId) => `/trip-bookings/${orderId}`,
+    INVITATIONS: (orderId) => `/trip-bookings/${orderId}/participant-invitations`,
+    CLAIM_INVITATION: '/trip-bookings/participant-invitations/claim',
   },
 };

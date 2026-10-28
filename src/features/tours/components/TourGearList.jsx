@@ -6,13 +6,13 @@ export default function TourGearList({ providedItems = [], preparationItems = []
       {/* Cột 1: TrekRent cung cấp */}
       <div className={styles.gearBox}>
         <div className={`${styles.boxHeader} ${styles.boxHeaderProvided}`}>
-          <span>🎒</span> TrekRent cung cấp cho bạn
+          TrekRent chuẩn bị
         </div>
         <ul className={styles.itemList}>
           {providedItems.length > 0 ? (
             providedItems.map((item) => (
               <li key={item.id} className={styles.item}>
-                <span className={styles.itemIcon}>✅</span>
+                <span className={styles.itemIcon} aria-hidden="true">✓</span>
                 <div className={styles.itemContent}>
                   <div className={styles.itemName}>{item.itemName}</div>
                   {item.note && <div className={styles.itemNote}>{item.note}</div>}
@@ -28,13 +28,13 @@ export default function TourGearList({ providedItems = [], preparationItems = []
       {/* Cột 2: Bạn cần tự chuẩn bị */}
       <div className={styles.gearBox}>
         <div className={`${styles.boxHeader} ${styles.boxHeaderPrepared}`}>
-          <span>👟</span> Bạn cần tự chuẩn bị
+          Bạn cần chuẩn bị
         </div>
         <ul className={styles.itemList}>
           {preparationItems.length > 0 ? (
             preparationItems.map((item) => (
               <li key={item.id} className={styles.item}>
-                <span className={styles.itemIcon}>{item.isMandatory ? '⚠️' : '🔹'}</span>
+                <span className={styles.itemIcon} aria-hidden="true">○</span>
                 <div className={styles.itemContent}>
                   <div className={styles.itemName}>
                     {item.itemName}

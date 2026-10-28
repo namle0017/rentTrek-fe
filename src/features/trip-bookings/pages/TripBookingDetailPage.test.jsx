@@ -2,10 +2,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  useGenerateParticipantInvitations,
-  useTripBooking,
-} from '../hooks/useTripBookings';
+import { useGenerateParticipantInvitations, useTripBooking } from '../hooks/useTripBookings';
 import TripBookingDetailPage from './TripBookingDetailPage';
 
 vi.mock('../hooks/useTripBookings', () => ({
@@ -37,7 +34,9 @@ const booking = {
 const renderPage = () =>
   render(
     <MemoryRouter initialEntries={['/trip-bookings/order-1']}>
-      <Routes><Route path="/trip-bookings/:orderId" element={<TripBookingDetailPage />} /></Routes>
+      <Routes>
+        <Route path="/trip-bookings/:orderId" element={<TripBookingDetailPage />} />
+      </Routes>
     </MemoryRouter>,
   );
 
@@ -58,6 +57,20 @@ describe('TripBookingDetailPage', () => {
     expect(screen.getByText('Tổng tiền')).toBeInTheDocument();
     expect(screen.getByText(/chưa tích hợp cổng thanh toán/)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Tạo lời mời' })).not.toBeInTheDocument();
+  });
+
+  it('shows a not-found state for 404 without retry', () => {
+    useTripBooking.mockReturnValue({
+      isLoading: false,
+      isError: true,
+      error: { statusCode: 404, message: 'Không tìm thấy' },
+      refetch,
+    });
+
+    renderPage();
+
+    expect(screen.getByText(/Không tìm thấy booking/)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Thử lại/ })).not.toBeInTheDocument();
   });
 
   it('hides buyer-only money fields from participant scope', () => {
@@ -83,7 +96,15 @@ describe('TripBookingDetailPage', () => {
       refetch,
     });
     mutateAsync.mockResolvedValue({
-      data: [{ participantId: 'p-2', fullName: 'Nguyễn An', email: 'an@example.com', token: 'one-time-token', expiresAt: '2026-11-01T00:00:00Z' }],
+      data: [
+        {
+          participantId: 'p-2',
+          fullName: 'Nguyễn An',
+          email: 'an@example.com',
+          token: 'one-time-token',
+          expiresAt: '2026-11-01T00:00:00Z',
+        },
+      ],
     });
 
     renderPage();
@@ -106,7 +127,9 @@ describe('TripBookingDetailPage', () => {
     });
     renderPage();
 
-    await act(async () => { await vi.advanceTimersByTimeAsync(3000); });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(3000);
+    });
     expect(refetch).toHaveBeenCalledTimes(1);
     vi.useRealTimers();
   });

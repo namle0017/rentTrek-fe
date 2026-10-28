@@ -46,10 +46,10 @@ describe('TourBookingCard', () => {
     const user = userEvent.setup();
     renderCard();
 
-    expect(screen.getByRole('option', { name: /Cuối tuần tháng 11/ })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: /02\/11 - 04\/11\/2026/ })).toBeChecked();
     expect(screen.getByText((_, element) => element.id === 'booking-card-title' && element.textContent.includes('1.500.000'))).toBeInTheDocument();
 
-    await user.selectOptions(screen.getByLabelText('Lịch khởi hành'), 'trip-2');
+    await user.click(screen.getByRole('radio', { name: /05\/12 - 07\/12\/2026/ }));
 
     expect(screen.getByText((_, element) => element.id === 'booking-card-title' && element.textContent.includes('2.000.000'))).toBeInTheDocument();
   });
@@ -64,7 +64,7 @@ describe('TourBookingCard', () => {
     expect(screen.getByLabelText('Số người')).toHaveTextContent('2');
     expect(increase).toBeDisabled();
 
-    await user.click(screen.getByRole('button', { name: 'Tiếp tục đặt tour' }));
+    await user.click(screen.getByRole('button', { name: 'Đặt Tour & Giữ Chỗ Ngay' }));
 
     expect(screen.getByLabelText('current location')).toHaveTextContent(
       '/trip-bookings/new?tripId=trip-1&tourId=tour-1&partySize=2',
@@ -77,7 +77,7 @@ describe('TourBookingCard', () => {
       availableTrips: [{ ...tour.availableTrips[0], status: 'Closed', availableSlots: 0 }],
     });
 
-    expect(screen.getByRole('button', { name: 'Tiếp tục đặt tour' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Đặt Tour & Giữ Chỗ Ngay' })).toBeDisabled();
     expect(screen.getByText(/chưa có lịch mở/)).toBeInTheDocument();
   });
 });

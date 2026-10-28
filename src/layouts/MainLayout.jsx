@@ -22,7 +22,8 @@ export default function MainLayout() {
   const logoutMutation = useLogout();
   const navigate = useNavigate();
   const location = useLocation();
-  const isCatalog = location.pathname === ROUTES.PRODUCTS;
+  // Trang có hero tràn viền tự quản lý container
+  const isCatalog = location.pathname === ROUTES.PRODUCTS || location.pathname === ROUTES.TOURS;
 
   const searchProducts = (event) => {
     event.preventDefault();
@@ -40,9 +41,7 @@ export default function MainLayout() {
           <Brand />
           <nav className={styles.nav} aria-label="Điều hướng chính">
             <NavLink to={ROUTES.PRODUCTS}>Dụng cụ thuê</NavLink>
-            <span className={styles.upcoming}>
-              Tour Booking <span className={styles.soon}>Sắp ra mắt</span>
-            </span>
+            <NavLink to={ROUTES.TOURS}>Tour trekking</NavLink>
             {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
           </nav>
           <div className={styles.headerActions}>
@@ -58,15 +57,6 @@ export default function MainLayout() {
                 aria-label="Tìm sản phẩm"
               />
             </form>
-            {currentUser?.role === USER_ROLE.ADMIN ? (
-              <Link className={styles.listButton} to={ROUTES.ADMIN_PRODUCT_CREATE}>
-                Đăng đồ cho thuê
-              </Link>
-            ) : (
-              <a className={styles.listButton} href="#owner-info">
-                Đăng đồ cho thuê
-              </a>
-            )}
             {isAuthenticated ? (
               <details className={styles.account}>
                 <summary aria-label="Tài khoản">

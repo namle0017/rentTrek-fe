@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OutdoorIcon from '@/components/OutdoorIcon';
+import { TRIP_STATUS } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
 import styles from './TourBookingCard.module.css';
 
-const isBookableTrip = (trip) => trip.status === 'Open' && trip.availableSlots > 0;
+const isBookableTrip = (trip) => trip.status === TRIP_STATUS.OPEN && trip.availableSlots > 0;
 
 export default function TourBookingCard({ tour }) {
   const navigate = useNavigate();
@@ -16,13 +17,11 @@ export default function TourBookingCard({ tour }) {
   const selectedTrip = trips.find((trip) => trip.id === selectedTripId) || firstBookableTrip;
   const maxSlots = Math.min(21, selectedTrip?.availableSlots || 1);
   const canBook = Boolean(selectedTrip && isBookableTrip(selectedTrip));
-  const pricePerPerson = selectedTrip?.pricePerPerson || 0;
-  const estimatedTotal = pricePerPerson * memberCount;
+  const pricePerPerson = selectedTrip?.pricePerPerson || tour.basePrice || 0;
 
-  const handleTripChange = (event) => {
-    const nextTrip = trips.find((trip) => trip.id === event.target.value);
-    setSelectedTripId(event.target.value);
-    setMemberCount((current) => Math.min(current, Math.min(21, nextTrip?.availableSlots || 1)));
+  const handleTripChange = (trip) => {
+    setSelectedTripId(trip.id);
+    setMemberCount((current) => Math.min(current, Math.min(21, trip.availableSlots || 1)));
   };
 
   const handleBooking = () => {
@@ -38,53 +37,60 @@ export default function TourBookingCard({ tour }) {
 
   return (
     <aside className={styles.bookingCard} aria-labelledby="booking-card-title">
-      <div className={styles.eyebrow}>ĐẶT CHUYẾN ĐI</div>
-      <div className={styles.priceSection}>
-        <div className={styles.priceRow}>
-          <span id="booking-card-title" className={styles.price}>
-            {formatCurrency(pricePerPerson)}
-          </span>
-          <span className={styles.priceUnit}>/ người</span>
-        </div>
-        <p className={styles.priceHint}>Giá theo lịch khởi hành đang chọn</p>
+      <div className={styles.eyebrow}>
+        HÀNH TRÌNH {tour.durationDays} NGÀY {tour.durationNights} ĐÊM
       </div>
-
-      <div className={styles.inspectionBadge}>
-        <OutdoorIcon name="shield" size={20} />
-        <span>Thiết bị bảo hộ đạt chuẩn kiểm định {tour.inspectionRate || 96}%</span>
+      <div className={styles.priceRow}>
+        <span id="booking-card-title" className={styles.price}>
+          {formatCurrency(pricePerPerson)}
+        </span>
+        <span className={styles.priceUnit}>/người</span>
       </div>
+      {tour.equipmentDeposit > 0 && (
+        <p className={styles.deposit}>Cọc thiết bị: {formatCurrency(tour.equipmentDeposit)} (hoàn 100%)</p>
+      )}
 
-      <div className={styles.formGroup}>
-        <label className={styles.label} htmlFor="trip-departure">
-          Lịch khởi hành
-        </label>
+      <fieldset className={styles.tripGroup}>
+        <legend className={styles.label}>
+          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2" />
+            <path d="M3 10h18M8 3v4m8-4v4" />
+          </svg>
+          Chọn đợt khởi hành
+        </legend>
         {trips.length ? (
-          <select
-            id="trip-departure"
-            className={styles.select}
-            value={selectedTripId}
-            onChange={handleTripChange}
-            disabled={!firstBookableTrip}
-          >
-            {!firstBookableTrip && <option value="">Chưa có lịch mở</option>}
+          <div className={styles.tripList}>
             {trips.map((trip) => {
               const bookable = isBookableTrip(trip);
               return (
-                <option key={trip.id} value={trip.id} disabled={!bookable}>
-                  {trip.tripOptionTitle || trip.dateRangeFormatted} · {trip.dateRangeFormatted} ·{' '}
-                  {bookable ? `còn ${trip.availableSlots} chỗ` : 'đã đóng'}
-                </option>
+                <label
+                  key={trip.id}
+                  className={`${styles.tripOption} ${trip.id === selectedTrip?.id ? styles.tripSelected : ''}`}
+                >
+                  <input
+                    type="radio"
+                    name="trip-departure"
+                    value={trip.id}
+                    checked={trip.id === selectedTrip?.id}
+                    disabled={!bookable}
+                    onChange={() => handleTripChange(trip)}
+                  />
+                  <span>
+                    <strong>Đợt {trip.dateRangeFormatted}</strong>
+                    <small>{bookable ? `(Còn ${trip.availableSlots} chỗ)` : '(Đã đóng)'}</small>
+                  </span>
+                </label>
               );
             })}
-          </select>
+          </div>
         ) : (
           <p className={styles.emptyText}>Chưa có lịch mở. Vui lòng quay lại sau.</p>
         )}
-      </div>
+      </fieldset>
 
-      <div className={styles.formGroup}>
+      <div className={styles.counterRow}>
         <span className={styles.label}>Số người tham gia</span>
-        <div className={styles.counterRow}>
+        <div className={styles.counter}>
           <button
             type="button"
             className={styles.counterBtn}
@@ -106,35 +112,19 @@ export default function TourBookingCard({ tour }) {
           >
             +
           </button>
-          <span className={styles.slotHint}>Tối đa {canBook ? maxSlots : 0} chỗ</span>
         </div>
       </div>
 
-      <div className={styles.summaryBox}>
-        <div className={styles.summaryRow}>
-          <span>{memberCount} người × {formatCurrency(pricePerPerson)}</span>
-          <strong>{formatCurrency(estimatedTotal)}</strong>
-        </div>
-        <p className={styles.summaryNote}>Chi phí chính thức được xác nhận từ booking sau khi giữ chỗ.</p>
+      <div className={styles.escrow}>
+        <OutdoorIcon name="shield" size={20} />
+        <span>100% tiền giữ tại Escrow đến khi xong tour</span>
       </div>
 
-      <button
-        type="button"
-        className={styles.btnBook}
-        onClick={handleBooking}
-        disabled={!canBook}
-      >
-        <span>Tiếp tục đặt tour</span>
-        <OutdoorIcon name="arrow" size={19} />
+      <button type="button" className={styles.btnBook} onClick={handleBooking} disabled={!canBook}>
+        Đặt Tour & Giữ Chỗ Ngay
       </button>
 
       {!canBook && <p className={styles.unavailable}>Chuyến đi chưa có lịch mở hoặc đã hết chỗ.</p>}
-
-      <ul className={styles.guaranteeList}>
-        <li><OutdoorIcon name="check" size={17} /> Hỗ trợ hoàn/hủy theo chính sách tour</li>
-        <li><OutdoorIcon name="check" size={17} /> Bảo hiểm du lịch mạo hiểm trọn gói</li>
-        <li><OutdoorIcon name="check" size={17} /> Hướng dẫn viên có chứng chỉ sơ cấp cứu</li>
-      </ul>
     </aside>
   );
 }

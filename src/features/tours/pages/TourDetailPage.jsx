@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
+import OutdoorIcon from '@/components/OutdoorIcon';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
 import TourBookingCard from '../components/TourBookingCard';
@@ -15,109 +16,68 @@ export default function TourDetailPage() {
   const { data: tour, isLoading, isError, error, refetch } = useTour(tourId);
 
   if (isLoading) return <Spinner fullScreen />;
-  if (isError) return <ErrorState message={error.message || 'Không thể tải chi tiết tour'} onRetry={refetch} />;
+  if (isError)
+    return <ErrorState message={error.message || 'Không thể tải chi tiết tour'} onRetry={refetch} />;
   if (!tour) return <EmptyState message="Không tìm thấy thông tin tour trekking này." />;
-
-  const durationText = `${tour.durationDays} ngày ${tour.durationNights} đêm`;
 
   return (
     <article>
-      {/* Breadcrumb */}
-      <nav className={styles.breadcrumb}>
+      <nav className={styles.breadcrumb} aria-label="Breadcrumb">
         <Link to={ROUTES.HOME}>Trang chủ</Link>
         <span>/</span>
-        <Link to={ROUTES.TOURS}>Tour trekking</Link>
+        <Link to={ROUTES.TOURS}>Tour Trekking</Link>
+        {tour.locationName && (
+          <>
+            <span>/</span>
+            <span>{tour.locationName}</span>
+          </>
+        )}
         <span>/</span>
-        <span style={{ color: 'var(--color-text)' }}>{tour.name}</span>
+        <span className={styles.breadcrumbCurrent}>{tour.name}</span>
       </nav>
-
-      {/* Header Info */}
-      <div className={styles.headerSection}>
-        <h1 className={styles.title}>{tour.name}</h1>
-        <div className={styles.metaRow}>
-          <span className={styles.difficultyBadge}>{tour.difficultyLevel}</span>
-          <span className={styles.metaItem}>
-            <span>⏱️</span> Thời lượng: {durationText}
-          </span>
-          {tour.locationName && (
-            <span className={styles.metaItem}>
-              <span>📍</span> Địa điểm: {tour.locationName}
-            </span>
-          )}
-          {tour.categoryName && (
-            <span className={styles.metaItem}>
-              <span>🏷️</span> Phân loại: {tour.categoryName}
-            </span>
-          )}
-        </div>
-      </div>
 
       {/* 5-Image Gallery (Figma Node 269:874) */}
       <TourGallery images={tour.images} tourName={tour.name} />
 
-      {/* Main Content Layout */}
       <div className={styles.contentLayout}>
         <div className={styles.mainColumn}>
-          {/* Section 1: Overview Description */}
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>
-              <span>🌄</span> Tổng quan chuyến đi
-            </h2>
-            <div className={styles.descriptionText}>{tour.description}</div>
-          </section>
+          <header className={styles.headerSection}>
+            <h1 className={styles.title}>{tour.name}</h1>
+            <p className={styles.location}>
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+                <path d="M12 21s7-6.2 7-11.5a7 7 0 1 0-14 0C5 14.8 12 21 12 21Z" />
+                <circle cx="12" cy="9.5" r="2.5" />
+              </svg>
+              {tour.coordinatesFormatted || tour.locationName}
+            </p>
+            <div className={styles.chips}>
+              <span className={styles.chipVerified}>
+                <OutdoorIcon name="check" size={14} /> Đã kiểm định {tour.inspectionRate}%
+              </span>
+              <span className={styles.chipLevel}>Cấp độ: {tour.difficultyLevel}</span>
+              <span className={styles.chip}>{tour.durationFormatted}</span>
+            </div>
+            {tour.description && <p className={styles.description}>{tour.description}</p>}
+          </header>
 
-          {/* Section 2: Detailed Timeline */}
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>
-              <span>🗺️</span> Lịch trình chi tiết ({durationText})
-            </h2>
+            <h2 className={styles.sectionTitle}>Lịch trình tour</h2>
             <TourTimeline activities={tour.activities} />
           </section>
 
-          {/* Section 3: Gear Checklist */}
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>
-              <span>🎒</span> Trang thiết bị & Chuẩn bị
-            </h2>
-            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: '0 0 16px' }}>
-              TrekRent cung cấp miễn phí toàn bộ lều trại và phụ kiện trekking đạt chuẩn kiểm định an toàn{' '}
-              {tour.inspectionRate}%. Bạn chỉ cần mang theo đồ dùng cá nhân cần thiết.
-            </p>
-            <TourGearList
-              providedItems={tour.providedItems}
-              preparationItems={tour.preparationItems}
-            />
+            <h2 className={styles.sectionTitle}>Trang bị chuyến đi</h2>
+            <TourGearList providedItems={tour.providedItems} preparationItems={tour.preparationItems} />
           </section>
 
-          {/* Section 4: Policies and Notes */}
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>
-              <span>📋</span> Quy định an toàn & Hoàn hủy
-            </h2>
-            <ul className={styles.policyList}>
-              <li className={styles.policyItem}>
-                <span>🔹</span>
-                <div>
-                  <strong>Điều kiện sức khỏe:</strong> Phù hợp với người có thể lực khá, không mắc bệnh tim mạch, hen suyễn hay sợ độ cao nghiêm trọng.
-                </div>
-              </li>
-              <li className={styles.policyItem}>
-                <span>🔹</span>
-                <div>
-                  <strong>Chính sách hoàn hủy:</strong> Hủy trước 7 ngày được hoàn 100% tiền tour. Hủy trước 3 ngày hoàn 50%.
-                </div>
-              </li>
-              <li className={styles.policyItem}>
-                <span>🔹</span>
-                <div>
-                  <strong>Hoàn tiền cọc trang bị:</strong> Tiền cọc thiết bị ({tour.equipmentDeposit?.toLocaleString('vi-VN')} đ) được hoàn lại 100% ngay sau khi kết thúc chuyến đi và bàn giao đồ nguyên vẹn.
-                </div>
-              </li>
-            </ul>
+          <section className={`${styles.section} ${styles.reviewRow}`}>
+            <h2 className={styles.sectionTitle}>Đánh giá từ trekker</h2>
+            <strong>
+              {tour.rating}/5 ★ ({tour.totalReviews} đánh giá)
+            </strong>
           </section>
         </div>
 
-        {/* Right Sidebar: Booking Card */}
         <div className={styles.sidebarColumn}>
           <TourBookingCard tour={tour} />
         </div>

@@ -9,6 +9,7 @@ import {
   BOOKING_STATUS_LABEL,
   PAYMENT_STATUS,
   PAYMENT_STATUS_LABEL,
+  TRIP_STATUS_LABEL,
 } from '@/constants/enums';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
@@ -29,6 +30,10 @@ export default function TripBookingDetailPage() {
   const [invitationError, setInvitationError] = useState('');
 
   if (isLoading) return <Spinner fullScreen />;
+  // 404: không tồn tại hoặc không có quyền — không phân biệt để tránh lộ booking của người khác
+  if (isError && error?.statusCode === 404) {
+    return <EmptyState message="Không tìm thấy booking hoặc bạn không có quyền xem." />;
+  }
   if (isError) return <ErrorState message={error?.message || 'Không thể tải booking.'} onRetry={refetch} />;
   if (!booking) return <EmptyState message="Không tìm thấy booking hoặc bạn không có quyền xem." />;
 
@@ -98,7 +103,9 @@ export default function TripBookingDetailPage() {
                   <strong>{participant.fullName}</strong>
                   <small>{participant.email}</small>
                 </div>
-                <span className={styles.participantStatus}>{participant.status}</span>
+                <span className={styles.participantStatus}>
+                  {participant.linkedUserId ? 'Đã liên kết' : 'Chờ liên kết'}
+                </span>
               </article>
             ))}
           </div>
@@ -109,7 +116,7 @@ export default function TripBookingDetailPage() {
           <h2>{booking.orderCode}</h2>
           <dl>
             <div><dt>Mã chuyến</dt><dd>{booking.tripId}</dd></div>
-            <div><dt>Trạng thái chuyến</dt><dd>{booking.tripStatus}</dd></div>
+            <div><dt>Trạng thái chuyến</dt><dd>{TRIP_STATUS_LABEL[booking.tripStatus] || booking.tripStatus}</dd></div>
             <div><dt>Số người</dt><dd>{booking.participantCount}</dd></div>
             {booking.canManage && (
               <>

@@ -1,7 +1,5 @@
 ﻿import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import OutdoorIcon from '@/components/OutdoorIcon';
-import { USER_ROLE } from '@/constants/enums';
-import { Link, NavLink, Outlet } from 'react-router-dom';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
@@ -49,9 +47,7 @@ export default function MainLayout() {
           <Brand />
           <nav className={styles.nav} aria-label="Điều hướng chính">
             <NavLink to={ROUTES.PRODUCTS}>Dụng cụ thuê</NavLink>
-            <span className={styles.upcoming}>
-              Tour Booking <span className={styles.soon}>Sắp ra mắt</span>
-            </span>
+            <NavLink to={ROUTES.TOURS}>Tour Trekking</NavLink>
             {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
           </nav>
           <div className={styles.headerActions}>
@@ -85,7 +81,14 @@ export default function MainLayout() {
                   <OutdoorIcon name="chevron" size={14} />
                 </summary>
                 <div className={styles.accountMenu}>
-                  <span>{currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}</span>
+                  <Link to={ROUTES.PROFILE} title="Xem hồ sơ cá nhân">
+                    {currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}
+                  </Link>
+                  {currentUser?.role && (
+                    <span className={getRoleBadgeClass(currentUser.role)}>
+                      {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
+                    </span>
+                  )}
                   <button
                     type="button"
                     onClick={() => logoutMutation.mutate()}
@@ -102,54 +105,6 @@ export default function MainLayout() {
               </Link>
             )}
           </div>
-          <Link to={ROUTES.HOME} className={styles.logo}>
-            ▲ renTrek
-          </Link>
-
-          <nav className={styles.nav}>
-            <NavLink to={ROUTES.PRODUCTS}>Sản phẩm</NavLink>
-            <NavLink to={ROUTES.TOURS}>Tour Trekking</NavLink>
-            <NavLink to={ROUTES.HOME}>Trang chủ</NavLink>
-            <NavLink to={ROUTES.PRODUCTS}>Sản phẩm & Đồ thuê</NavLink>
-            {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
-
-            <div className={styles.authSection}>
-              {isAuthenticated ? (
-                <>
-                  <div className={styles.userInfo}>
-                    <Link to={ROUTES.PROFILE} className={styles.userNameLink} title="Xem hồ sơ cá nhân">
-                      <span className={styles.userAvatar}>
-                        {(currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()}
-                      </span>
-                      <span className={styles.userName}>{currentUser?.fullName || currentUser?.email}</span>
-                    </Link>
-                    {currentUser?.role && (
-                      <span className={getRoleBadgeClass(currentUser.role)}>
-                        {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
-                      </span>
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    className="btn btn-outline"
-                    onClick={handleLogoutClick}
-                    disabled={logoutMutation.isPending}
-                  >
-                    {logoutMutation.isPending ? 'Đang thoát...' : 'Đăng xuất'}
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to={ROUTES.LOGIN} className="btn btn-outline">
-                    Đăng nhập
-                  </Link>
-                  <Link to={ROUTES.REGISTER} className="btn btn-primary">
-                    Đăng ký
-                  </Link>
-                </>
-              )}
-            </div>
-          </nav>
         </div>
       </header>
       <main id="main-content" className={isCatalog ? styles.catalogMain : `container ${styles.main}`}>
@@ -197,7 +152,6 @@ export default function MainLayout() {
             <span>Đi xa hơn. Trải nghiệm nhiều hơn.</span>
           </div>
         </div>
-        <div className="container">© {new Date().getFullYear()} renTrek — Nền tảng Cho thuê Thiết bị & Tour Trekking</div>
       </footer>
     </div>
   );

@@ -1,66 +1,65 @@
 import { Link } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
-import { formatCurrency } from '@/utils/formatCurrency';
 import styles from './TourCard.module.css';
 
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b';
+
 export default function TourCard({ tour }) {
-  const isOpen = tour.status?.toLowerCase() === 'active' || tour.badgeStatus === 'Đang mở';
-  const durationText = `${tour.durationDays}N${tour.durationNights}Đ`;
+  // BE trả badgeStatus "Đang mở" | "Hết hạn" đã tính sẵn
+  const isOpen = tour.badgeStatus === 'Đang mở';
+  const durationText = tour.durationFormatted || `${tour.durationDays} ngày ${tour.durationNights} đêm`;
 
   return (
-    <Link to={ROUTES.TOUR_DETAIL(tour.id)} className={styles.card}>
+    <article className={`${styles.card} ${isOpen ? '' : styles.cardExpired}`}>
       <div className={styles.imageWrapper}>
-        <img
-          src={tour.thumbnailUrl || 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b'}
-          alt={tour.name}
-          className={styles.image}
-          loading="lazy"
-        />
+        <img src={tour.thumbnailUrl || FALLBACK_IMAGE} alt={tour.name} className={styles.image} loading="lazy" />
         <span className={`${styles.badge} ${isOpen ? styles.badgeOpen : styles.badgeExpired}`}>
           {tour.badgeStatus || (isOpen ? 'Đang mở' : 'Hết hạn')}
         </span>
-        <span className={styles.difficultyTag}>{tour.difficultyLevel}</span>
       </div>
 
       <div className={styles.body}>
-        {tour.locationName && (
-          <div className={styles.location}>
-            <span>📍</span> {tour.locationName}
-          </div>
-        )}
-
         <h3 className={styles.title} title={tour.name}>
           {tour.name}
         </h3>
+        {tour.locationName && (
+          <p className={styles.location}>
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+              <path d="M12 21s7-6.2 7-11.5a7 7 0 1 0-14 0C5 14.8 12 21 12 21Z" />
+              <circle cx="12" cy="9.5" r="2.5" />
+            </svg>
+            {tour.locationName}
+          </p>
+        )}
 
-        <div className={styles.infoRow}>
-          <span className={styles.infoItem}>
-            <span>⏱️</span> {durationText}
-          </span>
-          {tour.departureDateRange && (
-            <span className={styles.infoItem}>
-              <span>📅</span> {tour.departureDateRange}
-            </span>
+        <dl className={styles.infoGrid}>
+          <div>
+            <dt>Thời gian</dt>
+            <dd>{durationText}</dd>
+          </div>
+          <div>
+            <dt>Khởi hành</dt>
+            <dd>{tour.departureDateRange || 'Đang cập nhật'}</dd>
+          </div>
+        </dl>
+
+        <div className={styles.metaRow}>
+          {tour.difficultyLevel && <span className={styles.difficulty}>{tour.difficultyLevel}</span>}
+          {tour.slotStatusText && (
+            <span className={isOpen ? styles.slotOpen : styles.slotClosed}>{tour.slotStatusText}</span>
           )}
         </div>
 
-        {tour.slotStatusText && (
-          <div className={`${styles.slotStatus} ${!isOpen ? styles.slotStatusExpired : ''}`}>
-            <span>{isOpen ? '🟢' : '⚪'}</span>
-            <strong>{tour.slotStatusText}</strong>
-          </div>
+        {isOpen ? (
+          <Link to={ROUTES.TOUR_DETAIL(tour.id)} className={styles.detailButton}>
+            Xem chi tiết
+          </Link>
+        ) : (
+          <span className={`${styles.detailButton} ${styles.detailButtonDisabled}`} aria-disabled="true">
+            Xem chi tiết
+          </span>
         )}
-
-        <div className={styles.footer}>
-          <div>
-            <div className={styles.priceLabel}>Giá trọn gói</div>
-            <div className={styles.price}>{formatCurrency(tour.basePrice)}</div>
-          </div>
-          <button type="button" className={styles.btnDetail}>
-            Chi tiết
-          </button>
-        </div>
       </div>
-    </Link>
+    </article>
   );
 }

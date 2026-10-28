@@ -24,11 +24,11 @@
 }
 
 .boxHeaderProvided {
-  color: #1b5e20;
+  color: var(--color-primary);
 }
 
 .boxHeaderPrepared {
-  color: #b45309;
+  color: #8a5a12;
 }
 
 .itemList {

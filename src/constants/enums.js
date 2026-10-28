@@ -17,3 +17,78 @@ export const SORT_ORDER = Object.freeze({
   ASC: 'asc',
   DESC: 'desc',
 });
+
+export const TRIP_STATUS = Object.freeze({
+  OPEN: 'Open',
+  CLOSED: 'Closed',
+});
+
+export const TRIP_STATUS_LABEL = {
+  [TRIP_STATUS.OPEN]: 'Đang mở',
+  [TRIP_STATUS.CLOSED]: 'Đã đóng',
+};
+
+export const BOOKING_STATUS = Object.freeze({
+  PENDING_PAYMENT: 'PendingPayment',
+  CONFIRMED: 'Confirmed',
+});
+
+export const BOOKING_STATUS_LABEL = {
+  [BOOKING_STATUS.PENDING_PAYMENT]: 'Chờ thanh toán',
+  [BOOKING_STATUS.CONFIRMED]: 'Đã xác nhận',
+};
+
+export const PAYMENT_STATUS = Object.freeze({
+  UNPAID: 'Unpaid',
+  PAID: 'Paid',
+});
+
+export const PAYMENT_STATUS_LABEL = {
+  [PAYMENT_STATUS.UNPAID]: 'Chưa thanh toán',
+  [PAYMENT_STATUS.PAID]: 'Đã thanh toán',
+};
+
+export const ORDER_TYPE = Object.freeze({
+  RENTAL: 'Rental',
+  TRIP_BOOKING: 'TripBooking',
+});
+
+export const ORDER_TYPE_LABEL = {
+  [ORDER_TYPE.RENTAL]: 'Thuê thiết bị',
+  [ORDER_TYPE.TRIP_BOOKING]: 'Tour',
+};
+
+// Toàn bộ OrderStatus / OrderPaymentStatus (03.1 Phụ lục A) — dùng cho đơn thuê và "Đơn của tôi"
+export const ORDER_STATUS_LABEL = {
+  Draft: 'Nháp',
+  PendingPayment: 'Chờ thanh toán',
+  Confirmed: 'Đã xác nhận',
+  InFulfillment: 'Đang thực hiện',
+  Completed: 'Hoàn tất',
+  Expired: 'Hết hạn',
+  Cancelled: 'Đã hủy',
+};
+
+export const ORDER_PAYMENT_STATUS_LABEL = {
+  Unpaid: 'Chưa thanh toán',
+  Paid: 'Đã thanh toán',
+  PartiallyRefunded: 'Hoàn một phần',
+  Refunded: 'Đã hoàn tiền',
+  NeedsReconciliation: 'Cần đối soát',
+};
+
+export const PAYMENT_TRANSACTION_STATUS = Object.freeze({
+  PENDING_APPROVAL: 'PendingApproval',
+  PENDING: 'Pending',
+  SUCCEEDED: 'Succeeded',
+  FAILED: 'Failed',
+  CANCELLED: 'Cancelled',
+});
+
+export const PAYMENT_TRANSACTION_STATUS_LABEL = {
+  [PAYMENT_TRANSACTION_STATUS.PENDING_APPROVAL]: 'Chờ duyệt',
+  [PAYMENT_TRANSACTION_STATUS.PENDING]: 'Đang xử lý',
+  [PAYMENT_TRANSACTION_STATUS.SUCCEEDED]: 'Thành công',
+  [PAYMENT_TRANSACTION_STATUS.FAILED]: 'Thất bại',
+  [PAYMENT_TRANSACTION_STATUS.CANCELLED]: 'Đã hủy',
+};

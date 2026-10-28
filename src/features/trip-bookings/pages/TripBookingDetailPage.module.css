@@ -1,0 +1,50 @@
+.page { display: grid; gap: 22px; padding: 42px 0 72px; }
+.header { display: flex; gap: 24px; align-items: flex-end; justify-content: space-between; padding-bottom: 24px; border-bottom: 1px solid #dce3dc; }
+.header h1 { margin: 4px 0 6px; color: #173d2d; font-size: clamp(1.8rem, 4vw, 2.65rem); }
+.header p { margin: 0; color: #68756d; }
+.kicker { color: #c55742; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.13em; }
+.badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.badges span { padding: 7px 10px; color: #21523b; font-size: 0.74rem; font-weight: 800; background: #eaf4ec; border: 1px solid #cfe1d1; border-radius: 999px; }
+.badges .paymentBadge { color: #914531; background: #fff1ed; border-color: #efc9bf; }
+.paymentNotice { display: flex; gap: 12px; align-items: flex-start; padding: 16px; color: #604c24; background: #fff8e6; border: 1px solid #ead8a6; border-radius: 14px; }
+.paymentNotice svg { flex: 0 0 auto; color: #c55742; }
+.paymentNotice p { margin: 3px 0 0; font-size: 0.8rem; }
+.countdown { padding: 12px 15px; color: #fff; font-size: 0.84rem; font-weight: 800; text-align: center; background: #204b39; border-radius: 12px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 28px; align-items: start; }
+.participants { padding: 22px; background: #fff; border: 1px solid #dce3dc; border-radius: 19px; }
+.sectionTitle { display: flex; gap: 18px; align-items: flex-end; justify-content: space-between; margin-bottom: 18px; }
+.sectionTitle h2 { margin: 3px 0 0; color: #173d2d; font-size: 1.25rem; }
+.sectionTitle > span { color: #65726a; font-size: 0.76rem; }
+.participantList { display: grid; gap: 10px; }
+.participant { display: grid; grid-template-columns: 42px 1fr auto; gap: 12px; align-items: center; padding: 13px; background: #f7f5ee; border-radius: 12px; }
+.avatar { display: grid; width: 38px; height: 38px; color: #fff; font-size: 0.72rem; font-weight: 800; background: #204b39; border-radius: 50%; place-items: center; }
+.participant div { display: grid; }
+.participant small { color: #6b776f; font-size: 0.72rem; }
+.participantStatus { color: #a44938; font-size: 0.7rem; font-weight: 800; }
+.summary { position: sticky; top: 92px; padding: 24px; overflow: hidden; background: #fffdf7; border: 1px solid #d9e0d8; border-radius: 20px; box-shadow: 0 16px 45px rgb(31 72 53 / 0.1); }
+.summary::before { position: absolute; inset: 0 0 auto; height: 5px; content: ''; background: #ef765f; }
+.summary h2 { margin: 4px 0 17px; color: #173d2d; }
+.summary dl { display: grid; gap: 9px; margin: 0; }
+.summary dl div { display: flex; gap: 12px; justify-content: space-between; padding-bottom: 9px; border-bottom: 1px dashed #d8ded7; }
+.summary dt { color: #6a776f; font-size: 0.74rem; }
+.summary dd { max-width: 175px; margin: 0; overflow: hidden; color: #293d34; font-size: 0.74rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.summary .total { padding-top: 5px; border-bottom: 0; }
+.total dt,
+.total dd { color: #173d2d; font-size: 0.9rem; font-weight: 800; }
+.invitationAction { padding-top: 16px; }
+.invitationAction p { color: #8c572c; font-size: 0.72rem; }
+.invitationAction .error { color: #a33e35; }
+.invitationAction button { width: 100%; min-height: 45px; padding: 10px; color: #fff; font: inherit; font-weight: 800; cursor: pointer; background: #204b39; border: 0; border-radius: 11px; }
+.invitationAction button:disabled { cursor: wait; opacity: 0.55; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .summary { position: static; }
+}
+
+@media (max-width: 620px) {
+  .header { align-items: flex-start; flex-direction: column; }
+  .badges { justify-content: flex-start; }
+  .participant { grid-template-columns: 42px 1fr; }
+  .participantStatus { grid-column: 2; }
+}

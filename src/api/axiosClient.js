@@ -10,6 +10,8 @@ import { API_ENDPOINTS } from './endpoints';
 const axiosClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: REQUEST_TIMEOUT_MS,
+  // Bỏ trang cảnh báo của ngrok free (nếu không, ngrok trả HTML thay vì JSON). BE thật bỏ qua header này.
+  headers: { 'ngrok-skip-browser-warning': 'true' },
 });
 
 axiosClient.interceptors.request.use((config) => {
@@ -29,9 +31,11 @@ async function refreshAccessToken() {
   if (!refreshToken) throw new Error('Missing refresh token');
 
   // Dùng axios gốc, không dùng axiosClient để tránh lặp vô hạn qua interceptor
-  const { data: res } = await axios.post(`${API_BASE_URL}${API_ENDPOINTS.AUTH.REFRESH_TOKEN}`, {
-    refreshToken,
-  });
+  const { data: res } = await axios.post(
+    `${API_BASE_URL}${API_ENDPOINTS.AUTH.REFRESH_TOKEN}`,
+    { refreshToken },
+    { headers: { 'ngrok-skip-browser-warning': 'true' } },
+  );
   tokenStorage.setTokens(res.data); // { accessToken, refreshToken } — theo API Contract
   return res.data.accessToken;
 }

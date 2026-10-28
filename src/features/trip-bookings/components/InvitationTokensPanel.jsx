@@ -1,9 +1,16 @@
+import { toast } from 'react-toastify';
+import { ROUTES } from '@/constants/routes';
 import { formatDateTime } from '@/utils/formatDate';
 import styles from './InvitationTokensPanel.module.css';
 
 export default function InvitationTokensPanel({ invitations }) {
   const copyToken = async (token) => {
-    await navigator.clipboard.writeText(token);
+    try {
+      await navigator.clipboard.writeText(token);
+      toast.success('Đã sao chép token.');
+    } catch {
+      toast.error('Không thể sao chép. Vui lòng chọn và sao chép thủ công.');
+    }
   };
 
   if (!invitations?.length) return null;
@@ -14,6 +21,8 @@ export default function InvitationTokensPanel({ invitations }) {
       <h2 id="invitation-token-title">Lời mời người tham gia</h2>
       <p className={styles.warning}>
         Token chỉ hiển thị trong phiên này. Hãy gửi riêng đúng người nhận và không đưa token vào URL.
+        Người nhận đăng nhập bằng email được mời rồi nhập token tại{' '}
+        <strong>{window.location.origin}{ROUTES.PARTICIPANT_INVITATION_CLAIM}</strong>.
       </p>
       <div className={styles.list}>
         {invitations.map((invitation) => (

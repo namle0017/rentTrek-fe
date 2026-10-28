@@ -14,6 +14,21 @@ export const API_ENDPOINTS = {
     SESSIONS: '/users/me/sessions',
     SESSION_BY_ID: (familyId) => `/users/me/sessions/${familyId}`,
     REVOKE_OTHER_SESSIONS: '/users/me/sessions/revoke-others',
+    MY_ORDERS: '/users/me/orders',
+  },
+  BUNDLES: {
+    ROOT: '/bundles',
+    BY_ID: (id) => `/bundles/${id}`,
+  },
+  RENTAL_AVAILABILITY: '/rental-availability',
+  RENTAL_ORDERS: {
+    ROOT: '/rental-orders',
+    QUOTE: '/rental-orders/quote',
+    BY_ID: (orderId) => `/rental-orders/${orderId}`,
+  },
+  PAYMENTS: {
+    BY_ORDER: (orderId) => `/orders/${orderId}/payments`,
+    BY_ID: (orderId, paymentId) => `/orders/${orderId}/payments/${paymentId}`,
   },
   PRODUCTS: {
     CATEGORIES: '/products/categories',

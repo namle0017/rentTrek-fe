@@ -43,8 +43,7 @@
   font-size: 14px;
   font-weight: 600;
 }
-.nav > a,
-.upcoming {
+.nav > a {
   position: relative;
   white-space: nowrap;
   color: #dbe7e0;
@@ -52,14 +51,6 @@
 }
 .nav :global(a.active) {
   color: #e4b74f;
-}
-.soon {
-  display: block;
-  position: absolute;
-  top: 20px;
-  font-size: 9px;
-  color: #b8cfc0;
-  font-weight: 400;
 }
 .headerActions {
   display: flex;
@@ -93,18 +84,6 @@
 }
 .headerSearch input::placeholder {
   color: #b6cebd;
-}
-.listButton {
-  padding: 11px 20px;
-  border-radius: 7px;
-  background: #d9f3dd;
-  color: #254f3d;
-  font-size: 14px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-.listButton:hover {
-  background: #bfe8c5;
 }
 .login {
   display: flex;
@@ -344,9 +323,6 @@
   .headerSearch {
     width: 190px;
   }
-  .listButton {
-    padding: 9px 12px;
-  }
   .footerGrid {
     grid-template-columns: 1.5fr 1fr;
     gap: 32px;
@@ -372,14 +348,7 @@
     gap: 10px;
   }
   .headerSearch {
-    position: absolute;
-    left: 47%;
-    right: 20px;
-    bottom: 13px;
-    width: auto;
-  }
-  .header {
-    position: relative;
+    display: none;
   }
   .nav {
     min-height: 30px;
@@ -387,12 +356,6 @@
     width: 100%;
     gap: 18px;
     font-size: 12px;
-  }
-  .nav .upcoming {
-    display: none;
-  }
-  .listButton {
-    font-size: 11px;
   }
   .footer {
     padding-top: 40px;

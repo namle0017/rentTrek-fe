@@ -7,6 +7,7 @@ import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import ForgotPasswordModal from '../components/ForgotPasswordModal';
+import GoogleLoginButton from '../components/GoogleLoginButton';
 import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
 import { useLogin } from '../hooks/useLogin';
 import { useRegister } from '../hooks/useRegister';
@@ -428,6 +429,8 @@ export default function AuthPage({ defaultMode }) {
                       />
                     )}
                   </button>
+
+                  <GoogleLoginButton text="Đăng nhập với Google" />
                 </form>
 
                 <div className={styles.formFooter}>
@@ -674,6 +677,8 @@ export default function AuthPage({ defaultMode }) {
                       />
                     )}
                   </button>
+
+                  <GoogleLoginButton text="Đăng ký nhanh với Google" />
                 </form>
 
                 <div className={styles.formFooter}>

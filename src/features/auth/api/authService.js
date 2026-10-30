@@ -8,4 +8,5 @@ export const authService = {
   logout: (payload) => axiosClient.post(API_ENDPOINTS.AUTH.LOGOUT, payload),
   forgotPassword: (payload) => axiosClient.post(API_ENDPOINTS.AUTH.FORGOT_PASSWORD, payload),
   resetPassword: (payload) => axiosClient.post(API_ENDPOINTS.AUTH.RESET_PASSWORD, payload),
+  googleLogin: (payload) => axiosClient.post(API_ENDPOINTS.AUTH.GOOGLE, payload),
 };

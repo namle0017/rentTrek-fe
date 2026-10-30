@@ -6,6 +6,7 @@ import Spinner from '@/components/Spinner';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { applyServerErrors } from '@/utils/applyServerErrors';
+import { getAvatarColor } from '@/utils/avatarColor';
 import { formatDate, formatDateTime } from '@/utils/formatDate';
 import ActiveSessionsList from '../components/ActiveSessionsList';
 import ChangePasswordForm from '../components/ChangePasswordForm';
@@ -99,6 +100,7 @@ export default function ProfilePage() {
   };
 
   const avatarInitial = (profile.fullName || profile.email || 'U')[0].toUpperCase();
+  const avatarColor = getAvatarColor(profile.email || profile.fullName);
 
   return (
     <div className={styles.profileContainer}>
@@ -120,7 +122,10 @@ export default function ProfilePage() {
       <div className={styles.layoutGrid}>
         {/* Left Column: User Summary Card */}
         <aside className={styles.userCard}>
-          <div className={styles.avatarWrapper}>
+          <div
+            className={styles.avatarWrapper}
+            style={{ backgroundColor: avatarColor.bg, color: avatarColor.text }}
+          >
             <span>{avatarInitial}</span>
           </div>
 

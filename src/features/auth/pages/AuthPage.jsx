@@ -6,6 +6,7 @@ import SplitText from '@/components/SplitText';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import { applyServerErrors } from '@/utils/applyServerErrors';
+import ForgotPasswordModal from '../components/ForgotPasswordModal';
 import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
 import { useLogin } from '../hooks/useLogin';
 import { useRegister } from '../hooks/useRegister';
@@ -32,6 +33,7 @@ export default function AuthPage({ defaultMode }) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loginServerError, setLoginServerError] = useState('');
   const [registerServerError, setRegisterServerError] = useState('');
+  const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
   const [rememberMe, setRememberMe] = useState(() => {
     return Boolean(localStorage.getItem('rentrek_remembered_email'));
   });
@@ -41,6 +43,8 @@ export default function AuthPage({ defaultMode }) {
     register: registerLogin,
     handleSubmit: handleLoginSubmit,
     setError: setLoginError,
+    getValues: getLoginValues,
+    setValue: setValueLogin,
     formState: { errors: loginErrors },
   } = useForm({
     defaultValues: {
@@ -400,9 +404,7 @@ export default function AuthPage({ defaultMode }) {
                     <button
                       type="button"
                       className={styles.forgotPassBtn}
-                      onClick={() => {
-                        // Sẽ kích hoạt modal quên mật khẩu ở Gói 3
-                      }}
+                      onClick={() => setIsForgotModalOpen(true)}
                     >
                       Quên mật khẩu?
                     </button>
@@ -703,6 +705,19 @@ export default function AuthPage({ defaultMode }) {
           </div>
         </div>
       </div>
+
+      {/* Modal Quên mật khẩu & OTP */}
+      <ForgotPasswordModal
+        isOpen={isForgotModalOpen}
+        onClose={() => setIsForgotModalOpen(false)}
+        defaultEmail={getLoginValues ? getLoginValues('email') : ''}
+        onSuccessReset={(email) => {
+          if (setValueLogin) {
+            setValueLogin('email', email);
+          }
+          switchTo('login');
+        }}
+      />
     </div>
   );
 }

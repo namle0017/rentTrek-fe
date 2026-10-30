@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
   USERS: {
     ROOT: '/users',
     ME: '/users/me',
+    AVATAR: '/users/me/avatar',
     PASSWORD: '/users/me/password',
     SESSIONS: '/users/me/sessions',
     SESSION_BY_ID: (familyId) => `/users/me/sessions/${familyId}`,

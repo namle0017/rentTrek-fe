@@ -123,9 +123,21 @@ export default function MainLayout() {
                     <Link to={ROUTES.PROFILE} className={styles.userNameLink} title="Xem hồ sơ cá nhân">
                       <span
                         className={styles.userAvatar}
-                        style={{ backgroundColor: avatarColor.bg, color: avatarColor.text }}
+                        style={
+                          currentUser?.avatarUrl
+                            ? { padding: 0, overflow: 'hidden' }
+                            : { backgroundColor: avatarColor.bg, color: avatarColor.text }
+                        }
                       >
-                        {(currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()}
+                        {currentUser?.avatarUrl ? (
+                          <img
+                            src={currentUser.avatarUrl}
+                            alt={currentUser?.fullName || 'Avatar'}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        ) : (
+                          (currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()
+                        )}
                       </span>
                       <span className={styles.userName}>{currentUser?.fullName || currentUser?.email}</span>
                     </Link>

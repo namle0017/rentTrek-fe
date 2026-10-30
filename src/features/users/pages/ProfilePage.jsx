@@ -9,6 +9,7 @@ import { applyServerErrors } from '@/utils/applyServerErrors';
 import { getAvatarColor } from '@/utils/avatarColor';
 import { formatDate, formatDateTime } from '@/utils/formatDate';
 import ActiveSessionsList from '../components/ActiveSessionsList';
+import AvatarUploadModal from '../components/AvatarUploadModal';
 import ChangePasswordForm from '../components/ChangePasswordForm';
 import { useProfile } from '../hooks/useProfile';
 import { useUpdateProfile } from '../hooks/useUpdateProfile';
@@ -19,6 +20,7 @@ export default function ProfilePage() {
   const updateProfileMutation = useUpdateProfile();
   const [serverErrorMsg, setServerErrorMsg] = useState('');
   const [activeTab, setActiveTab] = useState('profile'); // 'profile' | 'password' | 'sessions'
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
   const {
     register,
@@ -30,6 +32,9 @@ export default function ProfilePage() {
     defaultValues: {
       fullName: '',
       phone: '',
+      address: '',
+      bio: '',
+      dateOfBirth: '',
     },
   });
 
@@ -38,6 +43,9 @@ export default function ProfilePage() {
       reset({
         fullName: profile.fullName || '',
         phone: profile.phone || '',
+        address: profile.address || '',
+        bio: profile.bio || '',
+        dateOfBirth: profile.dateOfBirth || '',
       });
     }
   }, [profile, reset]);
@@ -62,12 +70,18 @@ export default function ProfilePage() {
       {
         fullName: values.fullName.trim(),
         phone: values.phone?.trim() || null,
+        address: values.address?.trim() || null,
+        bio: values.bio?.trim() || null,
+        dateOfBirth: values.dateOfBirth || null,
       },
       {
         onSuccess: (res) => {
           reset({
             fullName: res.data?.fullName || values.fullName.trim(),
             phone: res.data?.phone || values.phone?.trim() || '',
+            address: res.data?.address || values.address?.trim() || '',
+            bio: res.data?.bio || values.bio?.trim() || '',
+            dateOfBirth: res.data?.dateOfBirth || values.dateOfBirth || '',
           });
         },
         onError: (error) => {
@@ -82,6 +96,9 @@ export default function ProfilePage() {
     reset({
       fullName: profile.fullName || '',
       phone: profile.phone || '',
+      address: profile.address || '',
+      bio: profile.bio || '',
+      dateOfBirth: profile.dateOfBirth || '',
     });
     setServerErrorMsg('');
   };
@@ -115,18 +132,41 @@ export default function ProfilePage() {
       <header className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Thông tin tài khoản</h1>
         <p className={styles.pageSubtitle}>
-          Quản lý thông tin hồ sơ, bảo mật mật khẩu và theo dõi các phiên đăng nhập tại renTrek.
+          Quản lý thông tin hồ sơ, ảnh đại diện, bảo mật mật khẩu và theo dõi các phiên đăng nhập tại renTrek.
         </p>
       </header>
 
       <div className={styles.layoutGrid}>
         {/* Left Column: User Summary Card */}
         <aside className={styles.userCard}>
-          <div
-            className={styles.avatarWrapper}
-            style={{ backgroundColor: avatarColor.bg, color: avatarColor.text }}
-          >
-            <span>{avatarInitial}</span>
+          <div className={styles.avatarContainer}>
+            <div
+              className={styles.avatarWrapper}
+              style={
+                !profile.avatarUrl
+                  ? { backgroundColor: avatarColor.bg, color: avatarColor.text }
+                  : {}
+              }
+            >
+              {profile.avatarUrl ? (
+                <img
+                  src={profile.avatarUrl}
+                  alt={profile.fullName || 'Avatar'}
+                  className={styles.avatarImage}
+                />
+              ) : (
+                <span>{avatarInitial}</span>
+              )}
+            </div>
+            <button
+              type="button"
+              className={styles.avatarEditBtn}
+              onClick={() => setIsAvatarModalOpen(true)}
+              title="Đổi ảnh đại diện"
+              aria-label="Đổi ảnh đại diện"
+            >
+              📷
+            </button>
           </div>
 
           <h2 className={styles.userCardName}>{profile.fullName || 'Người dùng renTrek'}</h2>
@@ -143,28 +183,42 @@ export default function ProfilePage() {
           </div>
 
           <div className={styles.metaList}>
+            {profile.userCode && (
+              <div className={styles.metaItem}>
+                <span className={styles.metaLabel}>Mã thành viên:</span>
+                <span className={styles.metaValue}><strong>{profile.userCode}</strong></span>
+              </div>
+            )}
             <div className={styles.metaItem}>
               <span className={styles.metaLabel}>Mã định danh:</span>
-              <span className={styles.metaValue}>#{profile.userId}</span>
+              <span className={styles.metaValue}>#{profile.userId.slice(0, 8)}...</span>
             </div>
             <div className={styles.metaItem}>
               <span className={styles.metaLabel}>Ngày tham gia:</span>
               <span className={styles.metaValue}>{formatDate(profile.createdAt)}</span>
             </div>
-            <div className={styles.metaItem}>
-              <span className={styles.metaLabel}>Cập nhật lần cuối:</span>
-              <span className={styles.metaValue}>
-                {profile.updatedAt ? formatDateTime(profile.updatedAt) : 'Chưa cập nhật'}
-              </span>
-            </div>
+            {profile.updatedAt && (
+              <div className={styles.metaItem}>
+                <span className={styles.metaLabel}>Cập nhật lần cuối:</span>
+                <span className={styles.metaValue}>{formatDateTime(profile.updatedAt)}</span>
+              </div>
+            )}
           </div>
 
-          <div className={styles.securityNoteBox}>
-            <div className={styles.securityNoteTitle}>
-              <span>🔒 Bảo mật tài khoản</span>
+          {profile.bio && (
+            <div style={{ marginTop: '16px', padding: '12px', background: '#f8fafc', borderRadius: '8px', fontSize: '0.8125rem', color: '#475569', fontStyle: 'italic', textAlign: 'left' }}>
+              &ldquo;{profile.bio}&rdquo;
             </div>
-            Phiên làm việc được mã hóa JWT 2 lớp kết hợp cơ chế Refresh Token Rotation và quản lý
-            thiết bị truy cập độc quyền.
+          )}
+
+          <div className={styles.jwtHintBox}>
+            <div className={styles.jwtHintHeader}>
+              <span className={styles.jwtHintIcon}>🛡️</span>
+              <span className={styles.jwtHintTitle}>Bảo mật phiên JWT</span>
+            </div>
+            <p className={styles.jwtHintText}>
+              Phiên xác thực được bảo vệ bởi Access Token (30 phút) và Refresh Token luân phiên tự động.
+            </p>
           </div>
         </aside>
 
@@ -201,44 +255,79 @@ export default function ProfilePage() {
               <div className={styles.tabHeader}>
                 <h2 className={styles.formCardTitle}>Chỉnh sửa thông tin</h2>
                 <p className={styles.formCardSubtitle}>
-                  Cập nhật họ tên và số điện thoại liên lạc để nhận thông báo đơn thuê hoặc tour trekking.
+                  Cập nhật họ tên, liên lạc và địa chỉ nhận thiết bị để renTrek phục vụ tốt nhất cho các chuyến đi.
                 </p>
               </div>
 
               <form className={styles.profileForm} onSubmit={handleSubmit(handleUpdate)} noValidate>
                 {serverErrorMsg && <div className={styles.errorBanner}>{serverErrorMsg}</div>}
 
-                <FormField label="Họ và tên" htmlFor="fullName" error={errors.fullName}>
-                  <input
-                    id="fullName"
-                    type="text"
-                    className="input"
-                    placeholder="Nhập họ và tên đầy đủ"
-                    {...register('fullName', {
-                      required: 'Họ và tên không được để trống',
-                      minLength: { value: 2, message: 'Họ và tên tối thiểu 2 ký tự' },
-                      maxLength: { value: 100, message: 'Họ và tên không vượt quá 100 ký tự' },
-                    })}
-                  />
-                </FormField>
+                <div className={styles.formRow}>
+                  <FormField label="Họ và tên" htmlFor="fullName" error={errors.fullName}>
+                    <input
+                      id="fullName"
+                      type="text"
+                      className="input"
+                      placeholder="Nhập họ và tên đầy đủ"
+                      {...register('fullName', {
+                        required: 'Họ và tên không được để trống',
+                        minLength: { value: 2, message: 'Họ và tên tối thiểu 2 ký tự' },
+                        maxLength: { value: 100, message: 'Họ và tên không vượt quá 100 ký tự' },
+                      })}
+                    />
+                  </FormField>
 
-                <FormField label="Số điện thoại" htmlFor="phone" error={errors.phone}>
-                  <input
-                    id="phone"
-                    type="tel"
+                  <FormField label="Số điện thoại" htmlFor="phone" error={errors.phone}>
+                    <input
+                      id="phone"
+                      type="tel"
+                      className="input"
+                      placeholder="Ví dụ: 0912345678"
+                      {...register('phone', {
+                        pattern: {
+                          value: /^(03|05|07|08|09)\d{8}$/,
+                          message:
+                            'Số điện thoại không đúng định dạng VN (10 chữ số, bắt đầu bằng 03, 05, 07, 08, 09)',
+                        },
+                      })}
+                    />
+                  </FormField>
+                </div>
+
+                <div className={styles.formRow}>
+                  <FormField label="Ngày sinh" htmlFor="dateOfBirth" error={errors.dateOfBirth}>
+                    <input
+                      id="dateOfBirth"
+                      type="date"
+                      className="input"
+                      {...register('dateOfBirth')}
+                    />
+                  </FormField>
+
+                  <FormField label="Địa chỉ giao nhận mặc định" htmlFor="address" error={errors.address}>
+                    <input
+                      id="address"
+                      type="text"
+                      className="input"
+                      placeholder="Ví dụ: 123 Đường Nguyễn Huệ, Quận 1, TP.HCM"
+                      {...register('address', {
+                        maxLength: { value: 500, message: 'Địa chỉ không vượt quá 500 ký tự' },
+                      })}
+                    />
+                  </FormField>
+                </div>
+
+                <FormField label="Giới thiệu bản thân (Bio)" htmlFor="bio" error={errors.bio}>
+                  <textarea
+                    id="bio"
                     className="input"
-                    placeholder="Ví dụ: 0912345678"
-                    {...register('phone', {
-                      pattern: {
-                        value: /^(03|05|07|08|09)\d{8}$/,
-                        message:
-                          'Số điện thoại không đúng định dạng VN (10 chữ số, bắt đầu bằng 03, 05, 07, 08, 09)',
-                      },
+                    rows="3"
+                    placeholder="Chia sẻ đôi nét về sở thích dã ngoại, kinh nghiệm trekking hoặc leo núi của bạn..."
+                    style={{ resize: 'vertical' }}
+                    {...register('bio', {
+                      maxLength: { value: 500, message: 'Giới thiệu không vượt quá 500 ký tự' },
                     })}
                   />
-                  <div className={styles.inputHelper}>
-                    Dùng để liên hệ khi giao nhận thiết bị leo núi hoặc thông báo lịch trình tour.
-                  </div>
                 </FormField>
 
                 <div className={styles.formRow}>
@@ -299,6 +388,13 @@ export default function ProfilePage() {
           {activeTab === 'sessions' && <ActiveSessionsList />}
         </main>
       </div>
+
+      {/* Avatar Upload Modal */}
+      <AvatarUploadModal
+        isOpen={isAvatarModalOpen}
+        onClose={() => setIsAvatarModalOpen(false)}
+        currentAvatarUrl={profile.avatarUrl}
+      />
     </div>
   );
 }

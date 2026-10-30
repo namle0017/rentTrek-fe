@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import FormField from '@/components/FormField';
 import SplitText from '@/components/SplitText';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import { applyServerErrors } from '@/utils/applyServerErrors';
+import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
 import { useLogin } from '../hooks/useLogin';
 import { useRegister } from '../hooks/useRegister';
 import styles from './AuthPage.module.css';
@@ -31,6 +32,9 @@ export default function AuthPage({ defaultMode }) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loginServerError, setLoginServerError] = useState('');
   const [registerServerError, setRegisterServerError] = useState('');
+  const [rememberMe, setRememberMe] = useState(() => {
+    return Boolean(localStorage.getItem('rentrek_remembered_email'));
+  });
 
   // Login Form
   const {
@@ -39,7 +43,10 @@ export default function AuthPage({ defaultMode }) {
     setError: setLoginError,
     formState: { errors: loginErrors },
   } = useForm({
-    defaultValues: { email: '', password: '' },
+    defaultValues: {
+      email: localStorage.getItem('rentrek_remembered_email') || '',
+      password: '',
+    },
   });
 
   // Register Form
@@ -48,6 +55,7 @@ export default function AuthPage({ defaultMode }) {
     handleSubmit: handleRegisterSubmit,
     setError: setRegisterError,
     getValues: getRegisterValues,
+    control: controlRegister,
     formState: { errors: registerErrors },
   } = useForm({
     defaultValues: {
@@ -59,6 +67,8 @@ export default function AuthPage({ defaultMode }) {
     },
   });
 
+  const registerPassword = useWatch({ control: controlRegister, name: 'password', defaultValue: '' });
+
   if (isAuthenticated) {
     return <Navigate to={redirectTo} replace />;
   }
@@ -68,7 +78,14 @@ export default function AuthPage({ defaultMode }) {
     loginMutation.mutate(
       { email: values.email.trim(), password: values.password },
       {
-        onSuccess: () => navigate(redirectTo, { replace: true }),
+        onSuccess: () => {
+          if (rememberMe) {
+            localStorage.setItem('rentrek_remembered_email', values.email.trim());
+          } else {
+            localStorage.removeItem('rentrek_remembered_email');
+          }
+          navigate(redirectTo, { replace: true });
+        },
         onError: (error) => {
           if (error.statusCode === 401 || error.statusCode === 403) {
             setLoginServerError(error.message);
@@ -370,6 +387,27 @@ export default function AuthPage({ defaultMode }) {
                     </div>
                   </FormField>
 
+                  <div className={styles.rememberForgotRow}>
+                    <label className={styles.rememberLabel}>
+                      <input
+                        type="checkbox"
+                        className={styles.rememberCheckbox}
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                      />
+                      <span>Ghi nhớ tài khoản</span>
+                    </label>
+                    <button
+                      type="button"
+                      className={styles.forgotPassBtn}
+                      onClick={() => {
+                        // Sẽ kích hoạt modal quên mật khẩu ở Gói 3
+                      }}
+                    >
+                      Quên mật khẩu?
+                    </button>
+                  </div>
+
                   <button
                     type="submit"
                     className={`btn btn-primary ${styles.submitBtn}`}
@@ -603,6 +641,8 @@ export default function AuthPage({ defaultMode }) {
                       </div>
                     </FormField>
                   </div>
+
+                  <PasswordStrengthMeter password={registerPassword} />
 
                   <SplitText
                     tag="p"

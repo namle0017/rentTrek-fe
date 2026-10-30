@@ -4,6 +4,7 @@ import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { useAuth } from '@/hooks/useAuth';
+import { getAvatarColor } from '@/utils/avatarColor';
 import styles from './MainLayout.module.css';
 
 const exploration = ['Lều cắm trại', 'Balô', 'Đèn', 'Túi ngủ'];
@@ -38,6 +39,8 @@ export default function MainLayout() {
     if (role === USER_ROLE.TOUR_GUIDE) return `${styles.roleBadge} ${styles.roleBadgeTourGuide}`;
     return styles.roleBadge;
   };
+
+  const avatarColor = getAvatarColor(currentUser?.email || currentUser?.fullName);
 
   return (
     <div className={styles.layout}>
@@ -118,7 +121,10 @@ export default function MainLayout() {
                 <>
                   <div className={styles.userInfo}>
                     <Link to={ROUTES.PROFILE} className={styles.userNameLink} title="Xem hồ sơ cá nhân">
-                      <span className={styles.userAvatar}>
+                      <span
+                        className={styles.userAvatar}
+                        style={{ backgroundColor: avatarColor.bg, color: avatarColor.text }}
+                      >
                         {(currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()}
                       </span>
                       <span className={styles.userName}>{currentUser?.fullName || currentUser?.email}</span>

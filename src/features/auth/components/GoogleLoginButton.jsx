@@ -28,31 +28,28 @@ export default function GoogleLoginButton({
       return;
     }
 
-    // Trường hợp demo/chưa điền Client ID: Cho phép nhập hoặc tạo mock Google token payload để kiểm thử API BE
-    const mockToken = prompt(
-      'Nhập Google ID Token hoặc bấm OK để demo đăng nhập Google tự động (dev test):',
+    // Trường hợp demo/chưa điền Client ID: Cho phép đăng nhập demo test tự động
+    const isConfirm = window.confirm(
+      'Hệ thống đang ở chế độ Dev (chưa cấu hình VITE_GOOGLE_CLIENT_ID).\n\nBạn có muốn tự động đăng nhập kiểm thử với tài khoản Google Test [google.trekker@rentrek.com] không?',
     );
 
-    if (mockToken !== null) {
-      // Nếu user gõ token thật hoặc để trống để sinh mock JWT
-      const tokenToSend =
-        mockToken.trim() ||
-        // Chuỗi JWT header + payload base64url demo cho môi trường dev
+    if (isConfirm) {
+      const mockToken =
         'eyJhbGciOiJSUzI1NiIsImtpZCI6IjEyMyJ9.' +
-          btoa(
-            JSON.stringify({
-              iss: 'https://accounts.google.com',
-              sub: 'google_user_demo_123456',
-              email: 'google.trekker@rentrek.com',
-              name: 'Nguyễn Trekker Google',
-              picture: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-              email_verified: true,
-              exp: Math.floor(Date.now() / 1000) + 3600,
-            }),
-          ) +
-          '.mock_signature';
+        btoa(
+          JSON.stringify({
+            iss: 'https://accounts.google.com',
+            sub: 'google_user_demo_123456',
+            email: 'google.trekker@rentrek.com',
+            name: 'Nguyễn Trekker Google',
+            picture: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
+            email_verified: true,
+            exp: Math.floor(Date.now() / 1000) + 3600,
+          }),
+        ) +
+        '.mock_signature';
 
-      googleMutation.mutate({ idToken: tokenToSend });
+      googleMutation.mutate({ idToken: mockToken });
     }
   };
 

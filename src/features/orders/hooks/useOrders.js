@@ -5,12 +5,13 @@ import { orderService } from '../api/orderService';
 
 const PAYMENT_POLL_MS = 5000; // contract §6.2: poll mỗi 5 giây
 
-export function useMyOrders(params) {
+export function useMyOrders(params, options) {
   return useQuery({
     queryKey: orderKeys.myList(params),
     queryFn: () => orderService.getMyOrders(params),
     select: (res) => res.data, // PagedResult
     placeholderData: keepPreviousData,
+    ...options,
   });
 }
 

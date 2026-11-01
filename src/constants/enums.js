@@ -26,27 +26,28 @@ export const TRIP_STATUS = Object.freeze({
 export const TRIP_STATUS_LABEL = {
   [TRIP_STATUS.OPEN]: 'Đang mở',
   [TRIP_STATUS.CLOSED]: 'Đã đóng',
+  Draft: 'Nháp',
+  ClosedForBooking: 'Đã đóng bán',
+  InProgress: 'Đang diễn ra',
+  Completed: 'Đã hoàn thành',
+  Cancelled: 'Đã hủy',
 };
 
 export const BOOKING_STATUS = Object.freeze({
   PENDING_PAYMENT: 'PendingPayment',
   CONFIRMED: 'Confirmed',
+  IN_FULFILLMENT: 'InFulfillment',
+  COMPLETED: 'Completed',
+  EXPIRED: 'Expired',
+  CANCELLED: 'Cancelled',
 });
-
-export const BOOKING_STATUS_LABEL = {
-  [BOOKING_STATUS.PENDING_PAYMENT]: 'Chờ thanh toán',
-  [BOOKING_STATUS.CONFIRMED]: 'Đã xác nhận',
-};
 
 export const PAYMENT_STATUS = Object.freeze({
   UNPAID: 'Unpaid',
   PAID: 'Paid',
+  REFUNDED: 'Refunded',
+  NEEDS_RECONCILIATION: 'NeedsReconciliation',
 });
-
-export const PAYMENT_STATUS_LABEL = {
-  [PAYMENT_STATUS.UNPAID]: 'Chưa thanh toán',
-  [PAYMENT_STATUS.PAID]: 'Đã thanh toán',
-};
 
 export const ORDER_TYPE = Object.freeze({
   RENTAL: 'Rental',

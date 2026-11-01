@@ -6,6 +6,8 @@ export const API_ENDPOINTS = {
     REGISTER: '/auth/register',
     REFRESH_TOKEN: '/auth/refresh-token',
     LOGOUT: '/auth/logout',
+    VERIFY_EMAIL: '/auth/verify-email',
+    RESEND_VERIFICATION_EMAIL: '/auth/resend-verification-email',
   },
   USERS: {
     ROOT: '/users',
@@ -40,10 +42,23 @@ export const API_ENDPOINTS = {
     ROOT: '/tours',
     BY_ID: (id) => `/tours/${id}`,
   },
+  TRIPS: {
+    GROUPING: (tripId) => `/trips/${tripId}/grouping`,
+    GROUP_GUIDE: (tripId, groupId) => `/trips/${tripId}/groups/${groupId}/guide`,
+    BOOKING_GROUP: (tripId, bookingOrderId) =>
+      `/trips/${tripId}/bookings/${bookingOrderId}/group`,
+    SPLIT_BOOKING: (tripId, bookingOrderId) =>
+      `/trips/${tripId}/bookings/${bookingOrderId}/split`,
+    PUBLISH_GROUPING: (tripId) => `/trips/${tripId}/grouping/publish`,
+  },
   TRIP_BOOKINGS: {
     ROOT: '/trip-bookings',
     BY_ID: (orderId) => `/trip-bookings/${orderId}`,
-    INVITATIONS: (orderId) => `/trip-bookings/${orderId}/participant-invitations`,
-    CLAIM_INVITATION: '/trip-bookings/participant-invitations/claim',
+    GROUPING: (orderId) => `/trip-bookings/${orderId}/grouping`,
+    PARTICIPANT: (orderId, participantId) => `/trip-bookings/${orderId}/participants/${participantId}`,
+    CANCEL: (orderId) => `/trip-bookings/${orderId}/cancel`,
+    INVITE_LINK: (orderId) => `/trip-bookings/${orderId}/invite-link`,
+    ROTATE_INVITE_LINK: (orderId) => `/trip-bookings/${orderId}/invite-link/rotate`,
+    PREVIEW_INVITATION: '/trip-bookings/participant-invitations/preview',
   },
 };

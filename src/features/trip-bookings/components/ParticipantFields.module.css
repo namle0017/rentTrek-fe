@@ -33,3 +33,5 @@
   .card { padding: 18px; }
   .grid { grid-template-columns: 1fr; }
 }
+
+.hint { margin: 14px 0 0; color: #6b776f; font-size: 0.72rem; }

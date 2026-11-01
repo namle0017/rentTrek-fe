@@ -24,3 +24,8 @@ npm-debug.log*
 *.sw?
 .DS_Store
 Thumbs.db
+
+# Local AI tooling / generated analysis
+graphify-out/
+.codex/
+.agents/

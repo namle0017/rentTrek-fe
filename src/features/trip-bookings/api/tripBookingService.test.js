@@ -6,6 +6,7 @@ vi.mock('@/api/axiosClient', () => ({
   default: {
     get: vi.fn(),
     post: vi.fn(),
+    put: vi.fn(),
   },
 }));
 
@@ -31,20 +32,39 @@ describe('tripBookingService', () => {
     expect(axiosClient.get).toHaveBeenCalledWith('/trip-bookings/order-1');
   });
 
-  it('generates participant invitations', async () => {
-    await tripBookingService.generateInvitations('order-1');
+  it('gets the customer-visible grouping for a booking', async () => {
+    await tripBookingService.getGrouping('order-1');
 
-    expect(axiosClient.post).toHaveBeenCalledWith(
-      '/trip-bookings/order-1/participant-invitations',
-    );
+    expect(axiosClient.get).toHaveBeenCalledWith('/trip-bookings/order-1/grouping');
   });
 
-  it('claims an invitation token through a request body', async () => {
-    await tripBookingService.claimInvitation('raw-token');
+  it('updates a participant', async () => {
+    const payload = { fullName: 'An', email: null, phone: null };
+    await tripBookingService.updateParticipant({ orderId: 'order-1', participantId: 'p-1', payload });
 
-    expect(axiosClient.post).toHaveBeenCalledWith(
-      '/trip-bookings/participant-invitations/claim',
-      { token: 'raw-token' },
-    );
+    expect(axiosClient.put).toHaveBeenCalledWith('/trip-bookings/order-1/participants/p-1', payload);
+  });
+
+  it('cancels a booking with a reason', async () => {
+    await tripBookingService.cancel({ orderId: 'order-1', reason: 'Bận' });
+
+    expect(axiosClient.post).toHaveBeenCalledWith('/trip-bookings/order-1/cancel', { reason: 'Bận' });
+  });
+
+  it('reads and rotates the invite link', async () => {
+    await tripBookingService.getInviteLink('order-1');
+    await tripBookingService.rotateInviteLink('order-1');
+
+    expect(axiosClient.get).toHaveBeenCalledWith('/trip-bookings/order-1/invite-link');
+    expect(axiosClient.post).toHaveBeenCalledWith('/trip-bookings/order-1/invite-link/rotate');
+  });
+
+  it('previews with the token in the body, never the URL', async () => {
+    await tripBookingService.getInvitationPreview({ orderId: 'order-1', token: 'abc' });
+
+    expect(axiosClient.post).toHaveBeenCalledWith('/trip-bookings/participant-invitations/preview', {
+      orderId: 'order-1',
+      token: 'abc',
+    });
   });
 });

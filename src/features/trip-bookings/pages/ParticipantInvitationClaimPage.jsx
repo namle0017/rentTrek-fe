@@ -1,93 +1,86 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import OutdoorIcon from '@/components/OutdoorIcon';
+import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
-import { useClaimParticipantInvitation } from '../hooks/useTripBookings';
+import { formatDateTime } from '@/utils/formatDate';
+import { useInvitationPreview } from '../hooks/useTripBookings';
 import styles from './ParticipantInvitationClaimPage.module.css';
 
-export default function ParticipantInvitationClaimPage() {
-  const claimInvitation = useClaimParticipantInvitation();
-  const [showToken, setShowToken] = useState(false);
-  const [serverMessage, setServerMessage] = useState('');
-  const [claimedBooking, setClaimedBooking] = useState(null);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({ defaultValues: { token: '' } });
+const groupByDay = (activities) => {
+  const days = new Map();
+  activities.forEach((activity) => {
+    if (!days.has(activity.dayNumber)) days.set(activity.dayNumber, []);
+    days.get(activity.dayNumber).push(activity);
+  });
+  return [...days.entries()];
+};
 
-  const submit = async ({ token }) => {
-    setServerMessage('');
-    setClaimedBooking(null);
-    try {
-      const response = await claimInvitation.mutateAsync(token.trim());
-      reset({ token: '' });
-      setShowToken(false);
-      setClaimedBooking(response.data);
-    } catch (error) {
-      setServerMessage(error?.message || 'Không thể xác nhận lời mời.');
-    }
-  };
+/** Link chỉ đọc cho nhóm: token nằm sau dấu #, không cần đăng nhập, không gán tài khoản. */
+export default function ParticipantInvitationClaimPage() {
+  const { orderId } = useParams();
+  const location = useLocation();
+  const token = new URLSearchParams(location.hash.slice(1)).get('t') ?? '';
+  const { data: preview, isLoading, isError } = useInvitationPreview(orderId, token);
+
+  if (isLoading) return <Spinner fullScreen />;
+
+  if (!token || isError || !preview) {
+    return (
+      <main className={styles.page}>
+        <section className={styles.card}>
+          <span className={styles.kicker}>LINK XEM CHUYẾN</span>
+          <h1>Link không còn hiệu lực</h1>
+          <p className={styles.intro}>
+            Link sai, đã được đổi hoặc chuyến đã kết thúc. Hãy nhờ người đặt gửi lại link mới.
+          </p>
+          <Link className={styles.submit} to={ROUTES.HOME}>
+            Về trang chủ
+          </Link>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.page}>
       <section className={styles.card}>
-        <div className={styles.icon}><OutdoorIcon name="users" size={28} /></div>
-        <span className={styles.kicker}>LỜI MỜI THAM GIA</span>
-        <h1>Tham gia chuyến đi</h1>
+        <div className={styles.icon}>
+          <OutdoorIcon name="users" size={28} />
+        </div>
+        <span className={styles.kicker}>THÔNG TIN CHUYẾN ĐI</span>
+        <h1>{preview.tourName}</h1>
         <p className={styles.intro}>
-          Đăng nhập bằng email đã được mời, sau đó nhập token buyer gửi riêng cho bạn.
+          {formatDateTime(preview.tripStartAt)} – {formatDateTime(preview.tripEndAt)} · Đặt bởi{' '}
+          <b>{preview.buyerName}</b>
         </p>
 
-        <form onSubmit={handleSubmit(submit)} noValidate>
-          <label htmlFor="invitation-token">Token lời mời</label>
-          <div className={styles.inputRow}>
-            <input
-              id="invitation-token"
-              type={showToken ? 'text' : 'password'}
-              autoComplete="off"
-              spellCheck="false"
-              aria-invalid={errors.token ? 'true' : 'false'}
-              aria-describedby={errors.token ? 'invitation-token-error' : 'invitation-token-help'}
-              placeholder="Nhập token một lần"
-              {...register('token', {
-                validate: (value) => value.trim().length > 0 || 'Vui lòng nhập token lời mời.',
-              })}
-            />
-            <button type="button" onClick={() => setShowToken((current) => !current)} aria-label={showToken ? 'Ẩn token' : 'Hiện token'}>
-              {showToken ? 'Ẩn' : 'Hiện'}
-            </button>
-          </div>
-          {errors.token ? (
-            <p id="invitation-token-error" className={styles.fieldError} role="alert">{errors.token.message}</p>
-          ) : (
-            <p id="invitation-token-help" className={styles.help}>Token phân biệt chữ hoa, chữ thường và chỉ dùng một lần.</p>
-          )}
+        <h2 className={styles.step}>Đoàn của bạn · {preview.participantNames.length} người</h2>
+        <ul className={styles.names}>
+          {preview.participantNames.map((name, index) => (
+            <li key={`${name}-${index}`}>{name}</li>
+          ))}
+        </ul>
 
-          {serverMessage && <div className={styles.serverError}>{serverMessage}</div>}
+        {preview.activities.length > 0 && <h2 className={styles.step}>Lịch hoạt động dự kiến</h2>}
+        {groupByDay(preview.activities).map(([dayNumber, activities]) => (
+          <section key={dayNumber} className={styles.day}>
+            <h3>{activities[0].dayTitle || `Ngày ${dayNumber}`}</h3>
+            <ol>
+              {activities.map((activity) => (
+                <li key={activity.activityId} className={activity.isCurrent ? styles.current : undefined}>
+                  <time>{activity.startTime.slice(0, 5)}</time>
+                  <div>
+                    <strong>{activity.name}</strong>
+                    {activity.isCurrent && <span className={styles.currentBadge}>Đang diễn ra theo lịch</span>}
+                    {activity.description && <p>{activity.description}</p>}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))}
 
-          <button type="submit" className={styles.submit} disabled={claimInvitation.isPending}>
-            {claimInvitation.isPending ? 'Đang xác nhận...' : 'Xác nhận lời mời'}
-          </button>
-        </form>
-
-        {claimedBooking && (
-          <div className={styles.success}>
-            <OutdoorIcon name="check" size={21} />
-            <div>
-              <strong>Đã liên kết tài khoản với chuyến đi.</strong>
-              <Link to={ROUTES.TRIP_BOOKING_DETAIL(claimedBooking.orderId)}>
-                Xem booking {claimedBooking.orderCode || claimedBooking.orderId}
-              </Link>
-            </div>
-          </div>
-        )}
-
-        <aside className={styles.securityNote}>
-          Không dán token vào URL, tin nhắn công khai hoặc công cụ phân tích.
-        </aside>
+        <p className={styles.securityNote}>Link hết hạn lúc {formatDateTime(preview.expiresAt)}. Giờ theo lịch dự kiến.</p>
       </section>
     </main>
   );

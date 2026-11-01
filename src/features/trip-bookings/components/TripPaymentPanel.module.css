@@ -1,0 +1,20 @@
+.panel { display: flex; gap: 22px; align-items: center; justify-content: space-between; padding: 20px; background: #fff; border: 1px solid #dce3dc; border-radius: 16px; }
+.panel strong { color: #173d2d; font-size: 1rem; }
+.panel p { margin: 4px 0 0; color: #68756d; font-size: 0.8rem; }
+.primary { flex: 0 0 auto; min-height: 45px; padding: 10px 20px; color: #fff; font: inherit; font-weight: 800; cursor: pointer; background: #204b39; border: 0; border-radius: 11px; }
+.primary:disabled { cursor: wait; opacity: 0.55; }
+.panel .error { color: #a33e35; }
+.qr { flex: 0 0 auto; width: 240px; height: 240px; background: #f7f5ee; border-radius: 12px; }
+.details { flex: 1; min-width: 0; }
+.details dl { display: grid; gap: 8px; margin: 12px 0; }
+.details dl div { display: flex; gap: 12px; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px dashed #d8ded7; }
+.details dt { color: #6a776f; font-size: 0.78rem; }
+.details dd { display: flex; gap: 8px; align-items: center; margin: 0; color: #293d34; font-size: 0.82rem; font-weight: 700; overflow-wrap: anywhere; }
+.details dd button { padding: 3px 8px; color: #204b39; font: inherit; font-size: 0.7rem; cursor: pointer; background: #eaf4ec; border: 1px solid #cfe1d1; border-radius: 999px; }
+.panel .warning { color: #8c572c; }
+.waiting { font-weight: 700; }
+
+@media (max-width: 620px) {
+  .panel { align-items: stretch; flex-direction: column; }
+  .qr { align-self: center; }
+}

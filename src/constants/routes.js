@@ -2,6 +2,7 @@ export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
   REGISTER: '/register',
+  VERIFY_EMAIL: '/verify-email',
   PROFILE: '/profile',
   PRODUCTS: '/products',
   PRODUCT_DETAIL: (productId = ':productId') => `/products/${productId}`,
@@ -9,7 +10,9 @@ export const ROUTES = {
   TOUR_DETAIL: (tourId = ':tourId') => `/tours/${tourId}`,
   TRIP_BOOKING_CREATE: '/trip-bookings/new',
   TRIP_BOOKING_DETAIL: (orderId = ':orderId') => `/trip-bookings/${orderId}`,
-  PARTICIPANT_INVITATION_CLAIM: '/trip-bookings/invitations/claim',
+  // Link chỉ đọc gửi nhóm: xem đoàn và lịch hoạt động, token nằm sau #t=
+  TRIP_BOOKING_JOIN: (orderId = ':orderId') => `/trip-bookings/${orderId}/join`,
+  TRIP_GROUPING: (tripId = ':tripId') => `/ops/trips/${tripId}/groups`,
   BUNDLES: '/bundles',
   BUNDLE_DETAIL: (bundleId = ':bundleId') => `/bundles/${bundleId}`,
   MY_ORDERS: '/orders',

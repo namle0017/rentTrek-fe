@@ -1,0 +1,5 @@
+.card { max-width: 520px; padding: 44px 28px; margin: 52px auto; text-align: center; background: #fffdf7; border: 1px solid #dce3dc; border-radius: 22px; }
+.card h1 { margin: 0 0 8px; color: #173d2d; font-size: 1.6rem; }
+.card p { margin: 0 0 22px; color: #69766f; font-size: 0.9rem; }
+.action { display: inline-flex; min-height: 46px; padding: 11px 20px; color: #fff; font: inherit; font-weight: 800; cursor: pointer; background: #204b39; border: 0; border-radius: 12px; }
+.action:disabled { cursor: wait; opacity: 0.55; }

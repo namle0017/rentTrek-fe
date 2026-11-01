@@ -42,6 +42,12 @@ export const router = createBrowserRouter([
             lazy: lazyPage(() => import('@/features/tours/pages/TourDetailPage')),
           },
           { path: ROUTES.FORBIDDEN, element: <ForbiddenPage /> },
+          { path: ROUTES.VERIFY_EMAIL, lazy: lazyPage(() => import('@/features/auth/pages/VerifyEmailPage')) },
+          // Công khai, chỉ đọc: ai có link đều xem được đoàn và lịch hoạt động
+          {
+            path: ROUTES.TRIP_BOOKING_JOIN(),
+            lazy: lazyPage(() => import('@/features/trip-bookings/pages/ParticipantInvitationClaimPage')),
+          },
 
           // Yêu cầu đăng nhập (Customer, Staff, Admin, TourGuide)
           {
@@ -50,6 +56,10 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.PROFILE,
                 lazy: lazyPage(() => import('@/features/users/pages/ProfilePage')),
+              },
+              {
+                path: ROUTES.MY_ORDERS,
+                lazy: lazyPage(() => import('@/features/orders/pages/MyOrdersPage')),
               },
               {
                 path: ROUTES.TRIP_BOOKING_CREATE,
@@ -64,10 +74,19 @@ export const router = createBrowserRouter([
                 ),
               },
               {
-                path: ROUTES.PARTICIPANT_INVITATION_CLAIM,
-                lazy: lazyPage(() =>
-                  import('@/features/trip-bookings/pages/ParticipantInvitationClaimPage'),
+                element: (
+                  <ProtectedRoute
+                    roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF, USER_ROLE.TOUR_GUIDE]}
+                  />
                 ),
+                children: [
+                  {
+                    path: ROUTES.TRIP_GROUPING(),
+                    lazy: lazyPage(() =>
+                      import('@/features/trip-groups/pages/TripGroupingPage'),
+                    ),
+                  },
+                ],
               },
             ],
           },

@@ -8,26 +8,26 @@ import {
 const validParticipant = {
   fullName: '  Nguyễn An  ',
   email: '  AN@example.com  ',
-  phone: '  0901234567  ',
-  dateOfBirth: '',
-  emergencyContactName: '  ',
-  emergencyContactPhone: undefined,
+  phone: '0901234567',
 };
 
 describe('normalizeBookingPayload', () => {
-  it('normalizes fields and omits empty optional values', () => {
+  it('normalizes fields and drops empty optional values', () => {
     expect(
       normalizeBookingPayload(
         {
           tripId: ' trip-1 ',
+          contactPhone: ' 0900000000 ',
           note: '  Ăn chay  ',
           ignoredField: 'must not reach API',
-          additionalParticipants: [validParticipant],
+          additionalParticipants: [validParticipant, { fullName: 'Bé Minh', email: '', phone: '  ' }],
         },
         'buyer@example.com',
       ),
     ).toEqual({
       tripId: 'trip-1',
+      contactPhone: '0900000000',
+      buyerParticipates: true,
       note: 'Ăn chay',
       additionalParticipants: [
         {
@@ -35,8 +35,32 @@ describe('normalizeBookingPayload', () => {
           email: 'an@example.com',
           phone: '0901234567',
         },
+        { fullName: 'Bé Minh' },
       ],
     });
+  });
+
+  it('requires a contact phone', () => {
+    try {
+      normalizeBookingPayload({ tripId: 'trip-1', contactPhone: '   ' }, 'buyer@example.com');
+      throw new Error('Expected validation to fail');
+    } catch (error) {
+      expect(error.errors.contactPhone).toBeTruthy();
+    }
+  });
+
+  it('requires a participant when booking for someone else and allows the buyer email', () => {
+    const base = { tripId: 'trip-1', contactPhone: '0900000000', buyerParticipates: false };
+
+    expect(() => normalizeBookingPayload({ ...base, additionalParticipants: [] }, 'buyer@example.com')).toThrowError(
+      BookingValidationError,
+    );
+    expect(
+      normalizeBookingPayload(
+        { ...base, additionalParticipants: [{ fullName: 'Mẹ', email: 'BUYER@example.com' }] },
+        'buyer@example.com',
+      ).additionalParticipants,
+    ).toEqual([{ fullName: 'Mẹ', email: 'buyer@example.com' }]);
   });
 
   it('rejects more than 20 additional participants', () => {
@@ -83,8 +107,6 @@ describe('normalizeBookingPayload', () => {
             {
               fullName: '',
               email: 'invalid',
-              phone: '1'.repeat(21),
-              dateOfBirth: '26/10/2026',
             },
           ],
         },
@@ -97,8 +119,6 @@ describe('normalizeBookingPayload', () => {
       expect(error.errors.note).toBeTruthy();
       expect(error.errors['additionalParticipants.0.fullName']).toBeTruthy();
       expect(error.errors['additionalParticipants.0.email']).toBeTruthy();
-      expect(error.errors['additionalParticipants.0.phone']).toBeTruthy();
-      expect(error.errors['additionalParticipants.0.dateOfBirth']).toBeTruthy();
     }
   });
 });

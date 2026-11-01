@@ -6,4 +6,6 @@ export const authService = {
   login: (payload) => axiosClient.post(API_ENDPOINTS.AUTH.LOGIN, payload),
   register: (payload) => axiosClient.post(API_ENDPOINTS.AUTH.REGISTER, payload),
   logout: (payload) => axiosClient.post(API_ENDPOINTS.AUTH.LOGOUT, payload),
+  verifyEmail: (token) => axiosClient.post(API_ENDPOINTS.AUTH.VERIFY_EMAIL, { token }),
+  resendVerificationEmail: () => axiosClient.post(API_ENDPOINTS.AUTH.RESEND_VERIFICATION_EMAIL),
 };

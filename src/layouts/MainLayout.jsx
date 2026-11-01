@@ -11,7 +11,6 @@ const exploration = ['Lều cắm trại', 'Balô', 'Đèn', 'Túi ngủ'];
 function Brand() {
   return (
     <Link to={ROUTES.HOME} className={styles.logo}>
-      <span className={styles.logoSlot} aria-hidden="true" />
       TrekRent
     </Link>
   );
@@ -23,7 +22,7 @@ export default function MainLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   // Trang có hero tràn viền tự quản lý container
-  const isCatalog = location.pathname === ROUTES.PRODUCTS || location.pathname === ROUTES.TOURS;
+  const isCatalog = [ROUTES.HOME, ROUTES.PRODUCTS, ROUTES.TOURS].includes(location.pathname);
 
   const searchProducts = (event) => {
     event.preventDefault();
@@ -81,6 +80,7 @@ export default function MainLayout() {
                       {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
                     </span>
                   )}
+                  <Link to={ROUTES.MY_ORDERS}>Đơn của tôi</Link>
                   <button
                     type="button"
                     onClick={() => logoutMutation.mutate()}

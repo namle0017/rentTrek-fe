@@ -16,7 +16,9 @@ export default function AdminLayout() {
           <NavLink to={ROUTES.ADMIN} end>
             Tổng quan
           </NavLink>
+          <NavLink to={ROUTES.ADMIN_TRIPS}>Quản lý Chuyến đi (O09)</NavLink>
           <NavLink to={ROUTES.ADMIN_PRODUCT_CREATE}>Thêm sản phẩm</NavLink>
+          <NavLink to={ROUTES.GUIDE_TRIPS}>Khu vực Guide (G01)</NavLink>
         </nav>
       </aside>
 

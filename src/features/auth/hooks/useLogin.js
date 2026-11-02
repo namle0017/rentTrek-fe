@@ -9,8 +9,9 @@ export function useLogin() {
   return useMutation({
     mutationFn: authService.login,
     onSuccess: (res) => {
-      login(res.data); // { accessToken, refreshToken } — theo API Contract
-      toast.success(res.message);
+      // Hỗ trợ cả res.data lẫn res (nếu axios client trả trực tiếp)
+      login(res?.data || res);
+      toast.success(res?.message || 'Đăng nhập thành công');
     },
   });
 }

@@ -1,0 +1,1242 @@
+/* Phân hệ Tài chính & Hoàn tiền (Finance Styles) */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pageSubtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== KPI Summary Cards ===== */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.statCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.statCard:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.statHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.5px;
+}
+
+.statSubtext {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.statInflow {
+  border-left: 4px solid #204b39;
+}
+
+.statCollection {
+  border-left: 4px solid #16a34a;
+}
+
+.statRefund {
+  border-left: 4px solid #dc2626;
+}
+
+.statPending {
+  border-left: 4px solid #d97706;
+}
+
+/* ===== Filter Bar ===== */
+.filterCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.filterInput,
+.filterSelect {
+  height: 38px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0 12px;
+  font-size: 14px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.filterInput:focus,
+.filterSelect:focus {
+  border-color: var(--color-primary);
+}
+
+.filterActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ===== Data Table ===== */
+.tableCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tableResponsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.table th {
+  background: #f8fafc;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+  color: var(--color-text);
+}
+
+.table tbody tr:hover {
+  background-color: #f8faf9;
+}
+
+.table td.numberCell,
+.table th.numberCell {
+  text-align: right;
+}
+
+/* ===== Badges & Pills ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badgeCollection {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.badgeRefund {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.badgeSucceeded {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badgePendingApproval {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.badgePending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badgeFailed {
+  background: #ffe4e6;
+  color: #be123c;
+}
+
+.badgeCancelled {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.badgeActive {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badgeInactive {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.badgeLocked {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.badgeDifference {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  font-weight: 700;
+}
+
+.diffOverpaid {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.diffUnderpaid {
+  background: #fff1f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+}
+
+.codeBadge {
+  font-family: monospace;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.copyBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+}
+
+.copyBtn:hover {
+  color: var(--color-primary);
+}
+
+/* ===== Tabs System ===== */
+.tabsBar {
+  position: sticky;
+  top: 61px;
+  z-index: 90;
+  background: var(--color-surface);
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid var(--color-border);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 0;
+}
+
+.tabsBar::-webkit-scrollbar {
+  display: none;
+}
+
+.tabItem {
+  background: none;
+  border: none;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.tabItem:hover {
+  color: var(--color-text);
+  background: #f8fafc;
+}
+
+.tabItemActive {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.tabItemActive::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-primary);
+  border-radius: 3px 3px 0 0;
+}
+
+.countPill {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.countPillActive {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* ===== Modals & Drawers ===== */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.15s ease-out;
+}
+
+.modalContent {
+  background: var(--color-surface);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  animation: scaleUp 0.15s ease-out;
+}
+
+.modalHeader {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  line-height: 1;
+}
+
+.modalBody {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modalFooter {
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: #fafbfc;
+  border-radius: 0 0 12px 12px;
+}
+
+/* ===== Drawer Component ===== */
+.drawerBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.drawerContent {
+  background: var(--color-surface);
+  width: 100%;
+  max-width: 520px;
+  height: 100%;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  animation: slideLeft 0.25s ease-out;
+}
+
+.drawerHeader {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drawerBody {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.drawerFooter {
+  padding: 18px 24px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: #fafbfc;
+}
+
+/* ===== Formula / Calculation Box ===== */
+.calculationBox {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.calcRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.calcLabel {
+  color: var(--color-text-muted);
+}
+
+.calcValue {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.calcDivider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 4px 0;
+}
+
+.calcResult {
+  font-size: 16px;
+  font-weight: 800;
+  color: #b91c1c;
+}
+
+/* ===== Step Chart (Biểu đồ bậc thang chính sách) ===== */
+.stepChartContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.stepChartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stepChartTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.stepBarWrapper {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  min-height: 150px;
+  padding-top: 20px;
+  position: relative;
+}
+
+.stepColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepPillar {
+  width: 100%;
+  max-width: 60px;
+  background: linear-gradient(180deg, #204b39 0%, #3a7d62 100%);
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 6px;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  transition: height 0.3s ease;
+}
+
+.stepLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.stepSublabel {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ===== VietQR Modal Box ===== */
+.qrCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  padding: 10px;
+}
+
+.qrImageFrame {
+  width: 220px;
+  height: 220px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.qrBankInfo {
+  width: 100%;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  font-size: 13px;
+}
+
+/* ===== Utilities ===== */
+.actionBtnGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.emptyBox {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ==========================================================================
+   TỐI ƯU HÓA GIAO DIỆN MÀN HÌNH TÀI CHÍNH (UX REFACTOR STYLES)
+   ========================================================================== */
+
+/* 1. Bộ lọc 2 tầng (Quick Filter + Collapsible Advanced Filter) */
+.quickFilterRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.quickFilterLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.quickFilterRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.quickSearchInput {
+  flex: 1;
+  min-width: 220px;
+  padding: 8px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.quickSearchInput:focus {
+  border-color: #204b39;
+}
+
+.quickSelect {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+
+.quickSelect:focus {
+  border-color: #204b39;
+}
+
+.btnAdvFilter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnAdvFilter:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.btnAdvFilterActive {
+  background: #f0fdf4;
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.filterBadgeCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.collapsibleSection {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--color-border);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.collapsibleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  align-items: flex-end;
+}
+
+/* 2. Bảng Giao dịch 6 cột tinh gọn */
+.orderPrimary {
+  font-weight: 600;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.orderSub {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+  font-family: monospace;
+}
+
+.amountPrimary {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.diffBadge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-top: 2px;
+}
+
+.diffBadgeWarning {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.diffBadgeError {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.diffBadgeSuccess {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.btnActionDetail {
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  color: #204b39;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnActionDetail:hover {
+  background: #f0fdf4;
+  border-color: #204b39;
+}
+
+/* 3. Master-Detail Layout cho Quản lý chính sách hoàn tiền */
+.masterDetailLayout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .masterDetailLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.masterColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.masterCardWrapper {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.masterSearchBox {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border);
+  background: #fafafa;
+}
+
+.masterSearchInput {
+  width: 100%;
+  padding: 7px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+}
+
+.masterSearchInput:focus {
+  border-color: #204b39;
+}
+
+.masterList {
+  display: flex;
+  flex-direction: column;
+  max-height: 620px;
+  overflow-y: auto;
+}
+
+.policyMasterItem {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-left: 4px solid transparent;
+}
+
+.policyMasterItem:last-child {
+  border-bottom: none;
+}
+
+.policyMasterItem:hover {
+  background: #f8fafc;
+}
+
+.policyMasterItemActive {
+  background: #f0fdf4;
+  border-left-color: #204b39;
+}
+
+.masterItemTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.masterItemMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #64748b;
+  flex-wrap: wrap;
+}
+
+.detailColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 4. Compact Step Timeline (Thay thế biểu đồ lớn) */
+.compactTimelineCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow);
+}
+
+.compactTimelineHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.compactTimelineTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.compactTimelineTrack {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  padding-bottom: 4px;
+  overflow-x: auto;
+}
+
+.timelineStepNode {
+  flex: 1;
+  min-width: 130px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.timelineStepNode:hover {
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+}
+
+.timelineStepTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timelineHoursBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.timelinePctPill {
+  font-size: 13px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.pct100 {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.pctHigh {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.pctMid {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.pctLow {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.timelineStepDesc {
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+/* 5. Structured Form 2 cột cho Tạo chính sách */
+.structuredLayout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .structuredLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.formLeftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formRightCol {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Dynamic Rule Builder dạng Card */
+.ruleCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dynamicRuleCard {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dynamicRuleCard:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.ruleCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ruleCardIndex {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btnDeleteRule {
+  background: transparent;
+  border: 1px solid #fee2e2;
+  color: #dc2626;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnDeleteRule:hover {
+  background: #fee2e2;
+}
+
+.ruleFieldRow {
+  display: grid;
+  grid-template-columns: 140px 120px 1fr;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+@media (max-width: 640px) {
+  .ruleFieldRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hoursHintText {
+  font-size: 11px;
+  color: #16a34a;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* 6. Sticky Live Preview & Validation Checklist */
+.stickyPreviewCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.previewHeader {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 10px;
+}
+
+.previewTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.previewMetaRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.checklistCard {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checklistTitle {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #475569;
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.checkValid {
+  color: #16a34a;
+  font-weight: 500;
+}
+
+.checkInvalid {
+  color: #94a3b8;
+}
+
+.checkIcon {
+  font-weight: 700;
+  font-size: 13px;
+}

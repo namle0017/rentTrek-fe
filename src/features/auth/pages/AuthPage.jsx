@@ -6,12 +6,14 @@ import SplitText from '@/components/SplitText';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import { applyServerErrors } from '@/utils/applyServerErrors';
+import { extractUserFromToken } from '@/utils/jwt';
+import { tokenStorage } from '@/utils/tokenStorage';
 import { useLogin } from '../hooks/useLogin';
 import { useRegister } from '../hooks/useRegister';
 import styles from './AuthPage.module.css';
 
 export default function AuthPage({ defaultMode }) {
-  const { isAuthenticated } = useAuth();
+  const { currentUser, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -59,7 +61,15 @@ export default function AuthPage({ defaultMode }) {
     },
   });
 
+  const isRoleAdminOrStaff = (role) => {
+    const r = String(role || '').toLowerCase();
+    return r === 'admin' || r === 'staff' || r === 'administrator';
+  };
+
   if (isAuthenticated) {
+    if (isRoleAdminOrStaff(currentUser?.role)) {
+      return <Navigate to={ROUTES.ADMIN} replace />;
+    }
     return <Navigate to={redirectTo} replace />;
   }
 
@@ -68,7 +78,19 @@ export default function AuthPage({ defaultMode }) {
     loginMutation.mutate(
       { email: values.email.trim(), password: values.password },
       {
-        onSuccess: () => navigate(redirectTo, { replace: true }),
+        onSuccess: (res) => {
+          const userRole =
+            res?.data?.user?.role ||
+            extractUserFromToken(res?.data?.accessToken)?.role ||
+            tokenStorage.getUser()?.role ||
+            currentUser?.role;
+
+          if (isRoleAdminOrStaff(userRole)) {
+            navigate(ROUTES.ADMIN, { replace: true });
+          } else {
+            navigate(redirectTo, { replace: true });
+          }
+        },
         onError: (error) => {
           if (error.statusCode === 401 || error.statusCode === 403) {
             setLoginServerError(error.message);

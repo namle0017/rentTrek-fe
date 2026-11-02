@@ -42,8 +42,15 @@ axiosClient.interceptors.response.use(
     const originalRequest = error.config;
     const isUnauthorized = error.response?.status === 401;
     const isAuthRequest = originalRequest?.url?.startsWith('/auth/'); // login sai mật khẩu cũng trả 401
+    const isUserMeRequest = originalRequest?.url?.includes(API_ENDPOINTS.USERS.ME);
 
     if (isUnauthorized && !isAuthRequest && !originalRequest._retry) {
+      // Nếu endpoint lấy profile /users/me bị 401 (chưa kích hoạt auth ở BE),
+      // không được xóa token và đá user về login. Để AuthProvider dùng session trong cache/JWT.
+      if (isUserMeRequest) {
+        return Promise.reject(normalizeError(error));
+      }
+
       originalRequest._retry = true;
       try {
         refreshPromise ??= refreshAccessToken().finally(() => {

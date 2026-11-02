@@ -9,5 +9,16 @@ export const ROUTES = {
   TOUR_DETAIL: (tourId = ':tourId') => `/tours/${tourId}`,
   ADMIN: '/admin',
   ADMIN_PRODUCT_CREATE: '/admin/products/new',
+  ADMIN_RECURRENCE_RULES: (tourId = ':tourId') => `/admin/tours/${tourId}/recurrence-rules`,
+  ADMIN_TRIPS: '/admin/trips',
+  ADMIN_TRIP_DETAIL: (tripId = ':tripId') => `/admin/trips/${tripId}`,
+  GUIDE: '/guide',
+  GUIDE_TRIPS: '/guide/trips',
+  GUIDE_TRIP_GROUP: (tripId = ':tripId') => `/guide/trips/${tripId}/group`,
+  GUIDE_PARTICIPANT_DETAIL: (participantId = ':participantId') =>
+    `/guide/participants/${participantId}`,
+  GUIDE_ATTENDANCE: (tripId = ':tripId') => `/guide/trips/${tripId}/attendance`,
+  GUIDE_ITINERARY: (tripId = ':tripId') => `/guide/trips/${tripId}/itinerary`,
+  GUIDE_PROVIDED_ITEMS: (tripId = ':tripId') => `/guide/trips/${tripId}/provided-items`,
   FORBIDDEN: '/403',
 };

@@ -5,6 +5,7 @@ import { ROUTES } from '@/constants/routes';
 import LoginPage from '@/features/auth/pages/LoginPage';
 import RegisterPage from '@/features/auth/pages/RegisterPage';
 import AdminLayout from '@/layouts/AdminLayout';
+import GuideLayout from '@/layouts/GuideLayout';
 import MainLayout from '@/layouts/MainLayout';
 import ForbiddenPage from '@/pages/ForbiddenPage';
 import HomePage from '@/pages/HomePage';
@@ -60,9 +61,9 @@ export const router = createBrowserRouter([
       { path: ROUTES.LOGIN, element: <LoginPage /> },
       { path: ROUTES.REGISTER, element: <RegisterPage /> },
 
-      // Admin — cần đăng nhập + role Admin
+      // Admin & Staff — Vận hành hệ thống & chuyến đi
       {
-        element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />,
+        element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF]} />,
         children: [
           {
             element: <AdminLayout />,
@@ -71,6 +72,64 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.ADMIN_PRODUCT_CREATE,
                 lazy: lazyPage(() => import('@/features/products/pages/ProductCreatePage')),
+              },
+              {
+                path: ROUTES.ADMIN_RECURRENCE_RULES(),
+                lazy: lazyPage(
+                  () => import('@/features/admin-trips/pages/AdminRecurrenceRulesPage')
+                ),
+              },
+              {
+                path: ROUTES.ADMIN_TRIPS,
+                lazy: lazyPage(() => import('@/features/admin-trips/pages/AdminTripListPage')),
+              },
+              {
+                path: ROUTES.ADMIN_TRIP_DETAIL(),
+                lazy: lazyPage(() => import('@/features/admin-trips/pages/AdminTripDetailPage')),
+              },
+            ],
+          },
+        ],
+      },
+
+      // Khu vực Hướng dẫn viên Thực địa (Guide Portal — Mobile-First G01–G06)
+      {
+        element: (
+          <ProtectedRoute
+            roles={[USER_ROLE.GUIDE, USER_ROLE.TOUR_GUIDE, USER_ROLE.ADMIN, USER_ROLE.STAFF]}
+          />
+        ),
+        children: [
+          {
+            element: <GuideLayout />,
+            children: [
+              {
+                path: ROUTES.GUIDE,
+                lazy: lazyPage(() => import('@/features/guide/pages/GuideTripsPage')),
+              },
+              {
+                path: ROUTES.GUIDE_TRIPS,
+                lazy: lazyPage(() => import('@/features/guide/pages/GuideTripsPage')),
+              },
+              {
+                path: ROUTES.GUIDE_TRIP_GROUP(),
+                lazy: lazyPage(() => import('@/features/guide/pages/GuideGroupRosterPage')),
+              },
+              {
+                path: ROUTES.GUIDE_PARTICIPANT_DETAIL(),
+                lazy: lazyPage(() => import('@/features/guide/pages/GuideParticipantDetailPage')),
+              },
+              {
+                path: ROUTES.GUIDE_ATTENDANCE(),
+                lazy: lazyPage(() => import('@/features/guide/pages/GuideBatchAttendancePage')),
+              },
+              {
+                path: ROUTES.GUIDE_ITINERARY(),
+                lazy: lazyPage(() => import('@/features/guide/pages/GuideItineraryPage')),
+              },
+              {
+                path: ROUTES.GUIDE_PROVIDED_ITEMS(),
+                lazy: lazyPage(() => import('@/features/guide/pages/GuideProvidedItemsPage')),
               },
             ],
           },

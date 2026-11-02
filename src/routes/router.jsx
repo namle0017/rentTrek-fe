@@ -60,9 +60,9 @@ export const router = createBrowserRouter([
       { path: ROUTES.LOGIN, element: <LoginPage /> },
       { path: ROUTES.REGISTER, element: <RegisterPage /> },
 
-      // Admin — cần đăng nhập + role Admin
+      // Admin & Staff — cần đăng nhập + role Admin hoặc Staff
       {
-        element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />,
+        element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF]} />,
         children: [
           {
             element: <AdminLayout />,
@@ -71,6 +71,23 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.ADMIN_PRODUCT_CREATE,
                 lazy: lazyPage(() => import('@/features/products/pages/ProductCreatePage')),
+              },
+              // Phân hệ Tài chính & Hoàn tiền (Namle)
+              {
+                path: ROUTES.OPS_TRANSACTIONS,
+                lazy: lazyPage(() => import('@/pages/ops/finance/TransactionsPage')),
+              },
+              {
+                path: ROUTES.OPS_REFUNDS,
+                lazy: lazyPage(() => import('@/pages/ops/finance/RefundsReconcilePage')),
+              },
+              {
+                path: ROUTES.OPS_REFUND_POLICIES,
+                lazy: lazyPage(() => import('@/pages/ops/finance/RefundPoliciesPage')),
+              },
+              {
+                path: ROUTES.OPS_REFUND_POLICY_CREATE,
+                lazy: lazyPage(() => import('@/pages/ops/finance/RefundPolicyCreatePage')),
               },
             ],
           },

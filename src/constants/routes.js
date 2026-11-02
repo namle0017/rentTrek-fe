@@ -9,5 +9,9 @@ export const ROUTES = {
   TOUR_DETAIL: (tourId = ':tourId') => `/tours/${tourId}`,
   ADMIN: '/admin',
   ADMIN_PRODUCT_CREATE: '/admin/products/new',
+  OPS_TRANSACTIONS: '/ops/transactions',
+  OPS_REFUNDS: '/ops/refunds',
+  OPS_REFUND_POLICIES: '/ops/refund-policies',
+  OPS_REFUND_POLICY_CREATE: '/ops/refund-policies/create',
   FORBIDDEN: '/403',
 };

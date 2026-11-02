@@ -1,7 +1,5 @@
-﻿import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import OutdoorIcon from '@/components/OutdoorIcon';
-import { USER_ROLE } from '@/constants/enums';
-import { Link, NavLink, Outlet } from 'react-router-dom';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
@@ -30,6 +28,10 @@ export default function MainLayout() {
     event.preventDefault();
     const keyword = new FormData(event.currentTarget).get('search').trim();
     navigate(`${ROUTES.PRODUCTS}${keyword ? `?search=${encodeURIComponent(keyword)}` : ''}`);
+  };
+
+  const handleLogoutClick = () => {
+    logoutMutation.mutate();
   };
 
   const getRoleBadgeClass = (role) => {

@@ -25,4 +25,25 @@ export const API_ENDPOINTS = {
     ROOT: '/tours',
     BY_ID: (id) => `/tours/${id}`,
   },
+  // Phân hệ Tài chính & Hoàn tiền (Namle - Section 17 & 20 trong 03-API-CONTRACT.md)
+  PAYMENTS: {
+    ROOT: '/admin/payments',
+    MANUAL_PAY: (orderId) => `/admin/orders/${orderId}/payments/manual`,
+  },
+  REFUNDS: {
+    ROOT: '/admin/refunds',
+    APPROVE: (paymentId) => `/admin/refunds/${paymentId}/approve`,
+    RETRY: (paymentId) => `/admin/refunds/${paymentId}/retry`,
+    MARK_MANUAL: (paymentId) => `/admin/refunds/${paymentId}/mark-manual`,
+  },
+  RECONCILE: {
+    ACCEPT: (orderId) => `/admin/orders/${orderId}/reconcile-accept`,
+    REFUND: (orderId) => `/admin/orders/${orderId}/reconcile-refund`,
+  },
+  REFUND_POLICIES: {
+    ROOT: '/admin/refund-policies',
+    BY_ID: (policyId) => `/admin/refund-policies/${policyId}`,
+    RULES: (policyId) => `/admin/refund-policies/${policyId}/rules`,
+    CLONE_VERSION: (policyId) => `/admin/refund-policies/${policyId}/clone-version`,
+  },
 };

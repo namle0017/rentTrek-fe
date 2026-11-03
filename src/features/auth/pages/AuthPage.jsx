@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import FormField from '@/components/FormField';
 import SplitText from '@/components/SplitText';
@@ -8,6 +8,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { extractUserFromToken } from '@/utils/jwt';
 import { tokenStorage } from '@/utils/tokenStorage';
+import ForgotPasswordModal from '../components/ForgotPasswordModal';
+import GoogleLoginButton from '../components/GoogleLoginButton';
+import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
 import { useLogin } from '../hooks/useLogin';
 import { useRegister } from '../hooks/useRegister';
 import styles from './AuthPage.module.css';
@@ -33,15 +36,24 @@ export default function AuthPage({ defaultMode }) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loginServerError, setLoginServerError] = useState('');
   const [registerServerError, setRegisterServerError] = useState('');
+  const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
+  const [rememberMe, setRememberMe] = useState(() => {
+    return Boolean(localStorage.getItem('rentrek_remembered_email'));
+  });
 
   // Login Form
   const {
     register: registerLogin,
     handleSubmit: handleLoginSubmit,
     setError: setLoginError,
+    getValues: getLoginValues,
+    setValue: setValueLogin,
     formState: { errors: loginErrors },
   } = useForm({
-    defaultValues: { email: '', password: '' },
+    defaultValues: {
+      email: localStorage.getItem('rentrek_remembered_email') || '',
+      password: '',
+    },
   });
 
   // Register Form
@@ -50,6 +62,7 @@ export default function AuthPage({ defaultMode }) {
     handleSubmit: handleRegisterSubmit,
     setError: setRegisterError,
     getValues: getRegisterValues,
+    control: controlRegister,
     formState: { errors: registerErrors },
   } = useForm({
     defaultValues: {
@@ -60,6 +73,8 @@ export default function AuthPage({ defaultMode }) {
       confirmPassword: '',
     },
   });
+
+  const registerPassword = useWatch({ control: controlRegister, name: 'password', defaultValue: '' });
 
   const isRoleAdminOrStaff = (role) => {
     const r = String(role || '').toLowerCase();
@@ -79,6 +94,12 @@ export default function AuthPage({ defaultMode }) {
       { email: values.email.trim(), password: values.password },
       {
         onSuccess: (res) => {
+          if (rememberMe) {
+            localStorage.setItem('rentrek_remembered_email', values.email.trim());
+          } else {
+            localStorage.removeItem('rentrek_remembered_email');
+          }
+
           const userRole =
             res?.data?.user?.role ||
             extractUserFromToken(res?.data?.accessToken)?.role ||
@@ -392,6 +413,25 @@ export default function AuthPage({ defaultMode }) {
                     </div>
                   </FormField>
 
+                  <div className={styles.rememberForgotRow}>
+                    <label className={styles.rememberLabel}>
+                      <input
+                        type="checkbox"
+                        className={styles.rememberCheckbox}
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                      />
+                      <span>Ghi nhớ tài khoản</span>
+                    </label>
+                    <button
+                      type="button"
+                      className={styles.forgotPassBtn}
+                      onClick={() => setIsForgotModalOpen(true)}
+                    >
+                      Quên mật khẩu?
+                    </button>
+                  </div>
+
                   <button
                     type="submit"
                     className={`btn btn-primary ${styles.submitBtn}`}
@@ -410,6 +450,8 @@ export default function AuthPage({ defaultMode }) {
                       />
                     )}
                   </button>
+
+                  <GoogleLoginButton text="Đăng nhập với Google" />
                 </form>
 
                 <div className={styles.formFooter}>
@@ -626,6 +668,8 @@ export default function AuthPage({ defaultMode }) {
                     </FormField>
                   </div>
 
+                  <PasswordStrengthMeter password={registerPassword} />
+
                   <SplitText
                     tag="p"
                     className={styles.termsText}
@@ -654,6 +698,8 @@ export default function AuthPage({ defaultMode }) {
                       />
                     )}
                   </button>
+
+                  <GoogleLoginButton text="Đăng ký nhanh với Google" />
                 </form>
 
                 <div className={styles.formFooter}>
@@ -685,6 +731,19 @@ export default function AuthPage({ defaultMode }) {
           </div>
         </div>
       </div>
+
+      {/* Modal Quên mật khẩu & OTP */}
+      <ForgotPasswordModal
+        isOpen={isForgotModalOpen}
+        onClose={() => setIsForgotModalOpen(false)}
+        defaultEmail={getLoginValues ? getLoginValues('email') : ''}
+        onSuccessReset={(email) => {
+          if (setValueLogin) {
+            setValueLogin('email', email);
+          }
+          switchTo('login');
+        }}
+      />
     </div>
   );
 }

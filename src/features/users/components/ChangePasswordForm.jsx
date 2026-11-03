@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import FormField from '@/components/FormField';
+import PasswordStrengthMeter from '@/features/auth/components/PasswordStrengthMeter';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { useChangePassword } from '../hooks/useChangePassword';
 import styles from './ChangePasswordForm.module.css';
@@ -18,6 +19,7 @@ export default function ChangePasswordForm() {
     reset,
     setError,
     getValues,
+    control,
     formState: { errors, isDirty },
   } = useForm({
     defaultValues: {
@@ -26,6 +28,8 @@ export default function ChangePasswordForm() {
       confirmNewPassword: '',
     },
   });
+
+  const newPasswordValue = useWatch({ control, name: 'newPassword', defaultValue: '' });
 
   const onSubmit = (values) => {
     setServerErrorMsg('');
@@ -139,6 +143,8 @@ export default function ChangePasswordForm() {
             (0-9) và ký tự đặc biệt (@, #, $, %, ...).
           </div>
         </FormField>
+
+        <PasswordStrengthMeter password={newPasswordValue} />
 
         {/* Xác nhận mật khẩu mới */}
         <FormField

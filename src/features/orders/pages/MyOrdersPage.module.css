@@ -1,22 +1,109 @@
-.page { display: grid; gap: 18px; padding: 42px 0 72px; }
-.header h1 { margin: 4px 0 0; color: #173d2d; font-size: clamp(1.8rem, 4vw, 2.4rem); }
-.kicker { color: #c55742; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.13em; }
-.tabs { display: flex; gap: 8px; flex-wrap: wrap; }
-.tabs button { padding: 8px 14px; color: #204b39; font: inherit; font-size: 0.8rem; font-weight: 700; cursor: pointer; background: #fff; border: 1px solid #bfcfc3; border-radius: 999px; }
-.tabs button[aria-pressed='true'] { color: #fff; background: #204b39; border-color: #204b39; }
-.list { display: grid; gap: 10px; }
-.card { display: flex; gap: 18px; align-items: center; justify-content: space-between; padding: 16px 18px; color: inherit; text-decoration: none; background: #fff; border: 1px solid #dce3dc; border-radius: 14px; }
-a.card:hover { border-color: #204b39; }
-.cardMain { display: grid; gap: 2px; min-width: 0; }
-.cardMain strong { color: #173d2d; font-size: 0.95rem; }
-.cardMain small { color: #6b776f; font-size: 0.74rem; overflow-wrap: anywhere; }
-.type { color: #c55742; font-size: 0.64rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
-.cardSide { display: grid; flex: 0 0 auto; gap: 3px; justify-items: end; }
-.cardSide small { color: #6b776f; font-size: 0.72rem; }
-.cardSide b { color: #173d2d; font-size: 0.92rem; }
-.status { padding: 4px 9px; color: #21523b; font-size: 0.7rem; font-weight: 800; background: #eaf4ec; border-radius: 999px; }
+.page {
+  display: grid;
+  gap: 18px;
+  padding: 42px 0 72px;
+}
+.header h1 {
+  margin: 4px 0 0;
+  color: #173d2d;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+}
+.kicker {
+  color: #c55742;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tabs button {
+  padding: 8px 14px;
+  color: #204b39;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #bfcfc3;
+  border-radius: 999px;
+}
+.tabs button[aria-pressed='true'] {
+  color: #fff;
+  background: #204b39;
+  border-color: #204b39;
+}
+.list {
+  display: grid;
+  gap: 10px;
+}
+.card {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  color: inherit;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid #dce3dc;
+  border-radius: 14px;
+}
+a.card:hover {
+  border-color: #204b39;
+}
+.cardMain {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.cardMain strong {
+  color: #173d2d;
+  font-size: 0.95rem;
+}
+.cardMain small {
+  color: #6b776f;
+  font-size: 0.74rem;
+  overflow-wrap: anywhere;
+}
+.type {
+  color: #c55742;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.cardSide {
+  display: grid;
+  flex: 0 0 auto;
+  gap: 3px;
+  justify-items: end;
+}
+.cardSide small {
+  color: #6b776f;
+  font-size: 0.72rem;
+}
+.cardSide b {
+  color: #173d2d;
+  font-size: 0.92rem;
+}
+.status {
+  padding: 4px 9px;
+  color: #21523b;
+  font-size: 0.7rem;
+  font-weight: 800;
+  background: #eaf4ec;
+  border-radius: 999px;
+}
 
 @media (max-width: 560px) {
-  .card { align-items: flex-start; flex-direction: column; }
-  .cardSide { justify-items: start; }
+  .card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .cardSide {
+    justify-items: start;
+  }
 }

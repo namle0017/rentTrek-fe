@@ -5,13 +5,15 @@ import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { useAuth } from '@/hooks/useAuth';
 import { getAvatarColor } from '@/utils/avatarColor';
+import { getRoleHomeRoute } from '@/utils/roleRouting';
 import styles from './MainLayout.module.css';
 
 const exploration = ['Lều cắm trại', 'Balô', 'Đèn', 'Túi ngủ'];
 
-function Brand() {
+function Brand({ role }) {
+  const homeRoute = getRoleHomeRoute(role);
   return (
-    <Link to={ROUTES.HOME} className={styles.logo}>
+    <Link to={homeRoute} className={styles.logo}>
       ▲ renTrek
     </Link>
   );
@@ -21,6 +23,7 @@ export default function MainLayout() {
   const { currentUser, isAuthenticated } = useAuth();
   const logoutMutation = useLogout();
   const location = useLocation();
+  const homeRoute = getRoleHomeRoute(currentUser?.role);
   // Trang có hero tràn viền tự quản lý container
   const isCatalog = [ROUTES.HOME, ROUTES.PRODUCTS, ROUTES.TOURS].includes(location.pathname);
 
@@ -44,19 +47,17 @@ export default function MainLayout() {
       </a>
       <header className={styles.header}>
         <div className={`container ${styles.headerInner}`}>
-          <Link to={ROUTES.HOME} className={styles.logo}>
+          <Link to={homeRoute} className={styles.logo}>
             ▲ renTrek
           </Link>
 
           <nav className={styles.nav} aria-label="Điều hướng chính">
-            <NavLink to={ROUTES.HOME} end>
+            <NavLink to={homeRoute} end>
               Trang chủ
             </NavLink>
             <NavLink to={ROUTES.TOURS}>Tour Trekking</NavLink>
             <NavLink to={ROUTES.PRODUCTS}>Sản phẩm & Đồ thuê</NavLink>
-            {currentUser?.role === USER_ROLE.ADMIN && (
-              <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>
-            )}
+            {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
           </nav>
 
           <div className={styles.authSection}>

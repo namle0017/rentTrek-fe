@@ -18,9 +18,9 @@ export function splitHoldSeconds(totalSeconds) {
 export function canShareTripLink(booking, now = Date.now()) {
   return Boolean(
     booking?.canManage &&
-      booking.status === BOOKING_STATUS.CONFIRMED &&
-      booking.paymentStatus === PAYMENT_STATUS.PAID &&
-      now < new Date(booking.tripEndAt).getTime(),
+    booking.status === BOOKING_STATUS.CONFIRMED &&
+    booking.paymentStatus === PAYMENT_STATUS.PAID &&
+    now < new Date(booking.tripEndAt).getTime(),
   );
 }
 
@@ -30,8 +30,8 @@ const CLOSED_STATUSES = [BOOKING_STATUS.CANCELLED, BOOKING_STATUS.EXPIRED, BOOKI
 export function canEditParticipants(booking, now = Date.now()) {
   return Boolean(
     booking?.canManage &&
-      !CLOSED_STATUSES.includes(booking.status) &&
-      now < new Date(booking.tripStartAt).getTime(),
+    !CLOSED_STATUSES.includes(booking.status) &&
+    now < new Date(booking.tripStartAt).getTime(),
   );
 }
 

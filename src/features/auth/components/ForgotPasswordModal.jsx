@@ -163,12 +163,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
           <h2 className={styles.modalTitle}>
             {step === 1 ? 'Khôi phục mật khẩu' : 'Xác thực OTP & Đổi mật khẩu'}
           </h2>
-          <button
-            type="button"
-            className={styles.closeButton}
-            onClick={handleClose}
-            aria-label="Đóng"
-          >
+          <button type="button" className={styles.closeButton} onClick={handleClose} aria-label="Đóng">
             ✕
           </button>
         </div>
@@ -214,15 +209,14 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
                 />
               </FormField>
 
-              <div className={styles.modalFooter} style={{ padding: '1.25rem 0 0', background: 'transparent' }}>
+              <div
+                className={styles.modalFooter}
+                style={{ padding: '1.25rem 0 0', background: 'transparent' }}
+              >
                 <button type="button" className="btn btn-outline" onClick={handleClose}>
                   Hủy bỏ
                 </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={forgotMutation.isPending}
-                >
+                <button type="submit" className="btn btn-primary" disabled={forgotMutation.isPending}>
                   {forgotMutation.isPending ? 'Đang gửi mã...' : 'Gửi mã xác thực'}
                 </button>
               </div>
@@ -236,9 +230,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
                 <span className={styles.helperText} style={{ margin: 0 }}>
                   Mã đã được gửi tới <strong>{getEmailValues('email')}</strong>
                 </span>
-                <span className={styles.timerBadge}>
-                  ⏱️ {formatTimer(timeLeft)}
-                </span>
+                <span className={styles.timerBadge}>⏱️ {formatTimer(timeLeft)}</span>
               </div>
 
               <FormField label="Mã xác thực OTP (6 số)" htmlFor="reset-otp" error={resetErrors.otp}>
@@ -305,8 +297,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
                     autoComplete="new-password"
                     {...registerReset('confirmPassword', {
                       required: 'Vui lòng xác nhận lại mật khẩu mới',
-                      validate: (v) =>
-                        v === getResetValues('newPassword') || 'Mật khẩu xác nhận không khớp',
+                      validate: (v) => v === getResetValues('newPassword') || 'Mật khẩu xác nhận không khớp',
                     })}
                   />
                   <button
@@ -339,7 +330,10 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
                 </button>
               </div>
 
-              <div className={styles.modalFooter} style={{ padding: '1.25rem 0 0', background: 'transparent' }}>
+              <div
+                className={styles.modalFooter}
+                style={{ padding: '1.25rem 0 0', background: 'transparent' }}
+              >
                 <button type="button" className="btn btn-outline" onClick={handleClose}>
                   Hủy bỏ
                 </button>

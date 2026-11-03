@@ -53,30 +53,17 @@ export default function PolicyTable({
               const isLocked = policy.isLocked || policy.activeTripsCount > 0;
 
               return (
-                <tr
-                  key={policy.policyId}
-                  style={isSelected ? { background: '#f0fdf4' } : {}}
-                >
+                <tr key={policy.policyId} style={isSelected ? { background: '#f0fdf4' } : {}}>
                   <td>
-                    <div style={{ fontWeight: 600, fontSize: 14 }}>
-                      {policy.name}
-                    </div>
-                    <div className={styles.statSubtext}>
-                      Tạo bởi: {policy.createdBy || 'Quản trị viên'}
-                    </div>
+                    <div style={{ fontWeight: 600, fontSize: 14 }}>{policy.name}</div>
+                    <div className={styles.statSubtext}>Tạo bởi: {policy.createdBy || 'Quản trị viên'}</div>
                   </td>
                   <td>
                     <span
                       className={`${styles.badge}`}
                       style={{
-                        background:
-                          policy.policyType === REFUND_POLICY_TYPE.TOUR
-                            ? '#dbeafe'
-                            : '#fef3c7',
-                        color:
-                          policy.policyType === REFUND_POLICY_TYPE.TOUR
-                            ? '#1e40af'
-                            : '#92400e',
+                        background: policy.policyType === REFUND_POLICY_TYPE.TOUR ? '#dbeafe' : '#fef3c7',
+                        color: policy.policyType === REFUND_POLICY_TYPE.TOUR ? '#1e40af' : '#92400e',
                       }}
                     >
                       {REFUND_POLICY_TYPE_LABEL[policy.policyType] || policy.policyType}
@@ -85,9 +72,7 @@ export default function PolicyTable({
                   <td>
                     <div>Từ: {formatDate(policy.effectiveFrom)}</div>
                     {policy.effectiveUntil ? (
-                      <div className={styles.statSubtext}>
-                        Đến: {formatDate(policy.effectiveUntil)}
-                      </div>
+                      <div className={styles.statSubtext}>Đến: {formatDate(policy.effectiveUntil)}</div>
                     ) : (
                       <div className={styles.statSubtext} style={{ color: '#16a34a', fontWeight: 600 }}>
                         Vĩnh viễn

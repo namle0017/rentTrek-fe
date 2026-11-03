@@ -3,11 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
-import {
-  useGuideBatchAttendance,
-  useGuideGroupRoster,
-  useGuideItinerary,
-} from '../hooks/useGuidePortal';
+import { useGuideBatchAttendance, useGuideGroupRoster, useGuideItinerary } from '../hooks/useGuidePortal';
 import styles from './GuidePortal.module.css';
 
 const OFFLINE_QUEUE_KEY = 'rentrek_guide_offline_attendance_queue';
@@ -53,10 +49,7 @@ export default function GuideBatchAttendancePage() {
     (d.activities ?? []).map((a) => ({ ...a, dayNumber: d.dayNumber })),
   );
   const activeActivityId =
-    selectedActivityId ||
-    roster.currentActivity?.activityId ||
-    allActivities[0]?.activityId ||
-    '';
+    selectedActivityId || roster.currentActivity?.activityId || allActivities[0]?.activityId || '';
 
   const submitPayload = async (payload) => {
     setFeedback(null);

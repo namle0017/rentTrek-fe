@@ -1,9 +1,5 @@
 import { useState } from 'react';
-import {
-  REFUND_POLICY_STATUS,
-  REFUND_POLICY_TYPE,
-  REFUND_POLICY_TYPE_LABEL,
-} from '@/constants/enums';
+import { REFUND_POLICY_STATUS, REFUND_POLICY_TYPE, REFUND_POLICY_TYPE_LABEL } from '@/constants/enums';
 import { formatDate } from '@/utils/formatDate';
 import {
   useCloneRefundPolicyVersion,
@@ -98,14 +94,6 @@ export default function RefundPoliciesPage() {
 
   return (
     <div className={styles.container}>
-      {/* Tiêu đề trang */}
-      <div className={styles.pageHeader}>
-        <div>
-          <p className={styles.pageSubtitle} style={{ marginTop: 0 }}>
-            Quản lý vòng đời chính sách và thiết lập bậc thang tỷ lệ hoàn tiền trước khởi hành
-          </p>
-        </div>
-      </div>
 
       {/* Bố cục Master–Detail */}
       <div className={styles.masterDetailLayout}>
@@ -125,7 +113,15 @@ export default function RefundPoliciesPage() {
             <>
               {/* Card thông tin tổng quan chính sách được chọn */}
               <div className={styles.tableCard} style={{ padding: '16px 20px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    flexWrap: 'wrap',
+                    gap: 12,
+                  }}
+                >
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
                       <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: 'var(--color-text)' }}>
@@ -134,7 +130,8 @@ export default function RefundPoliciesPage() {
                       <span
                         className={styles.badge}
                         style={{
-                          background: currentPolicy.policyType === REFUND_POLICY_TYPE.TOUR ? '#e0f2fe' : '#fef3c7',
+                          background:
+                            currentPolicy.policyType === REFUND_POLICY_TYPE.TOUR ? '#e0f2fe' : '#fef3c7',
                           color: currentPolicy.policyType === REFUND_POLICY_TYPE.TOUR ? '#0369a1' : '#b45309',
                         }}
                       >
@@ -151,12 +148,19 @@ export default function RefundPoliciesPage() {
                       )}
                     </div>
 
-                    <div style={{ fontSize: 13, color: '#64748b', display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                      <span>Mã chính sách: <strong style={{ color: '#334155' }}>{currentPolicy.policyId}</strong></span>
+                    <div
+                      style={{ fontSize: 13, color: '#64748b', display: 'flex', gap: 16, flexWrap: 'wrap' }}
+                    >
+                      <span>
+                        Mã chính sách: <strong style={{ color: '#334155' }}>{currentPolicy.policyId}</strong>
+                      </span>
                       <span>
                         Thời hạn hiệu lực:{' '}
                         <strong>
-                          {formatDate(currentPolicy.effectiveFrom)} → {currentPolicy.effectiveUntil ? formatDate(currentPolicy.effectiveUntil) : 'Vĩnh viễn'}
+                          {formatDate(currentPolicy.effectiveFrom)} →{' '}
+                          {currentPolicy.effectiveUntil
+                            ? formatDate(currentPolicy.effectiveUntil)
+                            : 'Vĩnh viễn'}
                         </strong>
                       </span>
                       <span>
@@ -167,7 +171,13 @@ export default function RefundPoliciesPage() {
                       </span>
                     </div>
 
-                    <p style={{ margin: '8px 0 0 0', fontSize: 12, color: isPolicyLocked ? '#b45309' : '#16a34a' }}>
+                    <p
+                      style={{
+                        margin: '8px 0 0 0',
+                        fontSize: 12,
+                        color: isPolicyLocked ? '#b45309' : '#16a34a',
+                      }}
+                    >
                       {isPolicyLocked
                         ? `Đang áp dụng cho ${currentPolicy.activeTripsCount} chuyến đi thực tế. Chính sách ở chế độ chỉ đọc để đảm bảo tính pháp lý hợp đồng.`
                         : 'Chính sách đang ở trạng thái cho phép chỉnh sửa quy tắc trực tiếp.'}
@@ -180,7 +190,12 @@ export default function RefundPoliciesPage() {
                       <button
                         type="button"
                         className="btn btn-outline"
-                        style={{ borderColor: '#818cf8', color: '#4338ca', fontSize: 13, padding: '7px 14px' }}
+                        style={{
+                          borderColor: '#818cf8',
+                          color: '#4338ca',
+                          fontSize: 13,
+                          padding: '7px 14px',
+                        }}
                         onClick={() => handleCloneVersion(currentPolicy.policyId)}
                         disabled={cloneMutation.isPending}
                         title="Tạo phiên bản mới để chỉnh sửa mà không ảnh hưởng các chuyến đi đã chốt"
@@ -192,7 +207,12 @@ export default function RefundPoliciesPage() {
                         type="button"
                         className="btn btn-outline"
                         onClick={handleOpenAddRule}
-                        style={{ borderColor: '#16a34a', color: '#16a34a', fontSize: 13, padding: '7px 14px' }}
+                        style={{
+                          borderColor: '#16a34a',
+                          color: '#16a34a',
+                          fontSize: 13,
+                          padding: '7px 14px',
+                        }}
                       >
                         + Thêm mốc quy tắc
                       </button>
@@ -202,10 +222,7 @@ export default function RefundPoliciesPage() {
               </div>
 
               {/* Tiến trình bậc thang nhỏ gọn (Compact Step Timeline) */}
-              <PolicyCompactTimeline
-                rules={currentPolicy.rules || []}
-                policyName={currentPolicy.name}
-              />
+              <PolicyCompactTimeline rules={currentPolicy.rules || []} policyName={currentPolicy.name} />
 
               {/* Bảng chi tiết các mốc quy tắc */}
               <div className={styles.tableCard}>
@@ -298,7 +315,10 @@ export default function RefundPoliciesPage() {
                                 </td>
                                 {!isPolicyLocked && (
                                   <td style={{ textAlign: 'center' }}>
-                                    <div className={styles.actionBtnGroup} style={{ justifyContent: 'center' }}>
+                                    <div
+                                      className={styles.actionBtnGroup}
+                                      style={{ justifyContent: 'center' }}
+                                    >
                                       <button
                                         type="button"
                                         className="btn btn-outline"
@@ -311,7 +331,12 @@ export default function RefundPoliciesPage() {
                                       <button
                                         type="button"
                                         className="btn btn-outline"
-                                        style={{ fontSize: 11, padding: '3px 8px', color: '#dc2626', borderColor: '#fca5a5' }}
+                                        style={{
+                                          fontSize: 11,
+                                          padding: '3px 8px',
+                                          color: '#dc2626',
+                                          borderColor: '#fca5a5',
+                                        }}
                                         onClick={() => handleDeleteRule(rule.ruleId)}
                                         disabled={updateRulesMutation.isPending}
                                         title="Xóa mốc quy tắc"
@@ -332,9 +357,7 @@ export default function RefundPoliciesPage() {
             </>
           ) : (
             <div className={styles.tableCard}>
-              <div className={styles.emptyBox}>
-                Vui lòng chọn một chính sách bên trái để xem chi tiết.
-              </div>
+              <div className={styles.emptyBox}>Vui lòng chọn một chính sách bên trái để xem chi tiết.</div>
             </div>
           )}
         </div>

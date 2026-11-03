@@ -5,10 +5,15 @@ function Field({ id, label, error, required = false, children }) {
   return (
     <div className={styles.field}>
       <label htmlFor={id}>
-        {label}{required && <span aria-hidden="true"> *</span>}
+        {label}
+        {required && <span aria-hidden="true"> *</span>}
       </label>
       {children(errorId)}
-      {error && <p id={errorId} className={styles.error} role="alert">{error.message}</p>}
+      {error && (
+        <p id={errorId} className={styles.error} role="alert">
+          {error.message}
+        </p>
+      )}
     </div>
   );
 }
@@ -37,25 +42,41 @@ export default function ParticipantFields({ index, register, errors = {}, onRemo
           <span className={styles.kicker}>THÀNH VIÊN {String(number).padStart(2, '0')}</span>
           <h2 id={`participant-${index}-title`}>Người tham gia {number}</h2>
         </div>
-        <button type="button" className={styles.removeButton} onClick={onRemove} aria-label={`Xóa người tham gia ${number}`}>
+        <button
+          type="button"
+          className={styles.removeButton}
+          onClick={onRemove}
+          aria-label={`Xóa người tham gia ${number}`}
+        >
           Xóa
         </button>
       </div>
 
       <div className={styles.grid}>
-        <Field id={`participant-${index}-fullName`} label={`Họ và tên người ${number}`} error={errors.fullName} required>
+        <Field
+          id={`participant-${index}-fullName`}
+          label={`Họ và tên người ${number}`}
+          error={errors.fullName}
+          required
+        >
           {input('fullName', 'text', 'name', {
             required: 'Vui lòng nhập họ tên.',
             maxLength: { value: 200, message: 'Họ tên tối đa 200 ký tự.' },
           })}
         </Field>
         <Field id={`participant-${index}-email`} label={`Email người ${number}`} error={errors.email}>
-          {input('email', 'email', 'email', { maxLength: { value: 255, message: 'Email tối đa 255 ký tự.' } })}
+          {input('email', 'email', 'email', {
+            maxLength: { value: 255, message: 'Email tối đa 255 ký tự.' },
+          })}
         </Field>
         <Field id={`participant-${index}-phone`} label={`Điện thoại người ${number}`} error={errors.phone}>
           {input('phone', 'tel', 'tel', { maxLength: MAX_LENGTH })}
         </Field>
-        <Field id={`participant-${index}-dateOfBirth`} label={`Ngày sinh người ${number}`} error={errors.dateOfBirth}>
+        <Field
+          id={`participant-${index}-dateOfBirth`}
+          label={`Ngày sinh người ${number}`}
+          error={errors.dateOfBirth}
+        >
           {input('dateOfBirth', 'date', 'bday')}
         </Field>
         <Field

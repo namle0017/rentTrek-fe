@@ -16,9 +16,7 @@ export default function TransactionSummaryCards({ stats = {}, isLoading = false 
         <div className={styles.statHeader}>
           <span>Dòng tiền ròng (Net)</span>
         </div>
-        <div className={styles.statValue}>
-          {isLoading ? '...' : formatCurrency(netInflow)}
-        </div>
+        <div className={styles.statValue}>{isLoading ? '...' : formatCurrency(netInflow)}</div>
         <div className={styles.statSubtext}>Thu thực tế trừ đi hoàn trả</div>
       </div>
 
@@ -26,9 +24,7 @@ export default function TransactionSummaryCards({ stats = {}, isLoading = false 
         <div className={styles.statHeader}>
           <span>Tổng thu thành công</span>
         </div>
-        <div className={styles.statValue}>
-          {isLoading ? '...' : formatCurrency(totalCollectionSucceeded)}
-        </div>
+        <div className={styles.statValue}>{isLoading ? '...' : formatCurrency(totalCollectionSucceeded)}</div>
         <div className={styles.statSubtext}>Tiền tour, thuê đồ và phí phạt</div>
       </div>
 
@@ -46,12 +42,8 @@ export default function TransactionSummaryCards({ stats = {}, isLoading = false 
         <div className={styles.statHeader}>
           <span>Đang chờ duyệt / xử lý</span>
         </div>
-        <div className={styles.statValue}>
-          {isLoading ? '...' : `${pendingCount} Giao dịch`}
-        </div>
-        <div className={styles.statSubtext}>
-          Giá trị: {isLoading ? '...' : formatCurrency(pendingAmount)}
-        </div>
+        <div className={styles.statValue}>{isLoading ? '...' : `${pendingCount} Giao dịch`}</div>
+        <div className={styles.statSubtext}>Giá trị: {isLoading ? '...' : formatCurrency(pendingAmount)}</div>
       </div>
     </div>
   );

@@ -155,9 +155,7 @@ export default function RefundsReconcilePage() {
         isOpen={Boolean(selectedReconcileOrder)}
         onClose={() => setSelectedReconcileOrder(null)}
         onConfirm={handleReconcileConfirm}
-        isSubmitting={
-          reconcileAcceptMutation.isPending || reconcileRefundMutation.isPending
-        }
+        isSubmitting={reconcileAcceptMutation.isPending || reconcileRefundMutation.isPending}
       />
     </div>
   );

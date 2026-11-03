@@ -4,7 +4,7 @@ import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import Pagination from '@/components/Pagination';
-import Spinner from '@/components/Spinner';
+import { CardSkeleton } from '@/components/skeleton';
 import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '@/constants/config';
 import TourCard from '../components/TourCard';
 import { useTours } from '../hooks/useTours';
@@ -79,7 +79,7 @@ export default function TourListPage() {
   const tabCounts = { Active: activeTours?.totalItems, Expired: expiredTours?.totalItems };
 
   const renderContent = () => {
-    if (isLoading) return <Spinner />;
+    if (isLoading) return <CardSkeleton count={6} />;
     if (isError) {
       return <ErrorState message={error.message || 'Không thể tải danh sách tour'} onRetry={refetch} />;
     }
@@ -177,7 +177,9 @@ export default function TourListPage() {
               <h2 id="tour-list-title" className={styles.sectionTitle}>
                 Combo 2N1Đ đang chờ bạn
               </h2>
-              <p className={styles.sectionText}>Khởi hành cuối tuần · Trọn gói hướng dẫn và trang bị thiết yếu</p>
+              <p className={styles.sectionText}>
+                Khởi hành cuối tuần · Trọn gói hướng dẫn và trang bị thiết yếu
+              </p>
             </div>
             <div className={styles.tabs} role="tablist" aria-label="Trạng thái tour">
               {STATUS_TABS.map((tab) => (

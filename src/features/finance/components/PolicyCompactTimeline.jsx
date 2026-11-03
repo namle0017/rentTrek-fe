@@ -30,9 +30,7 @@ export default function PolicyCompactTimeline({ rules = [], policyName }) {
   return (
     <div className={styles.compactTimelineCard}>
       <div className={styles.compactTimelineHeader}>
-        <h4 className={styles.compactTimelineTitle}>
-          Tiến Trình Hoàn Tiền Theo Mốc Giờ: {policyName}
-        </h4>
+        <h4 className={styles.compactTimelineTitle}>Tiến Trình Hoàn Tiền Theo Mốc Giờ: {policyName}</h4>
         <span style={{ fontSize: 12, color: '#64748b' }}>
           Tự động áp dụng theo thời điểm khách hàng gửi yêu cầu hủy
         </span>
@@ -46,12 +44,8 @@ export default function PolicyCompactTimeline({ rules = [], policyName }) {
           return (
             <div key={rule.ruleId || idx} className={styles.timelineStepNode}>
               <div className={styles.timelineStepTop}>
-                <span className={styles.timelineHoursBadge}>
-                  {formatHoursToLabel(hours)}
-                </span>
-                <span className={`${styles.timelinePctPill} ${getPctClass(pct)}`}>
-                  {pct}%
-                </span>
+                <span className={styles.timelineHoursBadge}>{formatHoursToLabel(hours)}</span>
+                <span className={`${styles.timelinePctPill} ${getPctClass(pct)}`}>{pct}%</span>
               </div>
 
               <div className={styles.timelineStepDesc}>
@@ -64,4 +58,3 @@ export default function PolicyCompactTimeline({ rules = [], policyName }) {
     </div>
   );
 }
-

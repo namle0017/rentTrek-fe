@@ -234,3 +234,24 @@ export function useUpdateTripAttendances(tripId) {
     },
   });
 }
+
+export function usePublishedTours() {
+  return useQuery({
+    queryKey: ['admin-trips', 'published-tours'],
+    queryFn: adminTripService.getPublishedTours,
+  });
+}
+
+export function useActiveRefundPolicies() {
+  return useQuery({
+    queryKey: ['admin-trips', 'active-refund-policies'],
+    queryFn: adminTripService.getActiveRefundPolicies,
+  });
+}
+
+export function useTripCoordinators() {
+  return useQuery({
+    queryKey: ['admin-trips', 'coordinators'],
+    queryFn: adminTripService.getCoordinators,
+  });
+}

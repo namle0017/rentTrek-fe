@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  REFUND_POLICY_STATUS,
-  REFUND_POLICY_TYPE,
-  REFUND_POLICY_TYPE_LABEL,
-} from '@/constants/enums';
+import { REFUND_POLICY_STATUS, REFUND_POLICY_TYPE, REFUND_POLICY_TYPE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { formatDate } from '@/utils/formatDate';
 import styles from './finance.module.css';
@@ -64,7 +60,9 @@ export default function PolicyMasterList({
     <div className={styles.masterCardWrapper}>
       {/* Tìm kiếm & Nút Tạo mới */}
       <div className={styles.masterSearchBox}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <div
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}
+        >
           <span style={{ fontSize: 13, fontWeight: 700, color: '#334155' }}>
             Danh Sách ({policies.length})
           </span>
@@ -131,10 +129,7 @@ export default function PolicyMasterList({
 
                 <div className={styles.masterItemMeta}>
                   <span>{getStatusBadge(p)}</span>
-                  <span>
-                    Hiệu lực:{' '}
-                    {p.effectiveUntil ? formatDate(p.effectiveUntil) : 'Vĩnh viễn'}
-                  </span>
+                  <span>Hiệu lực: {p.effectiveUntil ? formatDate(p.effectiveUntil) : 'Vĩnh viễn'}</span>
                 </div>
 
                 <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 4 }}>
@@ -148,4 +143,3 @@ export default function PolicyMasterList({
     </div>
   );
 }
-

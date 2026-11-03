@@ -103,8 +103,8 @@ export default function TripAttendanceMatrixTab({ tripId }) {
           <div>
             <h2 className={styles.cardTitle}>Ma trận Điểm danh Hoạt động Tour (Màn O14)</h2>
             <p className={styles.subtitle}>
-              Chọn trạng thái điểm danh cho từng khách theo từng chặng hoạt động. Khi sửa trạng thái
-              đã lưu, hệ thống yêu cầu lý do và ghi Audit Log.
+              Chọn trạng thái điểm danh cho từng khách theo từng chặng hoạt động. Khi sửa trạng thái đã lưu,
+              hệ thống yêu cầu lý do và ghi Audit Log.
             </p>
           </div>
 
@@ -193,9 +193,7 @@ export default function TripAttendanceMatrixTab({ tripId }) {
       {/* Bảng lịch sử chỉnh sửa điểm danh (11.3) */}
       <div className={styles.card}>
         <div className={styles.cardHeader}>
-          <h3 className={styles.cardTitle}>
-            Lịch sử Kiểm toán Chỉnh sửa Điểm danh ({history.length})
-          </h3>
+          <h3 className={styles.cardTitle}>Lịch sử Kiểm toán Chỉnh sửa Điểm danh ({history.length})</h3>
         </div>
 
         {history.length === 0 ? (
@@ -236,9 +234,8 @@ export default function TripAttendanceMatrixTab({ tripId }) {
           <form className={styles.modalCard} onSubmit={handleConfirmReasonEdit}>
             <h2 className={styles.cardTitle}>Nhập lý do điều chỉnh điểm danh</h2>
             <p className={styles.subtitle}>
-              Bạn đang thay đổi trạng thái điểm danh của khách{' '}
-              <strong>{pendingEdit.participantName}</strong> tại hoạt động{' '}
-              <strong>{pendingEdit.activityName}</strong> từ{' '}
+              Bạn đang thay đổi trạng thái điểm danh của khách <strong>{pendingEdit.participantName}</strong>{' '}
+              tại hoạt động <strong>{pendingEdit.activityName}</strong> từ{' '}
               <strong>{ATTENDANCE_STATUS_LABEL[pendingEdit.oldStatus]}</strong> sang{' '}
               <strong>{ATTENDANCE_STATUS_LABEL[pendingEdit.newStatus]}</strong>.
             </p>
@@ -254,18 +251,10 @@ export default function TripAttendanceMatrixTab({ tripId }) {
               />
             </div>
             <div className={styles.actionRow} style={{ justifyContent: 'flex-end' }}>
-              <button
-                type="button"
-                className={styles.btnOutline}
-                onClick={() => setPendingEdit(null)}
-              >
+              <button type="button" className={styles.btnOutline} onClick={() => setPendingEdit(null)}>
                 Hủy
               </button>
-              <button
-                type="submit"
-                className={styles.btnPrimary}
-                disabled={updateAttendances.isPending}
-              >
+              <button type="submit" className={styles.btnPrimary} disabled={updateAttendances.isPending}>
                 Lưu điều chỉnh
               </button>
             </div>

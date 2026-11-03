@@ -9,13 +9,7 @@ import styles from './GuidePortal.module.css';
 export default function GuideParticipantDetailPage() {
   const { participantId } = useParams();
   const navigate = useNavigate();
-  const {
-    data: detail,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useGuideParticipantDetail(participantId);
+  const { data: detail, isLoading, isError, error, refetch } = useGuideParticipantDetail(participantId);
 
   if (isLoading) return <Spinner />;
   if (isError || !detail) return <ErrorState message={error?.message} onRetry={refetch} />;
@@ -31,8 +25,7 @@ export default function GuideParticipantDetailPage() {
       <div className={styles.tripCard}>
         <h1 className={styles.cardTitle}>{detail.fullName} (Hồ sơ An toàn - Màn G03)</h1>
         <p className={styles.metaText}>
-          Ngày sinh: {detail.dateOfBirth || 'Chưa cập nhật'}{' '}
-          {detail.age ? `(${detail.age} tuổi)` : ''}
+          Ngày sinh: {detail.dateOfBirth || 'Chưa cập nhật'} {detail.age ? `(${detail.age} tuổi)` : ''}
         </p>
         <p className={styles.metaText}>Email: {detail.email}</p>
         {detail.phone && (

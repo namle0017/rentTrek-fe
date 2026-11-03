@@ -4,7 +4,12 @@ import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
-import { ORDER_PAYMENT_STATUS_LABEL, ORDER_STATUS_LABEL, ORDER_TYPE, ORDER_TYPE_LABEL } from '@/constants/enums';
+import {
+  ORDER_PAYMENT_STATUS_LABEL,
+  ORDER_STATUS_LABEL,
+  ORDER_TYPE,
+  ORDER_TYPE_LABEL,
+} from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
@@ -39,7 +44,8 @@ function OrderCard({ order }) {
   );
 
   // ponytail: đơn thuê chưa có trang chi tiết, thêm Link khi có route RENTAL_ORDER_DETAIL
-  if (order.orderType !== ORDER_TYPE.TRIP_BOOKING) return <article className={styles.card}>{content}</article>;
+  if (order.orderType !== ORDER_TYPE.TRIP_BOOKING)
+    return <article className={styles.card}>{content}</article>;
   return (
     <Link className={styles.card} to={ROUTES.TRIP_BOOKING_DETAIL(order.id)}>
       {content}

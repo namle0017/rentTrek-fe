@@ -11,11 +11,7 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
 import styles from './finance.module.css';
 
-export default function TransactionTable({
-  payments = [],
-  isLoading = false,
-  onSelectPayment,
-}) {
+export default function TransactionTable({ payments = [], isLoading = false, onSelectPayment }) {
   const [copiedId, setCopiedId] = useState(null);
 
   const handleCopy = (e, text, id) => {
@@ -115,7 +111,9 @@ export default function TransactionTable({
 
                   {/* Cột 2: Dòng tiền & Mục đích */}
                   <td>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-start' }}>
+                    <div
+                      style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-start' }}
+                    >
                       <span
                         className={`${styles.badge} ${
                           isRefund ? styles.badgeRefund : styles.badgeCollection
@@ -132,9 +130,7 @@ export default function TransactionTable({
                   {/* Cột 3: Số tiền & Đối soát */}
                   <td className={styles.numberCell}>
                     <div className={styles.amountPrimary} style={{ color: isRefund ? '#dc2626' : '#16a34a' }}>
-                      {isRefund
-                        ? `-${formatCurrency(Math.abs(item.amount))}`
-                        : formatCurrency(item.amount)}
+                      {isRefund ? `-${formatCurrency(Math.abs(item.amount))}` : formatCurrency(item.amount)}
                     </div>
                     {item.receivedAmount !== null && item.receivedAmount !== undefined && (
                       <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>
@@ -159,7 +155,9 @@ export default function TransactionTable({
                   {/* Cột 4: Phương thức */}
                   <td>
                     <div style={{ fontSize: 13, fontWeight: 500 }}>
-                      {PAYMENT_METHOD_LABEL[item.paymentMethod] || item.paymentMethod || 'Chuyển khoản (VietQR)'}
+                      {PAYMENT_METHOD_LABEL[item.paymentMethod] ||
+                        item.paymentMethod ||
+                        'Chuyển khoản (VietQR)'}
                     </div>
                   </td>
 

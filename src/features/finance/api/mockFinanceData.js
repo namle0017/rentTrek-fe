@@ -425,4 +425,3 @@ export const INITIAL_REFUND_POLICIES = [
     ],
   },
 ];
-

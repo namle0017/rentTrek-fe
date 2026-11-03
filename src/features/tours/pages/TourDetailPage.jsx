@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
-import Spinner from '@/components/Spinner';
+import { DetailSkeleton } from '@/components/skeleton';
 import { ROUTES } from '@/constants/routes';
 import TourBookingCard from '../components/TourBookingCard';
 import TourGallery from '../components/TourGallery';
@@ -15,7 +15,7 @@ export default function TourDetailPage() {
   const { tourId } = useParams();
   const { data: tour, isLoading, isError, error, refetch } = useTour(tourId);
 
-  if (isLoading) return <Spinner fullScreen />;
+  if (isLoading) return <DetailSkeleton />;
   if (isError)
     return <ErrorState message={error.message || 'Không thể tải chi tiết tour'} onRetry={refetch} />;
   if (!tour) return <EmptyState message="Không tìm thấy thông tin tour trekking này." />;

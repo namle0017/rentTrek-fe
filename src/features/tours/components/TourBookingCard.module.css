@@ -17,17 +17,30 @@
   letter-spacing: 0.06em;
 }
 
-.priceRow { display: flex; gap: 4px; align-items: baseline; }
-.price { color: #173d2d; font-size: clamp(1.65rem, 3vw, 2rem); font-weight: 800; }
+.priceRow {
+  display: flex;
+  gap: 4px;
+  align-items: baseline;
+}
+.price {
+  color: #173d2d;
+  font-size: clamp(1.65rem, 3vw, 2rem);
+  font-weight: 800;
+}
 
 .priceUnit,
 .deposit,
 .emptyText,
-.unavailable { color: #69766f; font-size: 0.78rem; }
+.unavailable {
+  color: #69766f;
+  font-size: 0.78rem;
+}
 
 .deposit,
 .emptyText,
-.unavailable { margin: 4px 0 0; }
+.unavailable {
+  margin: 4px 0 0;
+}
 
 .tripGroup {
   padding: 18px 0 0;
@@ -48,9 +61,20 @@
 }
 
 /* float để legend không cắt border-top của fieldset */
-.tripGroup legend { float: left; width: 100%; }
-.label svg { fill: none; stroke: currentColor; stroke-width: 2; }
-.tripList { display: grid; gap: 8px; clear: both; }
+.tripGroup legend {
+  float: left;
+  width: 100%;
+}
+.label svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.tripList {
+  display: grid;
+  gap: 8px;
+  clear: both;
+}
 
 .tripOption {
   display: flex;
@@ -61,16 +85,39 @@
   background: #fff;
   border: 1px solid #d8ddd8;
   border-radius: 10px;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
 }
 
-.tripOption input { width: 18px; height: 18px; margin: 0; accent-color: #204b39; }
-.tripOption span { display: grid; }
-.tripOption strong { font-size: 0.86rem; }
-.tripOption small { color: #69766f; font-size: 0.74rem; }
-.tripOption:has(input:disabled) { cursor: not-allowed; opacity: 0.55; }
-.tripOption:has(input:focus-visible) { outline: 2px solid #204b39; outline-offset: 2px; }
-.tripSelected { background: #edf6ee; border: 1.5px solid #204b39; }
+.tripOption input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #204b39;
+}
+.tripOption span {
+  display: grid;
+}
+.tripOption strong {
+  font-size: 0.86rem;
+}
+.tripOption small {
+  color: #69766f;
+  font-size: 0.74rem;
+}
+.tripOption:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.tripOption:has(input:focus-visible) {
+  outline: 2px solid #204b39;
+  outline-offset: 2px;
+}
+.tripSelected {
+  background: #edf6ee;
+  border: 1.5px solid #204b39;
+}
 
 .counterRow {
   display: flex;
@@ -80,8 +127,14 @@
   margin: 18px 0;
 }
 
-.counterRow .label { margin: 0; }
-.counter { display: flex; gap: 6px; align-items: center; }
+.counterRow .label {
+  margin: 0;
+}
+.counter {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
 
 .counterBtn {
   display: grid;
@@ -99,10 +152,21 @@
   place-items: center;
 }
 
-.counterBtn:hover:not(:disabled) { color: #fff; background: #204b39; border-color: #204b39; }
+.counterBtn:hover:not(:disabled) {
+  color: #fff;
+  background: #204b39;
+  border-color: #204b39;
+}
 .counterBtn:disabled,
-.btnBook:disabled { cursor: not-allowed; opacity: 0.48; }
-.counterValue { min-width: 28px; font-weight: 700; text-align: center; }
+.btnBook:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+.counterValue {
+  min-width: 28px;
+  font-weight: 700;
+  text-align: center;
+}
 
 .escrow {
   display: flex;
@@ -117,7 +181,10 @@
   border-radius: 10px;
 }
 
-.escrow svg { flex: 0 0 auto; color: #e4b74f; }
+.escrow svg {
+  flex: 0 0 auto;
+  color: #e4b74f;
+}
 
 .btnBook {
   width: 100%;
@@ -133,9 +200,16 @@
   transition: background-color 0.15s ease;
 }
 
-.btnBook:hover:not(:disabled) { background: #c9553a; }
-.unavailable { color: #a34434; text-align: center; }
+.btnBook:hover:not(:disabled) {
+  background: #c9553a;
+}
+.unavailable {
+  color: #a34434;
+  text-align: center;
+}
 
 @media (max-width: 992px) {
-  .bookingCard { position: static; }
+  .bookingCard {
+    position: static;
+  }
 }

@@ -35,26 +35,26 @@
 }
 /* ===== Design tokens (RenTrekk Design System - design.txt) ===== */
 :root {
-  --color-primary: #1B4332;
+  --color-primary: #1b4332;
   --color-primary-dark: #163728;
-  --color-primary-active: #0F2419;
-  --color-accent: #E76F51;
-  --color-accent-hover: #D65D40;
-  --color-positive-bg: #D8F3DC;
+  --color-primary-active: #0f2419;
+  --color-accent: #e76f51;
+  --color-accent-hover: #d65d40;
+  --color-positive-bg: #d8f3dc;
   --color-positive-text: #166534;
-  --color-warning-bg: #FEF3C7;
-  --color-warning-text: #92400E;
-  --color-danger-bg: #FEE2E2;
-  --color-danger-text: #991B1B;
-  --color-info-bg: #E0F2FE;
+  --color-warning-bg: #fef3c7;
+  --color-warning-text: #92400e;
+  --color-danger-bg: #fee2e2;
+  --color-danger-text: #991b1b;
+  --color-info-bg: #e0f2fe;
   --color-info-text: #075985;
-  --color-bg: #F8F9FA;
-  --color-surface: #FFFFFF;
-  --color-border: #E5E7EB;
+  --color-bg: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
   --color-text: #111827;
-  --color-text-secondary: #4B5563;
-  --color-text-muted: #6B7280;
-  --color-error: #DC2626;
+  --color-text-secondary: #4b5563;
+  --color-text-muted: #6b7280;
+  --color-error: #dc2626;
 
   --radius: 8px;
   --radius-lg: 12px;

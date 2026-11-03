@@ -81,8 +81,8 @@ export default function ActiveSessionsList() {
           <div className={styles.confirmContent}>
             <strong>Xác nhận đăng xuất từ xa?</strong>
             <p>
-              Tất cả {otherSessionsCount} thiết bị khác sẽ bị ngắt kết nối ngay lập tức. Thiết bị hiện
-              tại của bạn vẫn được duy trì.
+              Tất cả {otherSessionsCount} thiết bị khác sẽ bị ngắt kết nối ngay lập tức. Thiết bị hiện tại của
+              bạn vẫn được duy trì.
             </p>
           </div>
           <div className={styles.confirmActions}>

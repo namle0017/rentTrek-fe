@@ -33,20 +33,33 @@
   font-display: swap;
   src: url('/fonts/be-vietnam-pro-800.ttf') format('truetype');
 }
-/* ===== Design tokens ===== */
+/* ===== Design tokens (RenTrekk Design System - design.txt) ===== */
 :root {
-  --color-primary: #204b39;
-  --color-primary-dark: #154d33;
-  --color-bg: #fafafa;
-  --color-surface: #ffffff;
-  --color-border: #e1e5e9;
-  --color-text: #1d2420;
-  --color-text-muted: #66706a;
-  --color-error: #c62828;
+  --color-primary: #1B4332;
+  --color-primary-dark: #163728;
+  --color-primary-active: #0F2419;
+  --color-accent: #E76F51;
+  --color-accent-hover: #D65D40;
+  --color-positive-bg: #D8F3DC;
+  --color-positive-text: #166534;
+  --color-warning-bg: #FEF3C7;
+  --color-warning-text: #92400E;
+  --color-danger-bg: #FEE2E2;
+  --color-danger-text: #991B1B;
+  --color-info-bg: #E0F2FE;
+  --color-info-text: #075985;
+  --color-bg: #F8F9FA;
+  --color-surface: #FFFFFF;
+  --color-border: #E5E7EB;
+  --color-text: #111827;
+  --color-text-secondary: #4B5563;
+  --color-text-muted: #6B7280;
+  --color-error: #DC2626;
 
   --radius: 8px;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.06);
-  --shadow-hover: 0 4px 16px rgb(0 0 0 / 0.1);
+  --radius-lg: 12px;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  --shadow-hover: 0 4px 12px rgb(0 0 0 / 0.08);
 
   font-family:
     'Be Vietnam Pro',

@@ -55,12 +55,14 @@ export default function AdminLayout() {
           <NavLink to={ROUTES.ADMIN} end>
             Tổng quan
           </NavLink>
+          <NavLink to={ROUTES.ADMIN_TRIPS}>Quản lý Chuyến đi (O09)</NavLink>
           <NavLink to={ROUTES.ADMIN_PRODUCT_CREATE}>Thêm sản phẩm</NavLink>
 
           <div className={styles.sectionHeader}>Tài chính</div>
           <NavLink to={ROUTES.OPS_TRANSACTIONS}>Giao dịch</NavLink>
           <NavLink to={ROUTES.OPS_REFUNDS}>Hoàn tiền & Đối soát</NavLink>
           <NavLink to={ROUTES.OPS_REFUND_POLICIES}>Chính sách hoàn tiền</NavLink>
+          <NavLink to={ROUTES.GUIDE_TRIPS}>Khu vực Guide</NavLink>
         </nav>
       </aside>
 

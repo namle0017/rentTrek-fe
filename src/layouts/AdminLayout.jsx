@@ -20,6 +20,9 @@ export default function AdminLayout() {
           <NavLink to={ROUTES.OPS_ASSETS}>Kho thiết bị (O20)</NavLink>
           <NavLink to={ROUTES.OPS_ASSETS_SCHEDULE}>Lịch Gantt thiết bị (O21)</NavLink>
           <NavLink to="/ops/trips/provided-items">Đồ cấp chuyến (O13)</NavLink>
+          <NavLink to="/ops/rentals/handover">Giao thiết bị (O24)</NavLink>
+          <NavLink to="/ops/rentals/return">Thu hồi thiết bị (O25)</NavLink>
+          <NavLink to="/ops/rentals/settlement">Quyết toán & Phí (O26)</NavLink>
         </nav>
       </aside>
 

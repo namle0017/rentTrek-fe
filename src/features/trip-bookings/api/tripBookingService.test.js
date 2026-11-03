@@ -45,10 +45,20 @@ describe('tripBookingService', () => {
     expect(axiosClient.put).toHaveBeenCalledWith('/trip-bookings/order-1/participants/p-1', payload);
   });
 
-  it('cancels a booking with a reason', async () => {
-    await tripBookingService.cancel({ orderId: 'order-1', reason: 'Bận' });
+  it('loads the cancellation preview and sends the confirmed refund payload', async () => {
+    const payload = {
+      reason: 'Bận',
+      expectedRefundAmount: 1600000,
+      bankAccount: { bankCode: 'VCB', accountNumber: '0123456789', accountHolder: 'NGUYEN VAN A' },
+      consentVersion: 'refund-bank-data-v1',
+      consentAccepted: true,
+    };
 
-    expect(axiosClient.post).toHaveBeenCalledWith('/trip-bookings/order-1/cancel', { reason: 'Bận' });
+    await tripBookingService.getCancellationPreview('order-1');
+    await tripBookingService.cancel({ orderId: 'order-1', payload });
+
+    expect(axiosClient.get).toHaveBeenCalledWith('/trip-bookings/order-1/cancellation-preview');
+    expect(axiosClient.post).toHaveBeenCalledWith('/trip-bookings/order-1/cancel', payload);
   });
 
   it('reads and rotates the invite link', async () => {

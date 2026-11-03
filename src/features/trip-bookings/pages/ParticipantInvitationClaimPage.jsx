@@ -71,7 +71,9 @@ export default function ParticipantInvitationClaimPage() {
                   <time>{activity.startTime.slice(0, 5)}</time>
                   <div>
                     <strong>{activity.name}</strong>
-                    {activity.isCurrent && <span className={styles.currentBadge}>Đang diễn ra theo lịch</span>}
+                    {activity.isCurrent && (
+                      <span className={styles.currentBadge}>Đang diễn ra theo lịch</span>
+                    )}
                     {activity.description && <p>{activity.description}</p>}
                   </div>
                 </li>
@@ -80,7 +82,9 @@ export default function ParticipantInvitationClaimPage() {
           </section>
         ))}
 
-        <p className={styles.securityNote}>Link hết hạn lúc {formatDateTime(preview.expiresAt)}. Giờ theo lịch dự kiến.</p>
+        <p className={styles.securityNote}>
+          Link hết hạn lúc {formatDateTime(preview.expiresAt)}. Giờ theo lịch dự kiến.
+        </p>
       </section>
     </main>
   );

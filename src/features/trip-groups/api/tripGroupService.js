@@ -2,6 +2,8 @@ import axiosClient from '@/api/axiosClient';
 import { API_ENDPOINTS } from '@/api/endpoints';
 
 export const tripGroupService = {
+  getTrip: (tripId) => axiosClient.get(API_ENDPOINTS.TRIPS.BY_ID(tripId)),
+  updateStatus: ({ tripId, status }) => axiosClient.patch(API_ENDPOINTS.TRIPS.STATUS(tripId), { status }),
   getSnapshot: (tripId) => axiosClient.get(API_ENDPOINTS.TRIPS.GROUPING(tripId)),
   assignGuide: ({ tripId, groupId, guideUserId, expectedTripRowVersion }) =>
     axiosClient.put(API_ENDPOINTS.TRIPS.GROUP_GUIDE(tripId, groupId), {

@@ -21,7 +21,9 @@ export function InviteLinkBox({ orderId }) {
   if (!link) return null;
 
   const share = () =>
-    navigator.share({ title: 'Xem chuyến đi', text: 'Mở link để xem đoàn và lịch hoạt động.', url: link.url }).catch(() => {});
+    navigator
+      .share({ title: 'Xem chuyến đi', text: 'Mở link để xem đoàn và lịch hoạt động.', url: link.url })
+      .catch(() => {});
   const rotate = () => {
     if (window.confirm('Link cũ sẽ không dùng được nữa. Bạn có chắc muốn đổi link?')) {
       rotateLink.mutate(orderId);
@@ -42,7 +44,9 @@ export function InviteLinkBox({ orderId }) {
           </button>
         )}
       </div>
-      <small>{link.totalSeats} người trong đoàn · Hết hạn: {formatDateTime(link.expiresAt)}</small>
+      <small>
+        {link.totalSeats} người trong đoàn · Hết hạn: {formatDateTime(link.expiresAt)}
+      </small>
       <small>Chỉ hiện họ tên đoàn và lịch hoạt động, không có giá tiền hay liên hệ.</small>
       <div>
         <button type="button" onClick={rotate} disabled={rotateLink.isPending}>

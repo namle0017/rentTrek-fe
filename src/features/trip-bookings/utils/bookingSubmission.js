@@ -68,9 +68,6 @@ export function normalizeBookingPayload(values, buyerEmail) {
       fullName,
       email: email || undefined,
       phone: optional(participant?.phone),
-      dateOfBirth: optional(participant?.dateOfBirth),
-      emergencyContactName: optional(participant?.emergencyContactName),
-      emergencyContactPhone: optional(participant?.emergencyContactPhone),
     });
   });
 

@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useMyOrders } from '@/features/orders/hooks/useOrders';
 import {
+  useCancellationPreview,
   useCancelTripBooking,
   useCustomerTripGrouping,
   useInviteLink,
@@ -26,6 +27,11 @@ vi.mock('../hooks/useTripBookings', () => ({
   useCustomerTripGrouping: vi.fn(),
   useUpdateParticipant: vi.fn(),
   useCancelTripBooking: vi.fn(),
+  useCancellationPreview: vi.fn(),
+}));
+
+vi.mock('@/features/refunds/components/RefundProgressCard', () => ({
+  default: ({ refundCaseId }) => <div>refund-progress-{refundCaseId}</div>,
 }));
 
 const booking = {
@@ -44,7 +50,13 @@ const booking = {
   holdExpiresAt: '2099-11-01T00:00:00Z',
   canManage: true,
   participants: [
-    { participantId: 'p-1', fullName: 'Buyer', email: 'buyer@example.com', linkedUserId: 'u-1', status: 'Registered' },
+    {
+      participantId: 'p-1',
+      fullName: 'Buyer',
+      email: 'buyer@example.com',
+      linkedUserId: 'u-1',
+      status: 'Registered',
+    },
     { participantId: 'p-2', fullName: 'Nguyễn An', email: 'an@example.com', status: 'Registered' },
   ],
 };
@@ -79,6 +91,11 @@ describe('TripBookingDetailPage', () => {
     useRotateInviteLink.mockReturnValue({ mutate: vi.fn(), isPending: false });
     useUpdateParticipant.mockReturnValue({ mutateAsync: updateAsync, isPending: false });
     useCancelTripBooking.mockReturnValue({ mutateAsync: cancelAsync, isPending: false });
+    useCancellationPreview.mockReturnValue({
+      data: { canCancel: true, paidAmount: 0, estimatedRefundAmount: 0, appliedCase: '' },
+      isLoading: false,
+      isError: false,
+    });
     useInviteLink.mockReturnValue({
       data: {
         url: 'http://localhost:5173/trip-bookings/order-1/join#t=abc',
@@ -177,17 +194,27 @@ describe('TripBookingDetailPage', () => {
     expect(screen.getByLabelText('Link xem chuyến cho nhóm')).toBeInTheDocument();
   });
 
-  it('cancels with a reason after confirmation', async () => {
+  it('cancels without asking for a reason when no refund is due', async () => {
     const user = userEvent.setup();
     cancelAsync.mockResolvedValue({});
     renderPage();
 
     await user.click(screen.getByRole('button', { name: 'Hủy booking' }));
     expect(cancelAsync).not.toHaveBeenCalled();
-    await user.type(screen.getByLabelText(/Lý do/), '  Bận lịch  ');
     await user.click(screen.getByRole('button', { name: 'Xác nhận hủy' }));
 
-    expect(cancelAsync).toHaveBeenCalledWith({ orderId: 'order-1', reason: 'Bận lịch' });
+    expect(cancelAsync).toHaveBeenCalledWith({
+      orderId: 'order-1',
+      payload: { reason: undefined, expectedRefundAmount: 0 },
+    });
+  });
+
+  it('shows refund progress when the booking has a refund case', () => {
+    showBooking({ ...paidBooking, status: 'Cancelled', refundCase: { refundCaseId: 'case-1' } });
+
+    renderPage();
+
+    expect(screen.getByText('refund-progress-case-1')).toBeInTheDocument();
   });
 
   it('blocks cancelling while the payment is being reconciled', () => {
@@ -205,8 +232,7 @@ describe('TripBookingDetailPage', () => {
 
     renderPage();
 
-    expect(screen.getByText('Booking đã hủy')).toBeInTheDocument();
-    expect(screen.getByText(/trạng thái hoàn tiền/)).toBeInTheDocument();
+    expect(screen.getByText('Đã hủy')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /^Sửa/ })).not.toBeInTheDocument();
     expect(screen.queryByLabelText('Tiến trình đơn')).not.toBeInTheDocument();
   });

@@ -11,11 +11,6 @@ import { useTours } from '../hooks/useTours';
 import styles from './TourListPage.module.css';
 
 // Value = string BE nhận ở query `status` (TourQueryRequest)
-const STATUS_TABS = [
-  { value: 'Active', label: 'Đang mở' },
-  { value: 'Expired', label: 'Hết hạn' },
-];
-
 const DIFFICULTY_OPTIONS = ['Dễ', 'Trung bình', 'Khó', 'Thử thách'];
 
 const DURATION_OPTIONS = [
@@ -31,7 +26,6 @@ export default function TourListPage() {
 
   const pageNumber = Number(searchParams.get('pageNumber')) || DEFAULT_PAGE_NUMBER;
   const search = searchParams.get('search') ?? '';
-  const status = searchParams.get('status') ?? STATUS_TABS[0].value;
   const difficultyLevel = searchParams.get('difficultyLevel') ?? '';
   const durationDays = searchParams.get('durationDays') ?? '';
 
@@ -71,12 +65,7 @@ export default function TourListPage() {
     isError,
     error,
     refetch,
-  } = useTours({ pageNumber, pageSize: DEFAULT_PAGE_SIZE, status, ...filters });
-
-  // Chỉ lấy totalItems cho số đếm trên tab
-  const { data: activeTours } = useTours({ pageNumber: 1, pageSize: 1, status: 'Active', ...filters });
-  const { data: expiredTours } = useTours({ pageNumber: 1, pageSize: 1, status: 'Expired', ...filters });
-  const tabCounts = { Active: activeTours?.totalItems, Expired: expiredTours?.totalItems };
+  } = useTours({ pageNumber, pageSize: DEFAULT_PAGE_SIZE, status: 'Active', ...filters });
 
   const renderContent = () => {
     if (isLoading) return <Spinner />;
@@ -178,21 +167,6 @@ export default function TourListPage() {
                 Combo 2N1Đ đang chờ bạn
               </h2>
               <p className={styles.sectionText}>Khởi hành cuối tuần · Trọn gói hướng dẫn và trang bị thiết yếu</p>
-            </div>
-            <div className={styles.tabs} role="tablist" aria-label="Trạng thái tour">
-              {STATUS_TABS.map((tab) => (
-                <button
-                  key={tab.value}
-                  type="button"
-                  role="tab"
-                  aria-selected={status === tab.value}
-                  className={`${styles.tab} ${status === tab.value ? styles.tabActive : ''}`}
-                  onClick={() => updateParams({ status: tab.value })}
-                >
-                  {tab.label}
-                  {tabCounts[tab.value] !== undefined && ` · ${tabCounts[tab.value]}`}
-                </button>
-              ))}
             </div>
           </div>
 

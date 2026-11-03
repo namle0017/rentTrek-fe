@@ -9,5 +9,7 @@ export const ROUTES = {
   TOUR_DETAIL: (tourId = ':tourId') => `/tours/${tourId}`,
   ADMIN: '/admin',
   ADMIN_PRODUCT_CREATE: '/admin/products/new',
+  OPS_ASSETS: '/ops/assets',
+  OPS_ASSETS_SCHEDULE: '/ops/assets/schedule',
   FORBIDDEN: '/403',
 };

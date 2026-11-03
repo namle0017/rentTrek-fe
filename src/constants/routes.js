@@ -36,5 +36,8 @@ export const ROUTES = {
   GUIDE_ATTENDANCE: (tripId = ':tripId') => `/guide/trips/${tripId}/attendance`,
   GUIDE_ITINERARY: (tripId = ':tripId') => `/guide/trips/${tripId}/itinerary`,
   GUIDE_PROVIDED_ITEMS: (tripId = ':tripId') => `/guide/trips/${tripId}/provided-items`,
+  OPS_ASSETS: '/ops/assets',
+  OPS_ASSETS_SCHEDULE: '/ops/assets/schedule',
+  OPS_TRIP_PROVIDED_ITEMS: (tripId = ':tripId') => `/ops/trips/${tripId}/provided-items`,
   FORBIDDEN: '/403',
 };

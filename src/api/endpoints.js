@@ -119,5 +119,21 @@ export const API_ENDPOINTS = {
     INVITE_LINK: (orderId) => `/trip-bookings/${orderId}/invite-link`,
     ROTATE_INVITE_LINK: (orderId) => `/trip-bookings/${orderId}/invite-link/rotate`,
     PREVIEW_INVITATION: '/trip-bookings/participant-invitations/preview',
+    ASSETS: {
+      ROOT: '/admin/assets',
+      BULK_CREATE: '/admin/assets/bulk-create',
+      BY_CODE: (code) => `/admin/assets/${code}`,
+      STATUS: (code) => `/admin/assets/${code}/status`,
+      HISTORY: (code) => `/admin/assets/${code}/history`,
+      SCHEDULE_GANTT: '/admin/assets/schedule-gantt',
+    },
+    TRIP_PROVIDED_ITEMS: {
+      BY_TRIP: (tripId) => `/admin/trips/${tripId}/provided-items`,
+      AVAILABLE_ASSETS: (tripId, itemId) => `/admin/trips/${tripId}/provided-items/${itemId}/available-assets`,
+      ASSIGN: (tripId, itemId) => `/admin/trips/${tripId}/provided-items/${itemId}/assignments`,
+      UNASSIGN: (tripId, assignmentId) => `/admin/trips/${tripId}/assignments/${assignmentId}`,
+      ISSUE: (tripId) => `/admin/trips/${tripId}/provided-items/issue`,
+      RETURN: (tripId) => `/admin/trips/${tripId}/provided-items/return`,
+    },
   },
 };

@@ -66,6 +66,9 @@ export default function AdminLayout() {
           <NavLink to={ROUTES.OPS_REFUNDS}>Hoàn tiền & Đối soát</NavLink>
           <NavLink to={ROUTES.OPS_REFUND_POLICIES}>Chính sách hoàn tiền</NavLink>
           <NavLink to={ROUTES.GUIDE_TRIPS}>Khu vực Guide</NavLink>
+          <NavLink to={ROUTES.OPS_ASSETS}>Kho thiết bị (O20)</NavLink>
+          <NavLink to={ROUTES.OPS_ASSETS_SCHEDULE}>Lịch Gantt thiết bị (O21)</NavLink>
+          <NavLink to="/ops/trips/provided-items">Đồ cấp chuyến (O13)</NavLink>
         </nav>
       </aside>
 

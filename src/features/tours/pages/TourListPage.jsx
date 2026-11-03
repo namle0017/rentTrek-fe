@@ -1,71 +1,69 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
+import OutdoorIcon from '@/components/OutdoorIcon';
 import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
 import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '@/constants/config';
-import { useDebounce } from '@/hooks/useDebounce';
 import TourCard from '../components/TourCard';
 import { useTours } from '../hooks/useTours';
 import styles from './TourListPage.module.css';
+
+// Value = string BE nhận ở query `status` (TourQueryRequest)
+const STATUS_TABS = [
+  { value: 'Active', label: 'Đang mở' },
+  { value: 'Expired', label: 'Hết hạn' },
+];
+
+const DIFFICULTY_OPTIONS = ['Dễ', 'Trung bình', 'Khó', 'Thử thách'];
+
+const DURATION_OPTIONS = [
+  { value: '2', label: '2N1Đ' },
+  { value: '3', label: '3N2Đ' },
+];
+
+const HERO_IMAGE =
+  'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1800&q=80';
 
 export default function TourListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const pageNumber = Number(searchParams.get('pageNumber')) || DEFAULT_PAGE_NUMBER;
   const search = searchParams.get('search') ?? '';
-  const statusTab = searchParams.get('status') ?? 'all';
+  const status = searchParams.get('status') ?? STATUS_TABS[0].value;
   const difficultyLevel = searchParams.get('difficultyLevel') ?? '';
+  const durationDays = searchParams.get('durationDays') ?? '';
 
   const [keyword, setKeyword] = useState(search);
-  const debouncedKeyword = useDebounce(keyword.trim());
 
-  useEffect(() => {
-    if (debouncedKeyword === search) return;
-    setSearchParams(
-      (prev) => {
-        const next = new URLSearchParams(prev);
-        if (debouncedKeyword) next.set('search', debouncedKeyword);
-        else next.delete('search');
-        next.delete('pageNumber');
-        return next;
-      },
-      { replace: true },
-    );
-  }, [debouncedKeyword, search, setSearchParams]);
+  const filters = {
+    search: search || undefined,
+    difficultyLevel: difficultyLevel || undefined,
+    durationDays: durationDays || undefined,
+  };
 
-  const handleTabChange = (status) => {
+  const updateParams = (changes) => {
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
-      if (status === 'all') next.delete('status');
-      else next.set('status', status);
-      next.delete('pageNumber');
+      Object.entries(changes).forEach(([key, value]) => {
+        if (value) next.set(key, value);
+        else next.delete(key);
+      });
+      if (!('pageNumber' in changes)) next.delete('pageNumber');
       return next;
     });
   };
 
-  const handleDifficultyChange = (e) => {
-    const val = e.target.value;
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      if (val) next.set('difficultyLevel', val);
-      else next.delete('difficultyLevel');
-      next.delete('pageNumber');
-      return next;
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    updateParams({
+      search: keyword.trim(),
+      difficultyLevel: form.get('difficultyLevel'),
+      durationDays: form.get('durationDays'),
     });
   };
-
-  const handlePageChange = (nextPageNumber) => {
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.set('pageNumber', String(nextPageNumber));
-      return next;
-    });
-  };
-
-  // Convert tab to API filter
-  const apiStatus = statusTab === 'all' ? undefined : statusTab;
 
   const {
     data: pagedTours,
@@ -73,18 +71,19 @@ export default function TourListPage() {
     isError,
     error,
     refetch,
-  } = useTours({
-    pageNumber,
-    pageSize: DEFAULT_PAGE_SIZE,
-    search: search || undefined,
-    status: apiStatus,
-    difficultyLevel: difficultyLevel || undefined,
-  });
+  } = useTours({ pageNumber, pageSize: DEFAULT_PAGE_SIZE, status, ...filters });
+
+  // Chỉ lấy totalItems cho số đếm trên tab
+  const { data: activeTours } = useTours({ pageNumber: 1, pageSize: 1, status: 'Active', ...filters });
+  const { data: expiredTours } = useTours({ pageNumber: 1, pageSize: 1, status: 'Expired', ...filters });
+  const tabCounts = { Active: activeTours?.totalItems, Expired: expiredTours?.totalItems };
 
   const renderContent = () => {
     if (isLoading) return <Spinner />;
-    if (isError) return <ErrorState message={error.message || 'Không thể tải danh sách tour'} onRetry={refetch} />;
-    if (!pagedTours?.items || pagedTours.items.length === 0) {
+    if (isError) {
+      return <ErrorState message={error.message || 'Không thể tải danh sách tour'} onRetry={refetch} />;
+    }
+    if (!pagedTours?.items?.length) {
       return <EmptyState message="Không tìm thấy tour trekking nào phù hợp." />;
     }
 
@@ -102,7 +101,7 @@ export default function TourListPage() {
             totalPages={pagedTours.totalPages}
             hasPrevious={pagedTours.hasPrevious}
             hasNext={pagedTours.hasNext}
-            onPageChange={handlePageChange}
+            onPageChange={(next) => updateParams({ pageNumber: String(next) })}
           />
         )}
       </>
@@ -110,63 +109,96 @@ export default function TourListPage() {
   };
 
   return (
-    <section>
-      <div className={styles.headerSection}>
-        <h1 className={styles.title}>Combo Tour Trekking Trọn Gói</h1>
-        <p className={styles.subtitle}>
-          Khám phá những cung đường trekking đẹp nhất Việt Nam cùng trang bị chuẩn kiểm định và porter chuyên nghiệp.
-        </p>
-      </div>
-
-      <div className={styles.filterBar}>
-        <div className={styles.tabs}>
-          <button
-            type="button"
-            className={`${styles.tabBtn} ${statusTab === 'all' ? styles.tabActive : ''}`}
-            onClick={() => handleTabChange('all')}
-          >
-            Tất cả
-          </button>
-          <button
-            type="button"
-            className={`${styles.tabBtn} ${statusTab === 'Active' ? styles.tabActive : ''}`}
-            onClick={() => handleTabChange('Active')}
-          >
-            Đang mở
-          </button>
-          <button
-            type="button"
-            className={`${styles.tabBtn} ${statusTab === 'Expired' ? styles.tabActive : ''}`}
-            onClick={() => handleTabChange('Expired')}
-          >
-            Hết hạn
-          </button>
+    <>
+      <section className={styles.hero} style={{ '--hero-image': `url(${HERO_IMAGE})` }}>
+        <div className={`container ${styles.heroInner}`}>
+          <span className={styles.heroKicker}>COMBO TREKKING 2 NGÀY 1 ĐÊM</span>
+          <h1 className={styles.heroTitle}>Một cuối tuần, trọn vẹn một cung đường</h1>
+          <p className={styles.heroText}>
+            Tour trekking chọn lọc, lịch trình gọn gàng và trang bị thiết yếu đã sẵn sàng. Chỉ cần chọn cung
+            đường phù hợp với bạn.
+          </p>
+          <ul className={styles.heroChips}>
+            <li>Nhóm nhỏ 8–12 người</li>
+            <li>Hướng dẫn viên bản địa</li>
+            <li>Trang bị kiểm định</li>
+          </ul>
         </div>
+      </section>
 
-        <div className={styles.filterControls}>
-          <select
-            className={styles.selectInput}
-            value={difficultyLevel}
-            onChange={handleDifficultyChange}
-          >
-            <option value="">Tất cả độ khó</option>
-            <option value="Dễ">Dễ</option>
-            <option value="Vừa phải">Vừa phải</option>
-            <option value="Khó">Khó</option>
-            <option value="Thử thách">Thử thách</option>
-          </select>
+      <div className="container">
+        <form className={styles.searchCard} onSubmit={handleSearchSubmit} role="search">
+          <label className={styles.searchField}>
+            <span>Điểm đến</span>
+            <input
+              type="search"
+              value={keyword}
+              onChange={(event) => setKeyword(event.target.value)}
+              placeholder="Sa Pa, Đà Lạt..."
+              maxLength={200}
+            />
+          </label>
+          <label className={styles.searchField}>
+            <span>Thời lượng</span>
+            <select name="durationDays" defaultValue={durationDays} key={`d-${durationDays}`}>
+              <option value="">Tất cả</option>
+              {DURATION_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className={styles.searchField}>
+            <span>Độ khó</span>
+            <select name="difficultyLevel" defaultValue={difficultyLevel} key={`l-${difficultyLevel}`}>
+              <option value="">Tất cả</option>
+              {DIFFICULTY_OPTIONS.map((level) => (
+                <option key={level} value={level}>
+                  {level}
+                </option>
+              ))}
+            </select>
+          </label>
+          <div className={styles.searchField}>
+            <span>Hình thức</span>
+            <strong>Camping + Trekking</strong>
+          </div>
+          <button type="submit" className={styles.searchButton}>
+            <OutdoorIcon name="search" size={17} />
+            Tìm kiếm tour
+          </button>
+        </form>
 
-          <input
-            type="search"
-            className={styles.searchInput}
-            placeholder="Tìm theo tên tour, địa điểm..."
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-          />
-        </div>
+        <section className={styles.listSection} aria-labelledby="tour-list-title">
+          <div className={styles.sectionHeader}>
+            <div>
+              <span className={styles.kicker}>CUNG ĐƯỜNG ĐƯỢC TUYỂN CHỌN</span>
+              <h2 id="tour-list-title" className={styles.sectionTitle}>
+                Combo 2N1Đ đang chờ bạn
+              </h2>
+              <p className={styles.sectionText}>Khởi hành cuối tuần · Trọn gói hướng dẫn và trang bị thiết yếu</p>
+            </div>
+            <div className={styles.tabs} role="tablist" aria-label="Trạng thái tour">
+              {STATUS_TABS.map((tab) => (
+                <button
+                  key={tab.value}
+                  type="button"
+                  role="tab"
+                  aria-selected={status === tab.value}
+                  className={`${styles.tab} ${status === tab.value ? styles.tabActive : ''}`}
+                  onClick={() => updateParams({ status: tab.value })}
+                >
+                  {tab.label}
+                  {tabCounts[tab.value] !== undefined && ` · ${tabCounts[tab.value]}`}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {renderContent()}
+        </section>
       </div>
-
-      {renderContent()}
-    </section>
+    </>
   );
 }

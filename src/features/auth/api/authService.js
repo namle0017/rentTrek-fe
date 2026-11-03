@@ -9,4 +9,6 @@ export const authService = {
   forgotPassword: (payload) => axiosClient.post(API_ENDPOINTS.AUTH.FORGOT_PASSWORD, payload),
   resetPassword: (payload) => axiosClient.post(API_ENDPOINTS.AUTH.RESET_PASSWORD, payload),
   googleLogin: (payload) => axiosClient.post(API_ENDPOINTS.AUTH.GOOGLE, payload),
+  verifyEmail: (token) => axiosClient.post(API_ENDPOINTS.AUTH.VERIFY_EMAIL, { token }),
+  resendVerificationEmail: () => axiosClient.post(API_ENDPOINTS.AUTH.RESEND_VERIFICATION_EMAIL),
 };

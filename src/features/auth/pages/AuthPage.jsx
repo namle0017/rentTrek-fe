@@ -24,7 +24,8 @@ export default function AuthPage({ defaultMode }) {
     ? defaultMode === 'register'
     : location.pathname === ROUTES.REGISTER;
 
-  const redirectTo = location.state?.from?.pathname || ROUTES.HOME;
+  const from = location.state?.from;
+  const redirectTo = from ? `${from.pathname}${from.search ?? ''}${from.hash ?? ''}` : ROUTES.HOME;
 
   // Mutations
   const loginMutation = useLogin();
@@ -133,7 +134,7 @@ export default function AuthPage({ defaultMode }) {
         confirmPassword: values.confirmPassword,
       },
       {
-        onSuccess: () => navigate(ROUTES.HOME, { replace: true }),
+        onSuccess: () => navigate(redirectTo, { replace: true }),
         onError: (error) => {
           if (error.statusCode === 409) {
             setRegisterError('email', { type: 'server', message: error.message });
@@ -149,7 +150,7 @@ export default function AuthPage({ defaultMode }) {
   const switchTo = (targetMode) => {
     setLoginServerError('');
     setRegisterServerError('');
-    navigate(targetMode === 'register' ? ROUTES.REGISTER : ROUTES.LOGIN);
+    navigate(targetMode === 'register' ? ROUTES.REGISTER : ROUTES.LOGIN, { state: location.state });
   };
 
   return (

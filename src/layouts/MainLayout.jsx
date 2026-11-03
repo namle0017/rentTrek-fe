@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
@@ -12,7 +12,7 @@ const exploration = ['Lều cắm trại', 'Balô', 'Đèn', 'Túi ngủ'];
 function Brand() {
   return (
     <Link to={ROUTES.HOME} className={styles.logo}>
-      TrekRent
+      ▲ renTrek
     </Link>
   );
 }
@@ -20,16 +20,9 @@ function Brand() {
 export default function MainLayout() {
   const { currentUser, isAuthenticated } = useAuth();
   const logoutMutation = useLogout();
-  const navigate = useNavigate();
   const location = useLocation();
   // Trang có hero tràn viền tự quản lý container
   const isCatalog = [ROUTES.HOME, ROUTES.PRODUCTS, ROUTES.TOURS].includes(location.pathname);
-
-  const searchProducts = (event) => {
-    event.preventDefault();
-    const keyword = new FormData(event.currentTarget).get('search').trim();
-    navigate(`${ROUTES.PRODUCTS}${keyword ? `?search=${encodeURIComponent(keyword)}` : ''}`);
-  };
 
   const handleLogoutClick = () => {
     logoutMutation.mutate();
@@ -51,122 +44,72 @@ export default function MainLayout() {
       </a>
       <header className={styles.header}>
         <div className={`container ${styles.headerInner}`}>
-          <Brand />
+          <Link to={ROUTES.HOME} className={styles.logo}>
+            ▲ renTrek
+          </Link>
+
           <nav className={styles.nav} aria-label="Điều hướng chính">
-            <NavLink to={ROUTES.PRODUCTS}>Dụng cụ thuê</NavLink>
-            <NavLink to={ROUTES.TOURS}>Tour trekking</NavLink>
-            {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
+            <NavLink to={ROUTES.HOME} end>
+              Trang chủ
+            </NavLink>
+            <NavLink to={ROUTES.TOURS}>Tour Trekking</NavLink>
+            <NavLink to={ROUTES.PRODUCTS}>Sản phẩm & Đồ thuê</NavLink>
+            {currentUser?.role === USER_ROLE.ADMIN && (
+              <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>
+            )}
           </nav>
-          <div className={styles.headerActions}>
-            <form className={styles.headerSearch} onSubmit={searchProducts} role="search">
-              <OutdoorIcon name="search" size={17} />
-              <input
-                key={location.search}
-                name="search"
-                type="search"
-                maxLength={200}
-                defaultValue={new URLSearchParams(location.search).get('search') ?? ''}
-                placeholder="Tìm lều, balo, bếp..."
-                aria-label="Tìm sản phẩm"
-              />
-            </form>
+
+          <div className={styles.authSection}>
             {isAuthenticated ? (
-              <details className={styles.account}>
-                <summary aria-label="Tài khoản">
-                  <span className={styles.avatar}>
-                    <OutdoorIcon name="user" size={20} />
-                  </span>
-                  <OutdoorIcon name="chevron" size={14} />
-                </summary>
-                <div className={styles.accountMenu}>
-                  <Link to={ROUTES.PROFILE} title="Xem hồ sơ cá nhân">
-                    {currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}
+              <>
+                <div className={styles.userInfo}>
+                  <Link to={ROUTES.PROFILE} className={styles.userNameLink} title="Xem hồ sơ cá nhân">
+                    <span
+                      className={styles.userAvatar}
+                      style={
+                        currentUser?.avatarUrl
+                          ? { padding: 0, overflow: 'hidden' }
+                          : { backgroundColor: avatarColor.bg, color: avatarColor.text }
+                      }
+                    >
+                      {currentUser?.avatarUrl ? (
+                        <img
+                          src={currentUser.avatarUrl}
+                          alt={currentUser?.fullName || 'Avatar'}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        (currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()
+                      )}
+                    </span>
+                    <span className={styles.userName}>{currentUser?.fullName || currentUser?.email}</span>
                   </Link>
                   {currentUser?.role && (
                     <span className={getRoleBadgeClass(currentUser.role)}>
                       {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
                     </span>
                   )}
-                  <Link to={ROUTES.MY_ORDERS}>Đơn của tôi</Link>
-                  <button
-                    type="button"
-                    onClick={() => logoutMutation.mutate()}
-                    disabled={logoutMutation.isPending}
-                  >
-                    Đăng xuất
-                  </button>
                 </div>
-              </details>
+                <button
+                  type="button"
+                  className={styles.logoutBtn}
+                  onClick={handleLogoutClick}
+                  disabled={logoutMutation.isPending}
+                >
+                  {logoutMutation.isPending ? 'Đang thoát...' : 'Đăng xuất'}
+                </button>
+              </>
             ) : (
-              <Link to={ROUTES.LOGIN} className={styles.login}>
-                <OutdoorIcon name="user" size={18} />
-                <span>Đăng nhập</span>
-              </Link>
+              <>
+                <Link to={ROUTES.LOGIN} className={styles.authLink}>
+                  Đăng nhập
+                </Link>
+                <Link to={ROUTES.REGISTER} className={styles.authBtnPrimary}>
+                  Đăng ký
+                </Link>
+              </>
             )}
           </div>
-          <Link to={ROUTES.HOME} className={styles.logo}>
-            ▲ renTrek
-          </Link>
-
-          <nav className={styles.nav}>
-            <NavLink to={ROUTES.PRODUCTS}>Sản phẩm</NavLink>
-            <NavLink to={ROUTES.TOURS}>Tour Trekking</NavLink>
-            <NavLink to={ROUTES.HOME}>Trang chủ</NavLink>
-            <NavLink to={ROUTES.PRODUCTS}>Sản phẩm & Đồ thuê</NavLink>
-            {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
-
-            <div className={styles.authSection}>
-              {isAuthenticated ? (
-                <>
-                  <div className={styles.userInfo}>
-                    <Link to={ROUTES.PROFILE} className={styles.userNameLink} title="Xem hồ sơ cá nhân">
-                      <span
-                        className={styles.userAvatar}
-                        style={
-                          currentUser?.avatarUrl
-                            ? { padding: 0, overflow: 'hidden' }
-                            : { backgroundColor: avatarColor.bg, color: avatarColor.text }
-                        }
-                      >
-                        {currentUser?.avatarUrl ? (
-                          <img
-                            src={currentUser.avatarUrl}
-                            alt={currentUser?.fullName || 'Avatar'}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          />
-                        ) : (
-                          (currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()
-                        )}
-                      </span>
-                      <span className={styles.userName}>{currentUser?.fullName || currentUser?.email}</span>
-                    </Link>
-                    {currentUser?.role && (
-                      <span className={getRoleBadgeClass(currentUser.role)}>
-                        {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
-                      </span>
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    className="btn btn-outline"
-                    onClick={handleLogoutClick}
-                    disabled={logoutMutation.isPending}
-                  >
-                    {logoutMutation.isPending ? 'Đang thoát...' : 'Đăng xuất'}
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to={ROUTES.LOGIN} className="btn btn-outline">
-                    Đăng nhập
-                  </Link>
-                  <Link to={ROUTES.REGISTER} className="btn btn-primary">
-                    Đăng ký
-                  </Link>
-                </>
-              )}
-            </div>
-          </nav>
         </div>
       </header>
       <main id="main-content" className={isCatalog ? styles.catalogMain : `container ${styles.main}`}>

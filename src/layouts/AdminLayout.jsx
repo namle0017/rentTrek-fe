@@ -8,11 +8,14 @@ import styles from './AdminLayout.module.css';
 
 function getPageTitle(pathname) {
   if (pathname === ROUTES.ADMIN) return 'Tổng quan';
+  if (pathname === ROUTES.ADMIN_PROFILE) return 'Thông tin cá nhân';
+  if (pathname === ROUTES.ADMIN_TRIPS) return 'Quản lý chuyến đi';
   if (pathname === ROUTES.ADMIN_PRODUCT_CREATE) return 'Thêm sản phẩm';
   if (pathname === ROUTES.OPS_TRANSACTIONS) return 'Giao dịch';
   if (pathname === ROUTES.OPS_REFUNDS) return 'Hoàn tiền & Đối soát';
   if (pathname === ROUTES.OPS_REFUND_POLICY_CREATE) return 'Tạo chính sách hoàn tiền';
   if (pathname.startsWith(ROUTES.OPS_REFUND_POLICIES)) return 'Chính sách hoàn tiền';
+  if (pathname === ROUTES.GUIDE_TRIPS) return 'Khu vực Guide';
   return 'Quản trị hệ thống';
 }
 
@@ -55,7 +58,7 @@ export default function AdminLayout() {
           <NavLink to={ROUTES.ADMIN} end>
             Tổng quan
           </NavLink>
-          <NavLink to={ROUTES.ADMIN_TRIPS}>Quản lý Chuyến đi (O09)</NavLink>
+          <NavLink to={ROUTES.ADMIN_TRIPS}>Quản lý chuyến đi</NavLink>
           <NavLink to={ROUTES.ADMIN_PRODUCT_CREATE}>Thêm sản phẩm</NavLink>
 
           <div className={styles.sectionHeader}>Tài chính</div>
@@ -94,11 +97,11 @@ export default function AdminLayout() {
                   </div>
                   <div className={styles.dropdownDivider} />
                   <Link
-                    to={ROUTES.PROFILE}
+                    to={ROUTES.ADMIN_PROFILE}
                     className={styles.dropdownItem}
                     onClick={() => setIsDropdownOpen(false)}
                   >
-                    Thông tin cá nhân (Profile)
+                    Thông tin cá nhân
                   </Link>
                   <button
                     type="button"

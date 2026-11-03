@@ -137,16 +137,16 @@
 .authSection {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-left: 8px;
-  padding-left: 16px;
-  border-left: 1px solid var(--color-border);
+  gap: 16px;
+  margin-left: auto;
+  padding-left: 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .userInfo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 0.875rem;
 }
 
@@ -154,7 +154,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-text);
+  color: #ffffff;
   text-decoration: none;
   transition: opacity 0.2s;
 }
@@ -164,21 +164,70 @@
 }
 
 .userAvatar {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: var(--color-primary);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .userName {
   font-weight: 600;
-  color: var(--color-text);
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.logoutBtn {
+  background: #ffffff;
+  color: #1c4333;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.logoutBtn:hover {
+  background: #f1f5f9;
+  color: #123326;
+}
+
+.authLink {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.authLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.authBtnPrimary {
+  background: #22c55e;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.authBtnPrimary:hover {
+  background: #16a34a;
 }
 
 .roleBadge {

@@ -52,7 +52,12 @@ export default function MainLayout() {
             <span className={styles.upcoming}>
               Tour Booking <span className={styles.soon}>Sắp ra mắt</span>
             </span>
-            {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
+            {(currentUser?.role === USER_ROLE.ADMIN || currentUser?.role === USER_ROLE.STAFF) && (
+              <>
+                <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>
+                <NavLink to={ROUTES.OPS_ASSETS}>Kho thiết bị</NavLink>
+              </>
+            )}
           </nav>
           <div className={styles.headerActions}>
             <form className={styles.headerSearch} onSubmit={searchProducts} role="search">
@@ -86,6 +91,20 @@ export default function MainLayout() {
                 </summary>
                 <div className={styles.accountMenu}>
                   <span>{currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}</span>
+                  {(currentUser?.role === USER_ROLE.ADMIN || currentUser?.role === USER_ROLE.STAFF) && (
+                    <Link
+                      to={ROUTES.OPS_ASSETS}
+                      style={{
+                        display: 'block',
+                        padding: '0.5rem 0',
+                        color: '#2563eb',
+                        fontWeight: 600,
+                        textDecoration: 'none',
+                      }}
+                    >
+                      📦 Quản lý kho thiết bị
+                    </Link>
+                  )}
                   <button
                     type="button"
                     onClick={() => logoutMutation.mutate()}

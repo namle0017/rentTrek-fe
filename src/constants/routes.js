@@ -12,5 +12,8 @@ export const ROUTES = {
   OPS_ASSETS: '/ops/assets',
   OPS_ASSETS_SCHEDULE: '/ops/assets/schedule',
   OPS_TRIP_PROVIDED_ITEMS: (tripId = ':tripId') => `/ops/trips/${tripId}/provided-items`,
+  OPS_HANDOVER: (orderCode = ':orderCode') => `/ops/rentals/${orderCode}/handover`,
+  OPS_RETURN: (orderCode = ':orderCode') => `/ops/rentals/${orderCode}/return`,
+  OPS_SETTLEMENT: (orderCode = ':orderCode') => `/ops/rentals/${orderCode}/settlement`,
   FORBIDDEN: '/403',
 };

@@ -41,4 +41,20 @@ export const API_ENDPOINTS = {
     ISSUE: (tripId) => `/admin/trips/${tripId}/provided-items/issue`,
     RETURN: (tripId) => `/admin/trips/${tripId}/provided-items/return`,
   },
+  RENTAL_HANDOVER: {
+    HANDOVER_CHECKLIST: (orderCode) => `/admin/rental-orders/${orderCode}/handover-checklist`,
+    HANDOVER_SCAN: (orderCode) => `/admin/rental-orders/${orderCode}/handover/scan`,
+    HANDOVER_COMPLETE: (orderCode) => `/admin/rental-orders/${orderCode}/handover/complete`,
+    RETURN_CHECKLIST: (orderCode) => `/admin/rental-orders/${orderCode}/return-checklist`,
+    RETURN_SCAN: (orderCode) => `/admin/rental-orders/${orderCode}/return/scan`,
+    RETURN_REPORT_LOST: (orderCode) => `/admin/rental-orders/${orderCode}/return/report-lost`,
+    RETURN_COMPLETE: (orderCode) => `/admin/rental-orders/${orderCode}/return/complete`,
+  },
+  RENTAL_CHARGES: {
+    BY_ORDER: (orderCode) => `/admin/rental-orders/${orderCode}/charges`,
+    CREATE: (orderCode) => `/admin/rental-orders/${orderCode}/charges`,
+    ASSESS: (id) => `/admin/rental-charges/${id}/assess`,
+    VOID: (id) => `/admin/rental-charges/${id}/void`,
+    COMPLETE_ORDER: (orderCode) => `/admin/rental-orders/${orderCode}/complete`,
+  },
 };

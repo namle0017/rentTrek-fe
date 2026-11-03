@@ -24,3 +24,8 @@ npm-debug.log*
 *.sw?
 .DS_Store
 Thumbs.db
+
+# Exclude sensitive work plans and design system uploads
+docs/ADMIN-WORK-PLAN.md
+docs/RenTrekk Design System*
+

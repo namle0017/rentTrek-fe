@@ -108,6 +108,10 @@ export const router = createBrowserRouter([
             children: [
               { path: ROUTES.ADMIN, lazy: lazyPage(() => import('@/pages/AdminDashboardPage')) },
               {
+                path: ROUTES.ADMIN_PROFILE,
+                lazy: lazyPage(() => import('@/features/users/pages/ProfilePage')),
+              },
+              {
                 path: ROUTES.ADMIN_PRODUCT_CREATE,
                 lazy: lazyPage(() => import('@/features/products/pages/ProductCreatePage')),
               },

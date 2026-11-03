@@ -8,7 +8,6 @@ import { ROUTES } from '@/constants/routes';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { getAvatarColor } from '@/utils/avatarColor';
 import { formatDate, formatDateTime } from '@/utils/formatDate';
-import ActiveSessionsList from '../components/ActiveSessionsList';
 import AvatarUploadModal from '../components/AvatarUploadModal';
 import ChangePasswordForm from '../components/ChangePasswordForm';
 import { useProfile } from '../hooks/useProfile';
@@ -165,7 +164,10 @@ export default function ProfilePage() {
               title="Đổi ảnh đại diện"
               aria-label="Đổi ảnh đại diện"
             >
-              📷
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
             </button>
           </div>
 
@@ -210,16 +212,6 @@ export default function ProfilePage() {
               &ldquo;{profile.bio}&rdquo;
             </div>
           )}
-
-          <div className={styles.jwtHintBox}>
-            <div className={styles.jwtHintHeader}>
-              <span className={styles.jwtHintIcon}>🛡️</span>
-              <span className={styles.jwtHintTitle}>Bảo mật phiên JWT</span>
-            </div>
-            <p className={styles.jwtHintText}>
-              Phiên xác thực được bảo vệ bởi Access Token (30 phút) và Refresh Token luân phiên tự động.
-            </p>
-          </div>
         </aside>
 
         {/* Right Column: Dynamic Form / Card */}
@@ -231,21 +223,14 @@ export default function ProfilePage() {
               className={`${styles.tabButton} ${activeTab === 'profile' ? styles.tabButtonActive : ''}`}
               onClick={() => setActiveTab('profile')}
             >
-              <span>👤</span> Thông tin cá nhân
+              Thông tin cá nhân
             </button>
             <button
               type="button"
               className={`${styles.tabButton} ${activeTab === 'password' ? styles.tabButtonActive : ''}`}
               onClick={() => setActiveTab('password')}
             >
-              <span>🔒</span> Đổi mật khẩu
-            </button>
-            <button
-              type="button"
-              className={`${styles.tabButton} ${activeTab === 'sessions' ? styles.tabButtonActive : ''}`}
-              onClick={() => setActiveTab('sessions')}
-            >
-              <span>💻</span> Thiết bị & Phiên làm việc
+              Đổi mật khẩu
             </button>
           </nav>
 
@@ -383,9 +368,6 @@ export default function ProfilePage() {
 
           {/* Tab 2: Change Password */}
           {activeTab === 'password' && <ChangePasswordForm />}
-
-          {/* Tab 3: Active Sessions */}
-          {activeTab === 'sessions' && <ActiveSessionsList />}
         </main>
       </div>
 

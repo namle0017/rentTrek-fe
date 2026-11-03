@@ -73,15 +73,6 @@ export default function ChangePasswordForm() {
         </p>
       </div>
 
-      <div className={styles.securityAlert}>
-        <span className={styles.securityAlertIcon}>ℹ️</span>
-        <div>
-          <strong>Cơ chế bảo vệ phiên (Phương án A):</strong> Sau khi đổi mật khẩu thành công, toàn
-          bộ các thiết bị khác đang đăng nhập sẽ tự động bị đăng xuất. Phiên làm việc trên thiết bị
-          này vẫn được duy trì an toàn.
-        </div>
-      </div>
-
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
         {serverErrorMsg && <div className={styles.errorBanner}>{serverErrorMsg}</div>}
 

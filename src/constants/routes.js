@@ -11,5 +11,6 @@ export const ROUTES = {
   ADMIN_PRODUCT_CREATE: '/admin/products/new',
   OPS_ASSETS: '/ops/assets',
   OPS_ASSETS_SCHEDULE: '/ops/assets/schedule',
+  OPS_TRIP_PROVIDED_ITEMS: (tripId = ':tripId') => `/ops/trips/${tripId}/provided-items`,
   FORBIDDEN: '/403',
 };

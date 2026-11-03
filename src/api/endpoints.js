@@ -33,4 +33,12 @@ export const API_ENDPOINTS = {
     HISTORY: (code) => `/admin/assets/${code}/history`,
     SCHEDULE_GANTT: '/admin/assets/schedule-gantt',
   },
+  TRIP_PROVIDED_ITEMS: {
+    BY_TRIP: (tripId) => `/admin/trips/${tripId}/provided-items`,
+    AVAILABLE_ASSETS: (tripId, itemId) => `/admin/trips/${tripId}/provided-items/${itemId}/available-assets`,
+    ASSIGN: (tripId, itemId) => `/admin/trips/${tripId}/provided-items/${itemId}/assignments`,
+    UNASSIGN: (tripId, assignmentId) => `/admin/trips/${tripId}/assignments/${assignmentId}`,
+    ISSUE: (tripId) => `/admin/trips/${tripId}/provided-items/issue`,
+    RETURN: (tripId) => `/admin/trips/${tripId}/provided-items/return`,
+  },
 };

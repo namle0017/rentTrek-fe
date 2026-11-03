@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import BrandLogo from '@/components/BrandLogo';
 import FormField from '@/components/FormField';
 import SplitText from '@/components/SplitText';
 import { ROUTES } from '@/constants/routes';
@@ -15,9 +16,7 @@ export default function AuthPage({ defaultMode }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isRegister = defaultMode
-    ? defaultMode === 'register'
-    : location.pathname === ROUTES.REGISTER;
+  const isRegister = defaultMode ? defaultMode === 'register' : location.pathname === ROUTES.REGISTER;
 
   const from = location.state?.from;
   const redirectTo = from ? `${from.pathname}${from.search ?? ''}${from.hash ?? ''}` : ROUTES.HOME;
@@ -116,17 +115,9 @@ export default function AuthPage({ defaultMode }) {
       <div className={styles.heroColumn}>
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-          <Link to={ROUTES.HOME} className={styles.brandLogo}>
-            <span className={styles.brandIcon}>▲</span>
-            <SplitText
-              tag="span"
-              text="renTrek"
-              effect="none"
-              trigger="none"
-              splitType="chars"
-              hoverEffect="lift"
-            />
-          </Link>
+          <div style={{ marginBottom: 32 }}>
+            <BrandLogo size="lg" theme="light" />
+          </div>
 
           <div className={styles.heroTextGroup}>
             <span className={styles.heroTag}>
@@ -212,17 +203,7 @@ export default function AuthPage({ defaultMode }) {
       <div className={styles.formColumn}>
         <div className={styles.cardWrapper}>
           <div className={styles.mobileBrand}>
-            <Link to={ROUTES.HOME} className={styles.brandLogoMobile}>
-              <span className={styles.brandIcon}>▲</span>
-              <SplitText
-                tag="span"
-                text="renTrek"
-                effect="none"
-                trigger="none"
-                splitType="chars"
-                hoverEffect="lift"
-              />
-            </Link>
+            <BrandLogo size="md" theme="dark" />
           </div>
 
           {/* Sliding Tab Switcher */}
@@ -293,17 +274,9 @@ export default function AuthPage({ defaultMode }) {
               style={{ transform: isRegister ? 'translateX(-50%)' : 'translateX(0%)' }}
             >
               {/* ==================== SLIDE 1: LOGIN ==================== */}
-              <div
-                className={`${styles.slide} ${!isRegister ? styles.slideActive : styles.slideInactive}`}
-              >
-                <form
-                  className={styles.authForm}
-                  onSubmit={handleLoginSubmit(handleLogin)}
-                  noValidate
-                >
-                  {loginServerError && (
-                    <div className={styles.errorBanner}>{loginServerError}</div>
-                  )}
+              <div className={`${styles.slide} ${!isRegister ? styles.slideActive : styles.slideInactive}`}>
+                <form className={styles.authForm} onSubmit={handleLoginSubmit(handleLogin)} noValidate>
+                  {loginServerError && <div className={styles.errorBanner}>{loginServerError}</div>}
 
                   <FormField
                     label={
@@ -400,11 +373,7 @@ export default function AuthPage({ defaultMode }) {
                     splitType="words"
                     hoverEffect="lift"
                   />{' '}
-                  <button
-                    type="button"
-                    className={styles.switchModeBtn}
-                    onClick={() => switchTo('register')}
-                  >
+                  <button type="button" className={styles.switchModeBtn} onClick={() => switchTo('register')}>
                     <SplitText
                       tag="span"
                       text="Đăng ký ngay"
@@ -418,17 +387,9 @@ export default function AuthPage({ defaultMode }) {
               </div>
 
               {/* ==================== SLIDE 2: REGISTER ==================== */}
-              <div
-                className={`${styles.slide} ${isRegister ? styles.slideActive : styles.slideInactive}`}
-              >
-                <form
-                  className={styles.authForm}
-                  onSubmit={handleRegisterSubmit(handleRegister)}
-                  noValidate
-                >
-                  {registerServerError && (
-                    <div className={styles.errorBanner}>{registerServerError}</div>
-                  )}
+              <div className={`${styles.slide} ${isRegister ? styles.slideActive : styles.slideInactive}`}>
+                <form className={styles.authForm} onSubmit={handleRegisterSubmit(handleRegister)} noValidate>
+                  {registerServerError && <div className={styles.errorBanner}>{registerServerError}</div>}
 
                   <FormField
                     label={
@@ -511,8 +472,7 @@ export default function AuthPage({ defaultMode }) {
                       {...registerRegister('phone', {
                         pattern: {
                           value: /^(03|05|07|08|09)\d{8}$/,
-                          message:
-                            'Số điện thoại phải đúng 10 số đầu số Việt Nam (03, 05, 07, 08, 09)',
+                          message: 'Số điện thoại phải đúng 10 số đầu số Việt Nam (03, 05, 07, 08, 09)',
                         },
                       })}
                     />
@@ -544,13 +504,10 @@ export default function AuthPage({ defaultMode }) {
                             required: 'Mật khẩu không được để trống',
                             minLength: { value: 8, message: 'Mật khẩu phải từ 8 ký tự trở lên' },
                             validate: {
-                              hasUpper: (v) =>
-                                /[A-Z]/.test(v) || 'Cần ít nhất 1 chữ in hoa (A-Z)',
-                              hasLower: (v) =>
-                                /[a-z]/.test(v) || 'Cần ít nhất 1 chữ in thường (a-z)',
+                              hasUpper: (v) => /[A-Z]/.test(v) || 'Cần ít nhất 1 chữ in hoa (A-Z)',
+                              hasLower: (v) => /[a-z]/.test(v) || 'Cần ít nhất 1 chữ in thường (a-z)',
                               hasDigit: (v) => /[0-9]/.test(v) || 'Cần ít nhất 1 chữ số (0-9)',
-                              hasSpecial: (v) =>
-                                /[\W_]/.test(v) || 'Cần ít nhất 1 ký tự đặc biệt (!@#$...)',
+                              hasSpecial: (v) => /[\W_]/.test(v) || 'Cần ít nhất 1 ký tự đặc biệt (!@#$...)',
                             },
                           })}
                         />
@@ -589,8 +546,7 @@ export default function AuthPage({ defaultMode }) {
                           {...registerRegister('confirmPassword', {
                             required: 'Vui lòng xác nhận lại mật khẩu',
                             validate: (value) =>
-                              value === getRegisterValues('password') ||
-                              'Mật khẩu xác nhận không khớp',
+                              value === getRegisterValues('password') || 'Mật khẩu xác nhận không khớp',
                           })}
                         />
                         <button
@@ -644,11 +600,7 @@ export default function AuthPage({ defaultMode }) {
                     splitType="words"
                     hoverEffect="lift"
                   />{' '}
-                  <button
-                    type="button"
-                    className={styles.switchModeBtn}
-                    onClick={() => switchTo('login')}
-                  >
+                  <button type="button" className={styles.switchModeBtn} onClick={() => switchTo('login')}>
                     <SplitText
                       tag="span"
                       text="Đăng nhập ngay"

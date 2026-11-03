@@ -1,4 +1,4 @@
-﻿.catalog {
+.catalog {
   background: #fafafa;
 }
 .hero {
@@ -101,55 +101,69 @@
 }
 .discoveryFilters {
   display: grid;
-  grid-template-columns: 1.3fr 1.2fr 1fr auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
   align-items: center;
-  gap: 24px;
-  padding: 24px 16px;
+  gap: 16px;
   margin-top: 30px;
-  border: 1px solid #e1e5e9;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 7px 16px rgb(20 31 26 / 7%);
+  padding: 16px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-surface);
+  box-shadow: 0 12px 32px rgb(16 40 28 / 0.1);
 }
-.discoveryFilters label {
-  display: grid;
-  gap: 3px;
+.searchField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   min-width: 0;
 }
-.discoveryFilters label > span {
-  font-size: 11px;
-  font-weight: 800;
-  color: #828a99;
+.searchField + .searchField {
+  padding-left: 16px;
+  border-left: 1px solid var(--color-border);
 }
-.discoveryFilters input,
-.discoveryFilters select {
+.searchField span {
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.searchField input,
+.searchField select {
   width: 100%;
-  min-width: 0;
+  padding: 0;
   border: 0;
   background: transparent;
+  color: var(--color-text);
   font: inherit;
-  font-size: 14px;
-  font-weight: 650;
-  color: #374151;
-  padding: 3px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  outline: none;
 }
-.discoveryFilters input::placeholder {
-  color: #46505f;
-  opacity: 1;
-}
-.findButton {
-  border: 0;
-  border-radius: 7px;
-  padding: 13px 20px;
-  background: #ed7054;
-  color: white;
-  font: inherit;
-  font-size: 14px;
-  font-weight: 700;
+.searchField select {
   cursor: pointer;
 }
+.searchField:focus-within span {
+  color: var(--color-primary);
+}
+.findButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 10px;
+  background: #e0674a;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
 .findButton:hover {
-  background: #d85a40;
+  background: #c9553a;
 }
 .equipment {
   padding: 42px 0 58px;
@@ -245,6 +259,14 @@
   .discoveryFilters {
     gap: 18px;
     grid-template-columns: 1fr 1fr;
+  }
+  .searchField + .searchField {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .findButton {
+    grid-column: 1 / -1;
+    justify-content: center;
   }
   .hero h1 {
     max-width: 660px;

@@ -78,6 +78,51 @@ export const ORDER_PAYMENT_STATUS_LABEL = {
   NeedsReconciliation: 'Cần đối soát',
 };
 
+export const REFUND_CASE_STATUS = Object.freeze({
+  REQUESTED: 'Requested',
+  APPROVED: 'Approved',
+  COMPLETED: 'Completed',
+  REJECTED: 'Rejected',
+  FAILED: 'Failed',
+  CANCELLED: 'Cancelled',
+});
+
+export const REFUND_CASE_STATUS_LABEL = {
+  [REFUND_CASE_STATUS.REQUESTED]: 'Chờ xử lý',
+  [REFUND_CASE_STATUS.APPROVED]: 'Đã gửi kế toán',
+  [REFUND_CASE_STATUS.COMPLETED]: 'Hoàn tất',
+  [REFUND_CASE_STATUS.REJECTED]: 'Bị từ chối',
+  [REFUND_CASE_STATUS.FAILED]: 'Chuyển khoản thất bại',
+  [REFUND_CASE_STATUS.CANCELLED]: 'Đã hủy',
+};
+
+// Đồng bộ whitelist RefundBankCodes ở BE
+export const REFUND_BANKS = [
+  { code: 'VCB', name: 'Vietcombank' },
+  { code: 'BIDV', name: 'BIDV' },
+  { code: 'ICB', name: 'VietinBank' },
+  { code: 'VBA', name: 'Agribank' },
+  { code: 'TCB', name: 'Techcombank' },
+  { code: 'MB', name: 'MB Bank' },
+  { code: 'ACB', name: 'ACB' },
+  { code: 'VPB', name: 'VPBank' },
+  { code: 'TPB', name: 'TPBank' },
+  { code: 'STB', name: 'Sacombank' },
+  { code: 'HDB', name: 'HDBank' },
+  { code: 'VIB', name: 'VIB' },
+  { code: 'SHB', name: 'SHB' },
+  { code: 'MSB', name: 'MSB' },
+  { code: 'OCB', name: 'OCB' },
+  { code: 'SSB', name: 'SeABank' },
+];
+
+export const REFUND_CONSENT_TEXT =
+  'Tôi đồng ý cung cấp thông tin tài khoản ngân hàng để RenTrekk xử lý yêu cầu hoàn tiền này. Thông tin chỉ được dùng cho việc hoàn tiền, chỉ nhân sự có thẩm quyền được truy cập và sẽ được xóa theo thời hạn lưu trữ của hệ thống.';
+
+export const API_ERROR_CODE = Object.freeze({
+  REFUND_AMOUNT_CHANGED: 'REFUND_AMOUNT_CHANGED',
+});
+
 export const PAYMENT_TRANSACTION_STATUS = Object.freeze({
   PENDING_APPROVAL: 'PendingApproval',
   PENDING: 'Pending',
@@ -92,4 +137,26 @@ export const PAYMENT_TRANSACTION_STATUS_LABEL = {
   [PAYMENT_TRANSACTION_STATUS.SUCCEEDED]: 'Thành công',
   [PAYMENT_TRANSACTION_STATUS.FAILED]: 'Thất bại',
   [PAYMENT_TRANSACTION_STATUS.CANCELLED]: 'Đã hủy',
+};
+
+export const POST_TYPE = Object.freeze({
+  GUIDE: 'Guide',
+  SKILL: 'Skill',
+  NEWS: 'News',
+});
+
+export const POST_TYPE_LABEL = {
+  [POST_TYPE.GUIDE]: 'Hướng dẫn',
+  [POST_TYPE.SKILL]: 'Kỹ năng',
+  [POST_TYPE.NEWS]: 'Tin tức',
+};
+
+export const POST_STATUS = Object.freeze({
+  DRAFT: 'Draft',
+  PUBLISHED: 'Published',
+});
+
+export const POST_STATUS_LABEL = {
+  [POST_STATUS.DRAFT]: 'Nháp',
+  [POST_STATUS.PUBLISHED]: 'Đã xuất bản',
 };

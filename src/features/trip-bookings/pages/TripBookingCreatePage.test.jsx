@@ -110,6 +110,22 @@ describe('TripBookingCreatePage', () => {
     });
   });
 
+  it('keeps participant progress in sync and shows only the three core fields', async () => {
+    const user = userEvent.setup();
+    renderPage('?tripId=trip-1&tourId=tour-1&partySize=2');
+
+    await next(user);
+
+    expect(screen.getByText('Người tham gia').closest('li')).toHaveAttribute('aria-current', 'step');
+    expect(screen.getByText('Số người').closest('li')).not.toHaveAttribute('aria-current');
+    expect(screen.getByLabelText(/^Họ và tên người 1/)).toBeInTheDocument();
+    expect(screen.getByLabelText('Email người 1')).toBeInTheDocument();
+    expect(screen.getByLabelText('Số điện thoại người 1')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Ngày sinh người 1')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Người liên hệ khẩn cấp')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('SĐT khẩn cấp')).not.toBeInTheDocument();
+  });
+
   it('caps seats at the slots left on the trip', async () => {
     const user = userEvent.setup();
     renderPage('?tripId=trip-1&tourId=tour-1&partySize=2');

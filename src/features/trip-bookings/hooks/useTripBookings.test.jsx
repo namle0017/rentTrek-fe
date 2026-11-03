@@ -7,6 +7,7 @@ import { tripBookingService } from '../api/tripBookingService';
 import { tripBookingKeys } from '../api/tripBookingKeys';
 import {
   useCancelTripBooking,
+  useCancellationPreview,
   useCreateTripBooking,
   useCustomerTripGrouping,
   useTripBooking,
@@ -18,6 +19,7 @@ vi.mock('../api/tripBookingService', () => ({
     create: vi.fn(),
     getById: vi.fn(),
     getGrouping: vi.fn(),
+    getCancellationPreview: vi.fn(),
     updateParticipant: vi.fn(),
     cancel: vi.fn(),
   },
@@ -64,6 +66,26 @@ describe('trip booking hooks', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toEqual(response.data);
     expect(queryClient.getQueryData(tripBookingKeys.grouping('order-1'))).toEqual(response);
+  });
+
+  it('loads cancellation preview only when enabled with its own query key', async () => {
+    const response = { data: { canCancel: true, estimatedRefundAmount: 1600000 } };
+    tripBookingService.getCancellationPreview.mockResolvedValue(response);
+    const { queryClient, wrapper } = createHarness();
+
+    const { result, rerender } = renderHook(({ enabled }) => useCancellationPreview('order-1', { enabled }), {
+      wrapper,
+      initialProps: { enabled: false },
+    });
+
+    expect(result.current.fetchStatus).toBe('idle');
+    expect(tripBookingService.getCancellationPreview).not.toHaveBeenCalled();
+
+    rerender({ enabled: true });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    expect(result.current.data).toEqual(response.data);
+    expect(queryClient.getQueryData(tripBookingKeys.cancellationPreview('order-1'))).toEqual(response);
   });
 
   it('returns create response and caches the created booking detail', async () => {

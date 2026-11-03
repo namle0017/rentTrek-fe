@@ -26,6 +26,15 @@ npm-debug.log*
 Thumbs.db
 
 # Local AI tooling / generated analysis
-graphify-out/
+CLAUDE.md
+AGENTS.md
+.claude/
 .codex/
 .agents/
+.cursor/
+.windsurf/
+.aider*
+.superpowers/
+docs/superpowers/
+graphify-out/
+.visual-profile*

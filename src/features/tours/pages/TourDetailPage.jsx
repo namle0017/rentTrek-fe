@@ -3,6 +3,7 @@ import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import Spinner from '@/components/Spinner';
+import { POST_TYPE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import TourBookingCard from '../components/TourBookingCard';
 import TourGallery from '../components/TourGallery';
@@ -69,6 +70,33 @@ export default function TourDetailPage() {
             <h2 className={styles.sectionTitle}>Trang bị chuyến đi</h2>
             <TourGearList providedItems={tour.providedItems} preparationItems={tour.preparationItems} />
           </section>
+
+          {tour.relatedPosts?.length > 0 && (
+            <section className={styles.section}>
+              <div className={styles.sectionHeader}>
+                <h2 className={styles.sectionTitle}>Cẩm nang & bài viết gợi ý</h2>
+                <span className={styles.sectionSubtitle}>
+                  Kinh nghiệm và kiến thức chuẩn bị cho chuyến đi
+                </span>
+              </div>
+              <div className={styles.relatedPostsGrid}>
+                {tour.relatedPosts.map((post) => (
+                  <article key={post.postId} className={styles.relatedPostCard}>
+                    <span className={styles.postTypeBadge}>
+                      {POST_TYPE_LABEL[post.postType] || post.postType}
+                    </span>
+                    <h3 className={styles.postTitle}>
+                      <Link to={ROUTES.GUIDE_DETAIL(post.slug)}>{post.title}</Link>
+                    </h3>
+                    <Link to={ROUTES.GUIDE_DETAIL(post.slug)} className={styles.readMoreLink}>
+                      <span>Xem chi tiết</span>
+                      <OutdoorIcon name="arrow" size={13} />
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
 
           <section className={`${styles.section} ${styles.reviewRow}`}>
             <h2 className={styles.sectionTitle}>Đánh giá từ trekker</h2>

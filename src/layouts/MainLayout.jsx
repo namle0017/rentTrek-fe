@@ -4,6 +4,7 @@ import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { useAuth } from '@/hooks/useAuth';
+import { getAvatarColor } from '@/utils/avatarColor';
 import styles from './MainLayout.module.css';
 
 const exploration = ['Lều cắm trại', 'Balô', 'Đèn', 'Túi ngủ'];
@@ -40,6 +41,8 @@ export default function MainLayout() {
     if (role === USER_ROLE.TOUR_GUIDE) return `${styles.roleBadge} ${styles.roleBadgeTourGuide}`;
     return styles.roleBadge;
   };
+
+  const avatarColor = getAvatarColor(currentUser?.email || currentUser?.fullName);
 
   return (
     <div className={styles.layout}>
@@ -120,8 +123,23 @@ export default function MainLayout() {
                 <>
                   <div className={styles.userInfo}>
                     <Link to={ROUTES.PROFILE} className={styles.userNameLink} title="Xem hồ sơ cá nhân">
-                      <span className={styles.userAvatar}>
-                        {(currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()}
+                      <span
+                        className={styles.userAvatar}
+                        style={
+                          currentUser?.avatarUrl
+                            ? { padding: 0, overflow: 'hidden' }
+                            : { backgroundColor: avatarColor.bg, color: avatarColor.text }
+                        }
+                      >
+                        {currentUser?.avatarUrl ? (
+                          <img
+                            src={currentUser.avatarUrl}
+                            alt={currentUser?.fullName || 'Avatar'}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        ) : (
+                          (currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()
+                        )}
                       </span>
                       <span className={styles.userName}>{currentUser?.fullName || currentUser?.email}</span>
                     </Link>

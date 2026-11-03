@@ -100,6 +100,7 @@ export const router = createBrowserRouter([
 
       // Admin & Staff — cần đăng nhập + role Admin hoặc Staff
       // Admin & Staff — Vận hành hệ thống & chuyến đi
+      // Admin / Staff — cần đăng nhập + role Admin hoặc Staff
       {
         element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF]} />,
         children: [
@@ -189,6 +190,22 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.GUIDE_PROVIDED_ITEMS(),
                 lazy: lazyPage(() => import('@/features/guide/pages/GuideProvidedItemsPage')),
+              },
+              {
+                path: ROUTES.OPS_ASSETS,
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/AssetListPage')),
+              },
+              {
+                path: ROUTES.OPS_ASSETS_SCHEDULE,
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/AssetGanttPage')),
+              },
+              {
+                path: ROUTES.OPS_TRIP_PROVIDED_ITEMS(),
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/TripProvidedItemsPage')),
+              },
+              {
+                path: '/ops/trips/provided-items',
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/TripProvidedItemsPage')),
               },
             ],
           },

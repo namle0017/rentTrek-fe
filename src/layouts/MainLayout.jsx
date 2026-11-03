@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
@@ -24,8 +24,12 @@ export default function MainLayout() {
   // Trang có hero tràn viền tự quản lý container
   const isCatalog = [ROUTES.HOME, ROUTES.PRODUCTS, ROUTES.TOURS].includes(location.pathname);
 
-  const handleLogoutClick = () => {
-    logoutMutation.mutate();
+  const handleLogoutClick = () => logoutMutation.mutate();
+
+  const searchProducts = (event) => {
+    event.preventDefault();
+    const keyword = new FormData(event.currentTarget).get('search').trim();
+    navigate(`${ROUTES.PRODUCTS}${keyword ? `?search=${encodeURIComponent(keyword)}` : ''}`);
   };
 
   const getRoleBadgeClass = (role) => {

@@ -1,0 +1,423 @@
+.container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.badgeO {
+  background: #14213d;
+  color: #ffffff;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.routePath {
+  font-family: monospace;
+  font-size: 13px;
+  color: #4a5870;
+}
+
+.title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #14213d;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btnSecondary {
+  background: #ffffff;
+  color: #14213d;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+
+.btnSecondary:hover {
+  background: #f8fafc;
+}
+
+.selectorCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #111827;
+  outline: none;
+}
+
+.tripBanner {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.bannerMain {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tourTag {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+.tourTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.tripMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #475569;
+  flex-wrap: wrap;
+}
+
+.bannerActions {
+  display: flex;
+  gap: 10px;
+}
+
+.btnIssue {
+  background: #204b39;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnIssue:hover:not(:disabled) {
+  background: #154d33;
+}
+
+.btnReturn {
+  background: #1e293b;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btnReturn:hover {
+  background: #0f172a;
+}
+
+.alertShortage {
+  background: #ffe4e8;
+  border: 1px solid #f43f5e;
+  border-radius: 10px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #9f1239;
+  font-size: 14px;
+}
+
+.alertIcon {
+  font-size: 20px;
+}
+
+.alertContent {
+  flex: 1;
+}
+
+.tableCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.tableResponsive {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.itemRow {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.mainRowGrid {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.8fr) 140px 70px 70px 70px 150px 130px 180px;
+  gap: 12px;
+  padding: 14px 16px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.mainRowGrid:hover {
+  background: #f8fafc;
+}
+
+.itemName {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.itemMeta {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.configCell {
+  font-size: 13px;
+  color: #475569;
+}
+
+.numCell {
+  text-align: center;
+  font-size: 14px;
+}
+
+.missingNum {
+  color: #e11d48;
+  font-weight: 700;
+}
+
+.prepCell {
+  font-size: 13px;
+  color: #475569;
+}
+
+.textMuted {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.statusBadge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.stMissing {
+  background: #fef2f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+}
+
+.stReady {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.stRecovered {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.actionsCell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.btnAssign {
+  background: #ffffff;
+  color: #204b39;
+  border: 1px solid #204b39;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btnAssign:hover {
+  background: #204b39;
+  color: #ffffff;
+}
+
+.btnToggle {
+  background: none;
+  border: none;
+  color: #0284c7;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btnToggle:hover {
+  text-decoration: underline;
+}
+
+.assetsSubList {
+  background: #f8fafc;
+  border-top: 1px dashed #cbd5e1;
+  padding: 12px 20px;
+}
+
+.subListTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.tagsGrid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.assetTagCard {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.assetTagCode {
+  font-family: monospace;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.assetTagStatus {
+  background: #e2e8f0;
+  color: #334155;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 11px;
+}
+
+.btnDeleteTag {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 2px;
+}
+
+.btnDeleteTag:hover {
+  color: #e11d48;
+}
+
+.loadingBox,
+.emptyCard {
+  padding: 48px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}

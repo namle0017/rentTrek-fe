@@ -80,6 +80,14 @@ export const router = createBrowserRouter([
                 path: ROUTES.OPS_ASSETS_SCHEDULE,
                 lazy: lazyPage(() => import('@/pages/ops/warehouse/AssetGanttPage')),
               },
+              {
+                path: ROUTES.OPS_TRIP_PROVIDED_ITEMS(),
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/TripProvidedItemsPage')),
+              },
+              {
+                path: '/ops/trips/provided-items',
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/TripProvidedItemsPage')),
+              },
             ],
           },
         ],

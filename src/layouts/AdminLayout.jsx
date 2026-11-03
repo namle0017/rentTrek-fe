@@ -19,6 +19,7 @@ export default function AdminLayout() {
           <NavLink to={ROUTES.ADMIN_PRODUCT_CREATE}>Thêm sản phẩm</NavLink>
           <NavLink to={ROUTES.OPS_ASSETS}>Kho thiết bị (O20)</NavLink>
           <NavLink to={ROUTES.OPS_ASSETS_SCHEDULE}>Lịch Gantt thiết bị (O21)</NavLink>
+          <NavLink to="/ops/trips/provided-items">Đồ cấp chuyến (O13)</NavLink>
         </nav>
       </aside>
 

@@ -48,7 +48,6 @@ export default function TripProvidedItemsPage() {
       <div className={styles.header}>
         <div>
           <div className={styles.breadcrumb}>
-            <span className={styles.badgeO}>O13</span>
             <span className={styles.routePath}>/ops/trips/:tripId/provided-items</span>
           </div>
           <h1 className={styles.title}>Chuẩn bị đồ cấp cho chuyến đi</h1>
@@ -59,10 +58,10 @@ export default function TripProvidedItemsPage() {
 
         <div className={styles.actions}>
           <Link to={ROUTES.OPS_ASSETS} className={styles.btnSecondary}>
-            Danh sách thiết bị (O20)
+            Danh sách thiết bị
           </Link>
           <Link to={ROUTES.OPS_ASSETS_SCHEDULE} className={styles.btnSecondary}>
-            Lịch phân bổ Gantt (O21)
+            Lịch phân bổ Gantt
           </Link>
         </div>
       </div>

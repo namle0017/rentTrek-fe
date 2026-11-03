@@ -24,6 +24,7 @@ export default function AssetListPage() {
 
   const queryParams = {
     search: searchTerm.trim() || undefined,
+    assetStatus: selectedStatus || undefined,
     status: selectedStatus || undefined,
     pageNumber,
     pageSize,
@@ -47,10 +48,9 @@ export default function AssetListPage() {
       <div className={styles.header}>
         <div>
           <div className={styles.breadcrumb}>
-            <span className={styles.badgeO}>O20</span>
             <span className={styles.routePath}>/ops/assets</span>
           </div>
-          <h1 className={styles.title}>Quản lý mã vạch & thiết bị kho (Asset)</h1>
+          <h1 className={styles.title}>Quản lý mã vạch & thiết bị kho</h1>
           <p className={styles.subtitle}>
             Theo dõi từng cá thể thiết bị, mã QR vật lý, tình trạng bảo quản và trạng thái phân bổ.
           </p>

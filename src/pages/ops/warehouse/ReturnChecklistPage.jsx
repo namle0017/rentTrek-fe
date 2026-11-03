@@ -136,7 +136,7 @@ export default function ReturnChecklistPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <div className={styles.headerTop}>
-          <h1 className={styles.title}>Nhận lại thiết bị (Return Checklist - O25)</h1>
+          <h1 className={styles.title}>Nhận lại thiết bị (Return Checklist)</h1>
           <form onSubmit={handleLookup} className={styles.orderLookup}>
             <input
               type="text"
@@ -156,11 +156,11 @@ export default function ReturnChecklistPage() {
             <span style={{ color: '#6b7280' }}>Đang xử lý đơn: <strong>{activeOrderCode}</strong></span>
             <span>·</span>
             <Link to={`/ops/rentals/${activeOrderCode}/handover`} className={styles.navLink}>
-              Xem Bàn giao (O24)
+              Xem Bàn giao
             </Link>
             <span>·</span>
             <Link to={`/ops/rentals/${activeOrderCode}/settlement`} className={styles.navLink}>
-              Chuyển sang Quyết toán & Phí (O26)
+              Chuyển sang Quyết toán & Phí
             </Link>
           </div>
         )}

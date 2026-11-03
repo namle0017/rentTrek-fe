@@ -1,22 +1,66 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { useProducts } from '@/features/products/hooks/useProducts';
 import { useBulkCreateAssets } from '../hooks/useAssets';
 import styles from './WarehouseModals.module.css';
 
 export default function BulkCreateAssetModal({ isOpen, onClose }) {
-  const [productVariantId, setProductVariantId] = useState('');
+  const [selectedVariantId, setSelectedVariantId] = useState('');
+  const [manualVariantId, setManualVariantId] = useState('');
   const [quantity, setQuantity] = useState(10);
-  const [codePrefix, setCodePrefix] = useState('EQ-');
+  const [codePrefix, setCodePrefix] = useState('');
   const [initialConditionNote, setInitialConditionNote] = useState('Mới 100%, nguyên tem');
   const [validationError, setValidationError] = useState('');
+  const [isManualInput, setIsManualInput] = useState(false);
 
+  const { data: productsData, isLoading: loadingProducts } = useProducts({ pageSize: 50 });
   const bulkCreateMutation = useBulkCreateAssets();
+
+  const allVariants = useMemo(() => {
+    if (!productsData?.items) return [];
+    const list = [];
+    productsData.items.forEach((p) => {
+      if (p.variants?.length) {
+        p.variants.forEach((v) => {
+          list.push({
+            variantId: v.id,
+            productName: p.name,
+            variantName: v.name,
+            sku: v.sku,
+            label: `${p.name} — ${v.name} (SKU: ${v.sku})`,
+          });
+        });
+      }
+    });
+    return list;
+  }, [productsData]);
+
+  const effectiveVariantId = isManualInput
+    ? manualVariantId
+    : selectedVariantId || (allVariants.length > 0 ? allVariants[0].variantId : '');
+
+  const effectivePrefix = codePrefix !== ''
+    ? codePrefix
+    : (() => {
+        const found = allVariants.find((v) => v.variantId === effectiveVariantId);
+        return found ? `${found.sku}-` : 'EQ-';
+      })();
 
   if (!isOpen) return null;
 
+  const handleVariantSelect = (e) => {
+    const nextId = e.target.value;
+    setSelectedVariantId(nextId);
+    const found = allVariants.find((v) => v.variantId === nextId);
+    if (found) {
+      setCodePrefix(`${found.sku}-`);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!productVariantId.trim()) {
-      setValidationError('Vui lòng nhập Product Variant ID');
+    const finalVariantId = effectiveVariantId.trim();
+    if (!finalVariantId) {
+      setValidationError('Vui lòng chọn hoặc nhập Biến thể sản phẩm');
       return;
     }
     const qty = parseInt(quantity, 10);
@@ -24,7 +68,8 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
       setValidationError('Số lượng phải từ 1 đến 100');
       return;
     }
-    if (!codePrefix.trim()) {
+    const finalPrefix = effectivePrefix.trim();
+    if (!finalPrefix) {
       setValidationError('Vui lòng nhập tiền tố mã thiết bị (e.g. TENT-4P-)');
       return;
     }
@@ -32,14 +77,18 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
     setValidationError('');
     bulkCreateMutation.mutate(
       {
-        productVariantId: productVariantId.trim(),
+        productVariantId: finalVariantId,
         quantity: qty,
-        codePrefix: codePrefix.trim().toUpperCase(),
+        codePrefix: finalPrefix.toUpperCase(),
         initialConditionNote: initialConditionNote.trim() || null,
       },
       {
         onSuccess: () => {
           onClose();
+        },
+        onError: (err) => {
+          const msg = err.response?.data?.message || 'Không thể tạo thiết bị hàng loạt';
+          setValidationError(msg);
         },
       }
     );
@@ -59,17 +108,49 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
           {validationError && <div className={styles.errorAlert}>{validationError}</div>}
 
           <div className={styles.field}>
-            <label className={styles.label}>
-              Mã biến thể sản phẩm (Product Variant ID) <span className={styles.req}>*</span>
-            </label>
-            <input
-              type="text"
-              className={styles.input}
-              placeholder="Nhập ID biến thể (ví dụ: <variant-id>)"
-              value={productVariantId}
-              onChange={(e) => setProductVariantId(e.target.value)}
-              required
-            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+              <label className={styles.label} style={{ margin: 0 }}>
+                Biến thể sản phẩm <span className={styles.req}>*</span>
+              </label>
+              <button
+                type="button"
+                onClick={() => setIsManualInput(!isManualInput)}
+                style={{ background: 'none', border: 'none', color: '#2563eb', fontSize: '0.75rem', cursor: 'pointer', textDecoration: 'underline' }}
+              >
+                {isManualInput ? 'Chọn từ danh mục' : 'Nhập mã ID thủ công'}
+              </button>
+            </div>
+
+            {!isManualInput ? (
+              <select
+                className={styles.select}
+                value={effectiveVariantId}
+                onChange={handleVariantSelect}
+                disabled={loadingProducts}
+                required
+              >
+                {loadingProducts ? (
+                  <option value="">Đang tải danh mục sản phẩm...</option>
+                ) : allVariants.length === 0 ? (
+                  <option value="">Chưa có sản phẩm nào</option>
+                ) : (
+                  allVariants.map((v) => (
+                    <option key={v.variantId} value={v.variantId}>
+                      {v.label}
+                    </option>
+                  ))
+                )}
+              </select>
+            ) : (
+              <input
+                type="text"
+                className={styles.input}
+                placeholder="Nhập GUID biến thể sản phẩm..."
+                value={manualVariantId}
+                onChange={(e) => setManualVariantId(e.target.value)}
+                required
+              />
+            )}
             <span className={styles.hint}>Thiết bị sẽ được gán trực tiếp cho biến thể này để quản lý tồn kho và lên lịch.</span>
           </div>
 
@@ -82,11 +163,11 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
                 type="text"
                 className={styles.input}
                 placeholder="Ví dụ: TENT-4P-, BAG-50L-"
-                value={codePrefix}
+                value={effectivePrefix}
                 onChange={(e) => setCodePrefix(e.target.value)}
                 required
               />
-              <span className={styles.hint}>Mã sinh ra: {codePrefix.toUpperCase()}0001, {codePrefix.toUpperCase()}0002...</span>
+              <span className={styles.hint}>Mã sinh ra: {effectivePrefix.toUpperCase()}0001, {effectivePrefix.toUpperCase()}0002...</span>
             </div>
 
             <div className={styles.field}>

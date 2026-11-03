@@ -11,8 +11,9 @@ function AssetStatusUpdateForm({ asset, onUpdate, isPending }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdate({
+      newStatus: status,
       assetStatus: status,
-      conditionNote: conditionNote.trim() || null,
+      conditionNote: conditionNote.trim() || undefined,
     });
   };
 

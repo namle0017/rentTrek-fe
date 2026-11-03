@@ -123,7 +123,7 @@ export default function SettlementPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <div className={styles.headerTop}>
-          <h1 className={styles.title}>Phí phát sinh & Quyết toán đơn thuê (O26)</h1>
+          <h1 className={styles.title}>Phí phát sinh & Quyết toán đơn thuê</h1>
           <form onSubmit={handleLookup} className={styles.orderLookup}>
             <input
               type="text"
@@ -143,11 +143,11 @@ export default function SettlementPage() {
             <span style={{ color: '#6b7280' }}>Đang quyết toán đơn: <strong>{activeOrderCode}</strong></span>
             <span>·</span>
             <Link to={`/ops/rentals/${activeOrderCode}/handover`} className={styles.navLink}>
-              Xem Bàn giao (O24)
+              Xem Bàn giao
             </Link>
             <span>·</span>
             <Link to={`/ops/rentals/${activeOrderCode}/return`} className={styles.navLink}>
-              Xem Thu hồi (O25)
+              Xem Thu hồi
             </Link>
           </div>
         )}

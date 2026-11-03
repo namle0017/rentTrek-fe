@@ -25,4 +25,12 @@ export const API_ENDPOINTS = {
     ROOT: '/tours',
     BY_ID: (id) => `/tours/${id}`,
   },
+  ASSETS: {
+    ROOT: '/admin/assets',
+    BULK_CREATE: '/admin/assets/bulk-create',
+    BY_CODE: (code) => `/admin/assets/${code}`,
+    STATUS: (code) => `/admin/assets/${code}/status`,
+    HISTORY: (code) => `/admin/assets/${code}/history`,
+    SCHEDULE_GANTT: '/admin/assets/schedule-gantt',
+  },
 };

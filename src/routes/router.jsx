@@ -60,9 +60,9 @@ export const router = createBrowserRouter([
       { path: ROUTES.LOGIN, element: <LoginPage /> },
       { path: ROUTES.REGISTER, element: <RegisterPage /> },
 
-      // Admin — cần đăng nhập + role Admin
+      // Admin / Staff — cần đăng nhập + role Admin hoặc Staff
       {
-        element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />,
+        element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF]} />,
         children: [
           {
             element: <AdminLayout />,
@@ -71,6 +71,14 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.ADMIN_PRODUCT_CREATE,
                 lazy: lazyPage(() => import('@/features/products/pages/ProductCreatePage')),
+              },
+              {
+                path: ROUTES.OPS_ASSETS,
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/AssetListPage')),
+              },
+              {
+                path: ROUTES.OPS_ASSETS_SCHEDULE,
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/AssetGanttPage')),
               },
             ],
           },

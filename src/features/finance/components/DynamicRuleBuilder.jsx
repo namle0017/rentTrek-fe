@@ -8,12 +8,7 @@ function getPctBadgeStyle(pct) {
   return { bg: '#fee2e2', color: '#b91c1c', border: '#fecaca' };
 }
 
-export default function DynamicRuleBuilder({
-  rules = [],
-  onChangeRule,
-  onAddRule,
-  onRemoveRule,
-}) {
+export default function DynamicRuleBuilder({ rules = [], onChangeRule, onAddRule, onRemoveRule }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -84,18 +79,14 @@ export default function DynamicRuleBuilder({
                     }}
                   />
                   {days > 0 ? (
-                    <div className={styles.hoursHintText}>
-                      ~ {days} ngày trước giờ đi
-                    </div>
+                    <div className={styles.hoursHintText}>~ {days} ngày trước giờ đi</div>
                   ) : hours === 0 ? (
                     <div className={styles.hoursHintText} style={{ color: '#64748b' }}>
                       Mốc sát giờ khởi hành
                     </div>
                   ) : null}
                   {isHoursInvalid && (
-                    <div style={{ fontSize: 11, color: '#dc2626', marginTop: 2 }}>
-                      Giờ phải ≥ 0
-                    </div>
+                    <div style={{ fontSize: 11, color: '#dc2626', marginTop: 2 }}>Giờ phải ≥ 0</div>
                   )}
                 </div>
 
@@ -119,9 +110,7 @@ export default function DynamicRuleBuilder({
                     }}
                   />
                   {isPctInvalid && (
-                    <div style={{ fontSize: 11, color: '#dc2626', marginTop: 2 }}>
-                      0% đến 100%
-                    </div>
+                    <div style={{ fontSize: 11, color: '#dc2626', marginTop: 2 }}>0% đến 100%</div>
                   )}
                 </div>
 
@@ -172,4 +161,3 @@ export default function DynamicRuleBuilder({
     </div>
   );
 }
-

@@ -71,7 +71,7 @@ export default function GuideTripsPage() {
   const [tab, setTab] = useState('today'); // 'today' | 'upcoming' | 'completed'
   const { data: rawTrips, isLoading } = useGuideTrips(tab);
 
-  const trips = (rawTrips && rawTrips.length > 0) ? rawTrips : (MOCK_GUIDE_TRIPS[tab] || []);
+  const trips = rawTrips && rawTrips.length > 0 ? rawTrips : MOCK_GUIDE_TRIPS[tab] || [];
 
   if (isLoading) return <Spinner />;
 
@@ -82,8 +82,7 @@ export default function GuideTripsPage() {
           Lịch dẫn đoàn thực địa
         </h1>
         <p className={styles.metaText}>
-          Chỉ hiển thị các nhóm bạn được phân công phụ trách. Hoàn toàn bảo mật thông tin tài
-          chính.
+          Chỉ hiển thị các nhóm bạn được phân công phụ trách. Hoàn toàn bảo mật thông tin tài chính.
         </p>
       </div>
 
@@ -136,19 +135,16 @@ export default function GuideTripsPage() {
               <h2 className={styles.cardTitle}>{item.tourName}</h2>
 
               <p className={styles.metaText}>
-                Khởi hành: <strong>{formatDate(item.startAt)}</strong> →{' '}
-                {formatDate(item.endAt)}
+                Khởi hành: <strong>{formatDate(item.startAt)}</strong> → {formatDate(item.endAt)}
               </p>
 
               <p className={styles.metaText}>
-                Sĩ số nhóm: <strong>{item.participantCount}</strong> / {item.maxParticipants}{' '}
-                khách
+                Sĩ số nhóm: <strong>{item.participantCount}</strong> / {item.maxParticipants} khách
               </p>
 
               {item.meetingLocation?.name && (
                 <p className={styles.metaText}>
-                  Điểm tập kết: <strong>{item.meetingLocation.name}</strong> (
-                  {item.meetingLocation.address})
+                  Điểm tập kết: <strong>{item.meetingLocation.name}</strong> ({item.meetingLocation.address})
                   {mapsUrl && (
                     <>
                       {' '}

@@ -9,13 +9,15 @@ import styles from './AdminLayout.module.css';
 function getPageTitle(pathname) {
   if (pathname === ROUTES.ADMIN) return 'Tổng quan';
   if (pathname === ROUTES.ADMIN_PROFILE) return 'Thông tin cá nhân';
+  if (pathname === ROUTES.ADMIN_TRIP_CREATE) return 'Tạo chuyến đi mới';
   if (pathname === ROUTES.ADMIN_TRIPS) return 'Quản lý chuyến đi';
+  if (pathname.startsWith(`${ROUTES.ADMIN_TRIPS}/`)) return 'Điều hành chuyến đi';
+  if (pathname.includes('/recurrence-rules')) return 'Quy tắc lịch lặp chuyến';
   if (pathname === ROUTES.ADMIN_PRODUCT_CREATE) return 'Thêm sản phẩm';
   if (pathname === ROUTES.OPS_TRANSACTIONS) return 'Giao dịch';
   if (pathname === ROUTES.OPS_REFUNDS) return 'Hoàn tiền & Đối soát';
   if (pathname === ROUTES.OPS_REFUND_POLICY_CREATE) return 'Tạo chính sách hoàn tiền';
   if (pathname.startsWith(ROUTES.OPS_REFUND_POLICIES)) return 'Chính sách hoàn tiền';
-  if (pathname === ROUTES.GUIDE_TRIPS) return 'Khu vực Guide';
   return 'Quản trị hệ thống';
 }
 
@@ -51,7 +53,7 @@ export default function AdminLayout() {
   return (
     <div className={styles.layout}>
       <aside className={styles.sidebar}>
-        <Link to={ROUTES.HOME} className={styles.logo}>
+        <Link to={ROUTES.ADMIN} className={styles.logo}>
           renTrek Admin
         </Link>
         <nav className={styles.nav}>
@@ -65,7 +67,6 @@ export default function AdminLayout() {
           <NavLink to={ROUTES.OPS_TRANSACTIONS}>Giao dịch</NavLink>
           <NavLink to={ROUTES.OPS_REFUNDS}>Hoàn tiền & Đối soát</NavLink>
           <NavLink to={ROUTES.OPS_REFUND_POLICIES}>Chính sách hoàn tiền</NavLink>
-          <NavLink to={ROUTES.GUIDE_TRIPS}>Khu vực Guide</NavLink>
         </nav>
       </aside>
 

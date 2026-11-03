@@ -1,22 +1,13 @@
 import { useState } from 'react';
 import styles from './finance.module.css';
 
-export default function PolicyRuleEditorModal({
-  isOpen,
-  onClose,
-  onSave,
-  initialData = null,
-}) {
-  const [minHoursBefore, setMinHoursBefore] = useState(
-    initialData ? (initialData.minHoursBefore ?? 0) : 72,
-  );
+export default function PolicyRuleEditorModal({ isOpen, onClose, onSave, initialData = null }) {
+  const [minHoursBefore, setMinHoursBefore] = useState(initialData ? (initialData.minHoursBefore ?? 0) : 72);
   const [refundPercentage, setRefundPercentage] = useState(
     initialData ? (initialData.refundPercentage ?? 0) : 80,
   );
   const [description, setDescription] = useState(
-    initialData
-      ? (initialData.description ?? '')
-      : 'Trước 3 ngày (≥ 72h): Hoàn 80% tiền tour',
+    initialData ? (initialData.description ?? '') : 'Trước 3 ngày (≥ 72h): Hoàn 80% tiền tour',
   );
   const [error, setError] = useState('');
 

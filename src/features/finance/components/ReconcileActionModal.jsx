@@ -28,11 +28,14 @@ export default function ReconcileActionModal({
 
         <div className={styles.modalBody}>
           <div style={{ background: '#f8fafc', padding: '14px', borderRadius: 8 }}>
-            <div>Đơn hàng: <strong>{order.orderCode}</strong></div>
-            <div>Khách hàng: <strong>{order.customerName}</strong> ({order.customerPhone})</div>
+            <div>
+              Đơn hàng: <strong>{order.orderCode}</strong>
+            </div>
+            <div>
+              Khách hàng: <strong>{order.customerName}</strong> ({order.customerPhone})
+            </div>
             <div style={{ marginTop: 6 }}>
-              Số tiền cần thanh toán:{' '}
-              <strong>{formatCurrency(order.totalAmount)}</strong>
+              Số tiền cần thanh toán: <strong>{formatCurrency(order.totalAmount)}</strong>
             </div>
             <div>
               Số tiền khách đã chuyển:{' '}
@@ -68,10 +71,14 @@ export default function ReconcileActionModal({
             >
               ✅ <strong>Quy trình xử lý:</strong>
               <ul style={{ margin: '6px 0 0 16px', padding: 0 }}>
-                <li>Hệ thống chuyển trạng thái đơn hàng sang <strong>Đã thanh toán (Paid)</strong> và <strong>Đã xác nhận (Confirmed)</strong>.</li>
+                <li>
+                  Hệ thống chuyển trạng thái đơn hàng sang <strong>Đã thanh toán (Paid)</strong> và{' '}
+                  <strong>Đã xác nhận (Confirmed)</strong>.
+                </li>
                 {isOverpaid && (
                   <li>
-                    Tự động tạo lệnh hoàn tiền <strong>{formatCurrency(order.difference)}</strong> (phần nộp thừa) chuyển về tài khoản cho khách qua SePay.
+                    Tự động tạo lệnh hoàn tiền <strong>{formatCurrency(order.difference)}</strong> (phần nộp
+                    thừa) chuyển về tài khoản cho khách qua SePay.
                   </li>
                 )}
               </ul>
@@ -90,20 +97,22 @@ export default function ReconcileActionModal({
             >
               ⚠️ <strong>Cảnh báo hủy đơn:</strong>
               <ul style={{ margin: '6px 0 0 16px', padding: 0 }}>
-                <li>Hệ thống sẽ hoàn trả <strong>100% số tiền thực nhận ({formatCurrency(order.receivedAmount)})</strong> cho khách hàng.</li>
-                <li>Đơn hàng sẽ đóng ở trạng thái <strong>Hết hạn / Hủy (Expired)</strong> và giải phóng toàn bộ chỗ ngồi hoặc thiết bị trong kho.</li>
+                <li>
+                  Hệ thống sẽ hoàn trả{' '}
+                  <strong>100% số tiền thực nhận ({formatCurrency(order.receivedAmount)})</strong> cho khách
+                  hàng.
+                </li>
+                <li>
+                  Đơn hàng sẽ đóng ở trạng thái <strong>Hết hạn / Hủy (Expired)</strong> và giải phóng toàn bộ
+                  chỗ ngồi hoặc thiết bị trong kho.
+                </li>
               </ul>
             </div>
           )}
         </div>
 
         <div className={styles.modalFooter}>
-          <button
-            type="button"
-            className="btn btn-outline"
-            onClick={onClose}
-            disabled={isSubmitting}
-          >
+          <button type="button" className="btn btn-outline" onClick={onClose} disabled={isSubmitting}>
             Đóng
           </button>
           <button
@@ -124,4 +133,3 @@ export default function ReconcileActionModal({
     </div>
   );
 }
-

@@ -88,10 +88,7 @@ export default function GuideGroupRosterPage() {
               ) : (
                 <span className={styles.btnOutline}>Không có SĐT</span>
               )}
-              <Link
-                to={ROUTES.GUIDE_PARTICIPANT_DETAIL(p.participantId)}
-                className={styles.btnOutline}
-              >
+              <Link to={ROUTES.GUIDE_PARTICIPANT_DETAIL(p.participantId)} className={styles.btnOutline}>
                 🆘 Hồ sơ an toàn & Cứu hộ (G03)
               </Link>
             </div>

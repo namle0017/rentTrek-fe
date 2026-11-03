@@ -47,7 +47,9 @@ function BookingTimeline({ status }) {
       {TIMELINE.map((label, index) => (
         <li
           key={label}
-          className={index < current ? styles.timelineDone : index === current ? styles.timelineActive : undefined}
+          className={
+            index < current ? styles.timelineDone : index === current ? styles.timelineActive : undefined
+          }
           aria-current={index === current ? 'step' : undefined}
         >
           <span>{index < current ? '✓' : index + 1}</span>
@@ -145,9 +147,11 @@ export default function TripBookingDetailPage() {
     booking.status === BOOKING_STATUS.PENDING_PAYMENT &&
     booking.paymentStatus === PAYMENT_STATUS.UNPAID;
   const holdActive = !holdEnded && getHoldSeconds(booking.holdExpiresAt) > 0;
-  const isGroupingRelevant = [BOOKING_STATUS.CONFIRMED, BOOKING_STATUS.IN_FULFILLMENT, BOOKING_STATUS.COMPLETED].includes(
-    booking.status,
-  );
+  const isGroupingRelevant = [
+    BOOKING_STATUS.CONFIRMED,
+    BOOKING_STATUS.IN_FULFILLMENT,
+    BOOKING_STATUS.COMPLETED,
+  ].includes(booking.status);
   const canEdit = canEditParticipants(booking);
 
   const handleHoldExpire = () => {
@@ -157,13 +161,17 @@ export default function TripBookingDetailPage() {
 
   return (
     <main className={styles.page}>
-      <Link className={styles.backLink} to={ROUTES.MY_ORDERS}>← Đơn của tôi</Link>
+      <Link className={styles.backLink} to={ROUTES.MY_ORDERS}>
+        ← Đơn của tôi
+      </Link>
 
       <header className={styles.header}>
         <div>
           <span className={styles.kicker}>BOOKING {booking.orderCode}</span>
           <h1>{orderMatch?.items[0]?.title || 'Chi tiết chuyến đi'}</h1>
-          <p>{formatDateTime(booking.tripStartAt)} — {formatDateTime(booking.tripEndAt)}</p>
+          <p>
+            {formatDateTime(booking.tripStartAt)} — {formatDateTime(booking.tripEndAt)}
+          </p>
         </div>
         <div className={styles.badges}>
           <span>{ORDER_STATUS_LABEL[booking.status] || booking.status}</span>
@@ -179,8 +187,8 @@ export default function TripBookingDetailPage() {
 
       {booking.paymentStatus === PAYMENT_STATUS.NEEDS_RECONCILIATION && (
         <Notice title="Thanh toán đang chờ đối soát">
-          Đã nhận tiền nhưng chưa tự xác nhận được (sai số tiền hoặc quá hạn giữ chỗ). Không chuyển lại, vui lòng liên
-          hệ hỗ trợ.
+          Đã nhận tiền nhưng chưa tự xác nhận được (sai số tiền hoặc quá hạn giữ chỗ). Không chuyển lại, vui
+          lòng liên hệ hỗ trợ.
         </Notice>
       )}
       {booking.status === BOOKING_STATUS.CANCELLED && (
@@ -238,13 +246,28 @@ export default function TripBookingDetailPage() {
           <span className={styles.kicker}>TÓM TẮT</span>
           <h2>{booking.orderCode}</h2>
           <dl>
-            <div><dt>Trạng thái chuyến</dt><dd>{TRIP_STATUS_LABEL[booking.tripStatus] || booking.tripStatus}</dd></div>
-            <div><dt>Số người</dt><dd>{booking.participantCount}</dd></div>
+            <div>
+              <dt>Trạng thái chuyến</dt>
+              <dd>{TRIP_STATUS_LABEL[booking.tripStatus] || booking.tripStatus}</dd>
+            </div>
+            <div>
+              <dt>Số người</dt>
+              <dd>{booking.participantCount}</dd>
+            </div>
             {booking.canManage && (
               <>
-                <div><dt>Đơn giá</dt><dd>{formatCurrency(booking.unitPrice)}</dd></div>
-                <div><dt>Tạm tính</dt><dd>{formatCurrency(booking.subtotalAmount)}</dd></div>
-                <div className={styles.total}><dt>Tổng tiền</dt><dd>{formatCurrency(booking.totalAmount)}</dd></div>
+                <div>
+                  <dt>Đơn giá</dt>
+                  <dd>{formatCurrency(booking.unitPrice)}</dd>
+                </div>
+                <div>
+                  <dt>Tạm tính</dt>
+                  <dd>{formatCurrency(booking.subtotalAmount)}</dd>
+                </div>
+                <div className={styles.total}>
+                  <dt>Tổng tiền</dt>
+                  <dd>{formatCurrency(booking.totalAmount)}</dd>
+                </div>
               </>
             )}
           </dl>

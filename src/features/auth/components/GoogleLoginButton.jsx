@@ -5,10 +5,7 @@ import styles from './GoogleLoginButton.module.css';
  * Nút đăng nhập / đăng ký một chạm với Google OAuth 2.0.
  * @param {{ text?: string, showDivider?: boolean }} props
  */
-export default function GoogleLoginButton({
-  text = 'Tiếp tục với Google',
-  showDivider = true,
-}) {
+export default function GoogleLoginButton({ text = 'Tiếp tục với Google', showDivider = true }) {
   const googleMutation = useGoogleLogin();
 
   const handleGoogleClick = () => {

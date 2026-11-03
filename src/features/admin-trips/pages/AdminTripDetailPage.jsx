@@ -26,18 +26,11 @@ export default function AdminTripDetailPage() {
   const [cancelReason, setCancelReason] = useState('');
   const [feedback, setFeedback] = useState(null);
 
-  const {
-    data: trip,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useAdminTripDetail(tripId);
+  const { data: trip, isLoading, isError, error, refetch } = useAdminTripDetail(tripId);
   const { data: readiness } = useTripReadinessChecklist(tripId);
   const { data: bookings = [] } = useTripBookings(tripId);
   const updateTrip = useUpdateAdminTrip(tripId);
-  const { openBooking, closeBooking, startTrip, completeTrip, cancelTrip } =
-    useTripLifecycleActions(tripId);
+  const { openBooking, closeBooking, startTrip, completeTrip, cancelTrip } = useTripLifecycleActions(tripId);
 
   const [editForm, setEditForm] = useState(null);
 
@@ -124,7 +117,7 @@ export default function AdminTripDetailPage() {
           <div className={styles.breadcrumb}>
             <Link to={ROUTES.ADMIN_TRIPS}>Quản lý Chuyến đi</Link>
             <span>/</span>
-            <span>Chi tiết & Điều phối Chuyến (O10–O14)</span>
+            <span>Chi tiết & Điều phối Chuyến</span>
           </div>
           <h1 className={styles.pageTitle}>
             {trip.tourName || 'Chuyến đi Tour'}{' '}
@@ -139,8 +132,11 @@ export default function AdminTripDetailPage() {
         </div>
 
         <div className={styles.actionRow}>
-          {(trip.status === TRIP_STATUS.DRAFT ||
-            trip.status === TRIP_STATUS.CLOSED_FOR_BOOKING) && (
+          <Link to={ROUTES.ADMIN_TRIPS} className={styles.btnOutline}>
+            ← Quay lại danh sách
+          </Link>
+
+          {(trip.status === TRIP_STATUS.DRAFT || trip.status === TRIP_STATUS.CLOSED_FOR_BOOKING) && (
             <button
               type="button"
               className={styles.btnPrimary}
@@ -154,9 +150,7 @@ export default function AdminTripDetailPage() {
             <button
               type="button"
               className={styles.btnPrimary}
-              onClick={() =>
-                runStateAction(closeBooking, 'Đã chốt danh sách nhận khách (ClosedForBooking).')
-              }
+              onClick={() => runStateAction(closeBooking, 'Đã chốt danh sách nhận khách (ClosedForBooking).')}
             >
               Chốt danh sách (Close Booking)
             </button>
@@ -168,7 +162,7 @@ export default function AdminTripDetailPage() {
               className={styles.btnAccent}
               onClick={() => runStateAction(startTrip, 'Đoàn đã bắt đầu xuất phát (InProgress).')}
             >
-              🚀 Xuất phát chuyến đi (Start)
+              Xuất phát chuyến đi (Start)
             </button>
           )}
 
@@ -178,12 +172,12 @@ export default function AdminTripDetailPage() {
               className={styles.btnPrimary}
               onClick={() => runStateAction(completeTrip, 'Đã hoàn tất chuyến đi (Completed).')}
             >
-              ✓ Hoàn tất chuyến đi
+              Hoàn tất chuyến đi
             </button>
           )}
 
           <button type="button" className={styles.btnOutline} onClick={handleExportCsv}>
-            ⬇ Xuất Manifest CSV (8.12)
+            Xuất Manifest CSV
           </button>
 
           <button type="button" className={styles.btnOutline} onClick={openEditModal}>
@@ -191,11 +185,7 @@ export default function AdminTripDetailPage() {
           </button>
 
           {trip.status !== TRIP_STATUS.COMPLETED && trip.status !== TRIP_STATUS.CANCELLED && (
-            <button
-              type="button"
-              className={styles.btnDanger}
-              onClick={() => setIsCancelOpen(true)}
-            >
+            <button type="button" className={styles.btnDanger} onClick={() => setIsCancelOpen(true)}>
               Hủy chuyến khẩn cấp
             </button>
           )}
@@ -212,50 +202,49 @@ export default function AdminTripDetailPage() {
         </div>
       )}
 
-      {/* Thanh điều hướng 4 Tab: O10, O11, O12, O14 */}
+      {/* Thanh điều hướng 4 Tab */}
       <div className={styles.tabs}>
         <button
           type="button"
           className={`${styles.tabBtn} ${activeTab === 'overview' ? styles.tabBtnActive : ''}`}
           onClick={() => setActiveTab('overview')}
         >
-          1. Tổng quan & Readiness Checklist (O10)
+          1. Tổng quan & Readiness Checklist
         </button>
         <button
           type="button"
           className={`${styles.tabBtn} ${activeTab === 'bookings' ? styles.tabBtnActive : ''}`}
           onClick={() => setActiveTab('bookings')}
         >
-          2. Đơn đặt & Hành khách ({bookings.length}) (O11)
+          2. Đơn đặt & Hành khách ({bookings.length})
         </button>
         <button
           type="button"
           className={`${styles.tabBtn} ${activeTab === 'kanban' ? styles.tabBtnActive : ''}`}
           onClick={() => setActiveTab('kanban')}
         >
-          3. Chia nhóm Kanban & Guide (O12)
+          3. Chia nhóm Kanban & Guide
         </button>
         <button
           type="button"
           className={`${styles.tabBtn} ${activeTab === 'attendance' ? styles.tabBtnActive : ''}`}
           onClick={() => setActiveTab('attendance')}
         >
-          4. Ma trận Điểm danh Hoạt động (O14)
+          4. Ma trận Điểm danh Hoạt động
         </button>
       </div>
 
-      {/* TAB 1: O10 - Tổng quan & Readiness Checklist */}
+      {/* TAB 1: Tổng quan & Readiness Checklist */}
       {activeTab === 'overview' && (
         <>
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <div>
                 <h2 className={styles.cardTitle}>
-                  Checklist Sẵn sàng Khởi hành trước giờ G (Readiness Checklist - 8.5)
+                  Checklist Sẵn sàng Khởi hành trước giờ G (Readiness Checklist)
                 </h2>
                 <p className={styles.subtitle}>
-                  Cả 5 điều kiện tiên quyết phải đạt trạng thái Đạt mới có thể bấm Xuất phát chuyến
-                  đi.
+                  Cả 5 điều kiện tiên quyết phải đạt trạng thái Đạt mới có thể bấm Xuất phát chuyến đi.
                 </p>
               </div>
               <span
@@ -263,7 +252,7 @@ export default function AdminTripDetailPage() {
                   readiness?.isReadyToDepart ? styles.badgePositive : styles.badgeWarning
                 }`}
               >
-                {readiness?.isReadyToDepart ? '✓ ĐỦ ĐIỀU KIỆN KHỞI HÀNH' : '⏳ CHƯA ĐỦ ĐIỀU KIỆN'}
+                {readiness?.isReadyToDepart ? 'ĐỦ ĐIỀU KIỆN KHỞI HÀNH' : 'CHƯA ĐỦ ĐIỀU KIỆN'}
               </span>
             </div>
 
@@ -271,9 +260,7 @@ export default function AdminTripDetailPage() {
               <div className={styles.checklistGrid}>
                 <div
                   className={`${styles.checkItem} ${
-                    checklist.minParticipantsMet?.passed
-                      ? styles.checkItemPass
-                      : styles.checkItemFail
+                    checklist.minParticipantsMet?.passed ? styles.checkItemPass : styles.checkItemFail
                   }`}
                 >
                   <div>
@@ -287,9 +274,7 @@ export default function AdminTripDetailPage() {
 
                 <div
                   className={`${styles.checkItem} ${
-                    checklist.allParticipantsGrouped?.passed
-                      ? styles.checkItemPass
-                      : styles.checkItemFail
+                    checklist.allParticipantsGrouped?.passed ? styles.checkItemPass : styles.checkItemFail
                   }`}
                 >
                   <div>
@@ -302,9 +287,7 @@ export default function AdminTripDetailPage() {
 
                 <div
                   className={`${styles.checkItem} ${
-                    checklist.allGroupsHaveGuides?.passed
-                      ? styles.checkItemPass
-                      : styles.checkItemFail
+                    checklist.allGroupsHaveGuides?.passed ? styles.checkItemPass : styles.checkItemFail
                   }`}
                 >
                   <div>
@@ -318,9 +301,7 @@ export default function AdminTripDetailPage() {
 
                 <div
                   className={`${styles.checkItem} ${
-                    checklist.allProvidedItemsReady?.passed
-                      ? styles.checkItemPass
-                      : styles.checkItemFail
+                    checklist.allProvidedItemsReady?.passed ? styles.checkItemPass : styles.checkItemFail
                   }`}
                 >
                   <div>
@@ -356,8 +337,8 @@ export default function AdminTripDetailPage() {
               <dd>{trip.tripId}</dd>
               <dt>Sĩ số đã đặt / Tổng chỗ:</dt>
               <dd>
-                <strong>{trip.soldSlots}</strong> / {trip.totalSlots} chỗ (Còn trống:{' '}
-                {trip.remainingSlots} chỗ)
+                <strong>{trip.soldSlots}</strong> / {trip.totalSlots} chỗ (Còn trống: {trip.remainingSlots}{' '}
+                chỗ)
               </dd>
               <dt>Sức chứa tối thiểu:</dt>
               <dd>{trip.minParticipants} khách</dd>
@@ -384,9 +365,7 @@ export default function AdminTripDetailPage() {
       {activeTab === 'bookings' && (
         <div className={styles.card}>
           <div className={styles.cardHeader}>
-            <h2 className={styles.cardTitle}>
-              Danh sách Đơn đặt chỗ & Hành khách đi kèm (Màn O11 - 8.11)
-            </h2>
+            <h2 className={styles.cardTitle}>Danh sách Đơn đặt chỗ & Hành khách đi kèm (Màn O11 - 8.11)</h2>
           </div>
 
           {bookings.length === 0 ? (
@@ -418,14 +397,10 @@ export default function AdminTripDetailPage() {
                       <td>{b.participantCount} người</td>
                       <td>{formatCurrency(b.totalAmount)}</td>
                       <td>
-                        <span className={`${styles.badge} ${styles.badgeInfo}`}>
-                          {b.orderStatus}
-                        </span>{' '}
+                        <span className={`${styles.badge} ${styles.badgeInfo}`}>{b.orderStatus}</span>{' '}
                         <span
                           className={`${styles.badge} ${
-                            b.paymentStatus === 'Paid'
-                              ? styles.badgePositive
-                              : styles.badgeWarning
+                            b.paymentStatus === 'Paid' ? styles.badgePositive : styles.badgeWarning
                           }`}
                         >
                           {b.paymentStatus}
@@ -474,9 +449,7 @@ export default function AdminTripDetailPage() {
       {isEditOpen && editForm && (
         <div className={styles.modalBackdrop}>
           <form className={styles.modalCard} onSubmit={handleSaveEdit}>
-            <h2 className={styles.cardTitle}>
-              Cập nhật Chuyến đi (RowVersion v{editForm.rowVersion})
-            </h2>
+            <h2 className={styles.cardTitle}>Cập nhật Chuyến đi (RowVersion v{editForm.rowVersion})</h2>
 
             <div className={styles.filterBar}>
               <div className={styles.field}>
@@ -549,18 +522,10 @@ export default function AdminTripDetailPage() {
             </div>
 
             <div className={styles.actionRow} style={{ justifyContent: 'flex-end' }}>
-              <button
-                type="button"
-                className={styles.btnOutline}
-                onClick={() => setIsEditOpen(false)}
-              >
+              <button type="button" className={styles.btnOutline} onClick={() => setIsEditOpen(false)}>
                 Hủy
               </button>
-              <button
-                type="submit"
-                className={styles.btnPrimary}
-                disabled={updateTrip.isPending}
-              >
+              <button type="submit" className={styles.btnPrimary} disabled={updateTrip.isPending}>
                 Lưu cập nhật
               </button>
             </div>
@@ -574,9 +539,9 @@ export default function AdminTripDetailPage() {
           <form className={styles.modalCard} onSubmit={handleCancelTrip}>
             <h2 className={styles.cardTitle}>Xác nhận Hủy chuyến đi Khẩn cấp (8.10)</h2>
             <p className={styles.subtitle}>
-              Thao tác này sẽ hủy toàn bộ booking của chuyến, tự động sinh giao dịch hoàn tiền 100%
-              ở trạng thái <strong>PendingApproval</strong>, giải phóng toàn bộ thiết bị đang giữ
-              kho và lưu nhật ký kiểm toán.
+              Thao tác này sẽ hủy toàn bộ booking của chuyến, tự động sinh giao dịch hoàn tiền 100% ở trạng
+              thái <strong>PendingApproval</strong>, giải phóng toàn bộ thiết bị đang giữ kho và lưu nhật ký
+              kiểm toán.
             </p>
             <div className={styles.field}>
               <label htmlFor="cancelReason">Lý do hủy chuyến (bắt buộc) *</label>
@@ -590,18 +555,10 @@ export default function AdminTripDetailPage() {
               />
             </div>
             <div className={styles.actionRow} style={{ justifyContent: 'flex-end' }}>
-              <button
-                type="button"
-                className={styles.btnOutline}
-                onClick={() => setIsCancelOpen(false)}
-              >
+              <button type="button" className={styles.btnOutline} onClick={() => setIsCancelOpen(false)}>
                 Đóng
               </button>
-              <button
-                type="submit"
-                className={styles.btnDanger}
-                disabled={cancelTrip.isPending}
-              >
+              <button type="submit" className={styles.btnDanger} disabled={cancelTrip.isPending}>
                 Xác nhận Hủy chuyến
               </button>
             </div>

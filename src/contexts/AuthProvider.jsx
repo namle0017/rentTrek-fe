@@ -49,8 +49,7 @@ export default function AuthProvider({ children }) {
 
   const login = useCallback(
     (authData) => {
-      const accessToken =
-        authData?.accessToken || authData?.token || authData?.jwt || authData?.access_token;
+      const accessToken = authData?.accessToken || authData?.token || authData?.jwt || authData?.access_token;
       const refreshToken = authData?.refreshToken || authData?.refresh_token;
       let user = authData?.user;
 

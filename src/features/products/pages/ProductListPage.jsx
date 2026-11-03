@@ -1,10 +1,10 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import Pagination from '@/components/Pagination';
-import Spinner from '@/components/Spinner';
+import { CardSkeleton } from '@/components/skeleton';
 import { DEFAULT_PAGE_NUMBER } from '@/constants/config';
 import { useDebounce } from '@/hooks/useDebounce';
 import ProductCard from '../components/ProductCard';
@@ -108,7 +108,7 @@ export default function ProductListPage() {
   };
 
   const renderContent = () => {
-    if (isLoading) return <Spinner />;
+    if (isLoading) return <CardSkeleton count={6} />;
     if (isError) return <ErrorState message={error.message} onRetry={refetch} />;
     return (
       <div aria-busy={isFetching}>

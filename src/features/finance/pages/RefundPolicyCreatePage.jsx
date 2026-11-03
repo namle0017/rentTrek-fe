@@ -77,9 +77,7 @@ export default function RefundPolicyCreatePage() {
   // Các điều kiện kiểm tra tính hợp lệ của Form (Real-time Inline Validation)
   const isNameValid = name.trim().length >= 3;
   const hasRules = rules.length >= 1;
-  const isHoursValid = rules.every(
-    (r) => !isNaN(Number(r.minHoursBefore)) && Number(r.minHoursBefore) >= 0,
-  );
+  const isHoursValid = rules.every((r) => !isNaN(Number(r.minHoursBefore)) && Number(r.minHoursBefore) >= 0);
   const isPctValid = rules.every(
     (r) =>
       !isNaN(Number(r.refundPercentage)) &&
@@ -179,7 +177,13 @@ export default function RefundPolicyCreatePage() {
                 )}
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                  gap: 16,
+                }}
+              >
                 <div>
                   <label className={styles.filterLabel} style={{ marginBottom: 6 }}>
                     Loại hình áp dụng
@@ -217,7 +221,9 @@ export default function RefundPolicyCreatePage() {
                   Thời hạn kết thúc
                 </label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, cursor: 'pointer' }}>
+                  <label
+                    style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, cursor: 'pointer' }}
+                  >
                     <input
                       type="checkbox"
                       checked={isPermanent}
@@ -278,36 +284,43 @@ export default function RefundPolicyCreatePage() {
             </div>
 
             {/* Compact timeline xem trước */}
-            <PolicyCompactTimeline
-              rules={rules}
-              policyName={name || 'Bản xem trước'}
-            />
+            <PolicyCompactTimeline rules={rules} policyName={name || 'Bản xem trước'} />
 
             {/* Checklist kiểm tra tính hợp lệ trước khi bấm Lưu */}
             <div className={styles.checklistCard}>
               <div className={styles.checklistTitle}>Kiểm Tra Tính Hợp Lệ</div>
 
-              <div className={`${styles.checklistItem} ${isNameValid ? styles.checkValid : styles.checkInvalid}`}>
+              <div
+                className={`${styles.checklistItem} ${isNameValid ? styles.checkValid : styles.checkInvalid}`}
+              >
                 <span className={styles.checkIcon}>{isNameValid ? '✓' : '○'}</span>
                 <span>Tên chính sách (tối thiểu 3 ký tự)</span>
               </div>
 
-              <div className={`${styles.checklistItem} ${hasRules ? styles.checkValid : styles.checkInvalid}`}>
+              <div
+                className={`${styles.checklistItem} ${hasRules ? styles.checkValid : styles.checkInvalid}`}
+              >
                 <span className={styles.checkIcon}>{hasRules ? '✓' : '○'}</span>
                 <span>Có ít nhất 1 mốc quy tắc hoàn tiền</span>
               </div>
 
-              <div className={`${styles.checklistItem} ${isHoursValid ? styles.checkValid : styles.checkInvalid}`}>
+              <div
+                className={`${styles.checklistItem} ${isHoursValid ? styles.checkValid : styles.checkInvalid}`}
+              >
                 <span className={styles.checkIcon}>{isHoursValid ? '✓' : '○'}</span>
                 <span>Số giờ trước khởi hành hợp lệ (≥ 0)</span>
               </div>
 
-              <div className={`${styles.checklistItem} ${isPctValid ? styles.checkValid : styles.checkInvalid}`}>
+              <div
+                className={`${styles.checklistItem} ${isPctValid ? styles.checkValid : styles.checkInvalid}`}
+              >
                 <span className={styles.checkIcon}>{isPctValid ? '✓' : '○'}</span>
                 <span>Tỷ lệ hoàn tiền từ 0% đến 100%</span>
               </div>
 
-              <div className={`${styles.checklistItem} ${isDescValid ? styles.checkValid : styles.checkInvalid}`}>
+              <div
+                className={`${styles.checklistItem} ${isDescValid ? styles.checkValid : styles.checkInvalid}`}
+              >
                 <span className={styles.checkIcon}>{isDescValid ? '✓' : '○'}</span>
                 <span>Tất cả các mốc đều có mô tả</span>
               </div>

@@ -14,7 +14,7 @@ export default function GuideLayout() {
         </Link>
         <div className={styles.userPill}>
           <span>{currentUser?.fullName ?? currentUser?.email ?? 'Guide'}</span>
-          <Link to={ROUTES.HOME} className={styles.homeLink}>
+          <Link to={ROUTES.GUIDE_TRIPS} className={styles.homeLink}>
             Trang chủ
           </Link>
         </div>

@@ -53,7 +53,15 @@ export default function ManualPaymentRecordModal({
         <form onSubmit={handleSubmit}>
           <div className={styles.modalBody}>
             {error && (
-              <div style={{ color: '#dc2626', background: '#fef2f2', padding: '8px 12px', borderRadius: 6, fontSize: 13 }}>
+              <div
+                style={{
+                  color: '#dc2626',
+                  background: '#fef2f2',
+                  padding: '8px 12px',
+                  borderRadius: 6,
+                  fontSize: 13,
+                }}
+              >
                 ⚠️ {error}
               </div>
             )}
@@ -88,8 +96,12 @@ export default function ManualPaymentRecordModal({
                 value={purpose}
                 onChange={(e) => setPurpose(e.target.value)}
               >
-                <option value={PAYMENT_PURPOSE.TOUR_FEE}>{PAYMENT_PURPOSE_LABEL[PAYMENT_PURPOSE.TOUR_FEE]}</option>
-                <option value={PAYMENT_PURPOSE.RENTAL_FEE}>{PAYMENT_PURPOSE_LABEL[PAYMENT_PURPOSE.RENTAL_FEE]}</option>
+                <option value={PAYMENT_PURPOSE.TOUR_FEE}>
+                  {PAYMENT_PURPOSE_LABEL[PAYMENT_PURPOSE.TOUR_FEE]}
+                </option>
+                <option value={PAYMENT_PURPOSE.RENTAL_FEE}>
+                  {PAYMENT_PURPOSE_LABEL[PAYMENT_PURPOSE.RENTAL_FEE]}
+                </option>
                 <option value={PAYMENT_PURPOSE.ADDITIONAL_CHARGE}>
                   {PAYMENT_PURPOSE_LABEL[PAYMENT_PURPOSE.ADDITIONAL_CHARGE]}
                 </option>
@@ -131,19 +143,10 @@ export default function ManualPaymentRecordModal({
           </div>
 
           <div className={styles.modalFooter}>
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={onClose}
-              disabled={isSubmitting}
-            >
+            <button type="button" className="btn btn-outline" onClick={onClose} disabled={isSubmitting}>
               Hủy
             </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={isSubmitting}
-            >
+            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
               {isSubmitting ? 'Đang lưu...' : 'Ghi nhận thanh toán'}
             </button>
           </div>
@@ -152,4 +155,3 @@ export default function ManualPaymentRecordModal({
     </div>
   );
 }
-

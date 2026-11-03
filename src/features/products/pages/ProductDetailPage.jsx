@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
-import Spinner from '@/components/Spinner';
+import { DetailSkeleton } from '@/components/skeleton';
 import { ROUTES } from '@/constants/routes';
 import NotFoundPage from '@/pages/NotFoundPage';
 import { formatCurrency } from '@/utils/formatCurrency';
@@ -24,7 +24,7 @@ export default function ProductDetailPage() {
   const [imageSelection, setImageSelection] = useState(null);
   const [activeTab, setActiveTab] = useState('specifications');
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <DetailSkeleton />;
   if (isError && error.statusCode === 404) return <NotFoundPage />;
   if (isError) return <ErrorState message={error.message} onRetry={refetch} />;
   if (!product?.variants.length) return <EmptyState message="Sản phẩm chưa có biến thể để hiển thị" />;

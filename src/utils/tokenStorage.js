@@ -33,8 +33,7 @@ export const tokenStorage = {
   },
 
   setTokens: (data = {}) => {
-    const accessToken =
-      data.accessToken || data.token || data.jwt || data.access_token;
+    const accessToken = data.accessToken || data.token || data.jwt || data.access_token;
     const refreshToken = data.refreshToken || data.refresh_token;
 
     if (accessToken) localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);

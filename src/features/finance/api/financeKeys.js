@@ -19,4 +19,3 @@ export const financeKeys = {
   policyList: (params) => [...financeKeys.policyLists(), params],
   policyDetail: (id) => [...financeKeys.policies(), 'detail', id],
 };
-

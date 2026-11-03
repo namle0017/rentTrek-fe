@@ -12,7 +12,6 @@ const exploration = ['Lều cắm trại', 'Balô', 'Đèn', 'Túi ngủ'];
 function Brand() {
   return (
     <Link to={ROUTES.HOME} className={styles.logo}>
-      <span className={styles.logoSlot} aria-hidden="true" />
       TrekRent
     </Link>
   );
@@ -23,7 +22,8 @@ export default function MainLayout() {
   const logoutMutation = useLogout();
   const navigate = useNavigate();
   const location = useLocation();
-  const isCatalog = location.pathname === ROUTES.PRODUCTS;
+  // Trang có hero tràn viền tự quản lý container
+  const isCatalog = [ROUTES.HOME, ROUTES.PRODUCTS, ROUTES.TOURS].includes(location.pathname);
 
   const searchProducts = (event) => {
     event.preventDefault();
@@ -54,9 +54,7 @@ export default function MainLayout() {
           <Brand />
           <nav className={styles.nav} aria-label="Điều hướng chính">
             <NavLink to={ROUTES.PRODUCTS}>Dụng cụ thuê</NavLink>
-            <span className={styles.upcoming}>
-              Tour Booking <span className={styles.soon}>Sắp ra mắt</span>
-            </span>
+            <NavLink to={ROUTES.TOURS}>Tour trekking</NavLink>
             {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
           </nav>
           <div className={styles.headerActions}>
@@ -72,15 +70,6 @@ export default function MainLayout() {
                 aria-label="Tìm sản phẩm"
               />
             </form>
-            {currentUser?.role === USER_ROLE.ADMIN ? (
-              <Link className={styles.listButton} to={ROUTES.ADMIN_PRODUCT_CREATE}>
-                Đăng đồ cho thuê
-              </Link>
-            ) : (
-              <a className={styles.listButton} href="#owner-info">
-                Đăng đồ cho thuê
-              </a>
-            )}
             {isAuthenticated ? (
               <details className={styles.account}>
                 <summary aria-label="Tài khoản">
@@ -90,7 +79,15 @@ export default function MainLayout() {
                   <OutdoorIcon name="chevron" size={14} />
                 </summary>
                 <div className={styles.accountMenu}>
-                  <span>{currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}</span>
+                  <Link to={ROUTES.PROFILE} title="Xem hồ sơ cá nhân">
+                    {currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}
+                  </Link>
+                  {currentUser?.role && (
+                    <span className={getRoleBadgeClass(currentUser.role)}>
+                      {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
+                    </span>
+                  )}
+                  <Link to={ROUTES.MY_ORDERS}>Đơn của tôi</Link>
                   <button
                     type="button"
                     onClick={() => logoutMutation.mutate()}
@@ -217,7 +214,6 @@ export default function MainLayout() {
             <span>Đi xa hơn. Trải nghiệm nhiều hơn.</span>
           </div>
         </div>
-        <div className="container">© {new Date().getFullYear()} renTrek — Nền tảng Cho thuê Thiết bị & Tour Trekking</div>
       </footer>
     </div>
   );

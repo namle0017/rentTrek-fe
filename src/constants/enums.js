@@ -31,6 +31,13 @@ export const TRIP_STATUS_LABEL = {
   [TRIP_STATUS.IN_PROGRESS]: 'Đang diễn ra',
   [TRIP_STATUS.COMPLETED]: 'Đã hoàn thành',
   [TRIP_STATUS.CANCELLED]: 'Đã hủy',
+  Draft: 'Nháp',
+  Open: 'Đang mở',
+  Closed: 'Đã đóng',
+  ClosedForBooking: 'Đã đóng bán',
+  InProgress: 'Đang diễn ra',
+  Completed: 'Đã hoàn thành',
+  Cancelled: 'Đã hủy',
 };
 
 export const ATTENDANCE_STATUS = Object.freeze({
@@ -74,12 +81,54 @@ export const PAYMENT_PURPOSE_LABEL = {
   [PAYMENT_PURPOSE.ADDITIONAL_CHARGE]: 'Phí phạt / phát sinh',
 };
 
+export const BOOKING_STATUS = Object.freeze({
+  PENDING_PAYMENT: 'PendingPayment',
+  CONFIRMED: 'Confirmed',
+  IN_FULFILLMENT: 'InFulfillment',
+  COMPLETED: 'Completed',
+  EXPIRED: 'Expired',
+  CANCELLED: 'Cancelled',
+});
+
+export const ORDER_TYPE = Object.freeze({
+  RENTAL: 'Rental',
+  TRIP_BOOKING: 'TripBooking',
+});
+
+export const ORDER_TYPE_LABEL = {
+  [ORDER_TYPE.RENTAL]: 'Thuê thiết bị',
+  [ORDER_TYPE.TRIP_BOOKING]: 'Tour',
+};
+
+// Toàn bộ OrderStatus / OrderPaymentStatus (03.1 Phụ lục A) — dùng cho đơn thuê và "Đơn của tôi"
+export const ORDER_STATUS_LABEL = {
+  Draft: 'Nháp',
+  PendingPayment: 'Chờ thanh toán',
+  Confirmed: 'Đã xác nhận',
+  InFulfillment: 'Đang thực hiện',
+  Completed: 'Hoàn tất',
+  Expired: 'Hết hạn',
+  Cancelled: 'Đã hủy',
+};
+
+export const ORDER_PAYMENT_STATUS_LABEL = {
+  Unpaid: 'Chưa thanh toán',
+  Paid: 'Đã thanh toán',
+  PartiallyRefunded: 'Hoàn một phần',
+  Refunded: 'Đã hoàn tiền',
+  NeedsReconciliation: 'Cần đối soát',
+};
+
 export const PAYMENT_STATUS = Object.freeze({
   PENDING_APPROVAL: 'PendingApproval',
   PENDING: 'Pending',
   SUCCEEDED: 'Succeeded',
   FAILED: 'Failed',
   CANCELLED: 'Cancelled',
+  UNPAID: 'Unpaid',
+  PAID: 'Paid',
+  REFUNDED: 'Refunded',
+  NEEDS_RECONCILIATION: 'NeedsReconciliation',
 });
 
 export const PAYMENT_STATUS_LABEL = {
@@ -88,7 +137,15 @@ export const PAYMENT_STATUS_LABEL = {
   [PAYMENT_STATUS.SUCCEEDED]: 'Thành công',
   [PAYMENT_STATUS.FAILED]: 'Thất bại',
   [PAYMENT_STATUS.CANCELLED]: 'Đã hủy',
+  [PAYMENT_STATUS.UNPAID]: 'Chưa thanh toán',
+  [PAYMENT_STATUS.PAID]: 'Đã thanh toán',
+  [PAYMENT_STATUS.REFUNDED]: 'Đã hoàn tiền',
+  [PAYMENT_STATUS.NEEDS_RECONCILIATION]: 'Cần đối soát',
 };
+
+// Alias tương thích ngược cho cả hai module
+export const PAYMENT_TRANSACTION_STATUS = PAYMENT_STATUS;
+export const PAYMENT_TRANSACTION_STATUS_LABEL = PAYMENT_STATUS_LABEL;
 
 export const PAYMENT_METHOD = Object.freeze({
   BANK_TRANSFER: 'BankTransfer',

@@ -1,0 +1,12 @@
+.trigger { width: 100%; min-height: 42px; margin-top: 14px; color: #a44938; font: inherit; font-size: 0.82rem; font-weight: 800; cursor: pointer; background: #fff; border: 1px solid #f0c8be; border-radius: 11px; }
+.panel { display: grid; gap: 7px; padding: 14px; margin-top: 14px; background: #fff3ef; border: 1px solid #f0c8be; border-radius: 12px; }
+.panel strong { color: #7f3226; font-size: 0.86rem; }
+.panel p { margin: 0; color: #7a5148; font-size: 0.74rem; }
+.panel label { color: #34483f; font-size: 0.74rem; font-weight: 700; }
+.panel textarea { width: 100%; padding: 8px 10px; resize: vertical; color: #1d3028; font: inherit; font-size: 0.8rem; background: #fff; border: 1px solid #e5cfc8; border-radius: 9px; }
+.panel .error { color: #a33e35; }
+.actions { display: flex; gap: 8px; margin-top: 4px; }
+.actions button { flex: 1; min-height: 40px; padding: 8px; font: inherit; font-size: 0.78rem; font-weight: 800; cursor: pointer; border-radius: 9px; }
+.secondary { color: #204b39; background: #fff; border: 1px solid #bfcfc3; }
+.danger { color: #fff; background: #a44938; border: 0; }
+.danger:disabled { cursor: wait; opacity: 0.55; }

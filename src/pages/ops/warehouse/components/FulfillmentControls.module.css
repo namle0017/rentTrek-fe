@@ -1,0 +1,135 @@
+.card {
+  min-width: 0;
+  padding: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.title {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.5;
+}
+.hint {
+  margin: 6px 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta);
+  line-height: 1.65;
+}
+.form {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+.field {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-label);
+  min-width: 0;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
+.field input {
+  width: 100%;
+  min-width: 0;
+  min-height: var(--control-min-height);
+  padding: 10px 12px;
+  color: var(--color-text);
+  font:
+    var(--font-size-control) ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    monospace;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.field input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+.field input:disabled {
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+}
+.form button {
+  min-height: var(--control-min-height);
+  flex-shrink: 0;
+  font-size: var(--font-size-control);
+}
+.feedback {
+  min-height: 20px;
+  margin-top: 12px;
+  color: var(--color-positive-text);
+  font-size: var(--font-size-meta);
+  overflow-wrap: anywhere;
+}
+.feedback[data-error='true'] {
+  color: var(--color-error);
+}
+.count {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 20px;
+}
+.count strong {
+  font-size: var(--font-size-metric);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.count span {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta);
+}
+.progressBar {
+  height: 8px;
+  margin-top: 16px;
+  overflow: hidden;
+  background: var(--color-border);
+  border-radius: var(--radius-sm);
+}
+.progressBar > div {
+  height: 100%;
+  background: var(--color-primary);
+  transition: width 0.2s ease;
+}
+.progressMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 10px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta);
+}
+.completion {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+@media (max-width: 640px) {
+  .card {
+    padding: 16px;
+  }
+  .form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .form .field {
+    flex: auto;
+  }
+  .count strong {
+    font-size: var(--font-size-metric);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .progressBar > div {
+    transition: none;
+  }
+}

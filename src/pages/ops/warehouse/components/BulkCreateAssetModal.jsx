@@ -114,7 +114,7 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
           {validationError && <div className={styles.errorAlert}>{validationError}</div>}
 
           {/* Hộp giải thích ngắn gọn về Biến thể sản phẩm */}
-          <div style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', padding: '0.65rem 0.85rem', marginBottom: '0.75rem', fontSize: '0.8rem', color: 'var(--color-text-secondary)', lineHeight: '1.4' }}>
+          <div style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', padding: '0.65rem 0.85rem', marginBottom: '0.75rem', fontSize: "var(--font-size-meta)", color: 'var(--color-text-secondary)', lineHeight: '1.4' }}>
             <strong>Biến thể sản phẩm là gì?</strong> Là phiên bản cụ thể của một sản phẩm theo kích thước, màu sắc hoặc phân loại (ví dụ: Sản phẩm <em>Lều cắm trại 2 người</em> có biến thể <em>2 người / xanh lá</em> với SKU <code>TENT-2-GREEN</code>). Khi tạo thiết bị, bạn chọn biến thể để hệ thống tự cấp mã QR theo lô.
           </div>
 
@@ -126,7 +126,7 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
               <button
                 type="button"
                 onClick={() => setIsManualInput(!isManualInput)}
-                style={{ background: 'none', border: 'none', color: '#2563eb', fontSize: '0.75rem', cursor: 'pointer', textDecoration: 'underline' }}
+                style={{ background: 'none', border: 'none', color: '#2563eb', fontSize: "var(--font-size-control)", cursor: 'pointer', textDecoration: 'underline' }}
               >
                 {isManualInput ? 'Chọn từ danh mục tên thiết bị' : 'Nhập mã ID thủ công (GUID)'}
               </button>
@@ -141,7 +141,7 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
                   placeholder="Gõ tìm theo tên hoặc SKU (vd: lều, balo, đèn, túi ngủ...)"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{ marginBottom: '0.45rem', fontSize: '0.85rem' }}
+                  style={{ marginBottom: '0.45rem', fontSize: "var(--font-size-control)" }}
                 />
 
                 <select

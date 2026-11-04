@@ -66,14 +66,14 @@
 
 .title {
   margin: 0;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #111827;
 }
 
 .subtitle {
   margin: 4px 0 0;
-  font-size: 13px;
+  font-size: var(--font-size-meta);
   color: #6b7280;
 }
 
@@ -86,8 +86,8 @@
 
 .codeTag {
   font-family: monospace;
-  font-weight: 700;
-  font-size: 13px;
+  font-weight: var(--font-weight-body);
+  font-size: var(--font-size-meta);
   background: #1e293b;
   color: #ffffff;
   padding: 3px 8px;
@@ -95,8 +95,8 @@
 }
 
 .statusPill {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   padding: 2px 8px;
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
@@ -105,7 +105,7 @@
 .closeBtn {
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: var(--font-size-control);
   color: #9ca3af;
   cursor: pointer;
   padding: 4px 8px;
@@ -120,7 +120,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-field);
   padding: 20px 24px;
 }
 
@@ -142,8 +142,8 @@
 
 .sectionTitle {
   margin: 0 0 12px;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #374151;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -152,7 +152,7 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-label);
 }
 
 .row {
@@ -162,8 +162,8 @@
 }
 
 .label {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #374151;
 }
 
@@ -172,7 +172,7 @@
 }
 
 .hint {
-  font-size: 12px;
+  font-size: var(--font-size-meta);
   color: #6b7280;
 }
 
@@ -183,7 +183,7 @@
   padding: 9px 12px;
   border: 1px solid #d1d5db;
   border-radius: var(--radius);
-  font-size: 14px;
+  font-size: var(--font-size-control);
   color: #111827;
   background: #ffffff;
   outline: none;
@@ -203,7 +203,7 @@
   color: #991b1b;
   padding: 10px 14px;
   border-radius: var(--radius);
-  font-size: 13px;
+  font-size: var(--font-size-body);
 }
 
 .footer {
@@ -219,8 +219,8 @@
   border: none;
   border-radius: var(--radius);
   padding: 9px 18px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: background 0.15s;
 }
@@ -240,8 +240,8 @@
   border: 1px solid #d1d5db;
   border-radius: var(--radius);
   padding: 9px 16px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
 }
 
@@ -253,7 +253,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 13px;
+  font-size: var(--font-size-meta);
 }
 
 .assignmentRow {
@@ -271,8 +271,8 @@
   color: #0369a1;
   padding: 2px 8px;
   border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 12px;
+  font-weight: var(--font-weight-body);
+  font-size: var(--font-size-meta);
 }
 
 .timelineList {
@@ -286,7 +286,7 @@
   border: 1px solid #e5e7eb;
   border-radius: var(--radius);
   padding: 12px;
-  font-size: 13px;
+  font-size: var(--font-size-meta);
 }
 
 .timelineHeader {
@@ -297,12 +297,12 @@
 }
 
 .timelineBadge {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: #1e293b;
 }
 
 .timelineStatus {
-  font-size: 12px;
+  font-size: var(--font-size-meta);
   color: #6b7280;
   background: #f1f5f9;
   padding: 2px 6px;
@@ -323,12 +323,12 @@
   border: 1px solid #fecdd3;
   border-radius: var(--radius);
   color: #be123c;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .chargeBadge {
   display: block;
-  font-size: 12px;
+  font-size: var(--font-size-status);
   margin-top: 2px;
 }
 
@@ -341,6 +341,6 @@
 .emptyText {
   color: #9ca3af;
   font-style: italic;
-  font-size: 13px;
+  font-size: var(--font-size-meta);
   margin: 0;
 }

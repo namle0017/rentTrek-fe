@@ -1,0 +1,106 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 24px;
+  min-width: 0;
+  padding: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.lookup {
+  display: flex;
+  flex: 1 1 360px;
+  align-items: flex-end;
+  gap: 12px;
+  max-width: 520px;
+  min-width: 0;
+}
+.field {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-label);
+  min-width: 0;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
+.field input {
+  width: 100%;
+  min-width: 0;
+  min-height: var(--control-min-height);
+  padding: 10px 12px;
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-body);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.field input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+.lookup button {
+  min-height: var(--control-min-height);
+  padding: 10px 16px;
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.lookup button:hover:not(:disabled) {
+  background: var(--color-bg);
+}
+.lookup button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.navigation a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 12px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+}
+.navigation a:hover {
+  color: var(--color-primary);
+  background: var(--color-bg);
+}
+.navigation a[aria-current='page'] {
+  color: var(--color-primary);
+  border-color: var(--color-border);
+}
+@media (max-width: 640px) {
+  .toolbar {
+    padding: 16px;
+  }
+  .lookup {
+    flex-basis: 100%;
+  }
+  .navigation {
+    width: 100%;
+  }
+  .navigation a {
+    flex: 1 1 auto;
+    padding-inline: 8px;
+  }
+}

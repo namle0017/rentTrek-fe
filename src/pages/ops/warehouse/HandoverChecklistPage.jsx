@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useHandoverChecklist, useHandoverScan, useCompleteHandover } from './hooks/useFulfillment';
 import { playSuccessBeep, playErrorBuzz } from './utils/soundHelper';
 import Modal from '@/components/Modal';
 import Spinner from '@/components/Spinner';
-import { ORDER_STATUS_LABEL } from '@/constants/enums';
+import RentalOrderSummary from './components/RentalOrderSummary';
+import BarcodeScanner from './components/BarcodeScanner';
+import FulfillmentProgress from './components/FulfillmentProgress';
+import layoutStyles from '@/layouts/RentalFulfillmentLayout.module.css';
 import { MOCK_ORDERS } from './constants/mockFulfillmentData';
 import styles from './HandoverChecklistPage.module.css';
 
@@ -17,8 +20,6 @@ export default function HandoverChecklistPage() {
 }
 
 function HandoverWorkspace({ activeOrderCode }) {
-  const navigate = useNavigate();
-  const [searchOrderCode, setSearchOrderCode] = useState(activeOrderCode);
   const [barcodeInput, setBarcodeInput] = useState('');
   const [showIncompleteModal, setShowIncompleteModal] = useState(false);
   const [incompleteReason, setIncompleteReason] = useState('');
@@ -36,19 +37,11 @@ function HandoverWorkspace({ activeOrderCode }) {
   const isHandedOver = ['InFulfillment', 'Completed'].includes(checklist.orderStatus);
   const isBusy = scanMutation.isPending || completeMutation.isPending;
   const missingCount = Math.max(0, checklist.totalRequiredCount - checklist.scannedCount);
-  const progressPercent = checklist.totalRequiredCount
-    ? Math.min(100, Math.round((checklist.scannedCount / checklist.totalRequiredCount) * 100))
-    : 0;
 
   useEffect(() => {
     if (!isLoading && !isHandedOver && !showIncompleteModal) barcodeInputRef.current?.focus();
   }, [isLoading, isHandedOver, showIncompleteModal]);
 
-  const handleLookup = (event) => {
-    event.preventDefault();
-    const code = searchOrderCode.trim();
-    if (code) navigate(`/ops/rentals/${encodeURIComponent(code)}/handover`);
-  };
   const handleScan = async (event, directCode = null) => {
     event?.preventDefault();
     const code = (directCode || barcodeInput).trim();
@@ -90,104 +83,41 @@ function HandoverWorkspace({ activeOrderCode }) {
 
   return (
     <div className={styles.page}>
-      <section className={styles.lookupCard} aria-label="Tra cứu đơn thuê">
-        <form onSubmit={handleLookup} className={styles.orderLookup}>
-          <label className={styles.field} htmlFor="handover-order-code">
-            Mã đơn thuê
-            <input
-              id="handover-order-code"
-              type="text"
-              placeholder="Nhập mã đơn (vd: RT-202611-001)"
-              value={searchOrderCode}
-              onChange={(event) => setSearchOrderCode(event.target.value)}
-              className={styles.orderLookupInput}
-            />
-          </label>
-          <button type="submit" className={styles.secondaryBtn} disabled={!searchOrderCode.trim()}>
-            Tìm đơn
-          </button>
-        </form>
-        <nav className={styles.navLinks} aria-label="Thao tác đơn thuê">
-          <Link to={`/ops/rentals/${activeOrderCode}/return`}>Nhận lại thiết bị</Link>
-          <Link to={`/ops/rentals/${activeOrderCode}/settlement`}>Quyết toán & Phí</Link>
-        </nav>
-      </section>
       {isLoading ? (
         <Spinner />
       ) : (
         <>
-          <section className={styles.orderInfoCard} aria-label="Thông tin đơn thuê">
-            <div className={styles.orderHeading}>
-              <div>
-                <p className={styles.infoLabel}>Đơn thuê đang xử lý</p>
-                <h2 className={styles.orderCode}>{activeOrderCode}</h2>
-              </div>
-              <span className={styles.orderStatus} data-complete={isHandedOver}>
-                {ORDER_STATUS_LABEL[checklist.orderStatus] || checklist.orderStatus}
-              </span>
-            </div>
-            <dl className={styles.orderFacts}>
-              <div>
-                <dt>Khách hàng</dt>
-                <dd>{checklist.customerName}</dd>
-              </div>
-              <div>
-                <dt>Số điện thoại</dt>
-                <dd>{checklist.customerPhone || 'Chưa cập nhật'}</dd>
-              </div>
-              <div>
-                <dt>Thời gian thuê</dt>
-                <dd>
-                  {new Date(checklist.rentalStartAt).toLocaleDateString('vi-VN')} –{' '}
-                  {new Date(checklist.rentalEndAt).toLocaleDateString('vi-VN')}
-                </dd>
-              </div>
-            </dl>
-          </section>
-          <div className={styles.workspace}>
-            <div className={styles.mainColumn}>
-              <section className={styles.scannerCard} aria-labelledby="handover-scan-title">
-                <h2 id="handover-scan-title" className={styles.sectionTitle}>
-                  Quét thiết bị bàn giao
-                </h2>
-                <p className={styles.hint}>
-                  {isHandedOver
+          <RentalOrderSummary
+            orderCode={activeOrderCode}
+            status={checklist.orderStatus}
+            facts={[
+              { label: 'Khách hàng', value: checklist.customerName },
+              { label: 'Số điện thoại', value: checklist.customerPhone },
+              {
+                label: 'Thời gian thuê',
+                value: `${new Date(checklist.rentalStartAt).toLocaleDateString('vi-VN')} – ${new Date(checklist.rentalEndAt).toLocaleDateString('vi-VN')}`,
+              },
+            ]}
+          />
+          <div className={layoutStyles.workspace}>
+            <div className={layoutStyles.mainColumn}>
+              <BarcodeScanner
+                title="Quét thiết bị bàn giao"
+                hint={
+                  isHandedOver
                     ? 'Đơn đã bàn giao. Bạn có thể tiếp tục ở màn nhận lại thiết bị.'
-                    : 'Quét bằng máy đọc mã hoặc nhập mã thiết bị, sau đó nhấn Enter.'}
-                </p>
-                <form onSubmit={handleScan} className={styles.scannerForm}>
-                  <label className={styles.field} htmlFor="handover-barcode">
-                    Mã barcode thiết bị
-                    <input
-                      id="handover-barcode"
-                      ref={barcodeInputRef}
-                      type="text"
-                      value={barcodeInput}
-                      onChange={(event) => setBarcodeInput(event.target.value)}
-                      placeholder="Quét mã barcode thiết bị hoặc nhập mã"
-                      className={styles.scannerInput}
-                      disabled={isBusy || isHandedOver}
-                      autoComplete="off"
-                      spellCheck={false}
-                    />
-                  </label>
-                  <button
-                    type="submit"
-                    className={styles.primaryBtn}
-                    disabled={!barcodeInput.trim() || isBusy || isHandedOver}
-                  >
-                    {scanMutation.isPending ? 'Đang kiểm tra…' : 'Xác nhận quét'}
-                  </button>
-                </form>
-                <div
-                  className={styles.scanFeedback}
-                  role="status"
-                  aria-live="polite"
-                  data-error={scanFeedback?.isError}
-                >
-                  {scanFeedback?.message}
-                </div>
-              </section>
+                    : 'Quét bằng máy đọc mã hoặc nhập mã thiết bị, sau đó nhấn Enter.'
+                }
+                placeholder="Quét mã barcode thiết bị hoặc nhập mã"
+                value={barcodeInput}
+                onChange={setBarcodeInput}
+                onSubmit={handleScan}
+                inputRef={barcodeInputRef}
+                disabled={isBusy || isHandedOver}
+                isPending={scanMutation.isPending}
+                submitLabel="Xác nhận quét"
+                feedback={scanFeedback}
+              />
               <section className={styles.checklistCard} aria-labelledby="handover-items-title">
                 <div className={styles.listHeading}>
                   <h2 id="handover-items-title" className={styles.sectionTitle}>
@@ -237,29 +167,12 @@ function HandoverWorkspace({ activeOrderCode }) {
                 </ul>
               </section>
             </div>
-            <aside className={styles.progressCard} aria-labelledby="handover-progress-title">
-              <h2 id="handover-progress-title" className={styles.sectionTitle}>
-                Tiến độ bàn giao
-              </h2>
-              <div className={styles.progressCount}>
-                <strong>{checklist.scannedCount}</strong>
-                <span>/ {checklist.totalRequiredCount} thiết bị</span>
-              </div>
-              <div
-                className={styles.progressBar}
-                role="progressbar"
-                aria-label="Tiến độ bàn giao"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={progressPercent}
+            <aside className={styles.progressSidebar}>
+              <FulfillmentProgress
+                title="Tiến độ bàn giao"
+                count={checklist.scannedCount}
+                total={checklist.totalRequiredCount}
               >
-                <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
-              </div>
-              <div className={styles.progressMeta}>
-                <span>Đã quét {progressPercent}%</span>
-                <span>Còn {missingCount} thiết bị</span>
-              </div>
-              <div className={styles.completionSection}>
                 <p className={styles.completionTitle}>
                   {isHandedOver
                     ? 'Bàn giao hoàn tất'
@@ -286,25 +199,12 @@ function HandoverWorkspace({ activeOrderCode }) {
                       ? 'Đã bàn giao'
                       : 'Hoàn tất bàn giao'}
                 </button>
-              </div>
+              </FulfillmentProgress>
             </aside>
           </div>
           {import.meta.env.DEV && (
             <details className={styles.demoTools}>
               <summary>Dữ liệu thử nghiệm</summary>
-              <div className={styles.demoButtons}>
-                {Object.keys(MOCK_ORDERS).map((code) => (
-                  <button
-                    key={code}
-                    type="button"
-                    className={styles.secondaryBtn}
-                    aria-pressed={activeOrderCode === code}
-                    onClick={() => navigate(`/ops/rentals/${code}/handover`)}
-                  >
-                    {code} · {MOCK_ORDERS[code].customerName}
-                  </button>
-                ))}
-              </div>
               {!isHandedOver && (
                 <div className={styles.demoButtons}>
                   {['SD-TENT-CU2-003', 'SD-PACK-40-001', 'SD-PACK-40-002', 'SD-LAMP-001'].map((code) => (

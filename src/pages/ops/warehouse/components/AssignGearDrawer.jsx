@@ -176,13 +176,13 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLoca
                         style={{ width: '18px', height: '18px', accentColor: '#204b39' }}
                       />
                       <span className={styles.codeTag}>{asset.assetCode}</span>
-                      <span style={{ fontSize: '13px', color: '#64748b', flex: 1 }}>
+                      <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b', flex: 1 }}>
                         {asset.conditionNote || 'Tình trạng tốt'}
                       </span>
                       <span
                         style={{
-                          fontSize: '11px',
-                          fontWeight: 600,
+                          fontSize: "var(--font-size-meta)",
+                          fontWeight: "var(--font-weight-semibold)",
                           color: '#166534',
                           background: '#dcfce7',
                           padding: '2px 8px',
@@ -201,7 +201,7 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLoca
 
         {/* Footer */}
         <div className={styles.footer} style={{ padding: '16px 24px', borderTop: '1px solid #e5e7eb', background: '#fafafa' }}>
-          <div style={{ marginRight: 'auto', fontSize: '14px' }}>
+          <div style={{ marginRight: 'auto', fontSize: "var(--font-size-meta)" }}>
             Đã chọn <strong>{selectedCodes.size}</strong> / {item.requiredQuantity} món
           </div>
           <button type="button" className={styles.btnSecondary} onClick={onClose} disabled={assignMutation.isPending}>

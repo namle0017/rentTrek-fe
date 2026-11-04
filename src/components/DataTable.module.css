@@ -1,1 +1,158 @@
-.tableCard{border:1px solid #dddad3;background:#fff;border-radius:12px;overflow:hidden}.tableScroll{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:13px;text-align:left;white-space:nowrap}.table th{background:#f5f4f1;color:#4a5870;font-size:11px;font-weight:600;padding:12px 18px}.table th button{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0}.table td{padding:15px 18px;border-top:1px solid #eceae5;max-width:420px;white-space:normal;overflow-wrap:anywhere;vertical-align:middle}.table tbody tr:hover{background:#fafaf8}.table a{color:#31476f;font-weight:600}.table small{display:block;color:#68768e;margin-top:4px}.tableTools{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 18px;font-size:12px;color:#68768e}.tableCard nav{padding:16px}.rowActions{display:flex;gap:8px;flex-wrap:wrap}.secondary{min-height:36px;border-radius:8px;padding:8px 14px;font:600 12px 'Be Vietnam Pro',sans-serif;cursor:pointer;border:1px solid #dddad3;background:#fff;color:#31476f}.secondary:disabled{opacity:.5;cursor:not-allowed}
+.tableCard {
+  min-width: 0;
+  border: 1px solid #dddad3;
+  background: #fff;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.tableScroll {
+  overflow-x: auto;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-body);
+  text-align: left;
+  white-space: nowrap;
+}
+.table thead th {
+  background: #f5f4f1;
+  color: #4a5870;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  padding: 12px 18px;
+}
+.table th button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  font-size: var(--font-size-label);
+  cursor: pointer;
+  padding: 0;
+}
+.table td,
+.table tbody th {
+  padding: 15px 18px;
+  border-top: 1px solid #eceae5;
+  max-width: 420px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  vertical-align: middle;
+}
+.table tbody th {
+  font-weight: var(--font-weight-semibold);
+}
+.table tbody tr:hover {
+  background: #fafaf8;
+}
+.table a {
+  color: #31476f;
+  font-weight: var(--font-weight-semibold);
+}
+.table small {
+  display: block;
+  color: #68768e;
+  margin-top: 4px;
+}
+.tableTools {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 18px;
+  font-size: var(--font-size-meta);
+  color: #68768e;
+}
+.tableTitle {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+}
+.tableDescription {
+  margin: 6px 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta);
+  line-height: 1.6;
+}
+.resultCount {
+  display: inline-block;
+  margin-top: 4px;
+}
+.tableCard nav {
+  padding: 16px;
+}
+.rowActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--control-min-height);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  font:
+    var(--font-weight-semibold) var(--font-size-control) 'Be Vietnam Pro',
+    sans-serif;
+  cursor: pointer;
+  border: 1px solid #dddad3;
+  background: #fff;
+  color: #31476f;
+}
+.secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.emphasized {
+  border: 1px solid #aeb9b0;
+}
+.emphasized .tableTools {
+  padding: 20px;
+  border-bottom: 1px solid #aeb9b0;
+}
+.emphasized .table {
+  min-width: 920px;
+  font-size: var(--font-size-body);
+}
+.emphasized .table thead th {
+  padding: 16px;
+  color: var(--color-text);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  background: #f1f3f1;
+  border-bottom: 2px solid #aeb9b0;
+}
+.emphasized .table td,
+.emphasized .table tbody th {
+  padding: 18px 16px;
+  color: var(--color-text);
+  border-top: 1px solid #bfc8c0;
+}
+.emphasized .table th:not(:last-child),
+.emphasized .table td:not(:last-child) {
+  border-right: 1px solid var(--color-border);
+}
+.emphasized .table tbody tr:hover {
+  background: var(--color-bg);
+}
+.emphasized .table small {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-meta);
+  line-height: 1.5;
+}
+@media (max-width: 640px) {
+  .tableTools {
+    flex-wrap: wrap;
+  }
+  .emphasized .tableTools {
+    padding: 16px;
+  }
+}

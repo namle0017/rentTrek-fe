@@ -166,26 +166,27 @@ export const router = createBrowserRouter([
                 path: ROUTES.ADMIN_PROMOTION(),
                 lazy: lazyPage(() => import('@/pages/ops/system/PromotionDetailPage')),
               },
-              // Phân hệ Quản trị / Governance & Danh mục (Admin Only)
+              // Danh mục Tour & Sản phẩm (Admin & Staff)
+              {
+                path: ROUTES.ADMIN_TOURS,
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminToursPage')),
+              },
+              {
+                path: ROUTES.ADMIN_TOUR_DETAIL(),
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourDetailPage')),
+              },
+              {
+                path: ROUTES.ADMIN_PRODUCTS,
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductsPage')),
+              },
+              {
+                path: ROUTES.ADMIN_PRODUCT_DETAIL(),
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductDetailPage')),
+              },
+              // Phân hệ Quản trị / Governance tối cao (Admin Only)
               {
                 element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />,
                 children: [
-                  {
-                    path: ROUTES.ADMIN_TOURS,
-                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminToursPage')),
-                  },
-                  {
-                    path: ROUTES.ADMIN_TOUR_DETAIL(),
-                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourDetailPage')),
-                  },
-                  {
-                    path: ROUTES.ADMIN_PRODUCTS,
-                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductsPage')),
-                  },
-                  {
-                    path: ROUTES.ADMIN_PRODUCT_DETAIL(),
-                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductDetailPage')),
-                  },
                   {
                     path: ROUTES.ADMIN_PRODUCT_CREATE,
                     lazy: lazyPage(() => import('@/features/products/pages/ProductCreatePage')),

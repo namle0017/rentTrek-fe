@@ -101,13 +101,6 @@ export default function AdminRentalOrdersPage() {
 
   return (
     <section className={styles.page} aria-labelledby="rental-orders-title">
-      <header>
-        <p className={styles.eyebrow}>Vận hành</p>
-        <h1 id="rental-orders-title" className={styles.title}>
-          Đơn thuê
-        </h1>
-        <p className={styles.hint}>Giao đồ, nhận trả từng thiết bị, lập phí trễ / hỏng / mất và đóng đơn.</p>
-      </header>
 
       <form className={styles.filters} onSubmit={handleSubmit}>
         <label className={styles.field}>

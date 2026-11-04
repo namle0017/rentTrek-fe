@@ -1,79 +1,426 @@
 .trigger {
   width: 100%;
-  min-height: 42px;
+  min-height: 44px;
   margin-top: 14px;
-  color: #a44938;
+  color: #9a3d2d;
   font: inherit;
   font-size: 0.82rem;
   font-weight: 800;
   cursor: pointer;
-  background: #fff;
-  border: 1px solid #f0c8be;
+  background: var(--color-surface);
+  border: 1px solid #e9b9ae;
   border-radius: 11px;
 }
-.panel {
+
+.trigger:hover {
+  background: var(--color-accent-soft);
+}
+
+.form {
   display: grid;
-  gap: 7px;
-  padding: 14px;
-  margin-top: 14px;
-  background: #fff3ef;
-  border: 1px solid #f0c8be;
-  border-radius: 12px;
+  gap: 18px;
 }
-.panel strong {
-  color: #7f3226;
-  font-size: 0.86rem;
-}
-.panel p {
+
+.form p {
   margin: 0;
-  color: #7a5148;
-  font-size: 0.74rem;
 }
-.panel label {
-  color: #34483f;
-  font-size: 0.74rem;
+
+.appliedCase {
+  padding: 15px 16px 15px 18px;
+  background: var(--color-accent-soft);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 10px 10px 0;
+}
+
+.appliedCase > span {
+  display: block;
+  color: #9a4635;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.appliedCase strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--color-primary-heading);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.appliedCase p {
+  margin-top: 4px;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.refundSummary {
+  margin: 0;
+}
+
+.refundSummary > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.refundSummary dt {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.refundSummary dd {
+  margin: 0;
+  color: var(--color-primary-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.refundSummary .refundAmount dt {
+  color: var(--color-text);
   font-weight: 700;
 }
-.panel textarea {
-  width: 100%;
-  padding: 8px 10px;
-  resize: vertical;
-  color: #1d3028;
+
+.refundSummary .refundAmount dd {
+  color: var(--color-primary);
+  font-size: 1.28rem;
+}
+
+.policyLink {
+  display: inline-flex;
+  width: max-content;
+  min-height: 44px;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 0;
+  color: var(--color-primary-dark);
   font: inherit;
   font-size: 0.8rem;
-  background: #fff;
-  border: 1px solid #e5cfc8;
-  border-radius: 9px;
-}
-.panel .error {
-  color: #a33e35;
-}
-.actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 4px;
-}
-.actions button {
-  flex: 1;
-  min-height: 40px;
-  padding: 8px;
-  font: inherit;
-  font-size: 0.78rem;
   font-weight: 800;
-  cursor: pointer;
-  border-radius: 9px;
+  background: transparent;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
-.secondary {
-  color: #204b39;
-  background: #fff;
-  border: 1px solid #bfcfc3;
+
+.policyLink span {
+  font-size: 1.2rem;
+  text-decoration: none;
 }
-.danger {
-  color: #fff;
-  background: #a44938;
+
+.amountStrip {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 16px;
+  background: #edf5ef;
+  border: 1px solid #d3e2d7;
+  border-radius: 10px;
+}
+
+.amountStrip span {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.amountStrip strong {
+  color: var(--color-primary);
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.bankFields {
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  margin: 0;
   border: 0;
 }
-.danger:disabled {
+
+.consent label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: #43574d;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.consent input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--color-primary);
+}
+
+.bankNote {
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  line-height: 1.55;
+}
+
+.fieldError,
+.error {
+  color: var(--color-error);
+  font-size: 0.78rem;
+}
+
+.fieldError {
+  margin-top: 5px !important;
+}
+
+.blocked {
+  padding: 14px 16px;
+  color: #7f3226;
+  background: var(--color-accent-soft);
+  border: 1px solid #efc0b7;
+  border-radius: 12px;
+}
+
+.blocked p {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  flex: 1;
+  min-height: 46px;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.secondary {
+  color: var(--color-primary-dark);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.danger {
+  color: var(--color-surface);
+  background: var(--color-error);
+  border: 1px solid var(--color-error);
+}
+
+.danger:hover:not(:disabled) {
+  filter: brightness(0.88);
+}
+
+.actions button:disabled {
   cursor: wait;
   opacity: 0.55;
+}
+
+.policyScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  overflow-y: auto;
+  color: var(--color-text);
+  background: var(--color-bg-warm);
+}
+
+.policyTopbar {
+  min-height: 74px;
+  color: var(--color-surface);
+  background: var(--color-primary-heading);
+  border-bottom: 1px solid #315344;
+}
+
+.policyTopbarInner {
+  display: flex;
+  max-width: 1344px;
+  min-height: 74px;
+  align-items: center;
+  padding-inline: 24px;
+  margin-inline: auto;
+}
+
+.policyBrand {
+  color: var(--color-surface);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.policyContent {
+  width: min(860px, calc(100% - 32px));
+  padding: 48px 0 88px;
+  margin-inline: auto;
+}
+
+.policyBack {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  color: var(--color-primary-heading);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+  background: transparent;
+  border: 0;
+}
+
+.policyContent h1 {
+  margin: 24px 0 8px;
+  color: var(--color-primary-heading);
+  font-size: clamp(1.8rem, 5vw, 2.45rem);
+  line-height: 1.25;
+}
+
+.policyIntro {
+  max-width: 680px;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+.policyMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 18px 0 30px;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.policyList {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  list-style: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+}
+
+.policyList li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 14px;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.policyList li:last-child {
+  border-bottom: 0;
+}
+
+.policyList li.policyCaseApplied {
+  background: var(--color-accent-soft);
+}
+
+.policyList li.policyCaseApplied::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  content: '';
+  background: var(--color-accent);
+}
+
+.policyIndex {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  color: var(--color-primary);
+  background: #eef5f0;
+  border-radius: 50%;
+  font-size: 0.72rem;
+  font-weight: 800;
+  place-items: center;
+}
+
+.policyList h2 {
+  margin: 0;
+  color: var(--color-primary-heading);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.policyList p {
+  margin: 5px 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+.appliedTag {
+  display: inline-flex;
+  margin-top: 10px;
+  padding: 5px 9px;
+  color: #8d3c2d;
+  background: var(--color-surface);
+  border: 1px solid #edc9c0;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.policyNote {
+  padding: 16px 18px;
+  margin: 18px 0 0;
+  color: #526159;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 600px) {
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .policyTopbar,
+  .policyTopbarInner {
+    min-height: 64px;
+  }
+
+  .policyTopbarInner {
+    padding-inline: 16px;
+  }
+
+  .policyContent {
+    padding: 24px 0 64px;
+  }
+
+  .policyList li {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+    padding: 18px 14px;
+  }
 }

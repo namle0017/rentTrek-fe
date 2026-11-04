@@ -5,7 +5,6 @@ import TransactionFilterBar from '../components/TransactionFilterBar';
 import TransactionSummaryCards from '../components/TransactionSummaryCards';
 import TransactionTable from '../components/TransactionTable';
 import TransactionDetailDrawer from '../components/TransactionDetailDrawer';
-import { financeService } from '../api/financeService';
 import { toast } from 'react-toastify';
 import styles from '../components/finance.module.css';
 

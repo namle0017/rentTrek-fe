@@ -1,0 +1,74 @@
+.dialog {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  overflow: hidden;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-hover);
+}
+.dialog::backdrop {
+  background: rgb(23 61 45 / 0.45);
+}
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.header h2 {
+  margin: 0;
+  color: var(--color-primary-heading);
+  font-size: 1.1rem;
+}
+.close {
+  width: 44px;
+  height: 44px;
+  margin-right: -12px;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: 1.4rem;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  border-radius: var(--radius);
+}
+.close:focus-visible {
+  outline: 2px solid var(--color-primary);
+}
+.body {
+  max-height: calc(100dvh - 110px);
+  padding: 24px;
+  overflow-y: auto;
+}
+.body input:not([type='checkbox']),
+.body select,
+.body textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  font: inherit;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.body input:focus-visible,
+.body select:focus-visible,
+.body textarea:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+@media (max-width: 480px) {
+  .header,
+  .body {
+    padding: 16px;
+  }
+}

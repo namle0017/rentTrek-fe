@@ -1,0 +1,118 @@
+.logoLink {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: opacity 0.15s ease;
+}
+
+.logoLink:hover {
+  opacity: 0.92;
+}
+
+.logoLink:focus-visible {
+  outline: 2px solid var(--color-accent, #e0674a);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.brandLogo {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  user-select: none;
+}
+
+/* Kích thước */
+.sm {
+  font-size: 18px;
+}
+
+.md {
+  font-size: 22px;
+}
+
+.lg {
+  font-size: 26px;
+}
+
+.xl {
+  font-size: 32px;
+}
+
+/* Theme màu */
+.light {
+  color: #ffffff;
+}
+
+.dark {
+  color: #1c4333;
+}
+
+.wordmark {
+  position: relative;
+  display: inline-block;
+}
+
+/* 3 tia nắng bình minh trên chữ "e" */
+.rays {
+  position: absolute;
+  top: -0.28em;
+  left: 2.08em;
+  display: flex;
+  gap: 0.1em;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.ray {
+  width: 0.06em;
+  background: var(--color-dawn-ray, #e29a78);
+  border-radius: 1px;
+}
+
+.rayLeft {
+  height: 0.18em;
+  transform: rotate(-30deg);
+}
+
+.rayCenter {
+  height: 0.26em;
+}
+
+.rayRight {
+  height: 0.18em;
+  transform: rotate(30deg);
+}
+
+.dot {
+  color: var(--color-dawn-ray, #e29a78);
+}
+
+.suffix {
+  margin-left: 8px;
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+  font-size: 0.52em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+.light .suffix {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.dark .suffix {
+  background: rgba(32, 75, 57, 0.1);
+  color: #204b39;
+  border: 1px solid rgba(32, 75, 57, 0.2);
+}
+

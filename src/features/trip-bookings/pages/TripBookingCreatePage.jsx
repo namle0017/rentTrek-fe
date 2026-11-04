@@ -24,9 +24,6 @@ const emptyParticipant = () => ({
   fullName: '',
   email: '',
   phone: '',
-  dateOfBirth: '',
-  emergencyContactName: '',
-  emergencyContactPhone: '',
 });
 
 const parsePartySize = (value) => {

@@ -1,4 +1,4 @@
-﻿export default function OutdoorIcon({ name, size = 24, ...props }) {
+export default function OutdoorIcon({ name, size = 24, ...props }) {
   const paths = {
     shield: (
       <>
@@ -16,6 +16,13 @@
       <>
         <circle cx="10" cy="8" r="4" />
         <path d="M3 21v-3a7 7 0 0 1 14 0v3M17 4a4 4 0 0 1 0 8m3 9v-3a7 7 0 0 0-3-5" />
+      </>
+    ),
+    bag: (
+      <>
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+        <path d="M3 6h18" />
+        <path d="M16 10a4 4 0 0 1-8 0" />
       </>
     ),
     search: (

@@ -22,6 +22,18 @@ export function useCustomerTripGrouping(orderId) {
   });
 }
 
+// Số tiền phụ thuộc giờ hiện tại nên luôn tải mới khi mở popup
+export function useCancellationPreview(orderId, { enabled = true } = {}) {
+  return useQuery({
+    queryKey: tripBookingKeys.cancellationPreview(orderId),
+    queryFn: () => tripBookingService.getCancellationPreview(orderId),
+    select: (response) => response.data,
+    enabled: Boolean(orderId) && enabled,
+    staleTime: 0,
+    gcTime: 0,
+  });
+}
+
 export function useCreateTripBooking() {
   const queryClient = useQueryClient();
 
@@ -37,10 +49,11 @@ export function useCreateTripBooking() {
 }
 
 /** BE trả TripBookingResponse mới nhất: thay luôn cache chi tiết, không cần tải lại. */
-function useBookingMutation(mutationFn, fallbackMessage) {
+function useBookingMutation(mutationFn, fallbackMessage, options = {}) {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...options,
     mutationFn,
     onSuccess: (response, { orderId }) => {
       queryClient.setQueryData(tripBookingKeys.detail(orderId), response);
@@ -56,7 +69,8 @@ export function useUpdateParticipant() {
 }
 
 export function useCancelTripBooking() {
-  return useBookingMutation(tripBookingService.cancel, 'Đã hủy booking.');
+  // gcTime 0: variables chứa số tài khoản, không giữ lại trong mutation cache
+  return useBookingMutation(tripBookingService.cancel, 'Đã hủy booking.', { gcTime: 0 });
 }
 
 export function useInviteLink(orderId) {

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import BrandLogo from '@/components/BrandLogo';
 import SplitText from '@/components/SplitText';
 import { ROUTES } from '@/constants/routes';
 import styles from './AuthLayout.module.css';
@@ -17,17 +18,9 @@ export default function AuthLayout({
       <div className={styles.heroColumn}>
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-          <Link to={ROUTES.HOME} className={styles.brandLogo}>
-            <span className={styles.brandIcon}>▲</span>
-            <SplitText
-              tag="span"
-              text="renTrek"
-              effect="none"
-              trigger="none"
-              splitType="chars"
-              hoverEffect="lift"
-            />
-          </Link>
+          <div style={{ marginBottom: 32 }}>
+            <BrandLogo size="lg" theme="light" />
+          </div>
 
           <div className={styles.heroTextGroup}>
             <span className={styles.heroTag}>

@@ -47,61 +47,79 @@
 
 .steps {
   display: flex;
-  padding: 18px 10px;
+  padding: 20px 16px;
   margin: 0;
   list-style: none;
-  background: #fff;
-  border: 1px solid #dde4dd;
+  background: #ffffff;
+  border: 1px solid var(--color-border, #dde4dd);
   border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(16, 40, 28, 0.04);
 }
+
 .steps li {
   position: relative;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   flex: 1;
-  gap: 7px;
-  color: #69766f;
-  font-size: 0.78rem;
-  font-weight: 700;
+  gap: 8px;
+  color: var(--color-text-muted, #69766f);
+  font-size: 0.8rem;
+  font-weight: 600;
   text-align: center;
-  justify-items: center;
 }
-.steps li:not(:first-child)::before {
+
+.steps li:not(:last-child)::after {
   position: absolute;
-  top: 15px;
-  left: -50%;
-  width: 100%;
+  top: 16px;
+  left: calc(50% + 20px);
+  width: calc(100% - 40px);
   height: 2px;
   content: '';
   background: #d5dcd5;
+  transform: translateY(-50%);
 }
+
+.steps .stepDone::after {
+  background: var(--color-primary, #204b39);
+}
+
 .steps span {
   position: relative;
-  display: grid;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 32px;
   height: 32px;
   color: #617067;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 800;
-  background: #fff;
+  background: #ffffff;
   border: 2px solid #d5dcd5;
   border-radius: 50%;
-  place-items: center;
+  box-shadow: 0 0 0 4px #ffffff;
 }
+
 .steps .stepActive {
-  color: #173d2d;
+  color: var(--color-primary, #173d2d);
+  font-weight: 700;
 }
+
 .steps .stepActive span {
-  color: #fff;
-  background: #204b39;
-  border-color: #204b39;
+  color: #ffffff;
+  background: var(--color-primary, #204b39);
+  border-color: var(--color-primary, #204b39);
 }
+
+.steps .stepDone {
+  color: var(--color-primary, #173d2d);
+}
+
 .steps .stepDone span {
-  color: #204b39;
+  color: var(--color-primary, #204b39);
   background: #eaf4ec;
-  border-color: #204b39;
-}
-.steps .stepDone + li::before {
-  background: #204b39;
+  border-color: var(--color-primary, #204b39);
 }
 
 .card {
@@ -517,6 +535,23 @@
 @media (max-width: 640px) {
   .page {
     padding-top: 26px;
+  }
+  .steps {
+    padding: 14px 8px;
+  }
+  .steps li {
+    font-size: 0.72rem;
+    gap: 6px;
+  }
+  .steps span {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+  .steps li:not(:last-child)::after {
+    top: 14px;
+    left: calc(50% + 18px);
+    width: calc(100% - 36px);
   }
   .card {
     padding: 18px;

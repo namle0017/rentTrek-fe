@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import BrandLogo from '@/components/BrandLogo';
 import FormField from '@/components/FormField';
 import SplitText from '@/components/SplitText';
 import { ROUTES } from '@/constants/routes';
@@ -157,17 +158,9 @@ export default function AuthPage({ defaultMode }) {
       <div className={styles.heroColumn}>
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-          <Link to={ROUTES.HOME} className={styles.brandLogo}>
-            <span className={styles.brandIcon}>▲</span>
-            <SplitText
-              tag="span"
-              text="renTrek"
-              effect="none"
-              trigger="none"
-              splitType="chars"
-              hoverEffect="lift"
-            />
-          </Link>
+          <div style={{ marginBottom: 32 }}>
+            <BrandLogo size="lg" theme="light" />
+          </div>
 
           <div className={styles.heroTextGroup}>
             <span className={styles.heroTag}>
@@ -253,17 +246,7 @@ export default function AuthPage({ defaultMode }) {
       <div className={styles.formColumn}>
         <div className={styles.cardWrapper}>
           <div className={styles.mobileBrand}>
-            <Link to={ROUTES.HOME} className={styles.brandLogoMobile}>
-              <span className={styles.brandIcon}>▲</span>
-              <SplitText
-                tag="span"
-                text="renTrek"
-                effect="none"
-                trigger="none"
-                splitType="chars"
-                hoverEffect="lift"
-              />
-            </Link>
+            <BrandLogo size="md" theme="dark" />
           </div>
 
           {/* Sliding Tab Switcher */}

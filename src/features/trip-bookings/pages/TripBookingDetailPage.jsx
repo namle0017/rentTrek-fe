@@ -14,6 +14,7 @@ import {
 } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useMyOrders } from '@/features/orders/hooks/useOrders';
+import RefundProgressCard from '@/features/refunds/components/RefundProgressCard';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
 import CancelBookingPanel from '../components/CancelBookingPanel';
@@ -36,6 +37,22 @@ const TIMELINE_STEP = {
   [BOOKING_STATUS.CONFIRMED]: 2,
   [BOOKING_STATUS.IN_FULFILLMENT]: 2,
   [BOOKING_STATUS.COMPLETED]: TIMELINE.length,
+};
+
+const STATUS_BADGE_CLASS = {
+  [BOOKING_STATUS.CONFIRMED]: styles.badgeSuccess,
+  [BOOKING_STATUS.COMPLETED]: styles.badgeSuccess,
+  [BOOKING_STATUS.IN_FULFILLMENT]: styles.badgeSuccess,
+  [BOOKING_STATUS.PENDING_PAYMENT]: styles.badgeWarning,
+  [BOOKING_STATUS.CANCELLED]: styles.badgeDanger,
+  [BOOKING_STATUS.EXPIRED]: styles.badgeDanger,
+};
+
+const PAYMENT_BADGE_CLASS = {
+  [PAYMENT_STATUS.PAID]: styles.badgeSuccess,
+  [PAYMENT_STATUS.UNPAID]: styles.badgeWarning,
+  [PAYMENT_STATUS.NEEDS_RECONCILIATION]: styles.badgeWarning,
+  [PAYMENT_STATUS.REFUNDED]: styles.badgeInfo,
 };
 
 function BookingTimeline({ status }) {
@@ -162,21 +179,26 @@ export default function TripBookingDetailPage() {
   return (
     <main className={styles.page}>
       <Link className={styles.backLink} to={ROUTES.MY_ORDERS}>
-        ← Đơn của tôi
+        <OutdoorIcon name="arrow" size={15} style={{ transform: 'rotate(180deg)' }} />
+        <span>Đơn của tôi</span>
       </Link>
 
       <header className={styles.header}>
-        <div>
-          <span className={styles.kicker}>BOOKING {booking.orderCode}</span>
+        <div className={styles.headerInfo}>
+          <span className={styles.kicker}>MÃ ĐẶT CHỖ · {booking.orderCode}</span>
           <h1>{orderMatch?.items[0]?.title || 'Chi tiết chuyến đi'}</h1>
           <p>
             {formatDateTime(booking.tripStartAt)} — {formatDateTime(booking.tripEndAt)}
           </p>
         </div>
         <div className={styles.badges}>
-          <span>{ORDER_STATUS_LABEL[booking.status] || booking.status}</span>
+          <span className={`${styles.badge} ${STATUS_BADGE_CLASS[booking.status] || styles.badgeDefault}`}>
+            {ORDER_STATUS_LABEL[booking.status] || booking.status}
+          </span>
           {booking.canManage && (
-            <span className={styles.paymentBadge}>
+            <span
+              className={`${styles.badge} ${PAYMENT_BADGE_CLASS[booking.paymentStatus] || styles.badgePaymentDefault}`}
+            >
               {ORDER_PAYMENT_STATUS_LABEL[booking.paymentStatus] || booking.paymentStatus}
             </span>
           )}
@@ -198,6 +220,7 @@ export default function TripBookingDetailPage() {
             : 'Chỗ đã được giải phóng.'}
         </Notice>
       )}
+      {booking.refundCase && <RefundProgressCard refundCaseId={booking.refundCase.refundCaseId} />}
       {(booking.status === BOOKING_STATUS.EXPIRED || (isPendingPayment && !holdActive)) && (
         <Notice title="Đã hết thời gian giữ chỗ" tone="danger">
           Vui lòng không chuyển khoản cho đơn này. <Link to={ROUTES.TOURS}>Đặt lại chuyến khác</Link>
@@ -277,9 +300,7 @@ export default function TripBookingDetailPage() {
               <InviteLinkBox orderId={orderId} />
             </div>
           )}
-          {canCancelBooking(booking) && (
-            <CancelBookingPanel orderId={orderId} paymentStatus={booking.paymentStatus} />
-          )}
+          {canCancelBooking(booking) && <CancelBookingPanel orderId={orderId} />}
         </aside>
       </div>
     </main>

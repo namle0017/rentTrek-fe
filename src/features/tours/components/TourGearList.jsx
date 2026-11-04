@@ -3,9 +3,11 @@ import styles from './TourGearList.module.css';
 export default function TourGearList({ providedItems = [], preparationItems = [] }) {
   return (
     <div className={styles.gearContainer}>
-      {/* Cột 1: TrekRent cung cấp */}
+      {/* Cột 1: RenTrekk cung cấp */}
       <div className={styles.gearBox}>
-        <div className={`${styles.boxHeader} ${styles.boxHeaderProvided}`}>TrekRent chuẩn bị</div>
+        <div className={`${styles.boxHeader} ${styles.boxHeaderProvided}`}>
+          RenTrekk chuẩn bị
+        </div>
         <ul className={styles.itemList}>
           {providedItems.length > 0 ? (
             providedItems.map((item) => (

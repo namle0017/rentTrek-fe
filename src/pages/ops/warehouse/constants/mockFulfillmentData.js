@@ -638,31 +638,38 @@ export function generateAvailableAssetsForSku(sku, productName = 'Thiết bị')
   const cleanSku = (sku || 'EQ').toUpperCase();
   return [
     {
-      assetId: `avail-${cleanSku}-001`,
-      assetCode: `${cleanSku}-0001`,
-      productName,
-      conditionNote: 'Mới 100%, sẵn sàng trong kho',
-      assetStatus: 'Available',
-    },
-    {
       assetId: `avail-${cleanSku}-002`,
       assetCode: `${cleanSku}-0002`,
       productName,
-      conditionNote: 'Tình trạng tốt, đã kiểm tra',
+      conditionNote: 'Mới 100%, sẵn sàng trong kho',
       assetStatus: 'Available',
     },
     {
       assetId: `avail-${cleanSku}-003`,
       assetCode: `${cleanSku}-0003`,
       productName,
-      conditionNote: 'Phụ kiện đầy đủ, nguyên túi đựng',
+      conditionNote: 'Tình trạng tốt, đã kiểm tra đạt chuẩn',
       assetStatus: 'Available',
     },
     {
       assetId: `avail-${cleanSku}-004`,
       assetCode: `${cleanSku}-0004`,
       productName,
+      conditionNote: 'Phụ kiện đầy đủ, nguyên túi đựng',
+      assetStatus: 'Available',
+    },
+    {
+      assetId: `avail-${cleanSku}-005`,
+      assetCode: `${cleanSku}-0005`,
+      productName,
       conditionNote: 'Sẵn sàng trong kho',
+      assetStatus: 'Available',
+    },
+    {
+      assetId: `avail-${cleanSku}-006`,
+      assetCode: `${cleanSku}-0006`,
+      productName,
+      conditionNote: 'Kiểm tra đạt chuẩn trước tour',
       assetStatus: 'Available',
     },
   ];

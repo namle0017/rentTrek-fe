@@ -20,13 +20,19 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLoca
 
   // Dùng dữ liệu thiết bị khả dụng từ server, nếu rỗng thì sinh danh sách khả dụng theo SKU để test
   const availableAssets = useMemo(() => {
+    const assignedCodes = new Set(
+      (item?.assignedAssets || []).map((a) => (a.assetCode || '').toUpperCase())
+    );
+
+    let rawList = [];
     if (serverAvailableAssets && serverAvailableAssets.length > 0) {
-      return serverAvailableAssets;
+      rawList = serverAvailableAssets;
+    } else if (item?.sku) {
+      rawList = generateAvailableAssetsForSku(item.sku, item.productName);
     }
-    if (item?.sku) {
-      return generateAvailableAssetsForSku(item.sku, item.productName);
-    }
-    return [];
+
+    // Luôn loại trừ các mã thiết bị đã được gán cho mục này
+    return rawList.filter((a) => !assignedCodes.has((a.assetCode || '').toUpperCase()));
   }, [serverAvailableAssets, item]);
 
   if (!isOpen || !item) return null;

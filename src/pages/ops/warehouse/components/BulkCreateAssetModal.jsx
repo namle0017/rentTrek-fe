@@ -114,8 +114,8 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
           {validationError && <div className={styles.errorAlert}>{validationError}</div>}
 
           {/* Hộp giải thích ngắn gọn về Biến thể sản phẩm */}
-          <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '6px', padding: '0.65rem 0.85rem', marginBottom: '0.75rem', fontSize: '0.8rem', color: '#166534', lineHeight: '1.4' }}>
-            💡 <strong>Biến thể sản phẩm là gì?</strong> Là phiên bản cụ thể của một sản phẩm theo kích thước, màu sắc hoặc phân loại (ví dụ: Sản phẩm <em>Lều cắm trại 2 người</em> có biến thể <em>2 người / xanh lá</em> với SKU <code>TENT-2-GREEN</code>). Khi tạo thiết bị, bạn chọn biến thể để hệ thống tự cấp mã QR theo lô.
+          <div style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', padding: '0.65rem 0.85rem', marginBottom: '0.75rem', fontSize: '0.8rem', color: 'var(--color-text-secondary)', lineHeight: '1.4' }}>
+            <strong>Biến thể sản phẩm là gì?</strong> Là phiên bản cụ thể của một sản phẩm theo kích thước, màu sắc hoặc phân loại (ví dụ: Sản phẩm <em>Lều cắm trại 2 người</em> có biến thể <em>2 người / xanh lá</em> với SKU <code>TENT-2-GREEN</code>). Khi tạo thiết bị, bạn chọn biến thể để hệ thống tự cấp mã QR theo lô.
           </div>
 
           <div className={styles.field}>
@@ -138,7 +138,7 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
                 <input
                   type="text"
                   className={styles.input}
-                  placeholder="🔍 Gõ tìm theo tên hoặc SKU (vd: lều, balo, đèn, túi ngủ...)"
+                  placeholder="Gõ tìm theo tên hoặc SKU (vd: lều, balo, đèn, túi ngủ...)"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   style={{ marginBottom: '0.45rem', fontSize: '0.85rem' }}

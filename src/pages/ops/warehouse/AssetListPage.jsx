@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
+import OutdoorIcon from '@/components/OutdoorIcon';
 import { ROUTES } from '@/constants/routes';
 import { useAssets } from './hooks/useAssets';
 import {
@@ -104,50 +105,82 @@ export default function AssetListPage() {
 
   return (
     <div className={styles.container}>
-      {/* Actions */}
-      <div className={styles.header} style={{ justifyContent: 'flex-end', marginBottom: '16px' }}>
+      {/* Top Action Toolbar */}
+      <div className={styles.topToolbar}>
+        <div className={styles.pageMeta}>
+          <span className={styles.itemCountBadge}>
+            Tổng cộng <strong>{displayItems.length}</strong> thiết bị
+          </span>
+        </div>
         <div className={styles.actions}>
           <Link to={ROUTES.OPS_ASSETS_SCHEDULE} className={styles.btnSecondary}>
-            Lịch phân bổ (Gantt)
+            <OutdoorIcon name="calendar" size={15} />
+            <span>Lịch phân bổ (Gantt)</span>
           </Link>
           <button
             type="button"
             className={styles.btnPrimary}
             onClick={() => setIsBulkModalOpen(true)}
           >
-            + Thêm hàng loạt
+            <OutdoorIcon name="plus" size={15} />
+            <span>Thêm hàng loạt</span>
           </button>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className={styles.searchCard}>
-        <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
-          <input
-            type="text"
-            className={styles.searchInput}
-            placeholder="Tìm theo tên thiết bị (vd: lều, balo), SKU (TENT, PACK) hoặc số mã vạch (001, 002)..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button type="submit" className={styles.searchBtn}>
-            Tìm kiếm
-          </button>
-        </form>
+      <div className={styles.filterCard}>
+        <div className={styles.filterHeader}>
+          <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+            <div className={styles.searchInputWrapper}>
+              <span className={styles.searchIcon} aria-hidden="true">
+                <OutdoorIcon name="search" size={16} />
+              </span>
+              <input
+                type="text"
+                className={styles.searchInput}
+                aria-label="Tìm thiết bị theo tên, SKU hoặc mã vạch"
+                placeholder="Tìm tên thiết bị, SKU (TENT, PACK) hoặc mã vạch (001)..."
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setPageNumber(1);
+                }}
+              />
+              {searchTerm && (
+                <button
+                  type="button"
+                  className={styles.clearSearchBtn}
+                  onClick={() => {
+                    setSearchTerm('');
+                    setPageNumber(1);
+                  }}
+                  title="Xóa từ khóa"
+                  aria-label="Xóa từ khóa"
+                >
+                  <OutdoorIcon name="close" size={13} />
+                </button>
+              )}
+            </div>
+            <button type="submit" className={styles.btnSearch}>
+              Tìm kiếm
+            </button>
+          </form>
 
-        <div className={styles.statusFilters}>
-          <button
-            type="button"
-            className={`${styles.filterChip} ${selectedStatus === '' ? styles.activeChip : ''}`}
-            onClick={() => handleStatusChange('')}
-          >
-            Tất cả trạng thái
-          </button>
+          {searchTerm.trim() && (
+            <div className={styles.filterStats}>
+              Tìm thấy <strong>{displayItems.length}</strong> kết quả khớp
+            </div>
+          )}
+        </div>
+
+        <div className={styles.statusTabs}>
           {ASSET_STATUS_OPTIONS.map((opt) => (
             <button
               key={opt.value}
               type="button"
-              className={`${styles.filterChip} ${selectedStatus === opt.value ? styles.activeChip : ''}`}
+              className={`${styles.tabBtn} ${selectedStatus === opt.value ? styles.tabActive : ''}`}
+              aria-pressed={selectedStatus === opt.value}
               onClick={() => handleStatusChange(opt.value)}
             >
               {opt.label}
@@ -176,13 +209,13 @@ export default function AssetListPage() {
               <table className={styles.table}>
                 <thead>
                   <tr>
-                    <th>Mã thiết bị (QR / Barcode)</th>
+                    <th>Mã thiết bị</th>
                     <th>Sản phẩm & Biến thể</th>
                     <th>SKU</th>
                     <th>Trạng thái</th>
-                    <th>Tình trạng ghi chú</th>
-                    <th>Thời gian tạo & cập nhật</th>
-                    <th>Đang phân bổ</th>
+                    <th>Tình trạng / Ghi chú</th>
+                    <th>Thời gian cập nhật</th>
+                    <th>Phân bổ thực tế</th>
                     <th className={styles.thActions}>Thao tác</th>
                   </tr>
                 </thead>
@@ -205,7 +238,6 @@ export default function AssetListPage() {
                             onClick={() => setSelectedAssetCode(item.assetCode)}
                             title="Xem chi tiết thiết bị"
                           >
-                            <span className={styles.qrIcon}>▦</span>
                             <span className={styles.assetCodeText}>{item.assetCode}</span>
                           </button>
                         </td>
@@ -227,21 +259,35 @@ export default function AssetListPage() {
                               borderColor: statusConfig.border,
                             }}
                           >
+                            <span
+                              style={{
+                                width: 6,
+                                height: 6,
+                                borderRadius: '50%',
+                                backgroundColor: statusConfig.color,
+                                display: 'inline-block',
+                                marginRight: 5,
+                              }}
+                            />
                             {statusConfig.label}
                           </span>
                         </td>
                         <td>
                           <span className={styles.conditionNote}>
-                            {item.conditionNote || <span className={styles.textMuted}>Chưa cập nhật</span>}
+                            {item.conditionNote || <span className={styles.textMuted}>—</span>}
                           </span>
                         </td>
                         <td>
-                          <div style={{ fontSize: '0.78rem', display: 'flex', flexDirection: 'column', gap: '3px', whiteSpace: 'nowrap' }}>
-                            <span title="Thời điểm tạo mới (CreatedAt)" style={{ color: '#166534', fontWeight: 500 }}>
-                              🌱 Tạo: {item.createdAt ? dayjs(item.createdAt).format('DD/MM/YYYY HH:mm:ss') : '—'}
+                          <div className={styles.dateCell}>
+                            <span className={styles.dateUpdated}>
+                              {item.updatedAt
+                                ? dayjs(item.updatedAt).format('DD/MM/YYYY HH:mm')
+                                : item.createdAt
+                                  ? dayjs(item.createdAt).format('DD/MM/YYYY HH:mm')
+                                  : '—'}
                             </span>
-                            <span title="Thời điểm cập nhật lần cuối (UpdatedAt)" style={{ color: '#475569', fontWeight: 500 }}>
-                              🕒 Sửa: {item.updatedAt ? dayjs(item.updatedAt).format('DD/MM/YYYY HH:mm:ss') : (item.createdAt ? dayjs(item.createdAt).format('DD/MM/YYYY HH:mm:ss') : '—')}
+                            <span className={styles.dateCreated}>
+                              Tạo: {item.createdAt ? dayjs(item.createdAt).format('DD/MM/YYYY') : '—'}
                             </span>
                           </div>
                         </td>
@@ -263,7 +309,10 @@ export default function AssetListPage() {
                               </span>
                             </div>
                           ) : (
-                            <span className={styles.availableTag}>✓ Sẵn sàng trong kho</span>
+                            <span className={styles.availableTag}>
+                              <span className={styles.availableDot} />
+                              Sẵn sàng trong kho
+                            </span>
                           )}
                         </td>
                         <td className={styles.tdActions}>
@@ -271,8 +320,10 @@ export default function AssetListPage() {
                             type="button"
                             className={styles.btnDetail}
                             onClick={() => setSelectedAssetCode(item.assetCode)}
+                            title="Xem chi tiết và đổi trạng thái thiết bị"
                           >
-                            Chi tiết & Đổi trạng thái
+                            <OutdoorIcon name="eye" size={14} />
+                            <span>Chi tiết</span>
                           </button>
                         </td>
                       </tr>

@@ -209,13 +209,13 @@ export default function AssetListPage() {
               <table className={styles.table}>
                 <thead>
                   <tr>
-                    <th>Mã thiết bị</th>
+                    <th className={styles.colCode}>Mã thiết bị</th>
                     <th>Sản phẩm & Biến thể</th>
-                    <th>SKU</th>
-                    <th>Trạng thái</th>
+                    <th className={styles.colSku}>SKU</th>
+                    <th className={styles.colStatus}>Trạng thái</th>
                     <th>Tình trạng / Ghi chú</th>
-                    <th>Thời gian cập nhật</th>
-                    <th>Phân bổ thực tế</th>
+                    <th className={styles.colDate}>Thời gian cập nhật</th>
+                    <th className={styles.colAssignment}>Phân bổ thực tế</th>
                     <th className={styles.thActions}>Thao tác</th>
                   </tr>
                 </thead>
@@ -231,14 +231,14 @@ export default function AssetListPage() {
 
                     return (
                       <tr key={item.id || item.assetCode} className={styles.tr}>
-                        <td>
+                        <td className={styles.colCode}>
                           <button
                             type="button"
-                            className={styles.assetCodeLink}
+                            className={styles.assetTag}
                             onClick={() => setSelectedAssetCode(item.assetCode)}
-                            title="Xem chi tiết thiết bị"
+                            title="Bấm để xem chi tiết thiết bị"
                           >
-                            <span className={styles.assetCodeText}>{item.assetCode}</span>
+                            {item.assetCode}
                           </button>
                         </td>
                         <td>
@@ -247,10 +247,10 @@ export default function AssetListPage() {
                             <span className={styles.variantName}>{item.variantName}</span>
                           </div>
                         </td>
-                        <td>
+                        <td className={styles.colSku}>
                           <span className={styles.skuTag}>{item.sku}</span>
                         </td>
-                        <td>
+                        <td className={styles.colStatus}>
                           <span
                             className={styles.statusBadge}
                             style={{
@@ -259,16 +259,6 @@ export default function AssetListPage() {
                               borderColor: statusConfig.border,
                             }}
                           >
-                            <span
-                              style={{
-                                width: 6,
-                                height: 6,
-                                borderRadius: '50%',
-                                backgroundColor: statusConfig.color,
-                                display: 'inline-block',
-                                marginRight: 5,
-                              }}
-                            />
                             {statusConfig.label}
                           </span>
                         </td>
@@ -277,7 +267,7 @@ export default function AssetListPage() {
                             {item.conditionNote || <span className={styles.textMuted}>—</span>}
                           </span>
                         </td>
-                        <td>
+                        <td className={styles.colDate}>
                           <div className={styles.dateCell}>
                             <span className={styles.dateUpdated}>
                               {item.updatedAt
@@ -291,7 +281,7 @@ export default function AssetListPage() {
                             </span>
                           </div>
                         </td>
-                        <td>
+                        <td className={styles.colAssignment}>
                           {assignment ? (
                             <div className={styles.assignmentCell}>
                               <span
@@ -310,7 +300,6 @@ export default function AssetListPage() {
                             </div>
                           ) : (
                             <span className={styles.availableTag}>
-                              <span className={styles.availableDot} />
                               Sẵn sàng trong kho
                             </span>
                           )}

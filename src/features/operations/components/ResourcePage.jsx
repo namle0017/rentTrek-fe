@@ -11,7 +11,7 @@ import ErrorState from '@/components/ErrorState';
 import OperationDialog from './OperationDialog';
 import styles from './Operations.module.css';
 
-export default function ResourcePage({ title, subtitle, endpoint, columns, rowKey, filters = [], fields, createEndpoint, createLabel = 'Tạo mới', canWrite = false, initialValues = {}, actions, children }) {
+export default function ResourcePage({ title, _subtitle, endpoint, columns, rowKey, filters = [], fields, createEndpoint, createLabel = 'Tạo mới', canWrite = false, initialValues = {}, actions, children }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isCreating, setIsCreating] = useState(false);
   const { currentUser } = useAuth();
@@ -26,7 +26,13 @@ export default function ResourcePage({ title, subtitle, endpoint, columns, rowKe
   });
   const allowed = canWrite || currentUser?.role === USER_ROLE.ADMIN;
   return <div className={styles.page}>
-    <div className={styles.heading}><div><span className={styles.eyebrow}>RenTrekk / Vận hành</span><h1>{title}</h1><p>{subtitle}</p></div>{fields && allowed && <button className={styles.primary} onClick={() => setIsCreating(true)}>＋ {createLabel}</button>}</div>
+    {fields && allowed && (
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
+        <button className={styles.primary} onClick={() => setIsCreating(true)}>
+          ＋ {createLabel}
+        </button>
+      </div>
+    )}
     <div className={styles.filters}><label>Tìm kiếm<input type="search" value={search} placeholder="Nhập từ khóa…" onChange={(event) => update({ search: event.target.value })} /></label>
       {filters.map((filter) => <label key={filter.name}>{filter.label}{filter.type ? <input type={filter.type} value={searchParams.get(filter.name) ? dayjs(searchParams.get(filter.name)).format('YYYY-MM-DDTHH:mm') : ''} onChange={(event) => update({ [filter.name]: event.target.value ? new Date(event.target.value).toISOString() : '' })} /> : <select value={searchParams.get(filter.name) ?? ''} onChange={(event) => update({ [filter.name]: event.target.value })}><option value="">Tất cả</option>{filter.options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>}</label>)}
       <button className={styles.secondary} onClick={() => setSearchParams({})}>Đặt lại</button>

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Spinner from '@/components/Spinner';
 import { USER_ROLE } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
@@ -241,7 +241,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: ROUTES.OPS_REFUNDS,
-                lazy: lazyPage(() => import('@/pages/ops/finance/RefundsReconcilePage')),
+                element: <Navigate to={ROUTES.ADMIN_REFUNDS} replace />,
               },
               {
                 path: ROUTES.ADMIN_REFUNDS,

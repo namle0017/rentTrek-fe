@@ -100,18 +100,8 @@ export default function TripProvidedItemsPage() {
 
   return (
     <div className={styles.container}>
-      {/* Header */}
-      <div className={styles.header}>
-        <div>
-          <div className={styles.breadcrumb}>
-            <span className={styles.routePath}>Đồ cấp chuyến</span>
-          </div>
-          <h1 className={styles.title}>Chuẩn bị đồ cấp cho chuyến đi</h1>
-          <p className={styles.subtitle}>
-            Tính toán định mức đồ cấp theo quy mô đoàn, tra cứu và gán thiết bị khả dụng từ kho.
-          </p>
-        </div>
-
+      {/* Actions */}
+      <div className={styles.header} style={{ justifyContent: 'flex-end', marginBottom: '16px' }}>
         <div className={styles.actions}>
           <Link to={ROUTES.OPS_ASSETS} className={styles.btnSecondary}>
             Danh sách thiết bị

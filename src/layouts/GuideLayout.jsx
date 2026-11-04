@@ -1,13 +1,11 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
-import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
+import { USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import styles from '@/features/guide/pages/GuidePortal.module.css';
 
 export default function GuideLayout() {
   const { currentUser } = useAuth();
-  const isAdminOrStaff =
-    currentUser?.role === USER_ROLE.ADMIN || currentUser?.role === USER_ROLE.STAFF;
 
   return (
     <div className={styles.guideShell}>
@@ -47,13 +45,6 @@ export default function GuideLayout() {
         </div>
 
         <div className={styles.headerRightGroup}>
-          {/* Nút thoát về Quản trị Admin nếu user là Admin hoặc Staff */}
-          {isAdminOrStaff && (
-            <Link to={ROUTES.ADMIN} className={styles.adminSwitchBtn} title="Quay lại giao diện Admin">
-              ← Quay lại Quản trị Admin
-            </Link>
-          )}
-
           <div className={styles.userPill}>
             <span className={styles.userFullName}>
               {currentUser?.fullName ?? currentUser?.email ?? 'Guide'}
@@ -92,17 +83,6 @@ export default function GuideLayout() {
         >
           <span>Hồ sơ</span>
         </NavLink>
-
-        {isAdminOrStaff && (
-          <NavLink
-            to={ROUTES.ADMIN}
-            className={({ isActive }) =>
-              `${styles.bottomNavItem} ${isActive ? styles.bottomNavItemActive : ''}`
-            }
-          >
-            <span>Về Admin</span>
-          </NavLink>
-        )}
       </nav>
     </div>
   );

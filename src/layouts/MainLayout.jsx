@@ -1,4 +1,5 @@
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from '@/components/BrandLogo';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
@@ -6,26 +7,27 @@ import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { useAuth } from '@/hooks/useAuth';
 import { getAvatarColor } from '@/utils/avatarColor';
-import { getRoleHomeRoute } from '@/utils/roleRouting';
 import DevClockBar from './DevClockBar';
 import styles from './MainLayout.module.css';
 
 const exploration = ['Lều cắm trại', 'Balô', 'Đèn', 'Túi ngủ'];
 
-function Brand({ role }) {
-  const homeRoute = getRoleHomeRoute(role);
-  return (
-    <Link to={homeRoute} className={styles.logo}>
-      <BrandLogo size="md" theme="light" />
-    </Link>
-  );
-}
-
 export default function MainLayout() {
   const { currentUser, isAuthenticated } = useAuth();
   const logoutMutation = useLogout();
   const location = useLocation();
-  const homeRoute = getRoleHomeRoute(currentUser?.role);
+  const navigate = useNavigate();
+
+  // Phân quyền cách ly: Nếu Admin/Staff vào giao diện khách hàng, tự động chuyển về /admin.
+  // Nếu Guide/TourGuide vào, tự động chuyển về /guide/trips.
+  useEffect(() => {
+    if (currentUser?.role === USER_ROLE.ADMIN || currentUser?.role === USER_ROLE.STAFF) {
+      navigate(ROUTES.ADMIN, { replace: true });
+    } else if (currentUser?.role === USER_ROLE.GUIDE || currentUser?.role === USER_ROLE.TOUR_GUIDE) {
+      navigate(ROUTES.GUIDE_TRIPS, { replace: true });
+    }
+  }, [currentUser?.role, navigate]);
+
   // Trang có hero tràn viền tự quản lý container
   const isCatalog = [ROUTES.HOME, ROUTES.PRODUCTS, ROUTES.TOURS].includes(location.pathname);
 
@@ -48,22 +50,17 @@ export default function MainLayout() {
       <DevClockBar />
       <header className={styles.header}>
         <div className={`container ${styles.headerInner}`}>
-          <Link to={homeRoute} className={styles.logo}>
-            <BrandLogo size="md" theme="light" />
+          <Link to={ROUTES.HOME} className={styles.logo}>
+            <BrandLogo size="md" theme="light" to={ROUTES.HOME} />
           </Link>
 
           <nav className={styles.nav} aria-label="Điều hướng chính">
-            <NavLink to={homeRoute} end>
+            <NavLink to={ROUTES.HOME} end>
               Trang chủ
             </NavLink>
             <NavLink to={ROUTES.TOURS}>Tour trekking</NavLink>
             <NavLink to={ROUTES.PRODUCTS}>Dụng cụ thuê</NavLink>
             <NavLink to={ROUTES.GUIDES}>Cẩm nang</NavLink>
-            {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
-            {currentUser?.role === USER_ROLE.STAFF && <NavLink to={ROUTES.ADMIN}>Vận hành</NavLink>}
-            {(currentUser?.role === USER_ROLE.GUIDE || currentUser?.role === USER_ROLE.TOUR_GUIDE) && (
-              <NavLink to={ROUTES.GUIDE_TRIPS}>Cổng Guide</NavLink>
-            )}
           </nav>
 
           <div className={styles.authSection}>
@@ -113,24 +110,6 @@ export default function MainLayout() {
                     <OutdoorIcon name="bag" size={16} />
                     <span>Đơn của tôi</span>
                   </Link>
-                  {currentUser?.role === USER_ROLE.ADMIN && (
-                    <Link to={ROUTES.ADMIN} className={styles.accountLink}>
-                      <OutdoorIcon name="shield" size={16} />
-                      <span>Quản trị hệ thống</span>
-                    </Link>
-                  )}
-                  {currentUser?.role === USER_ROLE.STAFF && (
-                    <Link to={ROUTES.ADMIN} className={styles.accountLink}>
-                      <OutdoorIcon name="shield" size={16} />
-                      <span>Bàn làm việc Vận hành</span>
-                    </Link>
-                  )}
-                  {(currentUser?.role === USER_ROLE.GUIDE || currentUser?.role === USER_ROLE.TOUR_GUIDE) && (
-                    <Link to={ROUTES.GUIDE_TRIPS} className={styles.accountLink}>
-                      <OutdoorIcon name="users" size={16} />
-                      <span>Cổng Hướng dẫn viên</span>
-                    </Link>
-                  )}
                   <div className={styles.accountDivider} />
                   <button
                     type="button"
@@ -162,7 +141,7 @@ export default function MainLayout() {
         <div className="container">
           <div className={styles.footerGrid}>
             <div className={styles.footerAbout}>
-              <Brand role={currentUser?.role} />
+              <BrandLogo size="md" theme="dark" to={ROUTES.HOME} />
               <p>
                 Nền tảng cho thuê thiết bị dã ngoại P2P chuyên nghiệp tại Việt Nam. Cho mượn an tâm, thuê an
                 toàn thông qua quy trình kiểm định và ký quỹ bảo mật.
@@ -178,11 +157,7 @@ export default function MainLayout() {
             </div>
             <div id="owner-info">
               <h2>Dành Cho Chủ Đồ</h2>
-              {currentUser?.role === USER_ROLE.ADMIN ? (
-                <Link to={ROUTES.ADMIN_PRODUCT_CREATE}>Đăng ký đăng đồ</Link>
-              ) : (
-                <p>Chức năng đăng đồ cho thuê dành cho chủ đồ sẽ sớm ra mắt.</p>
-              )}
+              <p>Chức năng đăng đồ cho thuê dành cho chủ đồ sẽ sớm ra mắt.</p>
               <a href={`${ROUTES.PRODUCTS}#travel-benefits`}>Quy trình kiểm định</a>
               <a href={`${ROUTES.PRODUCTS}#travel-benefits`}>Ký quỹ bảo mật</a>
             </div>

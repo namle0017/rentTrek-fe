@@ -104,18 +104,8 @@ export default function AssetListPage() {
 
   return (
     <div className={styles.container}>
-      {/* Top Header */}
-      <div className={styles.header}>
-        <div>
-          <div className={styles.breadcrumb}>
-            <span className={styles.routePath}>Kho thiết bị</span>
-          </div>
-          <h1 className={styles.title}>Quản lý mã vạch &amp; thiết bị kho</h1>
-          <p className={styles.subtitle}>
-            Theo dõi từng cá thể thiết bị, mã QR vật lý, tình trạng bảo quản và trạng thái phân bổ.
-          </p>
-        </div>
-
+      {/* Actions */}
+      <div className={styles.header} style={{ justifyContent: 'flex-end', marginBottom: '16px' }}>
         <div className={styles.actions}>
           <Link to={ROUTES.OPS_ASSETS_SCHEDULE} className={styles.btnSecondary}>
             Lịch phân bổ (Gantt)

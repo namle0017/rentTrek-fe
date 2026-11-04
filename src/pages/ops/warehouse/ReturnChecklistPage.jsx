@@ -194,7 +194,6 @@ export default function ReturnChecklistPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <div className={styles.headerTop}>
-          <h1 className={styles.title}>Nhận lại thiết bị (Return Checklist)</h1>
           <form onSubmit={handleLookup} className={styles.orderLookup}>
             <input
               type="text"

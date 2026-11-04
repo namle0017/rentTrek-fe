@@ -14,6 +14,8 @@ vi.mock('./api/fulfillmentService', () => ({
   },
 }));
 
+vi.mock('./utils/soundHelper', () => ({ playSuccessBeep: vi.fn(), playErrorBuzz: vi.fn() }));
+
 const checklist = {
   orderCode: 'RT-202611-001',
   customerName: 'Khách kiểm thử',
@@ -22,7 +24,17 @@ const checklist = {
   orderStatus: 'Confirmed',
   totalRequiredCount: 2,
   scannedCount: 1,
-  items: [{ rentalOrderItemId: 'item-1', productName: 'Lều', variantName: '2 người', variantSku: 'TENT-2', quantityRequired: 2, scannedCount: 1, scannedAssets: [] }],
+  items: [
+    {
+      rentalOrderItemId: 'item-1',
+      productName: 'Lều',
+      variantName: '2 người',
+      variantSku: 'TENT-2',
+      quantityRequired: 2,
+      scannedCount: 1,
+      scannedAssets: [],
+    },
+  ],
 };
 
 function CurrentPath() {
@@ -30,7 +42,9 @@ function CurrentPath() {
 }
 
 function renderPage() {
-  const client = new QueryClient({ defaultOptions: { queries: { retry: false }, mutations: { retry: false } } });
+  const client = new QueryClient({
+    defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+  });
   return render(
     <QueryClientProvider client={client}>
       <MemoryRouter initialEntries={['/ops/rentals/handover']}>
@@ -58,17 +72,42 @@ describe('HandoverChecklistPage', () => {
     const lookup = screen.getByPlaceholderText(/Nhập mã đơn/);
     await user.clear(lookup);
     await user.type(lookup, 'RT-202611-002');
-    expect(fulfillmentService.getHandoverChecklist.mock.calls.every(([code]) => code === 'RT-202611-001')).toBe(true);
+    expect(
+      fulfillmentService.getHandoverChecklist.mock.calls.every(([code]) => code === 'RT-202611-001'),
+    ).toBe(true);
     await user.click(screen.getByRole('button', { name: 'Tìm đơn' }));
-    await waitFor(() => expect(screen.getByLabelText('Đường dẫn hiện tại')).toHaveTextContent('/ops/rentals/RT-202611-002/handover'));
+    await waitFor(() =>
+      expect(screen.getByLabelText('Đường dẫn hiện tại')).toHaveTextContent(
+        '/ops/rentals/RT-202611-002/handover',
+      ),
+    );
   });
 
   it('disables scanning and completion after the order has already been handed over', async () => {
-    fulfillmentService.getHandoverChecklist.mockResolvedValue({ data: { ...checklist, orderStatus: 'InFulfillment' } });
+    fulfillmentService.getHandoverChecklist.mockResolvedValue({
+      data: { ...checklist, orderStatus: 'InFulfillment' },
+    });
     renderPage();
     await screen.findByText('Khách kiểm thử');
     expect(screen.getByPlaceholderText(/Quét mã barcode thiết bị/)).toBeDisabled();
     expect(screen.getByRole('button', { name: /Đã bàn giao|Đơn đã bàn giao/ })).toBeDisabled();
+  });
+
+  it('updates progress and returns focus to the barcode field after a successful scan', async () => {
+    const user = userEvent.setup();
+    fulfillmentService.scanHandover.mockImplementation(async () => {
+      fulfillmentService.getHandoverChecklist.mockResolvedValue({ data: { ...checklist, scannedCount: 2 } });
+      return { data: {} };
+    });
+    renderPage();
+    await screen.findByText('Khách kiểm thử');
+    const barcode = screen.getByLabelText('Mã barcode thiết bị');
+    await user.type(barcode, 'TENT-002');
+    await user.click(screen.getByRole('button', { name: 'Xác nhận quét' }));
+    await waitFor(() => expect(screen.getByRole('progressbar', { name: 'Tiến độ bàn giao' })).toHaveAttribute('aria-valuenow', '100'));
+    expect(barcode).toHaveValue('');
+    expect(barcode).toHaveFocus();
+    expect(screen.getByText('Đã ghi nhận thiết bị TENT-002.')).toBeInTheDocument();
   });
 
   it('requires a reason in an accessible dialog before handing over an incomplete order', async () => {
@@ -81,6 +120,10 @@ describe('HandoverChecklistPage', () => {
     expect(confirm).toBeDisabled();
     await user.type(screen.getByLabelText('Lý do bàn giao thiếu'), 'Khách không cần thiết bị còn lại');
     await user.click(confirm);
-    await waitFor(() => expect(fulfillmentService.completeHandover).toHaveBeenCalledWith('RT-202611-001', { incompleteReason: 'Khách không cần thiết bị còn lại' }));
+    await waitFor(() =>
+      expect(fulfillmentService.completeHandover).toHaveBeenCalledWith('RT-202611-001', {
+        incompleteReason: 'Khách không cần thiết bị còn lại',
+      }),
+    );
   });
 });

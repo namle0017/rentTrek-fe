@@ -1,106 +1,82 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import {
-  useHandoverChecklist,
-  useHandoverScan,
-  useCompleteHandover,
-} from './hooks/useFulfillment';
+import { useHandoverChecklist, useHandoverScan, useCompleteHandover } from './hooks/useFulfillment';
 import { playSuccessBeep, playErrorBuzz } from './utils/soundHelper';
+import Modal from '@/components/Modal';
 import Spinner from '@/components/Spinner';
+import { ORDER_STATUS_LABEL } from '@/constants/enums';
 import { MOCK_ORDERS } from './constants/mockFulfillmentData';
 import styles from './HandoverChecklistPage.module.css';
 
+const DEFAULT_ORDER = 'RT-202611-001';
+
 export default function HandoverChecklistPage() {
-  const { orderCode: routeOrderCode } = useParams();
+  const { orderCode } = useParams();
+  const activeOrderCode = orderCode || DEFAULT_ORDER;
+  return <HandoverWorkspace key={activeOrderCode} activeOrderCode={activeOrderCode} />;
+}
+
+function HandoverWorkspace({ activeOrderCode }) {
   const navigate = useNavigate();
-
-  // Mặc định đơn đầu tiên nếu không có route param
-  const defaultOrder = 'RT-202611-001';
-  const [searchOrderCode, setSearchOrderCode] = useState(routeOrderCode || defaultOrder);
-  const activeOrderCode = routeOrderCode || searchOrderCode;
-
+  const [searchOrderCode, setSearchOrderCode] = useState(activeOrderCode);
   const [barcodeInput, setBarcodeInput] = useState('');
   const [showIncompleteModal, setShowIncompleteModal] = useState(false);
   const [incompleteReason, setIncompleteReason] = useState('');
+  const [scanFeedback, setScanFeedback] = useState(null);
   const barcodeInputRef = useRef(null);
-
   const { data: serverChecklist, isLoading } = useHandoverChecklist(activeOrderCode);
   const scanMutation = useHandoverScan(activeOrderCode);
   const completeMutation = useCompleteHandover(activeOrderCode);
 
-  // Lấy dữ liệu mock của đơn hiện tại
-  const mockOrder = useMemo(() => {
-    return MOCK_ORDERS[activeOrderCode] || MOCK_ORDERS[defaultOrder];
-  }, [activeOrderCode]);
-
-  // Checklist tổng hợp: tự động đồng bộ từ localStorage / backend server
   const checklist = useMemo(() => {
-    if (serverChecklist && serverChecklist.items?.length > 0) {
-      return serverChecklist;
-    }
-    return {
-      orderCode: mockOrder.orderCode,
-      customerName: mockOrder.customerName,
-      customerPhone: mockOrder.customerPhone,
-      rentalStartAt: mockOrder.rentalStartAt,
-      rentalEndAt: mockOrder.rentalEndAt,
-      orderStatus: mockOrder.orderStatus,
-      totalRequiredCount: mockOrder.totalRequiredCount,
-      scannedCount: mockOrder.scannedCount,
-      items: mockOrder.handoverItems.map((item) => ({ ...item })),
-    };
-  }, [serverChecklist, mockOrder]);
+    if (serverChecklist) return serverChecklist;
+    const order = MOCK_ORDERS[activeOrderCode] || MOCK_ORDERS[DEFAULT_ORDER];
+    return { ...order, items: order.handoverItems };
+  }, [serverChecklist, activeOrderCode]);
+  const isHandedOver = ['InFulfillment', 'Completed'].includes(checklist.orderStatus);
+  const isBusy = scanMutation.isPending || completeMutation.isPending;
+  const missingCount = Math.max(0, checklist.totalRequiredCount - checklist.scannedCount);
+  const progressPercent = checklist.totalRequiredCount
+    ? Math.min(100, Math.round((checklist.scannedCount / checklist.totalRequiredCount) * 100))
+    : 0;
 
   useEffect(() => {
-    if (barcodeInputRef.current) {
-      barcodeInputRef.current.focus();
-    }
-  }, [checklist]);
+    if (!isLoading && !isHandedOver && !showIncompleteModal) barcodeInputRef.current?.focus();
+  }, [isLoading, isHandedOver, showIncompleteModal]);
 
-  const handleSelectOrder = (code) => {
-    setSearchOrderCode(code);
-    navigate(`/ops/rentals/${code}/handover`);
+  const handleLookup = (event) => {
+    event.preventDefault();
+    const code = searchOrderCode.trim();
+    if (code) navigate(`/ops/rentals/${encodeURIComponent(code)}/handover`);
   };
-
-  const handleLookup = (e) => {
-    e.preventDefault();
-    if (searchOrderCode.trim()) {
-      navigate(`/ops/rentals/${searchOrderCode.trim()}/handover`);
-    }
-  };
-
-  const handleScan = async (e, directCode = null) => {
-    if (e && e.preventDefault) e.preventDefault();
+  const handleScan = async (event, directCode = null) => {
+    event?.preventDefault();
     const code = (directCode || barcodeInput).trim();
-    if (!code) return;
-
+    if (!code || isBusy || isHandedOver) return;
     try {
       await scanMutation.mutateAsync({ assetCode: code });
       playSuccessBeep();
+      setScanFeedback({ message: `Đã ghi nhận thiết bị ${code}.`, isError: false });
       setBarcodeInput('');
-    } catch (err) {
+    } catch (error) {
       playErrorBuzz();
-      toast.error(err?.message || 'Lỗi quét thiết bị');
-      setBarcodeInput('');
+      setScanFeedback({
+        message:
+          error.response?.data?.message || error.message || 'Không thể quét thiết bị. Vui lòng thử lại.',
+        isError: true,
+      });
     } finally {
-      if (barcodeInputRef.current) {
-        barcodeInputRef.current.focus();
-      }
+      barcodeInputRef.current?.focus();
     }
   };
-
   const handleCompleteClick = () => {
-    if (!checklist) return;
-    if (checklist.scannedCount < checklist.totalRequiredCount) {
-      setShowIncompleteModal(true);
-    } else {
-      completeMutation.mutate({ incompleteReason: null });
-    }
+    if (isBusy || isHandedOver) return;
+    if (missingCount > 0) setShowIncompleteModal(true);
+    else completeMutation.mutate({ incompleteReason: null });
   };
-
-  const handleConfirmIncomplete = () => {
-    if (!incompleteReason.trim()) return;
+  const handleConfirmIncomplete = (event) => {
+    event.preventDefault();
+    if (!incompleteReason.trim() || isBusy) return;
     completeMutation.mutate(
       { incompleteReason: incompleteReason.trim() },
       {
@@ -108,276 +84,289 @@ export default function HandoverChecklistPage() {
           setShowIncompleteModal(false);
           setIncompleteReason('');
         },
-      }
+      },
     );
   };
 
-  const progressPercent = checklist?.totalRequiredCount
-    ? Math.round((checklist.scannedCount / checklist.totalRequiredCount) * 100)
-    : 0;
-
   return (
     <div className={styles.page}>
-      <div className={styles.header}>
-        <div className={styles.headerTop}>
-          <form onSubmit={handleLookup} className={styles.orderLookup}>
+      <section className={styles.lookupCard} aria-label="Tra cứu đơn thuê">
+        <form onSubmit={handleLookup} className={styles.orderLookup}>
+          <label className={styles.field} htmlFor="handover-order-code">
+            Mã đơn thuê
             <input
+              id="handover-order-code"
               type="text"
-              placeholder="Nhập mã đơn (vd: RT-202611...)"
+              placeholder="Nhập mã đơn (vd: RT-202611-001)"
               value={searchOrderCode}
-              onChange={(e) => setSearchOrderCode(e.target.value)}
+              onChange={(event) => setSearchOrderCode(event.target.value)}
               className={styles.orderLookupInput}
             />
-            <button type="submit" className={styles.scanBtn}>
-              Tìm đơn
-            </button>
-          </form>
-        </div>
-
-        {/* Nút chọn nhanh các đơn hàng mẫu để test */}
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '0.75rem', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.85rem', color: '#4b5563', fontWeight: 600 }}>Đơn mẫu thử nghiệm:</span>
-          {Object.keys(MOCK_ORDERS).map((code) => (
-            <button
-              key={code}
-              type="button"
-              onClick={() => handleSelectOrder(code)}
-              style={{
-                background: activeOrderCode === code ? '#166534' : '#f3f4f6',
-                color: activeOrderCode === code ? '#ffffff' : '#374151',
-                border: '1px solid #d1d5db',
-                padding: '4px 10px',
-                borderRadius: '6px',
-                fontSize: '0.8rem',
-                cursor: 'pointer',
-                fontWeight: activeOrderCode === code ? 600 : 400,
-              }}
-            >
-              📋 {code} ({MOCK_ORDERS[code].customerName})
-            </button>
-          ))}
-        </div>
-
-        {activeOrderCode && (
-          <div className={styles.navLinks} style={{ marginTop: '0.75rem' }}>
-            <span style={{ color: '#6b7280' }}>
-              Đang xử lý đơn: <strong>{activeOrderCode}</strong>
-            </span>
-            <span>·</span>
-            <Link to={`/ops/rentals/${activeOrderCode}/return`} className={styles.navLink}>
-              Chuyển sang Nhận lại
-            </Link>
-            <span>·</span>
-            <Link to={`/ops/rentals/${activeOrderCode}/settlement`} className={styles.navLink}>
-              Quyết toán & Phí
-            </Link>
-          </div>
-        )}
-      </div>
-
-      {isLoading && !checklist ? (
+          </label>
+          <button type="submit" className={styles.secondaryBtn} disabled={!searchOrderCode.trim()}>
+            Tìm đơn
+          </button>
+        </form>
+        <nav className={styles.navLinks} aria-label="Thao tác đơn thuê">
+          <Link to={`/ops/rentals/${activeOrderCode}/return`}>Nhận lại thiết bị</Link>
+          <Link to={`/ops/rentals/${activeOrderCode}/settlement`}>Quyết toán & Phí</Link>
+        </nav>
+      </section>
+      {isLoading ? (
         <Spinner />
-      ) : checklist ? (
+      ) : (
         <>
-          {/* Order Summary */}
-          <div className={styles.orderInfoCard}>
-            <div>
-              <div className={styles.infoLabel}>Khách hàng</div>
-              <div className={styles.infoValue}>
-                {checklist.customerName} {checklist.customerPhone ? `(${checklist.customerPhone})` : ''}
+          <section className={styles.orderInfoCard} aria-label="Thông tin đơn thuê">
+            <div className={styles.orderHeading}>
+              <div>
+                <p className={styles.infoLabel}>Đơn thuê đang xử lý</p>
+                <h2 className={styles.orderCode}>{activeOrderCode}</h2>
               </div>
-            </div>
-            <div>
-              <div className={styles.infoLabel}>Thời gian thuê</div>
-              <div className={styles.infoValue}>
-                {new Date(checklist.rentalStartAt).toLocaleDateString('vi-VN')} →{' '}
-                {new Date(checklist.rentalEndAt).toLocaleDateString('vi-VN')}
-              </div>
-            </div>
-            <div>
-              <div className={styles.infoLabel}>Trạng thái đơn</div>
-              <div className={styles.infoValue} style={{ color: '#2563eb', fontWeight: 600 }}>
-                {checklist.orderStatus}
-              </div>
-            </div>
-            <div>
-              <div className={styles.infoLabel}>Tiến độ quét</div>
-              <div className={styles.infoValue}>
-                {checklist.scannedCount} / {checklist.totalRequiredCount} thiết bị ({progressPercent}%)
-              </div>
-            </div>
-          </div>
-
-          {/* Scanner Barcode Box */}
-          <div className={styles.scannerCard}>
-            <div className={styles.scannerTitle}>
-              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-              </svg>
-              Quét Barcode / Mã thiết bị (Tự động nhận diện)
-            </div>
-            <form onSubmit={handleScan} className={styles.scannerForm}>
-              <input
-                ref={barcodeInputRef}
-                type="text"
-                value={barcodeInput}
-                onChange={(e) => setBarcodeInput(e.target.value)}
-                placeholder="Quét mã barcode thiết bị (vd: SD-TENT-CU2-003, SD-PACK-40-001)..."
-                className={styles.scannerInput}
-                disabled={scanMutation.isPending}
-                autoFocus
-              />
-              <button
-                type="submit"
-                className={styles.scanBtn}
-                disabled={!barcodeInput.trim() || scanMutation.isPending}
-              >
-                {scanMutation.isPending ? 'Đang kiểm tra...' : 'Xác nhận quét'}
-              </button>
-            </form>
-
-            {/* Quick barcode simulation buttons */}
-            <div style={{ marginTop: '0.65rem', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>⚡ Quét nhanh mã mẫu:</span>
-              {['SD-TENT-CU2-003', 'SD-PACK-40-001', 'SD-PACK-40-002', 'SD-LAMP-001'].map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => handleScan(null, c)}
-                  style={{
-                    background: '#e0f2fe',
-                    color: '#0369a1',
-                    border: '1px solid #bae6fd',
-                    padding: '2px 8px',
-                    borderRadius: '4px',
-                    fontSize: '0.75rem',
-                    cursor: 'pointer',
-                  }}
-                >
-                  + {c}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Overall Progress Bar */}
-          <div className={styles.progressCard}>
-            <div className={styles.progressHeader}>
-              <span>Tiến độ bàn giao</span>
-              <span>
-                {checklist.scannedCount} / {checklist.totalRequiredCount} món ({progressPercent}%)
+              <span className={styles.orderStatus} data-complete={isHandedOver}>
+                {ORDER_STATUS_LABEL[checklist.orderStatus] || checklist.orderStatus}
               </span>
             </div>
-            <div className={styles.progressBarBg}>
-              <div
-                className={styles.progressBarFill}
-                style={{ width: `${Math.min(100, progressPercent)}%` }}
-              />
-            </div>
-          </div>
-
-          {/* Checklist items */}
-          <h2 className={styles.sectionTitle}>Danh sách thiết bị cần giao</h2>
-          <div className={styles.itemList}>
-            {checklist.items.map((item) => {
-              const isFulfilled = item.scannedCount >= item.quantityRequired;
-              return (
-                <div key={item.rentalOrderItemId} className={styles.itemCard}>
-                  <div className={styles.itemCardHeader}>
-                    <div>
-                      <div className={styles.itemName}>
-                        {item.productName} - {item.variantName}
-                      </div>
-                      <div className={styles.itemSku}>SKU: {item.variantSku}</div>
-                    </div>
-                    <div>
-                      {isFulfilled ? (
-                        <span className={styles.itemBadgeReady}>Đã đủ ({item.scannedCount}/{item.quantityRequired})</span>
-                      ) : (
-                        <span className={styles.itemBadgePending}>
-                          Còn thiếu {item.quantityRequired - item.scannedCount} ({item.scannedCount}/{item.quantityRequired})
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {item.scannedAssets?.length > 0 ? (
-                    <div>
-                      <div style={{ fontSize: '0.8rem', color: '#6b7280', marginBottom: '0.25rem' }}>
-                        Mã thiết bị đã quét:
-                      </div>
-                      <div className={styles.scannedTags}>
-                        {item.scannedAssets.map((asset) => (
-                          <span key={asset.assignmentId || asset.assetCode} className={styles.scannedTag}>
-                            ✓ {asset.assetCode}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <div style={{ fontSize: '0.85rem', color: '#9ca3af', fontStyle: 'italic' }}>
-                      Chưa quét thiết bị nào cho dòng này.
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Complete handover actions */}
-          <div className={styles.actionsBar}>
-            <button
-              type="button"
-              onClick={handleCompleteClick}
-              disabled={checklist.orderStatus === 'InFulfillment' || checklist.orderStatus === 'Completed'}
-              className={styles.completeBtn}
-            >
-              {checklist.orderStatus === 'InFulfillment'
-                ? 'Đơn đã bàn giao xong (InFulfillment)'
-                : checklist.scannedCount < checklist.totalRequiredCount
-                ? `Hoàn tất bàn giao (Còn thiếu ${checklist.totalRequiredCount - checklist.scannedCount} món)`
-                : 'Hoàn tất bàn giao thiết bị'}
-            </button>
-          </div>
-
-          {/* Modal for Incomplete reason */}
-          {showIncompleteModal && (
-            <div className={styles.modalBackdrop}>
-              <div className={styles.modalContent}>
-                <h3 className={styles.modalTitle}>Xác nhận bàn giao thiếu thiết bị</h3>
-                <p style={{ fontSize: '0.875rem', color: '#4b5563' }}>
-                  Đơn hàng còn thiếu {checklist.totalRequiredCount - checklist.scannedCount} thiết bị chưa quét.
-                  Theo quy định, bạn bắt buộc phải nhập lý do bàn giao thiếu:
-                </p>
-                <textarea
-                  className={styles.modalTextarea}
-                  placeholder="Nhập lý do bàn giao thiếu (vd: Khách báo không cần lấy món X, kho hết hàng tạm thời...)"
-                  value={incompleteReason}
-                  onChange={(e) => setIncompleteReason(e.target.value)}
-                  autoFocus
-                />
-                <div className={styles.modalActions}>
-                  <button
-                    type="button"
-                    onClick={() => setShowIncompleteModal(false)}
-                    className={styles.cancelBtn}
-                  >
-                    Hủy bỏ
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleConfirmIncomplete}
-                    disabled={!incompleteReason.trim()}
-                    className={styles.completeBtn}
-                  >
-                    Xác nhận giao thiếu
-                  </button>
-                </div>
+            <dl className={styles.orderFacts}>
+              <div>
+                <dt>Khách hàng</dt>
+                <dd>{checklist.customerName}</dd>
               </div>
+              <div>
+                <dt>Số điện thoại</dt>
+                <dd>{checklist.customerPhone || 'Chưa cập nhật'}</dd>
+              </div>
+              <div>
+                <dt>Thời gian thuê</dt>
+                <dd>
+                  {new Date(checklist.rentalStartAt).toLocaleDateString('vi-VN')} –{' '}
+                  {new Date(checklist.rentalEndAt).toLocaleDateString('vi-VN')}
+                </dd>
+              </div>
+            </dl>
+          </section>
+          <div className={styles.workspace}>
+            <div className={styles.mainColumn}>
+              <section className={styles.scannerCard} aria-labelledby="handover-scan-title">
+                <h2 id="handover-scan-title" className={styles.sectionTitle}>
+                  Quét thiết bị bàn giao
+                </h2>
+                <p className={styles.hint}>
+                  {isHandedOver
+                    ? 'Đơn đã bàn giao. Bạn có thể tiếp tục ở màn nhận lại thiết bị.'
+                    : 'Quét bằng máy đọc mã hoặc nhập mã thiết bị, sau đó nhấn Enter.'}
+                </p>
+                <form onSubmit={handleScan} className={styles.scannerForm}>
+                  <label className={styles.field} htmlFor="handover-barcode">
+                    Mã barcode thiết bị
+                    <input
+                      id="handover-barcode"
+                      ref={barcodeInputRef}
+                      type="text"
+                      value={barcodeInput}
+                      onChange={(event) => setBarcodeInput(event.target.value)}
+                      placeholder="Quét mã barcode thiết bị hoặc nhập mã"
+                      className={styles.scannerInput}
+                      disabled={isBusy || isHandedOver}
+                      autoComplete="off"
+                      spellCheck={false}
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    className={styles.primaryBtn}
+                    disabled={!barcodeInput.trim() || isBusy || isHandedOver}
+                  >
+                    {scanMutation.isPending ? 'Đang kiểm tra…' : 'Xác nhận quét'}
+                  </button>
+                </form>
+                <div
+                  className={styles.scanFeedback}
+                  role="status"
+                  aria-live="polite"
+                  data-error={scanFeedback?.isError}
+                >
+                  {scanFeedback?.message}
+                </div>
+              </section>
+              <section className={styles.checklistCard} aria-labelledby="handover-items-title">
+                <div className={styles.listHeading}>
+                  <h2 id="handover-items-title" className={styles.sectionTitle}>
+                    Thiết bị cần giao
+                  </h2>
+                  <span className={styles.hint}>{checklist.items.length} loại thiết bị</span>
+                </div>
+                <ul className={styles.itemList}>
+                  {checklist.items.map((item) => {
+                    const isFulfilled = item.scannedCount >= item.quantityRequired;
+                    return (
+                      <li key={item.rentalOrderItemId} className={styles.itemRow}>
+                        <div className={styles.itemRowHeader}>
+                          <div className={styles.itemDescription}>
+                            <h3 className={styles.itemName}>{item.productName}</h3>
+                            <p className={styles.itemVariant}>{item.variantName}</p>
+                            <p className={styles.itemSku}>SKU: {item.variantSku}</p>
+                          </div>
+                          <div className={styles.itemProgress}>
+                            <span className={styles.itemStatus} data-ready={isFulfilled}>
+                              {isFulfilled
+                                ? 'Đã đủ'
+                                : `Còn thiếu ${item.quantityRequired - item.scannedCount}`}
+                            </span>
+                            <span className={styles.itemCount}>
+                              {item.scannedCount} / {item.quantityRequired} đã quét
+                            </span>
+                          </div>
+                        </div>
+                        {item.scannedAssets?.length > 0 ? (
+                          <ul
+                            className={styles.scannedTags}
+                            aria-label={`Mã đã quét của ${item.productName}`}
+                          >
+                            {item.scannedAssets.map((asset) => (
+                              <li key={asset.assignmentId || asset.assetCode} className={styles.scannedTag}>
+                                {asset.assetCode}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className={styles.emptyText}>Chưa có thiết bị được quét.</p>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
             </div>
+            <aside className={styles.progressCard} aria-labelledby="handover-progress-title">
+              <h2 id="handover-progress-title" className={styles.sectionTitle}>
+                Tiến độ bàn giao
+              </h2>
+              <div className={styles.progressCount}>
+                <strong>{checklist.scannedCount}</strong>
+                <span>/ {checklist.totalRequiredCount} thiết bị</span>
+              </div>
+              <div
+                className={styles.progressBar}
+                role="progressbar"
+                aria-label="Tiến độ bàn giao"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={progressPercent}
+              >
+                <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
+              </div>
+              <div className={styles.progressMeta}>
+                <span>Đã quét {progressPercent}%</span>
+                <span>Còn {missingCount} thiết bị</span>
+              </div>
+              <div className={styles.completionSection}>
+                <p className={styles.completionTitle}>
+                  {isHandedOver
+                    ? 'Bàn giao hoàn tất'
+                    : missingCount > 0
+                      ? 'Chưa đủ thiết bị'
+                      : 'Sẵn sàng bàn giao'}
+                </p>
+                <p className={styles.hint}>
+                  {isHandedOver
+                    ? 'Thiết bị đã được ghi nhận bàn giao cho khách.'
+                    : missingCount > 0
+                      ? 'Tiếp tục quét các thiết bị còn thiếu. Nếu giao thiếu, bạn cần ghi rõ lý do.'
+                      : 'Đã quét đủ số lượng. Xác nhận để hoàn tất bàn giao cho khách.'}
+                </p>
+                <button
+                  type="button"
+                  onClick={handleCompleteClick}
+                  disabled={isBusy || isHandedOver || !checklist.totalRequiredCount}
+                  className={styles.completeBtn}
+                >
+                  {completeMutation.isPending
+                    ? 'Đang hoàn tất…'
+                    : isHandedOver
+                      ? 'Đã bàn giao'
+                      : 'Hoàn tất bàn giao'}
+                </button>
+              </div>
+            </aside>
+          </div>
+          {import.meta.env.DEV && (
+            <details className={styles.demoTools}>
+              <summary>Dữ liệu thử nghiệm</summary>
+              <div className={styles.demoButtons}>
+                {Object.keys(MOCK_ORDERS).map((code) => (
+                  <button
+                    key={code}
+                    type="button"
+                    className={styles.secondaryBtn}
+                    aria-pressed={activeOrderCode === code}
+                    onClick={() => navigate(`/ops/rentals/${code}/handover`)}
+                  >
+                    {code} · {MOCK_ORDERS[code].customerName}
+                  </button>
+                ))}
+              </div>
+              {!isHandedOver && (
+                <div className={styles.demoButtons}>
+                  {['SD-TENT-CU2-003', 'SD-PACK-40-001', 'SD-PACK-40-002', 'SD-LAMP-001'].map((code) => (
+                    <button
+                      key={code}
+                      type="button"
+                      className={styles.secondaryBtn}
+                      disabled={isBusy}
+                      onClick={() => handleScan(null, code)}
+                    >
+                      Quét {code}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </details>
           )}
         </>
-      ) : null}
+      )}
+      {showIncompleteModal && (
+        <Modal
+          title="Xác nhận bàn giao thiếu thiết bị"
+          onClose={() => {
+            if (!completeMutation.isPending) setShowIncompleteModal(false);
+          }}
+        >
+          <form onSubmit={handleConfirmIncomplete} className={styles.reasonForm}>
+            <p className={styles.hint}>
+              Đơn còn thiếu <strong>{missingCount} thiết bị</strong>. Nhập lý do để xác nhận bàn giao thiếu.
+            </p>
+            <label className={styles.field} htmlFor="handover-incomplete-reason">
+              Lý do bàn giao thiếu
+              <textarea
+                id="handover-incomplete-reason"
+                rows={4}
+                placeholder="Ví dụ: Khách không cần nhận thiết bị còn lại"
+                value={incompleteReason}
+                onChange={(event) => setIncompleteReason(event.target.value)}
+                required
+                disabled={completeMutation.isPending}
+              />
+            </label>
+            <div className={styles.modalActions}>
+              <button
+                type="button"
+                onClick={() => setShowIncompleteModal(false)}
+                className={styles.secondaryBtn}
+                disabled={completeMutation.isPending}
+              >
+                Hủy bỏ
+              </button>
+              <button
+                type="submit"
+                className={styles.primaryBtn}
+                disabled={!incompleteReason.trim() || completeMutation.isPending}
+              >
+                {completeMutation.isPending ? 'Đang xác nhận…' : 'Xác nhận giao thiếu'}
+              </button>
+            </div>
+          </form>
+        </Modal>
+      )}
     </div>
   );
 }

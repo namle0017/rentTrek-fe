@@ -8,6 +8,13 @@ export const ROUTES = {
   TOURS: '/tours',
   TOUR_DETAIL: (tourId = ':tourId') => `/tours/${tourId}`,
   ADMIN: '/admin',
+  ADMIN_USERS: '/admin/users', ADMIN_USER: (id = ':userId') => `/admin/users/${id}`,
+  ADMIN_ORDERS: '/admin/orders', ADMIN_ORDER: (code = ':orderCode') => `/admin/orders/${code.startsWith(':') ? code : encodeURIComponent(code)}`,
+  ADMIN_RENTALS: '/admin/rental-orders', ADMIN_RENTAL: (code = ':orderCode') => `/admin/rental-orders/${code.startsWith(':') ? code : encodeURIComponent(code)}`,
+  ADMIN_MASTER: '/admin/master-data', ADMIN_PROMOTIONS: '/admin/promotions',
+  ADMIN_PROMOTION: (id = ':promotionId') => `/admin/promotions/${id}`,
+  ADMIN_POSTS: '/admin/posts', ADMIN_POST: (id = ':postId') => `/admin/posts/${id}`,
+  ADMIN_SETTINGS: '/admin/settings', ADMIN_AUDIT: '/admin/audit-logs', ADMIN_REPORTS: '/admin/reports', ADMIN_REVIEWS: '/admin/reviews',
   ADMIN_PRODUCT_CREATE: '/admin/products/new',
   FORBIDDEN: '/403',
 };

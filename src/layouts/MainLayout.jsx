@@ -1,7 +1,5 @@
 ﻿import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import OutdoorIcon from '@/components/OutdoorIcon';
-import { USER_ROLE } from '@/constants/enums';
-import { Link, NavLink, Outlet } from 'react-router-dom';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
@@ -132,7 +130,7 @@ export default function MainLayout() {
                   <button
                     type="button"
                     className="btn btn-outline"
-                    onClick={handleLogoutClick}
+                    onClick={() => logoutMutation.mutate()}
                     disabled={logoutMutation.isPending}
                   >
                     {logoutMutation.isPending ? 'Đang thoát...' : 'Đăng xuất'}

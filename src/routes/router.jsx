@@ -62,15 +62,36 @@ export const router = createBrowserRouter([
 
       // Admin — cần đăng nhập + role Admin
       {
-        element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />,
+        element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF]} />,
         children: [
           {
             element: <AdminLayout />,
             children: [
-              { path: ROUTES.ADMIN, lazy: lazyPage(() => import('@/pages/AdminDashboardPage')) },
+              { path: ROUTES.ADMIN, lazy: lazyPage(() => import('@/pages/ops/system/DashboardPage')) },
+              ...[
+                [ROUTES.ADMIN_ORDERS, () => import('@/pages/ops/orders/OrdersPage')],
+                [ROUTES.ADMIN_ORDER(), () => import('@/pages/ops/orders/OrderDetailPage')],
+                [ROUTES.ADMIN_RENTALS, () => import('@/pages/ops/orders/RentalsPage')],
+                [ROUTES.ADMIN_RENTAL(), () => import('@/pages/ops/orders/OrderDetailPage')],
+                [ROUTES.ADMIN_MASTER, () => import('@/pages/ops/system/MasterDataPage')],
+                [ROUTES.ADMIN_PROMOTIONS, () => import('@/pages/ops/system/PromotionsPage')],
+                [ROUTES.ADMIN_PROMOTION(), () => import('@/pages/ops/system/PromotionDetailPage')],
+                [ROUTES.ADMIN_POSTS, () => import('@/pages/ops/system/PostsPage')],
+                [ROUTES.ADMIN_POST(), () => import('@/pages/ops/system/PostEditorPage')],
+                [ROUTES.ADMIN_REVIEWS, () => import('@/pages/ops/system/ReviewsPage')],
+              ].map(([path, importPage]) => ({ path, lazy: lazyPage(importPage) })),
+              { element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />, children: [
+                ...[
+                  [ROUTES.ADMIN_USERS, () => import('@/pages/ops/system/UsersPage')],
+                  [ROUTES.ADMIN_USER(), () => import('@/pages/ops/system/UserDetailPage')],
+                  [ROUTES.ADMIN_SETTINGS, () => import('@/pages/ops/system/SettingsPage')],
+                  [ROUTES.ADMIN_AUDIT, () => import('@/pages/ops/system/AuditPage')],
+                  [ROUTES.ADMIN_REPORTS, () => import('@/pages/ops/system/ReportsPage')],
+                ].map(([path, importPage]) => ({ path, lazy: lazyPage(importPage) })),
+              ] },
               {
-                path: ROUTES.ADMIN_PRODUCT_CREATE,
-                lazy: lazyPage(() => import('@/features/products/pages/ProductCreatePage')),
+                element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />,
+                children: [{ path: ROUTES.ADMIN_PRODUCT_CREATE, lazy: lazyPage(() => import('@/features/products/pages/ProductCreatePage')) }],
               },
             ],
           },

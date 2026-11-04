@@ -12,6 +12,7 @@ import {
 import AssignGearDrawer from './components/AssignGearDrawer';
 import ReturnGearModal from './components/ReturnGearModal';
 import { MOCK_TRIPS } from './constants/mockFulfillmentData';
+import modalStyles from './components/WarehouseModals.module.css';
 import styles from './TripProvidedItemsPage.module.css';
 
 export default function TripProvidedItemsPage() {
@@ -23,6 +24,8 @@ export default function TripProvidedItemsPage() {
   const [isManualInput, setIsManualInput] = useState(false);
   const [selectedItemForAssign, setSelectedItemForAssign] = useState(null);
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
+  const [isIssueConfirmModalOpen, setIsIssueConfirmModalOpen] = useState(false);
+  const [unassignTarget, setUnassignTarget] = useState(null);
   const [expandedItemId, setExpandedItemId] = useState(null);
   const [localTripOverrides, setLocalTripOverrides] = useState({});
 
@@ -90,54 +93,61 @@ export default function TripProvidedItemsPage() {
     return tripData.items.flatMap((i) => i.assignedAssets || []);
   }, [tripData]);
 
-  const handleIssueAll = () => {
+  const handleIssueClick = () => {
     if (!activeTripId) return;
-    if (window.confirm('Xác nhận xuất kho bàn giao toàn bộ thiết bị đang giữ cho Hướng dẫn viên?')) {
-      issueMutation.mutate(
-        { tripId: activeTripId, payload: {} },
-        {
-          onSuccess: () => {
-            toast.success('Xuất kho bàn giao cho Hướng dẫn viên thành công!');
-          },
-          onError: () => {
-            toast.success('Xuất kho bàn giao thiết bị cho Hướng dẫn viên thành công (Mock Mode)!');
-          },
-        }
-      );
-    }
+    setIsIssueConfirmModalOpen(true);
   };
 
-  const handleUnassignAsset = (assignmentId) => {
-    if (window.confirm('Bạn có chắc muốn hủy gán thiết bị này khỏi chuyến đi?')) {
-      unassignMutation.mutate(
-        { tripId: activeTripId, assignmentId },
-        {
-          onError: () => {
-            toast.info('Đã hủy gán thiết bị khỏi chuyến đi!');
-          },
-        }
-      );
+  const confirmIssue = () => {
+    issueMutation.mutate(
+      { tripId: activeTripId, payload: {} },
+      {
+        onSuccess: () => {
+          toast.success('Xuất kho bàn giao cho Hướng dẫn viên thành công!');
+          setIsIssueConfirmModalOpen(false);
+        },
+        onError: () => {
+          toast.success('Xuất kho bàn giao thiết bị cho Hướng dẫn viên thành công (Mock Mode)!');
+          setIsIssueConfirmModalOpen(false);
+        },
+      }
+    );
+  };
 
-      // Cập nhật giao diện ngay lập tức
-      setLocalTripOverrides((prev) => {
-        const currentItems = tripData.items;
-        const nextItems = currentItems.map((item) => {
-          if (item.assignedAssets?.some((a) => a.assignmentId === assignmentId)) {
-            const nextAssigned = item.assignedAssets.filter((a) => a.assignmentId !== assignmentId);
-            const missing = Math.max(0, item.requiredQuantity - nextAssigned.length);
-            return {
-              ...item,
-              assignedCount: nextAssigned.length,
-              missingCount: missing,
-              assignedAssets: nextAssigned,
-              status: missing === 0 ? 'Ready' : 'Draft',
-            };
-          }
-          return item;
-        });
-        return { ...prev, [activeTripId]: nextItems };
+  const confirmUnassign = () => {
+    if (!unassignTarget) return;
+    const assignmentId = unassignTarget.assignmentId;
+
+    unassignMutation.mutate(
+      { tripId: activeTripId, assignmentId },
+      {
+        onError: () => {
+          toast.info(`Đã hủy gán thiết bị ${unassignTarget.assetCode} khỏi chuyến đi!`);
+        },
+      }
+    );
+
+    // Cập nhật giao diện ngay lập tức
+    setLocalTripOverrides((prev) => {
+      const currentItems = tripData.items;
+      const nextItems = currentItems.map((item) => {
+        if (item.assignedAssets?.some((a) => a.assignmentId === assignmentId)) {
+          const nextAssigned = item.assignedAssets.filter((a) => a.assignmentId !== assignmentId);
+          const missing = Math.max(0, item.requiredQuantity - nextAssigned.length);
+          return {
+            ...item,
+            assignedCount: nextAssigned.length,
+            missingCount: missing,
+            assignedAssets: nextAssigned,
+            status: missing === 0 ? 'Ready' : 'Draft',
+          };
+        }
+        return item;
       });
-    }
+      return { ...prev, [activeTripId]: nextItems };
+    });
+
+    setUnassignTarget(null);
   };
 
   const handleLocalAssignSuccess = (itemId, assetCodes) => {
@@ -308,7 +318,7 @@ export default function TripProvidedItemsPage() {
               <button
                 type="button"
                 className={styles.btnIssue}
-                onClick={handleIssueAll}
+                onClick={handleIssueClick}
                 disabled={issueMutation.isPending}
               >
                 {issueMutation.isPending ? 'Đang xuất...' : 'Xuất kho bàn giao đoàn'}
@@ -440,7 +450,7 @@ export default function TripProvidedItemsPage() {
                                       <button
                                         type="button"
                                         className={styles.btnUnassign}
-                                        onClick={() => handleUnassignAsset(asset.assignmentId)}
+                                        onClick={() => setUnassignTarget(asset)}
                                         title="Hủy gán thiết bị"
                                       >
                                         ✕
@@ -478,6 +488,92 @@ export default function TripProvidedItemsPage() {
             tripId={activeTripId}
             assignedAssets={allAssignedAssets}
           />
+
+          {/* Modal xác nhận xuất kho bàn giao đoàn (thay thế window.confirm) */}
+          {isIssueConfirmModalOpen && (
+            <div className={modalStyles.overlay} onClick={() => setIsIssueConfirmModalOpen(false)} role="dialog" aria-modal="true">
+              <div className={modalStyles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '480px' }}>
+                <div className={modalStyles.header}>
+                  <h3 className={modalStyles.title}>Xác nhận xuất kho bàn giao đoàn</h3>
+                  <button type="button" className={modalStyles.closeBtn} onClick={() => setIsIssueConfirmModalOpen(false)}>
+                    ✕
+                  </button>
+                </div>
+                <div style={{ padding: '20px 24px', fontSize: '0.9rem', color: '#374151', lineHeight: '1.5' }}>
+                  <p style={{ marginBottom: '12px' }}>
+                    Bạn đang chuẩn bị xuất kho và bàn giao toàn bộ thiết bị đã gán cho đoàn:
+                  </p>
+                  <div style={{ background: '#f8fafc', padding: '12px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '12px' }}>
+                    <div>Chuyến đi: <strong>{tripData.tourName}</strong></div>
+                    <div>HDV nhận: <strong>{tripData.leadGuideName || 'Nguyễn Văn Hùng (HDV trưởng)'}</strong></div>
+                    <div>Số lượng thiết bị giao: <strong style={{ color: '#166534' }}>{allAssignedAssets.length} món</strong></div>
+                  </div>
+                  {tripData.hasShortage && (
+                    <div style={{ background: '#fffbeb', border: '1px solid #fde68a', color: '#92400e', padding: '10px 14px', borderRadius: '6px', fontSize: '0.85rem' }}>
+                      ⚠️ <strong>Lưu ý:</strong> Chuyến đi vẫn còn một số mục chưa đủ định mức đồ cấp. Hệ thống sẽ xuất giao toàn bộ các thiết bị đã gán hiện tại.
+                    </div>
+                  )}
+                </div>
+                <div className={modalStyles.footer} style={{ padding: '16px 24px', background: '#fafafa', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                  <button
+                    type="button"
+                    className={modalStyles.btnSecondary}
+                    onClick={() => setIsIssueConfirmModalOpen(false)}
+                    disabled={issueMutation.isPending}
+                  >
+                    Hủy bỏ
+                  </button>
+                  <button
+                    type="button"
+                    className={modalStyles.btnPrimary}
+                    onClick={confirmIssue}
+                    disabled={issueMutation.isPending}
+                  >
+                    {issueMutation.isPending ? 'Đang xuất kho...' : 'Xác nhận xuất kho bàn giao'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Modal xác nhận hủy gán thiết bị */}
+          {unassignTarget && (
+            <div className={modalStyles.overlay} onClick={() => setUnassignTarget(null)} role="dialog" aria-modal="true">
+              <div className={modalStyles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '440px' }}>
+                <div className={modalStyles.header}>
+                  <h3 className={modalStyles.title} style={{ color: '#b91c1c' }}>Hủy gán thiết bị</h3>
+                  <button type="button" className={modalStyles.closeBtn} onClick={() => setUnassignTarget(null)}>
+                    ✕
+                  </button>
+                </div>
+                <div style={{ padding: '20px 24px', fontSize: '0.9rem', color: '#374151', lineHeight: '1.5' }}>
+                  <p>
+                    Bạn có chắc chắn muốn hủy gán thiết bị <strong>{unassignTarget.assetCode}</strong> khỏi chuyến đi này không?
+                  </p>
+                  <p style={{ fontSize: '0.82rem', color: '#6b7280', marginTop: '8px' }}>
+                    Sau khi hủy, mã thiết bị này sẽ lập tức trở về danh sách thiết bị khả dụng trong kho để phân bổ cho đơn khác.
+                  </p>
+                </div>
+                <div className={modalStyles.footer} style={{ padding: '16px 24px', background: '#fafafa', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                  <button
+                    type="button"
+                    className={modalStyles.btnSecondary}
+                    onClick={() => setUnassignTarget(null)}
+                  >
+                    Đóng
+                  </button>
+                  <button
+                    type="button"
+                    className={modalStyles.btnPrimary}
+                    style={{ background: '#dc2626', borderColor: '#b91c1c' }}
+                    onClick={confirmUnassign}
+                  >
+                    Xác nhận hủy gán
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>

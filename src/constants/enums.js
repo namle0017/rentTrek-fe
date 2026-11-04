@@ -3,7 +3,8 @@ export const USER_ROLE = Object.freeze({
   ADMIN: 'Admin',
   STAFF: 'Staff',
   CUSTOMER: 'Customer',
-  TOUR_GUIDE: 'TourGuide',
+  TOUR_GUIDE: 'Guide',
+  GUIDE: 'Guide',
 });
 
 export const USER_ROLE_LABEL = {

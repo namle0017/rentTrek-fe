@@ -99,6 +99,12 @@ export default function AssetDetailDrawer({ assetCode, isOpen, onClose }) {
             <p className={styles.subtitle}>
               {asset?.variantName} • SKU: {asset?.sku || 'N/A'} • Danh mục: {asset?.categoryName || 'N/A'}
             </p>
+            {asset && (
+              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginTop: '6px', fontSize: '0.78rem', color: '#475569', background: '#f1f5f9', padding: '4px 8px', borderRadius: '4px' }}>
+                <span>🌱 <strong>Thời điểm tạo:</strong> {asset.createdAt ? dayjs(asset.createdAt).format('DD/MM/YYYY HH:mm') : '—'}</span>
+                <span>🕒 <strong>Cập nhật lần cuối:</strong> {asset.updatedAt ? dayjs(asset.updatedAt).format('DD/MM/YYYY HH:mm') : (asset.createdAt ? dayjs(asset.createdAt).format('DD/MM/YYYY HH:mm') : '—')}</span>
+              </div>
+            )}
           </div>
           <button type="button" className={styles.closeBtn} onClick={onClose}>
             ✕

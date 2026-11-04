@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
@@ -121,6 +122,7 @@ export default function AssetListPage() {
                     <th>SKU</th>
                     <th>Trạng thái</th>
                     <th>Tình trạng ghi chú</th>
+                    <th>Thời gian tạo & cập nhật</th>
                     <th>Đang phân bổ</th>
                     <th className={styles.thActions}>Thao tác</th>
                   </tr>
@@ -173,6 +175,16 @@ export default function AssetListPage() {
                           <span className={styles.conditionNote}>
                             {item.conditionNote || <span className={styles.textMuted}>Chưa cập nhật</span>}
                           </span>
+                        </td>
+                        <td>
+                          <div style={{ fontSize: '0.78rem', display: 'flex', flexDirection: 'column', gap: '3px', whiteSpace: 'nowrap' }}>
+                            <span title="Thời điểm tạo mới (CreatedAt)" style={{ color: '#166534', fontWeight: 500 }}>
+                              🌱 Tạo: {item.createdAt ? dayjs(item.createdAt).format('DD/MM/YYYY HH:mm') : '—'}
+                            </span>
+                            <span title="Thời điểm cập nhật lần cuối (UpdatedAt)" style={{ color: '#475569' }}>
+                              🕒 Sửa: {item.updatedAt ? dayjs(item.updatedAt).format('DD/MM/YYYY HH:mm') : (item.createdAt ? dayjs(item.createdAt).format('DD/MM/YYYY HH:mm') : '—')}
+                            </span>
+                          </div>
                         </td>
                         <td>
                           {assignment ? (

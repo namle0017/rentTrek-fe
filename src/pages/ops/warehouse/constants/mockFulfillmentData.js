@@ -675,3 +675,408 @@ export function generateAvailableAssetsForSku(sku, productName = 'Thiết bị')
   ];
 }
 
+// -------------------------------------------------------------
+// BỘ LƯU TRỮ VĨNH VIỄN (PERSISTENT STORE) VÀO LOCALSTORAGE
+// Giúp duy trì toàn vẹn dữ liệu khi chuyển tab, refresh hoặc test offline
+// -------------------------------------------------------------
+
+const STORAGE_PREFIX = 'rentrek_ops_';
+
+function safeGet(key, defaultVal) {
+  try {
+    const raw = localStorage.getItem(STORAGE_PREFIX + key);
+    return raw ? JSON.parse(raw) : defaultVal;
+  } catch {
+    return defaultVal;
+  }
+}
+
+function safeSet(key, val) {
+  try {
+    localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(val));
+  } catch {
+    // ignore
+  }
+}
+
+// 1. Handover Checklist
+export function getPersistentOrderHandover(orderCode) {
+  const code = orderCode || 'RT-202611-001';
+  const defaultOrder = MOCK_ORDERS[code] || MOCK_ORDERS['RT-202611-001'];
+  const stored = safeGet(`handover_${code}`, null);
+  if (stored) return { data: stored };
+
+  const initial = {
+    orderCode: defaultOrder.orderCode,
+    customerName: defaultOrder.customerName,
+    customerPhone: defaultOrder.customerPhone,
+    rentalStartAt: defaultOrder.rentalStartAt,
+    rentalEndAt: defaultOrder.rentalEndAt,
+    orderStatus: defaultOrder.orderStatus,
+    totalRequiredCount: defaultOrder.totalRequiredCount,
+    scannedCount: defaultOrder.scannedCount,
+    items: defaultOrder.handoverItems.map((item) => ({ ...item })),
+  };
+  safeSet(`handover_${code}`, initial);
+  return { data: initial };
+}
+
+export function scanPersistentHandover(orderCode, assetCode) {
+  const code = orderCode || 'RT-202611-001';
+  const current = getPersistentOrderHandover(code).data;
+
+  let found = false;
+  const newItems = current.items.map((item) => {
+    if (!found && item.scannedCount < item.quantityRequired) {
+      found = true;
+      return {
+        ...item,
+        scannedCount: item.scannedCount + 1,
+        scannedAssets: [
+          ...(item.scannedAssets || []),
+          { assignmentId: `asg-${Date.now()}`, assetCode, scannedAt: new Date().toISOString() },
+        ],
+      };
+    }
+    return item;
+  });
+
+  const nextScannedCount = Math.min(current.totalRequiredCount, (current.scannedCount || 0) + 1);
+  const updated = {
+    ...current,
+    scannedCount: nextScannedCount,
+    items: newItems,
+  };
+  safeSet(`handover_${code}`, updated);
+  return { data: updated, message: `Đã quét nhận diện: ${assetCode}` };
+}
+
+export function completePersistentHandover(orderCode, incompleteReason = null) {
+  const code = orderCode || 'RT-202611-001';
+  const current = getPersistentOrderHandover(code).data;
+  const updated = {
+    ...current,
+    orderStatus: 'InFulfillment',
+    incompleteReason: incompleteReason || null,
+  };
+  safeSet(`handover_${code}`, updated);
+  return { data: updated, message: 'Bàn giao thiết bị cho khách thành công!' };
+}
+
+// 2. Return Checklist
+export function getPersistentOrderReturn(orderCode) {
+  const code = orderCode || 'RT-202611-001';
+  const defaultOrder = MOCK_ORDERS[code] || MOCK_ORDERS['RT-202611-001'];
+  const stored = safeGet(`return_${code}`, null);
+  if (stored) return { data: stored };
+
+  const flatItems = [];
+  if (defaultOrder?.returnItems) {
+    defaultOrder.returnItems.forEach((group) => {
+      group.assets?.forEach((a) => {
+        flatItems.push({
+          assignmentId: a.assignmentId,
+          equipmentAssetId: a.assignmentId,
+          assetCode: a.assetCode,
+          productName: group.productName,
+          variantName: group.variantName,
+          status: a.status === 'Lost' ? 'LostOrException' : a.status === 'Returned' ? 'Returned' : 'Issued',
+          returnCondition: a.conditionNote ? (a.damageFee ? 'Damaged' : 'Normal') : null,
+          conditionNote: a.conditionNote || null,
+          variantPriceTier: 500000,
+        });
+      });
+    });
+  }
+
+  const initial = {
+    orderCode: defaultOrder.orderCode,
+    customerName: defaultOrder.customerName,
+    rentalEndAt: defaultOrder.rentalEndAt,
+    orderStatus: defaultOrder.orderStatus,
+    totalIssuedCount: flatItems.length,
+    returnedCount: flatItems.filter((i) => i.status === 'Returned' || i.status === 'LostOrException').length,
+    items: flatItems,
+  };
+  safeSet(`return_${code}`, initial);
+  return { data: initial };
+}
+
+export function scanPersistentReturn(orderCode, payload) {
+  const code = orderCode || 'RT-202611-001';
+  const current = getPersistentOrderReturn(code).data;
+
+  const newItems = current.items.map((i) =>
+    i.assetCode.toLowerCase() === payload.assetCode.toLowerCase()
+      ? {
+          ...i,
+          status: 'Returned',
+          returnCondition: payload.returnCondition || 'Normal',
+          conditionNote: payload.conditionNote || (payload.returnCondition === 'Normal' ? 'Tốt, nguyên vẹn' : 'Có hư hại'),
+        }
+      : i
+  );
+
+  const returnedCount = newItems.filter((i) => i.status === 'Returned' || i.status === 'LostOrException').length;
+  const updated = {
+    ...current,
+    returnedCount,
+    items: newItems,
+  };
+  safeSet(`return_${code}`, updated);
+
+  // Nếu có phụ phí hư hại, tạo phí trong persistent charges
+  if (payload.createDamageCharge && payload.damageChargeAmount) {
+    createPersistentRentalCharge(code, {
+      chargeType: 'DamageCompensation',
+      amount: payload.damageChargeAmount,
+      reason: payload.damageReason || `Hư hại thiết bị ${payload.assetCode}`,
+      equipmentAssetCode: payload.assetCode,
+    });
+  }
+
+  return { data: updated, message: `Đã nhận lại thiết bị: ${payload.assetCode}` };
+}
+
+export function reportLostPersistentAsset(orderCode, payload) {
+  const code = orderCode || 'RT-202611-001';
+  const current = getPersistentOrderReturn(code).data;
+
+  let lostCode = 'SD-EQ';
+  const newItems = current.items.map((i) => {
+    if (i.equipmentAssetId === payload.assetId || i.assignmentId === payload.assetId || i.assetCode === payload.assetCode) {
+      lostCode = i.assetCode;
+      return {
+        ...i,
+        status: 'LostOrException',
+        returnCondition: 'Lost',
+        conditionNote: `Báo mất: ${payload.reason}`,
+      };
+    }
+    return i;
+  });
+
+  const returnedCount = newItems.filter((i) => i.status === 'Returned' || i.status === 'LostOrException').length;
+  const updated = {
+    ...current,
+    returnedCount,
+    items: newItems,
+  };
+  safeSet(`return_${code}`, updated);
+
+  if (payload.lossChargeAmount) {
+    createPersistentRentalCharge(code, {
+      chargeType: 'LostEquipment',
+      amount: payload.lossChargeAmount,
+      reason: `Mất thiết bị ${lostCode}: ${payload.reason}`,
+      equipmentAssetCode: lostCode,
+    });
+  }
+
+  return { data: updated, message: `Đã ghi nhận báo mất thiết bị: ${lostCode}` };
+}
+
+export function completePersistentReturn(orderCode, notes = '') {
+  const code = orderCode || 'RT-202611-001';
+  const current = getPersistentOrderReturn(code).data;
+  const updated = {
+    ...current,
+    orderStatus: 'Returned',
+    completionNotes: notes,
+  };
+  safeSet(`return_${code}`, updated);
+  return { data: updated, message: 'Đã hoàn tất thu hồi đơn thuê' };
+}
+
+// 3. Rental Charges & Settlement
+export function getPersistentOrderCharges(orderCode) {
+  const code = orderCode || 'RT-202611-001';
+  const defaultOrder = MOCK_ORDERS[code] || MOCK_ORDERS['RT-202611-001'];
+  const stored = safeGet(`charges_${code}`, null);
+  if (stored) return { data: stored };
+
+  const initial = (defaultOrder.charges || []).map((c) => ({
+    rentalChargeId: c.id,
+    chargeType: c.chargeType,
+    amount: c.amount,
+    reason: c.reason,
+    equipmentAssetCode: c.equipmentAssetCode,
+    status: c.status,
+    createdByName: 'Phạm Việt Bách (Thủ kho)',
+    createdAt: c.createdAt,
+  }));
+  safeSet(`charges_${code}`, initial);
+  return { data: initial };
+}
+
+export function createPersistentRentalCharge(orderCode, payload) {
+  const code = orderCode || 'RT-202611-001';
+  const current = getPersistentOrderCharges(code).data;
+  const newCharge = {
+    rentalChargeId: `chg-${Date.now()}`,
+    chargeType: payload.chargeType || 'LateReturn',
+    amount: Number(payload.amount) || 0,
+    reason: payload.reason,
+    equipmentAssetCode: payload.equipmentAssetCode || payload.equipmentAssetId || '—',
+    status: 'Draft',
+    createdByName: 'Phạm Việt Bách (Thủ kho)',
+    createdAt: new Date().toISOString(),
+  };
+  const updated = [...current, newCharge];
+  safeSet(`charges_${code}`, updated);
+  return { data: newCharge, message: 'Tạo phí phát sinh thành công' };
+}
+
+export function assessPersistentRentalCharge(chargeId) {
+  // Tìm qua mọi đơn
+  Object.keys(MOCK_ORDERS).forEach((code) => {
+    const list = getPersistentOrderCharges(code).data;
+    if (list.some((c) => c.rentalChargeId === chargeId)) {
+      const updated = list.map((c) => (c.rentalChargeId === chargeId ? { ...c, status: 'Assessed' } : c));
+      safeSet(`charges_${code}`, updated);
+    }
+  });
+  return { message: 'Đã chốt phí phát sinh (Assessed)' };
+}
+
+export function voidPersistentRentalCharge(chargeId, payload) {
+  Object.keys(MOCK_ORDERS).forEach((code) => {
+    const list = getPersistentOrderCharges(code).data;
+    if (list.some((c) => c.rentalChargeId === chargeId)) {
+      const updated = list.map((c) =>
+        c.rentalChargeId === chargeId ? { ...c, status: 'Voided', voidReason: payload?.voidReason } : c
+      );
+      safeSet(`charges_${code}`, updated);
+    }
+  });
+  return { message: 'Đã miễn trừ khoản phí (Voided)' };
+}
+
+export function completePersistentOrder(orderCode) {
+  const code = orderCode || 'RT-202611-001';
+  const returnObj = getPersistentOrderReturn(code).data;
+  safeSet(`return_${code}`, { ...returnObj, orderStatus: 'Completed' });
+  const handoverObj = getPersistentOrderHandover(code).data;
+  safeSet(`handover_${code}`, { ...handoverObj, orderStatus: 'Completed' });
+  return { message: 'Nghiệm thu đóng đơn thuê thành công!' };
+}
+
+// 4. Trip Provided Items Persistent Store
+export function getPersistentTrip(tripId) {
+  const targetId = tripId || MOCK_TRIPS[0].tripId;
+  const defaultTrip = MOCK_TRIPS.find((t) => t.tripId === targetId) || MOCK_TRIPS[0];
+  const stored = safeGet(`trip_${targetId}`, null);
+  if (stored) return { data: stored };
+
+  // Khởi tạo bản sao ban đầu từ MOCK_TRIPS
+  const initial = JSON.parse(JSON.stringify(defaultTrip));
+  safeSet(`trip_${targetId}`, initial);
+  return { data: initial };
+}
+
+export function assignPersistentTripAssets(tripId, itemId, assetCodes) {
+  const targetId = tripId || MOCK_TRIPS[0].tripId;
+  const trip = getPersistentTrip(targetId).data;
+
+  const nextItems = (trip.items || []).map((item) => {
+    if (item.tripProvidedItemId === itemId || item.sku === itemId) {
+      const existing = item.assignedAssets || [];
+      const existingCodes = new Set(existing.map((a) => (a.assetCode || '').toUpperCase()));
+      const toAdd = assetCodes
+        .filter((c) => !existingCodes.has(c.toUpperCase()))
+        .map((code, idx) => ({
+          assignmentId: `asg-${Date.now()}-${idx}`,
+          assetCode: code,
+          status: 'Reserved',
+        }));
+      const nextAssigned = [...existing, ...toAdd];
+      const assignedCount = nextAssigned.length;
+      const missingCount = Math.max(0, (item.requiredQuantity || 1) - assignedCount);
+      return {
+        ...item,
+        assignedAssets: nextAssigned,
+        assignedCount,
+        missingCount,
+        status: missingCount === 0 ? 'Ready' : 'Draft',
+      };
+    }
+    return item;
+  });
+
+  const updatedTrip = {
+    ...trip,
+    items: nextItems,
+    hasShortage: nextItems.some((i) => (i.missingCount || 0) > 0),
+  };
+  safeSet(`trip_${targetId}`, updatedTrip);
+  return { data: updatedTrip, message: `Đã gán thành công ${assetCodes.length} thiết bị vào chuyến đi` };
+}
+
+export function unassignPersistentTripAsset(tripId, assignmentId) {
+  const targetId = tripId || MOCK_TRIPS[0].tripId;
+  const trip = getPersistentTrip(targetId).data;
+
+  let unassignedCode = '';
+  const nextItems = (trip.items || []).map((item) => {
+    if (item.assignedAssets?.some((a) => a.assignmentId === assignmentId)) {
+      const removed = item.assignedAssets.find((a) => a.assignmentId === assignmentId);
+      if (removed) unassignedCode = removed.assetCode;
+      const nextAssigned = item.assignedAssets.filter((a) => a.assignmentId !== assignmentId);
+      const assignedCount = nextAssigned.length;
+      const missingCount = Math.max(0, (item.requiredQuantity || 1) - assignedCount);
+      return {
+        ...item,
+        assignedAssets: nextAssigned,
+        assignedCount,
+        missingCount,
+        status: missingCount === 0 ? 'Ready' : 'Draft',
+      };
+    }
+    return item;
+  });
+
+  const updatedTrip = {
+    ...trip,
+    items: nextItems,
+    hasShortage: nextItems.some((i) => (i.missingCount || 0) > 0),
+  };
+  safeSet(`trip_${targetId}`, updatedTrip);
+  return { data: updatedTrip, message: `Đã hủy gán thiết bị ${unassignedCode || ''} khỏi chuyến đi!` };
+}
+
+export function issuePersistentTripGear(tripId) {
+  const targetId = tripId || MOCK_TRIPS[0].tripId;
+  const trip = getPersistentTrip(targetId).data;
+  const nextItems = (trip.items || []).map((item) => ({
+    ...item,
+    status: 'Issued',
+    assignedAssets: (item.assignedAssets || []).map((a) => ({ ...a, status: 'Issued' })),
+  }));
+  const updatedTrip = {
+    ...trip,
+    status: 'Issued',
+    items: nextItems,
+  };
+  safeSet(`trip_${targetId}`, updatedTrip);
+  return { data: updatedTrip, message: 'Xuất kho bàn giao toàn bộ thiết bị cho Hướng dẫn viên thành công!' };
+}
+
+export function returnPersistentTripGear(tripId) {
+  const targetId = tripId || MOCK_TRIPS[0].tripId;
+  const trip = getPersistentTrip(targetId).data;
+  const nextItems = (trip.items || []).map((item) => ({
+    ...item,
+    status: 'Returned',
+    assignedAssets: (item.assignedAssets || []).map((a) => ({ ...a, status: 'Returned' })),
+  }));
+  const updatedTrip = {
+    ...trip,
+    status: 'Returned',
+    items: nextItems,
+  };
+  safeSet(`trip_${targetId}`, updatedTrip);
+  return { data: updatedTrip, message: 'Thu hồi thiết bị từ chuyến đi thành công!' };
+}
+
+
+

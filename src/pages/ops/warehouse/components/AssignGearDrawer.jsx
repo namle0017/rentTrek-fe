@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { toast } from 'react-toastify';
 import Spinner from '@/components/Spinner';
 import { useAssignAssetsToTripItem, useAvailableAssetsForTripItem } from '../hooks/useTripProvidedItems';
 import { generateAvailableAssetsForSku } from '../constants/mockFulfillmentData';
@@ -85,13 +84,7 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLoca
           onClose();
         },
         onError: () => {
-          // Khi API báo lỗi (chế độ offline/test dữ liệu DB chưa link asset), cập nhật cục bộ
-          toast.success(`Đã gán thành công ${codesToAssign.length} thiết bị cho mục ${item.productName}`);
-          if (onLocalAssignSuccess) {
-            onLocalAssignSuccess(item.tripProvidedItemId, codesToAssign);
-          }
           setSelectedCodes(new Set());
-          onClose();
         },
       }
     );

@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import {
   useRentalCharges,
   useReturnChecklist,
@@ -32,9 +31,6 @@ export default function SettlementPage() {
   const [voidChargeItem, setVoidChargeItem] = useState(null);
   const [voidReason, setVoidReason] = useState('');
 
-  // Local mock overrides for offline testing
-  const [localOverrides, setLocalOverrides] = useState({});
-
   const { data: serverCharges, isLoading: loadingCharges } = useRentalCharges(activeOrderCode);
   const { data: serverChecklist, isLoading: loadingChecklist } = useReturnChecklist(activeOrderCode);
 
@@ -52,7 +48,7 @@ export default function SettlementPage() {
     if (serverChecklist && serverChecklist.items?.length > 0) {
       return serverChecklist;
     }
-    const base = {
+    return {
       orderCode: mockOrder.orderCode,
       customerName: mockOrder.customerName,
       orderStatus: mockOrder.orderStatus,
@@ -65,19 +61,14 @@ export default function SettlementPage() {
         { assignmentId: 'as-04', assetCode: 'SD-PACK-40-002', productName: 'Balô trekking 40L' },
       ],
     };
-    const override = localOverrides[activeOrderCode];
-    if (override?.orderStatus) {
-      base.orderStatus = override.orderStatus;
-    }
-    return base;
-  }, [serverChecklist, mockOrder, localOverrides, activeOrderCode]);
+  }, [serverChecklist, mockOrder]);
 
   // Danh sách các khoản phí phát sinh
   const charges = useMemo(() => {
     if (serverCharges && serverCharges.length > 0) {
       return serverCharges;
     }
-    const base = (mockOrder.charges || []).map((c) => ({
+    return (mockOrder.charges || []).map((c) => ({
       rentalChargeId: c.id,
       chargeType: c.chargeType,
       amount: c.amount,
@@ -87,13 +78,7 @@ export default function SettlementPage() {
       createdByName: 'Phạm Việt Bách (Thủ kho)',
       createdAt: c.createdAt,
     }));
-
-    const override = localOverrides[activeOrderCode];
-    if (override?.charges) {
-      return override.charges;
-    }
-    return base;
-  }, [serverCharges, mockOrder, localOverrides, activeOrderCode]);
+  }, [serverCharges, mockOrder]);
 
   const handleSelectOrder = (code) => {
     setSearchOrderCode(code);
@@ -125,51 +110,12 @@ export default function SettlementPage() {
           setChargeReason('');
           setSelectedAssetId('');
         },
-        onError: () => {
-          // Giả lập thêm phụ phí trong chế độ test
-          const newCharge = {
-            rentalChargeId: `chg-${Date.now()}`,
-            chargeType,
-            amount: Number(chargeAmount),
-            reason: chargeReason.trim(),
-            equipmentAssetCode: selectedAssetId || '—',
-            status: 'Draft',
-            createdByName: 'Phạm Việt Bách (Thủ kho)',
-            createdAt: new Date().toISOString(),
-          };
-          toast.success('Đã thêm khoản phụ phí mới (Chờ duyệt)');
-          setLocalOverrides((prev) => ({
-            ...prev,
-            [activeOrderCode]: {
-              ...prev[activeOrderCode],
-              charges: [...charges, newCharge],
-            },
-          }));
-          setShowCreateModal(false);
-          setChargeAmount('');
-          setChargeReason('');
-          setSelectedAssetId('');
-        },
       }
     );
   };
 
   const handleAssess = (chargeId) => {
-    assessChargeMutation.mutate(chargeId, {
-      onError: () => {
-        toast.success('Đã chốt duyệt khoản phí (Assessed)!');
-        const updated = charges.map((c) =>
-          c.rentalChargeId === chargeId ? { ...c, status: 'Assessed' } : c
-        );
-        setLocalOverrides((prev) => ({
-          ...prev,
-          [activeOrderCode]: {
-            ...prev[activeOrderCode],
-            charges: updated,
-          },
-        }));
-      },
-    });
+    assessChargeMutation.mutate(chargeId);
   };
 
   const handleVoidClick = (charge) => {
@@ -191,43 +137,12 @@ export default function SettlementPage() {
           setVoidChargeItem(null);
           setVoidReason('');
         },
-        onError: () => {
-          toast.info('Đã hủy bỏ miễn trừ khoản phí (Voided)!');
-          const updated = charges.map((c) =>
-            c.rentalChargeId === voidChargeItem.rentalChargeId
-              ? { ...c, status: 'Voided', voidReason: voidReason.trim() }
-              : c
-          );
-          setLocalOverrides((prev) => ({
-            ...prev,
-            [activeOrderCode]: {
-              ...prev[activeOrderCode],
-              charges: updated,
-            },
-          }));
-          setVoidChargeItem(null);
-          setVoidReason('');
-        },
       }
     );
   };
 
   const handleCompleteOrder = () => {
-    completeOrderMutation.mutate(undefined, {
-      onSuccess: () => {
-        toast.success('Nghiệm thu đóng đơn thuê thành công!');
-      },
-      onError: () => {
-        toast.success('Nghiệm thu đóng đơn thuê thành công (Completed)!');
-        setLocalOverrides((prev) => ({
-          ...prev,
-          [activeOrderCode]: {
-            ...prev[activeOrderCode],
-            orderStatus: 'Completed',
-          },
-        }));
-      },
-    });
+    completeOrderMutation.mutate();
   };
 
   // Calculations for Closure checklist (Screen Spec O26)

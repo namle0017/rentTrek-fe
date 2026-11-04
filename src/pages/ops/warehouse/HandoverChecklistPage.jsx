@@ -23,7 +23,6 @@ export default function HandoverChecklistPage() {
   const [barcodeInput, setBarcodeInput] = useState('');
   const [showIncompleteModal, setShowIncompleteModal] = useState(false);
   const [incompleteReason, setIncompleteReason] = useState('');
-  const [localMockOverrides, setLocalMockOverrides] = useState({});
   const barcodeInputRef = useRef(null);
 
   const { data: serverChecklist, isLoading } = useHandoverChecklist(activeOrderCode);
@@ -35,12 +34,12 @@ export default function HandoverChecklistPage() {
     return MOCK_ORDERS[activeOrderCode] || MOCK_ORDERS[defaultOrder];
   }, [activeOrderCode]);
 
-  // Checklist tổng hợp: ưu tiên server nếu có dữ liệu, nếu server rỗng/lỗi thì dùng mock
+  // Checklist tổng hợp: tự động đồng bộ từ localStorage / backend server
   const checklist = useMemo(() => {
     if (serverChecklist && serverChecklist.items?.length > 0) {
       return serverChecklist;
     }
-    const base = {
+    return {
       orderCode: mockOrder.orderCode,
       customerName: mockOrder.customerName,
       customerPhone: mockOrder.customerPhone,
@@ -51,19 +50,7 @@ export default function HandoverChecklistPage() {
       scannedCount: mockOrder.scannedCount,
       items: mockOrder.handoverItems.map((item) => ({ ...item })),
     };
-
-    // Áp dụng các thay đổi quét thử nghiệm cục bộ (đối với chế độ offline/mock)
-    const override = localMockOverrides[activeOrderCode];
-    if (override) {
-      return {
-        ...base,
-        scannedCount: override.scannedCount ?? base.scannedCount,
-        orderStatus: override.orderStatus ?? base.orderStatus,
-        items: override.items ?? base.items,
-      };
-    }
-    return base;
-  }, [serverChecklist, mockOrder, localMockOverrides, activeOrderCode]);
+  }, [serverChecklist, mockOrder]);
 
   useEffect(() => {
     if (barcodeInputRef.current) {
@@ -92,43 +79,9 @@ export default function HandoverChecklistPage() {
       await scanMutation.mutateAsync({ assetCode: code });
       playSuccessBeep();
       setBarcodeInput('');
-    } catch {
-      // Nếu API lỗi (do đơn mock trên BE chưa có), ta giả lập quét thành công trên mock state để user test UI
-      if (checklist) {
-        let found = false;
-        const newItems = checklist.items.map((item) => {
-          if (!found && item.scannedCount < item.quantityRequired) {
-            found = true;
-            return {
-              ...item,
-              scannedCount: item.scannedCount + 1,
-              scannedAssets: [
-                ...item.scannedAssets,
-                { assignmentId: `sim-${Date.now()}`, assetCode: code, scannedAt: new Date().toISOString() },
-              ],
-            };
-          }
-          return item;
-        });
-
-        if (found) {
-          playSuccessBeep();
-          toast.success(`Đã quét nhận diện: ${code}`);
-          setLocalMockOverrides((prev) => ({
-            ...prev,
-            [activeOrderCode]: {
-              ...prev[activeOrderCode],
-              scannedCount: (checklist.scannedCount || 0) + 1,
-              items: newItems,
-            },
-          }));
-        } else {
-          playErrorBuzz();
-          toast.warning('Tất cả thiết bị trong đơn đã được quét đủ!');
-        }
-      } else {
-        playErrorBuzz();
-      }
+    } catch (err) {
+      playErrorBuzz();
+      toast.error(err?.message || 'Lỗi quét thiết bị');
       setBarcodeInput('');
     } finally {
       if (barcodeInputRef.current) {
@@ -142,22 +95,7 @@ export default function HandoverChecklistPage() {
     if (checklist.scannedCount < checklist.totalRequiredCount) {
       setShowIncompleteModal(true);
     } else {
-      completeMutation.mutate(
-        { incompleteReason: null },
-        {
-          onError: () => {
-            // Giả lập hoàn tất thành công trong chế độ test
-            toast.success('Bàn giao thiết bị cho khách thành công!');
-            setLocalMockOverrides((prev) => ({
-              ...prev,
-              [activeOrderCode]: {
-                ...prev[activeOrderCode],
-                orderStatus: 'InFulfillment',
-              },
-            }));
-          },
-        }
-      );
+      completeMutation.mutate({ incompleteReason: null });
     }
   };
 
@@ -169,18 +107,6 @@ export default function HandoverChecklistPage() {
         onSuccess: () => {
           setShowIncompleteModal(false);
           setIncompleteReason('');
-        },
-        onError: () => {
-          toast.success(`Xác nhận giao thiếu thiết bị (${incompleteReason.trim()}) thành công!`);
-          setShowIncompleteModal(false);
-          setIncompleteReason('');
-          setLocalMockOverrides((prev) => ({
-            ...prev,
-            [activeOrderCode]: {
-              ...prev[activeOrderCode],
-              orderStatus: 'InFulfillment',
-            },
-          }));
         },
       }
     );

@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
-import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { ROUTES } from '@/constants/routes';
@@ -20,7 +19,7 @@ export default function AssetListPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
-  const pageSize = 15;
+  const [pageSize, setPageSize] = useState(10);
 
   const [selectedAssetCode, setSelectedAssetCode] = useState(null);
   const [isBulkModalOpen, setIsBulkModalOpen] = useState(false);
@@ -82,6 +81,16 @@ export default function AssetListPage() {
       return item;
     });
   }, [pagedData, selectedStatus, searchTerm, localUpdatedTimestamps]);
+
+  // CRM Pagination data slicing
+  const totalItems = displayItems.length;
+  const totalPages = Math.ceil(totalItems / pageSize) || 1;
+  const safePage = Math.min(Math.max(1, pageNumber), totalPages);
+
+  const paginatedItems = useMemo(() => {
+    const startIndex = (safePage - 1) * pageSize;
+    return displayItems.slice(startIndex, startIndex + pageSize);
+  }, [displayItems, safePage, pageSize]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -220,7 +229,7 @@ export default function AssetListPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {displayItems.map((item) => {
+                  {paginatedItems.map((item) => {
                     const statusConfig = ASSET_STATUS_BADGE[item.assetStatus] || {
                       label: item.assetStatus,
                       bg: '#F3F4F6',
@@ -322,15 +331,102 @@ export default function AssetListPage() {
               </table>
             </div>
 
-            {/* Pagination */}
+            {/* CRM Pagination Bar */}
             <div className={styles.paginationRow}>
-              <Pagination
-                pageNumber={pageNumber}
-                totalPages={Math.ceil(displayItems.length / pageSize) || 1}
-                totalCount={displayItems.length}
-                pageSize={pageSize}
-                onPageChange={setPageNumber}
-              />
+              <div className={styles.paginationInfo}>
+                Hiển thị{' '}
+                <strong>
+                  {totalItems === 0 ? 0 : (safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, totalItems)}
+                </strong>{' '}
+                trên <strong>{totalItems}</strong> thiết bị
+              </div>
+
+              <div className={styles.paginationControls}>
+                <div className={styles.pageSizeWrapper}>
+                  <label htmlFor="pageSizeSelect" className={styles.pageSizeLabel}>
+                    Hiển thị:
+                  </label>
+                  <select
+                    id="pageSizeSelect"
+                    value={pageSize}
+                    onChange={(e) => {
+                      setPageSize(Number(e.target.value));
+                      setPageNumber(1);
+                    }}
+                    className={styles.pageSizeSelect}
+                    aria-label="Số dòng hiển thị trên mỗi trang"
+                  >
+                    <option value={10}>10 dòng / trang</option>
+                    <option value={15}>15 dòng / trang</option>
+                    <option value={25}>25 dòng / trang</option>
+                    <option value={50}>50 dòng / trang</option>
+                  </select>
+                </div>
+
+                <div className={styles.pageButtons}>
+                  <button
+                    type="button"
+                    className={styles.pageBtn}
+                    disabled={safePage <= 1}
+                    onClick={() => setPageNumber(1)}
+                    title="Trang đầu"
+                    aria-label="Trang đầu"
+                  >
+                    «
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.pageBtn}
+                    disabled={safePage <= 1}
+                    onClick={() => setPageNumber(safePage - 1)}
+                    title="Trang trước"
+                    aria-label="Trang trước"
+                  >
+                    ‹ Trước
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter((p) => p === 1 || p === totalPages || Math.abs(p - safePage) <= 2)
+                    .map((p, idx, arr) => {
+                      const prev = arr[idx - 1];
+                      const showEllipsis = prev && p - prev > 1;
+                      return (
+                        <span key={p} className={styles.pageNumberGroup}>
+                          {showEllipsis && <span className={styles.pageEllipsis}>…</span>}
+                          <button
+                            type="button"
+                            className={`${styles.pageNumberBtn} ${p === safePage ? styles.pageNumberActive : ''}`}
+                            onClick={() => setPageNumber(p)}
+                            aria-current={p === safePage ? 'page' : undefined}
+                          >
+                            {p}
+                          </button>
+                        </span>
+                      );
+                    })}
+
+                  <button
+                    type="button"
+                    className={styles.pageBtn}
+                    disabled={safePage >= totalPages}
+                    onClick={() => setPageNumber(safePage + 1)}
+                    title="Trang sau"
+                    aria-label="Trang sau"
+                  >
+                    Sau ›
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.pageBtn}
+                    disabled={safePage >= totalPages}
+                    onClick={() => setPageNumber(totalPages)}
+                    title="Trang cuối"
+                    aria-label="Trang cuối"
+                  >
+                    »
+                  </button>
+                </div>
+              </div>
             </div>
           </>
         )}

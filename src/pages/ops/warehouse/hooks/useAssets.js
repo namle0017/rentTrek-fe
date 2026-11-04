@@ -39,6 +39,15 @@ export function useAssetGantt(params) {
   });
 }
 
+export function useAssetVariants() {
+  return useQuery({
+    queryKey: assetKeys.variants(),
+    queryFn: () => assetService.getVariants(),
+    select: (res) => res.data,
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
 export function useBulkCreateAssets() {
   const queryClient = useQueryClient();
   return useMutation({

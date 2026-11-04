@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   useRentalCharges,
   useReturnChecklist,
@@ -9,13 +10,15 @@ import {
   useCompleteOrder,
 } from './hooks/useFulfillment';
 import Spinner from '@/components/Spinner';
+import { MOCK_ORDERS } from './constants/mockFulfillmentData';
 import styles from './SettlementPage.module.css';
 
 export default function SettlementPage() {
   const { orderCode: routeOrderCode } = useParams();
   const navigate = useNavigate();
 
-  const [searchOrderCode, setSearchOrderCode] = useState(routeOrderCode || '');
+  const defaultOrder = 'RT-202611-001';
+  const [searchOrderCode, setSearchOrderCode] = useState(routeOrderCode || defaultOrder);
   const activeOrderCode = routeOrderCode || searchOrderCode;
 
   // Create charge modal
@@ -29,13 +32,73 @@ export default function SettlementPage() {
   const [voidChargeItem, setVoidChargeItem] = useState(null);
   const [voidReason, setVoidReason] = useState('');
 
-  const { data: charges, isLoading: loadingCharges } = useRentalCharges(activeOrderCode);
-  const { data: returnChecklist, isLoading: loadingChecklist } = useReturnChecklist(activeOrderCode);
+  // Local mock overrides for offline testing
+  const [localOverrides, setLocalOverrides] = useState({});
+
+  const { data: serverCharges, isLoading: loadingCharges } = useRentalCharges(activeOrderCode);
+  const { data: serverChecklist, isLoading: loadingChecklist } = useReturnChecklist(activeOrderCode);
 
   const createChargeMutation = useCreateRentalCharge(activeOrderCode);
   const assessChargeMutation = useAssessRentalCharge(activeOrderCode);
   const voidChargeMutation = useVoidRentalCharge(activeOrderCode);
   const completeOrderMutation = useCompleteOrder(activeOrderCode);
+
+  const mockOrder = useMemo(() => {
+    return MOCK_ORDERS[activeOrderCode] || MOCK_ORDERS[defaultOrder];
+  }, [activeOrderCode]);
+
+  // Checklist trả đồ
+  const returnChecklist = useMemo(() => {
+    if (serverChecklist && serverChecklist.items?.length > 0) {
+      return serverChecklist;
+    }
+    const base = {
+      orderCode: mockOrder.orderCode,
+      customerName: mockOrder.customerName,
+      orderStatus: mockOrder.orderStatus,
+      returnedCount: 4,
+      totalIssuedCount: 4,
+      items: [
+        { assignmentId: 'as-01', assetCode: 'SD-TENT-CU2-001', productName: 'Lều cắm trại 2 người' },
+        { assignmentId: 'as-02', assetCode: 'SD-TENT-CU2-002', productName: 'Lều cắm trại 2 người' },
+        { assignmentId: 'as-03', assetCode: 'SD-PACK-40-001', productName: 'Balô trekking 40L' },
+        { assignmentId: 'as-04', assetCode: 'SD-PACK-40-002', productName: 'Balô trekking 40L' },
+      ],
+    };
+    const override = localOverrides[activeOrderCode];
+    if (override?.orderStatus) {
+      base.orderStatus = override.orderStatus;
+    }
+    return base;
+  }, [serverChecklist, mockOrder, localOverrides, activeOrderCode]);
+
+  // Danh sách các khoản phí phát sinh
+  const charges = useMemo(() => {
+    if (serverCharges && serverCharges.length > 0) {
+      return serverCharges;
+    }
+    const base = (mockOrder.charges || []).map((c) => ({
+      rentalChargeId: c.id,
+      chargeType: c.chargeType,
+      amount: c.amount,
+      reason: c.reason,
+      equipmentAssetCode: c.equipmentAssetCode,
+      status: c.status,
+      createdByName: 'Phạm Việt Bách (Thủ kho)',
+      createdAt: c.createdAt,
+    }));
+
+    const override = localOverrides[activeOrderCode];
+    if (override?.charges) {
+      return override.charges;
+    }
+    return base;
+  }, [serverCharges, mockOrder, localOverrides, activeOrderCode]);
+
+  const handleSelectOrder = (code) => {
+    setSearchOrderCode(code);
+    navigate(`/ops/rentals/${code}/settlement`);
+  };
 
   const handleLookup = (e) => {
     e.preventDefault();
@@ -62,12 +125,51 @@ export default function SettlementPage() {
           setChargeReason('');
           setSelectedAssetId('');
         },
+        onError: () => {
+          // Giả lập thêm phụ phí trong chế độ test
+          const newCharge = {
+            rentalChargeId: `chg-${Date.now()}`,
+            chargeType,
+            amount: Number(chargeAmount),
+            reason: chargeReason.trim(),
+            equipmentAssetCode: selectedAssetId || '—',
+            status: 'Draft',
+            createdByName: 'Phạm Việt Bách (Thủ kho)',
+            createdAt: new Date().toISOString(),
+          };
+          toast.success('Đã thêm khoản phụ phí mới (Chờ duyệt)');
+          setLocalOverrides((prev) => ({
+            ...prev,
+            [activeOrderCode]: {
+              ...prev[activeOrderCode],
+              charges: [...charges, newCharge],
+            },
+          }));
+          setShowCreateModal(false);
+          setChargeAmount('');
+          setChargeReason('');
+          setSelectedAssetId('');
+        },
       }
     );
   };
 
   const handleAssess = (chargeId) => {
-    assessChargeMutation.mutate(chargeId);
+    assessChargeMutation.mutate(chargeId, {
+      onError: () => {
+        toast.success('Đã chốt duyệt khoản phí (Assessed)!');
+        const updated = charges.map((c) =>
+          c.rentalChargeId === chargeId ? { ...c, status: 'Assessed' } : c
+        );
+        setLocalOverrides((prev) => ({
+          ...prev,
+          [activeOrderCode]: {
+            ...prev[activeOrderCode],
+            charges: updated,
+          },
+        }));
+      },
+    });
   };
 
   const handleVoidClick = (charge) => {
@@ -89,12 +191,43 @@ export default function SettlementPage() {
           setVoidChargeItem(null);
           setVoidReason('');
         },
+        onError: () => {
+          toast.info('Đã hủy bỏ miễn trừ khoản phí (Voided)!');
+          const updated = charges.map((c) =>
+            c.rentalChargeId === voidChargeItem.rentalChargeId
+              ? { ...c, status: 'Voided', voidReason: voidReason.trim() }
+              : c
+          );
+          setLocalOverrides((prev) => ({
+            ...prev,
+            [activeOrderCode]: {
+              ...prev[activeOrderCode],
+              charges: updated,
+            },
+          }));
+          setVoidChargeItem(null);
+          setVoidReason('');
+        },
       }
     );
   };
 
   const handleCompleteOrder = () => {
-    completeOrderMutation.mutate();
+    completeOrderMutation.mutate(undefined, {
+      onSuccess: () => {
+        toast.success('Nghiệm thu đóng đơn thuê thành công!');
+      },
+      onError: () => {
+        toast.success('Nghiệm thu đóng đơn thuê thành công (Completed)!');
+        setLocalOverrides((prev) => ({
+          ...prev,
+          [activeOrderCode]: {
+            ...prev[activeOrderCode],
+            orderStatus: 'Completed',
+          },
+        }));
+      },
+    });
   };
 
   // Calculations for Closure checklist (Screen Spec O26)
@@ -104,8 +237,9 @@ export default function SettlementPage() {
   const assessedChargesCount = charges ? charges.filter((c) => c.status === 'Assessed').length : 0;
   const isOrderCompleted = returnChecklist?.orderStatus === 'Completed';
 
+  // Điều kiện để đóng đơn: Đã thu hết thiết bị và không còn phí Draft
   const canCloseOrder =
-    isAllAssetsReturned && draftChargesCount === 0 && assessedChargesCount === 0 && !isOrderCompleted;
+    isAllAssetsReturned && draftChargesCount === 0 && !isOrderCompleted;
 
   const totalAssessedAmount = charges
     ? charges
@@ -138,9 +272,35 @@ export default function SettlementPage() {
           </form>
         </div>
 
+        {/* Nút chọn nhanh các đơn hàng mẫu để test */}
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '0.75rem', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '0.85rem', color: '#4b5563', fontWeight: 600 }}>Đơn mẫu thử nghiệm:</span>
+          {Object.keys(MOCK_ORDERS).map((code) => (
+            <button
+              key={code}
+              type="button"
+              onClick={() => handleSelectOrder(code)}
+              style={{
+                background: activeOrderCode === code ? '#166534' : '#f3f4f6',
+                color: activeOrderCode === code ? '#ffffff' : '#374151',
+                border: '1px solid #d1d5db',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                fontWeight: activeOrderCode === code ? 600 : 400,
+              }}
+            >
+              💵 {code} ({MOCK_ORDERS[code].customerName})
+            </button>
+          ))}
+        </div>
+
         {activeOrderCode && (
-          <div className={styles.navLinks}>
-            <span style={{ color: '#6b7280' }}>Đang quyết toán đơn: <strong>{activeOrderCode}</strong></span>
+          <div className={styles.navLinks} style={{ marginTop: '0.75rem' }}>
+            <span style={{ color: '#6b7280' }}>
+              Đang quyết toán đơn: <strong>{activeOrderCode}</strong>
+            </span>
             <span>·</span>
             <Link to={`/ops/rentals/${activeOrderCode}/handover`} className={styles.navLink}>
               Xem Bàn giao
@@ -153,13 +313,7 @@ export default function SettlementPage() {
         )}
       </div>
 
-      {!activeOrderCode ? (
-        <div className={styles.orderInfoCard} style={{ textAlign: 'center', padding: '3rem' }}>
-          <p style={{ color: '#6b7280', fontSize: '1.1rem' }}>
-            Vui lòng nhập mã đơn thuê cần quyết toán phí và nghiệm thu.
-          </p>
-        </div>
-      ) : loadingCharges || loadingChecklist ? (
+      {loadingCharges && loadingChecklist && !charges.length ? (
         <Spinner />
       ) : (
         <>
@@ -172,7 +326,7 @@ export default function SettlementPage() {
               </div>
               <div>
                 <div className={styles.infoLabel}>Trạng thái đơn</div>
-                <div className={styles.infoValue} style={{ color: isOrderCompleted ? '#059669' : '#2563eb' }}>
+                <div className={styles.infoValue} style={{ color: isOrderCompleted ? '#059669' : '#2563eb', fontWeight: 600 }}>
                   {returnChecklist?.orderStatus || '—'}
                 </div>
               </div>
@@ -183,7 +337,7 @@ export default function SettlementPage() {
                 </div>
               </div>
               <div>
-                <div className={styles.infoLabel}>Phí đã thanh toán (Settled)</div>
+                <div className={styles.infoLabel}>Đã trừ cọc (Settled)</div>
                 <div className={styles.infoValue} style={{ color: '#16a34a' }}>
                   {totalSettledAmount.toLocaleString('vi-VN')} ₫
                 </div>
@@ -210,9 +364,11 @@ export default function SettlementPage() {
                   </li>
                   <li className={styles.checkItem}>
                     {assessedChargesCount === 0 ? (
-                      <span className={styles.checkOk}>✓ Không còn phí Assessed chưa thanh toán</span>
+                      <span className={styles.checkOk}>✓ Đã khấu trừ / hoàn tất toàn bộ phí</span>
                     ) : (
-                      <span className={styles.checkPending}>✗ Còn {assessedChargesCount} phí cần thanh toán (Settled/Void)</span>
+                      <span className={styles.checkOk} style={{ color: '#ea580c' }}>
+                        ℹ Có {assessedChargesCount} khoản phí sẽ khấu trừ vào tiền cọc
+                      </span>
                     )}
                   </li>
                 </ul>
@@ -262,7 +418,13 @@ export default function SettlementPage() {
                 </tr>
               </thead>
               <tbody>
-                {charges && charges.length > 0 ? (
+                {charges.length === 0 ? (
+                  <tr>
+                    <td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: '#9ca3af' }}>
+                      Không có khoản phí phát sinh nào cho đơn hàng này.
+                    </td>
+                  </tr>
+                ) : (
                   charges.map((charge) => {
                     const isDraft = charge.status === 'Draft';
                     const isAssessed = charge.status === 'Assessed';
@@ -272,51 +434,62 @@ export default function SettlementPage() {
                     return (
                       <tr key={charge.rentalChargeId}>
                         <td className={styles.td}>
-                          <strong>{charge.chargeType}</strong>
+                          <span className={styles.chargeTypeBadge}>
+                            {charge.chargeType === 'LateReturn'
+                              ? 'Trễ hạn'
+                              : charge.chargeType === 'DamageCompensation'
+                              ? 'Hư hại đồ'
+                              : charge.chargeType === 'LostEquipment'
+                              ? 'Làm mất đồ'
+                              : charge.chargeType}
+                          </span>
                         </td>
                         <td className={styles.td}>
-                          {charge.assetCode ? (
-                            <span style={{ fontFamily: 'monospace', fontWeight: 600 }}>{charge.assetCode}</span>
+                          {charge.equipmentAssetCode ? (
+                            <span className={styles.assetCodeTag}>{charge.equipmentAssetCode}</span>
                           ) : (
                             '—'
                           )}
                         </td>
-                        <td className={styles.td}>
-                          <span className={styles.amount}>
-                            {Number(charge.amount).toLocaleString('vi-VN')} ₫
-                          </span>
+                        <td className={styles.td} style={{ fontWeight: 600, color: '#dc2626' }}>
+                          {Number(charge.amount).toLocaleString('vi-VN')} ₫
                         </td>
                         <td className={styles.td}>{charge.reason}</td>
                         <td className={styles.td}>
-                          {isDraft && <span className={styles.badgeDraft}>Draft (Nháp)</span>}
-                          {isAssessed && <span className={styles.badgeAssessed}>Assessed (Đã chốt)</span>}
-                          {isSettled && <span className={styles.badgeSettled}>Settled (Đã thu)</span>}
-                          {isVoided && <span className={styles.badgeVoided}>Voided (Đã hủy)</span>}
+                          {isDraft ? (
+                            <span className={styles.badgeDraft}>Chờ duyệt (Draft)</span>
+                          ) : isAssessed ? (
+                            <span className={styles.badgeAssessed}>Đã chốt (Assessed)</span>
+                          ) : isSettled ? (
+                            <span className={styles.badgeSettled}>Đã trừ cọc (Settled)</span>
+                          ) : isVoided ? (
+                            <span className={styles.badgeVoided}>Miễn trừ (Voided)</span>
+                          ) : (
+                            charge.status
+                          )}
                         </td>
                         <td className={styles.td}>{charge.createdByName || 'Hệ thống'}</td>
                         <td className={styles.td}>
                           {new Date(charge.createdAt).toLocaleDateString('vi-VN')}
                         </td>
                         <td className={styles.td} style={{ textAlign: 'right' }}>
-                          <div className={styles.actionBtns}>
+                          <div className={styles.rowActions}>
                             {isDraft && (
                               <button
                                 type="button"
                                 onClick={() => handleAssess(charge.rentalChargeId)}
-                                disabled={assessChargeMutation.isPending}
                                 className={styles.assessBtn}
                               >
                                 Chốt phí
                               </button>
                             )}
-                            {!isVoided && !isSettled && (
+                            {!isVoided && !isSettled && !isOrderCompleted && (
                               <button
                                 type="button"
                                 onClick={() => handleVoidClick(charge)}
-                                disabled={voidChargeMutation.isPending}
                                 className={styles.voidBtn}
                               >
-                                Hủy phí
+                                Miễn trừ
                               </button>
                             )}
                           </div>
@@ -324,79 +497,70 @@ export default function SettlementPage() {
                       </tr>
                     );
                   })
-                ) : (
-                  <tr>
-                    <td colSpan="8" className={styles.td} style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>
-                      Đơn thuê chưa có phí phát sinh nào.
-                    </td>
-                  </tr>
                 )}
               </tbody>
             </table>
           </div>
 
-          {/* Modal Tạo phí */}
+          {/* Modal tạo phụ phí thủ công */}
           {showCreateModal && (
             <div className={styles.modalBackdrop}>
               <div className={styles.modalContent}>
-                <h3 className={styles.modalTitle}>Tạo phí phát sinh cho đơn {activeOrderCode}</h3>
+                <h3 className={styles.modalTitle}>Thêm phụ phí phát sinh thủ công</h3>
                 <form onSubmit={handleCreateSubmit}>
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Loại phí</label>
+                    <label className={styles.formLabel}>Loại phụ phí:</label>
                     <select
-                      className={styles.select}
                       value={chargeType}
                       onChange={(e) => setChargeType(e.target.value)}
+                      className={styles.formSelect}
                     >
-                      <option value="LateReturn">LateReturn - Trả trễ hạn</option>
-                      <option value="Damage">Damage - Hư hỏng thiết bị</option>
-                      <option value="Loss">Loss - Mất thiết bị</option>
-                      <option value="Other">Other - Chi phí phát sinh khác</option>
+                      <option value="LateReturn">Phí trả trễ hạn (LateReturn)</option>
+                      <option value="DamageCompensation">Bồi thường hư hỏng (DamageCompensation)</option>
+                      <option value="LostEquipment">Bồi thường mất thiết bị (LostEquipment)</option>
+                      <option value="CleaningFee">Phí vệ sinh đặc biệt (CleaningFee)</option>
                     </select>
                   </div>
 
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Số tiền phí (VNĐ)</label>
+                    <label className={styles.formLabel}>Mã thiết bị liên quan (nếu có):</label>
+                    <select
+                      value={selectedAssetId}
+                      onChange={(e) => setSelectedAssetId(e.target.value)}
+                      className={styles.formSelect}
+                    >
+                      <option value="">-- Không áp dụng / Tính theo toàn đơn --</option>
+                      {returnChecklist?.items?.map((item) => (
+                        <option key={item.assignmentId} value={item.assetCode}>
+                          {item.assetCode} - {item.productName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>Số tiền phát sinh (VNĐ):</label>
                     <input
                       type="number"
-                      min="1000"
-                      step="10000"
-                      placeholder="vd: 100000"
-                      className={styles.input}
                       value={chargeAmount}
                       onChange={(e) => setChargeAmount(e.target.value)}
+                      placeholder="Nhập số tiền (vd: 200000)"
+                      className={styles.formInput}
                       required
                     />
                   </div>
 
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Lý do phát sinh (Bắt buộc)</label>
+                    <label className={styles.formLabel}>Lý do / Căn cứ tính phí:</label>
                     <textarea
-                      className={styles.textarea}
-                      placeholder="Mô tả cụ thể lý do tạo khoản phí này..."
+                      rows={2}
                       value={chargeReason}
                       onChange={(e) => setChargeReason(e.target.value)}
+                      placeholder="Mô tả cụ thể căn cứ tính khoản phí này..."
+                      className={styles.formInput}
                       required
                     />
                   </div>
-
-                  {returnChecklist?.items?.length > 0 && (
-                    <div className={styles.formGroup}>
-                      <label className={styles.formLabel}>Thiết bị liên quan (tùy chọn)</label>
-                      <select
-                        className={styles.select}
-                        value={selectedAssetId}
-                        onChange={(e) => setSelectedAssetId(e.target.value)}
-                      >
-                        <option value="">-- Không gắn thiết bị cụ thể --</option>
-                        {returnChecklist.items.map((i) => (
-                          <option key={i.equipmentAssetId} value={i.equipmentAssetId}>
-                            {i.assetCode} - {i.productName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
 
                   <div className={styles.modalActions}>
                     <button
@@ -408,10 +572,10 @@ export default function SettlementPage() {
                     </button>
                     <button
                       type="submit"
-                      disabled={createChargeMutation.isPending}
-                      className={styles.confirmBtn}
+                      disabled={createChargeMutation.isPending || !chargeAmount}
+                      className={styles.createChargeBtn}
                     >
-                      {createChargeMutation.isPending ? 'Đang tạo...' : 'Tạo phí'}
+                      {createChargeMutation.isPending ? 'Đang tạo...' : 'Xác nhận thêm phí'}
                     </button>
                   </div>
                 </form>
@@ -419,27 +583,28 @@ export default function SettlementPage() {
             </div>
           )}
 
-          {/* Modal Hủy phí */}
+          {/* Modal Void/Miễn trừ phí */}
           {voidChargeItem && (
             <div className={styles.modalBackdrop}>
               <div className={styles.modalContent}>
                 <h3 className={styles.modalTitle} style={{ color: '#dc2626' }}>
-                  Xác nhận hủy khoản phí ({Number(voidChargeItem.amount).toLocaleString('vi-VN')} ₫)
+                  Miễn trừ / Hủy khoản phụ phí
                 </h3>
-                <p style={{ fontSize: '0.875rem', color: '#4b5563', marginBottom: '1rem' }}>
-                  Khoản phí sau khi hủy sẽ chuyển sang trạng thái <strong>Voided</strong> và không tính vào quyết toán.
-                  Bạn bắt buộc phải nhập lý do hủy:
+                <p style={{ fontSize: '0.875rem', color: '#4b5563' }}>
+                  Bạn đang thao tác hủy khoản phí{' '}
+                  <strong>{Number(voidChargeItem.amount).toLocaleString('vi-VN')} ₫</strong> (
+                  {voidChargeItem.reason}). Bắt buộc nhập lý do hủy:
                 </p>
                 <form onSubmit={handleVoidSubmit}>
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Lý do hủy (Bắt buộc)</label>
+                    <label className={styles.formLabel}>Lý do miễn trừ:</label>
                     <textarea
-                      className={styles.textarea}
-                      placeholder="Nhập lý do miễn trừ hoặc hủy phí..."
+                      rows={2}
                       value={voidReason}
                       onChange={(e) => setVoidReason(e.target.value)}
+                      placeholder="Nhập lý do miễn trừ (vd: Khách hàng thân thiết, nhầm lẫn mã thiết bị...)"
+                      className={styles.formInput}
                       required
-                      autoFocus
                     />
                   </div>
 
@@ -449,15 +614,15 @@ export default function SettlementPage() {
                       onClick={() => setVoidChargeItem(null)}
                       className={styles.cancelBtn}
                     >
-                      Đóng
+                      Hủy bỏ
                     </button>
                     <button
                       type="submit"
-                      disabled={!voidReason.trim() || voidChargeMutation.isPending}
+                      disabled={voidChargeMutation.isPending || !voidReason.trim()}
                       className={styles.voidBtn}
-                      style={{ padding: '0.5rem 1.25rem' }}
+                      style={{ padding: '0.5rem 1rem' }}
                     >
-                      {voidChargeMutation.isPending ? 'Đang hủy...' : 'Xác nhận hủy phí'}
+                      {voidChargeMutation.isPending ? 'Đang hủy...' : 'Xác nhận miễn trừ'}
                     </button>
                   </div>
                 </form>

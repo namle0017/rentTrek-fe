@@ -62,9 +62,6 @@ export default function AssetGanttPage() {
       {/* Top Header */}
       <div className={styles.header}>
         <div>
-          <div className={styles.breadcrumb}>
-            <span className={styles.routePath}>/ops/assets/schedule</span>
-          </div>
           <h1 className={styles.title}>Lịch phân bổ thiết bị (Gantt Schedule)</h1>
           <p className={styles.subtitle}>
             Trực quan hóa lịch trình giữ đồ (Reserved) và giao đồ (Issued) của toàn bộ thiết bị theo thời gian thực.

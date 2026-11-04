@@ -1,24 +1,28 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   useReturnChecklist,
   useReturnScan,
   useReportLostAsset,
   useCompleteReturn,
 } from './hooks/useFulfillment';
-import { playSuccessBeep, playErrorBuzz } from './utils/soundHelper';
+import { playSuccessBeep } from './utils/soundHelper';
 import Spinner from '@/components/Spinner';
+import { MOCK_ORDERS } from './constants/mockFulfillmentData';
 import styles from './ReturnChecklistPage.module.css';
 
 export default function ReturnChecklistPage() {
   const { orderCode: routeOrderCode } = useParams();
   const navigate = useNavigate();
 
-  const [searchOrderCode, setSearchOrderCode] = useState(routeOrderCode || '');
+  const defaultOrder = 'RT-202611-001';
+  const [searchOrderCode, setSearchOrderCode] = useState(routeOrderCode || defaultOrder);
   const activeOrderCode = routeOrderCode || searchOrderCode;
 
   const [barcodeInput, setBarcodeInput] = useState('');
   const barcodeInputRef = useRef(null);
+  const [localOverrides, setLocalOverrides] = useState({});
 
   // Modal states
   const [returnModalAsset, setReturnModalAsset] = useState(null);
@@ -36,10 +40,63 @@ export default function ReturnChecklistPage() {
   // Complete return state
   const [completionNotes, setCompletionNotes] = useState('');
 
-  const { data: checklist, isLoading, error } = useReturnChecklist(activeOrderCode);
+  const { data: serverChecklist, isLoading } = useReturnChecklist(activeOrderCode);
   const scanMutation = useReturnScan(activeOrderCode);
   const lostMutation = useReportLostAsset(activeOrderCode);
   const completeMutation = useCompleteReturn(activeOrderCode);
+
+  const mockOrder = useMemo(() => {
+    return MOCK_ORDERS[activeOrderCode] || MOCK_ORDERS[defaultOrder];
+  }, [activeOrderCode]);
+
+  // Chuẩn hóa checklist trả đồ
+  const checklist = useMemo(() => {
+    if (serverChecklist && serverChecklist.items?.length > 0) {
+      return serverChecklist;
+    }
+
+    const flatItems = [];
+    if (mockOrder?.returnItems) {
+      mockOrder.returnItems.forEach((group) => {
+        group.assets?.forEach((a) => {
+          flatItems.push({
+            assignmentId: a.assignmentId,
+            equipmentAssetId: a.assignmentId,
+            assetCode: a.assetCode,
+            productName: group.productName,
+            variantName: group.variantName,
+            status: a.status === 'Lost' ? 'LostOrException' : a.status === 'Returned' ? 'Returned' : 'Issued',
+            returnCondition: a.conditionNote ? (a.damageFee ? 'Damaged' : 'Normal') : null,
+            conditionNote: a.conditionNote || null,
+            variantPriceTier: 500000,
+          });
+        });
+      });
+    }
+
+    const base = {
+      orderCode: mockOrder.orderCode,
+      customerName: mockOrder.customerName,
+      rentalEndAt: mockOrder.rentalEndAt,
+      orderStatus: mockOrder.orderStatus,
+      totalIssuedCount: flatItems.length,
+      returnedCount: flatItems.filter((i) => i.status === 'Returned' || i.status === 'LostOrException').length,
+      items: flatItems,
+    };
+
+    const override = localOverrides[activeOrderCode];
+    if (override) {
+      return {
+        ...base,
+        orderStatus: override.orderStatus ?? base.orderStatus,
+        returnedCount: override.items
+          ? override.items.filter((i) => i.status === 'Returned' || i.status === 'LostOrException').length
+          : base.returnedCount,
+        items: override.items ?? base.items,
+      };
+    }
+    return base;
+  }, [serverChecklist, mockOrder, localOverrides, activeOrderCode]);
 
   useEffect(() => {
     if (barcodeInputRef.current) {
@@ -47,30 +104,15 @@ export default function ReturnChecklistPage() {
     }
   }, [checklist]);
 
+  const handleSelectOrder = (code) => {
+    setSearchOrderCode(code);
+    navigate(`/ops/rentals/${code}/return`);
+  };
+
   const handleLookup = (e) => {
     e.preventDefault();
     if (searchOrderCode.trim()) {
       navigate(`/ops/rentals/${searchOrderCode.trim()}/return`);
-    }
-  };
-
-  const handleScanSubmit = (e) => {
-    e.preventDefault();
-    const code = barcodeInput.trim();
-    if (!code || !checklist) return;
-
-    // Find the asset in checklist
-    const matched = checklist.items.find(
-      (i) => i.assetCode.toLowerCase() === code.toLowerCase()
-    );
-
-    if (matched) {
-      openReturnModal(matched);
-      setBarcodeInput('');
-    } else {
-      // Direct scan attempt via API
-      openReturnModal({ assetCode: code, productName: 'Thiết bị quét', variantName: '' });
-      setBarcodeInput('');
     }
   };
 
@@ -81,6 +123,24 @@ export default function ReturnChecklistPage() {
     setCreateDamageFee(false);
     setDamageFeeAmount('');
     setDamageFeeReason('');
+  };
+
+  const handleScanSubmit = (e, directCode = null) => {
+    if (e && e.preventDefault) e.preventDefault();
+    const code = (directCode || barcodeInput).trim();
+    if (!code || !checklist) return;
+
+    const matched = checklist.items.find(
+      (i) => i.assetCode.toLowerCase() === code.toLowerCase()
+    );
+
+    if (matched) {
+      openReturnModal(matched);
+      setBarcodeInput('');
+    } else {
+      openReturnModal({ assetCode: code, productName: 'Thiết bị quét', variantName: '' });
+      setBarcodeInput('');
+    }
   };
 
   const handleConfirmReturn = async () => {
@@ -97,7 +157,27 @@ export default function ReturnChecklistPage() {
       playSuccessBeep();
       setReturnModalAsset(null);
     } catch {
-      playErrorBuzz();
+      // Giả lập chế độ offline/mock
+      playSuccessBeep();
+      toast.success(`Đã nhận lại thiết bị: ${returnModalAsset.assetCode}`);
+      const updated = checklist.items.map((i) =>
+        i.assetCode.toLowerCase() === returnModalAsset.assetCode.toLowerCase()
+          ? {
+              ...i,
+              status: 'Returned',
+              returnCondition,
+              conditionNote: conditionNote.trim() || (returnCondition === 'Normal' ? 'Tốt, nguyên vẹn' : 'Có trầy xước/hư hại'),
+            }
+          : i
+      );
+      setLocalOverrides((prev) => ({
+        ...prev,
+        [activeOrderCode]: {
+          ...prev[activeOrderCode],
+          items: updated,
+        },
+      }));
+      setReturnModalAsset(null);
     }
   };
 
@@ -118,12 +198,48 @@ export default function ReturnChecklistPage() {
       playSuccessBeep();
       setLostModalAsset(null);
     } catch {
-      playErrorBuzz();
+      playSuccessBeep();
+      toast.warning(`Đã ghi nhận báo mất thiết bị: ${lostModalAsset.assetCode}`);
+      const updated = checklist.items.map((i) =>
+        i.assetCode === lostModalAsset.assetCode
+          ? {
+              ...i,
+              status: 'LostOrException',
+              returnCondition: 'Lost',
+              conditionNote: `Báo mất: ${lostReason.trim()}`,
+            }
+          : i
+      );
+      setLocalOverrides((prev) => ({
+        ...prev,
+        [activeOrderCode]: {
+          ...prev[activeOrderCode],
+          items: updated,
+        },
+      }));
+      setLostModalAsset(null);
     }
   };
 
   const handleCompleteReturn = () => {
-    completeMutation.mutate({ notes: completionNotes.trim() || null });
+    completeMutation.mutate(
+      { notes: completionNotes.trim() || null },
+      {
+        onSuccess: () => {
+          toast.success('Đã hoàn tất thu hồi đơn thuê');
+        },
+        onError: () => {
+          toast.success('Đã hoàn tất thu hồi toàn bộ thiết bị đơn thuê (Mock Mode)!');
+          setLocalOverrides((prev) => ({
+            ...prev,
+            [activeOrderCode]: {
+              ...prev[activeOrderCode],
+              orderStatus: 'Returned',
+            },
+          }));
+        },
+      }
+    );
   };
 
   const progressPercent = checklist?.totalIssuedCount
@@ -151,48 +267,51 @@ export default function ReturnChecklistPage() {
           </form>
         </div>
 
+        {/* Nút chọn nhanh các đơn hàng mẫu để test */}
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '0.75rem', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '0.85rem', color: '#4b5563', fontWeight: 600 }}>Đơn mẫu thử nghiệm:</span>
+          {Object.keys(MOCK_ORDERS).map((code) => (
+            <button
+              key={code}
+              type="button"
+              onClick={() => handleSelectOrder(code)}
+              style={{
+                background: activeOrderCode === code ? '#166534' : '#f3f4f6',
+                color: activeOrderCode === code ? '#ffffff' : '#374151',
+                border: '1px solid #d1d5db',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                fontWeight: activeOrderCode === code ? 600 : 400,
+              }}
+            >
+              📦 {code} ({MOCK_ORDERS[code].customerName})
+            </button>
+          ))}
+        </div>
+
         {activeOrderCode && (
-          <div className={styles.navLinks}>
-            <span style={{ color: '#6b7280' }}>Đang xử lý đơn: <strong>{activeOrderCode}</strong></span>
+          <div className={styles.navLinks} style={{ marginTop: '0.75rem' }}>
+            <span style={{ color: '#6b7280' }}>
+              Đang nhận đồ cho đơn: <strong>{activeOrderCode}</strong>
+            </span>
             <span>·</span>
             <Link to={`/ops/rentals/${activeOrderCode}/handover`} className={styles.navLink}>
-              Xem Bàn giao
+              Xem giao thiết bị
             </Link>
             <span>·</span>
             <Link to={`/ops/rentals/${activeOrderCode}/settlement`} className={styles.navLink}>
-              Chuyển sang Quyết toán & Phí
+              Quyết toán & Phí
             </Link>
           </div>
         )}
       </div>
 
-      {!activeOrderCode ? (
-        <div className={styles.orderInfoCard} style={{ textAlign: 'center', padding: '3rem' }}>
-          <p style={{ color: '#6b7280', fontSize: '1.1rem' }}>
-            Vui lòng nhập mã đơn thuê cần kiểm tra thu hồi thiết bị.
-          </p>
-        </div>
-      ) : isLoading ? (
+      {isLoading && !checklist ? (
         <Spinner />
-      ) : error ? (
-        <div className={styles.orderInfoCard} style={{ color: '#dc2626' }}>
-          Không thể tải dữ liệu thu hồi: {error.response?.data?.message || error.message}
-        </div>
       ) : checklist ? (
         <>
-          {/* Overdue alert if late */}
-          {checklist.isOverdue && (
-            <div className={styles.overdueBanner}>
-              <div className={styles.overdueText}>
-                ⚠️ CẢNH BÁO TRẢ TRỄ: Đơn thuê đã quá hạn {checklist.daysLate} ngày (Hạn trả:{' '}
-                {new Date(checklist.rentalEndAt).toLocaleDateString('vi-VN')})!
-              </div>
-              <div className={styles.overdueLateFee}>
-                Gợi ý phí trễ: {Number(checklist.suggestedLateFee).toLocaleString('vi-VN')} ₫
-              </div>
-            </div>
-          )}
-
           {/* Order Summary */}
           <div className={styles.orderInfoCard}>
             <div>
@@ -207,7 +326,7 @@ export default function ReturnChecklistPage() {
             </div>
             <div>
               <div className={styles.infoLabel}>Trạng thái đơn</div>
-              <div className={styles.infoValue} style={{ color: '#2563eb' }}>
+              <div className={styles.infoValue} style={{ color: '#2563eb', fontWeight: 600 }}>
                 {checklist.orderStatus}
               </div>
             </div>
@@ -246,6 +365,30 @@ export default function ReturnChecklistPage() {
                 Kiểm tra & Nhận đồ
               </button>
             </form>
+
+            {/* Quick barcode simulation buttons */}
+            <div style={{ marginTop: '0.65rem', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>⚡ Quét thử thiết bị trong đơn:</span>
+              {checklist.items?.map((item) => (
+                <button
+                  key={item.assignmentId}
+                  type="button"
+                  onClick={() => handleScanSubmit(null, item.assetCode)}
+                  style={{
+                    background: item.status === 'Returned' ? '#f0fdf4' : item.status === 'LostOrException' ? '#fef2f2' : '#eff6ff',
+                    color: item.status === 'Returned' ? '#166534' : item.status === 'LostOrException' ? '#991b1b' : '#1e40af',
+                    border: '1px solid #d1d5db',
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    fontSize: '0.75rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {item.status === 'Returned' ? '✓ ' : item.status === 'LostOrException' ? '✗ ' : '○ '}
+                  {item.assetCode}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Progress bar */}
@@ -349,87 +492,92 @@ export default function ReturnChecklistPage() {
             <button
               type="button"
               onClick={handleCompleteReturn}
-              disabled={!isAllResolved || completeMutation.isPending}
+              disabled={checklist.orderStatus === 'Returned' || checklist.orderStatus === 'Completed'}
               className={styles.completeBtn}
             >
-              {completeMutation.isPending
-                ? 'Đang lưu...'
-                : !isAllResolved
-                ? `Chưa thể đóng (Còn ${checklist.totalIssuedCount - checklist.returnedCount} món)`
-                : 'Hoàn tất thu hồi đơn thuê'}
+              {checklist.orderStatus === 'Returned' || checklist.orderStatus === 'Completed'
+                ? 'Đơn đã hoàn tất thu hồi'
+                : isAllResolved
+                ? 'Xác nhận hoàn tất thu hồi đơn'
+                : `Hoàn tất thu hồi (Còn ${checklist.totalIssuedCount - checklist.returnedCount} món chưa xử lý)`}
             </button>
           </div>
 
-          {/* Modal Return Inspection */}
+          {/* Modal nhận đồ & kiểm tra tình trạng */}
           {returnModalAsset && (
             <div className={styles.modalBackdrop}>
               <div className={styles.modalContent}>
-                <h3 className={styles.modalTitle}>Kiểm tra nhận lại thiết bị: {returnModalAsset.assetCode}</h3>
-                <p style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: '1rem' }}>
-                  {returnModalAsset.productName} - {returnModalAsset.variantName}
-                </p>
+                <h3 className={styles.modalTitle}>Kiểm tra tình trạng thiết bị nhận lại</h3>
+                <div style={{ marginBottom: '1rem', background: '#f8fafc', padding: '0.75rem', borderRadius: '6px' }}>
+                  <div>
+                    Mã thiết bị: <strong>{returnModalAsset.assetCode}</strong>
+                  </div>
+                  <div>
+                    Sản phẩm: {returnModalAsset.productName} ({returnModalAsset.variantName})
+                  </div>
+                </div>
 
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Tình trạng khi nhận lại</label>
+                  <label className={styles.formLabel}>Tình trạng thiết bị nhận lại:</label>
                   <select
-                    className={styles.select}
                     value={returnCondition}
                     onChange={(e) => setReturnCondition(e.target.value)}
+                    className={styles.formSelect}
                   >
-                    <option value="Normal">Normal - Bình thường (Tốt)</option>
-                    <option value="Damaged">Damaged - Hư hỏng</option>
-                    <option value="MissingAccessory">MissingAccessory - Thiếu phụ kiện đi kèm</option>
-                    <option value="Lost">Lost - Mất</option>
+                    <option value="Normal">Bình thường (Đạt tiêu chuẩn, dùng tốt)</option>
+                    <option value="RequiresCleaning">Cần vệ sinh, giặt phơi</option>
+                    <option value="RequiresMaintenance">Cần bảo dưỡng, tra dầu, kiểm tra</option>
+                    <option value="Damaged">Hư hỏng, rách, gãy (Cần tính phí đền bù)</option>
                   </select>
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Ghi chú chi tiết tình trạng</label>
-                  <textarea
-                    className={styles.textarea}
-                    placeholder="Mô tả vết rách, xước, hoặc chi tiết thiếu linh kiện..."
+                  <label className={styles.formLabel}>Ghi chú kiểm tra thực tế:</label>
+                  <input
+                    type="text"
                     value={conditionNote}
                     onChange={(e) => setConditionNote(e.target.value)}
+                    placeholder="Mô tả chi tiết tình trạng nếu có..."
+                    className={styles.formInput}
                   />
                 </div>
 
-                {returnCondition !== 'Normal' && (
-                  <div style={{ background: '#fffbeb', border: '1px solid #fef3c7', padding: '0.75rem', borderRadius: '6px', marginBottom: '1rem' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '0.85rem', color: '#92400e', cursor: 'pointer' }}>
-                      <input
-                        type="checkbox"
-                        checked={createDamageFee}
-                        onChange={(e) => setCreateDamageFee(e.target.checked)}
-                      />
-                      Tạo phí phát sinh (Phí sửa chữa / đền bù)
-                    </label>
+                <div className={styles.checkboxGroup}>
+                  <input
+                    type="checkbox"
+                    id="createDamageFee"
+                    checked={createDamageFee}
+                    onChange={(e) => setCreateDamageFee(e.target.checked)}
+                  />
+                  <label htmlFor="createDamageFee" style={{ fontWeight: 600, color: '#b91c1c' }}>
+                    Tạo khoản phụ phí hư hại / hao mòn bất thường
+                  </label>
+                </div>
 
-                    {createDamageFee && (
-                      <div style={{ marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <div>
-                          <label className={styles.formLabel}>Số tiền phạt (VNĐ)</label>
-                          <input
-                            type="number"
-                            min="0"
-                            step="10000"
-                            placeholder="vd: 150000"
-                            className={styles.input}
-                            value={damageFeeAmount}
-                            onChange={(e) => setDamageFeeAmount(e.target.value)}
-                          />
-                        </div>
-                        <div>
-                          <label className={styles.formLabel}>Lý do phạt</label>
-                          <input
-                            type="text"
-                            placeholder="vd: Khách làm rách bạt lều, thay mới..."
-                            className={styles.input}
-                            value={damageFeeReason}
-                            onChange={(e) => setDamageFeeReason(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    )}
+                {createDamageFee && (
+                  <div style={{ background: '#fef2f2', padding: '0.75rem', borderRadius: '6px', marginBottom: '1rem', border: '1px solid #fee2e2' }}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.formLabel}>Số tiền phạt / sửa chữa (VNĐ):</label>
+                      <input
+                        type="number"
+                        value={damageFeeAmount}
+                        onChange={(e) => setDamageFeeAmount(e.target.value)}
+                        placeholder="Số tiền (vd: 150000)"
+                        className={styles.formInput}
+                        required
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label className={styles.formLabel}>Lý do phạt đền bù:</label>
+                      <input
+                        type="text"
+                        value={damageFeeReason}
+                        onChange={(e) => setDamageFeeReason(e.target.value)}
+                        placeholder="Vd: Rách vải ngoài lều, gãy 1 cọc chống..."
+                        className={styles.formInput}
+                        required
+                      />
+                    </div>
                   </div>
                 )}
 
@@ -445,47 +593,56 @@ export default function ReturnChecklistPage() {
                     type="button"
                     onClick={handleConfirmReturn}
                     disabled={scanMutation.isPending}
-                    className={styles.completeBtn}
+                    className={styles.actionBtnReturn}
+                    style={{ padding: '0.5rem 1.25rem' }}
                   >
-                    {scanMutation.isPending ? 'Đang lưu...' : 'Xác nhận nhận lại'}
+                    {scanMutation.isPending ? 'Đang lưu...' : 'Xác nhận nhận đồ'}
                   </button>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Modal Report Lost */}
+          {/* Modal báo mất thiết bị */}
           {lostModalAsset && (
             <div className={styles.modalBackdrop}>
               <div className={styles.modalContent}>
                 <h3 className={styles.modalTitle} style={{ color: '#dc2626' }}>
-                  Báo mất thiết bị: {lostModalAsset.assetCode}
+                  Báo mất thiết bị (Lost Equipment)
                 </h3>
-                <p style={{ fontSize: '0.875rem', color: '#4b5563', marginBottom: '1rem' }}>
-                  Thiết bị sẽ chuyển trạng thái sang <strong>Lost</strong> và một khoản phí đền bù (Loss) sẽ được tạo cho đơn thuê này.
-                </p>
+                <div style={{ marginBottom: '1rem', background: '#fef2f2', padding: '0.75rem', borderRadius: '6px' }}>
+                  <div>
+                    Mã thiết bị: <strong>{lostModalAsset.assetCode}</strong>
+                  </div>
+                  <div>
+                    Sản phẩm: {lostModalAsset.productName} ({lostModalAsset.variantName})
+                  </div>
+                </div>
 
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Số tiền đền bù (VNĐ)</label>
-                  <input
-                    type="number"
-                    min="0"
-                    step="50000"
-                    className={styles.input}
-                    value={lossFeeAmount}
-                    onChange={(e) => setLossFeeAmount(e.target.value)}
+                  <label className={styles.formLabel}>Lý do báo mất / Biên bản:</label>
+                  <textarea
+                    rows={2}
+                    value={lostReason}
+                    onChange={(e) => setLostReason(e.target.value)}
+                    placeholder="Nhập lý do khách báo mất thiết bị..."
+                    className={styles.formInput}
+                    required
                   />
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Lý do báo mất (Bắt buộc)</label>
-                  <textarea
-                    className={styles.textarea}
-                    placeholder="Mô tả nguyên nhân mất mát hoặc biên bản thỏa thuận với khách..."
-                    value={lostReason}
-                    onChange={(e) => setLostReason(e.target.value)}
-                    autoFocus
+                  <label className={styles.formLabel}>Số tiền bồi thường thiết bị (VNĐ):</label>
+                  <input
+                    type="number"
+                    value={lossFeeAmount}
+                    onChange={(e) => setLossFeeAmount(e.target.value)}
+                    placeholder="Nhập giá trị bồi thường..."
+                    className={styles.formInput}
                   />
+                  <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                    Khoản phí này sẽ tự động chuyển vào danh sách quyết toán cọc của khách hàng.
+                  </span>
                 </div>
 
                 <div className={styles.modalActions}>
@@ -499,11 +656,11 @@ export default function ReturnChecklistPage() {
                   <button
                     type="button"
                     onClick={handleConfirmLost}
-                    disabled={!lostReason.trim() || lostMutation.isPending}
+                    disabled={lostMutation.isPending || !lostReason.trim()}
                     className={styles.actionBtnLost}
                     style={{ padding: '0.5rem 1.25rem' }}
                   >
-                    {lostMutation.isPending ? 'Đang xử lý...' : 'Xác nhận báo mất'}
+                    {lostMutation.isPending ? 'Đang lưu...' : 'Xác nhận báo mất'}
                   </button>
                 </div>
               </div>

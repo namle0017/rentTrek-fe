@@ -69,6 +69,15 @@ axiosClient.interceptors.response.use(
       }
     }
 
+    // Request tải file nhận lỗi dạng Blob, phải đọc lại JSON để lấy message của BE
+    if (error.response?.data instanceof Blob) {
+      try {
+        error.response.data = JSON.parse(await error.response.data.text());
+      } catch {
+        error.response.data = null;
+      }
+    }
+
     return Promise.reject(normalizeError(error));
   },
 );

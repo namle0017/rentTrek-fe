@@ -42,6 +42,14 @@ export const router = createBrowserRouter([
             path: ROUTES.TOUR_DETAIL(),
             lazy: lazyPage(() => import('@/features/tours/pages/TourDetailPage')),
           },
+          {
+            path: ROUTES.GUIDES,
+            lazy: lazyPage(() => import('@/features/posts/pages/PostListPage')),
+          },
+          {
+            path: ROUTES.GUIDE_DETAIL(),
+            lazy: lazyPage(() => import('@/features/posts/pages/PostDetailPage')),
+          },
           { path: ROUTES.FORBIDDEN, element: <ForbiddenPage /> },
           {
             path: ROUTES.VERIFY_EMAIL,
@@ -106,26 +114,26 @@ export const router = createBrowserRouter([
                 lazy: lazyPage(() => import('@/features/users/pages/ProfilePage')),
               },
               {
+                path: ROUTES.ADMIN_TOURS,
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminToursPage')),
+              },
+              {
+                path: ROUTES.ADMIN_PRODUCTS,
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductsPage')),
+              },
+              {
+                path: ROUTES.ADMIN_TOUR_DETAIL(),
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourDetailPage')),
+              },
+              {
+                path: ROUTES.ADMIN_PRODUCT_DETAIL(),
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductDetailPage')),
+              },
+              {
                 path: ROUTES.ADMIN_PRODUCT_CREATE,
                 lazy: lazyPage(() => import('@/features/products/pages/ProductCreatePage')),
               },
-              // Phân hệ Tài chính & Hoàn tiền (Namle)
-              {
-                path: ROUTES.OPS_TRANSACTIONS,
-                lazy: lazyPage(() => import('@/pages/ops/finance/TransactionsPage')),
-              },
-              {
-                path: ROUTES.OPS_REFUNDS,
-                lazy: lazyPage(() => import('@/pages/ops/finance/RefundsReconcilePage')),
-              },
-              {
-                path: ROUTES.OPS_REFUND_POLICIES,
-                lazy: lazyPage(() => import('@/pages/ops/finance/RefundPoliciesPage')),
-              },
-              {
-                path: ROUTES.OPS_REFUND_POLICY_CREATE,
-                lazy: lazyPage(() => import('@/pages/ops/finance/RefundPolicyCreatePage')),
-              },
+              // Quản lý chuyến đi (Trips Ops & Lifecycle)
               {
                 path: ROUTES.ADMIN_RECURRENCE_RULES(),
                 lazy: lazyPage(() => import('@/features/admin-trips/pages/AdminRecurrenceRulesPage')),
@@ -141,6 +149,52 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.ADMIN_TRIP_DETAIL(),
                 lazy: lazyPage(() => import('@/features/admin-trips/pages/AdminTripDetailPage')),
+              },
+              {
+                path: ROUTES.ADMIN_TRIP_OPS(),
+                lazy: lazyPage(() => import('@/features/trip-groups/pages/TripOpsPage')),
+              },
+              // Quản lý Đơn thuê thiết bị & Bài viết
+              {
+                path: ROUTES.ADMIN_RENTAL_ORDERS,
+                lazy: lazyPage(() => import('@/features/rental-ops/pages/AdminRentalOrdersPage')),
+              },
+              {
+                path: ROUTES.ADMIN_RENTAL_ORDER_DETAIL(),
+                lazy: lazyPage(() => import('@/features/rental-ops/pages/AdminRentalOrderDetailPage')),
+              },
+              {
+                path: ROUTES.ADMIN_POSTS,
+                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostsPage')),
+              },
+              {
+                path: ROUTES.ADMIN_POST_CREATE,
+                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostEditorPage')),
+              },
+              {
+                path: ROUTES.ADMIN_POST_EDIT(),
+                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostEditorPage')),
+              },
+              // Phân hệ Tài chính & Hoàn tiền (Namle)
+              {
+                path: ROUTES.OPS_TRANSACTIONS,
+                lazy: lazyPage(() => import('@/pages/ops/finance/TransactionsPage')),
+              },
+              {
+                path: ROUTES.OPS_REFUNDS,
+                lazy: lazyPage(() => import('@/pages/ops/finance/RefundsReconcilePage')),
+              },
+              {
+                path: ROUTES.ADMIN_REFUNDS,
+                lazy: lazyPage(() => import('@/features/refunds/pages/AdminRefundsPage')),
+              },
+              {
+                path: ROUTES.OPS_REFUND_POLICIES,
+                lazy: lazyPage(() => import('@/pages/ops/finance/RefundPoliciesPage')),
+              },
+              {
+                path: ROUTES.OPS_REFUND_POLICY_CREATE,
+                lazy: lazyPage(() => import('@/pages/ops/finance/RefundPolicyCreatePage')),
               },
               // Phân hệ Kho & Thiết bị (Ops / Warehouse)
               {

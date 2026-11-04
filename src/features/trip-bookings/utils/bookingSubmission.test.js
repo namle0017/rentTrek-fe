@@ -40,6 +40,32 @@ describe('normalizeBookingPayload', () => {
     });
   });
 
+  it('sends only name, email and phone for each participant', () => {
+    const payload = normalizeBookingPayload(
+      {
+        tripId: 'trip-1',
+        contactPhone: '0900000000',
+        additionalParticipants: [
+          {
+            ...validParticipant,
+            dateOfBirth: '2000-01-01',
+            emergencyContactName: 'Người nhà',
+            emergencyContactPhone: '0911111111',
+          },
+        ],
+      },
+      'buyer@example.com',
+    );
+
+    expect(payload.additionalParticipants).toEqual([
+      {
+        fullName: 'Nguyễn An',
+        email: 'an@example.com',
+        phone: '0901234567',
+      },
+    ]);
+  });
+
   it('requires a contact phone', () => {
     try {
       normalizeBookingPayload({ tripId: 'trip-1', contactPhone: '   ' }, 'buyer@example.com');

@@ -156,7 +156,7 @@ export default function ProductListPage() {
       <div className="container">
         <section className={styles.benefits} id="travel-benefits" aria-labelledby="benefits-title">
           <header className={styles.benefitsHeading}>
-            <p>KHÁC BIỆT CỦA TREKRENT</p>
+            <p>KHÁC BIỆT CỦA RENTREKK</p>
             <h2 id="benefits-title">3 Lớp Bảo Vệ Cho Trải Nghiệm Trekking An Tâm</h2>
           </header>
           <div className={styles.benefitGrid}>
@@ -173,6 +173,7 @@ export default function ProductListPage() {
         </section>
         <form
           className={styles.discoveryFilters}
+          role="search"
           onSubmit={(event) => {
             event.preventDefault();
             const fields = new FormData(event.currentTarget);
@@ -185,7 +186,7 @@ export default function ProductListPage() {
           }}
         >
           <label className={styles.searchField}>
-            <span>TÌM SẢN PHẨM</span>
+            <span>Tìm sản phẩm</span>
             <input
               name="search"
               type="search"
@@ -195,8 +196,8 @@ export default function ProductListPage() {
               onChange={(event) => setDraft({ search, value: event.target.value })}
             />
           </label>
-          <label>
-            <span>DANH MỤC THIẾT BỊ</span>
+          <label className={styles.searchField}>
+            <span>Danh mục thiết bị</span>
             <select
               name="categoryId"
               value={categoryId}
@@ -211,8 +212,8 @@ export default function ProductListPage() {
               ))}
             </select>
           </label>
-          <label>
-            <span>HÌNH THỨC</span>
+          <label className={styles.searchField}>
+            <span>Hình thức</span>
             <select
               name="offeringType"
               value={offeringType}
@@ -227,6 +228,7 @@ export default function ProductListPage() {
             </select>
           </label>
           <button type="submit" className={styles.findButton}>
+            <OutdoorIcon name="search" size={17} />
             Tìm kiếm thiết bị
           </button>
         </form>

@@ -119,6 +119,87 @@
   font-size: 0.9rem;
 }
 
+.sectionHeader {
+  margin-bottom: 18px;
+}
+
+.sectionHeader .sectionTitle {
+  margin: 0 0 4px;
+}
+
+.sectionSubtitle {
+  color: var(--color-text-muted, #68756d);
+  font-size: 0.85rem;
+}
+
+.relatedPostsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.relatedPostCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #dde4dd);
+  border-radius: 12px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.relatedPostCard:hover {
+  transform: translateY(-2px);
+  border-color: #cdd9cf;
+  box-shadow: 0 6px 18px rgba(16, 40, 28, 0.05);
+}
+
+.postTypeBadge {
+  align-self: flex-start;
+  padding: 3px 8px;
+  color: #173d2d;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #eaf4ec;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.postTitle {
+  margin: 10px 0 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.postTitle a {
+  color: #173d2d;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.postTitle a:hover {
+  color: var(--color-accent, #c55742);
+}
+
+.readMoreLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-primary, #204b39);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.15s ease, gap 0.15s ease;
+}
+
+.readMoreLink:hover {
+  color: var(--color-accent, #c55742);
+  gap: 8px;
+}
+
 @media (max-width: 992px) {
   .contentLayout {
     grid-template-columns: 1fr;

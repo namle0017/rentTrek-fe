@@ -69,7 +69,7 @@ export default function ParticipantFields({ index, register, errors = {}, onRemo
             maxLength: { value: 255, message: 'Email tối đa 255 ký tự.' },
           })}
         </Field>
-        <Field id={`participant-${index}-phone`} label={`Điện thoại người ${number}`} error={errors.phone}>
+        <Field id={`participant-${index}-phone`} label={`Số điện thoại người ${number}`} error={errors.phone}>
           {input('phone', 'tel', 'tel', { maxLength: MAX_LENGTH })}
         </Field>
         <Field
@@ -97,8 +97,8 @@ export default function ParticipantFields({ index, register, errors = {}, onRemo
         </Field>
       </div>
       <p className={styles.hint}>
-        Có email: chuyến tự xuất hiện trong tài khoản của họ sau khi thanh toán. Trẻ em hoặc người lớn tuổi có
-        thể bỏ trống email và điện thoại.
+        Email và số điện thoại không bắt buộc. Có email, chuyến sẽ tự xuất hiện trong tài khoản của người tham
+        gia sau khi thanh toán.
       </p>
     </section>
   );

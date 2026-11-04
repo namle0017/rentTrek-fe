@@ -1,4 +1,5 @@
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import BrandLogo from '@/components/BrandLogo';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
@@ -6,6 +7,7 @@ import { useLogout } from '@/features/auth/hooks/useLogout';
 import { useAuth } from '@/hooks/useAuth';
 import { getAvatarColor } from '@/utils/avatarColor';
 import { getRoleHomeRoute } from '@/utils/roleRouting';
+import DevClockBar from './DevClockBar';
 import styles from './MainLayout.module.css';
 
 const exploration = ['Lều cắm trại', 'Balô', 'Đèn', 'Túi ngủ'];
@@ -14,7 +16,7 @@ function Brand({ role }) {
   const homeRoute = getRoleHomeRoute(role);
   return (
     <Link to={homeRoute} className={styles.logo}>
-      ▲ renTrek
+      <BrandLogo size="md" theme="light" />
     </Link>
   );
 }
@@ -43,61 +45,88 @@ export default function MainLayout() {
       <a href="#main-content" className={styles.skipLink}>
         Đến nội dung chính
       </a>
+      <DevClockBar />
       <header className={styles.header}>
         <div className={`container ${styles.headerInner}`}>
           <Link to={homeRoute} className={styles.logo}>
-            ▲ renTrek
+            <BrandLogo size="md" theme="light" />
           </Link>
 
           <nav className={styles.nav} aria-label="Điều hướng chính">
             <NavLink to={homeRoute} end>
               Trang chủ
             </NavLink>
-            <NavLink to={ROUTES.TOURS}>Tour Trekking</NavLink>
-            <NavLink to={ROUTES.PRODUCTS}>Sản phẩm & Đồ thuê</NavLink>
+            <NavLink to={ROUTES.TOURS}>Tour trekking</NavLink>
+            <NavLink to={ROUTES.PRODUCTS}>Dụng cụ thuê</NavLink>
+            <NavLink to={ROUTES.GUIDES}>Cẩm nang</NavLink>
             {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
+            {currentUser?.role === USER_ROLE.STAFF && <NavLink to={ROUTES.ADMIN_POSTS}>Bài viết</NavLink>}
           </nav>
 
           <div className={styles.authSection}>
             {isAuthenticated ? (
-              <>
-                <div className={styles.userInfo}>
-                  <Link to={ROUTES.PROFILE} className={styles.userNameLink} title="Xem hồ sơ cá nhân">
-                    <span
-                      className={styles.userAvatar}
-                      style={
-                        currentUser?.avatarUrl
-                          ? { padding: 0, overflow: 'hidden' }
-                          : { backgroundColor: avatarColor.bg, color: avatarColor.text }
-                      }
-                    >
-                      {currentUser?.avatarUrl ? (
-                        <img
-                          src={currentUser.avatarUrl}
-                          alt={currentUser?.fullName || 'Avatar'}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                      ) : (
-                        (currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()
-                      )}
-                    </span>
-                    <span className={styles.userName}>{currentUser?.fullName || currentUser?.email}</span>
+              <details className={styles.account}>
+                <summary aria-label="Tài khoản">
+                  <span
+                    className={styles.avatar}
+                    style={
+                      currentUser?.avatarUrl
+                        ? { padding: 0, overflow: 'hidden' }
+                        : { backgroundColor: avatarColor.bg, color: avatarColor.text }
+                    }
+                  >
+                    {currentUser?.avatarUrl ? (
+                      <img
+                        src={currentUser.avatarUrl}
+                        alt={currentUser?.fullName || 'Avatar'}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : (
+                      (currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()
+                    )}
+                  </span>
+                  <OutdoorIcon name="chevron" size={14} />
+                </summary>
+                <div className={styles.accountMenu}>
+                  <div className={styles.accountHeader}>
+                    <Link to={ROUTES.PROFILE} className={styles.accountName} title="Xem hồ sơ cá nhân">
+                      {currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}
+                    </Link>
+                    {currentUser?.email && currentUser?.fullName && (
+                      <span className={styles.accountEmail}>{currentUser.email}</span>
+                    )}
+                    {currentUser?.role && currentUser.role !== USER_ROLE.CUSTOMER && (
+                      <span className={getRoleBadgeClass(currentUser.role)}>
+                        {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
+                      </span>
+                    )}
+                  </div>
+                  <div className={styles.accountDivider} />
+                  <Link to={ROUTES.PROFILE} className={styles.accountLink}>
+                    <OutdoorIcon name="user" size={16} />
+                    <span>Hồ sơ cá nhân</span>
                   </Link>
-                  {currentUser?.role && (
-                    <span className={getRoleBadgeClass(currentUser.role)}>
-                      {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
-                    </span>
+                  <Link to={ROUTES.MY_ORDERS} className={styles.accountLink}>
+                    <OutdoorIcon name="bag" size={16} />
+                    <span>Đơn của tôi</span>
+                  </Link>
+                  {currentUser?.role === USER_ROLE.ADMIN && (
+                    <Link to={ROUTES.ADMIN} className={styles.accountLink}>
+                      <OutdoorIcon name="shield" size={16} />
+                      <span>Quản trị hệ thống</span>
+                    </Link>
                   )}
+                  <div className={styles.accountDivider} />
+                  <button
+                    type="button"
+                    className={styles.logoutBtn}
+                    onClick={handleLogoutClick}
+                    disabled={logoutMutation.isPending}
+                  >
+                    {logoutMutation.isPending ? 'Đang thoát...' : 'Đăng xuất'}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className={styles.logoutBtn}
-                  onClick={handleLogoutClick}
-                  disabled={logoutMutation.isPending}
-                >
-                  {logoutMutation.isPending ? 'Đang thoát...' : 'Đăng xuất'}
-                </button>
-              </>
+              </details>
             ) : (
               <>
                 <Link to={ROUTES.LOGIN} className={styles.authLink}>
@@ -148,11 +177,11 @@ export default function MainLayout() {
               <Link to={ROUTES.PRODUCTS}>
                 Khám phá thiết bị <OutdoorIcon name="arrow" size={14} />
               </Link>
-              <Link to={ROUTES.LOGIN}>Tài khoản TrekRent</Link>
+              <Link to={ROUTES.LOGIN}>Tài khoản RenTrekk</Link>
             </div>
           </div>
           <div className={styles.footerBottom}>
-            <p>© {new Date().getFullYear()} TrekRent. Thiết kế lấy cảm hứng từ thiên nhiên kỳ vĩ Việt Nam.</p>
+            <p>© {new Date().getFullYear()} RenTrekk. Thiết kế lấy cảm hứng từ thiên nhiên kỳ vĩ Việt Nam.</p>
             <span>Đi xa hơn. Trải nghiệm nhiều hơn.</span>
           </div>
         </div>

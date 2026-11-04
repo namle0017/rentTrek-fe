@@ -7,7 +7,7 @@ import {
   useReportLostAsset,
   useCompleteReturn,
 } from './hooks/useFulfillment';
-import { playSuccessBeep } from './utils/soundHelper';
+import { playSuccessBeep, playErrorBuzz } from './utils/soundHelper';
 import Spinner from '@/components/Spinner';
 import { MOCK_ORDERS } from './constants/mockFulfillmentData';
 import styles from './ReturnChecklistPage.module.css';
@@ -22,7 +22,6 @@ export default function ReturnChecklistPage() {
 
   const [barcodeInput, setBarcodeInput] = useState('');
   const barcodeInputRef = useRef(null);
-  const [localOverrides, setLocalOverrides] = useState({});
 
   // Modal states
   const [returnModalAsset, setReturnModalAsset] = useState(null);
@@ -84,19 +83,8 @@ export default function ReturnChecklistPage() {
       items: flatItems,
     };
 
-    const override = localOverrides[activeOrderCode];
-    if (override) {
-      return {
-        ...base,
-        orderStatus: override.orderStatus ?? base.orderStatus,
-        returnedCount: override.items
-          ? override.items.filter((i) => i.status === 'Returned' || i.status === 'LostOrException').length
-          : base.returnedCount,
-        items: override.items ?? base.items,
-      };
-    }
     return base;
-  }, [serverChecklist, mockOrder, localOverrides, activeOrderCode]);
+  }, [serverChecklist, mockOrder]);
 
   useEffect(() => {
     if (barcodeInputRef.current) {
@@ -156,28 +144,9 @@ export default function ReturnChecklistPage() {
       });
       playSuccessBeep();
       setReturnModalAsset(null);
-    } catch {
-      // Giả lập chế độ offline/mock
-      playSuccessBeep();
-      toast.success(`Đã nhận lại thiết bị: ${returnModalAsset.assetCode}`);
-      const updated = checklist.items.map((i) =>
-        i.assetCode.toLowerCase() === returnModalAsset.assetCode.toLowerCase()
-          ? {
-              ...i,
-              status: 'Returned',
-              returnCondition,
-              conditionNote: conditionNote.trim() || (returnCondition === 'Normal' ? 'Tốt, nguyên vẹn' : 'Có trầy xước/hư hại'),
-            }
-          : i
-      );
-      setLocalOverrides((prev) => ({
-        ...prev,
-        [activeOrderCode]: {
-          ...prev[activeOrderCode],
-          items: updated,
-        },
-      }));
-      setReturnModalAsset(null);
+    } catch (err) {
+      playErrorBuzz();
+      toast.error(err?.message || 'Lỗi nhận lại thiết bị');
     }
   };
 
@@ -192,32 +161,15 @@ export default function ReturnChecklistPage() {
     try {
       await lostMutation.mutateAsync({
         assetId: lostModalAsset.equipmentAssetId,
+        assetCode: lostModalAsset.assetCode,
         reason: lostReason.trim(),
         lossChargeAmount: Number(lossFeeAmount) || 0,
       });
       playSuccessBeep();
       setLostModalAsset(null);
-    } catch {
-      playSuccessBeep();
-      toast.warning(`Đã ghi nhận báo mất thiết bị: ${lostModalAsset.assetCode}`);
-      const updated = checklist.items.map((i) =>
-        i.assetCode === lostModalAsset.assetCode
-          ? {
-              ...i,
-              status: 'LostOrException',
-              returnCondition: 'Lost',
-              conditionNote: `Báo mất: ${lostReason.trim()}`,
-            }
-          : i
-      );
-      setLocalOverrides((prev) => ({
-        ...prev,
-        [activeOrderCode]: {
-          ...prev[activeOrderCode],
-          items: updated,
-        },
-      }));
-      setLostModalAsset(null);
+    } catch (err) {
+      playErrorBuzz();
+      toast.error(err?.message || 'Lỗi ghi nhận báo mất');
     }
   };
 
@@ -226,17 +178,7 @@ export default function ReturnChecklistPage() {
       { notes: completionNotes.trim() || null },
       {
         onSuccess: () => {
-          toast.success('Đã hoàn tất thu hồi đơn thuê');
-        },
-        onError: () => {
-          toast.success('Đã hoàn tất thu hồi toàn bộ thiết bị đơn thuê (Mock Mode)!');
-          setLocalOverrides((prev) => ({
-            ...prev,
-            [activeOrderCode]: {
-              ...prev[activeOrderCode],
-              orderStatus: 'Returned',
-            },
-          }));
+          setCompletionNotes('');
         },
       }
     );

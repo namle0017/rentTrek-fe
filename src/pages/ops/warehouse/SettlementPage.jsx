@@ -75,7 +75,7 @@ export default function SettlementPage() {
       reason: c.reason,
       equipmentAssetCode: c.equipmentAssetCode,
       status: c.status,
-      createdByName: 'Phạm Việt Bách (Thủ kho)',
+      createdByName: 'Nguyễn Minh Đức (Thủ kho)',
       createdAt: c.createdAt,
     }));
   }, [serverCharges, mockOrder]);

@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import RentalOrderSummary from './components/RentalOrderSummary';
 import {
   useRentalCharges,
   useReturnChecklist,
@@ -14,11 +15,9 @@ import styles from './SettlementPage.module.css';
 
 export default function SettlementPage() {
   const { orderCode: routeOrderCode } = useParams();
-  const navigate = useNavigate();
 
   const defaultOrder = 'RT-202611-001';
-  const [searchOrderCode, setSearchOrderCode] = useState(routeOrderCode || defaultOrder);
-  const activeOrderCode = routeOrderCode || searchOrderCode;
+  const activeOrderCode = routeOrderCode || defaultOrder;
 
   // Create charge modal
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -80,18 +79,6 @@ export default function SettlementPage() {
     }));
   }, [serverCharges, mockOrder]);
 
-  const handleSelectOrder = (code) => {
-    setSearchOrderCode(code);
-    navigate(`/ops/rentals/${code}/settlement`);
-  };
-
-  const handleLookup = (e) => {
-    e.preventDefault();
-    if (searchOrderCode.trim()) {
-      navigate(`/ops/rentals/${searchOrderCode.trim()}/settlement`);
-    }
-  };
-
   const handleCreateSubmit = (e) => {
     e.preventDefault();
     if (!chargeAmount || !chargeReason.trim()) return;
@@ -110,7 +97,7 @@ export default function SettlementPage() {
           setChargeReason('');
           setSelectedAssetId('');
         },
-      }
+      },
     );
   };
 
@@ -137,7 +124,7 @@ export default function SettlementPage() {
           setVoidChargeItem(null);
           setVoidReason('');
         },
-      }
+      },
     );
   };
 
@@ -153,110 +140,33 @@ export default function SettlementPage() {
   const isOrderCompleted = returnChecklist?.orderStatus === 'Completed';
 
   // Điều kiện để đóng đơn: Đã thu hết thiết bị và không còn phí Draft
-  const canCloseOrder =
-    isAllAssetsReturned && draftChargesCount === 0 && !isOrderCompleted;
+  const canCloseOrder = isAllAssetsReturned && draftChargesCount === 0 && !isOrderCompleted;
 
   const totalAssessedAmount = charges
-    ? charges
-        .filter((c) => c.status === 'Assessed')
-        .reduce((sum, c) => sum + Number(c.amount), 0)
+    ? charges.filter((c) => c.status === 'Assessed').reduce((sum, c) => sum + Number(c.amount), 0)
     : 0;
 
   const totalSettledAmount = charges
-    ? charges
-        .filter((c) => c.status === 'Settled')
-        .reduce((sum, c) => sum + Number(c.amount), 0)
+    ? charges.filter((c) => c.status === 'Settled').reduce((sum, c) => sum + Number(c.amount), 0)
     : 0;
 
   return (
     <div className={styles.page}>
-      <div className={styles.header}>
-        <div className={styles.headerTop}>
-          <form onSubmit={handleLookup} className={styles.orderLookup}>
-            <input
-              type="text"
-              placeholder="Nhập mã đơn (vd: RT-202611...)"
-              value={searchOrderCode}
-              onChange={(e) => setSearchOrderCode(e.target.value)}
-              className={styles.orderLookupInput}
-            />
-            <button type="submit" className={styles.scanBtn}>
-              Tìm đơn
-            </button>
-          </form>
-        </div>
-
-        {/* Nút chọn nhanh các đơn hàng mẫu để test */}
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '0.75rem', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.85rem', color: '#4b5563', fontWeight: 600 }}>Đơn mẫu thử nghiệm:</span>
-          {Object.keys(MOCK_ORDERS).map((code) => (
-            <button
-              key={code}
-              type="button"
-              onClick={() => handleSelectOrder(code)}
-              style={{
-                background: activeOrderCode === code ? '#166534' : '#f3f4f6',
-                color: activeOrderCode === code ? '#ffffff' : '#374151',
-                border: '1px solid #d1d5db',
-                padding: '4px 10px',
-                borderRadius: '6px',
-                fontSize: '0.8rem',
-                cursor: 'pointer',
-                fontWeight: activeOrderCode === code ? 600 : 400,
-              }}
-            >
-              💵 {code} ({MOCK_ORDERS[code].customerName})
-            </button>
-          ))}
-        </div>
-
-        {activeOrderCode && (
-          <div className={styles.navLinks} style={{ marginTop: '0.75rem' }}>
-            <span style={{ color: '#6b7280' }}>
-              Đang quyết toán đơn: <strong>{activeOrderCode}</strong>
-            </span>
-            <span>·</span>
-            <Link to={`/ops/rentals/${activeOrderCode}/handover`} className={styles.navLink}>
-              Xem Bàn giao
-            </Link>
-            <span>·</span>
-            <Link to={`/ops/rentals/${activeOrderCode}/return`} className={styles.navLink}>
-              Xem Thu hồi
-            </Link>
-          </div>
-        )}
-      </div>
-
       {loadingCharges && loadingChecklist && !charges.length ? (
         <Spinner />
       ) : (
         <>
           {/* Summary Grid: Order details + Closure Checklist */}
           <div className={styles.summaryGrid}>
-            <div className={styles.orderInfoCard}>
-              <div>
-                <div className={styles.infoLabel}>Khách hàng</div>
-                <div className={styles.infoValue}>{returnChecklist?.customerName || '—'}</div>
-              </div>
-              <div>
-                <div className={styles.infoLabel}>Trạng thái đơn</div>
-                <div className={styles.infoValue} style={{ color: isOrderCompleted ? '#059669' : '#2563eb', fontWeight: 600 }}>
-                  {returnChecklist?.orderStatus || '—'}
-                </div>
-              </div>
-              <div>
-                <div className={styles.infoLabel}>Phí đã chốt (Assessed)</div>
-                <div className={styles.infoValue} style={{ color: '#dc2626' }}>
-                  {totalAssessedAmount.toLocaleString('vi-VN')} ₫
-                </div>
-              </div>
-              <div>
-                <div className={styles.infoLabel}>Đã trừ cọc (Settled)</div>
-                <div className={styles.infoValue} style={{ color: '#16a34a' }}>
-                  {totalSettledAmount.toLocaleString('vi-VN')} ₫
-                </div>
-              </div>
-            </div>
+            <RentalOrderSummary
+              orderCode={activeOrderCode}
+              status={returnChecklist?.orderStatus}
+              facts={[
+                { label: 'Khách hàng', value: returnChecklist?.customerName },
+                { label: 'Phí đã chốt', value: `${totalAssessedAmount.toLocaleString('vi-VN')} ₫` },
+                { label: 'Đã khấu trừ cọc', value: `${totalSettledAmount.toLocaleString('vi-VN')} ₫` },
+              ]}
+            />
 
             <div className={styles.closureCard}>
               <div>
@@ -273,7 +183,9 @@ export default function SettlementPage() {
                     {draftChargesCount === 0 ? (
                       <span className={styles.checkOk}>✓ Không còn phí nháp (Draft) chờ duyệt</span>
                     ) : (
-                      <span className={styles.checkPending}>✗ Còn {draftChargesCount} phí nháp chưa chốt</span>
+                      <span className={styles.checkPending}>
+                        ✗ Còn {draftChargesCount} phí nháp chưa chốt
+                      </span>
                     )}
                   </li>
                   <li className={styles.checkItem}>
@@ -297,10 +209,10 @@ export default function SettlementPage() {
                 {completeOrderMutation.isPending
                   ? 'Đang đóng đơn...'
                   : isOrderCompleted
-                  ? 'Đơn thuê đã đóng (Completed)'
-                  : canCloseOrder
-                  ? 'Nghiệm thu đóng đơn thuê (Complete)'
-                  : 'Chưa đủ điều kiện đóng đơn'}
+                    ? 'Đơn thuê đã đóng (Completed)'
+                    : canCloseOrder
+                      ? 'Nghiệm thu đóng đơn thuê (Complete)'
+                      : 'Chưa đủ điều kiện đóng đơn'}
               </button>
             </div>
           </div>
@@ -308,11 +220,7 @@ export default function SettlementPage() {
           {/* Charges Table */}
           <div className={styles.chargesHeader}>
             <h2 className={styles.sectionTitle}>Bảng phí phát sinh (Rental Charges)</h2>
-            <button
-              type="button"
-              onClick={() => setShowCreateModal(true)}
-              className={styles.createChargeBtn}
-            >
+            <button type="button" onClick={() => setShowCreateModal(true)} className={styles.createChargeBtn}>
               + Tạo phí phát sinh thủ công
             </button>
           </div>
@@ -328,7 +236,9 @@ export default function SettlementPage() {
                   <th className={styles.th}>Trạng thái</th>
                   <th className={styles.th}>Người tạo</th>
                   <th className={styles.th}>Thời điểm</th>
-                  <th className={styles.th} style={{ textAlign: 'right' }}>Thao tác</th>
+                  <th className={styles.th} style={{ textAlign: 'right' }}>
+                    Thao tác
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -352,10 +262,10 @@ export default function SettlementPage() {
                             {charge.chargeType === 'LateReturn'
                               ? 'Trễ hạn'
                               : charge.chargeType === 'DamageCompensation'
-                              ? 'Hư hại đồ'
-                              : charge.chargeType === 'LostEquipment'
-                              ? 'Làm mất đồ'
-                              : charge.chargeType}
+                                ? 'Hư hại đồ'
+                                : charge.chargeType === 'LostEquipment'
+                                  ? 'Làm mất đồ'
+                                  : charge.chargeType}
                           </span>
                         </td>
                         <td className={styles.td}>
@@ -365,7 +275,7 @@ export default function SettlementPage() {
                             '—'
                           )}
                         </td>
-                        <td className={styles.td} style={{ fontWeight: 600, color: '#dc2626' }}>
+                        <td className={styles.td} style={{ fontWeight: "var(--font-weight-semibold)", color: '#dc2626' }}>
                           {Number(charge.amount).toLocaleString('vi-VN')} ₫
                         </td>
                         <td className={styles.td}>{charge.reason}</td>
@@ -504,7 +414,7 @@ export default function SettlementPage() {
                 <h3 className={styles.modalTitle} style={{ color: '#dc2626' }}>
                   Miễn trừ / Hủy khoản phụ phí
                 </h3>
-                <p style={{ fontSize: '0.875rem', color: '#4b5563' }}>
+                <p style={{ fontSize: "var(--font-size-body)", color: '#4b5563' }}>
                   Bạn đang thao tác hủy khoản phí{' '}
                   <strong>{Number(voidChargeItem.amount).toLocaleString('vi-VN')} ₫</strong> (
                   {voidChargeItem.reason}). Bắt buộc nhập lý do hủy:

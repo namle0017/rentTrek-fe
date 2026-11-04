@@ -107,13 +107,13 @@ export default function ReturnGearModal({ tripId, assignedAssets, isOpen, onClos
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '13px', color: '#64748b' }}>
+            <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b' }}>
               Còn <strong>{activeAssets.length}</strong> món đồ đang lưu hành trong đoàn
             </span>
             <button
               type="button"
               className={styles.btnSecondary}
-              style={{ padding: '4px 10px', fontSize: '12px' }}
+              style={{ padding: '4px 10px', fontSize: "var(--font-size-control)" }}
               onClick={handleSelectAll}
             >
               Chọn thu hồi tất cả
@@ -149,16 +149,16 @@ export default function ReturnGearModal({ tripId, assignedAssets, isOpen, onClos
                         style={{ width: '18px', height: '18px', accentColor: '#204b39' }}
                       />
                       <span className={styles.codeTag}>{asset.assetCode}</span>
-                      <span style={{ fontSize: '12px', color: '#64748b' }}>Trạng thái: {asset.status}</span>
+                      <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b' }}>Trạng thái: {asset.status}</span>
                     </div>
 
                     {isSelected && (
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', paddingLeft: '28px' }}>
                         <div>
-                          <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>Tình trạng trả</label>
+                          <label style={{ fontSize: "var(--font-size-label)", fontWeight: "var(--font-weight-semibold)", color: '#374151' }}>Tình trạng trả</label>
                           <select
                             className={styles.select}
-                            style={{ padding: '6px 8px', fontSize: '13px' }}
+                            style={{ padding: '6px 8px', fontSize: "var(--font-size-control)" }}
                             value={itemData.returnCondition}
                             onChange={(e) => handleConditionChange(asset.assetCode, e.target.value)}
                           >
@@ -170,11 +170,11 @@ export default function ReturnGearModal({ tripId, assignedAssets, isOpen, onClos
                           </select>
                         </div>
                         <div>
-                          <label style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>Ghi chú hư hại</label>
+                          <label style={{ fontSize: "var(--font-size-label)", fontWeight: "var(--font-weight-semibold)", color: '#374151' }}>Ghi chú hư hại</label>
                           <input
                             type="text"
                             className={styles.input}
-                            style={{ padding: '6px 8px', fontSize: '13px' }}
+                            style={{ padding: '6px 8px', fontSize: "var(--font-size-control)" }}
                             placeholder="Mô tả nếu hỏng/mất..."
                             value={itemData.note}
                             onChange={(e) => handleNoteChange(asset.assetCode, e.target.value)}

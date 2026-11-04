@@ -1,383 +1,223 @@
 .page {
-  padding: 1.5rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.header {
-  margin-bottom: 1.5rem;
-}
-
-.headerTop {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  gap: var(--space-section);
+  min-width: 0;
 }
-
-.title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #111827;
-  margin: 0;
-}
-
-.orderLookup {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.orderLookupInput {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  min-width: 200px;
-}
-
-.navLinks {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-}
-
-.navLink {
-  font-size: 0.875rem;
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.navLink:hover {
-  text-decoration: underline;
-}
-
-/* Overdue banner */
-.overdueBanner {
-  background: #fef2f2;
-  border-left: 4px solid #ef4444;
-  padding: 1rem 1.25rem;
-  border-radius: 0 8px 8px 0;
-  margin-bottom: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.overdueText {
-  color: #991b1b;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.overdueLateFee {
-  background: #fee2e2;
-  color: #b91c1c;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 0.9rem;
-}
-
-.orderInfoCard {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
-  margin-bottom: 1.5rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
-.infoLabel {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: #6b7280;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-.infoValue {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-/* Scanner Section */
-.scannerCard {
-  background: #f0fdf4;
-  border: 2px dashed #22c55e;
-  border-radius: 10px;
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.scannerTitle {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #166534;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.scannerForm {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.scannerInput {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  font-size: 1.1rem;
-  font-family: monospace;
-  font-weight: 600;
-  border: 2px solid #22c55e;
-  border-radius: 6px;
-  outline: none;
-}
-
-.scannerInput:focus {
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
-}
-
-.scanBtn {
-  padding: 0.75rem 1.5rem;
-  background-color: #16a34a;
-  color: #fff;
-  font-weight: 600;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.scanBtn:hover:not(:disabled) {
-  background-color: #15803d;
-}
-
-.scanBtn:disabled {
-  background-color: #86efac;
-  cursor: not-allowed;
-}
-
-/* Progress bar */
-.progressCard {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.progressHeader {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: #374151;
-}
-
-.progressBarBg {
-  background: #e5e7eb;
-  height: 12px;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.progressBarFill {
-  height: 100%;
-  background: #16a34a;
-  transition: width 0.3s ease;
-}
-
-/* Items Table */
-.tableContainer {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-.th {
-  background: #f8fafc;
-  padding: 0.85rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #64748b;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.td {
-  padding: 0.85rem 1rem;
-  font-size: 0.875rem;
-  border-bottom: 1px solid #f1f5f9;
-  color: #334155;
-  vertical-align: middle;
-}
-
 .assetCode {
-  font-family: monospace;
-  font-weight: 700;
-  color: #0f172a;
+  display: block;
+  color: var(--color-text);
+  font:
+    var(--font-weight-semibold) var(--font-size-body) ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    monospace;
+  white-space: nowrap;
 }
-
-.badgeReturned {
-  background: #dcfce7;
-  color: #166534;
-  padding: 0.2rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.badgeIssued {
-  background: #fef3c7;
-  color: #92400e;
-  padding: 0.2rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.badgeLost {
-  background: #fee2e2;
-  color: #991b1b;
-  padding: 0.2rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.itemActions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.actionBtnReturn {
-  padding: 0.35rem 0.75rem;
-  background: #0284c7;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.actionBtnLost {
-  padding: 0.35rem 0.75rem;
-  background: #ef4444;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* Actions bar */
-.actionsBar {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  padding: 1.25rem 0;
-  border-top: 1px solid #e5e7eb;
-}
-
-.completeBtn {
-  padding: 0.75rem 1.75rem;
-  background: #059669;
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.completeBtn:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-}
-
-/* Modals */
-.modalBackdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
+.statusBadge {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  z-index: 50;
+  min-height: 38px;
+  padding: 7px 12px;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--color-warning-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
 }
-
-.modalContent {
-  background: #fff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  max-width: 520px;
-  width: 90%;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+.statusBadge[data-status='Returned'] {
+  color: var(--color-positive-text);
 }
-
-.modalTitle {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: #1f2937;
+.statusBadge[data-status='LostOrException'] {
+  color: var(--color-error);
 }
-
-.formGroup {
-  margin-bottom: 1rem;
+.resolvedText {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
 }
-
-.formLabel {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 0.35rem;
+.returnBtn,
+.lostBtn,
+.primaryBtn,
+.secondaryBtn,
+.dangerBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--control-min-height);
+  padding: 8px 14px;
+  font: inherit;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  white-space: nowrap;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
 }
-
-.select, .input, .textarea {
+.returnBtn {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.lostBtn {
+  color: var(--color-error);
+}
+.returnBtn:hover:not(:disabled),
+.lostBtn:hover:not(:disabled),
+.secondaryBtn:hover:not(:disabled) {
+  background: var(--color-bg);
+}
+.primaryBtn {
+  min-height: var(--control-min-height);
+  color: #fff;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.primaryBtn:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+.secondaryBtn {
+  color: var(--color-text);
+}
+.dangerBtn {
+  color: #fff;
+  background: var(--color-error);
+  border-color: var(--color-error);
+}
+.returnBtn:disabled,
+.lostBtn:disabled,
+.primaryBtn:disabled,
+.secondaryBtn:disabled,
+.dangerBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.completionCard {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px 32px;
+  padding: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.completionCopy {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+.completionCopy h2 {
+  margin: 0;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+}
+.hint {
+  margin: 8px 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta);
+  line-height: 1.65;
+}
+.completionCopy .field {
+  margin-top: 20px;
+  max-width: 600px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-label);
+  min-width: 0;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
+.field input,
+.field select,
+.field textarea {
   width: 100%;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 0.875rem;
+  min-width: 0;
+  min-height: var(--control-min-height);
+  padding: 10px 12px;
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-body);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
 }
-
-.textarea {
-  min-height: 70px;
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
-
+.field textarea {
+  resize: vertical;
+}
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-field);
+}
+.assetSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+  overflow-wrap: anywhere;
+}
+.assetSummary span {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta);
+}
+.checkField {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: var(--font-size-meta);
+  line-height: 1.6;
+}
+.checkField input {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--color-primary);
+}
+.feeFields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.feeFields legend {
+  padding: 0 6px;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
 .modalActions {
   display: flex;
   justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
+  flex-wrap: wrap;
+  gap: 12px;
 }
-
-.cancelBtn {
-  padding: 0.5rem 1rem;
-  border: 1px solid #d1d5db;
-  background: #fff;
-  border-radius: 6px;
-  cursor: pointer;
+@media (max-width: 640px) {
+  .completionCard {
+    padding: 16px;
+  }
+  .completionCard > button {
+    width: 100%;
+  }
+  .modalActions > button {
+    flex: 1 1 160px;
+  }
 }

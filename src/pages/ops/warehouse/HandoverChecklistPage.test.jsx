@@ -5,6 +5,7 @@ import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fulfillmentService } from './api/fulfillmentService';
 import HandoverChecklistPage from './HandoverChecklistPage';
+import RentalFulfillmentLayout from '@/layouts/RentalFulfillmentLayout';
 
 vi.mock('./api/fulfillmentService', () => ({
   fulfillmentService: {
@@ -50,8 +51,10 @@ function renderPage() {
       <MemoryRouter initialEntries={['/ops/rentals/handover']}>
         <CurrentPath />
         <Routes>
-          <Route path="/ops/rentals/handover" element={<HandoverChecklistPage />} />
-          <Route path="/ops/rentals/:orderCode/handover" element={<HandoverChecklistPage />} />
+          <Route element={<RentalFulfillmentLayout />}>
+            <Route path="/ops/rentals/handover" element={<HandoverChecklistPage />} />
+            <Route path="/ops/rentals/:orderCode/handover" element={<HandoverChecklistPage />} />
+          </Route>
         </Routes>
       </MemoryRouter>
     </QueryClientProvider>,
@@ -104,7 +107,12 @@ describe('HandoverChecklistPage', () => {
     const barcode = screen.getByLabelText('Mã barcode thiết bị');
     await user.type(barcode, 'TENT-002');
     await user.click(screen.getByRole('button', { name: 'Xác nhận quét' }));
-    await waitFor(() => expect(screen.getByRole('progressbar', { name: 'Tiến độ bàn giao' })).toHaveAttribute('aria-valuenow', '100'));
+    await waitFor(() =>
+      expect(screen.getByRole('progressbar', { name: 'Tiến độ bàn giao' })).toHaveAttribute(
+        'aria-valuenow',
+        '100',
+      ),
+    );
     expect(barcode).toHaveValue('');
     expect(barcode).toHaveFocus();
     expect(screen.getByText('Đã ghi nhận thiết bị TENT-002.')).toBeInTheDocument();

@@ -115,7 +115,7 @@ export default function TripProvidedItemsPage() {
       {/* Trip Selector Dropdown & Quick Selection */}
       <div className={styles.selectorCard}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-          <label className={styles.label} style={{ margin: 0, fontWeight: 600 }}>
+          <label className={styles.label} style={{ margin: 0, fontWeight: "var(--font-weight-semibold)" }}>
             Chọn Chuyến đi (Tour thực tế từ Hệ thống):
           </label>
           <button
@@ -125,10 +125,10 @@ export default function TripProvidedItemsPage() {
               background: 'none',
               border: 'none',
               color: '#166534',
-              fontSize: '0.8rem',
+              fontSize: "var(--font-size-control)",
               cursor: 'pointer',
               textDecoration: 'underline',
-              fontWeight: 500,
+              fontWeight: "var(--font-weight-medium)",
             }}
           >
             {isManualInput ? '« Quay lại chọn theo danh sách tour' : 'Nhập mã Trip ID thủ công (GUID)'}
@@ -141,7 +141,7 @@ export default function TripProvidedItemsPage() {
               className={styles.input}
               value={activeTripId}
               onChange={handleTripChange}
-              style={{ maxWidth: '640px', fontWeight: 500 }}
+              style={{ maxWidth: '640px', fontWeight: "var(--font-weight-medium)" }}
             >
               {MOCK_TRIPS.map((t) => (
                 <option key={t.tripId} value={t.tripId}>
@@ -149,7 +149,7 @@ export default function TripProvidedItemsPage() {
                 </option>
               ))}
             </select>
-            <span style={{ fontSize: '0.8rem', color: '#6b7280' }}>
+            <span style={{ fontSize: "var(--font-size-meta)", color: '#6b7280' }}>
               Mã chuyến: <code>{activeTripId}</code>
             </span>
           </div>
@@ -394,7 +394,7 @@ export default function TripProvidedItemsPage() {
                     ✕
                   </button>
                 </div>
-                <div style={{ padding: '20px 24px', fontSize: '0.9rem', color: '#374151', lineHeight: '1.5' }}>
+                <div style={{ padding: '20px 24px', fontSize: "var(--font-size-body)", color: '#374151', lineHeight: '1.5' }}>
                   <p style={{ marginBottom: '12px' }}>
                     Bạn đang chuẩn bị xuất kho và bàn giao toàn bộ thiết bị đã gán cho đoàn:
                   </p>
@@ -404,7 +404,7 @@ export default function TripProvidedItemsPage() {
                     <div>Số lượng thiết bị giao: <strong style={{ color: '#166534' }}>{allAssignedAssets.length} món</strong></div>
                   </div>
                   {tripData.hasShortage && (
-                    <div style={{ background: '#fffbeb', border: '1px solid #fde68a', color: '#92400e', padding: '10px 14px', borderRadius: '6px', fontSize: '0.85rem' }}>
+                    <div style={{ background: '#fffbeb', border: '1px solid #fde68a', color: '#92400e', padding: '10px 14px', borderRadius: '6px', fontSize: "var(--font-size-meta)" }}>
                       ⚠️ <strong>Lưu ý:</strong> Chuyến đi vẫn còn một số mục chưa đủ định mức đồ cấp. Hệ thống sẽ xuất giao toàn bộ các thiết bị đã gán hiện tại.
                     </div>
                   )}
@@ -441,11 +441,11 @@ export default function TripProvidedItemsPage() {
                     ✕
                   </button>
                 </div>
-                <div style={{ padding: '20px 24px', fontSize: '0.9rem', color: '#374151', lineHeight: '1.5' }}>
+                <div style={{ padding: '20px 24px', fontSize: "var(--font-size-body)", color: '#374151', lineHeight: '1.5' }}>
                   <p>
                     Bạn có chắc chắn muốn hủy gán thiết bị <strong>{unassignTarget.assetCode}</strong> khỏi chuyến đi này không?
                   </p>
-                  <p style={{ fontSize: '0.82rem', color: '#6b7280', marginTop: '8px' }}>
+                  <p style={{ fontSize: "var(--font-size-body)", color: '#6b7280', marginTop: '8px' }}>
                     Sau khi hủy, mã thiết bị này sẽ lập tức trở về danh sách thiết bị khả dụng trong kho để phân bổ cho đơn khác.
                   </p>
                 </div>

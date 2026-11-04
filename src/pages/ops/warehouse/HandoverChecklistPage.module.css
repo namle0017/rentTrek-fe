@@ -1,82 +1,42 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 1280px;
+  gap: var(--space-section);
   min-width: 0;
-  margin-inline: auto;
-  color: var(--color-text);
 }
-.lookupCard,
-.orderInfoCard,
-.scannerCard,
-.checklistCard,
-.progressCard {
+.checklistCard {
   min-width: 0;
   padding: 24px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 }
-.lookupCard {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px 24px;
-}
-.orderLookup {
-  display: flex;
-  flex: 1 1 380px;
-  align-items: flex-end;
-  gap: 12px;
-  max-width: 560px;
-  min-width: 0;
-}
 .field {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-label);
   min-width: 0;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
-.orderLookupInput,
-.scannerInput,
 .reasonForm textarea {
   width: 100%;
   min-width: 0;
-  min-height: 44px;
+  min-height: var(--control-min-height);
   padding: 10px 12px;
   color: var(--color-text);
   font: inherit;
-  font-weight: 400;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-body);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
 }
-.orderLookupInput:focus-visible,
-.scannerInput:focus-visible,
 .reasonForm textarea:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
-.navLinks {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 20px;
-  min-height: 44px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--color-primary);
-}
-.navLinks a:hover {
-  text-decoration: underline;
-}
-.orderHeading,
 .listHeading,
 .itemRowHeader {
   display: flex;
@@ -84,110 +44,30 @@
   justify-content: space-between;
   gap: 16px;
 }
-.orderHeading {
-  flex-wrap: wrap;
-}
-.infoLabel {
-  margin: 0 0 6px;
-  color: var(--color-text-muted);
-  font-size: 0.8125rem;
-}
-.orderCode {
-  margin: 0;
-  font-size: clamp(1.125rem, 2vw, 1.375rem);
-  font-weight: 700;
-  overflow-wrap: anywhere;
-}
-.orderStatus,
 .itemStatus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 40px;
   padding: 8px 14px;
-  font-size: 0.9375rem;
-  font-weight: 700;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   line-height: 1.4;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
 }
-.orderStatus {
-  color: var(--color-primary);
-  font-size: 1rem;
-}
-.orderStatus[data-complete='true'] {
-  color: var(--color-positive-text);
-}
-.orderFacts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px 24px;
-  margin: 20px 0 0;
-  padding-top: 20px;
-  border-top: 1px solid var(--color-border);
-}
-.orderFacts dt {
-  color: var(--color-text-muted);
-  font-size: 0.8125rem;
-}
-.orderFacts dd {
-  margin: 6px 0 0;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-.workspace {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
-  align-items: start;
-  gap: 20px;
-  min-width: 0;
-}
-.mainColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  min-width: 0;
-}
 .sectionTitle {
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--font-size-section-title);
   line-height: 1.5;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 .hint {
   margin: 0;
   color: var(--color-text-muted);
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
   line-height: 1.65;
-}
-.scannerCard > .hint {
-  margin-top: 6px;
-}
-.scannerForm {
-  display: flex;
-  align-items: flex-end;
-  gap: 12px;
-  margin-top: 20px;
-}
-.scannerInput {
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 0.875rem;
-}
-.scannerInput:disabled {
-  background: var(--color-bg);
-  color: var(--color-text-muted);
-}
-.scanFeedback {
-  min-height: 20px;
-  margin-top: 12px;
-  color: var(--color-positive-text);
-  font-size: 0.8125rem;
-  overflow-wrap: anywhere;
-}
-.scanFeedback[data-error='true'] {
-  color: var(--color-error);
 }
 .primaryBtn,
 .secondaryBtn,
@@ -196,11 +76,11 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
+  min-height: var(--control-min-height);
   padding: 10px 16px;
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   line-height: 1.5;
   text-align: center;
   border: 1px solid var(--color-border);
@@ -251,20 +131,20 @@
 }
 .itemName {
   margin: 0;
-  font-size: 0.9375rem;
+  font-size: var(--font-size-subheading);
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
 .itemVariant {
   margin: 3px 0 0;
   color: var(--color-text-secondary);
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
 }
 .itemSku {
   margin: 6px 0 0;
   color: var(--color-text-muted);
   font:
-    0.75rem ui-monospace,
+    var(--font-size-meta) ui-monospace,
     SFMono-Regular,
     Consolas,
     monospace;
@@ -285,7 +165,7 @@
 }
 .itemCount {
   color: var(--color-text-muted);
-  font-size: 0.75rem;
+  font-size: var(--font-size-meta);
 }
 .scannedTags {
   display: flex;
@@ -300,7 +180,7 @@
   padding: 6px 10px;
   color: var(--color-text-secondary);
   font:
-    0.75rem/1.5 ui-monospace,
+    var(--font-size-meta)/1.5 ui-monospace,
     SFMono-Regular,
     Consolas,
     monospace;
@@ -311,58 +191,12 @@
 .emptyText {
   margin: 14px 0 0;
   color: var(--color-text-muted);
-  font-size: 0.8125rem;
-}
-.progressCard {
-  position: sticky;
-  top: 92px;
-}
-.progressCount {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px;
-  margin-top: 20px;
-}
-.progressCount strong {
-  font-size: 2.5rem;
-  line-height: 1.2;
-  font-variant-numeric: tabular-nums;
-}
-.progressCount span {
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-}
-.progressBar {
-  height: 8px;
-  margin-top: 16px;
-  overflow: hidden;
-  background: var(--color-border);
-  border-radius: var(--radius-sm);
-}
-.progressFill {
-  height: 100%;
-  background: var(--color-primary);
-  transition: width 0.2s ease;
-}
-.progressMeta {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
-}
-.completionSection {
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-meta);
 }
 .completionTitle {
   margin: 0 0 6px;
-  font-size: 0.9375rem;
-  font-weight: 600;
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-semibold);
 }
 .completeBtn {
   width: 100%;
@@ -371,7 +205,7 @@
 .reasonForm {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-field);
 }
 .reasonForm textarea {
   resize: vertical;
@@ -384,7 +218,7 @@
 }
 .demoTools {
   color: var(--color-text-muted);
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
 }
 .demoTools summary {
   width: fit-content;
@@ -398,42 +232,16 @@
   margin-top: 12px;
 }
 .demoButtons .secondaryBtn {
-  min-height: 36px;
-  font-size: 0.75rem;
+  min-height: var(--control-min-height);
+  font-size: var(--font-size-control);
 }
 .demoButtons [aria-pressed='true'] {
   border-color: var(--color-primary);
   color: var(--color-primary);
 }
-@media (max-width: 1100px) {
-  .workspace {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .progressCard {
-    position: static;
-  }
-}
 @media (max-width: 640px) {
-  .lookupCard,
-  .orderInfoCard,
-  .scannerCard,
-  .checklistCard,
-  .progressCard {
+  .checklistCard {
     padding: 16px;
-  }
-  .orderLookup {
-    flex-basis: 100%;
-    flex-wrap: wrap;
-  }
-  .orderFacts {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .scannerForm {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .scannerForm .field {
-    flex: auto;
   }
   .itemRowHeader {
     flex-direction: column;
@@ -444,15 +252,17 @@
     flex-wrap: wrap;
     gap: 12px;
   }
-  .progressCount strong {
-    font-size: 2rem;
-  }
   .modalActions > button {
     flex: 1 1 160px;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .progressFill {
-    transition: none;
+
+.progressSidebar {
+  position: sticky;
+  top: 92px;
+}
+@media (max-width: 1100px) {
+  .progressSidebar {
+    position: static;
   }
 }

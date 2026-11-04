@@ -5,6 +5,7 @@ import { ROUTES } from '@/constants/routes';
 import LoginPage from '@/features/auth/pages/LoginPage';
 import RegisterPage from '@/features/auth/pages/RegisterPage';
 import AdminLayout from '@/layouts/AdminLayout';
+import RentalFulfillmentLayout from '@/layouts/RentalFulfillmentLayout';
 import GuideLayout from '@/layouts/GuideLayout';
 import MainLayout from '@/layouts/MainLayout';
 import ForbiddenPage from '@/pages/ForbiddenPage';
@@ -273,28 +274,33 @@ export const router = createBrowserRouter([
                 lazy: lazyPage(() => import('@/pages/ops/warehouse/TripProvidedItemsPage')),
               },
               {
-                path: ROUTES.OPS_HANDOVER(),
-                lazy: lazyPage(() => import('@/pages/ops/warehouse/HandoverChecklistPage')),
-              },
-              {
-                path: '/ops/rentals/handover',
-                lazy: lazyPage(() => import('@/pages/ops/warehouse/HandoverChecklistPage')),
-              },
-              {
-                path: ROUTES.OPS_RETURN(),
-                lazy: lazyPage(() => import('@/pages/ops/warehouse/ReturnChecklistPage')),
-              },
-              {
-                path: '/ops/rentals/return',
-                lazy: lazyPage(() => import('@/pages/ops/warehouse/ReturnChecklistPage')),
-              },
-              {
-                path: ROUTES.OPS_SETTLEMENT(),
-                lazy: lazyPage(() => import('@/pages/ops/warehouse/SettlementPage')),
-              },
-              {
-                path: '/ops/rentals/settlement',
-                lazy: lazyPage(() => import('@/pages/ops/warehouse/SettlementPage')),
+                element: <RentalFulfillmentLayout />,
+                children: [
+                  {
+                    path: ROUTES.OPS_HANDOVER(),
+                    lazy: lazyPage(() => import('@/pages/ops/warehouse/HandoverChecklistPage')),
+                  },
+                  {
+                    path: '/ops/rentals/handover',
+                    lazy: lazyPage(() => import('@/pages/ops/warehouse/HandoverChecklistPage')),
+                  },
+                  {
+                    path: ROUTES.OPS_RETURN(),
+                    lazy: lazyPage(() => import('@/pages/ops/warehouse/ReturnChecklistPage')),
+                  },
+                  {
+                    path: '/ops/rentals/return',
+                    lazy: lazyPage(() => import('@/pages/ops/warehouse/ReturnChecklistPage')),
+                  },
+                  {
+                    path: ROUTES.OPS_SETTLEMENT(),
+                    lazy: lazyPage(() => import('@/pages/ops/warehouse/SettlementPage')),
+                  },
+                  {
+                    path: '/ops/rentals/settlement',
+                    lazy: lazyPage(() => import('@/pages/ops/warehouse/SettlementPage')),
+                  },
+                ],
               },
             ],
           },

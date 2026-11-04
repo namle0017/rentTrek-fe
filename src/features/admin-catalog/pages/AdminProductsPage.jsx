@@ -119,16 +119,6 @@ export default function AdminProductsPage() {
 
   return (
     <section className={styles.page} aria-labelledby="admin-products-title">
-      <header className={styles.header}>
-        <div>
-          <p className={styles.eyebrow}>Danh mục thiết bị</p>
-          <h1 id="admin-products-title">Sản phẩm</h1>
-          <p className={styles.description}>Theo dõi sản phẩm, biến thể và số thiết bị đang sẵn sàng cho thuê.</p>
-        </div>
-        <Link className="btn btn-primary" to={ROUTES.ADMIN_PRODUCT_CREATE}>
-          Thêm sản phẩm
-        </Link>
-      </header>
 
       <form className={styles.filters} onSubmit={handleSubmit}>
         <label className={styles.field}>

@@ -60,7 +60,10 @@ export default function MainLayout() {
             <NavLink to={ROUTES.PRODUCTS}>Dụng cụ thuê</NavLink>
             <NavLink to={ROUTES.GUIDES}>Cẩm nang</NavLink>
             {currentUser?.role === USER_ROLE.ADMIN && <NavLink to={ROUTES.ADMIN}>Quản trị</NavLink>}
-            {currentUser?.role === USER_ROLE.STAFF && <NavLink to={ROUTES.ADMIN_POSTS}>Bài viết</NavLink>}
+            {currentUser?.role === USER_ROLE.STAFF && <NavLink to={ROUTES.ADMIN}>Vận hành</NavLink>}
+            {(currentUser?.role === USER_ROLE.GUIDE || currentUser?.role === USER_ROLE.TOUR_GUIDE) && (
+              <NavLink to={ROUTES.GUIDE_TRIPS}>Cổng Guide</NavLink>
+            )}
           </nav>
 
           <div className={styles.authSection}>
@@ -114,6 +117,18 @@ export default function MainLayout() {
                     <Link to={ROUTES.ADMIN} className={styles.accountLink}>
                       <OutdoorIcon name="shield" size={16} />
                       <span>Quản trị hệ thống</span>
+                    </Link>
+                  )}
+                  {currentUser?.role === USER_ROLE.STAFF && (
+                    <Link to={ROUTES.ADMIN} className={styles.accountLink}>
+                      <OutdoorIcon name="shield" size={16} />
+                      <span>Bàn làm việc Vận hành</span>
+                    </Link>
+                  )}
+                  {(currentUser?.role === USER_ROLE.GUIDE || currentUser?.role === USER_ROLE.TOUR_GUIDE) && (
+                    <Link to={ROUTES.GUIDE_TRIPS} className={styles.accountLink}>
+                      <OutdoorIcon name="users" size={16} />
+                      <span>Cổng Hướng dẫn viên</span>
                     </Link>
                   )}
                   <div className={styles.accountDivider} />

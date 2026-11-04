@@ -66,7 +66,8 @@ export default function AdminLayout() {
   const alertsRef = useRef(null);
 
   const pageTitle = getPageTitle(location.pathname);
-  const displayName = currentUser?.fullName || currentUser?.email || 'Quản trị viên';
+  const displayName =
+    currentUser?.fullName || currentUser?.email || (isAdmin ? 'Quản trị viên' : 'Nhân viên vận hành');
   const alerts = useOperations(API_ENDPOINTS.ADMIN.DASHBOARD.ALERTS);
 
   const handleSearch = (event) => {
@@ -100,7 +101,7 @@ export default function AdminLayout() {
     <div className={styles.layout}>
       <aside className={styles.sidebar}>
         <div style={{ padding: '0 0 16px 8px' }}>
-          <BrandLogo size="md" theme="light" suffix="Admin" />
+          <BrandLogo size="md" theme="light" suffix={isAdmin ? 'Admin' : 'Vận hành'} />
         </div>
         <nav className={styles.nav}>
           <NavLink to={ROUTES.ADMIN} end>
@@ -109,16 +110,28 @@ export default function AdminLayout() {
 
           <div className={styles.sectionHeader}>Tour & Chuyến đi</div>
           <NavLink to={ROUTES.ADMIN_TRIPS}>Quản lý chuyến đi</NavLink>
-          {isAdmin && <NavLink to={ROUTES.ADMIN_TOURS}>Danh mục Tour</NavLink>}
+          <NavLink to={ROUTES.ADMIN_TOURS}>Danh mục Tour</NavLink>
 
           <div className={styles.sectionHeader}>Sản phẩm & Đơn hàng</div>
-          {isAdmin && <NavLink to={ROUTES.ADMIN_PRODUCTS}>Sản phẩm</NavLink>}
+          <NavLink to={ROUTES.ADMIN_PRODUCTS}>Sản phẩm</NavLink>
           <NavLink to={ROUTES.ADMIN_RENTAL_ORDERS}>Đơn thuê thiết bị</NavLink>
           <NavLink to={ROUTES.ADMIN_ORDERS}>Đơn hàng tổng hợp</NavLink>
+
+          <div className={styles.sectionHeader}>Kho & Thiết bị</div>
+          <NavLink to={ROUTES.OPS_ASSETS}>Kho thiết bị</NavLink>
+          <NavLink to={ROUTES.OPS_ASSETS_SCHEDULE}>Lịch Gantt thiết bị</NavLink>
+          <NavLink to="/ops/trips/provided-items">Đồ cấp chuyến</NavLink>
+          <NavLink to="/ops/rentals/handover">Giao thiết bị</NavLink>
+          <NavLink to="/ops/rentals/return">Thu hồi thiết bị</NavLink>
+          <NavLink to="/ops/rentals/settlement">Quyết toán & Phí</NavLink>
 
           <div className={styles.sectionHeader}>Nội dung & Đánh giá</div>
           <NavLink to={ROUTES.ADMIN_POSTS}>Bài viết & Cẩm nang</NavLink>
           <NavLink to={ROUTES.ADMIN_REVIEWS}>Kiểm duyệt đánh giá</NavLink>
+
+          <div className={styles.sectionHeader}>Khuyến mãi & Danh mục</div>
+          <NavLink to={ROUTES.ADMIN_PROMOTIONS}>Khuyến mãi</NavLink>
+          <NavLink to={ROUTES.ADMIN_MASTER}>Danh mục & Địa điểm</NavLink>
 
           {isAdmin && (
             <>
@@ -128,18 +141,8 @@ export default function AdminLayout() {
               <NavLink to={ROUTES.ADMIN_REFUNDS}>Hàng đợi hoàn tiền</NavLink>
               <NavLink to={ROUTES.OPS_REFUND_POLICIES}>Chính sách hoàn tiền</NavLink>
 
-              <div className={styles.sectionHeader}>Kho & Thiết bị</div>
-              <NavLink to={ROUTES.OPS_ASSETS}>Kho thiết bị</NavLink>
-              <NavLink to={ROUTES.OPS_ASSETS_SCHEDULE}>Lịch Gantt thiết bị</NavLink>
-              <NavLink to="/ops/trips/provided-items">Đồ cấp chuyến</NavLink>
-              <NavLink to="/ops/rentals/handover">Giao thiết bị</NavLink>
-              <NavLink to="/ops/rentals/return">Thu hồi thiết bị</NavLink>
-              <NavLink to="/ops/rentals/settlement">Quyết toán & Phí</NavLink>
-
-              <div className={styles.sectionHeader}>Hệ thống & Vận hành</div>
+              <div className={styles.sectionHeader}>Hệ thống & Phân quyền</div>
               <NavLink to={ROUTES.ADMIN_USERS}>Người dùng & Nhân sự</NavLink>
-              <NavLink to={ROUTES.ADMIN_PROMOTIONS}>Khuyến mãi</NavLink>
-              <NavLink to={ROUTES.ADMIN_MASTER}>Danh mục & Địa điểm</NavLink>
               <NavLink to={ROUTES.ADMIN_REPORTS}>Báo cáo vận hành</NavLink>
               <NavLink to={ROUTES.ADMIN_SETTINGS}>Cấu hình hệ thống</NavLink>
               <NavLink to={ROUTES.ADMIN_AUDIT}>Nhật ký kiểm toán</NavLink>

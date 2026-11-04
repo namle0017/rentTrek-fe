@@ -15,9 +15,31 @@ const preview = {
   expiresAt: '2026-12-08T11:00:00Z',
   participantNames: ['Nguyễn Văn A', 'Bé Minh'],
   activities: [
-    { activityId: 'a1', dayNumber: 1, dayTitle: 'Ngày 1: Khởi hành', startTime: '06:00:00', name: 'Tập trung', isCurrent: false },
-    { activityId: 'a2', dayNumber: 1, dayTitle: 'Ngày 1: Khởi hành', startTime: '08:30:00', name: 'Leo núi', isCurrent: true },
-    { activityId: 'a3', dayNumber: 2, dayTitle: null, startTime: '07:00:00', name: 'Xuống núi', description: 'Về bản', isCurrent: false },
+    {
+      activityId: 'a1',
+      dayNumber: 1,
+      dayTitle: 'Ngày 1: Khởi hành',
+      startTime: '06:00:00',
+      name: 'Tập trung',
+      isCurrent: false,
+    },
+    {
+      activityId: 'a2',
+      dayNumber: 1,
+      dayTitle: 'Ngày 1: Khởi hành',
+      startTime: '08:30:00',
+      name: 'Leo núi',
+      isCurrent: true,
+    },
+    {
+      activityId: 'a3',
+      dayNumber: 2,
+      dayTitle: null,
+      startTime: '07:00:00',
+      name: 'Xuống núi',
+      description: 'Về bản',
+      isCurrent: false,
+    },
   ],
 };
 

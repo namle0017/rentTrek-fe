@@ -43,9 +43,15 @@ export default function CancelBookingPanel({ orderId, paymentStatus }) {
         value={reason}
         onChange={(event) => setReason(event.target.value)}
       />
-      {errorMessage && <p className={styles.error} role="alert">{errorMessage}</p>}
+      {errorMessage && (
+        <p className={styles.error} role="alert">
+          {errorMessage}
+        </p>
+      )}
       <div className={styles.actions}>
-        <button type="button" className={styles.secondary} onClick={() => setOpen(false)}>Giữ booking</button>
+        <button type="button" className={styles.secondary} onClick={() => setOpen(false)}>
+          Giữ booking
+        </button>
         <button type="submit" className={styles.danger} disabled={cancelBooking.isPending}>
           {cancelBooking.isPending ? 'Đang hủy...' : 'Xác nhận hủy'}
         </button>

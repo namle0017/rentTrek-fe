@@ -3,11 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
-import {
-  useGuideBatchAttendance,
-  useGuideGroupRoster,
-  useGuideItinerary,
-} from '../hooks/useGuidePortal';
+import { useGuideBatchAttendance, useGuideGroupRoster, useGuideItinerary } from '../hooks/useGuidePortal';
 import styles from './GuidePortal.module.css';
 
 const OFFLINE_QUEUE_KEY = 'rentrek_guide_offline_attendance_queue';
@@ -53,10 +49,7 @@ export default function GuideBatchAttendancePage() {
     (d.activities ?? []).map((a) => ({ ...a, dayNumber: d.dayNumber })),
   );
   const activeActivityId =
-    selectedActivityId ||
-    roster.currentActivity?.activityId ||
-    allActivities[0]?.activityId ||
-    '';
+    selectedActivityId || roster.currentActivity?.activityId || allActivities[0]?.activityId || '';
 
   const submitPayload = async (payload) => {
     setFeedback(null);
@@ -147,17 +140,17 @@ export default function GuideBatchAttendancePage() {
     <>
       <div className={styles.subNavRow}>
         <Link to={ROUTES.GUIDE_TRIP_GROUP(tripId)} className={styles.btnOutline}>
-          ← Danh sách nhóm (G02)
+          ← Danh sách nhóm
         </Link>
         <Link to={ROUTES.GUIDE_ITINERARY(tripId)} className={styles.btnOutline}>
-          🗺️ Lịch trình (G05)
+          Lịch trình
         </Link>
       </div>
 
       <div className={styles.tripCard}>
-        <h1 className={styles.cardTitle}>Điểm danh Thực địa 1 Chạm (Màn G04 - 24.4)</h1>
+        <h1 className={styles.cardTitle}>Điểm danh Thực địa Nhanh</h1>
         <p className={styles.metaText}>
-          Nhóm: <strong>{roster.groupName}</strong> · Hỗ trợ đồng bộ Offline Idempotency
+          Nhóm: <strong>{roster.groupName}</strong> · Tự động đồng bộ Offline khi có mạng
         </p>
 
         <label htmlFor="activitySelect" className={styles.metaText}>
@@ -182,12 +175,12 @@ export default function GuideBatchAttendancePage() {
           onClick={handleMarkAllPresent}
           disabled={batchMutation.isPending || !activeActivityId}
         >
-          ✓ Đánh dấu TẤT CẢ CÓ MẶT (1 chạm)
+          Đánh dấu tất cả Có Mặt (1 chạm)
         </button>
 
         {offlineQueue.length > 0 && (
           <button type="button" className={styles.btnPrimary} onClick={handleSyncOfflineQueue}>
-            🔄 Đồng bộ {offlineQueue.length} bản ghi Offline đang chờ
+            Đồng bộ {offlineQueue.length} bản ghi Offline đang chờ
           </button>
         )}
       </div>
@@ -218,7 +211,7 @@ export default function GuideBatchAttendancePage() {
               }`}
               onClick={() => handleSingleStatus(p, 'Present')}
             >
-              ✓ Có mặt
+              Có mặt
             </button>
             <button
               type="button"
@@ -227,7 +220,7 @@ export default function GuideBatchAttendancePage() {
               }`}
               onClick={() => handleSingleStatus(p, 'Late')}
             >
-              ⏳ Đến muộn
+              Đến muộn
             </button>
             <button
               type="button"
@@ -236,7 +229,7 @@ export default function GuideBatchAttendancePage() {
               }`}
               onClick={() => handleSingleStatus(p, 'Absent')}
             >
-              ✕ Vắng mặt
+              Vắng mặt
             </button>
           </div>
 

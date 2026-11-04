@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ErrorState from '@/components/ErrorState';
-import Spinner from '@/components/Spinner';
+import { TableSkeleton } from '@/components/skeleton';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
@@ -80,9 +80,7 @@ export default function AdminRecurrenceRulesPage() {
       .split(',')
       .map((s) => s.trim())
       .filter(Boolean);
-    const next = current.includes(dayValue)
-      ? current.filter((d) => d !== dayValue)
-      : [...current, dayValue];
+    const next = current.includes(dayValue) ? current.filter((d) => d !== dayValue) : [...current, dayValue];
     setForm((prev) => ({ ...prev, daysOfWeek: next.join(',') }));
   };
 
@@ -150,7 +148,13 @@ export default function AdminRecurrenceRulesPage() {
     }
   };
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) {
+    return (
+      <div className={styles.page}>
+        <TableSkeleton rows={4} cols={5} />
+      </div>
+    );
+  }
   if (isError) return <ErrorState message={error?.message} onRetry={refetch} />;
 
   return (
@@ -160,7 +164,7 @@ export default function AdminRecurrenceRulesPage() {
           <div className={styles.breadcrumb}>
             <Link to={ROUTES.ADMIN_TRIPS}>Quản lý Chuyến đi</Link>
             <span>/</span>
-            <span>Lịch lặp Tour (Màn O08)</span>
+            <span>Lịch lặp Tour</span>
           </div>
           <h1 className={styles.pageTitle}>Quy tắc Lịch lặp & Tự động sinh chuyến</h1>
           <p className={styles.subtitle}>Mã Tour: {tourId}</p>
@@ -314,9 +318,7 @@ export default function AdminRecurrenceRulesPage() {
                             Đã tồn tại chuyến ({item.existingTripId?.slice(0, 8)})
                           </span>
                         ) : (
-                          <span className={`${styles.badge} ${styles.badgePositive}`}>
-                            Sẵn sàng sinh mới
-                          </span>
+                          <span className={`${styles.badge} ${styles.badgePositive}`}>Sẵn sàng sinh mới</span>
                         )}
                       </td>
                     </tr>
@@ -469,11 +471,7 @@ export default function AdminRecurrenceRulesPage() {
             </div>
 
             <div className={styles.actionRow} style={{ justifyContent: 'flex-end' }}>
-              <button
-                type="button"
-                className={styles.btnOutline}
-                onClick={() => setIsModalOpen(false)}
-              >
+              <button type="button" className={styles.btnOutline} onClick={() => setIsModalOpen(false)}>
                 Hủy
               </button>
               <button

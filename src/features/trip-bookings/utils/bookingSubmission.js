@@ -24,9 +24,7 @@ export function normalizeBookingPayload(values, buyerEmail) {
   const contactPhone = clean(values?.contactPhone);
   const buyerParticipates = values?.buyerParticipates !== false;
   const note = optional(values?.note);
-  const participants = Array.isArray(values?.additionalParticipants)
-    ? values.additionalParticipants
-    : [];
+  const participants = Array.isArray(values?.additionalParticipants) ? values.additionalParticipants : [];
 
   if (!tripId) errors.tripId = 'Vui lòng chọn chuyến đi.';
   if (!contactPhone) errors.contactPhone = 'Vui lòng nhập số điện thoại liên hệ.';

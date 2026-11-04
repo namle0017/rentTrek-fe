@@ -43,7 +43,10 @@ export const router = createBrowserRouter([
             lazy: lazyPage(() => import('@/features/tours/pages/TourDetailPage')),
           },
           { path: ROUTES.FORBIDDEN, element: <ForbiddenPage /> },
-          { path: ROUTES.VERIFY_EMAIL, lazy: lazyPage(() => import('@/features/auth/pages/VerifyEmailPage')) },
+          {
+            path: ROUTES.VERIFY_EMAIL,
+            lazy: lazyPage(() => import('@/features/auth/pages/VerifyEmailPage')),
+          },
           // Công khai, chỉ đọc: ai có link đều xem được đoàn và lịch hoạt động
           {
             path: ROUTES.TRIP_BOOKING_JOIN(),
@@ -64,28 +67,18 @@ export const router = createBrowserRouter([
               },
               {
                 path: ROUTES.TRIP_BOOKING_CREATE,
-                lazy: lazyPage(() =>
-                  import('@/features/trip-bookings/pages/TripBookingCreatePage'),
-                ),
+                lazy: lazyPage(() => import('@/features/trip-bookings/pages/TripBookingCreatePage')),
               },
               {
                 path: ROUTES.TRIP_BOOKING_DETAIL(),
-                lazy: lazyPage(() =>
-                  import('@/features/trip-bookings/pages/TripBookingDetailPage'),
-                ),
+                lazy: lazyPage(() => import('@/features/trip-bookings/pages/TripBookingDetailPage')),
               },
               {
-                element: (
-                  <ProtectedRoute
-                    roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF, USER_ROLE.TOUR_GUIDE]}
-                  />
-                ),
+                element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF, USER_ROLE.TOUR_GUIDE]} />,
                 children: [
                   {
                     path: ROUTES.TRIP_GROUPING(),
-                    lazy: lazyPage(() =>
-                      import('@/features/trip-groups/pages/TripGroupingPage'),
-                    ),
+                    lazy: lazyPage(() => import('@/features/trip-groups/pages/TripGroupingPage')),
                   },
                 ],
               },
@@ -135,9 +128,11 @@ export const router = createBrowserRouter([
               },
               {
                 path: ROUTES.ADMIN_RECURRENCE_RULES(),
-                lazy: lazyPage(
-                  () => import('@/features/admin-trips/pages/AdminRecurrenceRulesPage')
-                ),
+                lazy: lazyPage(() => import('@/features/admin-trips/pages/AdminRecurrenceRulesPage')),
+              },
+              {
+                path: ROUTES.ADMIN_TRIP_CREATE,
+                lazy: lazyPage(() => import('@/features/admin-trips/pages/AdminTripCreatePage')),
               },
               {
                 path: ROUTES.ADMIN_TRIPS,
@@ -147,6 +142,23 @@ export const router = createBrowserRouter([
                 path: ROUTES.ADMIN_TRIP_DETAIL(),
                 lazy: lazyPage(() => import('@/features/admin-trips/pages/AdminTripDetailPage')),
               },
+              // Phân hệ Kho & Thiết bị (Ops / Warehouse)
+              {
+                path: ROUTES.OPS_ASSETS,
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/AssetListPage')),
+              },
+              {
+                path: ROUTES.OPS_ASSETS_SCHEDULE,
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/AssetGanttPage')),
+              },
+              {
+                path: ROUTES.OPS_TRIP_PROVIDED_ITEMS(),
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/TripProvidedItemsPage')),
+              },
+              {
+                path: '/ops/trips/provided-items',
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/TripProvidedItemsPage')),
+              },
             ],
           },
         ],
@@ -155,9 +167,7 @@ export const router = createBrowserRouter([
       // Khu vực Hướng dẫn viên Thực địa (Guide Portal — Mobile-First G01–G06)
       {
         element: (
-          <ProtectedRoute
-            roles={[USER_ROLE.GUIDE, USER_ROLE.TOUR_GUIDE, USER_ROLE.ADMIN, USER_ROLE.STAFF]}
-          />
+          <ProtectedRoute roles={[USER_ROLE.GUIDE, USER_ROLE.TOUR_GUIDE, USER_ROLE.ADMIN, USER_ROLE.STAFF]} />
         ),
         children: [
           {
@@ -190,22 +200,6 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.GUIDE_PROVIDED_ITEMS(),
                 lazy: lazyPage(() => import('@/features/guide/pages/GuideProvidedItemsPage')),
-              },
-              {
-                path: ROUTES.OPS_ASSETS,
-                lazy: lazyPage(() => import('@/pages/ops/warehouse/AssetListPage')),
-              },
-              {
-                path: ROUTES.OPS_ASSETS_SCHEDULE,
-                lazy: lazyPage(() => import('@/pages/ops/warehouse/AssetGanttPage')),
-              },
-              {
-                path: ROUTES.OPS_TRIP_PROVIDED_ITEMS(),
-                lazy: lazyPage(() => import('@/pages/ops/warehouse/TripProvidedItemsPage')),
-              },
-              {
-                path: '/ops/trips/provided-items',
-                lazy: lazyPage(() => import('@/pages/ops/warehouse/TripProvidedItemsPage')),
               },
             ],
           },

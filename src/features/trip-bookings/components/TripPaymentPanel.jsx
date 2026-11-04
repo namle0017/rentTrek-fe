@@ -62,7 +62,8 @@ export default function TripPaymentPanel({ orderId, onSettled }) {
   }
 
   const failed =
-    status?.status === PAYMENT_TRANSACTION_STATUS.FAILED || status?.status === PAYMENT_TRANSACTION_STATUS.CANCELLED;
+    status?.status === PAYMENT_TRANSACTION_STATUS.FAILED ||
+    status?.status === PAYMENT_TRANSACTION_STATUS.CANCELLED;
 
   if (failed) {
     return (
@@ -70,8 +71,8 @@ export default function TripPaymentPanel({ orderId, onSettled }) {
         <div>
           <strong>Thanh toán chưa thành công</strong>
           <p className={styles.error} role="alert">
-            {status.failureReason || 'Giao dịch đã bị hủy hoặc thất bại.'} Nếu đã chuyển tiền, không chuyển lại và liên
-            hệ hỗ trợ.
+            {status.failureReason || 'Giao dịch đã bị hủy hoặc thất bại.'} Nếu đã chuyển tiền, không chuyển
+            lại và liên hệ hỗ trợ.
           </p>
         </div>
         <button type="button" className={styles.primary} onClick={() => startPayment(orderId)}>

@@ -87,8 +87,7 @@ export const API_ENDPOINTS = {
     GROUP_BY_ID: (tripId, groupId) => `/admin/trips/${tripId}/groups/${groupId}`,
     ASSIGN_PARTICIPANT_GROUP: (tripId) => `/admin/trips/${tripId}/participants/assign-group`,
     AUTO_GROUP: (tripId) => `/admin/trips/${tripId}/auto-group`,
-    SPLIT_APPROVE: (tripId, bookingId) =>
-      `/admin/trips/${tripId}/bookings/${bookingId}/split-approve`,
+    SPLIT_APPROVE: (tripId, bookingId) => `/admin/trips/${tripId}/bookings/${bookingId}/split-approve`,
     ATTENDANCE_MATRIX: (tripId) => `/admin/trips/${tripId}/attendance-matrix`,
     ATTENDANCES: (tripId) => `/admin/trips/${tripId}/attendances`,
     ATTENDANCES_HISTORY: (tripId) => `/admin/trips/${tripId}/attendances/history`,
@@ -104,10 +103,8 @@ export const API_ENDPOINTS = {
   TRIPS: {
     GROUPING: (tripId) => `/trips/${tripId}/grouping`,
     GROUP_GUIDE: (tripId, groupId) => `/trips/${tripId}/groups/${groupId}/guide`,
-    BOOKING_GROUP: (tripId, bookingOrderId) =>
-      `/trips/${tripId}/bookings/${bookingOrderId}/group`,
-    SPLIT_BOOKING: (tripId, bookingOrderId) =>
-      `/trips/${tripId}/bookings/${bookingOrderId}/split`,
+    BOOKING_GROUP: (tripId, bookingOrderId) => `/trips/${tripId}/bookings/${bookingOrderId}/group`,
+    SPLIT_BOOKING: (tripId, bookingOrderId) => `/trips/${tripId}/bookings/${bookingOrderId}/split`,
     PUBLISH_GROUPING: (tripId) => `/trips/${tripId}/grouping/publish`,
   },
   TRIP_BOOKINGS: {

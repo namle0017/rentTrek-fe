@@ -26,8 +26,7 @@ export function useCreateTripBooking() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ payload, idempotencyKey }) =>
-      tripBookingService.create(payload, idempotencyKey),
+    mutationFn: ({ payload, idempotencyKey }) => tripBookingService.create(payload, idempotencyKey),
     onSuccess: (response) => {
       const orderId = response.data?.orderId;
       if (orderId) queryClient.setQueryData(tripBookingKeys.detail(orderId), response);

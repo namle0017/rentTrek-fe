@@ -18,20 +18,18 @@ export default function GuideItineraryPage() {
     <>
       <div className={styles.subNavRow}>
         <Link to={ROUTES.GUIDE_TRIP_GROUP(tripId)} className={styles.btnOutline}>
-          ← Danh sách nhóm (G02)
+          ← Danh sách nhóm
         </Link>
         <Link to={ROUTES.GUIDE_ATTENDANCE(tripId)} className={styles.btnAccent}>
-          ✓ Điểm danh (G04)
+          Điểm danh
         </Link>
         <Link to={ROUTES.GUIDE_PROVIDED_ITEMS(tripId)} className={styles.btnOutline}>
-          🎒 Đồ cấp (G06)
+          Đồ cấp đoàn
         </Link>
       </div>
 
       <div className={styles.tripCard}>
-        <h1 className={styles.cardTitle}>
-          Lịch trình Chuyến đi & Tiến độ Hoạt động (Màn G05 - 24.5)
-        </h1>
+        <h1 className={styles.cardTitle}>Lịch trình Chuyến đi & Tiến độ Hoạt động</h1>
         <p className={styles.metaText}>Tour: {itinerary.tourName}</p>
       </div>
 
@@ -49,9 +47,7 @@ export default function GuideItineraryPage() {
                 style={{
                   padding: '12px',
                   borderRadius: '8px',
-                  border: act.isCurrent
-                    ? '2px solid var(--color-accent)'
-                    : '1px solid var(--color-border)',
+                  border: act.isCurrent ? '2px solid var(--color-accent)' : '1px solid var(--color-border)',
                   background: act.isCurrent ? '#fff7ed' : '#fafafa',
                   display: 'flex',
                   flexDirection: 'column',
@@ -67,9 +63,7 @@ export default function GuideItineraryPage() {
                   </span>
                 </div>
                 {act.isCurrent && (
-                  <span className={`${styles.badge} ${styles.badgeWarning}`}>
-                    🔥 Chặng đang diễn ra
-                  </span>
+                  <span className={`${styles.badge} ${styles.badgeWarning}`}>Chặng đang diễn ra</span>
                 )}
                 {act.description && <p className={styles.metaText}>{act.description}</p>}
               </div>

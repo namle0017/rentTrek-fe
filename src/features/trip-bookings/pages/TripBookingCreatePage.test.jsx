@@ -20,7 +20,15 @@ const renderPage = (search = '?tripId=trip-1&tourId=tour-1&partySize=1') =>
   render(
     <MemoryRouter initialEntries={[`/trip-bookings/new${search}`]}>
       <Routes>
-        <Route path="*" element={<><TripBookingCreatePage /><LocationProbe /></>} />
+        <Route
+          path="*"
+          element={
+            <>
+              <TripBookingCreatePage />
+              <LocationProbe />
+            </>
+          }
+        />
       </Routes>
     </MemoryRouter>,
   );
@@ -41,7 +49,12 @@ describe('TripBookingCreatePage', () => {
         name: 'Tà Năng 2N1Đ',
         basePrice: 1000000,
         availableTrips: [
-          { id: 'trip-1', availableSlots: 3, pricePerPerson: 1500000, dateRangeFormatted: '02/11 - 04/11/2026' },
+          {
+            id: 'trip-1',
+            availableSlots: 3,
+            pricePerPerson: 1500000,
+            dateRangeFormatted: '02/11 - 04/11/2026',
+          },
         ],
       },
     });

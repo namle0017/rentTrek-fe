@@ -3,9 +3,16 @@
   display: flex;
   flex-direction: column;
   background: var(--color-bg);
-  padding-bottom: 68px;
+  padding-bottom: 68px; /* Dành chỗ cho bottom nav trên mobile */
 }
 
+@media (min-width: 769px) {
+  .guideShell {
+    padding-bottom: 0; /* Desktop ẩn bottom nav nên không cần padding đáy */
+  }
+}
+
+/* ===== Top Header ===== */
 .topHeader {
   position: sticky;
   top: 0;
@@ -13,36 +20,132 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
-  background: var(--color-primary);
+  padding: 12px 20px;
+  background: #14532d; /* Xanh lá đậm thương hiệu RenTrek */
   color: #fff;
-  box-shadow: var(--shadow);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+  gap: 16px;
+}
+
+@media (min-width: 769px) {
+  .topHeader {
+    padding: 14px 32px;
+  }
+}
+
+.headerLeftGroup {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.headerRightGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 1.05rem;
   font-weight: 800;
   color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.brandIcon {
+  display: inline-flex;
+  align-items: center;
+  color: #86efac;
+}
+
+/* Navigation trên Desktop */
+.desktopNav {
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (min-width: 769px) {
+  .desktopNav {
+    display: flex;
+  }
+}
+
+.desktopNavLink {
+  padding: 6px 14px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #dcfce7;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.desktopNavLink:hover {
+  background: rgb(255 255 255 / 0.12);
+  color: #fff;
+}
+
+.desktopNavLinkActive {
+  background: rgb(255 255 255 / 0.2);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Nút thoát về Admin */
+.adminSwitchBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgb(255 255 255 / 0.15);
+  border: 1px solid rgb(255 255 255 / 0.3);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.adminSwitchBtn:hover {
+  background: #ffffff;
+  color: #14532d;
 }
 
 .userPill {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.85rem;
+  gap: 8px;
+  background: rgb(0 0 0 / 0.2);
+  padding: 5px 12px;
+  border-radius: 9999px;
 }
 
-.homeLink {
-  padding: 4px 10px;
-  background: rgb(255 255 255 / 0.16);
-  border-radius: 999px;
-  color: #fff;
+.userFullName {
+  font-size: 0.8125rem;
   font-weight: 600;
+  color: #f0fdf4;
 }
 
+.userRoleTag {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #22c55e;
+  color: #052e16;
+}
+
+/* ===== Main Content ===== */
 .mainContent {
   width: 100%;
-  max-width: 680px;
+  max-width: 100%;
   margin-inline: auto;
   padding: 16px;
   display: flex;
@@ -50,31 +153,68 @@
   gap: 16px;
 }
 
+@media (min-width: 769px) {
+  .mainContent {
+    max-width: 1200px;
+    padding: 24px 32px;
+    gap: 20px;
+  }
+}
+
+/* ===== Bottom Nav (Mobile Only) ===== */
 .bottomNav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 40;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   background: var(--color-surface);
   border-top: 1px solid var(--color-border);
+  box-shadow: 0 -2px 10px rgb(0 0 0 / 0.05);
+}
+
+@media (min-width: 769px) {
+  .bottomNav {
+    display: none;
+  }
 }
 
 .bottomNavItem {
-  padding: 12px;
+  flex: 1;
+  padding: 12px 8px;
   text-align: center;
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bottomNavItemActive {
   color: var(--color-primary);
   background: var(--color-positive-bg);
+  border-top: 2px solid var(--color-primary);
 }
 
+/* ===== Lưới danh sách chuyến đi (Trips Grid) ===== */
+.tripsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .tripsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 20px;
+  }
+}
+
+/* Tab Bar */
 .tabBar {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -83,6 +223,12 @@
   padding: 6px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
+}
+
+@media (min-width: 769px) {
+  .tabBar {
+    max-width: 480px;
+  }
 }
 
 .tabItem {
@@ -95,6 +241,12 @@
   background: transparent;
   color: var(--color-text-secondary);
   cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tabItem:hover:not(.tabItemActive) {
+  background: #f1f5f9;
+  color: var(--color-text);
 }
 
 .tabItemActive {
@@ -102,16 +254,22 @@
   color: #fff;
 }
 
+/* Card Chuyến đi */
 .tripCard {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-left: 5px solid var(--color-primary);
   border-radius: var(--radius-lg);
-  padding: 16px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tripCard:hover {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
 }
 
 .cardTitle {
@@ -119,12 +277,14 @@
   font-size: 1.12rem;
   font-weight: 700;
   color: var(--color-text);
+  line-height: 1.35;
 }
 
 .metaText {
   margin: 0;
   font-size: 0.88rem;
   color: var(--color-text-secondary);
+  line-height: 1.45;
 }
 
 .badge {
@@ -155,6 +315,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
+  margin-top: 4px;
 }
 
 .btnPrimary {
@@ -162,9 +323,9 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 11px 14px;
+  padding: 10px 14px;
   font: inherit;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: #fff;
   background: var(--color-primary);
@@ -172,6 +333,12 @@
   border-radius: var(--radius);
   cursor: pointer;
   text-align: center;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.btnPrimary:hover {
+  background: #15803d;
 }
 
 .btnAccent {
@@ -179,9 +346,9 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 11px 14px;
+  padding: 10px 14px;
   font: inherit;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: #fff;
   background: var(--color-accent);
@@ -189,6 +356,12 @@
   border-radius: var(--radius);
   cursor: pointer;
   text-align: center;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.btnAccent:hover {
+  background: #d97706;
 }
 
 .btnOutline {
@@ -196,9 +369,9 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px 12px;
+  padding: 10px 14px;
   font: inherit;
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text);
   background: var(--color-surface);
@@ -206,22 +379,30 @@
   border-radius: var(--radius);
   cursor: pointer;
   text-align: center;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.btnOutline:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 .subNavRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
+  align-items: center;
 }
 
 .emergencyBox {
   background: #fef2f2;
   border: 2px solid #ef4444;
   border-radius: var(--radius-lg);
-  padding: 16px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .callBtn {
@@ -229,11 +410,17 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 16px;
+  padding: 12px 18px;
   background: #dc2626;
   color: #fff;
   font-weight: 800;
   border-radius: var(--radius);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.callBtn:hover {
+  background: #b91c1c;
 }
 
 .statusBtnGroup {
@@ -251,6 +438,7 @@
   border-radius: var(--radius);
   background: var(--color-surface);
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .statusBtnPresent {
@@ -273,10 +461,17 @@
 
 .input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 10px 14px;
   font: inherit;
   font-size: 0.92rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   background: var(--color-surface);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgb(22 101 52 / 0.15);
 }

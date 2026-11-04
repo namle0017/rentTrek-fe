@@ -2,17 +2,10 @@ import { useState } from 'react';
 import { REFUND_POLICY_TYPE, REFUND_POLICY_TYPE_LABEL } from '@/constants/enums';
 import styles from './finance.module.css';
 
-export default function PolicyFormModal({
-  isOpen,
-  onClose,
-  onSubmit,
-  isSubmitting = false,
-}) {
+export default function PolicyFormModal({ isOpen, onClose, onSubmit, isSubmitting = false }) {
   const [name, setName] = useState('');
   const [policyType, setPolicyType] = useState(REFUND_POLICY_TYPE.TOUR);
-  const [effectiveFrom, setEffectiveFrom] = useState(
-    new Date().toISOString().split('T')[0],
-  );
+  const [effectiveFrom, setEffectiveFrom] = useState(new Date().toISOString().split('T')[0]);
   const [error, setError] = useState('');
 
   if (!isOpen) return null;
@@ -56,9 +49,7 @@ export default function PolicyFormModal({
                 }}
                 autoFocus
               />
-              {error && (
-                <span style={{ color: '#dc2626', fontSize: 12 }}>{error}</span>
-              )}
+              {error && <span style={{ color: '#dc2626', fontSize: 12 }}>{error}</span>}
             </div>
 
             <div className={styles.filterGroup}>
@@ -96,24 +87,16 @@ export default function PolicyFormModal({
                 color: '#475569',
               }}
             >
-              ℹ️ Sau khi tạo thành công, bạn có thể thiết lập chi tiết các mốc bậc thang (giờ trước khởi hành vs % hoàn tiền) trong bảng quy tắc.
+              ℹ️ Sau khi tạo thành công, bạn có thể thiết lập chi tiết các mốc bậc thang (giờ trước khởi hành
+              vs % hoàn tiền) trong bảng quy tắc.
             </div>
           </div>
 
           <div className={styles.modalFooter}>
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={onClose}
-              disabled={isSubmitting}
-            >
+            <button type="button" className="btn btn-outline" onClick={onClose} disabled={isSubmitting}>
               Hủy
             </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={isSubmitting}
-            >
+            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
               {isSubmitting ? 'Đang tạo...' : 'Tạo chính sách'}
             </button>
           </div>
@@ -122,4 +105,3 @@ export default function PolicyFormModal({
     </div>
   );
 }
-

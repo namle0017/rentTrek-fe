@@ -69,32 +69,8 @@ export default function TransactionsPage() {
     toast.success('Đã tải xuống file Excel giao dịch thành công');
   };
 
-  const handleResetMock = () => {
-    financeService.resetMockData();
-    window.location.reload();
-  };
-
   return (
     <div className={styles.container}>
-      <div className={styles.pageHeader}>
-        <div>
-          <p className={styles.pageSubtitle} style={{ marginTop: 0 }}>
-            Kê khai toàn bộ dòng tiền Thu (Collection) và Hoàn (Refund) qua cổng SePay và ngân hàng
-          </p>
-        </div>
-
-        <div className={styles.headerActions}>
-          <button
-            type="button"
-            className="btn btn-outline"
-            style={{ fontSize: 13, padding: '6px 14px', color: '#64748b' }}
-            onClick={handleResetMock}
-            title="Khôi phục lại dữ liệu mẫu ban đầu"
-          >
-            Khôi phục dữ liệu mẫu
-          </button>
-        </div>
-      </div>
 
       {/* Thẻ tổng hợp KPI tài chính */}
       <TransactionSummaryCards stats={statsData} isLoading={isStatsLoading} />

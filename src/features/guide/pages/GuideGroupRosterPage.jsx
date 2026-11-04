@@ -24,19 +24,19 @@ export default function GuideGroupRosterPage() {
           ← Lịch dẫn đoàn
         </Link>
         <Link to={ROUTES.GUIDE_ATTENDANCE(tripId)} className={styles.btnAccent}>
-          ✓ Điểm danh nhanh (G04)
+          Điểm danh nhanh
         </Link>
         <Link to={ROUTES.GUIDE_ITINERARY(tripId)} className={styles.btnOutline}>
-          🗺️ Lịch trình (G05)
+          Lịch trình
         </Link>
         <Link to={ROUTES.GUIDE_PROVIDED_ITEMS(tripId)} className={styles.btnOutline}>
-          🎒 Đồ cấp (G06)
+          Đồ cấp đoàn
         </Link>
       </div>
 
       <div className={styles.tripCard}>
         <span className={`${styles.badge} ${styles.badgePositive}`}>{roster.groupName}</span>
-        <h1 className={styles.cardTitle}>{roster.tourName} — Thành viên nhóm (Màn G02)</h1>
+        <h1 className={styles.cardTitle}>{roster.tourName} — Thành viên nhóm</h1>
         {roster.currentActivity && (
           <p className={styles.metaText}>
             Hoạt động hiện tại: <strong>{roster.currentActivity.name}</strong> (Ngày{' '}
@@ -83,16 +83,13 @@ export default function GuideGroupRosterPage() {
             <div className={styles.actionGrid}>
               {p.phone ? (
                 <a href={`tel:${p.phone}`} className={styles.btnPrimary}>
-                  📞 Gọi điện ngay
+                  Gọi điện ngay
                 </a>
               ) : (
                 <span className={styles.btnOutline}>Không có SĐT</span>
               )}
-              <Link
-                to={ROUTES.GUIDE_PARTICIPANT_DETAIL(p.participantId)}
-                className={styles.btnOutline}
-              >
-                🆘 Hồ sơ an toàn & Cứu hộ (G03)
+              <Link to={ROUTES.GUIDE_PARTICIPANT_DETAIL(p.participantId)} className={styles.btnOutline}>
+                Hồ sơ an toàn & Cứu hộ
               </Link>
             </div>
           </div>

@@ -12,7 +12,12 @@ export default function TourCard({ tour }) {
   return (
     <article className={`${styles.card} ${isOpen ? '' : styles.cardExpired}`}>
       <div className={styles.imageWrapper}>
-        <img src={tour.thumbnailUrl || FALLBACK_IMAGE} alt={tour.name} className={styles.image} loading="lazy" />
+        <img
+          src={tour.thumbnailUrl || FALLBACK_IMAGE}
+          alt={tour.name}
+          className={styles.image}
+          loading="lazy"
+        />
         <span className={`${styles.badge} ${isOpen ? styles.badgeOpen : styles.badgeExpired}`}>
           {tour.badgeStatus || (isOpen ? 'Đang mở' : 'Hết hạn')}
         </span>

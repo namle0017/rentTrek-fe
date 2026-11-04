@@ -36,7 +36,15 @@ const renderCard = (value = tour) =>
   render(
     <MemoryRouter initialEntries={['/tours/tour-1']}>
       <Routes>
-        <Route path="*" element={<><TourBookingCard tour={value} /><LocationProbe /></>} />
+        <Route
+          path="*"
+          element={
+            <>
+              <TourBookingCard tour={value} />
+              <LocationProbe />
+            </>
+          }
+        />
       </Routes>
     </MemoryRouter>,
   );
@@ -47,11 +55,19 @@ describe('TourBookingCard', () => {
     renderCard();
 
     expect(screen.getByRole('radio', { name: /02\/11 - 04\/11\/2026/ })).toBeChecked();
-    expect(screen.getByText((_, element) => element.id === 'booking-card-title' && element.textContent.includes('1.500.000'))).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        (_, element) => element.id === 'booking-card-title' && element.textContent.includes('1.500.000'),
+      ),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole('radio', { name: /05\/12 - 07\/12\/2026/ }));
 
-    expect(screen.getByText((_, element) => element.id === 'booking-card-title' && element.textContent.includes('2.000.000'))).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        (_, element) => element.id === 'booking-card-title' && element.textContent.includes('2.000.000'),
+      ),
+    ).toBeInTheDocument();
   });
 
   it('does not let party size exceed available slots and opens checkout', async () => {

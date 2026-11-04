@@ -8,9 +8,7 @@ export default function PolicyRuleStepChart({ policyName, rules = [] }) {
     return (
       <div className={styles.stepChartContainer}>
         <div className={styles.stepChartHeader}>
-          <div className={styles.stepChartTitle}>
-            Biểu đồ bậc thang hoàn tiền — {policyName}
-          </div>
+          <div className={styles.stepChartTitle}>Biểu đồ bậc thang hoàn tiền — {policyName}</div>
         </div>
         <div style={{ padding: '24px 0', textAlign: 'center', color: '#94a3b8', fontSize: 13 }}>
           Chưa có mốc quy tắc hoàn tiền nào. Hãy thêm mốc quy tắc để hiển thị biểu đồ bậc thang.
@@ -26,9 +24,7 @@ export default function PolicyRuleStepChart({ policyName, rules = [] }) {
     <div className={styles.stepChartContainer}>
       <div className={styles.stepChartHeader}>
         <div>
-          <div className={styles.stepChartTitle}>
-            Biểu đồ bậc thang hoàn tiền — {policyName}
-          </div>
+          <div className={styles.stepChartTitle}>Biểu đồ bậc thang hoàn tiền — {policyName}</div>
           <span className={styles.statSubtext}>
             Quy tắc tỷ lệ % hoàn tiền theo khoảng thời gian báo hủy trước giờ khởi hành
           </span>
@@ -45,10 +41,7 @@ export default function PolicyRuleStepChart({ policyName, rules = [] }) {
               boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
             }}
           >
-            <strong style={{ color: '#0369a1' }}>
-              ≥ {hoveredRule.minHoursBefore}h
-            </strong>
-            : Hoàn{' '}
+            <strong style={{ color: '#0369a1' }}>≥ {hoveredRule.minHoursBefore}h</strong>: Hoàn{' '}
             <strong style={{ color: hoveredRule.refundPercentage > 0 ? '#16a34a' : '#dc2626' }}>
               {hoveredRule.refundPercentage}%
             </strong>{' '}
@@ -97,9 +90,7 @@ export default function PolicyRuleStepChart({ policyName, rules = [] }) {
                       ? `≥ ${rule.minHoursBefore} giờ`
                       : '< 24 giờ'}
               </div>
-              <div className={styles.stepSublabel}>
-                ({rule.minHoursBefore}h trước)
-              </div>
+              <div className={styles.stepSublabel}>({rule.minHoursBefore}h trước)</div>
             </div>
           );
         })}

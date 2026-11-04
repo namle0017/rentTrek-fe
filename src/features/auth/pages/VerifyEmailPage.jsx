@@ -43,7 +43,12 @@ export default function VerifyEmailPage() {
           <h1>Không thể xác thực email</h1>
           <p>{verify.error?.message || 'Link xác thực không hợp lệ hoặc đã hết hạn.'}</p>
           {isAuthenticated ? (
-            <button type="button" className={styles.action} onClick={() => resend.mutate()} disabled={resend.isPending}>
+            <button
+              type="button"
+              className={styles.action}
+              onClick={() => resend.mutate()}
+              disabled={resend.isPending}
+            >
               {resend.isPending ? 'Đang gửi...' : 'Gửi lại email xác thực'}
             </button>
           ) : (

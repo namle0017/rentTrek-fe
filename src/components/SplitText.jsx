@@ -134,11 +134,7 @@ const SplitText = ({
             ? `-=${Math.abs(marginValue)}${marginUnit}`
             : `+=${marginValue}${marginUnit}`;
       const start = `top ${startPct}%${sign}`;
-      const unit = splitType.includes('chars')
-        ? 'chars'
-        : splitType.includes('words')
-          ? 'words'
-          : 'lines';
+      const unit = splitType.includes('chars') ? 'chars' : splitType.includes('words') ? 'words' : 'lines';
 
       const em = parseFloat(getComputedStyle(el).fontSize) || 16;
       const custom = from !== undefined || to !== undefined;
@@ -239,8 +235,7 @@ const SplitText = ({
         raf = 0;
         const dt = Math.min(0.032, Math.max(0.001, (now - last) / 1000));
         last = now;
-        const spots =
-          liveRef.current.hoverEffect === 'lift' && pointer.inside && revealed ? centers : null;
+        const spots = liveRef.current.hoverEffect === 'lift' && pointer.inside && revealed ? centers : null;
         const radius = em * 1.15;
         let moving = false;
         for (let k = kicks.length - 1; k >= 0; k--) {

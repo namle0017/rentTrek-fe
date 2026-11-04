@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import FormField from '@/components/FormField';
-import Spinner from '@/components/Spinner';
+import { FormSkeleton } from '@/components/skeleton';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { applyServerErrors } from '@/utils/applyServerErrors';
@@ -50,7 +50,11 @@ export default function ProfilePage() {
   }, [profile, reset]);
 
   if (isLoading) {
-    return <Spinner fullScreen />;
+    return (
+      <div className={styles.profileContainer}>
+        <FormSkeleton fields={6} />
+      </div>
+    );
   }
 
   if (isError || !profile) {
@@ -141,11 +145,7 @@ export default function ProfilePage() {
           <div className={styles.avatarContainer}>
             <div
               className={styles.avatarWrapper}
-              style={
-                !profile.avatarUrl
-                  ? { backgroundColor: avatarColor.bg, color: avatarColor.text }
-                  : {}
-              }
+              style={!profile.avatarUrl ? { backgroundColor: avatarColor.bg, color: avatarColor.text } : {}}
             >
               {profile.avatarUrl ? (
                 <img
@@ -164,9 +164,18 @@ export default function ProfilePage() {
               title="Đổi ảnh đại diện"
               aria-label="Đổi ảnh đại diện"
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                <circle cx="12" cy="13" r="4"/>
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                <circle cx="12" cy="13" r="4" />
               </svg>
             </button>
           </div>
@@ -188,7 +197,9 @@ export default function ProfilePage() {
             {profile.userCode && (
               <div className={styles.metaItem}>
                 <span className={styles.metaLabel}>Mã thành viên:</span>
-                <span className={styles.metaValue}><strong>{profile.userCode}</strong></span>
+                <span className={styles.metaValue}>
+                  <strong>{profile.userCode}</strong>
+                </span>
               </div>
             )}
             <div className={styles.metaItem}>
@@ -208,7 +219,18 @@ export default function ProfilePage() {
           </div>
 
           {profile.bio && (
-            <div style={{ marginTop: '16px', padding: '12px', background: '#f8fafc', borderRadius: '8px', fontSize: '0.8125rem', color: '#475569', fontStyle: 'italic', textAlign: 'left' }}>
+            <div
+              style={{
+                marginTop: '16px',
+                padding: '12px',
+                background: '#f8fafc',
+                borderRadius: '8px',
+                fontSize: '0.8125rem',
+                color: '#475569',
+                fontStyle: 'italic',
+                textAlign: 'left',
+              }}
+            >
               &ldquo;{profile.bio}&rdquo;
             </div>
           )}
@@ -240,7 +262,8 @@ export default function ProfilePage() {
               <div className={styles.tabHeader}>
                 <h2 className={styles.formCardTitle}>Chỉnh sửa thông tin</h2>
                 <p className={styles.formCardSubtitle}>
-                  Cập nhật họ tên, liên lạc và địa chỉ nhận thiết bị để renTrek phục vụ tốt nhất cho các chuyến đi.
+                  Cập nhật họ tên, liên lạc và địa chỉ nhận thiết bị để renTrek phục vụ tốt nhất cho các
+                  chuyến đi.
                 </p>
               </div>
 
@@ -281,12 +304,7 @@ export default function ProfilePage() {
 
                 <div className={styles.formRow}>
                   <FormField label="Ngày sinh" htmlFor="dateOfBirth" error={errors.dateOfBirth}>
-                    <input
-                      id="dateOfBirth"
-                      type="date"
-                      className="input"
-                      {...register('dateOfBirth')}
-                    />
+                    <input id="dateOfBirth" type="date" className="input" {...register('dateOfBirth')} />
                   </FormField>
 
                   <FormField label="Địa chỉ giao nhận mặc định" htmlFor="address" error={errors.address}>

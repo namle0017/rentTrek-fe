@@ -5,11 +5,20 @@ export default function TourGallery({ images = [], tourName = 'Tour trekking' })
   const [selectedImage, setSelectedImage] = useState(null);
 
   const fallbackImages = [
-    { imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b', caption: 'Khung cảnh Fansipan' },
-    { imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb', caption: 'Bình minh trên mây' },
+    {
+      imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b',
+      caption: 'Khung cảnh Fansipan',
+    },
+    {
+      imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
+      caption: 'Bình minh trên mây',
+    },
     { imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba', caption: 'Đường leo núi' },
     { imageUrl: 'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99', caption: 'Cắm trại đêm' },
-    { imageUrl: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800', caption: 'Chóp đỉnh Fansipan' },
+    {
+      imageUrl: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800',
+      caption: 'Chóp đỉnh Fansipan',
+    },
   ];
 
   const displayImages = images.length >= 5 ? images : [...images, ...fallbackImages.slice(images.length)];
@@ -19,15 +28,8 @@ export default function TourGallery({ images = [], tourName = 'Tour trekking' })
   return (
     <>
       <div className={styles.galleryContainer}>
-        <div
-          className={styles.mainImageWrapper}
-          onClick={() => setSelectedImage(primaryImage.imageUrl)}
-        >
-          <img
-            src={primaryImage.imageUrl}
-            alt={primaryImage.caption || tourName}
-            className={styles.image}
-          />
+        <div className={styles.mainImageWrapper} onClick={() => setSelectedImage(primaryImage.imageUrl)}>
+          <img src={primaryImage.imageUrl} alt={primaryImage.caption || tourName} className={styles.image} />
         </div>
 
         {subImages.map((img, idx) => (

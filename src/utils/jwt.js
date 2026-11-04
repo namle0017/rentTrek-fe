@@ -77,4 +77,3 @@ export function extractUserFromToken(token) {
     role: normalizeRole(rawRole),
   };
 }
-

@@ -19,14 +19,14 @@
 .header h2 {
   margin: 2px 0 0;
   color: var(--color-primary-heading, #173d2d);
-  font-size: 1.12rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
 }
 
 .kicker {
   color: var(--color-accent, #c55742);
-  font-size: 0.68rem;
-  font-weight: 800;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -36,8 +36,8 @@
   gap: 5px;
   align-items: center;
   padding: 3px 10px;
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   border-radius: 999px;
 }
 
@@ -84,24 +84,24 @@
 
 .facts dt {
   color: var(--color-text-muted, #68756d);
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .facts dd {
   margin: 2px 0 0;
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: #1d2420;
   overflow-wrap: anywhere;
 }
 
 .facts .amount {
   color: var(--color-primary, #204b39);
-  font-size: 1.18rem;
-  font-weight: 800;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   letter-spacing: -0.01em;
 }
 
@@ -122,7 +122,7 @@
   text-align: center;
   gap: 6px;
   color: var(--color-text-muted, #68756d);
-  font-size: 0.74rem;
+  font-size: var(--font-size-meta);
 }
 
 .timeline li:not(:last-child)::after {
@@ -146,8 +146,8 @@
   display: grid;
   width: 28px;
   height: 28px;
-  font-size: 0.76rem;
-  font-weight: 800;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #68756d;
   background: #ffffff;
   border: 2px solid #dde4dd;
@@ -175,8 +175,8 @@
 
 .timeline strong {
   display: block;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #173d2d;
 }
 
@@ -184,14 +184,14 @@
   display: block;
   margin-top: 2px;
   color: #7b8880;
-  font-size: 0.68rem;
+  font-size: var(--font-size-meta);
 }
 
 .note {
   padding: 10px 14px;
   margin: 0;
   color: #5d4822;
-  font-size: 0.78rem;
+  font-size: var(--font-size-meta);
   background: #fefbf0;
   border: 1px solid #fae8ba;
   border-radius: 8px;
@@ -206,7 +206,7 @@
 }
 
 .actions button {
-  min-height: 40px;
+  min-height: var(--control-min-height);
 }
 
 @media (max-width: 720px) {

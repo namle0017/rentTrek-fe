@@ -63,9 +63,8 @@ export default function VietQrPaymentModal({
                   // Fallback nếu không có internet load ảnh vietqr
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.parentElement.innerHTML = `
-                    <div style="padding: 20px; font-size: 13px; color: #475569;">
-                      <div style="font-size: 32px; margin-bottom: 8px;">📲</div>
-                      <strong>Mã QR Chuyển khoản</strong><br/>
+                    <div style="padding: 20px; font-size: var(--font-size-meta); color: #475569;">
+                      <strong style="font-size: var(--font-size-body);">Mã QR Chuyển khoản</strong><br/>
                       ${formatCurrency(amount)}
                     </div>
                   `;
@@ -73,7 +72,7 @@ export default function VietQrPaymentModal({
               />
             </div>
 
-            <div style={{ fontSize: 13, color: '#475569' }}>
+            <div style={{ fontSize: 'var(--font-size-meta)', color: '#475569' }}>
               Quét mã bằng app ngân hàng bất kỳ để thanh toán tức thời
             </div>
 
@@ -88,7 +87,10 @@ export default function VietQrPaymentModal({
                 Chủ tài khoản: <strong>{accountHolder}</strong>
               </div>
               <div>
-                Số tiền: <strong style={{ color: '#16a34a', fontSize: 15 }}>{formatCurrency(amount)}</strong>
+                Số tiền:{' '}
+                <strong style={{ color: '#16a34a', fontSize: 'var(--font-size-body)' }}>
+                  {formatCurrency(amount)}
+                </strong>
               </div>
               <div>
                 Nội dung chuyển khoản:{' '}

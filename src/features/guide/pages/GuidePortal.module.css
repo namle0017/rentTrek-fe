@@ -49,8 +49,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 1.05rem;
-  font-weight: 800;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: #fff;
   text-decoration: none;
   letter-spacing: -0.01em;
@@ -77,8 +77,8 @@
 
 .desktopNavLink {
   padding: 6px 14px;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #dcfce7;
   text-decoration: none;
   border-radius: 6px;
@@ -93,7 +93,7 @@
 .desktopNavLinkActive {
   background: rgb(255 255 255 / 0.2);
   color: #fff;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 /* Nút thoát về Admin */
@@ -106,8 +106,8 @@
   border: 1px solid rgb(255 255 255 / 0.3);
   border-radius: 8px;
   color: #fff;
-  font-size: 0.8125rem;
-  font-weight: 700;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   text-decoration: none;
   transition: all 0.15s ease;
   white-space: nowrap;
@@ -128,14 +128,14 @@
 }
 
 .userFullName {
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: #f0fdf4;
 }
 
 .userRoleTag {
-  font-size: 0.6875rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   padding: 2px 6px;
   border-radius: 4px;
   background: #22c55e;
@@ -184,8 +184,8 @@
   flex: 1;
   padding: 12px 8px;
   text-align: center;
-  font-size: 0.84rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-secondary);
   text-decoration: none;
   transition: all 0.15s ease;
@@ -234,8 +234,8 @@
 .tabItem {
   padding: 10px;
   font: inherit;
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   border: none;
   border-radius: var(--radius);
   background: transparent;
@@ -274,15 +274,15 @@
 
 .cardTitle {
   margin: 0;
-  font-size: 1.12rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text);
   line-height: 1.35;
 }
 
 .metaText {
   margin: 0;
-  font-size: 0.88rem;
+  font-size: var(--font-size-meta);
   color: var(--color-text-secondary);
   line-height: 1.45;
 }
@@ -292,8 +292,8 @@
   align-items: center;
   padding: 4px 10px;
   border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
 }
 
 .badgePositive {
@@ -325,8 +325,8 @@
   gap: 6px;
   padding: 10px 14px;
   font: inherit;
-  font-size: 0.875rem;
-  font-weight: 700;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   color: #fff;
   background: var(--color-primary);
   border: 1px solid var(--color-primary);
@@ -348,8 +348,8 @@
   gap: 6px;
   padding: 10px 14px;
   font: inherit;
-  font-size: 0.875rem;
-  font-weight: 700;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   color: #fff;
   background: var(--color-accent);
   border: 1px solid var(--color-accent);
@@ -371,8 +371,8 @@
   gap: 6px;
   padding: 10px 14px;
   font: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -413,7 +413,7 @@
   padding: 12px 18px;
   background: #dc2626;
   color: #fff;
-  font-weight: 800;
+  font-weight: var(--font-weight-bold);
   border-radius: var(--radius);
   text-decoration: none;
   transition: background 0.15s ease;
@@ -432,8 +432,8 @@
 .statusBtn {
   padding: 10px 8px;
   font: inherit;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   background: var(--color-surface);
@@ -464,7 +464,7 @@
   height: 40px;
   padding: 8px 12px;
   font: inherit;
-  font-size: 14px;
+  font-size: var(--font-size-control);
   border: 1px solid var(--color-border, #cbd5e1);
   border-radius: var(--radius, 8px);
   background: var(--color-surface, #ffffff);

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECEAE5;color:#151A24;font-family:'Be Vietnam Pro',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#31476F;text-underline-offset:2px}
+a:hover{color:#14213D}
+*{box-sizing:border-box}
+button{font-family:inherit}
+</style>
+</helmet>
+
+<div style="padding:64px;display:flex;flex-direction:column;gap:96px;width:max-content">
+
+<section data-screen-label="Sitemap" style="width:2310px">
+  <div style="display:flex;align-items:flex-end;gap:24px;margin-bottom:32px">
+    <div>
+      <div style="font-size:13px;font-weight:600;letter-spacing:.12em;color:#31476F">RENTREKK · SITEMAP</div>
+      <h1 style="margin:8px 0 0;font-size:48px;line-height:56px;font-weight:700;color:#14213D;letter-spacing:-.02em">3 khu vực, 1 ứng dụng web</h1>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:16px;font-size:14px;color:#343F52;align-items:center">
+      <span style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:#ECEAE5;color:#4A5870">Khách</span>Guest</span>
+      <span style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:#EEF1F7;color:#14213D">KH</span>Customer</span>
+      <span style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:#E0F2F6;color:#0E7490">Staff</span>Staff</span>
+      <span style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:#14213D;color:#FFFFFF">Admin</span>Admin</span>
+      <span style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:#EDE9FE;color:#6D28D9">Guide</span>Guide</span>
+      <a href="RenTrekk Design System.dc.html" style="margin-left:16px;font-weight:600">← Design System</a>
+      <a href="RenTrekk Batch 6 - Man hinh loi.dc.html" style="font-weight:600">Màn hình lỗi →</a>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:start">
+    <sc-for list="{{ areas }}" as="a" hint-placeholder-count="3">
+      <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:16px;overflow:hidden">
+        <div style="background:#14213D;color:#FFFFFF;padding:20px 24px">
+          <div style="font-size:12px;letter-spacing:.1em;color:#ADBBD3;font-weight:600">{{ a.eyebrow }}</div>
+          <div style="font-size:24px;font-weight:700;margin-top:4px">{{ a.title }}</div>
+          <div style="font-size:13px;color:#D6DDEA;margin-top:6px;line-height:20px">{{ a.desc }}</div>
+        </div>
+        <div style="padding:12px 0">
+          <sc-for list="{{ a.nodes }}" as="n" hint-placeholder-count="12">
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 24px 7px {{ n.pad }}px;border-top:{{ n.bt }}">
+              <span style="width:6px;height:6px;margin-top:8px;flex:none;border-radius:{{ n.dotR }};background:{{ n.dot }}"></span>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:{{ n.fs }}px;font-weight:{{ n.w }};color:{{ n.c }};line-height:22px">{{ n.label }}</div>
+                <sc-if value="{{ n.hasNote }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#4A5870;line-height:17px">{{ n.note }}</div></sc-if>
+              </div>
+              <div style="display:flex;gap:4px;flex:none">
+                <sc-for list="{{ n.roles }}" as="r" hint-placeholder-count="0"><span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:{{ r.bg }};color:{{ r.fg }}">{{ r.t }}</span></sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- CUSTOMER -->
+<section data-screen-label="Shell Customer" style="display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:center;gap:16px">
+    <h2 style="margin:0;font-size:32px;font-weight:700;color:#14213D">Customer site</h2>
+    <div style="display:flex;gap:4px;padding:4px;background:#DDDAD3;border-radius:10px">
+      <button onClick="{{ showPublic }}" style="height:36px;padding:0 14px;border:0;border-radius:7px;background:{{ pubBg }};color:{{ pubC }};font-size:14px;font-weight:600;cursor:pointer">Trang công khai</button>
+      <button onClick="{{ showAccount }}" style="height:36px;padding:0 14px;border:0;border-radius:7px;background:{{ accBg }};color:{{ accC }};font-size:14px;font-weight:600;cursor:pointer">Tài khoản của tôi</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:64px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font:600 13px ui-monospace,Menlo,monospace;color:#4A5870">Desktop · 1440</span>
+      <div style="width:1440px;height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+        <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+          <span style="font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:-.01em">RenTrekk<span style="color:#E29A78">.</span></span>
+          <nav style="display:flex;gap:4px">
+            <sc-for list="{{ custNav }}" as="n" hint-placeholder-count="3"><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:{{ n.c }};border-bottom:3px solid {{ n.bd }}">{{ n.label }}</span></sc-for>
+          </nav>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+            <div style="width:280px;height:40px;border-radius:8px;background:#213456;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#ADBBD3">⌕ Tìm tour, thiết bị, bài viết</div>
+            <span style="height:40px;padding:0 12px;display:flex;align-items:center;gap:8px;color:#FFFFFF;font-size:14px;font-weight:500">Giỏ thuê<span style="min-width:20px;height:20px;border-radius:10px;background:#FFFFFF;color:#14213D;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">2</span></span>
+            <sc-if value="{{ isPublic }}" hint-placeholder-val="{{ true }}">
+              <span style="height:40px;padding:0 16px;display:flex;align-items:center;border-radius:8px;border:1px solid #536A93;color:#FFFFFF;font-size:14px;font-weight:600">Đăng nhập</span>
+            </sc-if>
+            <sc-if value="{{ isAccount }}" hint-placeholder-val="{{ false }}">
+              <span style="display:flex;align-items:center;gap:10px;color:#FFFFFF;font-size:14px"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà ▾</span>
+            </sc-if>
+          </div>
+        </header>
+        <sc-if value="{{ isPublic }}" hint-placeholder-val="{{ true }}">
+          <div style="flex:1;overflow:hidden;display:flex;flex-direction:column">
+            <div style="position:relative;height:420px;flex:none;background:#ADBBD3 url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=60&auto=format) center/cover no-repeat">
+              <div style="position:absolute;inset:0;background:rgba(20,33,61,.55);display:flex;flex-direction:column;justify-content:center;padding:0 80px;gap:16px">
+                <div style="font-size:48px;line-height:56px;font-weight:700;color:#FFFFFF;max-width:640px;letter-spacing:-.02em">Vùng hero / tiêu đề trang</div>
+                <div style="height:64px;width:880px;background:#FFFFFF;border-radius:12px;display:flex;align-items:center;padding:0 20px;font:500 12px ui-monospace,Menlo,monospace;color:#4A5870">thanh tìm kiếm / bộ lọc chính của trang</div>
+              </div>
+            </div>
+            <div style="flex:1;margin:40px 80px 0;border:1.5px dashed #C5C3BD;border-radius:12px;display:flex;align-items:center;justify-content:center;font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">Nội dung trang · lưới 12 cột · content 1280</div>
+            <footer style="margin-top:40px;background:#0E182D;color:#ADBBD3;padding:28px 80px;display:flex;gap:64px;font-size:13px;flex:none">
+              <span style="font-size:18px;font-weight:700;color:#FFFFFF">RenTrekk<span style="color:#E29A78">.</span></span>
+              <div style="display:flex;flex-direction:column;gap:6px"><b style="color:#FFFFFF">Khám phá</b><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></div>
+              <div style="display:flex;flex-direction:column;gap:6px"><b style="color:#FFFFFF">Hỗ trợ</b><span>Chính sách hoàn tiền</span><span>Hướng dẫn thuê đồ</span><span>Liên hệ</span></div>
+              <span style="margin-left:auto;align-self:flex-end">Giờ hiển thị theo GMT+7</span>
+            </footer>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isAccount }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;display:flex;gap:24px;padding:32px 80px;overflow:hidden">
+            <aside style="width:256px;flex:none;display:flex;flex-direction:column;gap:2px">
+              <div style="padding:0 12px 16px;font-size:13px;color:#4A5870">Tài khoản của tôi</div>
+              <sc-for list="{{ accNav }}" as="n" hint-placeholder-count="6"><span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;font-weight:{{ n.w }};color:{{ n.c }};background:{{ n.bg }}">{{ n.label }}</span></sc-for>
+            </aside>
+            <div style="flex:1;display:flex;flex-direction:column;gap:16px">
+              <div style="font-size:28px;font-weight:700;color:#14213D">Đơn của tôi</div>
+              <div style="flex:1;border:1.5px dashed #C5C3BD;border-radius:12px;display:flex;align-items:center;justify-content:center;font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">Nội dung khu tài khoản · 9 cột</div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font:600 13px ui-monospace,Menlo,monospace;color:#4A5870">Mobile · 375</span>
+      <div style="width:375px;height:812px;background:#F5F4F1;border-radius:32px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column;border:8px solid #151A24">
+        <header style="height:56px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 16px;gap:8px">
+          <span style="font-size:18px;font-weight:700;color:#FFFFFF">RenTrekk<span style="color:#E29A78">.</span></span>
+          <span style="margin-left:auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:18px">⌕</span>
+          <span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:13px;font-weight:600">Giỏ 2</span>
+        </header>
+        <sc-if value="{{ isPublic }}" hint-placeholder-val="{{ true }}">
+          <div style="position:relative;height:240px;flex:none;background:#ADBBD3 url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=60&auto=format) center/cover no-repeat">
+            <div style="position:absolute;inset:0;background:rgba(20,33,61,.55);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;gap:10px">
+              <div style="font-size:26px;line-height:32px;font-weight:700;color:#FFFFFF">Vùng hero</div>
+              <div style="height:48px;background:#FFFFFF;border-radius:10px;display:flex;align-items:center;padding:0 12px;font:500 11px ui-monospace,Menlo,monospace;color:#4A5870">tìm kiếm / bộ lọc</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isAccount }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:16px 16px 0;flex:none">
+            <div style="font-size:22px;font-weight:700;color:#14213D">Đơn của tôi</div>
+            <div style="display:flex;gap:8px;margin-top:12px"><span style="height:36px;padding:0 14px;display:flex;align-items:center;border-radius:999px;background:#14213D;color:#FFFFFF;font-size:13px;font-weight:600">Tour</span><span style="height:36px;padding:0 14px;display:flex;align-items:center;border-radius:999px;border:1px solid #C5C3BD;color:#14213D;font-size:13px;font-weight:600">Thuê đồ</span></div>
+          </div>
+        </sc-if>
+        <div style="flex:1;margin:16px;border:1.5px dashed #C5C3BD;border-radius:12px;display:flex;align-items:center;justify-content:center;font:500 12px ui-monospace,Menlo,monospace;color:#4A5870;text-align:center;padding:16px">Nội dung · 4 cột<br>lề 16 · gutter 16</div>
+        <nav style="height:68px;flex:none;background:#FFFFFF;border-top:1px solid #DDDAD3;display:grid;grid-template-columns:repeat(5,1fr)">
+          <sc-for list="{{ custTabs }}" as="t" hint-placeholder-count="5">
+            <span style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:{{ t.w }};color:{{ t.c }}"><span style="font-size:18px;line-height:20px">{{ t.ic }}</span>{{ t.label }}</span>
+          </sc-for>
+        </nav>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:300px;font:500 12px/1.6 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:12px 14px">DEV<br>· Header night-700, cao 72 (desktop) / 56 (mobile).<br>· “Giỏ thuê” chỉ chứa đồ thuê; đơn tour đi luồng riêng (ORDERS.order_type).<br>· Avatar: PROFILES.avatar_url? → fallback chữ cái đầu ACCOUNTS.full_name.<br>· Bottom nav mobile ẩn ở các bước thanh toán để tránh rời luồng.<br>· Tab “Đơn của tôi” yêu cầu đăng nhập; Guest bấm → trang Đăng nhập.</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- BACK-OFFICE -->
+<section data-screen-label="Shell Back-office" style="display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:center;gap:16px">
+    <h2 style="margin:0;font-size:32px;font-weight:700;color:#14213D">Back-office</h2>
+    <span style="font-size:14px;color:#4A5870">Đang xem với vai trò <b style="color:#14213D">{{ roleLabel }}</b> — đổi trong Tweaks. Bấm « để thu gọn sidebar, ☰ trên mobile để mở menu.</span>
+  </div>
+  <div style="display:flex;gap:64px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font:600 13px ui-monospace,Menlo,monospace;color:#4A5870">Desktop · 1440</span>
+      <div style="width:1440px;height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+        <aside style="width:{{ sbW }}px;flex:none;background:#14213D;display:flex;flex-direction:column;transition:width .2s">
+          <div style="height:64px;flex:none;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456">
+            <span style="width:32px;height:32px;flex:none;border-radius:8px;background:#FFFFFF;color:#14213D;font-weight:700;display:flex;align-items:center;justify-content:center">R</span>
+            <sc-if value="{{ sbOpen }}" hint-placeholder-val="{{ true }}"><span style="color:#FFFFFF;font-weight:700;font-size:16px;white-space:nowrap">RenTrekk <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></sc-if>
+          </div>
+          <nav style="flex:1;padding:12px;display:flex;flex-direction:column;gap:2px;overflow:hidden">
+            <sc-for list="{{ boNav }}" as="n" hint-placeholder-count="12">
+              <sc-if value="{{ n.isHead }}" hint-placeholder-val="{{ false }}"><div style="padding:14px 10px 6px;font-size:11px;font-weight:600;letter-spacing:.08em;color:#8193B5;white-space:nowrap;height:{{ n.headH }};overflow:hidden">{{ n.headLabel }}</div></sc-if>
+              <sc-if value="{{ n.isItem }}" hint-placeholder-val="{{ true }}">
+                <div title="{{ n.label }}" style="height:40px;display:flex;align-items:center;gap:12px;padding:0 10px;border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:14px;font-weight:{{ n.w }};white-space:nowrap;cursor:pointer" style-hover="background:#213456">
+                  <span style="width:24px;flex:none;text-align:center;font-size:15px">{{ n.ic }}</span>
+                  <sc-if value="{{ sbOpen }}" hint-placeholder-val="{{ true }}"><span style="flex:1">{{ n.label }}</span></sc-if>
+                  <sc-if value="{{ n.showBadge }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;display:flex;align-items:center;justify-content:center">{{ n.badge }}</span></sc-if>
+                </div>
+              </sc-if>
+            </sc-for>
+          </nav>
+          <button onClick="{{ toggleSb }}" aria-label="Thu gọn / mở rộng sidebar" style="height:48px;flex:none;border:0;border-top:1px solid #213456;background:transparent;color:#ADBBD3;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:10px;padding:0 22px;white-space:nowrap">{{ sbArrow }}</button>
+        </aside>
+        <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+          <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px">
+            <div style="width:480px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã tài sản, SKU, email…<span style="margin-left:auto;font-size:11px;border:1px solid #DDDAD3;border-radius:4px;padding:2px 6px">Ctrl K</span></div>
+            <div style="margin-left:auto;position:relative;width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#14213D">◔<span style="position:absolute;top:4px;right:2px;min-width:18px;height:18px;border-radius:9px;background:#BE123C;color:#FFFFFF;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">5</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3">
+              <span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ userInit }}</span>
+              <div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ userName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div>
+            </div>
+          </header>
+          <main style="flex:1;padding:24px 32px;display:flex;flex-direction:column;gap:16px;min-height:0">
+            <div style="font-size:13px;color:#4A5870">Chuyến <span style="margin:0 6px">/</span> <span style="color:#151A24">Lịch chuyến</span></div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="font-size:28px;font-weight:700;color:#14213D;margin-right:auto">Tiêu đề trang</div>
+              <span style="height:40px;padding:0 16px;display:flex;align-items:center;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600">Hành động phụ</span>
+              <span style="height:40px;padding:0 16px;display:flex;align-items:center;border-radius:8px;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600">Hành động chính</span>
+            </div>
+            <div style="flex:1;border:1.5px dashed #C5C3BD;border-radius:12px;display:flex;align-items:center;justify-content:center;font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">Nội dung · bảng / lịch / kanban / Gantt · drawer chi tiết mở từ phải (480)</div>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font:600 13px ui-monospace,Menlo,monospace;color:#4A5870">Mobile · 375</span>
+      <div style="position:relative;width:375px;height:812px;background:#F5F4F1;border-radius:32px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column;border:8px solid #151A24">
+        <header style="height:56px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 4px;gap:4px">
+          <button onClick="{{ openDrawer }}" aria-label="Mở menu" style="width:44px;height:44px;border:0;background:transparent;color:#FFFFFF;font-size:20px;cursor:pointer">☰</button>
+          <span style="font-size:16px;font-weight:600;color:#FFFFFF">Lịch chuyến</span>
+          <span style="margin-left:auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:18px">⌕</span>
+          <span style="position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:18px">◔<span style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:8px;background:#BE123C;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center">5</span></span>
+        </header>
+        <div style="flex:1;margin:16px;border:1.5px dashed #C5C3BD;border-radius:12px;display:flex;align-items:center;justify-content:center;font:500 12px ui-monospace,Menlo,monospace;color:#4A5870;text-align:center;padding:16px">Nội dung · bảng chuyển thành danh sách thẻ</div>
+        <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ closeDrawer }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+          <aside style="position:absolute;top:0;bottom:0;left:0;width:300px;background:#14213D;display:flex;flex-direction:column">
+            <div style="height:64px;display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid #213456">
+              <span style="width:32px;height:32px;border-radius:8px;background:#FFFFFF;color:#14213D;font-weight:700;display:flex;align-items:center;justify-content:center">R</span>
+              <span style="color:#FFFFFF;font-weight:700">RenTrekk</span>
+              <button onClick="{{ closeDrawer }}" aria-label="Đóng menu" style="margin-left:auto;width:44px;height:44px;border:0;background:transparent;color:#FFFFFF;font-size:18px;cursor:pointer">✕</button>
+            </div>
+            <div style="flex:1;overflow:auto;padding:8px 12px;display:flex;flex-direction:column;gap:2px">
+              <sc-for list="{{ boNavMobile }}" as="n" hint-placeholder-count="10">
+                <div style="height:44px;display:flex;align-items:center;gap:12px;padding:0 10px;border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:14px;font-weight:{{ n.w }}"><span style="width:24px;text-align:center">{{ n.ic }}</span>{{ n.label }}</div>
+              </sc-for>
+            </div>
+            <div style="padding:12px 16px;border-top:1px solid #213456;display:flex;align-items:center;gap:10px;color:#FFFFFF;font-size:13px"><span style="width:32px;height:32px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">{{ userInit }}</span>{{ userName }} · {{ roleLabel }}</div>
+          </aside>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:300px;font:500 12px/1.6 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:12px 14px">DEV<br>· Menu lọc theo ACCOUNTS.role_id → ROLES.role_name (Staff | Admin).<br>· Tìm toàn cục: ORDERS.order_code · EQUIPMENT_ASSETS.asset_code · PRODUCT_VARIANTS.sku · ACCOUNTS.email.<br>· Chuông: đếm NOTIFICATIONS với read_at = null của recipient_user_id.<br>· Số trên menu: Đơn hàng = ORDERS.status PendingPayment; Tài chính = PAYMENTS Refund PendingApproval + đơn NeedsReconciliation.<br>· Lỗi toàn trang (401/403/404/429/500/502/offline) → Batch 6 E01–E12.<br>· Staff chỉ thấy TRIPS có managed_by_user_id = mình.<br>· Trạng thái thu gọn lưu localStorage theo người dùng.</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- GUIDE -->
+<section data-screen-label="Shell Guide" style="display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:center;gap:16px">
+    <h2 style="margin:0;font-size:32px;font-weight:700;color:#14213D">Khu vực Guide</h2>
+    <span style="font-size:14px;color:#4A5870">Mobile-first. Bấm tab để chuyển; trạng thái dùng chung giữa hai khung.</span>
+  </div>
+  <div style="display:flex;gap:64px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font:600 13px ui-monospace,Menlo,monospace;color:#4A5870">Mobile · 375 (thiết kế chính)</span>
+      <div style="width:375px;height:812px;background:#F5F4F1;border-radius:32px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column;border:8px solid #151A24">
+        <header style="flex:none;background:#14213D;padding:14px 16px 16px;color:#FFFFFF">
+          <div style="font-size:12px;color:#ADBBD3">Th 7, 14/11/2026 · GMT+7</div>
+          <div style="font-size:22px;font-weight:700;margin-top:2px">{{ guideTitle }}</div>
+        </header>
+        <div style="flex:1;margin:16px;border:1.5px dashed #C5C3BD;border-radius:12px;display:flex;align-items:center;justify-content:center;font:500 12px ui-monospace,Menlo,monospace;color:#4A5870;text-align:center;padding:16px">{{ guideHint }}</div>
+        <nav style="height:68px;flex:none;background:#FFFFFF;border-top:1px solid #DDDAD3;display:grid;grid-template-columns:repeat(5,1fr)">
+          <sc-for list="{{ guideTabs }}" as="t" hint-placeholder-count="5">
+            <button onClick="{{ t.on }}" style="border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:{{ t.w }};color:{{ t.c }};cursor:pointer;position:relative;padding:0">
+              <span style="position:absolute;top:0;left:20%;right:20%;height:3px;border-radius:0 0 3px 3px;background:{{ t.bar }}"></span>
+              <span style="font-size:18px;line-height:20px">{{ t.ic }}</span>{{ t.label }}
+            </button>
+          </sc-for>
+        </nav>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font:600 13px ui-monospace,Menlo,monospace;color:#4A5870">Desktop · 1440</span>
+      <div style="width:1440px;height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+        <aside style="width:240px;flex:none;background:#FFFFFF;border-right:1px solid #DDDAD3;display:flex;flex-direction:column">
+          <div style="height:64px;display:flex;align-items:center;gap:10px;padding:0 20px;border-bottom:1px solid #DDDAD3">
+            <span style="width:32px;height:32px;border-radius:8px;background:#14213D;color:#FFFFFF;font-weight:700;display:flex;align-items:center;justify-content:center">R</span>
+            <span style="font-weight:700;color:#14213D">RenTrekk <span style="font-weight:500;color:#4A5870;font-size:13px">Guide</span></span>
+          </div>
+          <nav style="padding:12px;display:flex;flex-direction:column;gap:2px">
+            <sc-for list="{{ guideTabs }}" as="t" hint-placeholder-count="5">
+              <button onClick="{{ t.on }}" style="height:44px;border:0;display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:8px;background:{{ t.sbBg }};color:{{ t.sbC }};font-size:14px;font-weight:{{ t.w }};cursor:pointer;text-align:left"><span style="width:20px;text-align:center">{{ t.ic }}</span>{{ t.label }}</button>
+            </sc-for>
+          </nav>
+          <div style="margin-top:auto;padding:16px 20px;border-top:1px solid #DDDAD3;display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:36px;height:36px;border-radius:50%;background:#EDE9FE;color:#6D28D9;font-weight:700;display:flex;align-items:center;justify-content:center">ĐT</span><div style="line-height:18px"><div style="font-weight:600">Đinh Văn Toàn</div><div style="color:#4A5870;font-size:12px">Guide</div></div></div>
+        </aside>
+        <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+          <header style="height:64px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 32px;gap:16px;color:#FFFFFF">
+            <span style="font-size:20px;font-weight:700">{{ guideTitle }}</span>
+            <span style="margin-left:auto;font-size:13px;color:#D6DDEA">Th 7, 14/11/2026 · GMT+7</span>
+          </header>
+          <main style="flex:1;padding:24px 32px;display:flex;flex-direction:column;min-height:0">
+            <div style="flex:1;max-width:960px;width:100%;border:1.5px dashed #C5C3BD;border-radius:12px;display:flex;align-items:center;justify-content:center;font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">{{ guideHint }} · cột nội dung tối đa 960</div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:300px;font:500 12px/1.6 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:12px 14px">DEV<br>· Phạm vi: TRIP_GROUPS.guide_user_id = người đăng nhập.<br>· Không truy vấn/hiển thị ORDERS, PAYMENTS, giá.<br>· Nhóm: BOOKING_PARTICIPANTS (trip_group_id) · full_name, phone?, emergency_contact_name?, emergency_contact_phone?.<br>· Điểm danh: ACTIVITY_ATTENDANCES theo TOUR_ACTIVITIES (day_number, start_time).<br>· Breakpoint ≥ 1024: bottom tab → sidebar.</div>
+    </sc-if>
+  </div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;role&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Admin&quot;,&quot;Staff&quot;],&quot;default&quot;:&quot;Admin&quot;,&quot;tsType&quot;:&quot;'Admin'|'Staff'&quot;,&quot;section&quot;:&quot;Back-office&quot;},&quot;showDevNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Annotation&quot;}}">
+const ROLE = {
+  G:{t:'Khách',bg:'#ECEAE5',fg:'#4A5870'}, C:{t:'KH',bg:'#EEF1F7',fg:'#14213D'},
+  S:{t:'Staff',bg:'#E0F2F6',fg:'#0E7490'}, A:{t:'Admin',bg:'#14213D',fg:'#FFFFFF'}, U:{t:'Guide',bg:'#EDE9FE',fg:'#6D28D9'}
+};
+const N = (d,label,roles,note) => ({d,label,roles:roles||'',note:note||''});
+const CUST = [
+  N(0,'Trang chủ','G C'),
+  N(0,'Tour','G C'),
+  N(1,'Danh sách tour','','Lọc theo địa điểm, ngày, độ dài, khoảng giá'),
+  N(1,'Chi tiết tour','','Gallery, lịch trình theo ngày, đồ cần chuẩn bị, đồ được cấp, chuyến sắp mở, đánh giá'),
+  N(1,'Đặt chuyến','C','Chọn chuyến → Người tham gia → Khuyến mãi → Xác nhận'),
+  N(1,'Thanh toán chuyển khoản (VietQR)','C','Số VA SePay, QR, nội dung chuyển khoản, đếm ngược giữ chỗ — dùng chung đơn tour và đơn thuê'),
+  N(1,'Kết quả thanh toán','C','Đang xác minh · Thành công · Thất bại · Hết hạn · Cần đối soát'),
+  N(0,'Thuê thiết bị','G C'),
+  N(1,'Danh mục & tìm kiếm'),
+  N(1,'Chi tiết sản phẩm','','Biến thể (màu/size), bậc giá theo số ngày'),
+  N(1,'Chi tiết combo'),
+  N(1,'Giỏ thuê → Thanh toán (VietQR) → Xác nhận','C','Chỉ đồ thuê; không trộn với tour; bản này chưa thu cọc'),
+  N(0,'Cẩm nang','G C'),
+  N(1,'Danh sách bài viết','','Lọc theo tag, kỹ năng mềm'),
+  N(1,'Chi tiết bài viết'),
+  N(0,'Đăng nhập · Đăng ký','G','Quên mật khẩu, đặt lại mật khẩu, xác thực email, đăng nhập Google'),
+  N(0,'Tài khoản của tôi','C'),
+  N(1,'Đơn của tôi','','Tab Tour | Thuê đồ'),
+  N(2,'Chi tiết đơn','','Timeline trạng thái, thanh toán, phí phát sinh, hoàn tiền (chờ duyệt → đang hoàn → đã hoàn)'),
+  N(2,'Khai báo người tham gia'),
+  N(2,'Yêu cầu hủy','','Xem trước số tiền hoàn theo chính sách; Admin duyệt trước khi hoàn'),
+  N(2,'Yêu cầu kiểm tra lại phí','','Đơn thuê có phí phát sinh'),
+  N(1,'Chuyến của tôi','','Bài cần đọc trước chuyến, mời người tham gia liên kết tài khoản, viết đánh giá sau chuyến'),
+  N(0,'Nhận lời mời tham gia','G C','Link mời → đăng nhập → xác nhận "đây là tôi" → liên kết participant'),
+  N(1,'Thông báo'),
+  N(1,'Hồ sơ · Bảo mật','','Đổi mật khẩu, phiên đăng nhập'),
+  N(0,'Trang thông tin','G C','Chính sách hoàn tiền, hướng dẫn thuê đồ, liên hệ'),
+  N(0,'Màn hình lỗi','G C','404 · 403 · phiên hết hạn · 500 · cổng thanh toán lỗi · bảo trì · 429 · mất mạng · link hết hạn')
+];
+const BO = [
+  N(0,'Tổng quan','S A','Chuyến hôm nay, đơn chờ xử lý, đồ thiếu'),
+  N(0,'Chuyến','S A'),
+  N(1,'Lịch chuyến','','Calendar tháng/tuần + bảng'),
+  N(1,'Chi tiết chuyến','','Tổng quan · Người tham gia · Chia nhóm & guide · Đồ cấp · Điểm danh'),
+  N(0,'Đơn hàng','S A'),
+  N(1,'Danh sách đơn chung','','Tour + thuê; tab Chờ thanh toán · Cần đối soát · Chờ duyệt hoàn'),
+  N(1,'Chi tiết đơn','','Giao dịch, phí phát sinh, khuyến mãi, lịch sử'),
+  N(0,'Giao nhận','S A','Quầy cấp / thu bằng scanner; chuẩn bị đồ cấp chuyến'),
+  N(0,'Kho thiết bị','S A'),
+  N(1,'Sản phẩm & biến thể · Combo'),
+  N(1,'Tài sản','','Theo mã tài sản, tình trạng'),
+  N(1,'Lịch phân bổ','','Gantt theo tài sản'),
+  N(1,'Bảng giá thuê','A'),
+  N(0,'Tài chính','S A'),
+  N(1,'Giao dịch (PAYMENTS) · Phí phát sinh','S A'),
+  N(1,'Hoàn tiền: duyệt · thử lại · hoàn thủ công','A'),
+  N(1,'Đối soát: chấp nhận khoản tiền / hoàn toàn bộ','A'),
+  N(0,'Nội dung','S A','Bài viết, tag, kỹ năng mềm'),
+  N(0,'Đánh giá','S A','Xem, ẩn / hiện đánh giá kèm lý do (Admin)'),
+  N(0,'Tour & danh mục','A','Tour (phiên bản), lịch lặp, danh mục, địa điểm'),
+  N(0,'Khuyến mãi','A'),
+  N(0,'Chính sách hoàn tiền','A'),
+  N(0,'Người dùng & vai trò','A'),
+  N(0,'Cấu hình hệ thống','A'),
+  N(0,'Nhật ký audit','A'),
+  N(0,'Báo cáo','A','Doanh thu, lấp chỗ, thiết bị, hoàn tiền, đối soát, khuyến mãi, xuất CSV'),
+  N(0,'Thông báo · Hồ sơ','S A')
+];
+const GUIDE = [
+  N(0,'Chuyến hôm nay','U','Chuyến được giao, lịch trình theo hoạt động, điểm tập trung'),
+  N(0,'Nhóm','U','Danh sách người tham gia, liên hệ khẩn cấp, gọi nhanh'),
+  N(0,'Điểm danh','U','Chọn hoạt động → Có mặt / Đến muộn / Vắng; mất mạng → hàng đợi gửi lại'),
+  N(0,'Thông báo','U'),
+  N(0,'Tôi','U','Hồ sơ, đăng xuất'),
+  N(0,'Không có','','Thanh toán, giá, đơn hàng của khách — Guide không truy cập')
+];
+const mapNodes = list => list.map((n,i)=>({label:n.label,note:n.note,hasNote:!!n.note,pad:24+n.d*22,bt:n.d===0&&i>0?'1px solid #ECEAE5':'0',fs:n.d===0?15:14,w:n.d===0?600:400,c:n.label==='Không có'?'#BE123C':n.d===0?'#151A24':'#343F52',dot:n.d===0?'#14213D':'#C5C3BD',dotR:n.d===0?'2px':'50%',roles:n.roles?n.roles.split(' ').map(k=>ROLE[k]):[]}));
+const BONAV = [
+  {h:'VẬN HÀNH'},
+  {l:'Tổng quan',ic:'◱',r:'SA'},{l:'Chuyến',ic:'▲',r:'SA',active:1},{l:'Đơn hàng',ic:'≡',r:'SA',badge:3},{l:'Giao nhận',ic:'⇄',r:'SA'},{l:'Kho thiết bị',ic:'▣',r:'SA'},{l:'Tài chính',ic:'₫',r:'SA',badgeA:2},{l:'Nội dung',ic:'¶',r:'SA'},{l:'Đánh giá',ic:'★',r:'SA'},
+  {h:'QUẢN TRỊ',r:'A'},
+  {l:'Tour & danh mục',ic:'◬',r:'A'},{l:'Khuyến mãi',ic:'%',r:'A'},{l:'Chính sách hoàn tiền',ic:'↺',r:'A'},{l:'Người dùng & vai trò',ic:'◉',r:'A'},{l:'Cấu hình',ic:'✲',r:'A'},{l:'Nhật ký audit',ic:'☷',r:'A'},{l:'Báo cáo',ic:'▤',r:'A'}
+];
+class Component extends DCLogic {
+  state = { view:'public', sb:true, drawer:false, gtab:0 };
+  renderVals() {
+    const s=this.state, role=this.props.role ?? 'Admin', isA=role==='Admin', dev=this.props.showDevNotes ?? true;
+    const pub=s.view==='public';
+    const nav = BONAV.filter(n=>!n.r||n.r.includes(isA?'A':'S')||n.r==='SA').filter(n=>isA||n.r!=='A');
+    const boNav = nav.map(n=>n.h?{isHead:true,isItem:false,headLabel:s.sb?n.h:'',headH:s.sb?'auto':'8px'}:{isHead:false,isItem:true,label:n.l,ic:n.ic,bg:n.active?'#31476F':'transparent',c:n.active?'#FFFFFF':'#D6DDEA',w:n.active?600:500,badge:n.badge||(isA?n.badgeA:0)||'',showBadge:s.sb&&!!(n.badge||(isA&&n.badgeA))});
+    const gt=[['◎','Hôm nay','Chuyến hôm nay','Thẻ chuyến · lịch trình hoạt động theo giờ · điểm tập trung'],['◫','Nhóm','Nhóm của tôi','Danh sách người tham gia · liên hệ khẩn cấp · gọi nhanh'],['✓','Điểm danh','Điểm danh','Chọn hoạt động · danh sách điểm danh nút lớn ≥ 44px'],['◔','Thông báo','Thông báo','Danh sách thông báo'],['●','Tôi','Tôi','Hồ sơ · đăng xuất']];
+    return {
+      dev,
+      areas:[
+        {eyebrow:'KHU VỰC 1',title:'Customer site',desc:'Public + Tài khoản của tôi · top nav, footer, bottom nav trên mobile',nodes:mapNodes(CUST)},
+        {eyebrow:'KHU VỰC 2',title:'Back-office',desc:'Staff / Admin · sidebar thu gọn, tìm kiếm toàn cục, menu theo vai trò',nodes:mapNodes(BO)},
+        {eyebrow:'KHU VỰC 3',title:'Guide',desc:'Web mobile-first (375) · bottom tab trên mobile, sidebar trên desktop',nodes:mapNodes(GUIDE)}
+      ],
+      isPublic:pub, isAccount:!pub,
+      showPublic:()=>this.setState({view:'public'}), showAccount:()=>this.setState({view:'account'}),
+      pubBg:pub?'#FFFFFF':'transparent', pubC:pub?'#14213D':'#343F52', accBg:!pub?'#FFFFFF':'transparent', accC:!pub?'#14213D':'#343F52',
+      custNav:['Tour','Thuê thiết bị','Cẩm nang'].map((label,i)=>({label,c:pub&&i===0?'#FFFFFF':'#D6DDEA',bd:pub&&i===0?'#E29A78':'transparent'})),
+      accNav:['Đơn của tôi','Chuyến của tôi','Đánh giá của tôi','Thông báo','Hồ sơ','Bảo mật'].map((label,i)=>({label,bg:i===0?'#FFFFFF':'transparent',c:i===0?'#14213D':'#343F52',w:i===0?600:500})),
+      custTabs:[['◎','Khám phá'],['▣','Thuê đồ'],['¶','Cẩm nang'],['≡','Đơn của tôi'],['●','Tài khoản']].map(([ic,label],i)=>{const a=pub?i===0:i===3;return {ic,label,c:a?'#14213D':'#4A5870',w:a?700:500};}),
+      roleLabel:role, userName:isA?'Ngô Bảo Châu':'Phan Thị Ngọc', userInit:isA?'BC':'PN',
+      boNav, sbOpen:s.sb, sbW:s.sb?248:72, sbArrow:s.sb?'«  Thu gọn':'»', toggleSb:()=>this.setState(x=>({sb:!x.sb})),
+      boNavMobile:boNav.filter(n=>n.isItem),
+      drawerOpen:s.drawer, openDrawer:()=>this.setState({drawer:true}), closeDrawer:()=>this.setState({drawer:false}),
+      guideTitle:gt[s.gtab][2], guideHint:gt[s.gtab][3],
+      guideTabs:gt.map(([ic,label],i)=>{const a=i===s.gtab;return {ic,label,c:a?'#14213D':'#4A5870',w:a?700:500,bar:a?'#14213D':'transparent',sbBg:a?'#EEF1F7':'transparent',sbC:a?'#14213D':'#343F52',on:()=>this.setState({gtab:i})};})
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -5,14 +5,17 @@ import { ToastContainer } from 'react-toastify';
 import AuthProvider from '@/contexts/AuthProvider';
 import { queryClient } from '@/lib/queryClient';
 import { router } from '@/routes/router';
+import AppLayout from '@/layouts/AppLayout';
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-      <ToastContainer position="top-right" autoClose={3000} newestOnTop />
+      <AppLayout>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+        <ToastContainer position="top-right" autoClose={3000} newestOnTop />
+      </AppLayout>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

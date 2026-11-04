@@ -1,6 +1,6 @@
 .page {
   display: grid;
-  gap: 20px;
+  gap: var(--space-section);
   max-width: 1500px;
   margin: 0 auto;
   padding: 34px 28px 96px;
@@ -16,7 +16,7 @@
 .pageHeader h1 {
   margin: 4px 0 6px;
   color: #173d2d;
-  font-size: clamp(1.8rem, 4vw, 2.55rem);
+  font-size: var(--font-size-page-title);
 }
 .pageHeader p {
   max-width: 760px;
@@ -27,8 +27,8 @@
 .columnTitle span,
 .groupsHeading span {
   color: #c55742;
-  font-size: 0.65rem;
-  font-weight: 800;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.13em;
 }
 .draftBadge,
@@ -38,8 +38,8 @@
   align-items: center;
   min-height: 27px;
   padding: 4px 9px;
-  font-size: 0.68rem;
-  font-weight: 800;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   border-radius: 999px;
   white-space: nowrap;
 }
@@ -86,8 +86,8 @@
   margin: 0;
   padding: 13px 15px;
   color: #8d2d28;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   background: #fff1ed;
   border: 1px solid #efc9bf;
   border-radius: 12px;
@@ -107,13 +107,13 @@
 .metrics span {
   display: block;
   color: var(--color-text-muted);
-  font-size: 0.72rem;
+  font-size: var(--font-size-meta);
 }
 .metrics strong {
   display: block;
   margin-top: 4px;
   color: #173d2d;
-  font-size: 1.18rem;
+  font-size: var(--font-size-metric);
 }
 .board {
   display: grid;
@@ -150,7 +150,7 @@
 .groupsHeading h2 {
   margin: 2px 0 0;
   color: #173d2d;
-  font-size: 1.05rem;
+  font-size: var(--font-size-section-title);
 }
 .columnTitle > strong {
   display: grid;
@@ -189,11 +189,11 @@
 .groupHeader h3 {
   margin: 0;
   color: #173d2d;
-  font-size: 1rem;
+  font-size: var(--font-size-subheading);
 }
 .groupHeader div > span {
   color: var(--color-text-muted);
-  font-size: 0.7rem;
+  font-size: var(--font-size-meta);
 }
 .guideField {
   display: grid;
@@ -202,19 +202,19 @@
 }
 .guideField span {
   color: var(--color-text-muted);
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
 }
 .guideField select,
 .bookingActions select,
 .assignmentList select,
 .reasonField textarea {
   width: 100%;
-  min-height: 39px;
+  min-height: var(--control-min-height);
   padding: 7px 9px;
   color: var(--color-text);
   font: inherit;
-  font-size: 0.76rem;
+  font-size: var(--font-size-control);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
@@ -222,12 +222,12 @@
 .guideName {
   margin: 13px 0;
   color: var(--color-text-muted);
-  font-size: 0.76rem;
+  font-size: var(--font-size-body);
 }
 .overflowNote {
   padding: 8px 10px;
   color: #604c24;
-  font-size: 0.7rem;
+  font-size: var(--font-size-meta);
   background: #fff8e6;
   border-radius: 9px;
 }
@@ -252,12 +252,12 @@
 }
 .bookingHeader small {
   color: #c55742;
-  font-size: 0.65rem;
-  font-weight: 800;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
 }
 .bookingHeader strong {
   color: #173d2d;
-  font-size: 0.82rem;
+  font-size: var(--font-size-meta);
 }
 .bookingCard ul {
   display: grid;
@@ -265,7 +265,7 @@
   margin: 9px 0;
   padding-left: 18px;
   color: #53635a;
-  font-size: 0.72rem;
+  font-size: var(--font-size-meta);
 }
 .bookingActions {
   display: grid;
@@ -279,8 +279,8 @@
   min-height: 36px;
   color: #204b39;
   font: inherit;
-  font-size: 0.72rem;
-  font-weight: 800;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   background: transparent;
   border: 1px solid #cbd5cd;
@@ -290,7 +290,7 @@
   margin: 0;
   padding: 18px 8px;
   color: var(--color-text-muted);
-  font-size: 0.74rem;
+  font-size: var(--font-size-meta);
   text-align: center;
 }
 .publishBar {
@@ -310,14 +310,15 @@
 }
 .publishBar span {
   color: var(--color-text-muted);
-  font-size: 0.74rem;
+  font-size: var(--font-size-meta);
 }
 .primaryButton {
-  min-height: 43px;
+  min-height: var(--control-min-height);
   padding: 9px 16px;
   color: #fff;
   font: inherit;
-  font-weight: 800;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   background: var(--color-primary);
   border: 0;
@@ -352,13 +353,13 @@
 .iconButton {
   width: 38px;
   padding: 0;
-  font-size: 1.3rem;
+  font-size: var(--font-size-control);
   border: 0;
 }
 .dialogWarning {
   padding: 11px 12px;
   color: #604c24;
-  font-size: 0.76rem;
+  font-size: var(--font-size-meta);
   background: #fff8e6;
   border: 1px solid #ead8a6;
   border-radius: 10px;
@@ -372,15 +373,15 @@
   grid-template-columns: 1fr 220px;
   gap: 12px;
   align-items: center;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 .reasonField {
   display: grid;
   gap: 6px;
   margin-top: 14px;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
 }
 .reasonField b {
   color: var(--color-error);
@@ -393,7 +394,7 @@
   margin-top: 18px;
 }
 .secondaryButton {
-  min-height: 43px;
+  min-height: var(--control-min-height);
   padding: 9px 16px;
 }
 @media (max-width: 980px) {

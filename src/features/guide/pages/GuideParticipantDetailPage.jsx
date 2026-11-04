@@ -40,7 +40,7 @@ export default function GuideParticipantDetailPage() {
         <h2 className={styles.cardTitle} style={{ color: '#991b1b' }}>
           Thông tin Liên hệ Khẩn cấp
         </h2>
-        <p className={styles.metaText} style={{ color: '#7f1d1d', fontWeight: 600 }}>
+        <p className={styles.metaText} style={{ color: '#7f1d1d', fontWeight: "var(--font-weight-semibold)" }}>
           Họ tên: {detail.emergencyContact?.name || 'Chưa đăng ký'}
         </p>
         {detail.emergencyContact?.phone ? (

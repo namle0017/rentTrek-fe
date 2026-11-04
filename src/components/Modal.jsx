@@ -19,7 +19,12 @@ export default function Modal({ title, onClose, children }) {
   };
 
   return createPortal(
-    <dialog ref={dialogRef} className={styles.dialog} aria-labelledby={titleId} onCancel={handleCancel}>
+    <dialog
+      ref={dialogRef}
+      className={`${styles.dialog} app-dialog`}
+      aria-labelledby={titleId}
+      onCancel={handleCancel}
+    >
       <header className={styles.header}>
         <h2 id={titleId}>{title}</h2>
         <button type="button" className={styles.close} aria-label="Đóng" onClick={onClose}>

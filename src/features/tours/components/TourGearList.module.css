@@ -16,8 +16,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--color-border);
@@ -44,11 +44,11 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 0.9rem;
+  font-size: var(--font-size-body);
 }
 
 .itemIcon {
-  font-size: 1rem;
+  font-size: var(--font-size-body);
   line-height: 1.2;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .itemName {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text);
 }
 
@@ -65,14 +65,14 @@
   margin-left: 6px;
   background: #fee2e2;
   color: #991b1b;
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   padding: 2px 6px;
   border-radius: 4px;
 }
 
 .itemNote {
-  font-size: 0.8rem;
+  font-size: var(--font-size-meta);
   color: var(--color-text-muted);
   margin-top: 2px;
 }

@@ -6,7 +6,7 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-section);
   width: 100%;
   max-width: 1440px;
   margin-inline: auto;
@@ -34,14 +34,14 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #64748b;
 }
 
 .breadcrumb a {
   color: #166534;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   text-decoration: none;
   transition: color 0.15s ease;
 }
@@ -65,8 +65,8 @@
 
 .pageTitle {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-bold);
   letter-spacing: -0.015em;
   line-height: 1.3;
   color: #0f172a;
@@ -78,7 +78,7 @@
 
 .subtitle {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: var(--font-size-meta);
   line-height: 1.5;
   color: #64748b;
 }
@@ -127,8 +127,8 @@
 
 .tripMainTitle {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-bold);
   letter-spacing: -0.02em;
   line-height: 1.25;
   color: #0f172a;
@@ -148,7 +148,7 @@
   gap: 12px 24px;
   padding-top: 14px;
   border-top: 1px solid #f1f5f9;
-  font-size: 0.84375rem;
+  font-size: var(--font-size-label);
   color: #475569;
 }
 
@@ -160,18 +160,18 @@
 
 .metaLabel {
   color: #64748b;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .metaValue {
   color: #0f172a;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .metaCode {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #334155;
   background: #f1f5f9;
   border: 1px solid #e2e8f0;
@@ -211,8 +211,8 @@
 
 .dropdownSectionLabel {
   padding: 6px 10px 4px;
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #94a3b8;
@@ -226,8 +226,8 @@
   width: 100%;
   padding: 8px 12px;
   font: inherit;
-  font-size: 0.84375rem;
-  font-weight: 500;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #1e293b;
   background: transparent;
   border: none;
@@ -252,7 +252,7 @@
 
 .dropdownItemDanger {
   color: #b91c1c;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .dropdownItemDanger:hover:not(:disabled) {
@@ -274,8 +274,8 @@
   gap: 8px;
   padding: 8px 16px;
   font: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   color: #ffffff;
   background: #166534;
   border: 1px solid #166534;
@@ -305,8 +305,8 @@
   gap: 8px;
   padding: 8px 16px;
   font: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   color: #ffffff;
   background: #166534;
   border: 1px solid #166534;
@@ -335,8 +335,8 @@
   gap: 8px;
   padding: 8px 14px;
   font: inherit;
-  font-size: 0.84375rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   color: #1e293b;
   background: #ffffff;
   border: 1px solid #cbd5e1;
@@ -367,8 +367,8 @@
   gap: 6px;
   padding: 8px 14px;
   font: inherit;
-  font-size: 0.84375rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   color: #991b1b;
   background: #fef2f2;
   border: 1px solid #fecaca;
@@ -392,7 +392,7 @@
 
 .btnSm {
   padding: 5px 10px;
-  font-size: 0.78125rem;
+  font-size: var(--font-size-control);
   border-radius: 6px;
 }
 
@@ -425,8 +425,8 @@
 }
 
 .kpiLabel {
-  font-size: 0.78125rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: #64748b;
@@ -440,21 +440,21 @@
 }
 
 .kpiValue {
-  font-size: 1.625rem;
-  font-weight: 800;
+  font-size: var(--font-size-metric);
+  font-weight: var(--font-weight-bold);
   letter-spacing: -0.02em;
   line-height: 1.15;
   color: #0f172a;
 }
 
 .kpiUnit {
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #64748b;
 }
 
 .kpiSubtext {
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
   color: #64748b;
   line-height: 1.4;
   display: flex;
@@ -492,8 +492,8 @@
 
 .actionCenterTitle {
   margin: 0;
-  font-size: 1.0625rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #0f172a;
 }
 
@@ -544,13 +544,13 @@
 }
 
 .actionItemTitle {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-semibold);
   color: #0f172a;
 }
 
 .actionItemMeta {
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
   color: #64748b;
   display: flex;
   flex-wrap: wrap;
@@ -569,8 +569,8 @@
   border: 1px solid #bbf7d0;
   border-radius: 8px;
   color: #166534;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
 }
 
 /* ===== Level 3: Tabbed Operations Workspace ===== */
@@ -600,8 +600,8 @@
   gap: 8px;
   padding: 13px 16px;
   font: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #64748b;
   background: transparent;
   border: none;
@@ -622,7 +622,7 @@
 .tabBtnActive {
   color: #166534;
   border-bottom-color: #166534;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .tabCount {
@@ -630,8 +630,8 @@
   align-items: center;
   justify-content: center;
   padding: 1px 7px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   border-radius: 999px;
   background: #f1f5f9;
   color: #475569;
@@ -667,8 +667,8 @@
 
 .cardTitle {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #0f172a;
 }
 
@@ -708,14 +708,14 @@
 }
 
 .infoLabel {
-  font-size: 0.78125rem;
-  font-weight: 500;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #64748b;
 }
 
 .infoValue {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: #0f172a;
 }
 
@@ -741,8 +741,8 @@
   border: none;
   padding: 0;
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   color: #166534;
   cursor: pointer;
   white-space: nowrap;
@@ -781,12 +781,12 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-label);
 }
 
 .field label {
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #475569;
 }
 
@@ -796,7 +796,7 @@
   width: 100%;
   padding: 8px 12px;
   font: inherit;
-  font-size: 0.875rem;
+  font-size: var(--font-size-control);
   color: #0f172a;
   background: #ffffff;
   border: 1px solid #cbd5e1;
@@ -832,8 +832,8 @@
   align-items: center;
   gap: 5px;
   padding: 3px 10px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   border-radius: 999px;
   white-space: nowrap;
   line-height: 1.4;
@@ -875,15 +875,15 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem;
+  font-size: var(--font-size-body);
   background: #ffffff;
 }
 
 .table th {
   text-align: left;
   padding: 11px 14px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #64748b;
@@ -923,7 +923,7 @@
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
 }
 
 /* ===== Progress Indicators ===== */
@@ -1119,8 +1119,8 @@
 }
 
 .calendarCardTitle {
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #0f172a;
   line-height: 1.4;
   margin: 0;
@@ -1130,7 +1130,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
   color: #475569;
   background: #f8fafc;
   padding: 12px;
@@ -1147,12 +1147,12 @@
 
 .calendarCardMetaLabel {
   color: #64748b;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .calendarCardMetaValue {
   color: #0f172a;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   text-align: right;
 }
 
@@ -1203,8 +1203,8 @@
   border: none;
   padding: 6px 18px;
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   color: #64748b;
   border-radius: 9999px;
   cursor: pointer;
@@ -1220,7 +1220,7 @@
 .segmentedPillBtnActive {
   background: #166534;
   color: #ffffff;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   box-shadow: 0 1px 3px rgb(22 101 52 / 0.25);
 }
 
@@ -1244,8 +1244,8 @@
   border: 1px solid #cbd5e1;
   background: #ffffff;
   color: #334155;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -1267,8 +1267,8 @@
 }
 
 .calendarNavDateText {
-  font-size: 0.9375rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #0f172a;
   white-space: nowrap;
   letter-spacing: -0.01em;
@@ -1303,15 +1303,15 @@
 }
 
 .calendarSubHeaderTitle {
-  font-size: 1.0625rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #0f172a;
   margin: 0;
   letter-spacing: -0.01em;
 }
 
 .calendarSubHeaderDesc {
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
   color: #64748b;
   margin: 0;
 }
@@ -1341,15 +1341,15 @@
 }
 
 .sectionHeading {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #0f172a;
   margin: 0;
   letter-spacing: -0.01em;
 }
 
 .sectionSubtitle {
-  font-size: 0.875rem;
+  font-size: var(--font-size-meta);
   color: #64748b;
   margin: 0;
 }
@@ -1395,8 +1395,8 @@
   border: none;
   padding: 6px 14px;
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-medium);
   color: #64748b;
   border-radius: 6px;
   cursor: pointer;
@@ -1413,7 +1413,7 @@
   background: #ffffff;
   color: #166534;
   box-shadow: 0 1px 3px rgb(15 23 42 / 0.1);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .toolbarNavGroup {
@@ -1424,8 +1424,8 @@
 }
 
 .calendarDateTitle {
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #0f172a;
   letter-spacing: -0.01em;
   white-space: nowrap;
@@ -1445,7 +1445,7 @@
 }
 
 .toolbarListMetaText {
-  font-size: 0.84375rem;
+  font-size: var(--font-size-meta);
   color: #64748b;
 }
 
@@ -1497,8 +1497,8 @@
   border: none;
   padding: 6px 12px;
   font: inherit;
-  font-size: 0.9375rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #334155;
   cursor: pointer;
   display: inline-flex;
@@ -1520,8 +1520,8 @@
 }
 
 .calendarMonthTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #0f172a;
   letter-spacing: -0.01em;
   min-width: 170px;
@@ -1541,8 +1541,8 @@
   border: none;
   padding: 6px 14px;
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   color: #64748b;
   border-radius: 6px;
   cursor: pointer;
@@ -1558,7 +1558,7 @@
   background: #ffffff;
   color: #166534;
   box-shadow: 0 1px 3px rgb(15 23 42 / 0.1);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 /* 2-Column Calendar Workspace: Calendar (Left ~70%) + Daily Detail Panel (Right ~30%) */
@@ -1579,8 +1579,8 @@
 .calendarFilterSelect {
   padding: 6px 12px;
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-body);
   color: #0f172a;
   background: #ffffff;
   border: 1px solid #cbd5e1;
@@ -1615,8 +1615,8 @@
 }
 
 .weekdayHeaderCell {
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #64748b;
@@ -1659,8 +1659,8 @@
   margin-top: 4px;
   padding: 4px 8px;
   border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   text-align: center;
   background: #f0fdf4;
   color: #166534;
@@ -1701,7 +1701,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .dayCellTop {
@@ -1712,8 +1712,8 @@
 }
 
 .dayCellNumber {
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #1e293b;
   width: 24px;
   height: 24px;
@@ -1723,8 +1723,8 @@
 }
 
 .dayCellBadge {
-  font-size: 0.6875rem;
-  font-weight: 700;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   padding: 1px 5px;
   border-radius: 9999px;
   background: #e2e8f0;
@@ -1749,8 +1749,8 @@
   gap: 4px;
   padding: 3px 6px;
   border-radius: 4px;
-  font-size: 0.6875rem;
-  font-weight: 600;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   line-height: 1.25;
   text-align: left;
   border: 1px solid transparent;
@@ -1769,8 +1769,8 @@
 }
 
 .miniTripBadgeTag {
-  font-size: 0.625rem;
-  font-weight: 700;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   padding: 1px 3px;
   border-radius: 3px;
   background: rgb(255 255 255 / 0.7);
@@ -1830,12 +1830,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .miniTripMoreCount {
-  font-size: 0.6875rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #64748b;
   padding: 1px 4px;
   text-align: center;
@@ -1867,14 +1867,14 @@
 }
 
 .dailyDetailDateTitle {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #0f172a;
   margin: 0;
 }
 
 .dailyDetailSubtitle {
-  font-size: 0.78125rem;
+  font-size: var(--font-size-meta);
   color: #64748b;
   margin-top: 3px;
 }
@@ -1909,8 +1909,8 @@
 }
 
 .streamlinedTourTitle {
-  font-size: 0.9375rem;
-  font-weight: 700;
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-semibold);
   color: #0f172a;
   line-height: 1.35;
   margin: 0;
@@ -1919,8 +1919,8 @@
 .streamlinedDayRolePill {
   display: inline-flex;
   align-items: center;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
 }
 
 .roleTagDeparture {
@@ -1966,7 +1966,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
   color: #475569;
 }
 
@@ -1974,9 +1974,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.78125rem;
+  font-size: var(--font-size-meta);
   color: #64748b;
-  font-weight: 500;
+  font-weight: var(--font-weight-body);
   padding-top: 4px;
   border-top: 1px dashed #f1f5f9;
 }
@@ -2041,15 +2041,15 @@
 }
 
 .weeklyColumnDayName {
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   text-transform: uppercase;
   color: #64748b;
 }
 
 .weeklyColumnDate {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #0f172a;
   margin-top: 2px;
 }
@@ -2086,14 +2086,14 @@
 }
 
 .weeklyTripTitle {
-  font-size: 0.8125rem;
-  font-weight: 700;
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-semibold);
   color: #0f172a;
   line-height: 1.3;
 }
 
 .weeklyTripTime {
-  font-size: 0.75rem;
+  font-size: var(--font-size-meta);
   color: #64748b;
 }
 
@@ -2103,7 +2103,7 @@
   justify-content: center;
   flex: 1;
   color: #94a3b8;
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
   font-style: italic;
   min-height: 100px;
 }
@@ -2116,8 +2116,8 @@
   gap: 12px;
   padding: 12px 16px;
   border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   border: 1px solid transparent;
 }
 
@@ -2185,7 +2185,7 @@
   }
 
   .tripMainTitle {
-    font-size: 1.25rem;
+    font-size: var(--font-size-page-title);
   }
 
   .infoGrid {
@@ -2221,14 +2221,14 @@
 }
 
 .sectionTitle {
-  font-size: 1.0625rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #0f172a;
   margin: 0;
 }
 
 .sectionSubtitle {
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
   color: #64748b;
   margin: 0;
 }
@@ -2241,7 +2241,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px 20px;
-  font-size: 0.875rem;
+  font-size: var(--font-size-meta);
   color: #334155;
 }
 
@@ -2252,21 +2252,21 @@
 }
 
 .tourPreviewLabel {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.025em;
 }
 
 .tourPreviewValue {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: #0f172a;
 }
 
 .fieldError {
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: #dc2626;
   margin-top: 4px;
 }
@@ -2282,7 +2282,7 @@
 }
 
 .autoCalcHint {
-  font-size: 0.75rem;
+  font-size: var(--font-size-meta);
   color: #166534;
   cursor: pointer;
   background: none;
@@ -2306,7 +2306,7 @@
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   padding: 16px;
-  font-size: 0.875rem;
+  font-size: var(--font-size-meta);
 }
 
 .reviewSummaryRow {
@@ -2325,12 +2325,12 @@
 
 .reviewSummaryLabel {
   color: #64748b;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   min-width: 140px;
 }
 
 .reviewSummaryValue {
   color: #0f172a;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   text-align: right;
 }

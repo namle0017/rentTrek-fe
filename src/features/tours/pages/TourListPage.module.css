@@ -16,16 +16,16 @@
   padding: 6px 12px;
   border-radius: 999px;
   background: #e0674a;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.06em;
 }
 
 .heroTitle {
   max-width: 680px;
   margin: 18px 0 14px;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 800;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-bold);
   line-height: 1.2;
 }
 
@@ -50,8 +50,8 @@
   border: 1px solid rgb(255 255 255 / 0.28);
   border-radius: 999px;
   background: rgb(255 255 255 / 0.12);
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 .searchCard {
@@ -83,8 +83,8 @@
 
 .searchField span {
   color: var(--color-text-muted);
-  font-size: 0.68rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -98,8 +98,8 @@
   background: transparent;
   color: var(--color-text);
   font: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   outline: none;
 }
 
@@ -121,8 +121,8 @@
   background: #e0674a;
   color: #ffffff;
   font: inherit;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   white-space: nowrap;
   cursor: pointer;
   transition: background-color 0.15s ease;
@@ -147,22 +147,22 @@
 
 .kicker {
   color: #c4553b;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.08em;
 }
 
 .sectionTitle {
   margin: 6px 0;
   color: var(--color-primary);
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 800;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
 }
 
 .sectionText {
   margin: 0;
   color: var(--color-text-muted);
-  font-size: 0.9rem;
+  font-size: var(--font-size-body);
 }
 
 .tabs {
@@ -180,8 +180,8 @@
   background: transparent;
   color: var(--color-text-muted);
   font: inherit;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
 }
 

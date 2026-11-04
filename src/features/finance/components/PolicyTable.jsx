@@ -55,7 +55,7 @@ export default function PolicyTable({
               return (
                 <tr key={policy.policyId} style={isSelected ? { background: '#f0fdf4' } : {}}>
                   <td>
-                    <div style={{ fontWeight: 600, fontSize: 14 }}>{policy.name}</div>
+                    <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-meta)" }}>{policy.name}</div>
                     <div className={styles.statSubtext}>Tạo bởi: {policy.createdBy || 'Quản trị viên'}</div>
                   </td>
                   <td>
@@ -74,7 +74,7 @@ export default function PolicyTable({
                     {policy.effectiveUntil ? (
                       <div className={styles.statSubtext}>Đến: {formatDate(policy.effectiveUntil)}</div>
                     ) : (
-                      <div className={styles.statSubtext} style={{ color: '#16a34a', fontWeight: 600 }}>
+                      <div className={styles.statSubtext} style={{ color: '#16a34a', fontWeight: "var(--font-weight-semibold)" }}>
                         Vĩnh viễn
                       </div>
                     )}
@@ -109,7 +109,7 @@ export default function PolicyTable({
                       <button
                         type="button"
                         className={`btn ${isSelected ? 'btn-primary' : 'btn-outline'}`}
-                        style={{ padding: '5px 12px', fontSize: 13 }}
+                        style={{ padding: '5px 12px', fontSize: "var(--font-size-control)" }}
                         onClick={() => onSelectPolicy(policy.policyId)}
                       >
                         {isSelected ? 'Đang xem' : 'Xem quy tắc'}
@@ -121,7 +121,7 @@ export default function PolicyTable({
                           className="btn btn-outline"
                           style={{
                             padding: '5px 10px',
-                            fontSize: 12,
+                            fontSize: "var(--font-size-control)",
                             borderColor: '#818cf8',
                             color: '#4338ca',
                           }}

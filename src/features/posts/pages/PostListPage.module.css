@@ -1,14 +1,14 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-section);
   padding-block: 40px 64px;
 }
 
 .header h1 {
   margin: 0;
   color: var(--color-primary-heading);
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: var(--font-size-page-title);
   line-height: 1.2;
 }
 
@@ -38,7 +38,8 @@
   padding: 8px 16px;
   color: var(--color-primary-heading);
   font: inherit;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 999px;
@@ -48,8 +49,8 @@
 .tagChip {
   min-height: 36px;
   padding: 4px 12px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 .tab[aria-pressed='true'],
@@ -73,15 +74,16 @@
   gap: 6px;
   min-width: 200px;
   color: var(--color-primary-heading);
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
 }
 
 .select select {
-  min-height: 44px;
+  min-height: var(--control-min-height);
   padding: 8px 12px;
   font: inherit;
-  font-weight: 400;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-body);
   background: var(--color-surface-warm);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
@@ -121,17 +123,17 @@
 .meta {
   margin: 0;
   color: var(--color-text-muted);
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
 }
 
 .type {
   color: var(--color-accent);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .cardTitle {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: var(--font-size-section-title);
   line-height: 1.4;
 }
 
@@ -157,6 +159,6 @@
   margin: auto 0 0;
   padding-top: 8px;
   color: var(--color-primary);
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
 }

@@ -116,7 +116,9 @@ export default function GuideTripsPage() {
   const [search, setSearch] = useState('');
   const [selectedTripId, setSelectedTripId] = useState(null);
   const [expandedCardIds, setExpandedCardIds] = useState(new Set());
-  const [isOnline, setIsOnline] = useState(() => (typeof navigator !== 'undefined' ? navigator.onLine : true));
+  const [isOnline, setIsOnline] = useState(() =>
+    typeof navigator !== 'undefined' ? navigator.onLine : true,
+  );
 
   const { data: rawTrips, isLoading, isError, error, refetch } = useGuideTrips(tab);
 
@@ -181,7 +183,9 @@ export default function GuideTripsPage() {
       {!isOnline && (
         <div className={styles.offlineAlert} role="alert">
           <OutdoorIcon name="alert-triangle" size={18} />
-          <span>Chế độ Ngoại tuyến: Bạn đang ở vùng mất sóng mạng. Dữ liệu đã lưu tạm để điểm danh an toàn.</span>
+          <span>
+            Chế độ Ngoại tuyến: Bạn đang ở vùng mất sóng mạng. Dữ liệu đã lưu tạm để điểm danh an toàn.
+          </span>
         </div>
       )}
 
@@ -385,18 +389,27 @@ export default function GuideTripsPage() {
                       {/* Các thao tác phụ (Secondary Actions) */}
                       <div className={styles.secondaryActionRow}>
                         {isOngoing ? (
-                          <Link to={ROUTES.GUIDE_TRIP_GROUP(item.tripId)} className={styles.btnSecondarySmall}>
+                          <Link
+                            to={ROUTES.GUIDE_TRIP_GROUP(item.tripId)}
+                            className={styles.btnSecondarySmall}
+                          >
                             Ds Khách
                           </Link>
                         ) : (
-                          <Link to={ROUTES.GUIDE_ATTENDANCE(item.tripId)} className={styles.btnSecondarySmall}>
+                          <Link
+                            to={ROUTES.GUIDE_ATTENDANCE(item.tripId)}
+                            className={styles.btnSecondarySmall}
+                          >
                             Điểm danh
                           </Link>
                         )}
                         <Link to={ROUTES.GUIDE_ITINERARY(item.tripId)} className={styles.btnSecondarySmall}>
                           Lịch trình
                         </Link>
-                        <Link to={ROUTES.GUIDE_PROVIDED_ITEMS(item.tripId)} className={styles.btnSecondarySmall}>
+                        <Link
+                          to={ROUTES.GUIDE_PROVIDED_ITEMS(item.tripId)}
+                          className={styles.btnSecondarySmall}
+                        >
                           Đồ cấp
                         </Link>
                       </div>
@@ -415,7 +428,9 @@ export default function GuideTripsPage() {
                 <div className={styles.detailHero}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span className={styles.groupBadge}>{selectedTrip.groupName}</span>
-                    <span className={`${styles.statusBadge} ${getStatusConfig(selectedTrip.tripStatus).className}`}>
+                    <span
+                      className={`${styles.statusBadge} ${getStatusConfig(selectedTrip.tripStatus).className}`}
+                    >
                       <span
                         style={{
                           width: 7,
@@ -444,7 +459,15 @@ export default function GuideTripsPage() {
                     <span className={styles.statValue}>
                       {selectedTrip.participantCount} / {selectedTrip.maxParticipants} khách
                     </span>
-                    <div style={{ width: '100%', height: 4, background: '#e2e8f0', borderRadius: 2, marginTop: 4 }}>
+                    <div
+                      style={{
+                        width: '100%',
+                        height: 4,
+                        background: '#e2e8f0',
+                        borderRadius: 2,
+                        marginTop: 4,
+                      }}
+                    >
                       <div
                         style={{
                           width: `${Math.min(
@@ -461,7 +484,7 @@ export default function GuideTripsPage() {
 
                   <div className={styles.statBox}>
                     <span className={styles.statLabel}>Điểm tập kết đoàn</span>
-                    <span className={styles.statValue} style={{ fontSize: '0.88rem' }}>
+                    <span className={styles.statValue} style={{ fontSize: 'var(--font-size-body)' }}>
                       {selectedTrip.meetingLocation?.name || 'Chưa cập nhật'}
                     </span>
                     {selectedTrip.meetingLocation?.latitude && selectedTrip.meetingLocation?.longitude && (
@@ -470,7 +493,7 @@ export default function GuideTripsPage() {
                         target="_blank"
                         rel="noreferrer"
                         className={styles.mapsLink}
-                        style={{ fontSize: '0.78rem', marginTop: 2 }}
+                        style={{ fontSize: 'var(--font-size-body)', marginTop: 2 }}
                       >
                         <span>Mở Google Maps</span>
                         <OutdoorIcon name="external" size={12} />
@@ -512,7 +535,9 @@ export default function GuideTripsPage() {
                         <OutdoorIcon name="users" size={16} />
                         <span>Danh sách khách</span>
                       </span>
-                      <span className={styles.shortcutCardDesc}>Tra cứu SĐT, người liên hệ khẩn cấp và bệnh lý.</span>
+                      <span className={styles.shortcutCardDesc}>
+                        Tra cứu SĐT, người liên hệ khẩn cấp và bệnh lý.
+                      </span>
                     </Link>
 
                     <Link to={ROUTES.GUIDE_ITINERARY(selectedTrip.tripId)} className={styles.shortcutCard}>
@@ -520,15 +545,22 @@ export default function GuideTripsPage() {
                         <OutdoorIcon name="calendar" size={16} />
                         <span>Lịch trình chặng</span>
                       </span>
-                      <span className={styles.shortcutCardDesc}>Thời gian, điểm dừng chân và mốc hoạt động.</span>
+                      <span className={styles.shortcutCardDesc}>
+                        Thời gian, điểm dừng chân và mốc hoạt động.
+                      </span>
                     </Link>
 
-                    <Link to={ROUTES.GUIDE_PROVIDED_ITEMS(selectedTrip.tripId)} className={styles.shortcutCard}>
+                    <Link
+                      to={ROUTES.GUIDE_PROVIDED_ITEMS(selectedTrip.tripId)}
+                      className={styles.shortcutCard}
+                    >
                       <span className={styles.shortcutCardTitle}>
                         <OutdoorIcon name="package" size={16} />
                         <span>Đồ cấp cho đoàn</span>
                       </span>
-                      <span className={styles.shortcutCardDesc}>Quản lý lều bạt, gậy trek, bộ sơ cứu và đàm.</span>
+                      <span className={styles.shortcutCardDesc}>
+                        Quản lý lều bạt, gậy trek, bộ sơ cứu và đàm.
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -539,9 +571,9 @@ export default function GuideTripsPage() {
                     <OutdoorIcon name="info" size={16} />
                   </div>
                   <div>
-                    <strong>Lưu ý thực địa:</strong> Khi vào vùng rừng mất kết nối Internet, bạn vẫn có thể thực hiện
-                    điểm danh bình thường. Ứng dụng sẽ lưu bản ghi trên thiết bị và tự động đồng bộ khi trở lại vùng có
-                    sóng.
+                    <strong>Lưu ý thực địa:</strong> Khi vào vùng rừng mất kết nối Internet, bạn vẫn có thể
+                    thực hiện điểm danh bình thường. Ứng dụng sẽ lưu bản ghi trên thiết bị và tự động đồng bộ
+                    khi trở lại vùng có sóng.
                   </div>
                 </div>
               </div>

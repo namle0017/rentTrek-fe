@@ -6,12 +6,12 @@
 .header h1 {
   margin: 4px 0 0;
   color: #173d2d;
-  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-size: var(--font-size-page-title);
 }
 .kicker {
   color: #c55742;
-  font-size: 0.68rem;
-  font-weight: 800;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.13em;
 }
 .tabs {
@@ -23,8 +23,8 @@
   padding: 8px 14px;
   color: #204b39;
   font: inherit;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   background: #fff;
   border: 1px solid #bfcfc3;
@@ -61,17 +61,17 @@ a.card:hover {
 }
 .cardMain strong {
   color: #173d2d;
-  font-size: 0.95rem;
+  font-size: var(--font-size-body);
 }
 .cardMain small {
   color: #6b776f;
-  font-size: 0.74rem;
+  font-size: var(--font-size-meta);
   overflow-wrap: anywhere;
 }
 .type {
   color: #c55742;
-  font-size: 0.64rem;
-  font-weight: 800;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -83,17 +83,17 @@ a.card:hover {
 }
 .cardSide small {
   color: #6b776f;
-  font-size: 0.72rem;
+  font-size: var(--font-size-meta);
 }
 .cardSide b {
   color: #173d2d;
-  font-size: 0.92rem;
+  font-size: var(--font-size-body);
 }
 .status {
   padding: 4px 9px;
   color: #21523b;
-  font-size: 0.7rem;
-  font-weight: 800;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   background: #eaf4ec;
   border-radius: 999px;
 }

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314213D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-weight='800' font-size='20' text-anchor='middle' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECEAE5;color:#151A24;font-family:'Be Vietnam Pro',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#31476F;text-underline-offset:2px}
+a:hover{color:#14213D}
+*{box-sizing:border-box}
+input,textarea,button{font-family:inherit}
+@keyframes rtspin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+
+<div style="padding:64px;display:flex;flex-direction:column;gap:96px;width:max-content">
+
+<div style="display:flex;align-items:flex-end;gap:32px;width:1800px">
+  <div>
+    <div style="font-size:13px;font-weight:600;letter-spacing:.12em;color:#31476F">RENTREKK · BATCH 3C</div>
+    <h1 style="margin:8px 0 0;font-size:48px;line-height:56px;font-weight:700;color:#14213D;letter-spacing:-.02em">Chuyến của tôi, Review, Cẩm nang · C14–C19</h1>
+    <p style="margin:8px 0 0;font-size:15px;color:#4A5870">Web 1440px. Luồng: C14 → C15 → C16 viết đánh giá; C15 “Bài cần đọc” → C18. Liên kết người tham gia: C14 gửi lời mời → người được mời mở link → C19 xác nhận → C15.</p>
+  </div>
+  <div style="margin-left:auto;display:flex;gap:20px;font-size:14px;font-weight:600"><a href="#c19">C19 Nhận lời mời ↓</a><a href="RenTrekk Batch 3B - Don hang.dc.html">← Batch 3B</a></div>
+</div>
+
+<!-- ================= C14 ================= -->
+<section id="c14" data-screen-label="C14 Chuyến của tôi" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C14</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chuyến của tôi</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/account/trips</span>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px;color:#FFFFFF"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</div>
+      </header>
+      <div style="flex:1;display:flex;gap:32px;padding:40px 80px">
+        <aside style="width:220px;flex:none;display:flex;flex-direction:column;gap:2px">
+          <div style="padding:0 12px 12px;font-size:13px;color:#4A5870">Tài khoản của tôi</div>
+          <a href="RenTrekk Batch 3B - Don hang.dc.html#c10" style="height:44px;display:flex;align-items:center;padding:0 12px;font-size:14px;color:#343F52;text-decoration:none">Đơn của tôi</a>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#14213D;background:#FFFFFF;font-weight:600;box-shadow:inset 3px 0 0 #14213D">Chuyến của tôi</span>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;font-size:14px;color:#343F52">Thông báo</span>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;font-size:14px;color:#343F52">Hồ sơ</span>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;font-size:14px;color:#343F52">Bảo mật &amp; phiên</span>
+        </aside>
+        <div style="flex:1;display:flex;flex-direction:column;gap:16px;min-width:0">
+          <div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Chuyến của tôi</div>
+          <div role="tablist" style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3">
+            <sc-for list="{{ c14Tabs }}" as="t" hint-placeholder-count="3"><button role="tab" onClick="{{ t.on }}" style="height:44px;padding:0 14px;border:0;background:transparent;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};cursor:pointer;display:flex;align-items:center;gap:6px">{{ t.label }}<span style="font-size:11px;padding:1px 7px;border-radius:999px;background:{{ t.cbg }};color:{{ t.cfg }}">{{ t.count }}</span></button></sc-for>
+          </div>
+          <sc-if value="{{ c14Upcoming }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:14px;padding:18px;border-radius:12px;background:#FFFFFF;border:1px dashed #8193B5">
+              <div style="display:flex;gap:16px;align-items:center">
+                <span style="width:40px;height:40px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">+</span>
+                <div style="flex:1"><div style="font-size:15px;font-weight:600">Mời người tham gia liên kết tài khoản</div><div style="font-size:13px;color:#4A5870">Người tham gia chưa liên kết tài khoản sẽ chưa xem được lịch trình và bài cần đọc. Chọn một người, gửi lời mời tới email / số điện thoại bạn đã khai; họ đăng nhập và xác nhận thì mới được liên kết.</div></div>
+              </div>
+              <div role="radiogroup" aria-label="Người tham gia chưa liên kết" style="display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ c14InvRows }}" as="p" hint-placeholder-count="3">
+                  <button role="radio" aria-checked="{{ p.on }}" onClick="{{ p.pick }}" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 14px;border-radius:10px;border:1px solid {{ p.bd }};background:{{ p.bg }};text-align:left;cursor:pointer;color:#151A24">
+                    <span aria-hidden="true" style="width:18px;height:18px;border-radius:50%;flex:none;border:2px solid {{ p.rbd }};display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:50%;background:{{ p.dot }}"></span></span>
+                    <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:600">{{ p.name }} <span style="font-weight:400;color:#4A5870">· đơn {{ p.order }}</span></span><span style="display:block;font-size:12px;color:#4A5870">{{ p.sub }}</span></span>
+                    <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ p.sbg }};color:{{ p.sfg }};font-size:12px;font-weight:600;flex:none"><span aria-hidden="true">{{ p.sic }}</span>{{ p.slabel }}</span>
+                  </button>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <button onClick="{{ c14Send }}" disabled="{{ c14SendOff }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:{{ c14SendBg }};color:{{ c14SendC }};font-size:14px;font-weight:600;cursor:pointer">{{ c14SendLabel }}</button>
+                <button onClick="{{ c14Invite }}" disabled="{{ c14CopyOff }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:{{ c14CopyC }};font-size:14px;font-weight:600;cursor:pointer">Sao chép link mời</button>
+                <span style="font-size:12px;color:#4A5870;flex:1;min-width:240px">{{ c14InvHint }}</span>
+              </div>
+            </div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <sc-for list="{{ c14Cards }}" as="t" hint-placeholder-count="2">
+              <a href="#c15" style="display:flex;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden;text-decoration:none;color:#151A24" style-hover="box-shadow:0 8px 24px rgba(20,33,61,.12)">
+                <div style="width:180px;flex:none;background:#ADBBD3 url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font:500 10px ui-monospace,Menlo,monospace;color:#343F52"></div>
+                <div style="flex:1;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+                  <span style="align-self:flex-start;display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ t.bg }};color:{{ t.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ t.ic }}</span>{{ t.label }}</span>
+                  <div style="font-size:16px;font-weight:600;line-height:22px">{{ t.tour }}</div>
+                  <div style="font-size:13px;color:#343F52">{{ t.date }}</div>
+                  <div style="display:flex;gap:14px;font-size:13px;color:#4A5870;flex-wrap:wrap"><span style="color:{{ t.gc }}">{{ t.group }}</span><span>{{ t.by }}</span></div>
+                  <sc-if value="{{ t.showRead }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;align-items:center;gap:10px;margin-top:4px"><div style="flex:1;height:6px;border-radius:3px;background:#ECEAE5;overflow:hidden"><div style="height:100%;width:{{ t.pct }};background:#14213D"></div></div><span style="font-size:12px;font-weight:600;color:#14213D">{{ t.read }}</span></div>
+                  </sc-if>
+                  <sc-if value="{{ t.canReview }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;font-weight:600;color:#31476F;margin-top:4px">Viết đánh giá →</span></sc-if>
+                </div>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C14 · FR-B05, N05, Q-16<br>· Nguồn: BOOKING_PARTICIPANTS.linked_user_id = mình (kể cả do người khác đặt)<br>· Tour, ngày → trip_id → TRIPS.start_at, TOURS.name · Ảnh → TOUR_IMAGES primary<br>· Trạng thái → TRIPS.status<br>· Nhóm → trip_group_id? → TRIP_GROUPS.group_name (rỗng → “Chưa xếp nhóm”)<br>· Người đặt → booking_order_id → ORDERS.customer_user_id → ACCOUNTS.full_name (= mình → “Đặt bởi bạn”)<br>· Tiến độ = COUNT(PARTICIPANT_POST_READS của participant) / COUNT(TOUR_POSTS của tour)<br>· Tab: Sắp tới (start_at &gt; now, không Cancelled) · Đã đi (Completed) · Đã hủy (Cancelled)<br>· Card mời: liệt kê BOOKING_PARTICIPANTS trong đơn của mình (is_deleted = false); chọn được khi linked_user_id rỗng, đã có linked_user_id → badge “Đã liên kết”, không chọn được<br>· Gửi lời mời → tạo lời mời (token ngẫu nhiên, lưu hash) rồi gửi tới BOOKING_PARTICIPANTS.email / phone đã khai; không có cả hai → chỉ cho “Sao chép link mời”<br>· Sao chép link mời → /invite/:token (xem C19); chỉ chủ đơn (ORDERS.customer_user_id = mình) được tạo/gửi lại<br>· Trạng thái: Chưa mời · Đã gửi (còn hạn) · Đã liên kết (linked_user_id có giá trị)<br>· Quyền: chỉ người sở hữu đơn mời; Staff không tự ghép theo email (PRD 3.3, Q-16)<br>· ⚠ DB chưa có bảng lời mời (Q-16) — placeholder. Cần bảng participant_invitations, xem DEV · C19</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C15 ================= -->
+<section id="c15" data-screen-label="C15 Chi tiết chuyến của tôi" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C15</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chi tiết chuyến của tôi</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/account/trips/:participantId</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c15Chips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px;color:#FFFFFF"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</div>
+      </header>
+      <div style="position:relative;height:220px;background:#ADBBD3 url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=60&auto=format) center/cover no-repeat">
+        <div style="position:absolute;inset:0;background:rgba(20,33,61,.55);display:flex;flex-direction:column;justify-content:flex-end;padding:28px 80px;gap:8px;color:#FFFFFF">
+          <a href="#c14" style="color:#D6DDEA;font-size:14px;font-weight:600;text-decoration:none">← Chuyến của tôi</a>
+          <div style="display:flex;align-items:center;gap:14px"><span style="font-size:36px;line-height:44px;font-weight:700">Chinh phục Fansipan qua cung Trạm Tôn</span><span style="display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px 0 8px;border-radius:999px;background:{{ c15St.bg }};color:{{ c15St.fg }};font-size:13px;font-weight:600"><span aria-hidden="true">{{ c15St.ic }}</span>{{ c15St.label }}</span></div>
+          <div style="font-size:15px;color:#EEF1F7">Th 7, 14/11/2026 · 05:30 → Th 2, 16/11/2026 · 17:00 (GMT+7)</div>
+        </div>
+      </div>
+      <div style="padding:32px 80px 64px;display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:32px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;align-items:center;gap:18px">
+            <div style="width:72px;height:72px;border-radius:50%;flex:none;background:#ADBBD3 url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=60&auto=format) center/cover no-repeat"></div>
+            <div style="flex:1"><div style="font-size:13px;color:#4A5870">Nhóm Mây 1 · 7 người</div><div style="font-size:18px;font-weight:700;margin-top:2px">Đinh Văn Toàn</div><div style="font-size:14px;color:#343F52">Guide · 6 năm kinh nghiệm</div></div>
+            <span style="font-size:13px;color:#4A5870;max-width:220px;text-align:right">Số điện thoại guide được gửi qua thông báo 24 giờ trước khởi hành</span>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px">
+            <div style="display:flex;align-items:center;margin-bottom:14px"><span style="font-size:18px;font-weight:700;flex:1">Lịch trình</span><div style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ c15Days }}" as="d" hint-placeholder-count="3"><button onClick="{{ d.on }}" style="height:32px;padding:0 12px;border:0;border-radius:7px;background:{{ d.bg }};color:{{ d.c }};font-size:13px;font-weight:600;cursor:pointer">{{ d.label }}</button></sc-for></div></div>
+            <sc-for list="{{ c15Acts }}" as="a" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:60px minmax(0,1fr) 150px;gap:14px;align-items:center;padding:11px 0;border-top:1px solid #ECEAE5;font-size:14px">
+                <b style="color:#14213D">{{ a.time }}</b><span><span style="font-weight:600">{{ a.name }}</span> <span style="color:#4A5870;font-size:13px">· {{ a.dur }}</span></span>
+                <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ a.bg }};color:{{ a.fg }};font-size:12px;font-weight:600;justify-self:end"><span aria-hidden="true">{{ a.ic }}</span>{{ a.label }}</span>
+              </div>
+            </sc-for>
+            <div style="font-size:12px;color:#4A5870;margin-top:10px">Cột phải: điểm danh của bạn theo từng hoạt động.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px">
+              <div style="display:flex;align-items:baseline;margin-bottom:12px"><span style="font-size:17px;font-weight:700;flex:1">Tự mang</span><span style="font-size:13px;font-weight:600;color:#14213D">{{ c15Checked }}</span></div>
+              <sc-for list="{{ c15Prep }}" as="p" hint-placeholder-count="6"><label style="display:flex;gap:10px;align-items:center;min-height:36px;font-size:14px;cursor:pointer;color:{{ p.c }};text-decoration:{{ p.td }}"><input type="checkbox" checked="{{ p.on }}" onChange="{{ p.toggle }}" style="width:18px;height:18px;accent-color:#14213D"></input>{{ p.name }}</label></sc-for>
+              <div style="font-size:12px;color:#4A5870;margin-top:8px">Chỉ lưu trên trình duyệt này.</div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px">
+              <div style="font-size:17px;font-weight:700;margin-bottom:12px">Được cấp</div>
+              <sc-for list="{{ c15Prov }}" as="p" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;min-height:36px;align-items:center;font-size:14px;border-top:1px solid #ECEAE5"><span>{{ p.name }}</span><b>× {{ p.qty }}</b></div></sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px">
+            <div style="display:flex;align-items:baseline;margin-bottom:6px"><span style="font-size:17px;font-weight:700;flex:1">Bài cần đọc</span><span style="font-size:13px;font-weight:600;color:#14213D">{{ c15ReadText }}</span></div>
+            <div style="height:6px;border-radius:3px;background:#ECEAE5;overflow:hidden;margin-bottom:8px"><div style="height:100%;width:{{ c15ReadPct }};background:#14213D"></div></div>
+            <sc-for list="{{ c15Posts }}" as="p" hint-placeholder-count="3">
+              <a href="#c18" onClick="{{ p.open }}" style="display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid #ECEAE5;text-decoration:none;color:#151A24">
+                <span style="width:24px;height:24px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:{{ p.bg }};color:{{ p.fg }};border:{{ p.bd }}">{{ p.mark }}</span>
+                <span style="flex:1"><span style="display:block;font-size:14px;font-weight:{{ p.w }}">{{ p.title }}</span><span style="display:block;font-size:12px;color:#4A5870">{{ p.sub }}</span></span>
+              </a>
+            </sc-for>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:17px;font-weight:700">Đánh giá chuyến</div>
+            <div style="font-size:14px;line-height:22px;color:#343F52">{{ c15RevText }}</div>
+            <a href="#c16" style="height:44px;border-radius:8px;background:{{ c15RevBg }};color:{{ c15RevC }};font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none;pointer-events:{{ c15RevPe }}">Viết đánh giá</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C15 · FR-N03–N05, V04<br>· Header → TOURS.name, TRIPS.start_at/end_at, TRIPS.status<br>· Nhóm &amp; guide → TRIP_GROUPS.group_name, guide_user_id → ACCOUNTS.full_name, PROFILES.avatar_url?, career_start_date? → “X năm kinh nghiệm”; số người = COUNT(BOOKING_PARTICIPANTS cùng trip_group_id)<br>· Lịch trình → TOUR_ACTIVITIES (theo version tour của chuyến)<br>· Điểm danh → ACTIVITY_ATTENDANCES.attendance_status theo tour_activity_id + participant_id; không có bản ghi → “Chưa điểm danh”<br>· Tự mang → TOUR_PREPARATION_ITEMS; tick lưu localStorage, không ghi DB<br>· Được cấp → TRIP_PROVIDED_ITEMS → PRODUCT_VARIANTS.variant_name, required_quantity<br>· Bài cần đọc → TOUR_POSTS → POSTS; đã đọc = có PARTICIPANT_POST_READS (participant_id, post_id); mở bài → C18 ghi read_at (không tạo trùng)<br>· Đánh giá → C16 khi TRIPS.status = Completed</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C16 ================= -->
+<section id="c16" data-screen-label="C16 Viết đánh giá" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C16</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Viết / sửa đánh giá</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/account/trips/:participantId/review</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c16Chips }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px;color:#FFFFFF"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</div>
+      </header>
+      <div style="flex:1;display:flex;justify-content:center;padding:48px 80px">
+        <div style="width:680px;display:flex;flex-direction:column;gap:20px">
+          <a href="#c15" style="font-size:14px;font-weight:600;text-decoration:none">← Chi tiết chuyến</a>
+          <div style="display:flex;gap:16px;align-items:center;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:16px">
+            <div style="width:96px;height:72px;border-radius:8px;background:#ADBBD3 url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&q=60&auto=format) center/cover no-repeat;flex:none"></div>
+            <div><div style="font-size:16px;font-weight:600">Sống lưng khủng long Tà Xùa</div><div style="font-size:13px;color:#4A5870">Th 7, 26/09 → CN, 27/09/2026 · Nhóm Sống lưng 2 · Guide Lò Văn Sinh</div></div>
+          </div>
+          <sc-if value="{{ c16Form }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:20px">
+              <div style="font-size:24px;font-weight:700;color:#14213D">{{ c16Title }}</div>
+              <div style="display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border-radius:8px;background:#E0F2F6;color:#0E7490;font-size:13px;line-height:20px"><span aria-hidden="true">◷</span><span>Chỉ người tham gia đã liên kết tài khoản mới viết được đánh giá. Mỗi người tham gia một đánh giá; người đặt hộ không viết thay.</span></div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-size:14px;font-weight:600">Chấm điểm chuyến đi <span style="color:#BE123C">*</span></span>
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div role="radiogroup" aria-label="Số sao" style="display:flex"><sc-for list="{{ c16Stars }}" as="s" hint-placeholder-count="5"><button role="radio" aria-checked="{{ s.on }}" aria-label="{{ s.label }}" onClick="{{ s.pick }}" style="width:48px;height:48px;border:0;background:transparent;font-size:34px;line-height:1;cursor:pointer;color:{{ s.c }};padding:0">★</button></sc-for></div>
+                  <span style="font-size:15px;font-weight:600;color:#14213D">{{ c16StarText }}</span>
+                </div>
+                <sc-if value="{{ c16StarErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng chọn số sao.</span></sc-if>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label for="c16-c" style="font-size:14px;font-weight:600">Nhận xét <span style="font-weight:400;color:#4A5870">(không bắt buộc)</span></label>
+                <textarea id="c16-c" rows="5" value="{{ c16Comment }}" onChange="{{ c16OnComment }}" maxlength="1000" placeholder="Guide, cung đường, đồ được cấp, điều bạn muốn người sau biết…" style="padding:12px 14px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;line-height:23px;resize:vertical;outline:none"></textarea>
+                <span style="font-size:12px;color:#4A5870;text-align:right">{{ c16Count }}/1000</span>
+              </div>
+              <div style="display:flex;justify-content:flex-end;gap:8px">
+                <a href="#c15" style="height:48px;padding:0 18px;display:flex;align-items:center;font-size:15px;font-weight:600;text-decoration:none">Để sau</a>
+                <button onClick="{{ c16Submit }}" disabled="{{ c16Loading }}" style="height:48px;padding:0 24px;border-radius:8px;border:0;background:{{ c16BtnBg }};color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer">{{ c16Spin }}{{ c16BtnLabel }}</button>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c16Done }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;gap:12px"><span style="font-size:20px;font-weight:700;flex:1">Đánh giá của bạn</span><button onClick="{{ c16Edit }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Sửa</button></div>
+              <div style="color:#A4532F;font-size:24px;letter-spacing:2px" aria-label="{{ c16Rating }} trên 5 sao">{{ c16StarStr }}</div>
+              <div style="font-size:15px;line-height:24px;color:{{ c16ShowC }}">{{ c16Show }}</div>
+              <div style="font-size:12px;color:#4A5870">Cập nhật lúc CN, 18/10/2026 · 10:41 (GMT+7)</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c16Hidden }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:center;gap:12px"><span style="font-size:20px;font-weight:700;flex:1">Đánh giá của bạn</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:#FFE4E8;color:#BE123C;font-size:12px;font-weight:600"><span aria-hidden="true">✕</span>Đã bị ẩn</span></div>
+              <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:10px;background:#FFE4E8;color:#BE123C">
+                <span aria-hidden="true" style="font-weight:700">✕</span>
+                <div><div style="font-size:15px;font-weight:700">Đánh giá đã bị ẩn bởi quản trị viên</div><div style="font-size:14px;line-height:22px;margin-top:4px;color:#343F52"><b>Lý do:</b> Nội dung nhận xét có thông tin liên hệ cá nhân của người khác, không phù hợp với quy tắc cộng đồng.</div><div style="font-size:12px;color:#4A5870;margin-top:6px">Ẩn lúc T4, 21/10/2026 · 09:12 (GMT+7). Đánh giá không còn hiển thị công khai và không tính vào điểm trung bình của tour.</div></div>
+              </div>
+              <div style="color:#A4532F;font-size:24px;letter-spacing:2px;opacity:.55" aria-label="{{ c16Rating }} trên 5 sao">{{ c16StarStr }}</div>
+              <div style="font-size:15px;line-height:24px;color:#5E6B80">{{ c16Show }}</div>
+              <div style="display:flex;align-items:center;gap:10px"><span style="font-size:13px;color:#4A5870;flex:1">Bạn không sửa được đánh giá đang bị ẩn. Nếu cho rằng đây là nhầm lẫn, hãy liên hệ RenTrekk để được xem lại.</span><button onClick="{{ c16Contact }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer;flex:none">Liên hệ hỗ trợ</button></div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c16Blocked }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:32px;display:flex;gap:16px;align-items:flex-start">
+              <span style="width:48px;height:48px;border-radius:50%;flex:none;background:{{ c16B.bg }};color:{{ c16B.fg }};font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ c16B.ic }}</span>
+              <div><div style="font-size:18px;font-weight:700">{{ c16B.title }}</div><div style="font-size:15px;line-height:24px;color:#343F52;margin-top:6px">{{ c16B.text }}</div></div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C16 · FR-V04–V06<br>· Số sao → REVIEWS.rating (1–5, bắt buộc)<br>· Nhận xét → REVIEWS.comment? (rỗng → hiện “Không có nhận xét”)<br>· (ẩn) REVIEWS.participant_id S, UQ → 1 participant = 1 review<br>· Hiện form khi: TRIPS.status = Completed VÀ ORDERS.payment_status = Paid VÀ participant thuộc tài khoản (linked_user_id = mình)<br>· Đã có review → hiển thị + Sửa; thời gian = REVIEWS.updated_at<br>· Q-10: chỉ participant có linked_user_id = mình mới được viết/sửa; participant chưa liên kết tài khoản (C14/C19) và người đặt hộ không có quyền; chưa mở review ẩn danh; no-show cần chính sách riêng<br>· Đánh giá bị ẩn bởi quản trị viên: hiện huy hiệu “Đã bị ẩn”, lý do, thời điểm ẩn; khóa nút Sửa<br>· ⚠ REVIEWS chưa có cột trạng thái/lý do (FR-V06) — cần bổ sung trước khi code (vd. moderation_status, hidden_reason, hidden_by_user_id, hidden_at). Hiện chỉ có is_deleted; thao tác ẩn phải ghi AUDIT_LOGS<br>· Kiểm duyệt phía Admin: xem O39 (Batch 4F)</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C17 ================= -->
+<section id="c17" data-screen-label="C17 Cẩm nang" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C17</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Blog / Hướng dẫn</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/guides</span>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:4px"><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Tour</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Thuê thiết bị</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#FFFFFF;border-bottom:3px solid #E29A78">Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px;color:#FFFFFF"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</div>
+      </header>
+      <div style="padding:40px 80px 64px;display:flex;flex-direction:column;gap:24px">
+        <div><h3 style="font-family:'Playfair Display',Georgia,serif;margin:0;font-size:40px;line-height:48px;font-weight:700;color:#14213D">Cẩm nang trekking</h3><p style="margin:8px 0 0;font-size:16px;color:#343F52">Hướng dẫn chuẩn bị, kỹ năng và kinh nghiệm từ đội guide RenTrekk.</p></div>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <div role="tablist" style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ c17Types }}" as="t" hint-placeholder-count="5"><button role="tab" onClick="{{ t.on }}" style="height:36px;padding:0 14px;border:0;border-radius:7px;background:{{ t.bg }};color:{{ t.c }};font-size:14px;font-weight:600;cursor:pointer">{{ t.label }}</button></sc-for></div>
+          <span style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF;display:flex;align-items:center;font-size:14px;color:#14213D;margin-left:auto">Kỹ năng: Tất cả ▾</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span style="font-size:13px;color:#4A5870;margin-right:4px">Tag</span><sc-for list="{{ c17Tags }}" as="t" hint-placeholder-count="6"><button onClick="{{ t.on }}" aria-pressed="{{ t.active }}" style="height:32px;padding:0 12px;border-radius:999px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.c }};font-size:13px;font-weight:500;cursor:pointer">#{{ t.label }}</button></sc-for></div>
+        <sc-if value="{{ c17Has }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+            <sc-for list="{{ c17Posts }}" as="p" hint-placeholder-count="6">
+              <a href="#c18" style="display:flex;flex-direction:column;gap:10px;text-decoration:none;color:#151A24;grid-column:{{ p.span }}">
+                <div style="height:{{ p.h }}px;border-radius:12px;background:#ADBBD3 url(https://images.unsplash.com/photo-1551632811-561732d1e306?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center"></div>
+                <div style="display:flex;gap:8px;font-size:12px;color:#4A5870"><span style="font-weight:600;color:#31476F">{{ p.type }}</span>·<span>{{ p.date }}</span>·<span>{{ p.author }}</span></div>
+                <div style="font-size:{{ p.fs }}px;line-height:1.35;font-weight:600">{{ p.title }}</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ p.tags }}" as="g" hint-placeholder-count="2"><span style="font-size:12px;color:#343F52;background:#ECEAE5;padding:2px 8px;border-radius:4px">#{{ g }}</span></sc-for></div>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ c17None }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px dashed #C5C3BD;border-radius:12px;padding:56px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#FFFFFF"><div style="font-size:16px;font-weight:600">Chưa có bài phù hợp</div><button onClick="{{ c17Reset }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Xóa bộ lọc</button></div>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C17 · FR-N01, N02<br>· Chỉ POSTS.status = Published, sắp published_at giảm dần<br>· Tiêu đề → POSTS.title · Loại → post_type (tab) · Ngày → published_at? · Tác giả → created_by_user_id → ACCOUNTS.full_name<br>· Tag → POST_TAGS → TAGS.name; lọc theo TAGS.slug trên URL<br>· Kỹ năng → POST_SOFT_SKILLS → SOFT_SKILLS.name (status hoạt động)</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C18 ================= -->
+<section id="c18" data-screen-label="C18 Chi tiết bài viết" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C18</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chi tiết bài viết</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/guides/:slug</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c18Chips }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:4px"><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Tour</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Thuê thiết bị</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#FFFFFF;border-bottom:3px solid #E29A78">Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px;color:#FFFFFF"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</div>
+      </header>
+      <div style="padding:40px 80px 72px;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:64px;align-items:start">
+        <article style="max-width:760px;display:flex;flex-direction:column;gap:20px">
+          <div style="font-size:13px;color:#4A5870"><a href="#c17">Cẩm nang</a> / Chuẩn bị</div>
+          <sc-if value="{{ c18Read }}" hint-placeholder-val="{{ false }}"><div role="status" style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px 0 10px;border-radius:999px;background:#E7F6EC;color:#166534;font-size:13px;font-weight:600"><span aria-hidden="true">✓</span>Đã đọc · bài chuẩn bị cho chuyến Fansipan 14/11</div></sc-if>
+          <h3 style="font-family:'Playfair Display',Georgia,serif;margin:0;font-size:44px;line-height:52px;font-weight:700;color:#14213D;letter-spacing:-.01em">Chuẩn bị gì cho chuyến Fansipan 3 ngày 2 đêm</h3>
+          <div style="display:flex;gap:10px;font-size:14px;color:#4A5870;align-items:center"><span style="font-weight:600;color:#31476F">Cẩm nang</span>·<span>Đinh Văn Toàn</span>·<span>12/10/2026</span></div>
+          <div style="height:380px;border-radius:14px;background:#ADBBD3 url(https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center"></div>
+          <div style="font-size:17px;line-height:30px;color:#232B38;display:flex;flex-direction:column;gap:16px;text-wrap:pretty">
+            <p style="margin:0">Cung Trạm Tôn có độ chênh khoảng 1.200 m trong ngày đầu và nhiệt độ ban đêm ở lán 2.800 m thường xuống dưới 5°C vào tháng 11. Chuẩn bị đúng giúp bạn đi nhẹ, ngủ ấm và lên đỉnh đúng giờ bình minh.</p>
+            <h4 style="margin:12px 0 0;font-size:24px;line-height:32px;color:#14213D">Quần áo theo lớp</h4>
+            <p style="margin:0">Mặc ba lớp: áo giữ nhiệt sát người, áo nỉ hoặc lông vũ mỏng ở giữa, áo khoác chống nước ngoài cùng. Tránh áo cotton vì giữ mồ hôi và lạnh nhanh khi dừng nghỉ.</p>
+            <h4 style="margin:12px 0 0;font-size:24px;line-height:32px;color:#14213D">Giày và tất</h4>
+            <p style="margin:0">Giày trekking cổ cao đã đi quen ít nhất 2 tuần. Mang 3 đôi tất len và một đôi dép nhẹ để đi lại ở lán.</p>
+            <h4 style="margin:12px 0 0;font-size:24px;line-height:32px;color:#14213D">Những thứ RenTrekk đã cấp</h4>
+            <p style="margin:0">Lều, túi ngủ −5°C, gậy trekking và áo mưa được guide phát tại Trạm Tôn. Bạn không cần thuê thêm các món này.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;padding-top:20px;border-top:1px solid #DDDAD3">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span style="font-size:13px;color:#4A5870;width:70px">Tag</span><span style="font-size:13px;color:#343F52;background:#ECEAE5;padding:4px 10px;border-radius:4px">#fansipan</span><span style="font-size:13px;color:#343F52;background:#ECEAE5;padding:4px 10px;border-radius:4px">#chuẩn-bị</span><span style="font-size:13px;color:#343F52;background:#ECEAE5;padding:4px 10px;border-radius:4px">#trời-lạnh</span></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span style="font-size:13px;color:#4A5870;width:70px">Kỹ năng</span><span style="font-size:13px;color:#14213D;background:#EEF1F7;padding:4px 10px;border-radius:4px">Giữ ấm cơ thể</span><span style="font-size:13px;color:#14213D;background:#EEF1F7;padding:4px 10px;border-radius:4px">Sắp xếp balo</span></div>
+          </div>
+        </article>
+        <aside style="position:sticky;top:24px;display:flex;flex-direction:column;gap:24px">
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+            <div style="padding:14px 16px;font-size:13px;font-weight:600;color:#4A5870;border-bottom:1px solid #ECEAE5">Tour liên quan</div>
+            <a href="RenTrekk Batch 2 - Tour.dc.html#c03" style="display:block;text-decoration:none;color:#151A24">
+              <div style="height:140px;background:#ADBBD3 url(https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=900&q=60&auto=format) center/cover no-repeat"></div>
+              <div style="padding:14px 16px"><div style="font-size:15px;font-weight:600;line-height:21px">Chinh phục Fansipan qua cung Trạm Tôn</div><div style="font-size:13px;color:#4A5870;margin-top:4px">3 ngày 2 đêm · Từ 2.450.000 ₫/người</div></div>
+            </a>
+          </div>
+          <div>
+            <div style="font-size:16px;font-weight:700;margin-bottom:10px">Cùng tag</div>
+            <sc-for list="{{ c18Related }}" as="r" hint-placeholder-count="3"><a href="#c18" style="display:flex;flex-direction:column;gap:2px;padding:12px 0;border-top:1px solid #DDDAD3;text-decoration:none;color:#151A24"><span style="font-size:12px;font-weight:600;color:#31476F">{{ r.type }}</span><span style="font-size:15px;font-weight:500;line-height:22px">{{ r.title }}</span></a></sc-for>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C18<br>· Route theo POSTS.slug<br>· Nội dung → POSTS.content (rich text đã làm sạch) · title, post_type, published_at?, created_by_user_id → ACCOUNTS.full_name<br>· Tag → POST_TAGS → TAGS · Kỹ năng → POST_SOFT_SKILLS → SOFT_SKILLS<br>· Tour liên quan → TOUR_POSTS → TOURS<br>· Cùng tag → POSTS có chung TAGS, Published, loại trừ bài hiện tại<br>· Người xem là participant của chuyến có tour gắn bài → ghi PARTICIPANT_POST_READS (participant_id, post_id, read_at) nếu chưa có, hiện “✓ Đã đọc”</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C19 ================= -->
+<section id="c19" data-screen-label="C19 Nhận lời mời tham gia" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C19</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Nhận lời mời tham gia</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/invite/:token</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c19Chips }}" as="c" hint-placeholder-count="8"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <sc-if value="{{ c19Authed }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px;color:#FFFFFF"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">MA</span>Minh Anh</div>
+        </sc-if>
+        <sc-if value="{{ c19Guest }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-left:auto;display:flex;align-items:center;gap:16px;font-size:14px;font-weight:600"><a href="RenTrekk Batch 1 - Tai khoan.dc.html#a01" style="color:#FFFFFF;text-decoration:none">Đăng nhập</a><a href="RenTrekk Batch 1 - Tai khoan.dc.html#a02" style="height:36px;padding:0 14px;border-radius:8px;background:#FFFFFF;color:#14213D;text-decoration:none;display:flex;align-items:center">Đăng ký</a></div>
+        </sc-if>
+      </header>
+      <div style="flex:1;display:flex;justify-content:center;padding:48px 80px 64px">
+        <div style="width:680px;display:flex;flex-direction:column;gap:20px">
+          <div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">{{ c19Heading }}</div>
+          <sc-if value="{{ c19ShowTrip }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:16px;align-items:center;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:16px">
+              <div style="width:120px;height:88px;border-radius:8px;background:#ADBBD3 url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=900&q=60&auto=format) center/cover no-repeat;flex:none"></div>
+              <div style="flex:1"><div style="font-size:17px;font-weight:600">Chinh phục Fansipan qua cung Trạm Tôn</div><div style="font-size:13px;color:#343F52;margin-top:4px">Th 7, 14/11/2026 · 05:30 → Th 2, 16/11/2026 · 17:00 (GMT+7)</div><div style="font-size:13px;color:#4A5870;margin-top:4px">Người đặt: Thu Hà · Đơn RTK-26-004852</div></div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c19ShowPart }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:14px;color:#4A5870">Thu Hà đã khai bạn là người tham gia chuyến này với thông tin:</div>
+              <div style="display:grid;grid-template-columns:120px 1fr;gap:8px 16px;font-size:15px">
+                <span style="color:#4A5870">Họ và tên</span><b>Nguyễn Minh Anh</b>
+                <span style="color:#4A5870">Email</span><span>mi••••••••@gmail.com</span>
+                <span style="color:#4A5870">Số điện thoại</span><span>0903 ••• 457</span>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c19Mismatch }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:10px;background:#FEF3C7;color:#B45309">
+              <span aria-hidden="true" style="font-weight:700">!</span>
+              <div style="flex:1"><div style="font-size:14px;font-weight:700">Email tài khoản không khớp email được mời</div><div style="font-size:13px;line-height:20px;margin-top:4px;color:#343F52">Bạn đang đăng nhập bằng minhanh.work@company.vn, còn lời mời được gửi tới mi••••••••@gmail.com. Hệ thống không tự ghép tài khoản chỉ vì email. Chỉ tiếp tục nếu bạn chắc chắn đây là bạn.</div>
+              <label style="display:flex;gap:10px;align-items:center;min-height:36px;margin-top:6px;font-size:14px;font-weight:600;color:#151A24;cursor:pointer"><input type="checkbox" checked="{{ c19Chk }}" onChange="{{ c19OnChk }}" style="width:18px;height:18px;accent-color:#14213D"></input>Tôi xác nhận mình là Nguyễn Minh Anh</label></div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c19Guest }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:14px">
+              <div style="font-size:18px;font-weight:700">Đăng nhập để xác nhận</div>
+              <div style="font-size:15px;line-height:24px;color:#343F52">Bạn cần có tài khoản RenTrekk để liên kết với chuyến này. Sau khi đăng nhập hoặc đăng ký, bạn sẽ quay lại trang này để xác nhận.</div>
+              <div style="display:flex;gap:8px">
+                <a href="RenTrekk Batch 1 - Tai khoan.dc.html#a01" style="height:48px;padding:0 24px;border-radius:8px;background:#14213D;color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;text-decoration:none">Đăng nhập</a>
+                <a href="RenTrekk Batch 1 - Tai khoan.dc.html#a02" style="height:48px;padding:0 20px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:15px;font-weight:600;display:flex;align-items:center;text-decoration:none">Tạo tài khoản</a>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c19CanConfirm }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:14px">
+              <div style="font-size:18px;font-weight:700">Bạn có phải Nguyễn Minh Anh?</div>
+              <div style="font-size:14px;line-height:22px;color:#343F52">Khi xác nhận, chuyến này sẽ xuất hiện trong “Chuyến của tôi” và bạn xem được lịch trình, bài cần đọc, đồng thời viết được đánh giá sau chuyến.</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <button onClick="{{ c19Confirm }}" disabled="{{ c19ConfirmOff }}" style="height:48px;padding:0 24px;border-radius:8px;border:0;background:{{ c19BtnBg }};color:{{ c19BtnC }};font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer">{{ c19Spin }}{{ c19BtnLabel }}</button>
+                <button onClick="{{ c19Reject }}" style="height:48px;padding:0 18px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:15px;font-weight:600;cursor:pointer">Không phải tôi</button>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c19Done }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:28px;display:flex;gap:16px;align-items:flex-start">
+              <span style="width:48px;height:48px;border-radius:50%;flex:none;background:#E7F6EC;color:#166534;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center">✓</span>
+              <div style="flex:1"><div style="font-size:18px;font-weight:700">Đã liên kết tài khoản</div><div style="font-size:15px;line-height:24px;color:#343F52;margin-top:6px">Bạn đã là người tham gia chuyến Chinh phục Fansipan qua cung Trạm Tôn. Chuyến đã được thêm vào “Chuyến của tôi”.</div><a href="#c15" style="margin-top:14px;height:44px;padding:0 20px;border-radius:8px;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;display:inline-flex;align-items:center;text-decoration:none">Xem chi tiết chuyến</a></div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c19Err }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:28px;display:flex;gap:16px;align-items:flex-start">
+              <span style="width:48px;height:48px;border-radius:50%;flex:none;background:{{ c19E.bg }};color:{{ c19E.fg }};font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ c19E.ic }}</span>
+              <div style="flex:1"><div style="font-size:18px;font-weight:700">{{ c19E.title }}</div><div style="font-size:15px;line-height:24px;color:#343F52;margin-top:6px">{{ c19E.text }}</div>
+              <sc-if value="{{ c19E.hasLink }}" hint-placeholder-val="{{ false }}"><a href="{{ c19E.href }}" style="margin-top:14px;height:44px;padding:0 20px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;display:inline-flex;align-items:center;text-decoration:none">{{ c19E.linkLabel }}</a></sc-if></div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C19 · FR-B05, Q-10, Q-16<br>· Route /invite/:token → tra theo hash của token; không ghi token vào log. Giới hạn tần suất theo IP để chống dò token<br>· Thông tin chuyến → participant → trip_id → TRIPS.start_at/end_at, TOURS.name · Người đặt → booking_order_id → ORDERS.customer_user_id → ACCOUNTS.full_name · Mã đơn → ORDERS.order_code<br>· Participant đã khai → BOOKING_PARTICIPANTS.full_name; email, phone che một phần (chỉ hiện đủ cho chủ đơn ở C14)<br>· Chưa đăng nhập → A01/A02 (Batch 1) kèm returnUrl = /invite/:token, xong quay lại C19; không ghi gì vào DB trước khi đăng nhập<br>· “Đúng, đây là tôi” → trong một transaction: BOOKING_PARTICIPANTS.linked_user_id = tài khoản hiện tại (điều kiện linked_user_id IS NULL), đánh dấu lời mời đã dùng, ghi AUDIT_LOGS (actor_user_id = mình, action = ParticipantLinked, entity_type = BOOKING_PARTICIPANTS, entity_id = participant_id, details có mã lời mời + sent_to) → chuyển C15<br>· Hợp lệ: chưa hết hạn, chưa dùng, participant chưa liên kết, chuyến chưa hủy<br>· Hết hạn: expires_at &lt; now → nhờ chủ đơn gửi lại ở C14<br>· Đã dùng: used_at có giá trị<br>· Đã liên kết tài khoản khác: linked_user_id có giá trị và ≠ mình (không lộ tài khoản nào)<br>· Đã là participant khác của cùng chuyến: tồn tại BOOKING_PARTICIPANTS cùng trip_id, linked_user_id = mình, participant_id khác (một tài khoản vẫn liên kết được nhiều chuyến khác nhau — FR-B05). Quy tắc “một tài khoản / một chuyến” cần chốt<br>· Email không khớp: lower(ACCOUNTS.email) ≠ lower(email được mời) → cảnh báo + tick xác nhận. Không tự ghép chỉ vì email (PRD 3.3); quyền sở hữu được xác minh bằng token<br>· Chuyến đã hủy: TRIPS.status = Cancelled hoặc đơn Cancelled → không liên kết<br>· Lỗi toàn trang (429/500…): xem Batch 6<br>· ⚠ DB chưa có bảng lời mời (Q-16) — cần bổ sung trước khi code: participant_invitations (participant_id, token_hash, sent_to, expires_at, used_at, created_by_user_id; nên có thêm invitation_id, created_at)<br>· Hủy liên kết / đổi liên kết: chưa có luồng, Q-16 còn mở; mọi đổi liên kết phải có AUDIT_LOGS</div>
+    </sc-if>
+  </div>
+</section>
+
+</div>
+
+<div aria-live="polite" style="position:fixed;right:24px;bottom:24px;display:flex;flex-direction:column;gap:8px;z-index:50;max-width:380px">
+  <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="0">
+    <div role="status" style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:#FFFFFF;border:1px solid #DDDAD3;border-left:4px solid {{ t.fg }};border-radius:10px;box-shadow:0 12px 32px rgba(20,33,61,.18);font-size:14px">
+      <span aria-hidden="true" style="color:{{ t.fg }};font-weight:700">{{ t.ic }}</span>
+      <div style="flex:1"><div style="font-weight:600">{{ t.title }}</div><div style="font-size:13px;color:#4A5870">{{ t.msg }}</div></div>
+    </div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDevNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Annotation&quot;}}">
+const G = {neutral:{bg:'#ECEAE5',fg:'#4A5870',ic:'○'},info:{bg:'#E0F2F6',fg:'#0E7490',ic:'◷'},warning:{bg:'#FEF3C7',fg:'#B45309',ic:'!'},progress:{bg:'#EDE9FE',fg:'#6D28D9',ic:'▶'},success:{bg:'#E7F6EC',fg:'#166534',ic:'✓'},danger:{bg:'#FFE4E8',fg:'#BE123C',ic:'✕'}};
+const B = (label,g) => ({...G[g],label});
+const TRIPS = {
+  up:[['Chinh phục Fansipan qua cung Trạm Tôn','Th 7, 14/11/2026 · 05:30','Đang mở bán','info','Nhóm Mây 1','Đặt bởi bạn',2,3],['Bạch Mộc Lương Tử – Ky Quan San','Th 7, 21/11/2026 · 05:00','Ngừng nhận đặt','warning',null,'Đặt bởi Minh Anh',0,2]],
+  past:[['Sống lưng khủng long Tà Xùa','Th 7, 26/09/2026 · 06:00','Hoàn thành','success','Nhóm Sống lưng 2','Đặt bởi bạn',2,2]],
+  cancel:[['Lảo Thẩn – nóc nhà Y Tý','CN, 08/11/2026 · 05:30','Đã hủy','danger','Nhóm Y Tý 1','Đặt bởi bạn',1,2]]
+};
+const ACTS = {1:[['05:30','Tập trung tại Trạm Tôn',30],['06:00','Trekking qua rừng trúc',240],['10:30','Ăn trưa tại lán 2.200 m',60],['11:30','Leo lên lán 2.800 m',240]],2:[['03:30','Leo đỉnh đón bình minh',150],['06:00','Ngắm biển mây trên đỉnh',60],['07:30','Quay về lán 2.800 m',120]],3:[['07:00','Xuống núi về Trạm Tôn',300],['12:30','Trả đồ được cấp',60]]};
+const dur = m => m>=60 ? (m%60? `${Math.floor(m/60)} giờ ${m%60} phút` : `${m/60} giờ`) : `${m} phút`;
+const PREP = ['Giày trekking cổ cao','Áo giữ nhiệt','Áo khoác chống nước','Đèn pin đội đầu','Thuốc cá nhân','Căn cước công dân'];
+const POSTS = [['Cẩm nang','Chuẩn bị gì cho chuyến Fansipan 3 ngày 2 đêm','12/10/2026','Đinh Văn Toàn',['fansipan','chuẩn-bị']],['Kỹ năng','Giữ ấm khi ngủ lều ở độ cao 2.800 m','05/10/2026','Lò Văn Sinh',['trời-lạnh','cắm-trại']],['Kinh nghiệm','Đọc dự báo thời tiết để săn mây đúng ngày','28/09/2026','Phan Thị Ngọc',['săn-mây']],['An toàn','Nhận biết và xử lý say độ cao','20/09/2026','Đinh Văn Toàn',['an-toàn','fansipan']],['Kỹ năng','Sắp xếp balo 40L cho chuyến 3 ngày','11/09/2026','Lò Văn Sinh',['chuẩn-bị']],['Kinh nghiệm','Tà Xùa mùa nào đẹp nhất?','02/09/2026','Phan Thị Ngọc',['săn-mây','tà-xùa']]];
+const INV = [['Nguyễn Minh Anh','RTK-26-004852','minhanh.nguyen@gmail.com · 0903 218 457'],['Phạm Quốc Bảo','RTK-26-004852','0908 123 417'],['Lê Thu Trang','RTK-26-004711','thutrang.le@gmail.com']];
+const INV_ST = {none:B('Chưa mời','neutral'),sent:B('Đã gửi lời mời','info'),linked:B('Đã liên kết','success')};
+const STAR_TXT = ['','Tệ','Chưa tốt','Bình thường','Tốt','Tuyệt vời'];
+class Component extends DCLogic {
+  state = { c19:'valid', c19Chk:false, c19Saving:false, c19Linked:false, tab:'up', inv:['none','sent','linked'], invSel:0, c15:'upcoming', day:1, prep:[true,true,false,false,false,true], reads:[true,true,false], c16:'form', rating:0, comment:'', starErr:false, saving:false, saved:null, type:'all', tags:[], c18:'participant', toasts:[] };
+  componentDidMount(){ try{ const p=JSON.parse(localStorage.getItem('rt-c15-prep')||'null'); if(Array.isArray(p)) this.setState({prep:p}); }catch(e){} }
+  toast(kind,title,msg){ const id=Math.random(); const g=G[kind]; this.setState(s=>({toasts:[...s.toasts,{id,fg:g.fg,ic:g.ic,title,msg}]})); setTimeout(()=>this.setState(s=>({toasts:s.toasts.filter(t=>t.id!==id)})),3600); }
+  chip(a,label,on){ return {label,on,bg:a?'#14213D':'#FFFFFF',c:a?'#FFFFFF':'#14213D',bd:a?'#14213D':'#C5C3BD'}; }
+  renderVals() {
+    const s=this.state, dev=this.props.showDevNotes ?? true;
+    const done=s.c15==='done', live=s.c15==='live';
+    const att=(d,i)=>{ if(s.c15==='upcoming') return B('Chưa điểm danh','neutral'); if(live){ if(d===1) return B('Có mặt','success'); return B('Chưa điểm danh','neutral'); } if(d===2&&i===0) return B('Đến muộn','warning'); return B('Có mặt','success'); };
+    const readN=s.reads.filter(Boolean).length;
+    const posts=POSTS.filter(p=>(s.type==='all'||p[0]===s.type)&&(!s.tags.length||p[4].some(t=>s.tags.includes(t))));
+    const blocked={notdone:{...G.info,title:'Chuyến chưa hoàn thành',text:'Bạn có thể đánh giá sau khi chuyến kết thúc và được đánh dấu hoàn thành.'},unpaid:{...G.warning,title:'Đơn chưa thanh toán đủ',text:'Đơn đặt chuyến này chưa ở trạng thái đã thanh toán nên chưa thể đánh giá.'},notyou:{...G.danger,title:'Bạn không phải người tham gia',text:'Chỉ người tham gia đã liên kết tài khoản mới viết được đánh giá cho chuyến này.'}}[s.c16];
+    const saved=s.saved||{rating:5,comment:'Bình minh trên sống lưng khủng long rất đẹp, guide Sinh chụp ảnh nhiệt tình. Đường xuống hơi trơn sau mưa.'};
+    return {
+      dev, toasts:s.toasts,
+      // C14
+      c14Tabs:[['up','Sắp tới'],['past','Đã đi'],['cancel','Đã hủy']].map(([k,l])=>{ const a=s.tab===k; return {label:l,count:TRIPS[k].length,bd:a?'#14213D':'transparent',c:a?'#14213D':'#4A5870',w:a?600:500,cbg:a?'#14213D':'#ECEAE5',cfg:a?'#FFFFFF':'#4A5870',on:()=>this.setState({tab:k})}; }),
+      c14Upcoming:s.tab==='up',
+      c14Cards:TRIPS[s.tab].map(([tour,date,label,g,group,by,r,total])=>({tour,date,...B(label,g),group:group||'Chưa xếp nhóm',gc:group?'#343F52':'#5E6B80',by,read:`Đã đọc ${r}/${total} bài`,pct:(r/total*100)+'%',showRead:s.tab==='up',canReview:s.tab==='past'})),
+      c14InvRows:INV.map(([name,order,contact],i)=>{ const st=s.inv[i], a=s.invSel===i, lk=st==='linked'; const g=INV_ST[st]; return {name,order,on:a,sub:st==='sent'?'Đã gửi tới '+contact+' · 29/10/2026 · 09:15, hết hạn 05/11/2026 (GMT+7)':lk?'Đã liên kết tài khoản lúc 12/10/2026 · 18:20 (GMT+7)':'Sẽ gửi tới '+contact,bg:a?'#F5F4F1':'#FFFFFF',bd:a?'#14213D':'#DDDAD3',rbd:a?'#14213D':'#9AA1AC',dot:a?'#14213D':'transparent',sbg:g.bg,sfg:g.fg,sic:g.ic,slabel:g.label,pick:()=>this.setState({invSel:i})}; }),
+      c14SendOff:s.inv[s.invSel]==='linked', c14CopyOff:s.inv[s.invSel]==='linked',
+      c14SendBg:s.inv[s.invSel]==='linked'?'#DDDAD3':'#14213D', c14SendC:s.inv[s.invSel]==='linked'?'#4A5870':'#FFFFFF', c14CopyC:s.inv[s.invSel]==='linked'?'#9AA1AC':'#14213D',
+      c14SendLabel:s.inv[s.invSel]==='sent'?'Gửi lại lời mời':s.inv[s.invSel]==='linked'?'Đã liên kết':'Gửi lời mời',
+      c14InvHint:s.inv[s.invSel]==='linked'?'Người này đã liên kết tài khoản, không cần mời lại.':s.inv[s.invSel]==='sent'?'Gửi lại sẽ tạo link mới và vô hiệu link cũ. Link có hiệu lực 7 ngày.':'Link có hiệu lực 7 ngày, dùng một lần. Người được mời phải đăng nhập và xác nhận mới được liên kết.',
+      c14Send:()=>{ const i=this.state.invSel, st=this.state.inv[i]; if(st==='linked') return; const nm=INV[i][0]; this.setState(x=>({inv:x.inv.map((v,j)=>j===i?'sent':v)})); this.toast('success',st==='sent'?'Đã gửi lại lời mời':'Đã gửi lời mời','Lời mời liên kết tài khoản đã gửi tới '+nm+'.'); },
+      c14Invite:()=>{ const i=this.state.invSel; if(this.state.inv[i]==='linked') return; this.toast('success','Đã sao chép link mời','Gửi link cho '+INV[i][0]+' để liên kết tài khoản. Link dùng một lần, hết hạn sau 7 ngày.'); },
+      // C15
+      c15Chips:[['upcoming','Sắp đi'],['live','Đang diễn ra'],['done','Đã hoàn thành']].map(([k,l])=>this.chip(s.c15===k,l,()=>this.setState({c15:k}))),
+      c15St:done?B('Hoàn thành','success'):live?B('Đang diễn ra','progress'):B('Đang mở bán','info'),
+      c15Days:[1,2,3].map(d=>({label:'Ngày '+d,bg:s.day===d?'#FFFFFF':'transparent',c:s.day===d?'#14213D':'#4A5870',on:()=>this.setState({day:d})})),
+      c15Acts:ACTS[s.day].map(([time,name,m],i)=>({time,name,dur:dur(m),...att(s.day,i)})),
+      c15Prep:PREP.map((name,i)=>({name,on:s.prep[i],c:s.prep[i]?'#4A5870':'#151A24',td:s.prep[i]?'line-through':'none',toggle:()=>{ const p=[...this.state.prep]; p[i]=!p[i]; this.setState({prep:p}); try{ localStorage.setItem('rt-c15-prep',JSON.stringify(p)); }catch(e){} }})),
+      c15Checked:`${s.prep.filter(Boolean).length}/${PREP.length} đã chuẩn bị`,
+      c15Prov:[['Lều 4 người (dùng chung nhóm)',1],['Túi ngủ −5°C',1],['Gậy trekking',2],['Áo mưa dùng một lần',1]].map(([name,qty])=>({name,qty})),
+      c15ReadText:`Đã đọc ${readN}/3`, c15ReadPct:(readN/3*100)+'%',
+      c15Posts:POSTS.slice(0,3).concat().slice(0,1).concat([POSTS[1],POSTS[3]]).map((p,i)=>{ const r=s.reads[i]; return {title:p[1],sub:r?'Đã đọc':`${p[0]} · chưa đọc`,mark:r?'✓':'',bg:r?'#166534':'#FFFFFF',fg:'#FFFFFF',bd:r?'0':'1.5px solid #9AA1AC',w:r?500:600,open:()=>{ const a=[...this.state.reads]; a[i]=true; this.setState({reads:a,c18:'participant'}); }}; }),
+      c15RevText:done?'Chia sẻ trải nghiệm giúp người đi sau chọn chuyến phù hợp.':'Bạn viết được đánh giá sau khi chuyến hoàn thành.',
+      c15RevBg:done?'#14213D':'#DDDAD3', c15RevC:done?'#FFFFFF':'#4A5870', c15RevPe:done?'auto':'none',
+      // C16
+      c16Chips:[['form','Form'],['notdone','Chuyến chưa xong'],['unpaid','Chưa thanh toán'],['notyou','Không phải participant'],['done','Đã đánh giá'],['hidden','Bị quản trị viên ẩn']].map(([k,l])=>this.chip(s.c16===k||(k==='form'&&s.c16==='edit'),l,()=>this.setState({c16:k,starErr:false}))),
+      c16Form:s.c16==='form'||s.c16==='edit', c16Done:s.c16==='done', c16Hidden:s.c16==='hidden', c16Contact:()=>this.toast('info','Đã mở liên hệ hỗ trợ','Chúng tôi sẽ phản hồi qua email tài khoản của bạn.'), c16Blocked:!!blocked, c16B:blocked||G.info,
+      c16Title:s.c16==='edit'?'Sửa đánh giá':'Chuyến đi của bạn thế nào?',
+      c16Stars:[1,2,3,4,5].map(i=>({label:`${i} sao · ${STAR_TXT[i]}`,on:s.rating===i,c:i<=s.rating?'#A4532F':'#C5C3BD',pick:()=>this.setState({rating:i,starErr:false})})),
+      c16StarText:s.rating?STAR_TXT[s.rating]:'Chưa chọn', c16StarErr:s.starErr,
+      c16Comment:s.comment, c16OnComment:e=>this.setState({comment:e.target.value}), c16Count:s.comment.length,
+      c16Loading:s.saving, c16BtnBg:s.saving?'#213456':'#14213D', c16BtnLabel:s.saving?'Đang gửi…':(s.c16==='edit'?'Lưu thay đổi':'Gửi đánh giá'),
+      c16Spin:s.saving?React.createElement('span',{'aria-hidden':true,style:{width:14,height:14,border:'2px solid rgba(255,255,255,.35)',borderTopColor:'#fff',borderRadius:'50%',display:'inline-block',animation:'rtspin .8s linear infinite'}}):null,
+      c16Submit:()=>{ if(s.saving) return; if(!s.rating){ this.setState({starErr:true}); return; } this.setState({saving:true}); setTimeout(()=>{ this.setState(x=>({saving:false,c16:'done',saved:{rating:x.rating,comment:x.comment.trim()}})); this.toast('success','Đã lưu đánh giá','Cảm ơn bạn đã chia sẻ.'); },900); },
+      c16Rating:saved.rating, c16StarStr:'★'.repeat(saved.rating)+'☆'.repeat(5-saved.rating), c16Show:saved.comment||'Không có nhận xét.', c16ShowC:saved.comment?'#232B38':'#5E6B80',
+      c16Edit:()=>this.setState({c16:'edit',rating:saved.rating,comment:saved.comment}),
+      // C19
+      c19Chips:[['valid','Hợp lệ'],['guest','Chưa đăng nhập'],['expired','Link hết hạn'],['used','Link đã dùng'],['other','Đã liên kết TK khác'],['dup','Đã là participant khác'],['mismatch','Email không khớp'],['cancelled','Chuyến đã hủy']].map(([k,l])=>this.chip(s.c19===k,l,()=>this.setState({c19:k,c19Chk:false,c19Saving:false,c19Linked:false}))),
+      c19Authed:s.c19!=='guest', c19Guest:s.c19==='guest',
+      c19Heading:s.c19Linked?'Liên kết thành công':'Bạn được mời tham gia chuyến đi',
+      c19ShowTrip:['valid','guest','mismatch','dup','cancelled'].includes(s.c19),
+      c19ShowPart:['valid','guest','mismatch'].includes(s.c19)&&!s.c19Linked,
+      c19Mismatch:s.c19==='mismatch'&&!s.c19Linked,
+      c19CanConfirm:(s.c19==='valid'||s.c19==='mismatch')&&!s.c19Linked,
+      c19ConfirmOff:s.c19Saving||(s.c19==='mismatch'&&!s.c19Chk),
+      c19BtnBg:(s.c19==='mismatch'&&!s.c19Chk)?'#DDDAD3':s.c19Saving?'#213456':'#14213D', c19BtnC:(s.c19==='mismatch'&&!s.c19Chk)?'#4A5870':'#FFFFFF',
+      c19BtnLabel:s.c19Saving?'Đang xác nhận…':'Đúng, đây là tôi',
+      c19Spin:s.c19Saving?React.createElement('span',{'aria-hidden':true,style:{width:14,height:14,border:'2px solid rgba(255,255,255,.35)',borderTopColor:'#fff',borderRadius:'50%',display:'inline-block',animation:'rtspin .8s linear infinite'}}):null,
+      c19Chk:s.c19Chk, c19OnChk:()=>this.setState(x=>({c19Chk:!x.c19Chk})),
+      c19Confirm:()=>{ if(s.c19Saving) return; this.setState({c19Saving:true}); setTimeout(()=>{ this.setState({c19Saving:false,c19Linked:true}); this.toast('success','Đã liên kết tài khoản','Chuyến đã được thêm vào Chuyến của tôi.'); },900); },
+      c19Reject:()=>this.toast('info','Đã bỏ qua lời mời','Chưa có gì được liên kết. Bạn có thể đóng trang này.'),
+      c19Done:s.c19Linked,
+      c19Err:!s.c19Linked&&['expired','used','other','dup','cancelled'].includes(s.c19),
+      c19E:{expired:{...G.warning,title:'Link mời đã hết hạn',text:'Link mời chỉ có hiệu lực trong 7 ngày. Hãy nhờ người đặt chuyến gửi lại lời mời mới.',hasLink:false},used:{...G.info,title:'Link mời đã được sử dụng',text:'Link này đã được dùng để liên kết tài khoản và không dùng lại được. Nếu bạn đã xác nhận, chuyến đang nằm trong Chuyến của tôi.',hasLink:true,href:'#c14',linkLabel:'Mở Chuyến của tôi'},other:{...G.danger,title:'Người tham gia này đã liên kết với tài khoản khác',text:'Bạn không thể nhận lời mời này. Nếu cho rằng đã liên kết nhầm, hãy liên hệ người đặt chuyến hoặc hỗ trợ RenTrekk.',hasLink:false},dup:{...G.warning,title:'Tài khoản của bạn đã là người tham gia khác của chuyến này',text:'Mỗi tài khoản chỉ liên kết với một người tham gia trong cùng một chuyến. Bạn có thể xem chuyến bằng tư cách người tham gia hiện có.',hasLink:true,href:'#c15',linkLabel:'Xem chuyến của tôi'},cancelled:{...G.danger,title:'Chuyến đã bị hủy',text:'Chuyến này đã hủy nên không cần liên kết tài khoản nữa.',hasLink:false}}[s.c19]||G.info,
+      // C17
+      c17Types:[['all','Tất cả'],['Cẩm nang','Cẩm nang'],['Kỹ năng','Kỹ năng'],['Kinh nghiệm','Kinh nghiệm'],['An toàn','An toàn']].map(([k,l])=>({label:l,bg:s.type===k?'#FFFFFF':'transparent',c:s.type===k?'#14213D':'#4A5870',on:()=>this.setState({type:k})})),
+      c17Tags:['fansipan','chuẩn-bị','trời-lạnh','săn-mây','an-toàn','cắm-trại'].map(t=>{ const a=s.tags.includes(t); return {label:t,active:a,bd:a?'#14213D':'#C5C3BD',bg:a?'#14213D':'#FFFFFF',c:a?'#FFFFFF':'#14213D',on:()=>this.setState(x=>({tags:a?x.tags.filter(y=>y!==t):[...x.tags,t]}))}; }),
+      c17Posts:posts.map(([type,title,date,author,tags],i)=>({type,title,date,author,tags,span:i===0?'span 2':'auto',h:i===0?320:200,fs:i===0?28:18})),
+      c17Has:posts.length>0, c17None:posts.length===0, c17Reset:()=>this.setState({type:'all',tags:[]}),
+      // C18
+      c18Chips:[['guest','Người xem thường'],['participant','Participant của chuyến']].map(([k,l])=>this.chip(s.c18===k,l,()=>this.setState({c18:k}))),
+      c18Read:s.c18==='participant',
+      c18Related:[POSTS[1],POSTS[3],POSTS[4]].map(p=>({type:p[0],title:p[1]}))
+    };
+  }
+}
+</script>
+</body>
+</html>

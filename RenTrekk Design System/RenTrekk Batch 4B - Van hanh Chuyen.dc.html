@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314213D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-weight='800' font-size='20' text-anchor='middle' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECEAE5;color:#151A24;font-family:'Be Vietnam Pro',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#31476F;text-underline-offset:2px}
+a:hover{color:#14213D}
+*{box-sizing:border-box}
+input,textarea,button,select{font-family:inherit}
+</style>
+</helmet>
+
+<div style="padding:64px;display:flex;flex-direction:column;gap:96px;width:max-content">
+
+<div style="display:flex;align-items:flex-end;gap:32px;width:1800px">
+  <div>
+    <div style="font-size:13px;font-weight:600;letter-spacing:.12em;color:#31476F">RENTREKK · BATCH 4B · BACK-OFFICE</div>
+    <h1 style="margin:8px 0 0;font-size:48px;line-height:56px;font-weight:700;color:#14213D;letter-spacing:-.02em">Chuyến &amp; Đơn hàng vận hành · O09–O15, O38</h1>
+    <p style="margin:8px 0 0;font-size:15px;color:#4A5870">Web 1440px. Chuyến mẫu: Fansipan Th 7, 14/11/2026 — 14/16 chỗ, 3 nhóm. Tab chuyến O10–O14 dùng chung header. O15 xem đủ dòng PAYMENTS (SePay, hoàn tiền, đối soát); O38 là danh sách chung đơn tour + đơn thuê.</p>
+  </div>
+  <div style="margin-left:auto;display:flex;gap:20px;font-size:14px;font-weight:600"><a href="RenTrekk Batch 4A - Van hanh Tour.dc.html">← Batch 4A</a></div>
+</div>
+
+<!-- ================= O09 ================= -->
+<section id="o09" data-screen-label="O09 Chuyến danh sách lịch" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O09</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chuyến — lịch / bảng</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/trips</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navTrips }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px;font-weight:700;color:#14213D;margin-right:auto">Lịch chuyến</div>
+            <div style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ viewOpts }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.on }}" style="height:34px;padding:0 14px;border:0;border-radius:7px;background:{{ o.bg }};color:{{ o.c }};font-size:13px;font-weight:600;cursor:pointer">{{ o.label }}</button></sc-for></div>
+            <button onClick="{{ openNew }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Tạo chuyến thủ công</button></div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="height:40px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF;display:flex;align-items:center;font-size:14px">Tour: Tất cả ▾</span>
+            <span style="height:40px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF;display:flex;align-items:center;font-size:14px">Điều phối: {{ mgrFilter }} ▾</span>
+            <div style="display:flex;gap:12px;margin-left:auto;flex-wrap:wrap"><sc-for list="{{ legend }}" as="l" hint-placeholder-count="6"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#343F52"><span style="width:12px;height:12px;border-radius:3px;background:{{ l.bg }};border-left:3px solid {{ l.fg }}"></span>{{ l.label }}</span></sc-for></div>
+          </div>
+          <sc-if value="{{ isCal }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:16px">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="width:32px;height:32px;border-radius:6px;border:1px solid #DDDAD3;display:flex;align-items:center;justify-content:center">‹</span><span style="font-size:17px;font-weight:700">Tháng 11/2026</span><span style="width:32px;height:32px;border-radius:6px;border:1px solid #DDDAD3;display:flex;align-items:center;justify-content:center">›</span><span style="margin-left:auto;font-size:13px;color:#4A5870">Tháng · <span style="color:#31476F;font-weight:600">Tuần</span></span></div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+                <sc-for list="{{ dowHead }}" as="h" hint-placeholder-count="7"><span style="font-size:12px;font-weight:600;color:#4A5870;padding:4px 6px">{{ h }}</span></sc-for>
+                <sc-for list="{{ calCells }}" as="c" hint-placeholder-count="35"><div style="min-height:104px;border-radius:6px;background:{{ c.bg }};padding:6px;display:flex;flex-direction:column;gap:4px"><span style="font-size:12px;font-weight:600;color:{{ c.dc }}">{{ c.d }}</span><sc-for list="{{ c.trips }}" as="t" hint-placeholder-count="0"><a href="#o10" style="display:block;padding:4px 6px;border-radius:4px;background:{{ t.bg }};border-left:3px solid {{ t.fg }};text-decoration:none;color:#151A24;font-size:11px;line-height:15px"><b style="color:{{ t.fg }}">{{ t.ic }}</b> {{ t.name }}<br><span style="color:#343F52">{{ t.sold }}</span></a></sc-for></div></sc-for>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isTable }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:minmax(0,1.6fr) 180px 150px 90px 110px 130px 90px 150px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Tour (phiên bản)</span><span>Khởi hành – Kết thúc</span><span>Đã bán / Sức chứa</span><span>Tối thiểu</span><span style="text-align:right">Giá/người</span><span>Điều phối</span><span>Nguồn</span><span>Trạng thái</span></div>
+              <sc-for list="{{ tripRows }}" as="t" hint-placeholder-count="8">
+                <a href="#o10" style="display:grid;grid-template-columns:minmax(0,1.6fr) 180px 150px 90px 110px 130px 90px 150px;gap:12px;padding:11px 20px;border-top:1px solid #ECEAE5;font-size:14px;align-items:center;text-decoration:none;color:#151A24" style-hover="background:#F5F4F1">
+                  <span><span style="display:block;font-weight:600">{{ t.name }}</span><span style="font-size:12px;color:#4A5870">v{{ t.ver }}</span></span>
+                  <span style="font-size:13px">{{ t.range }}</span>
+                  <span style="display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;font-weight:600">{{ t.sold }} / {{ t.total }}</span><span style="height:6px;border-radius:3px;background:#ECEAE5;overflow:hidden"><span style="display:block;height:100%;width:{{ t.pct }};background:#14213D"></span></span></span>
+                  <span style="font-size:13px;color:{{ t.minC }};font-weight:{{ t.minW }}">{{ t.min }}</span>
+                  <span style="text-align:right;font-weight:600">{{ t.price }}</span><span style="font-size:13px">{{ t.mgr }}</span><span style="font-size:12px;color:#4A5870">{{ t.src }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ t.st.bg }};color:{{ t.st.fg }};font-size:12px;font-weight:600;justify-self:start;white-space:nowrap"><span aria-hidden="true">{{ t.st.ic }}</span>{{ t.st.label }}</span>
+                </a>
+              </sc-for>
+            </div>
+          </sc-if>
+        </main>
+      </div>
+      <sc-if value="{{ newOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeNew }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" style="position:absolute;top:80px;left:50%;transform:translateX(-50%);width:620px;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3);padding:24px;display:flex;flex-direction:column;gap:14px">
+          <div style="font-size:20px;font-weight:700">Tạo chuyến thủ công</div>
+          <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Tour (bản đã xuất bản) <span style="color:#BE123C">*</span></label><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center;justify-content:space-between">Chinh phục Fansipan qua cung Trạm Tôn · v3<span style="color:#5E6B80">▾</span></div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Khởi hành <span style="color:#BE123C">*</span></label><input value="{{ nStart }}" onChange="{{ nOnStart }}" placeholder="dd/mm/yyyy hh:mm" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;outline:none"></input></div>
+            <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Kết thúc <span style="color:#BE123C">*</span></label><input value="{{ nEnd }}" onChange="{{ nOnEnd }}" aria-invalid="{{ nEndErr }}" style="height:44px;padding:0 12px;border:{{ nEndBd }};border-radius:8px;font-size:15px;outline:none"></input><sc-if value="{{ nEndErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Kết thúc phải sau khởi hành.</span></sc-if></div>
+            <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Tổng số chỗ <span style="color:#BE123C">*</span></label><input value="{{ nTotal }}" onChange="{{ nOnTotal }}" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;outline:none"></input></div>
+            <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Tối thiểu để khởi hành <span style="color:#BE123C">*</span></label><input value="{{ nMin }}" onChange="{{ nOnMin }}" aria-invalid="{{ nMinErr }}" style="height:44px;padding:0 12px;border:{{ nMinBd }};border-radius:8px;font-size:15px;outline:none"></input><sc-if value="{{ nMinErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Không được lớn hơn tổng số chỗ.</span></sc-if></div>
+            <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Giá / người <span style="color:#BE123C">*</span></label><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center">2.450.000 ₫</div></div>
+            <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Chính sách hoàn tiền <span style="color:#BE123C">*</span></label><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center;justify-content:space-between">Tour tiêu chuẩn · v2<span style="color:#5E6B80">▾</span></div></div>
+            <div style="display:flex;flex-direction:column;gap:6px;grid-column:1 / -1"><label style="font-size:13px;font-weight:600">Điều phối <span style="color:#BE123C">*</span></label><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center;justify-content:space-between">Phan Thị Ngọc<span style="color:#5E6B80">▾</span></div></div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;padding-top:6px"><button onClick="{{ closeNew }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Hủy</button><button onClick="{{ submitNew }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Tạo chuyến (Nháp)</button></div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O09 · FR-D01, D02, O05<br>· Lịch: block màu + icon theo TRIPS.status (bảng Phụ lục B)<br>· Tour → tour_id → TOURS.name, version<br>· start_at – end_at · Đã bán = Σ TRIP_BOOKING_ORDERS.participant_count (đơn hiệu lực) / total_slots<br>· Tối thiểu → min_participants (đỏ nếu chưa đủ) · price_per_person · managed_by_user_id → ACCOUNTS.full_name<br>· Nguồn: “Lịch lặp” khi recurrence_rule_id? có giá trị, ngược lại “Thủ công”<br>· Tạo: TRIPS (tour_id bản Published, start_at, end_at, total_slots, price_per_person, min_participants, refund_policy_id Active, managed_by_user_id, status Draft); validate end &gt; start, min ≤ total<br>· Staff: mặc định lọc managed_by = mình</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O10 ================= -->
+<section id="o10" data-screen-label="O10 Chuyến tổng quan" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O10</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chuyến — Tổng quan &amp; trạng thái</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/trips/:tripId</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px"><sc-for list="{{ o10Chips }}" as="c" hint-placeholder-count="6"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for></div></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navTrips }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:13px;color:#4A5870"><a href="#o09">Lịch chuyến</a> / <span style="color:#151A24">Fansipan · 14/11/2026</span></div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:96px;height:72px;flex:none;border-radius:10px;background:#ADBBD3 url(https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=300&q=60&auto=format) center/cover no-repeat"></div>
+            <div style="flex:1"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:26px;font-weight:700;color:#14213D">Chinh phục Fansipan qua cung Trạm Tôn</span><span style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px 0 8px;border-radius:999px;background:{{ tSt.bg }};color:{{ tSt.fg }};font-size:13px;font-weight:600"><span aria-hidden="true">{{ tSt.ic }}</span>{{ tSt.label }}</span></div><div style="font-size:14px;color:#4A5870;margin-top:4px">Th 7, 14/11/2026 · 05:30 → Th 2, 16/11/2026 · 17:00 (GMT+7) · Tour v3 · Điều phối: Phan Thị Ngọc</div></div>
+            <sc-if value="{{ canCancel }}" hint-placeholder-val="{{ true }}"><button onClick="{{ openCancel }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #BE123C;background:#FFFFFF;color:#BE123C;font-size:14px;font-weight:600;cursor:pointer">Hủy chuyến</button></sc-if>
+            <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ true }}"><button onClick="{{ doNext }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">{{ nextLabel }}</button></sc-if>
+          </div>
+          <sc-if value="{{ conflict }}" hint-placeholder-val="{{ false }}"><div role="alert" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C;font-size:14px;color:#232B38"><span style="color:#BE123C;font-weight:700">✕</span><span style="flex:1"><b style="color:#BE123C">Dữ liệu đã bị người khác thay đổi.</b> Hoàng Quốc Bảo vừa sửa chuyến lúc 08:41. Tải lại để xem bản mới trước khi lưu, thay đổi của bạn chưa được ghi.</span><button onClick="{{ reload }}" style="height:36px;padding:0 14px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:13px;font-weight:600;cursor:pointer">Tải lại</button></div></sc-if>
+          <div style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3"><sc-for list="{{ sub10 }}" as="t" hint-placeholder-count="7"><a href="{{ t.href }}" style="height:44px;padding:0 14px;display:flex;align-items:center;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};text-decoration:none;gap:6px">{{ t.label }}<span style="display:{{ t.cd }};font-size:11px;font-weight:700;padding:1px 6px;border-radius:999px;background:#FEF3C7;color:#B45309">{{ t.count }}</span></a></sc-for></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:16px;align-items:start">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;align-items:center"><span style="font-size:16px;font-weight:600;flex:1">Thông tin chuyến</span><span style="font-size:12px;color:#4A5870">{{ editHint }}</span></div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+                <sc-for list="{{ tInfo }}" as="f" hint-placeholder-count="8"><div style="display:flex;flex-direction:column;gap:6px;grid-column:{{ f.span }}"><label style="font-size:13px;font-weight:600;color:#232B38">{{ f.label }}</label><div style="min-height:44px;padding:11px 12px;border:1px solid {{ f.bd }};background:{{ f.bg }};border-radius:8px;font-size:15px">{{ f.value }}</div><span style="display:{{ f.hd }};font-size:12px;color:#4A5870">{{ f.hint }}</span></div></sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid #ECEAE5"><span style="font-size:12px;color:#4A5870;flex:1">Tạo lúc 02/09/2026 10:20 · Cập nhật lúc 18/10/2026 08:12</span><button onClick="{{ saveTrip }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Lưu</button></div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:16px 20px;display:flex;align-items:center;border-bottom:1px solid #ECEAE5"><span style="font-size:16px;font-weight:600;flex:1">Sẵn sàng khởi hành</span><span style="font-size:14px;font-weight:700;color:{{ readyC }}">{{ readyText }}</span></div>
+              <sc-for list="{{ checklist }}" as="c" hint-placeholder-count="5"><a href="{{ c.href }}" style="display:flex;gap:12px;align-items:flex-start;padding:12px 20px;border-top:1px solid #ECEAE5;text-decoration:none;color:#151A24"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;flex:none;background:{{ c.bg }};color:{{ c.fg }};font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ c.ic }}</span><span style="flex:1"><span style="display:block;font-size:14px;font-weight:600">{{ c.label }}</span><span style="display:block;font-size:12px;color:#4A5870">{{ c.detail }}</span></span><span style="font-size:12px;font-weight:600;color:#31476F;display:{{ c.fixD }}">Xử lý →</span></a></sc-for>
+            </div>
+          </div>
+        </main>
+      </div>
+      <sc-if value="{{ cancelOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeCancel }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" style="position:absolute;top:110px;left:50%;transform:translateX(-50%);width:580px;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3);overflow:hidden">
+          <div style="padding:22px 24px 0"><div style="font-size:20px;font-weight:700">Hủy chuyến Fansipan 14/11/2026</div><div style="font-size:13px;color:#4A5870;margin-top:4px">Không thể hoàn tác. Khách nhận thông báo ngay.</div></div>
+          <div style="margin:14px 24px 0;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden"><div style="padding:10px 14px;background:#F5F4F1;font-size:13px;font-weight:600;color:#343F52">Xem trước tác động</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);text-align:center"><sc-for list="{{ impact }}" as="m" hint-placeholder-count="4"><div style="padding:14px 8px;border-right:1px solid #ECEAE5"><div style="font-size:22px;font-weight:700;color:{{ m.c }}">{{ m.v }}</div><div style="font-size:12px;color:#4A5870">{{ m.label }}</div></div></sc-for></div>
+            <div style="padding:10px 14px;border-top:1px solid #ECEAE5;font-size:12px;line-height:18px;color:#343F52">9 đơn hiệu lực → <b>Đã hủy</b>. 7 đơn đã thu → 7 dòng hoàn 100% (chuyến bị hủy bởi RenTrekk), tổng <b>32.900.000 ₫</b>, trạng thái <b style="color:#B45309">Chờ duyệt</b>: chưa gửi SePay cho đến khi Admin duyệt ở <a href="RenTrekk Batch 4E - Tai chinh va Khuyen mai.dc.html#o28">O28 Hoàn tiền &amp; đối soát</a>. 2 đơn chờ thanh toán chuyển Đã hủy, đóng VA, không có hoàn tiền.</div></div>
+          <div style="padding:16px 24px 0;display:flex;flex-direction:column;gap:6px"><label for="o10-r" style="font-size:13px;font-weight:600">Lý do hủy <span style="color:#BE123C">*</span></label><textarea id="o10-r" rows="3" value="{{ cReason }}" onChange="{{ onCReason }}" placeholder="Ví dụ: Vườn quốc gia đóng cửa do thời tiết" style="padding:10px 12px;border:{{ cRBd }};border-radius:8px;font-size:14px;resize:vertical;outline:none"></textarea><sc-if value="{{ cErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập lý do.</span></sc-if></div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;padding:18px 24px;margin-top:16px;border-top:1px solid #ECEAE5"><button onClick="{{ closeCancel }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Giữ chuyến</button><button onClick="{{ confirmCancel }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#BE123C;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Hủy chuyến &amp; tạo 7 yêu cầu hoàn</button></div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O10 · FR-D04, D07, D08<br>· Header: TOURS.name, version, TRIPS.start_at, end_at, status, managed_by_user_id<br>· Nút theo §7.2: Draft → Mở bán · Open → Đóng bán · ClosedForBooking → Bắt đầu · InProgress → Hoàn thành · Open/Closed → Hủy<br>· Sửa khi chưa bán: total_slots ≥ chỗ đã cam kết; row_version sai → banner xung đột<br>· Checklist: Σ participant ≥ min_participants · COUNT trip_group_id rỗng = 0 · mọi TRIP_GROUPS có guide_user_id · TRIP_PROVIDED_ITEMS đều Ready · mọi ORDERS payment_status = Paid<br>· Hủy (S): TRIPS.status = Cancelled; ORDERS hiệu lực → Cancelled. Mỗi đơn đã thu (payment_status Paid) → 1 dòng PAYMENTS: payment_type = Refund, purpose = TourFee, <b>status = PendingApproval</b> (không phải Pending), original_payment_id = dòng Collection Succeeded, amount = 100% đã thu (chuyến bị RenTrekk hủy). Đơn PendingPayment → Cancelled, đóng VA SePay, không có dòng hoàn. Dòng PendingApproval chỉ gửi SePay sau khi Admin duyệt ở O28 (API 8.2)<br>· Modal xem trước: số đơn bị hủy, số dòng hoàn, tổng cần hoàn, ghi “chờ Admin duyệt”<br>· ⚠ Contract 03.1 chưa có endpoint hủy chuyến phía vận hành (mục 7 chỉ là khách hủy đơn của mình) — cần bổ sung trước khi code; hoàn tiền đi qua luồng mục 8<br>· ASSET_ASSIGNMENTS (trip_provided_item_id) Reserved → Cancelled; NOTIFICATIONS; AUDIT_LOGS<br>· Lịch sử → AUDIT_LOGS entity_type = Trip</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O11 ================= -->
+<section id="o11" data-screen-label="O11 Booking & Participant" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O11</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chuyến — Booking &amp; Participant</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/trips/:tripId/bookings</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navTrips }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px;font-weight:700;color:#14213D">Fansipan qua Trạm Tôn · 14/11/2026</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:#E0F2F6;color:#0E7490;font-size:12px;font-weight:600">◷ Mở bán</span></div>
+          <div style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3"><sc-for list="{{ sub11 }}" as="t" hint-placeholder-count="7"><a href="{{ t.href }}" style="height:44px;padding:0 14px;display:flex;align-items:center;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};text-decoration:none;gap:6px">{{ t.label }}<span style="display:{{ t.cd }};font-size:11px;font-weight:700;padding:1px 6px;border-radius:999px;background:#FEF3C7;color:#B45309">{{ t.count }}</span></a></sc-for></div>
+          <div style="display:flex;align-items:center;gap:12px"><span style="font-size:14px;color:#343F52;flex:1"><b>9 booking</b> · 14 người tham gia · 2 đơn chờ thanh toán</span><button onClick="{{ expandAll }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">{{ expandLabel }}</button><button onClick="{{ manifest }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Xuất manifest</button></div>
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+            <div style="display:grid;grid-template-columns:28px 140px minmax(0,1.4fr) 70px 110px 130px 110px minmax(0,1.5fr);gap:12px;padding:10px 16px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span></span><span>Mã đơn</span><span>Người đặt</span><span>Số người</span><span style="text-align:right">Đơn giá</span><span>Mong muốn nhóm</span><span>Đã tách nhóm</span><span>Trạng thái / Thanh toán</span></div>
+            <sc-for list="{{ bookings }}" as="b" hint-placeholder-count="6">
+              <div style="border-top:1px solid #ECEAE5">
+                <div onClick="{{ b.toggle }}" style="display:grid;grid-template-columns:28px 140px minmax(0,1.4fr) 70px 110px 130px 110px minmax(0,1.5fr);gap:12px;padding:11px 16px;font-size:14px;align-items:center;cursor:pointer;background:{{ b.bg }}">
+                  <span style="color:#4A5870">{{ b.chev }}</span>
+                  <a href="#o15" style="font:600 13px ui-monospace,Menlo,monospace">{{ b.code }}</a>
+                  <span><span style="display:block;font-weight:600">{{ b.name }}</span><span style="display:block;font-size:12px;color:#4A5870">{{ b.email }}</span></span>
+                  <span>{{ b.n }}</span><span style="text-align:right">{{ b.unit }}</span><span style="font-size:13px">{{ b.pref }}</span>
+                  <span title="{{ b.splitTip }}" style="font-size:13px;color:{{ b.splitC }};font-weight:{{ b.splitW }}">{{ b.split }}</span>
+                  <span style="display:flex;gap:6px;flex-wrap:wrap"><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ b.st.bg }};color:{{ b.st.fg }};font-size:12px;font-weight:600;white-space:nowrap"><span aria-hidden="true">{{ b.st.ic }}</span>{{ b.st.label }}</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ b.pay.bg }};color:{{ b.pay.fg }};font-size:12px;font-weight:600;white-space:nowrap"><span aria-hidden="true">{{ b.pay.ic }}</span>{{ b.pay.label }}</span></span>
+                </div>
+                <sc-if value="{{ b.open }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:#F5F4F1;padding:4px 16px 12px 56px">
+                    <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 120px minmax(0,1.3fr) 70px minmax(0,1.5fr) 110px 120px;gap:12px;padding:8px 0;font-size:11px;font-weight:600;color:#4A5870"><span>Họ tên</span><span>SĐT</span><span>Email</span><span>Tuổi</span><span>Liên hệ khẩn cấp</span><span>Nhóm</span><span>Tài khoản</span></div>
+                    <sc-for list="{{ b.parts }}" as="p" hint-placeholder-count="2"><div style="display:grid;grid-template-columns:minmax(0,1.3fr) 120px minmax(0,1.3fr) 70px minmax(0,1.5fr) 110px 120px;gap:12px;padding:8px 0;border-top:1px solid #DDDAD3;font-size:13px;align-items:center"><span style="font-weight:600">{{ p.name }}</span><span style="color:{{ p.phc }}">{{ p.phone }}</span><span style="color:{{ p.emc }}">{{ p.email }}</span><span style="color:{{ p.agc }}">{{ p.age }}</span><span style="color:{{ p.ecc }}">{{ p.ec }}</span><span style="color:{{ p.gc }}">{{ p.group }}</span><span style="font-size:12px;font-weight:600;color:{{ p.lc }}">{{ p.linked }}</span></div></sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </main>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O11 · FR-B06, O05, O06<br>· Mã → ORDERS.order_code · Người đặt → customer_user_id → ACCOUNTS.full_name, email<br>· TRIP_BOOKING_ORDERS.participant_count, unit_price, grouping_preference (Đi cùng / Cho phép chia)<br>· Đã tách → is_split; tooltip split_reason?, split_at, split_approved_by_user_id → ACCOUNTS.full_name<br>· ORDERS.status (OrderStatus) + payment_status (OrderPaymentStatus: Unpaid · Paid · PartiallyRefunded · Refunded · NeedsReconciliation) = 2 badge. FE hiện “Đang xác minh” khi Unpaid và có PAYMENTS Collection Pending; “Cần đối soát” → link sang đơn O15 / xử lý ở O28<br>· Mở rộng → BOOKING_PARTICIPANTS.full_name, phone?, email?, date_of_birth? → tuổi, emergency_contact_name?/phone?, trip_group_id? → group_name, linked_user_id?, status<br>· Field rỗng → “Chưa cập nhật”<br>· Manifest: participant theo TRIP_GROUPS, kèm liên hệ khẩn cấp (không có giá tiền)</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O12 ================= -->
+<section id="o12" data-screen-label="O12 Chia nhóm" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O12</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chuyến — Chia nhóm (Kanban)</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/trips/:tripId/groups</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navTrips }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px;font-weight:700;color:#14213D">Fansipan qua Trạm Tôn · 14/11/2026</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:#E0F2F6;color:#0E7490;font-size:12px;font-weight:600">◷ Mở bán</span></div>
+          <div style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3"><sc-for list="{{ sub12 }}" as="t" hint-placeholder-count="7"><a href="{{ t.href }}" style="height:44px;padding:0 14px;display:flex;align-items:center;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};text-decoration:none;gap:6px">{{ t.label }}<span style="display:{{ t.cd }};font-size:11px;font-weight:700;padding:1px 6px;border-radius:999px;background:#FEF3C7;color:#B45309">{{ t.count }}</span></a></sc-for></div>
+          <div style="display:flex;align-items:center;gap:12px"><span style="font-size:14px;color:#343F52;flex:1">Kéo thẻ người tham gia vào nhóm. Thẻ cùng viền màu thuộc cùng một đơn.</span><button onClick="{{ autoGroup }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Tự động chia nhóm</button><button style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600">Thêm nhóm</button></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start">
+            <sc-for list="{{ cols }}" as="c" hint-placeholder-count="4">
+              <div onDragOver="{{ c.over }}" onDrop="{{ c.drop }}" style="background:{{ c.bg }};border:{{ c.bd }};border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:520px">
+                <div style="display:flex;flex-direction:column;gap:6px;padding:2px 2px 8px;border-bottom:1px solid #DDDAD3">
+                  <div style="display:flex;align-items:center;gap:8px"><span style="font-size:15px;font-weight:700;flex:1">{{ c.name }}</span><span style="font-size:13px;font-weight:700;color:{{ c.capC }}">{{ c.cap }}</span></div>
+                  <sc-if value="{{ c.isGroup }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="width:24px;height:24px;border-radius:50%;background:{{ c.gBg }};color:{{ c.gC }};font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ c.gIni }}</span><span style="flex:1;color:{{ c.gTc }}">{{ c.guide }}</span><span style="display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px 0 6px;border-radius:999px;background:{{ c.st.bg }};color:{{ c.st.fg }};font-size:11px;font-weight:600"><span aria-hidden="true">{{ c.st.ic }}</span>{{ c.st.label }}</span></div></sc-if>
+                  <sc-if value="{{ c.warn }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#B45309;font-weight:600">! {{ c.warnText }}</span></sc-if>
+                </div>
+                <sc-for list="{{ c.cards }}" as="p" hint-placeholder-count="3">
+                  <div draggable="true" onDragStart="{{ p.start }}" style="background:#FFFFFF;border:1px solid #DDDAD3;border-left:4px solid {{ p.color }};border-radius:8px;padding:9px 10px;cursor:grab;display:flex;flex-direction:column;gap:2px">
+                    <div style="display:flex;align-items:center;gap:6px"><span style="font-size:14px;font-weight:600;flex:1">{{ p.name }}</span><span style="color:#9AA1AC">⠿</span></div>
+                    <div style="display:flex;gap:6px;font-size:11px;color:#4A5870"><span style="font-family:ui-monospace,Menlo,monospace">{{ p.code }}</span><span>· {{ p.pref }}</span></div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </main>
+      </div>
+      <sc-if value="{{ splitOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeSplit }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" style="position:absolute;top:160px;left:50%;transform:translateX(-50%);width:540px;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3);overflow:hidden">
+          <div style="padding:22px 24px 0;font-size:20px;font-weight:700">Tách đơn {{ splitCode }} khỏi nhóm chung?</div>
+          <div style="margin:14px 24px 0;padding:12px 14px;border-radius:10px;background:#FEF3C7;border:1px solid #B45309;font-size:14px;line-height:22px;color:#232B38"><b style="color:#B45309">! Khách chọn “Đi cùng một nhóm”.</b> Chuyển <b>{{ splitName }}</b> sang {{ splitTo }} sẽ tách đơn này thành 2 nhóm. Khách nhận thông báo kèm lý do.</div>
+          <div style="padding:16px 24px 0;display:flex;flex-direction:column;gap:6px"><label for="o12-r" style="font-size:13px;font-weight:600">Lý do tách <span style="color:#BE123C">*</span></label><textarea id="o12-r" rows="3" value="{{ sReason }}" onChange="{{ onSReason }}" placeholder="Ví dụ: nhóm Mây 1 đã đủ 8 người" style="padding:10px 12px;border:{{ sRBd }};border-radius:8px;font-size:14px;resize:vertical;outline:none"></textarea><sc-if value="{{ sErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập lý do.</span></sc-if></div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;padding:18px 24px;margin-top:16px;border-top:1px solid #ECEAE5"><button onClick="{{ closeSplit }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Không tách</button><button onClick="{{ confirmSplit }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Duyệt tách nhóm</button></div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O12 · FR-D05, D06<br>· “Chưa xếp nhóm” = BOOKING_PARTICIPANTS trip_group_id rỗng; viền màu theo booking (ORDERS.order_code)<br>· Cột nhóm: TRIP_GROUPS.group_name (không trùng trong chuyến), guide_user_id → ACCOUNTS.full_name (role Guide; cảnh báo nếu trùng lịch chuyến khác), sĩ số = COUNT participant / max_participants, status<br>· Kéo thả → BOOKING_PARTICIPANTS.trip_group_id + AUDIT_LOGS; chặn khi đầy<br>· Tách booking grouping_preference = đi chung → lý do bắt buộc → TRIP_BOOKING_ORDERS.is_split = 1, split_reason, split_approved_by_user_id, split_at<br>· Tự động chia: giữ cùng booking chung nhóm, lấp nhóm còn chỗ</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O13 ================= -->
+<section id="o13" data-screen-label="O13 Chuẩn bị đồ cấp" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O13</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chuyến — Chuẩn bị đồ cấp</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/trips/:tripId/provided-items</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navTrips }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px;font-weight:700;color:#14213D">Fansipan qua Trạm Tôn · 14/11/2026</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:#E0F2F6;color:#0E7490;font-size:12px;font-weight:600">◷ Mở bán</span></div>
+          <div style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3"><sc-for list="{{ sub13 }}" as="t" hint-placeholder-count="7"><a href="{{ t.href }}" style="height:44px;padding:0 14px;display:flex;align-items:center;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};text-decoration:none;gap:6px">{{ t.label }}<span style="display:{{ t.cd }};font-size:11px;font-weight:700;padding:1px 6px;border-radius:999px;background:#FEF3C7;color:#B45309">{{ t.count }}</span></a></sc-for></div>
+          <sc-if value="{{ shortage }}" hint-placeholder-val="{{ true }}"><div role="alert" style="display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C;font-size:14px;line-height:22px;color:#232B38"><span style="color:#BE123C;font-weight:700">✕</span><span><b style="color:#BE123C">Thiếu 3 Đèn đội đầu 300 lm từ 14/11 đến 16/11</b> — đang bị giữ bởi đơn thuê <a href="#">RTK-26-004830</a>, <a href="#">RTK-26-004840</a>. Xem <a href="#">Lịch phân bổ thiết bị</a>.</span></div></sc-if>
+          <sc-if value="{{ recalc }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;background:#FEF3C7;border:1px solid #B45309;font-size:14px;color:#232B38"><span style="color:#B45309;font-weight:700">!</span><span style="flex:1"><b>Cần cập nhật số lượng.</b> Số người đổi 12 → 14 sau lần tính trước. Túi ngủ và gậy trekking cần tính lại.</span><button onClick="{{ doRecalc }}" style="height:36px;padding:0 14px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:13px;font-weight:600;cursor:pointer">Tính lại</button></div></sc-if>
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+            <div style="display:grid;grid-template-columns:minmax(0,1.5fr) 160px 70px 80px 70px 150px 130px 100px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Thiết bị</span><span>Cấu hình tour</span><span>Cần</span><span>Đã gán</span><span>Thiếu</span><span>Người chuẩn bị</span><span>Trạng thái</span><span></span></div>
+            <sc-for list="{{ items }}" as="i" hint-placeholder-count="5">
+              <div style="display:grid;grid-template-columns:minmax(0,1.5fr) 160px 70px 80px 70px 150px 130px 100px;gap:12px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px;align-items:center">
+                <span><span style="display:block;font-weight:600">{{ i.name }}</span><span style="font:500 12px ui-monospace,Menlo,monospace;color:#4A5870">{{ i.sku }}</span></span>
+                <span style="font-size:13px;color:#343F52">{{ i.cfg }}</span>
+                <span style="font-weight:600;color:{{ i.needC }}">{{ i.need }}</span><span>{{ i.got }}</span><span style="font-weight:700;color:{{ i.missC }}">{{ i.miss }}</span>
+                <span style="font-size:13px;color:{{ i.prepC }}">{{ i.prep }}</span>
+                <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ i.st.bg }};color:{{ i.st.fg }};font-size:12px;font-weight:600;justify-self:start"><span aria-hidden="true">{{ i.st.ic }}</span>{{ i.st.label }}</span>
+                <button onClick="{{ i.open }}" style="height:34px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:13px;font-weight:600;cursor:pointer">Gán thiết bị</button>
+              </div>
+            </sc-for>
+          </div>
+        </main>
+      </div>
+      <sc-if value="{{ assignOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeAssign }}" style="position:absolute;inset:0;background:rgba(14,24,45,.35)"></div>
+        <aside role="dialog" aria-label="Gán thiết bị" style="position:absolute;top:0;right:0;bottom:0;width:520px;background:#FFFFFF;box-shadow:-12px 0 32px rgba(20,33,61,.18);display:flex;flex-direction:column">
+          <div style="padding:20px 24px;display:flex;align-items:center;border-bottom:1px solid #ECEAE5"><div style="flex:1"><div style="font-size:18px;font-weight:700">{{ aItem.name }}</div><div style="font-size:13px;color:#4A5870">Khả dụng 14/11 05:30 → 16/11 17:00 · cần {{ aItem.need }}</div></div><button onClick="{{ closeAssign }}" aria-label="Đóng" style="width:36px;height:36px;border:0;background:transparent;font-size:16px;cursor:pointer">✕</button></div>
+          <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid #ECEAE5"><label for="o13-s" style="font-size:13px;font-weight:600">Quét hoặc nhập mã thiết bị</label><div style="display:flex;gap:8px"><input id="o13-s" value="{{ scan }}" onChange="{{ onScan }}" onKeyDown="{{ onScanKey }}" placeholder="VD: TN-M-0231" style="flex:1;height:48px;padding:0 14px;border:2px solid #31476F;border-radius:8px;font:600 16px ui-monospace,Menlo,monospace;text-transform:uppercase;outline:none"></input><button onClick="{{ doScan }}" style="height:48px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Gán</button></div><sc-if value="{{ scanErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ scanErr }}</span></sc-if></div>
+          <div style="flex:1;overflow:auto">
+            <sc-for list="{{ assetList }}" as="a" hint-placeholder-count="6"><label style="display:flex;align-items:center;gap:12px;padding:11px 24px;border-bottom:1px solid #ECEAE5;font-size:14px;cursor:pointer;background:{{ a.bg }}"><input type="checkbox" checked="{{ a.on }}" onChange="{{ a.toggle }}" disabled="{{ a.dis }}" style="width:16px;height:16px;accent-color:#14213D"></input><span style="font:600 13px ui-monospace,Menlo,monospace;width:110px">{{ a.code }}</span><span style="flex:1;font-size:13px;color:{{ a.nc }}">{{ a.note }}</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ a.st.bg }};color:{{ a.st.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ a.st.ic }}</span>{{ a.st.label }}</span></label></sc-for>
+          </div>
+          <div style="padding:16px 24px;border-top:1px solid #ECEAE5;display:flex;align-items:center;gap:8px"><span style="flex:1;font-size:14px"><b>{{ aSel }}</b> / {{ aItem.need }} đã chọn</span><button onClick="{{ closeAssign }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Lưu giữ chỗ</button></div>
+        </aside>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O13 · FR-I01–I07<br>· TRIP_PROVIDED_ITEMS.product_variant_id → PRODUCT_VARIANTS.variant_name, sku<br>· Cấu hình → tour_provided_item_id → TOUR_PROVIDED_ITEMS.quantity, quantity_basis<br>· Cần → required_quantity (người × qty / nhóm × qty / qty) — lệch → “Cần cập nhật”<br>· Đã gán = COUNT ASSET_ASSIGNMENTS trip_provided_item_id; Thiếu = cần − đã gán<br>· Người chuẩn bị → prepared_by_user_id? (rỗng → “Chưa phân công”; S khi gán)<br>· status Missing / Ready / Recovered<br>· Drawer: EQUIPMENT_ASSETS variant, asset_status = Available, không trùng [start_at, end_at] → ASSET_ASSIGNMENTS (reserved_from, reserved_until, Reserved)<br>· Cảnh báo thiếu: liệt kê ORDERS.order_code đang giữ cùng variant</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O14 ================= -->
+<section id="o14" data-screen-label="O14 Điểm danh" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O14</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chuyến — Điểm danh (ma trận)</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/trips/:tripId/attendance</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navTrips }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px;font-weight:700;color:#14213D">Fansipan qua Trạm Tôn · 14/11/2026</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:#EDE9FE;color:#6D28D9;font-size:12px;font-weight:600">▶ Đang diễn ra</span></div>
+          <div style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3"><sc-for list="{{ sub14 }}" as="t" hint-placeholder-count="7"><a href="{{ t.href }}" style="height:44px;padding:0 14px;display:flex;align-items:center;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};text-decoration:none;gap:6px">{{ t.label }}<span style="display:{{ t.cd }};font-size:11px;font-weight:700;padding:1px 6px;border-radius:999px;background:#FEF3C7;color:#B45309">{{ t.count }}</span></a></sc-for></div>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <div style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ grpOpts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.on }}" style="height:32px;padding:0 12px;border:0;border-radius:7px;background:{{ o.bg }};color:{{ o.c }};font-size:13px;font-weight:600;cursor:pointer">{{ o.label }}</button></sc-for></div>
+            <span style="font-size:13px;color:#4A5870">Bấm ô để điểm danh: Chưa → Có mặt → Muộn → Vắng. Sửa ô đã có giá trị cần lý do.</span>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:auto">
+            <div style="display:grid;grid-template-columns:200px repeat(6,minmax(120px,1fr));min-width:920px">
+              <div style="padding:10px 14px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870;border-bottom:1px solid #DDDAD3">Người tham gia</div>
+              <sc-for list="{{ attCols }}" as="c" hint-placeholder-count="6"><div style="padding:8px 10px;background:#F5F4F1;border-bottom:1px solid #DDDAD3;border-left:1px solid #ECEAE5"><div style="font-size:11px;font-weight:600;color:#4A5870">{{ c.day }} · {{ c.time }}</div><div style="font-size:12px;font-weight:600;line-height:16px">{{ c.name }}</div></div></sc-for>
+              <sc-for list="{{ attRows }}" as="r" hint-placeholder-count="8">
+                <div style="padding:10px 14px;border-bottom:1px solid #ECEAE5;font-size:13px"><div style="font-weight:600">{{ r.name }}</div><div style="font-size:11px;color:#4A5870">{{ r.group }}</div></div>
+                <sc-for list="{{ r.cells }}" as="x" hint-placeholder-count="6"><button onClick="{{ x.on }}" title="{{ x.tip }}" style="border:0;border-left:1px solid #ECEAE5;border-bottom:1px solid #ECEAE5;background:{{ x.bg }};color:{{ x.fg }};font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;min-height:48px"><span aria-hidden="true">{{ x.ic }}</span>{{ x.label }}</button></sc-for>
+              </sc-for>
+              <div style="padding:10px 14px;background:#F5F4F1;font-size:12px;font-weight:700">Tổng kết</div>
+              <sc-for list="{{ attSum }}" as="s" hint-placeholder-count="6"><div style="padding:10px;background:#F5F4F1;border-left:1px solid #ECEAE5;font-size:13px;font-weight:700;color:{{ s.c }};text-align:center">{{ s.text }}</div></sc-for>
+            </div>
+          </div>
+        </main>
+      </div>
+      <sc-if value="{{ attOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeAtt }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" style="position:absolute;top:200px;left:50%;transform:translateX(-50%);width:500px;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3);overflow:hidden">
+          <div style="padding:22px 24px 0;font-size:20px;font-weight:700">Sửa điểm danh</div>
+          <div style="margin:12px 24px 0;padding:12px 14px;border-radius:10px;background:#F5F4F1;font-size:14px;line-height:22px">{{ attEditText }}</div>
+          <div style="padding:16px 24px 0;display:flex;flex-direction:column;gap:6px"><label for="o14-r" style="font-size:13px;font-weight:600">Lý do sửa <span style="color:#BE123C">*</span></label><textarea id="o14-r" rows="2" value="{{ aReason }}" onChange="{{ onAReason }}" style="padding:10px 12px;border:{{ aRBd }};border-radius:8px;font-size:14px;resize:vertical;outline:none"></textarea><sc-if value="{{ aErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập lý do.</span></sc-if></div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;padding:18px 24px;margin-top:16px;border-top:1px solid #ECEAE5"><button onClick="{{ closeAtt }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Hủy</button><button onClick="{{ confirmAtt }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Lưu thay đổi</button></div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O14 · FR-V01–V03<br>· Hàng = BOOKING_PARTICIPANTS (lọc trip_group_id) · Cột = TOUR_ACTIVITIES (day_number, start_time, name) của version chuyến<br>· Ô → ACTIVITY_ATTENDANCES.attendance_status (Present / Late / Absent); không có bản ghi → “Chưa”<br>· Tooltip: checked_at, checked_by_user_id → ACCOUNTS.full_name<br>· 1 bản ghi / (participant_id, tour_activity_id); ô trống → INSERT; ô có giá trị → UPDATE + lý do → AUDIT_LOGS<br>· Tổng kết = COUNT Present (+ Late) / COUNT participant hàng đang lọc</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O15 ================= -->
+<section id="o15" data-screen-label="O15 Đơn tour vận hành" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O15</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Đơn tour — chi tiết (vận hành)</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/orders/:orderCode</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px"><sc-for list="{{ o15Chips }}" as="c" hint-placeholder-count="7"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for></div></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navOrders }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:13px;color:#4A5870"><a href="#o38">Đơn hàng</a> / <a href="#o11">Fansipan 14/11 · Booking</a> / <span style="color:#151A24">RTK-26-004852</span></div>
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="flex:1"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="font:700 26px ui-monospace,Menlo,monospace;color:#14213D">RTK-26-004852</span><span style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px 0 8px;border-radius:999px;background:{{ oSt.bg }};color:{{ oSt.fg }};font-size:13px;font-weight:600"><span aria-hidden="true">{{ oSt.ic }}</span>{{ oSt.label }}</span><span style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px 0 8px;border-radius:999px;background:{{ oPay.bg }};color:{{ oPay.fg }};font-size:13px;font-weight:600"><span aria-hidden="true">{{ oPay.ic }}</span>{{ oPay.label }}</span></div><div style="font-size:13px;color:#4A5870;margin-top:4px">Đơn tour · Tạo lúc 05/11/2026 09:12 (GMT+7) · Cập nhật lúc {{ oUpd }}</div></div>
+            <button onClick="{{ openNotify }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Gửi thông báo</button>
+            <sc-if value="{{ canCancelO }}" hint-placeholder-val="{{ true }}"><button onClick="{{ openCancelO }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #BE123C;background:#FFFFFF;color:#BE123C;font-size:14px;font-weight:600;cursor:pointer">Hủy đơn thay khách</button></sc-if>
+            <button onClick="{{ openPay }}" title="{{ payTip }}" aria-disabled="{{ payOff }}" style="height:40px;padding:0 16px;border-radius:8px;border:{{ payBd }};background:{{ payBg }};color:{{ payFg }};font-size:14px;font-weight:600;cursor:{{ payCur }}">Ghi nhận thanh toán thủ công</button>
+          </div>
+          <sc-if value="{{ oBnOn }}" hint-placeholder-val="{{ true }}"><div role="status" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:12px;background:{{ oBn.bg }};border:1px solid {{ oBn.fg }};font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:{{ oBn.fg }};font-weight:700">{{ oBn.ic }}</span><span style="flex:1"><b style="color:{{ oBn.fg }}">{{ oBn.title }}</b> {{ oBn.text }}</span><sc-if value="{{ oBn.hasLink }}" hint-placeholder-val="{{ true }}"><a href="{{ oBn.href }}" style="white-space:nowrap;font-weight:600;font-size:14px">{{ oBn.linkText }}</a></sc-if></div></sc-if>
+          <div role="tablist" style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3"><sc-for list="{{ oTabs }}" as="t" hint-placeholder-count="2"><button role="tab" onClick="{{ t.on }}" style="height:44px;padding:0 14px;border:0;background:transparent;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};cursor:pointer">{{ t.label }}</button></sc-for></div>
+          <sc-if value="{{ oTabMain }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:16px;align-items:start">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                <div><div style="font-size:12px;color:#4A5870;margin-bottom:6px">Khách hàng</div><div style="display:flex;gap:10px;align-items:center"><span style="width:40px;height:40px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;display:flex;align-items:center;justify-content:center">TH</span><div><div style="font-weight:600">Trần Thu Hà <span style="font:500 12px ui-monospace,Menlo,monospace;color:#4A5870">CU-10482</span></div><div style="font-size:13px;color:#343F52">thuha.tran@gmail.com · 0912 345 678</div></div></div></div>
+                <div><div style="font-size:12px;color:#4A5870;margin-bottom:6px">Chuyến</div><div style="font-weight:600">Chinh phục Fansipan qua cung Trạm Tôn · v3</div><div style="font-size:13px;color:#343F52">Th 7, 14/11/2026 · 05:30 (GMT+7) · <a href="#o10">Mở chuyến</a></div></div>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+                <div style="padding:14px 20px;display:flex;align-items:center;border-bottom:1px solid #ECEAE5"><span style="font-size:16px;font-weight:600;flex:1">Người tham gia · 2</span><span style="font-size:12px;color:#4A5870">Sửa thay khách được ghi nhật ký</span></div>
+                <sc-for list="{{ oParts }}" as="p" hint-placeholder-count="2"><div style="display:grid;grid-template-columns:minmax(0,1.3fr) 130px minmax(0,1.4fr) 110px 70px;gap:12px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px;align-items:center"><span><span style="display:block;font-weight:600">{{ p.name }}</span><span style="font-size:12px;color:#4A5870">{{ p.email }}</span></span><span style="color:{{ p.phc }}">{{ p.phone }}</span><span style="font-size:13px;color:{{ p.ecc }}">{{ p.ec }}</span><span style="font-size:13px">{{ p.group }}</span><button onClick="{{ p.edit }}" style="height:32px;border:0;background:transparent;color:#31476F;font-size:13px;font-weight:600;cursor:pointer">Sửa</button></div></sc-for>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px;font-size:14px">
+                <div style="font-size:16px;font-weight:600">Thanh toán</div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">2 người × 2.450.000 ₫</span><span>4.900.000 ₫</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><span style="color:#343F52">FANSIPAN200<br><span style="display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px 0 6px;border-radius:999px;background:#E7F6EC;color:#166534;font-size:11px;font-weight:600;margin-top:4px">✓ Đã áp dụng</span></span><span style="color:#166534;font-weight:600">−200.000 ₫</span></div>
+                <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid #ECEAE5;font-weight:700"><span>Tổng</span><span>4.700.000 ₫</span></div>
+                <sc-for list="{{ oSum }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:10px"><span style="color:#343F52">{{ r.label }}</span><span style="font-weight:{{ r.w }};color:{{ r.c }}">{{ r.v }}</span></div></sc-for>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:6px;font-size:13px;color:#343F52"><div style="font-size:16px;font-weight:600;color:#151A24;margin-bottom:4px">Chính sách</div><span>Tour tiêu chuẩn · v2</span><span>≥ 168 giờ: 100% · ≥ 72 giờ: 70% · ≥ 24 giờ: 30%</span><span>{{ oHoldLine }}</span><span>Ghi chú khách: <span style="color:#5E6B80">Chưa cập nhật</span></span></div>
+            </div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+            <div style="padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #ECEAE5"><span style="font-size:16px;font-weight:600">Giao dịch · {{ oTxCount }}</span><span style="font:500 12px ui-monospace,Menlo,monospace;color:#4A5870">PAYMENTS</span><span style="margin-left:auto;font-size:12px;color:#4A5870">Chỉ chuyển khoản (BankTransfer) qua VA SePay · chưa thu cọc ở bản này</span></div>
+            <div style="display:grid;grid-template-columns:minmax(0,1.15fr) 100px 112px 96px minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) minmax(0,.9fr) 108px 112px;gap:10px;padding:9px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Loại / mục đích</span><span style="text-align:right">Số tiền</span><span style="text-align:right">Thực nhận</span><span>Phương thức</span><span>Mã VA (order)</span><span>Mã GD cổng</span><span>Gốc / thử lại của</span><span>Tham chiếu hoàn tay</span><span>Xử lý lúc</span><span>Trạng thái</span></div>
+            <sc-for list="{{ oTx }}" as="t" hint-placeholder-count="3">
+              <div style="border-top:1px solid #ECEAE5;background:{{ t.rowBg }}">
+                <div style="display:grid;grid-template-columns:minmax(0,1.15fr) 100px 112px 96px minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) minmax(0,.9fr) 108px 112px;gap:10px;padding:11px 20px;font-size:13px;align-items:center">
+                  <span><span style="display:block;font-weight:600">{{ t.type }}</span><span style="display:block;font-size:11px;color:#4A5870">{{ t.purpose }}</span><span style="display:block;font:500 11px ui-monospace,Menlo,monospace;color:#5E6B80">{{ t.id }}</span></span>
+                  <span style="text-align:right;font-weight:600">{{ t.amt }}</span>
+                  <span style="text-align:right"><span style="display:block;font-weight:{{ t.recW }};color:{{ t.recC }}">{{ t.rec }}</span><span style="display:block;font-size:11px;color:{{ t.recC }}">{{ t.recNote }}</span></span>
+                  <span style="font-size:12px">{{ t.method }}</span>
+                  <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:{{ t.vaC }};word-break:break-all">{{ t.va }}</span>
+                  <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:{{ t.ptxC }};word-break:break-all">{{ t.ptx }}</span>
+                  <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:17px"><span style="display:block;color:{{ t.origC }}">{{ t.orig }}</span><span style="display:block;color:{{ t.retryC }}">{{ t.retry }}</span></span>
+                  <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:{{ t.manC }};word-break:break-all">{{ t.man }}</span>
+                  <span style="font-size:12px;color:{{ t.atC }}">{{ t.at }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ t.st.bg }};color:{{ t.st.fg }};font-size:12px;font-weight:600;justify-self:start;white-space:nowrap"><span aria-hidden="true">{{ t.st.ic }}</span>{{ t.st.label }}</span>
+                </div>
+                <sc-if value="{{ t.failOn }}" hint-placeholder-val="{{ false }}"><div style="padding:0 20px 11px;font-size:12px;color:#BE123C">✕ <span style="font:500 11px ui-monospace,Menlo,monospace">failure_reason</span> · {{ t.fail }}</div></sc-if>
+              </div>
+            </sc-for>
+            <div style="padding:10px 20px;border-top:1px solid #ECEAE5;background:#F5F4F1;font-size:12px;color:#4A5870">Thực nhận khác số tiền (chuyển thừa / thiếu) được tô cam và có thể đưa đơn vào <b>Cần đối soát</b>. Dòng hoàn chuỗi thử lại: tối đa 3 lần, mỗi dòng Thất bại chỉ thử lại 1 lần.</div>
+          </div>
+          </div>
+          </sc-if>
+          <sc-if value="{{ oTabAudit }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden"><sc-for list="{{ oAudit }}" as="a" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:140px 170px 180px minmax(0,1fr);gap:14px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:13px"><span style="color:#4A5870">{{ a.at }}</span><span style="font-weight:600">{{ a.actor }}</span><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#343F52">{{ a.action }}</span><span>{{ a.text }}</span></div></sc-for></div>
+          </sc-if>
+        </main>
+      </div>
+      <sc-if value="{{ cxOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ cxClose }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" aria-labelledby="o15-cx-t" style="position:absolute;top:90px;left:50%;transform:translateX(-50%);width:580px;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3);overflow:hidden">
+          <div style="padding:22px 24px 0;display:flex;align-items:flex-start;gap:12px"><div style="flex:1"><div id="o15-cx-t" style="font-size:20px;font-weight:700">Hủy đơn RTK-26-004852 thay khách</div><div style="font-size:13px;color:#4A5870;margin-top:4px">Khởi hành Th 7, 14/11/2026 · 05:30 (GMT+7) · chính sách Tour tiêu chuẩn · v2</div></div><button onClick="{{ cxClose }}" aria-label="Đóng" style="width:36px;height:36px;border:0;background:transparent;font-size:16px;cursor:pointer;color:#343F52">✕</button></div>
+          <div style="padding:14px 24px 0;display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;color:#4A5870">Mô phỏng thời điểm hủy:<sc-for list="{{ cxWhen }}" as="w" hint-placeholder-count="3"><button onClick="{{ w.on }}" style="height:28px;padding:0 10px;border-radius:999px;border:1px solid {{ w.bd }};background:{{ w.bg }};color:{{ w.c }};font-size:12px;font-weight:600;cursor:pointer">{{ w.label }}</button></sc-for></div>
+          <div style="margin:12px 24px 0;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+            <div style="padding:10px 14px;background:#F5F4F1;font-size:13px;display:flex;justify-content:space-between"><span style="font-weight:600;color:#343F52">Xem trước hoàn tiền · cancellation-preview</span><span style="color:#343F52">Còn <b>{{ cxHours }}</b> đến khởi hành</span></div>
+            <sc-for list="{{ cxRules }}" as="r" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;padding:9px 14px;font-size:14px;border-top:1px solid #ECEAE5;background:{{ r.bg }};font-weight:{{ r.w }}"><span>{{ r.when }}</span><span>{{ r.pct }}</span></div></sc-for>
+            <div style="padding:12px 14px;border-top:1px solid #ECEAE5;display:flex;flex-direction:column;gap:6px;font-size:14px">
+              <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Đã thu</span><span style="font-weight:600">{{ cxPaid }}</span></div>
+              <div style="display:flex;justify-content:space-between;font-weight:700"><span>Dự kiến hoàn</span><span style="color:#166534">{{ cxRefund }}</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Không được hoàn</span><span style="color:#BE123C;font-weight:600">{{ cxLose }}</span></div>
+            </div>
+            <div style="padding:10px 14px;border-top:1px solid #ECEAE5;background:#FFFBEB;font-size:12px;line-height:18px;color:#343F52">{{ cxNote }}</div>
+          </div>
+          <sc-if value="{{ cxChanged }}" hint-placeholder-val="{{ false }}"><div role="alert" style="margin:12px 24px 0;padding:10px 14px;border-radius:8px;background:#FFE4E8;border:1px solid #BE123C;font-size:13px;color:#232B38"><b style="color:#BE123C">REFUND_AMOUNT_CHANGED.</b> Số tiền hoàn đã thay đổi so với lúc xem trước. Bản xem trước vừa được tải lại, kiểm tra rồi bấm xác nhận lại.</div></sc-if>
+          <div style="padding:14px 24px 0;display:flex;flex-direction:column;gap:6px"><label for="o15-cx-r" style="font-size:13px;font-weight:600">Lý do hủy <span style="color:#BE123C">*</span></label><textarea id="o15-cx-r" rows="2" value="{{ cxReason }}" onChange="{{ onCxReason }}" placeholder="Ví dụ: Khách gọi điện đổi kế hoạch" style="padding:10px 12px;border:{{ cxRBd }};border-radius:8px;font-size:14px;resize:vertical;outline:none"></textarea><sc-if value="{{ cxErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập lý do.</span></sc-if></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:16px 24px;margin-top:14px;border-top:1px solid #ECEAE5"><button onClick="{{ cxToggleSim }}" style="height:32px;padding:0 10px;border-radius:999px;border:1px solid {{ cxSimBd }};background:{{ cxSimBg }};color:{{ cxSimC }};font-size:12px;font-weight:600;cursor:pointer;margin-right:auto">Mô phỏng lỗi số tiền đổi</button><button onClick="{{ cxClose }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Giữ đơn</button><button onClick="{{ cxConfirm }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#BE123C;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">{{ cxBtn }}</button></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ payOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closePay }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" style="position:absolute;top:110px;left:50%;transform:translateX(-50%);width:540px;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3);padding:24px;display:flex;flex-direction:column;gap:14px">
+          <div style="font-size:20px;font-weight:700">Ghi nhận thanh toán thủ công</div>
+          <div style="font-size:13px;color:#4A5870">Dùng khi khách chuyển khoản trực tiếp vào tài khoản công ty, ngoài VA SePay. VA đang mở của đơn sẽ bị đóng. Chỉ nhận chuyển khoản ngân hàng.</div>
+          <div style="padding:8px 12px;border-radius:8px;background:#FEF3C7;color:#B45309;font-size:12px">⚠ FR-F04 — API chưa có, tắt mặc định. Màn này chỉ để chốt thiết kế.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Số tiền <span style="color:#BE123C">*</span></label><input value="{{ pAmt }}" onChange="{{ onPAmt }}" style="height:44px;padding:0 12px;border:{{ pAmtBd }};border-radius:8px;font-size:15px;outline:none"></input><sc-if value="{{ pAmtErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ pAmtMsg }}</span></sc-if></div>
+            <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Phương thức <span style="color:#BE123C">*</span></label><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center;justify-content:space-between">Chuyển khoản ngân hàng (BankTransfer)<span style="color:#5E6B80">▾</span></div></div>
+            <div style="display:flex;flex-direction:column;gap:6px;grid-column:1 / -1"><label style="font-size:13px;font-weight:600">Mã giao dịch ngân hàng</label><input placeholder="Mã giao dịch ngân hàng" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font:500 15px ui-monospace,Menlo,monospace;outline:none"></input></div>
+            <div style="display:flex;flex-direction:column;gap:6px;grid-column:1 / -1"><label style="font-size:13px;font-weight:600">Lý do <span style="color:#BE123C">*</span></label><textarea rows="2" value="{{ pReason }}" onChange="{{ onPReason }}" style="padding:10px 12px;border:{{ pRBd }};border-radius:8px;font-size:14px;resize:vertical;outline:none"></textarea><sc-if value="{{ pRErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập lý do.</span></sc-if></div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:8px"><button onClick="{{ closePay }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Hủy</button><button onClick="{{ submitPay }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Ghi nhận</button></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notifyOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeNotify }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" style="position:absolute;top:140px;left:50%;transform:translateX(-50%);width:520px;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3);padding:24px;display:flex;flex-direction:column;gap:14px">
+          <div style="font-size:20px;font-weight:700">Gửi thông báo cho Trần Thu Hà</div>
+          <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Tiêu đề <span style="color:#BE123C">*</span></label><input value="Đổi điểm tập trung" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;outline:none"></input></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Nội dung <span style="color:#BE123C">*</span></label><textarea rows="4" style="padding:10px 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:14px;resize:vertical;outline:none">Đoàn tập trung tại cổng Trạm Tôn thay vì bãi xe, giờ giữ nguyên 05:30.</textarea></div>
+          <div style="font-size:12px;color:#4A5870">Thông báo gắn với đơn RTK-26-004852; khách bấm vào sẽ mở chi tiết đơn.</div>
+          <div style="display:flex;justify-content:flex-end;gap:8px"><button onClick="{{ closeNotify }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Hủy</button><button onClick="{{ sendNotify }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Gửi</button></div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O15 · FR-B06, B07, F04, F06, O05<br>· Toàn bộ C11 + khách: customer_user_id → ACCOUNTS.full_name, email, phone?, PROFILES.user_code<br>· KM: APPLIED_PROMOTIONS.discount_amount, status → PROMOTIONS.promotion_code?<br>· 2 badge: ORDERS.status (OrderStatus) + payment_status (OrderPaymentStatus). “Đang xác minh” = Unpaid + có PAYMENTS Collection Pending<br>· Bảng Giao dịch = PAYMENTS theo order_id, sắp created_at: payment_type (Collection / Refund) · purpose (TourFee) · amount · received_amount? (NULL = bằng amount; tô cam khi khác, đơn có thể vào NeedsReconciliation) · payment_method (chỉ BankTransfer) · provider_order_id? (VA order SePay, chỉ Collection; rút gọn) · provider_transaction_id? · status (PendingApproval · Pending · Succeeded · Failed · Cancelled) · failure_reason? · original_payment_id? (Refund → Collection gốc, rút gọn, không GUID) · retry_of_payment_id? (chuỗi thử lại, chỉ Refund, tối đa 3 lần, mỗi dòng Failed thử lại 1 lần) · manual_reference? (mã chuyển khoản khi Admin hoàn tay, 8.6) · processed_at?<br>· Đã thu = Σ Collection Succeeded (received_amount ?? amount) − Σ Refund Succeeded; Chờ duyệt hoàn = Σ Refund PendingApproval/Pending<br>· Banner NeedsReconciliation: ORDERS.reconciliation_deadline_at (dòng cũ chưa có: hold_expires_at + 24 giờ); link O28 (8.4 hoàn toàn bộ · 8.5 chấp nhận khoản tiền). Staff chỉ xem, chỉ Admin xử lý. Quá hạn / thiếu tiền (RECONCILIATION_AMOUNT_INSUFFICIENT) → chỉ còn nút hoàn<br>· Hủy đơn thay khách (như C12): GET /trip-bookings/{orderId}/cancellation-preview (7.1) → POST /trip-bookings/{orderId}/cancel (7.2) {reason, expectedRefundTotal}. Kết quả: ORDERS.status = Cancelled (cancelled_at, cancel_reason) + 1 dòng PAYMENTS Refund <b>PendingApproval</b> (Admin duyệt ở O28). Chưa thu tiền → chỉ hủy, đóng VA, không có dòng hoàn. Lỗi: ORDER_NOT_CANCELLABLE (ẩn nút) · REFUND_AMOUNT_CHANGED (gọi lại preview) · REFUND_POLICY_CHANGED. ⚠ 7.1 / 7.2 là Auth Customer (chủ đơn) — cần quyền Staff/Admin hủy thay, contract chưa có<br>· Ghi nhận thanh toán thủ công (FR-F04): <b>API chưa có, tắt mặc định</b> (03.1 không có endpoint ghi Collection thủ công). Nếu bật: PAYMENTS (Collection, purpose TourFee, amount ≤ còn lại, BankTransfer, provider_transaction_id = mã ngân hàng, Succeeded, processed_at = now), đóng VA Pending trước + AUDIT_LOGS (lý do)<br>· Gửi thông báo → NOTIFICATIONS (recipient_user_id, notification_type, title, content, related_entity_type = Order, related_entity_id)<br>· Lịch sử → AUDIT_LOGS entity_type = Order</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O38 ================= -->
+<section id="o38" data-screen-label="O38 Đơn hàng danh sách chung" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O38</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Đơn hàng — danh sách chung (tour + thuê)</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/orders</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px"><sc-for list="{{ o38Chips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for></div></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navAll }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px;font-weight:700;color:#14213D">Đơn hàng</div><span style="font-size:14px;color:#4A5870;margin-right:auto">{{ ordCountText }}</span>
+            <button onClick="{{ ordExport }}" style="height:40px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">⭳ Xuất CSV</button></div>
+          <sc-if value="{{ ordStaff }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:10px;background:#E0F2F6;color:#0E7490;font-size:13px"><span aria-hidden="true" style="font-weight:700">i</span><span style="color:#232B38">Bạn chỉ thấy đơn tour của chuyến mình điều phối và đơn thuê mình xử lý hoặc chưa ai nhận.</span></div></sc-if>
+          <div role="tablist" style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3"><sc-for list="{{ ordTabs }}" as="t" hint-placeholder-count="5"><button role="tab" onClick="{{ t.on }}" style="height:44px;padding:0 14px;border:0;background:transparent;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};cursor:pointer;display:flex;align-items:center;gap:6px">{{ t.label }}<span style="font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:{{ t.cbg }};color:{{ t.cc }}">{{ t.count }}</span></button></sc-for></div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ ordTypeOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.on }}" style="height:32px;padding:0 12px;border:0;border-radius:7px;background:{{ o.bg }};color:{{ o.c }};font-size:13px;font-weight:600;cursor:pointer">{{ o.label }}</button></sc-for></div>
+            <div style="position:relative">
+              <button onClick="{{ ordToggleMenu }}" aria-haspopup="listbox" style="height:40px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px">Trạng thái: {{ ordStatusLabel }} <span style="color:#5E6B80">▾</span></button>
+              <sc-if value="{{ ordMenuOpen }}" hint-placeholder-val="{{ false }}"><div role="listbox" style="position:absolute;top:44px;left:0;z-index:5;width:210px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:10px;box-shadow:0 12px 32px rgba(20,33,61,.18);padding:6px;display:flex;flex-direction:column"><sc-for list="{{ ordStatusOpts }}" as="o" hint-placeholder-count="8"><button role="option" onClick="{{ o.on }}" style="height:34px;padding:0 10px;border:0;border-radius:6px;background:{{ o.bg }};color:#151A24;font-size:14px;font-weight:{{ o.w }};text-align:left;cursor:pointer">{{ o.label }}</button></sc-for></div></sc-if>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A5870">Đặt từ<input value="{{ ordFrom }}" onChange="{{ onOrdFrom }}" placeholder="dd/mm/yyyy" aria-label="Từ ngày" style="width:112px;height:40px;padding:0 10px;border:1px solid #C5C3BD;border-radius:8px;font-size:14px;outline:none"></input>đến<input value="{{ ordTo }}" onChange="{{ onOrdTo }}" placeholder="dd/mm/yyyy" aria-label="Đến ngày" style="width:112px;height:40px;padding:0 10px;border:1px solid #C5C3BD;border-radius:8px;font-size:14px;outline:none"></input></div>
+            <div style="flex:1;min-width:240px;height:40px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF;display:flex;align-items:center;gap:8px;padding:0 12px"><span aria-hidden="true" style="color:#5E6B80">⌕</span><input value="{{ ordQ }}" onChange="{{ onOrdQ }}" placeholder="Tìm theo mã đơn hoặc email khách" aria-label="Tìm đơn" style="flex:1;border:0;outline:none;font-size:14px;background:transparent"></input></div>
+            <sc-if value="{{ ordFiltered }}" hint-placeholder-val="{{ false }}"><button onClick="{{ ordClear }}" style="height:40px;padding:0 6px;border:0;background:transparent;color:#31476F;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline">Xóa lọc</button></sc-if>
+          </div>
+
+          <sc-if value="{{ ordLoading }}" hint-placeholder-val="{{ false }}">
+            <div role="status" aria-label="Đang tải danh sách đơn" style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870">Đang tải danh sách đơn…</div>
+              <sc-for list="{{ ordSkel }}" as="k" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:140px minmax(0,1fr) minmax(0,1.3fr) 92px 108px 160px 140px;gap:12px;padding:16px 20px;border-top:1px solid #ECEAE5;align-items:center"><span style="height:14px;border-radius:4px;background:#ECEAE5"></span><span style="height:14px;border-radius:4px;background:#ECEAE5;width:80%"></span><span style="height:14px;border-radius:4px;background:#ECEAE5"></span><span style="height:14px;border-radius:4px;background:#ECEAE5"></span><span style="height:14px;border-radius:4px;background:#ECEAE5"></span><span style="height:22px;border-radius:999px;background:#ECEAE5;width:70%"></span><span style="height:14px;border-radius:4px;background:#ECEAE5;width:70%"></span></div></sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ ordError }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C;font-size:14px;color:#232B38"><span aria-hidden="true" style="color:#BE123C;font-weight:700;font-size:18px">✕</span><span style="flex:1"><b style="color:#BE123C">Không tải được danh sách đơn.</b> Máy chủ chưa phản hồi, dữ liệu hiện tại có thể đã cũ. Lỗi đăng nhập hết hạn / không đủ quyền / máy chủ sập toàn trang xem <a href="RenTrekk Batch 6 - Man hinh loi.dc.html">Batch 6 · Màn hình lỗi</a>.</span><button onClick="{{ ordRetry }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Thử lại</button></div>
+          </sc-if>
+
+          <sc-if value="{{ ordEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:56px 24px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center"><span aria-hidden="true" style="width:56px;height:56px;border-radius:50%;background:#ECEAE5;color:#4A5870;font-size:24px;display:flex;align-items:center;justify-content:center">▥</span><div style="font-size:18px;font-weight:600">{{ ordEmptyTitle }}</div><div style="font-size:14px;color:#4A5870;max-width:420px">{{ ordEmptyMsg }}</div><sc-if value="{{ ordFiltered }}" hint-placeholder-val="{{ false }}"><button onClick="{{ ordClear }}" style="margin-top:8px;height:40px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Xóa bộ lọc</button></sc-if></div>
+          </sc-if>
+
+          <sc-if value="{{ ordHasRows }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:140px minmax(0,1fr) minmax(0,1.3fr) 92px 108px 160px 140px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Mã đơn</span><span>Khách</span><span>Dịch vụ</span><span>Ngày đặt</span><span style="text-align:right">Tổng tiền</span><span>Trạng thái đơn / thanh toán</span><span>Hạn</span></div>
+              <sc-for list="{{ ordRows }}" as="r" hint-placeholder-count="8">
+                <a href="{{ r.href }}" style="display:grid;grid-template-columns:140px minmax(0,1fr) minmax(0,1.3fr) 92px 108px 160px 140px;gap:12px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px;align-items:center;text-decoration:none;color:#151A24" style-hover="background:#F5F4F1">
+                  <span style="display:flex;flex-direction:column;gap:5px;align-items:flex-start"><span style="font:600 13px ui-monospace,Menlo,monospace;color:#14213D">{{ r.code }}</span><span style="display:inline-flex;align-items:center;gap:4px;height:20px;padding:0 8px 0 6px;border-radius:999px;background:{{ r.ty.bg }};color:{{ r.ty.fg }};font-size:11px;font-weight:600"><span aria-hidden="true">{{ r.ty.ic }}</span>{{ r.ty.label }}</span></span>
+                  <span style="min-width:0"><span style="display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span><span style="display:block;font-size:12px;color:#4A5870;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.email }}</span></span>
+                  <span style="min-width:0"><span style="display:block;font-weight:500">{{ r.svc }}</span><span style="display:block;font-size:12px;color:#4A5870">{{ r.sub }}</span></span>
+                  <span style="font-size:13px;color:#343F52">{{ r.created }}</span>
+                  <span style="text-align:right;font-weight:600">{{ r.total }}</span>
+                  <span style="display:flex;flex-direction:column;gap:4px;align-items:flex-start"><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ r.st.bg }};color:{{ r.st.fg }};font-size:12px;font-weight:600;white-space:nowrap"><span aria-hidden="true">{{ r.st.ic }}</span>{{ r.st.label }}</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ r.pay.bg }};color:{{ r.pay.fg }};font-size:12px;font-weight:600;white-space:nowrap"><span aria-hidden="true">{{ r.pay.ic }}</span>{{ r.pay.label }}</span><sc-if value="{{ r.refundFlag }}" hint-placeholder-val="{{ false }}"><span title="Có dòng hoàn tiền ở trạng thái Chờ duyệt" style="display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px 0 6px;border-radius:999px;border:1px solid #B45309;background:#FFFFFF;color:#B45309;font-size:11px;font-weight:700;white-space:nowrap">↺ Hoàn chờ duyệt</span></sc-if></span>
+                  <span style="font-size:12px;line-height:17px;color:{{ r.dlC }};font-weight:{{ r.dlW }}">{{ r.deadline }}</span>
+                </a>
+              </sc-for>
+              <div style="display:flex;align-items:center;gap:6px;padding:12px 20px;border-top:1px solid #ECEAE5;background:#FBFAF8">
+                <span style="font-size:13px;color:#4A5870;margin-right:auto">{{ ordRange }}</span>
+                <button onClick="{{ ordPrev }}" aria-label="Trang trước" style="height:34px;min-width:34px;padding:0 10px;border-radius:7px;border:1px solid #C5C3BD;background:#FFFFFF;color:{{ ordPrevC }};font-size:13px;font-weight:600;cursor:pointer">‹</button>
+                <sc-for list="{{ ordPages }}" as="p" hint-placeholder-count="3"><button onClick="{{ p.on }}" style="height:34px;min-width:34px;padding:0 10px;border-radius:7px;border:1px solid {{ p.bd }};background:{{ p.bg }};color:{{ p.c }};font-size:13px;font-weight:600;cursor:pointer">{{ p.n }}</button></sc-for>
+                <button onClick="{{ ordNext }}" aria-label="Trang sau" style="height:34px;min-width:34px;padding:0 10px;border-radius:7px;border:1px solid #C5C3BD;background:#FFFFFF;color:{{ ordNextC }};font-size:13px;font-weight:600;cursor:pointer">›</button>
+              </div>
+            </div>
+          </sc-if>
+        </main>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O38 · FR-O05 (+ FR-B06, F06)<br>· Route /ops/orders · Staff, Admin. Bấm dòng: Tour → O15, Thuê → O23<br>· Nguồn ORDERS: order_code, order_type (Tour | Rental), status, payment_status, total_amount, created_at, hold_expires_at, reconciliation_deadline_at, customer_user_id → ACCOUNTS.full_name, email<br>· Dịch vụ Tour: TRIP_BOOKING_ORDERS.trip_id → TRIPS.start_at → TOURS.name; participant_count. Thuê: RENTAL_ORDERS.rental_start_at – rental_end_at, số món = COUNT dòng đơn thuê<br>· 2 badge: OrderStatus (Draft · PendingPayment · Confirmed · InFulfillment · Completed · Expired · Cancelled) + OrderPaymentStatus (Unpaid · Paid · PartiallyRefunded · Refunded · NeedsReconciliation). “Đang xác minh” = Unpaid + có PAYMENTS Collection Pending<br>· Hạn: PendingPayment → hold_expires_at; NeedsReconciliation → reconciliation_deadline_at (cam đậm)<br>· Cờ “Hoàn chờ duyệt” = EXISTS PAYMENTS payment_type = Refund AND status = PendingApproval của đơn (Admin duyệt ở O28)<br>· Tab nhanh: Chờ thanh toán (status = PendingPayment) · Cần đối soát (payment_status = NeedsReconciliation) · Chờ duyệt hoàn (cờ trên) · Đã hủy (status = Cancelled). Số đếm theo phạm vi quyền + bộ lọc loại/ngày/tìm kiếm<br>· Lọc: order_type, status, khoảng created_at (GMT+7), q khớp order_code / ACCOUNTS.email (và full_name). Sắp created_at giảm dần. Phân trang pageNumber / pageSize (1–100, mặc định 10; mẫu hiển thị 8)<br>· Xuất CSV: theo bộ lọc hiện tại, UTF-8 có BOM, cột như bảng<br>· Phạm vi Staff (lọc phía server theo token): Tour khi TRIPS.managed_by_user_id = mình; Thuê khi RENTAL_ORDERS.handled_by_user_id = mình hoặc NULL (chưa ai nhận). Admin thấy tất cả<br>· Trạng thái: rỗng (chưa có đơn / không khớp bộ lọc) · đang tải (skeleton) · lỗi tải (Thử lại; 401/403/500 toàn trang → Batch 6)<br>· ⚠ Contract 03.1 chưa có API danh sách đơn cho vận hành (5.3 chỉ là “đơn của tôi” của khách) — cần bổ sung GET danh sách đơn Staff/Admin (lọc, phân trang, CSV) trước khi code</div></sc-if>
+  </div>
+</section>
+
+</div>
+
+<div aria-live="polite" style="position:fixed;right:24px;bottom:24px;display:flex;flex-direction:column;gap:8px;z-index:50;max-width:380px">
+  <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="0">
+    <div role="status" style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:#FFFFFF;border:1px solid #DDDAD3;border-left:4px solid {{ t.fg }};border-radius:10px;box-shadow:0 12px 32px rgba(20,33,61,.18);font-size:14px"><span aria-hidden="true" style="color:{{ t.fg }};font-weight:700">{{ t.ic }}</span><div style="flex:1"><div style="font-weight:600">{{ t.title }}</div><div style="font-size:13px;color:#4A5870">{{ t.msg }}</div></div></div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;role&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Admin&quot;,&quot;Staff&quot;],&quot;default&quot;:&quot;Admin&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Vai trò xem&quot;},&quot;showDevNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Annotation&quot;}}">
+const G = {neutral:{bg:'#ECEAE5',fg:'#4A5870',ic:'○'},info:{bg:'#E0F2F6',fg:'#0E7490',ic:'◷'},warning:{bg:'#FEF3C7',fg:'#B45309',ic:'!'},progress:{bg:'#EDE9FE',fg:'#6D28D9',ic:'▶'},success:{bg:'#E7F6EC',fg:'#166534',ic:'✓'},danger:{bg:'#FFE4E8',fg:'#BE123C',ic:'✕'}};
+const B = (label,g) => ({...G[g],label});
+const vnd = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.') + ' ₫';
+const NAV = [['h','TỔNG QUAN'],['dash','Dashboard','◫'],['h','VẬN HÀNH'],['trips','Chuyến','◷',3],['orders','Tất cả đơn hàng','▥',4],['torders','Đơn tour','▤'],['rentals','Đơn thuê','▦',2],['assets','Thiết bị','▣'],['h','DANH MỤC'],['tours','Tour','△'],['products','Sản phẩm & combo','◇'],['cat','Danh mục & địa điểm','⌖',0,1],['h','TÀI CHÍNH'],['tx','Giao dịch','₫'],['refunds','Hoàn tiền','↺',5,1],['promo','Khuyến mãi','%',0,1],['h','NỘI DUNG'],['posts','Bài viết','✎'],['h','HỆ THỐNG'],['users','Người dùng','◎',0,1],['settings','Cấu hình & nhật ký','⚙',0,1]];
+const nav = (active, admin) => NAV.filter(n=>!(n[4]&&!admin)).map(n=>{ if(n[0]==='h') return {label:n[1],h:'30px',al:'flex-end',pad:'0 10px 6px',bg:'transparent',c:'#8193B5',fs:'11px',w:600,ls:'.08em',icd:'none',ic:'',bd:'none',badge:''}; const a=n[0]===active; return {label:n[1],ic:n[2],h:'38px',al:'center',pad:'0 10px',bg:a?'#31476F':'transparent',c:a?'#FFFFFF':'#D6DDEA',fs:'14px',w:a?600:500,ls:'0',icd:'block',bd:n[3]?'flex':'none',badge:n[3]||''}; });
+const TS = {Draft:B('Nháp','neutral'),Open:B('Mở bán','info'),ClosedForBooking:B('Ngừng nhận đặt','warning'),InProgress:B('Đang diễn ra','progress'),Completed:B('Hoàn thành','success'),Cancelled:B('Đã hủy','danger')};
+const NEXT = {Draft:['Mở bán','Open'],Open:['Đóng bán','ClosedForBooking'],ClosedForBooking:['Bắt đầu chuyến','InProgress'],InProgress:['Hoàn thành','Completed']};
+const OS = {Draft:B('Nháp','neutral'),PendingPayment:B('Chờ thanh toán','warning'),Confirmed:B('Đã xác nhận','success'),InFulfillment:B('Đang thực hiện','progress'),Completed:B('Hoàn tất','success'),Expired:B('Hết hạn','neutral'),Cancelled:B('Đã hủy','danger')};
+const PS = {Unpaid:B('Chưa thanh toán','neutral'),Verifying:B('Đang xác minh','info'),Paid:B('Đã thanh toán','success'),PartiallyRefunded:B('Hoàn một phần','warning'),Refunded:B('Đã hoàn tiền','neutral'),NeedsReconciliation:B('Cần đối soát','warning')};
+const TX = {PendingApproval:B('Chờ duyệt','warning'),Pending:B('Đang xử lý','info'),Succeeded:B('Thành công','success'),Failed:B('Thất bại','danger'),Cancelled:B('Đã hủy','neutral')};
+const COLORS = ['#31476F','#A4532F','#0E7490','#6D28D9','#B45309','#166534','#BE123C','#4A5870','#14213D'];
+const BOOK = [
+  ['RTK-26-004852','Trần Thu Hà','thuha.tran@gmail.com',2,'together',false,'Confirmed','Paid'],
+  ['RTK-26-004860','Lê Hải Yến','haiyen.le@gmail.com',3,'together',true,'Confirmed','Paid'],
+  ['RTK-26-004866','Đỗ Minh Quân','quan.do@gmail.com',1,'split',false,'Confirmed','Paid'],
+  ['RTK-26-004871','Ngô Thảo','thao.ngo@yahoo.com',2,'together',false,'Confirmed','Paid'],
+  ['RTK-26-004880','Bùi Gia Huy','huy.bui@gmail.com',2,'split',false,'PendingPayment','Unpaid'],
+  ['RTK-26-004884','Phạm Khánh Linh','linh.pk@gmail.com',4,'together',false,'PendingPayment','NeedsReconciliation']
+];
+const PEOPLE = {
+  'RTK-26-004852':[['Trần Thu Hà','0912 345 678','thuha.tran@gmail.com','30','Trần Văn Bình · 0983 112 233',true],['Nguyễn Minh Anh',null,'minhanh.ng@gmail.com',null,null,false]],
+  'RTK-26-004860':[['Lê Hải Yến','0909 887 112',null,'27','Lê Văn Tâm · 0912 777 001',true],['Lê Hải Nam',null,null,'24',null,false],['Trương Mỹ',null,null,null,null,false]],
+  'RTK-26-004866':[['Đỗ Minh Quân','0977 121 545','quan.do@gmail.com','33','Đỗ Thị Hoa · 0904 551 220',true]],
+  'RTK-26-004871':[['Ngô Thảo','0938 552 101',null,'29',null,true],['Vương Khôi',null,null,'31',null,false]],
+  'RTK-26-004880':[['Bùi Gia Huy','0965 300 202','huy.bui@gmail.com','26',null,true],['Bùi Gia Bảo',null,null,'22',null,false]],
+  'RTK-26-004884':[['Phạm Khánh Linh','0916 448 090','linh.pk@gmail.com','35','Phạm Văn Đức · 0912 330 765',true],['Hà Anh',null,null,null,null,false],['Kiều Trang',null,null,'28',null,false],['Đinh Lâm',null,null,'30',null,false]]
+};
+const initGroups = () => { const g={}; let id=0; const plan={'RTK-26-004852':'g1','RTK-26-004860':'g1','RTK-26-004866':'g2','RTK-26-004871':'g2','RTK-26-004884':'g3','RTK-26-004880':null}; const ps=[]; BOOK.forEach((b,bi)=>PEOPLE[b[0]].forEach((p,pi)=>{ let grp=plan[b[0]]; if(b[0]==='RTK-26-004884'&&pi>=2) grp=null; if(b[0]==='RTK-26-004860'&&pi===2) grp='g2'; ps.push({id:'p'+(id++),name:p[0],code:b[0],bi,pref:b[4],grp}); })); return ps; };
+const GROUPS = [['g1','Mây 1','Đinh Văn Toàn','#EDE9FE','#6D28D9',8,false],['g2','Mây 2','Lò Văn Sinh','#EDE9FE','#6D28D9',6,true],['g3','Mây 3',null,'#ECEAE5','#4A5870',8,false]];
+const ACTS = [['Ngày 1','05:30','Tập trung Trạm Tôn'],['Ngày 1','06:00','Trekking rừng trúc'],['Ngày 1','11:30','Lên lán 2.800 m'],['Ngày 2','03:30','Leo đỉnh bình minh'],['Ngày 2','07:30','Về lán 2.800 m'],['Ngày 3','07:00','Xuống núi']];
+const ATT_ORDER = [null,'P','L','A'];
+const ATT = {P:B('Có mặt','success'),L:B('Muộn','warning'),A:B('Vắng','danger')};
+const O_TOTAL = 4700000;
+const O28 = 'RenTrekk Batch 4E - Tai chinh va Khuyen mai.dc.html#o28';
+const O23 = 'RenTrekk Batch 4D - Don thue va Giao nhan.dc.html#o23';
+const BN = {warning:{bg:'#FEF3C7',fg:'#B45309',ic:'!'},info:{bg:'#E0F2F6',fg:'#0E7490',ic:'◷'},success:{bg:'#E7F6EC',fg:'#166534',ic:'✓'},neutral:{bg:'#ECEAE5',fg:'#4A5870',ic:'○'}};
+const O_CASES = [['paid','Đã thanh toán'],['pending','Chờ chuyển khoản'],['recon','Cần đối soát'],['cancelled','Hủy · chờ duyệt hoàn'],['chain','Hoàn lỗi → thử lại → hoàn tay'],['cancelledUnpaid','Hủy · chưa thu tiền']];
+const CX_WHEN = {'200':{pct:1,hours:'8 ngày 8 giờ',idx:0,label:'≥ 168 giờ'},'100':{pct:0.7,hours:'4 ngày 4 giờ',idx:1,label:'72 – 168 giờ'},'30':{pct:0.3,hours:'1 ngày 6 giờ',idx:2,label:'24 – 72 giờ'}};
+const CX_RULES = [['≥ 168 giờ trước khởi hành','100%'],['≥ 72 giờ','70%'],['≥ 24 giờ','30%'],['< 24 giờ','0%']];
+const txRow = d => {
+  const isC = d.ty==='Collection';
+  const diff = isC && d.rec!=null && d.rec!==d.amt;
+  return {
+    type:isC?'Thu tiền · Collection':'Hoàn tiền · Refund', purpose:'TourFee', id:d.id,
+    amt:vnd(d.amt),
+    rec:isC?(d.rec==null?'= số tiền':vnd(d.rec)):'—', recW:diff?700:400, recC:diff?'#B45309':(isC&&d.rec!=null?'#151A24':'#5E6B80'),
+    recNote:diff?((d.rec>d.amt?'thừa ':'thiếu ')+vnd(Math.abs(d.rec-d.amt))):'',
+    method:'BankTransfer',
+    va:d.va||'—', vaC:d.va?'#343F52':'#5E6B80',
+    ptx:d.ptx||'—', ptxC:d.ptx?'#343F52':'#5E6B80',
+    orig:d.orig?('Gốc '+d.orig):'—', origC:d.orig?'#343F52':'#5E6B80',
+    retry:d.retry?('Thử lại '+d.retryN+'/3 của '+d.retry):'', retryC:'#B45309',
+    man:d.man||'—', manC:d.man?'#343F52':'#5E6B80',
+    at:d.at||'—', atC:d.at?'#343F52':'#5E6B80',
+    st:TX[d.st], rowBg:d.st==='PendingApproval'?'#FFFBEB':'#FFFFFF', failOn:!!d.fail, fail:d.fail||''
+  };
+};
+const buildO15 = (eff, c) => {
+  const CO='3F9A1C07…', VA='9C1D…E2A4', R1='8D41E2B6…', R2='A09C57F3…', MAN='B6D2F418…';
+  const F={ty:'Collection',id:'7A1E40C2…',amt:O_TOTAL,st:'Failed',at:'05/11/2026 09:12',fail:'PAYMENT_PROVIDER_ERROR: SePay không phản hồi khi tạo VA, khách bấm thanh toán lại'};
+  const pend={ty:'Collection',id:CO,amt:O_TOTAL,va:VA,st:'Pending'};
+  const ok={...pend,st:'Succeeded',ptx:'FT26110500912',at:'05/11/2026 09:18'};
+  const manualRow={ty:'Collection',id:MAN,amt:O_TOTAL,st:'Succeeded',ptx:'ACB05112026',at:'05/11/2026 09:19'};
+  const closedVA={...pend,st:'Cancelled',fail:'Đóng VA SePay khi nhân viên ghi nhận thanh toán thủ công'};
+  const collected=c.manual?[closedVA,manualRow]:[ok];
+  const colId=c.manual?MAN:CO;
+  const S=(label,v,col,w)=>({label,v:typeof v==='number'?vnd(v):v,c:col||'#151A24',w:w||600});
+  const red='#BE123C', amb='#B45309', grn='#166534';
+  const created=['05/11 09:12','Trần Thu Hà','order.create','Tạo đơn · 2 người · FANSIPAN200'];
+  const failed=['05/11 09:12','Hệ thống','payment.failed','Tạo VA SePay lỗi (PAYMENT_PROVIDER_ERROR) · khách thử lại'];
+  const vaMade=['05/11 09:13','Hệ thống','payment.created','VA SePay '+VA+' · '+vnd(O_TOTAL)+' · hết hạn 09:22'];
+  const paidAud=c.manual?[['05/11 09:19',c.me,'payment.manual','Ghi nhận '+vnd(O_TOTAL)+' · chuyển khoản ACB05112026 · đóng VA '+VA+(c.payReason?' · '+c.payReason:'')]]:[['05/11 09:18','Hệ thống','payment.succeeded','FT26110500912 · '+vnd(O_TOTAL)+' · webhook SePay đã kiểm tra lại']];
+  const R={ty:'Refund',amt:c.refund,orig:colId};
+  let rows, ord, pay, upd, sum, hold, bn=null, aud;
+  if(eff==='paid'||eff==='paidManual'){
+    rows=[F,...collected]; ord='Confirmed'; pay='Paid'; upd=c.manual?'05/11/2026 09:19':'05/11/2026 09:18';
+    sum=[S('Đã thu',O_TOTAL),S('Đã hoàn','0 ₫'),S('Còn phải thu','0 ₫',grn,700)];
+    hold='Giữ chỗ hết hạn: 05/11/2026 09:22 (đã thanh toán)';
+    aud=[created,failed,vaMade,...paidAud,['12/11 10:05','Phan Thị Ngọc','participant.update','Sửa SĐT khẩn cấp của Trần Thu Hà']];
+  } else if(eff==='pending'){
+    rows=[F,pend]; ord='PendingPayment'; pay='Verifying'; upd='05/11/2026 09:13';
+    sum=[S('Đã thu','0 ₫'),S('Đã hoàn','0 ₫'),S('Còn phải thu',O_TOTAL,amb,700)];
+    hold='Giữ chỗ đến: 05/11/2026 09:22 (GMT+7) · hold_expires_at';
+    bn={...BN.info,title:'Đang chờ khách chuyển khoản.',text:'VA SePay '+VA+' · '+vnd(O_TOTAL)+'. Khi tiền về, webhook SePay được kiểm tra lại rồi đơn tự chuyển Đã xác nhận. Quá giờ giữ chỗ (09:22) đơn chuyển Hết hạn.'};
+    aud=[created,failed,vaMade];
+  } else if(eff==='recon'){
+    rows=[F,{...ok,rec:5000000}]; ord='PendingPayment'; pay='NeedsReconciliation'; upd='05/11/2026 09:19';
+    sum=[S('Đã thu (thực nhận)',5000000),S('Đã hoàn','0 ₫'),S('Thừa chờ đối soát',300000,amb,700)];
+    hold='Hạn đối soát: 06/11/2026 09:22 (GMT+7) · reconciliation_deadline_at';
+    bn={...BN.warning,title:'Cần đối soát.',text:'Khách chuyển 5.000.000 ₫ (thực nhận) cho đơn 4.700.000 ₫, thừa 300.000 ₫. Chỗ vẫn được giữ đến hạn đối soát 06/11/2026 09:22 (GMT+7); quá hạn không còn chấp nhận được, chỉ hoàn tiền.'+(c.admin?'':' Chỉ Admin được xử lý.')};
+    aud=[created,failed,vaMade,['05/11 09:19','Hệ thống','order.needs_reconciliation','Thực nhận 5.000.000 ₫ so với 4.700.000 ₫ (thừa 300.000 ₫) · hạn đối soát 06/11 09:22']];
+  } else if(eff==='cancelled'){
+    rows=[F,...collected,{...R,id:R1,st:'PendingApproval'}]; ord='Cancelled'; pay='Paid'; upd='12/11/2026 10:30';
+    sum=[S('Đã thu',O_TOTAL),S('Đã hoàn','0 ₫'),S('Chờ duyệt hoàn',c.refund,amb,700)];
+    hold='Đơn đã hủy — chỗ đã trả lại chuyến';
+    bn={...BN.warning,title:'Đơn đã hủy, hoàn tiền chờ duyệt.',text:'Lý do: '+c.reason+'. Dòng hoàn '+vnd(c.refund)+' đang Chờ duyệt, chưa gửi SePay.'+(c.admin?'':' Chờ Admin duyệt.'),hasLink:c.admin,href:O28,linkText:'Duyệt ở O28 →'};
+    aud=[created,failed,vaMade,...paidAud,['12/11 10:30',c.me,'order.cancel','Hủy thay khách · '+c.reason+' · tạo dòng hoàn '+vnd(c.refund)+' (Chờ duyệt)']];
+  } else if(eff==='chain'){
+    rows=[F,ok,{...R,id:R1,amt:3290000,orig:CO,st:'Failed',at:'13/11/2026 10:30',fail:'SePay từ chối: tài khoản nhận đã đóng'},{ty:'Refund',id:R2,amt:3290000,orig:CO,retry:R1,retryN:1,st:'Succeeded',man:'FT26111300451',at:'13/11/2026 14:05'}];
+    ord='Cancelled'; pay='PartiallyRefunded'; upd='13/11/2026 14:05';
+    sum=[S('Đã thu',O_TOTAL),S('Đã hoàn',3290000,grn,700),S('Giữ lại theo chính sách',1410000)];
+    hold='Đơn đã hủy — chỗ đã trả lại chuyến';
+    bn={...BN.success,title:'Đã hoàn tiền thủ công.',text:'Hoàn qua SePay thất bại, thử lại 1/3 vẫn thất bại. Admin đã chuyển khoản tay và ghi mã FT26111300451 (13/11/2026 14:05).'};
+    aud=[created,failed,vaMade,['05/11 09:18','Hệ thống','payment.succeeded','FT26110500912 · '+vnd(O_TOTAL)+' · webhook SePay đã kiểm tra lại'],['12/11 10:30',c.me,'order.cancel','Hủy thay khách · tạo dòng hoàn 3.290.000 ₫ (Chờ duyệt)'],['13/11 10:00','Hoàng Quốc Bảo','refund.approve','Duyệt hoàn 3.290.000 ₫ → gửi SePay'],['13/11 10:30','Hệ thống','refund.failed','SePay từ chối: tài khoản nhận đã đóng'],['13/11 11:00','Hoàng Quốc Bảo','refund.retry','Thử lại 1/3 · tạo dòng hoàn mới (retry_of_payment_id)'],['13/11 14:05','Hoàng Quốc Bảo','refund.manual','Đánh dấu đã hoàn thủ công · FT26111300451']];
+  } else {
+    rows=[F,{...pend,st:'Cancelled',fail:'Đơn bị hủy, VA SePay đã đóng',at:'12/11/2026 10:05'}]; ord='Cancelled'; pay='Unpaid'; upd='12/11/2026 10:05';
+    sum=[S('Đã thu','0 ₫'),S('Đã hoàn','0 ₫'),S('Còn phải thu','0 ₫')];
+    hold='Đơn đã hủy — chỗ đã trả lại chuyến';
+    bn={...BN.neutral,title:'Đã hủy khi chưa thu tiền.',text:'VA SePay '+VA+' đã đóng, không tạo dòng hoàn.'};
+    aud=[created,failed,vaMade,['12/11 10:05',c.me,'order.cancel','Hủy thay khách · chưa thu tiền · đóng VA '+VA]];
+  }
+  const due=eff==='pending'?O_TOTAL:0;
+  const bnx=bn?{on:true,hasLink:false,href:'',linkText:'',...bn}:{on:false,bg:'#FFFFFF',fg:'#4A5870',ic:'',title:'',text:'',hasLink:false,href:'',linkText:''};
+  return {rows:rows.map(txRow), ord, pay, upd, sum, hold, bn:bnx, due, audit:aud.slice().reverse().map(([at,actor,action,text])=>({at,actor,action,text}))};
+};
+const ORD = [
+  ['RTK-26-004880','Tour','Bùi Gia Huy','huy.bui@gmail.com','Chinh phục Fansipan qua cung Trạm Tôn','Khởi hành Th 7, 14/11/2026 · 2 người','05/11/2026 09:30',4900000,'PendingPayment','Verifying','hold','Giữ chỗ đến 05/11 09:40',false,'Phan Thị Ngọc'],
+  ['RTK-26-004836','Rental','Lương Minh Tuấn','tuan.luong@gmail.com','Thuê 2 món','11/11 08:00 → 13/11 18:00 (GMT+7)','05/11/2026 08:20',390000,'PendingPayment','NeedsReconciliation','recon','Hạn đối soát 06/11 08:40',false,null],
+  ['RTK-26-004830','Rental','Đỗ Minh Quân','quan.do@gmail.com','Thuê 5 món','14/11 08:00 → 17/11 18:00 (GMT+7)','05/11/2026 09:02',855000,'PendingPayment','Verifying','hold','Giữ chỗ đến 05/11 09:12',false,null],
+  ['RTK-26-004852','Tour','Trần Thu Hà','thuha.tran@gmail.com','Chinh phục Fansipan qua cung Trạm Tôn','Khởi hành Th 7, 14/11/2026 · 2 người','05/11/2026 09:12',4700000,'Confirmed','Paid',null,'—',false,'Phan Thị Ngọc'],
+  ['RTK-26-004884','Tour','Phạm Khánh Linh','linh.pk@gmail.com','Chinh phục Fansipan qua cung Trạm Tôn','Khởi hành Th 7, 14/11/2026 · 4 người','04/11/2026 20:40',9800000,'PendingPayment','NeedsReconciliation','recon','Hạn đối soát 05/11 21:00',false,'Phan Thị Ngọc'],
+  ['RTK-26-004860','Tour','Lê Hải Yến','haiyen.le@gmail.com','Chinh phục Fansipan qua cung Trạm Tôn','Khởi hành Th 7, 14/11/2026 · 3 người','04/11/2026 14:05',7350000,'Confirmed','Paid',null,'—',false,'Phan Thị Ngọc'],
+  ['RTK-26-004828','Rental','Nguyễn Hải Đăng','dang.nh@gmail.com','Thuê 3 món','08/11 08:00 → 10/11 18:00 (GMT+7)','03/11/2026 18:30',420000,'Cancelled','Paid',null,'—',true,'Phan Thị Ngọc'],
+  ['RTK-26-004866','Tour','Đỗ Minh Quân','quan.do@gmail.com','Chinh phục Fansipan qua cung Trạm Tôn','Khởi hành Th 7, 14/11/2026 · 1 người','03/11/2026 19:20',2450000,'Confirmed','Paid',null,'—',false,'Phan Thị Ngọc'],
+  ['RTK-26-004825','Rental','Bùi Gia Huy','huy.bui@gmail.com','Thuê 2 món','10/11 09:00 → 11/11 18:00 (GMT+7)','03/11/2026 09:15',180000,'Confirmed','Paid',null,'—',false,null],
+  ['RTK-26-004871','Tour','Ngô Thảo','thao.ngo@yahoo.com','Chinh phục Fansipan qua cung Trạm Tôn','Khởi hành Th 7, 14/11/2026 · 2 người','03/11/2026 08:45',4900000,'Confirmed','Paid',null,'—',false,'Phan Thị Ngọc'],
+  ['RTK-26-004822','Rental','Vũ Hoàng Long','long.vu@gmail.com','Thuê 4 món','08/11 08:00 → 10/11 18:00 (GMT+7)','02/11/2026 20:00',360000,'InFulfillment','Paid',null,'—',false,null],
+  ['RTK-26-004845','Tour','Hoàng Mai','mai.hoang@gmail.com','Sống lưng khủng long Tà Xùa','Khởi hành 14/11/2026 · 3 người','02/11/2026 16:30',4470000,'Cancelled','Paid',null,'—',true,'Phan Thị Ngọc'],
+  ['RTK-26-004818','Rental','Mai Lan Chi','lanchi.mai@gmail.com','Thuê 3 món','09/11 07:30 → 12/11 18:00 (GMT+7)','02/11/2026 11:11',420000,'InFulfillment','Paid',null,'—',false,'Phan Thị Ngọc'],
+  ['RTK-26-004838','Tour','Trịnh Lan','lan.trinh@gmail.com','Sống lưng khủng long Tà Xùa','Khởi hành 21/11/2026 · 2 người','01/11/2026 12:00',2980000,'Cancelled','PartiallyRefunded',null,'—',false,'Phan Thị Ngọc'],
+  ['RTK-26-004812','Rental','Trần Thu Hà','thuha.tran@gmail.com','Thuê 5 món','10/11 18:00 → 13/11 18:00 (GMT+7)','01/11/2026 09:40',705000,'Confirmed','Paid',null,'—',false,'Phan Thị Ngọc'],
+  ['RTK-26-004809','Rental','Ngô Thảo','thao.ngo@yahoo.com','Thuê 2 món','05/11 08:00 → 08/11 18:00 (GMT+7)','30/10/2026 19:05',290000,'InFulfillment','Paid',null,'—',false,'Trịnh Đức Hải'],
+  ['RTK-26-004840','Tour','Võ Thanh Hải','hai.vo@gmail.com','Pu Luông – ruộng bậc thang','Khởi hành 07/11/2026 · 2 người','28/10/2026 10:10',2580000,'Cancelled','Refunded',null,'—',false,'Trịnh Đức Hải'],
+  ['RTK-26-004835','Tour','Lý Khoa','khoa.ly@gmail.com','Lảo Thẩn – nóc nhà Y Tý','Khởi hành 08/11/2026 · 2 người','25/10/2026 21:00',3300000,'Confirmed','Paid',null,'—',false,'Trịnh Đức Hải'],
+  ['RTK-26-004800','Tour','Đặng Thu Yến','yen.dang@gmail.com','Chinh phục Fansipan qua cung Trạm Tôn','Khởi hành 31/10/2026 · 1 người','20/10/2026 07:50',2450000,'Expired','Unpaid',null,'—',false,'Phan Thị Ngọc'],
+  ['RTK-26-004760','Rental','Phạm Khánh Linh','linh.pk@gmail.com','Thuê 3 món','24/10 08:00 → 26/10 18:00 (GMT+7)','20/10/2026 10:00',540000,'Completed','Paid',null,'—',false,'Phan Thị Ngọc']
+];
+const ORD_TYPE = {Tour:{bg:'#E0F2F6',fg:'#0E7490',ic:'△',label:'Tour'},Rental:{bg:'#EDE9FE',fg:'#6D28D9',ic:'▦',label:'Thuê'}};
+const ORD_TABS = [['all','Tất cả',()=>true],['pending','Chờ thanh toán',o=>o[8]==='PendingPayment'],['recon','Cần đối soát',o=>o[9]==='NeedsReconciliation'],['refund','Chờ duyệt hoàn',o=>o[12]],['cancelled','Đã hủy',o=>o[8]==='Cancelled']];
+const parseDMY = v => { const m=String(v||'').trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); return m?new Date(+m[3],+m[2]-1,+m[1]).getTime():null; };
+const parseCreated = v => { const m=v.match(/(\d+)\/(\d+)\/(\d+)\s+(\d+):(\d+)/); return new Date(+m[3],+m[2]-1,+m[1],+m[4],+m[5]).getTime(); };
+const ORD_PAGE = 8;
+class Component extends DCLogic {
+  state = { view:'cal', newOpen:false, nStart:'14/11/2026 05:30', nEnd:'16/11/2026 17:00', nTotal:'16', nMin:'6', nTried:false,
+    tStatus:'Open', conflict:false, cancelOpen:false, cReason:'', cErr:false,
+    open:[0], people:initGroups(), drag:null, split:null, sReason:'', sErr:false,
+    items:{tn:12,gay:24,den:13}, recalc:true, assign:null, scan:'', scanErr:'', picked:['TN-M-0201','TN-M-0202','TN-M-0203'],
+    grpF:'all', att:null, attEdit:null, aReason:'', aErr:false,
+    oTab:'main', payOpen:false, pAmt:'', pReason:'', pTried:false, manual:false, notifyOpen:false, toasts:[],
+    oCase:'paid', manualOn:false, oCAmt:3290000, oCRSaved:'Khách đổi kế hoạch (nhân viên hủy thay)', oCxOpen:false, oWhen:'100', cxReason:'', cxTried:false, oSim:false, oCChanged:false,
+    ordView:'list', ordTab:'all', ordType:'all', ordStatus:'all', ordFrom:'', ordTo:'', ordQ:'', ordPage:1, ordMenu:false };
+  toast(kind,title,msg){ const id=Math.random(); const g=G[kind]; this.setState(s=>({toasts:[...s.toasts,{id,fg:g.fg,ic:g.ic,title,msg}]})); setTimeout(()=>this.setState(s=>({toasts:s.toasts.filter(t=>t.id!==id)})),3600); }
+  chip(a,label,on){ return {label,on,bg:a?'#14213D':'#FFFFFF',c:a?'#FFFFFF':'#14213D',bd:a?'#14213D':'#C5C3BD'}; }
+  seg(a,label,on){ return {label,on,bg:a?'#FFFFFF':'transparent',c:a?'#14213D':'#4A5870'}; }
+  initAtt(){ const a={}; this.state.people.forEach((p,i)=>{ a[p.id]=[ i===3?'L':'P', 'P', i===7?'A':'P', i<6?'P':null, null, null ]; }); return a; }
+  sub(active){ const unassigned=this.state.people.filter(p=>!p.grp).length; return [['o10','Tổng quan'],['o11','Booking'],['o12','Chia nhóm',unassigned],['o13','Đồ cấp',2],['o14','Điểm danh'],['o10','Lịch trình'],['o10','Lịch sử']].map(([h,label,count],i)=>{ const a=label===active; return {href:'#'+h,label,count:count||'',cd:count?'inline':'none',bd:a?'#14213D':'transparent',c:a?'#14213D':'#4A5870',w:a?600:500}; }); }
+  renderVals() {
+    const s=this.state, dev=this.props.showDevNotes ?? true, admin=(this.props.role ?? 'Admin')==='Admin';
+    const me=admin?['Hoàng Quốc Bảo','HB']:['Phan Thị Ngọc','PN'];
+    const att=s.att||this.initAtt();
+    // O09
+    const TR=[[1,'Pu Luông',12,20,'Open',7],[1,'Fansipan',16,16,'ClosedForBooking',7],[8,'Lảo Thẩn',9,16,'Open',0],[14,'Fansipan',14,16,'Open',0],[14,'Tà Xùa',8,16,'Open',0],[21,'Fansipan',6,16,'Open',0],[21,'Tà Xùa',5,16,'Open',0],[22,'Ky Quan San',0,12,'Draft',0],[28,'Fansipan',0,16,'Draft',0],[7,'Pu Luông',3,20,'Cancelled',0]];
+    const off=6; const cells=[]; for(let i=0;i<35;i++){ const d=i-off+1; const ok=d>=1&&d<=30; cells.push({d:ok?d:'',bg:ok?'#F5F4F1':'transparent',dc:ok?'#232B38':'#9AA1AC',trips:ok?TR.filter(t=>t[0]===d).map(t=>({name:t[1],sold:`${t[2]}/${t[3]} chỗ`,...TS[t[4]]})):[]}); }
+    const rows=[['Chinh phục Fansipan qua Trạm Tôn',3,'14/11 05:30 – 16/11 17:00',14,16,6,2450000,'Phan Thị Ngọc','Lịch lặp','Open'],['Sống lưng khủng long Tà Xùa',2,'14/11 06:00 – 15/11 16:00',8,16,6,1490000,'Phan Thị Ngọc','Lịch lặp','Open'],['Lảo Thẩn – nóc nhà Y Tý',1,'08/11 05:30 – 09/11 15:00',9,16,6,1650000,'Trịnh Đức Hải','Thủ công','Open'],['Pu Luông – ruộng bậc thang',2,'07/11 07:00 – 08/11 17:00',3,20,8,1290000,'Trịnh Đức Hải','Thủ công','Cancelled'],['Chinh phục Fansipan qua Trạm Tôn',3,'31/10 05:30 – 02/11 17:00',16,16,6,2450000,'Phan Thị Ngọc','Lịch lặp','ClosedForBooking'],['Sống lưng khủng long Tà Xùa',2,'21/11 06:00 – 22/11 16:00',5,16,6,1490000,'Phan Thị Ngọc','Lịch lặp','Open'],['Bạch Mộc Lương Tử – Ky Quan San',1,'22/11 05:00 – 24/11 17:00',0,12,6,3150000,'Trịnh Đức Hải','Thủ công','Draft']].filter(r=>admin||r[7]==='Phan Thị Ngọc');
+    const nEndErr=s.nTried&&s.nEnd.trim()<=s.nStart.trim()&&false || (s.nTried&&(()=>{ const p=v=>{ const m=v.match(/(\d+)\/(\d+)\/(\d+)\s+(\d+):(\d+)/); return m?new Date(+m[3],+m[2]-1,+m[1],+m[4],+m[5]).getTime():NaN; }; const a=p(s.nStart),b=p(s.nEnd); return !(b>a); })());
+    const nMinErr=s.nTried&&(+s.nMin>+s.nTotal);
+    // O10
+    const st=s.tStatus; const unassigned=s.people.filter(p=>!p.grp).length;
+    const checks=[[14>=6,'Đủ số người tối thiểu','14 / tối thiểu 6','#o11'],[unassigned===0,'Mọi người tham gia đã xếp nhóm',unassigned?`${unassigned} người chưa có nhóm`:'Đã xếp hết','#o12'],[false,'Mỗi nhóm có guide','Nhóm Mây 3 chưa có guide','#o12'],[false,'Đồ cấp đã đủ','2 thiết bị còn thiếu','#o13'],[false,'Mọi đơn đã thanh toán','1 đơn chờ thanh toán · 1 đơn cần đối soát','#o11']];
+    const okN=checks.filter(c=>c[0]).length;
+    const sold=st==='Draft'?0:14; const editable=st==='Draft'||st==='Open';
+    // O12
+    const people=s.people;
+    const moveTo=(pid,gid)=>{ const p=people.find(x=>x.id===pid); if(!p||p.grp===gid) return; if(gid){ const g=GROUPS.find(x=>x[0]===gid); const n=people.filter(x=>x.grp===gid).length; if(n>=g[5]){ this.toast('danger','Nhóm đã đủ người',`${g[1]} đã đủ ${g[5]}/${g[5]}.`); return; } }
+      const mates=people.filter(x=>x.code===p.code&&x.id!==pid&&x.grp); if(p.pref==='together'&&mates.length&&mates.some(m=>m.grp!==gid)&&gid){ this.setState({split:{pid,gid},sReason:'',sErr:false}); return; }
+      this.setState({people:people.map(x=>x.id===pid?{...x,grp:gid}:x)}); this.toast('success','Đã chuyển',`${p.name} → ${gid?GROUPS.find(g=>g[0]===gid)[1]:'Chưa xếp nhóm'}`); };
+    const colDefs=[[null,'Chưa xếp nhóm']].concat(GROUPS.map(g=>[g[0],g[1]]));
+    const cols=colDefs.map(([gid,name])=>{ const cards=people.filter(p=>p.grp===gid); const g=GROUPS.find(x=>x[0]===gid); const cap=g?`${cards.length}/${g[5]}`:`${cards.length}`; const full=g&&cards.length>=g[5];
+      return {name,cap,capC:full?'#B45309':'#14213D',isGroup:!!g,guide:g?(g[2]||'Chưa phân công guide'):'',gTc:g&&g[2]?'#151A24':'#BE123C',gIni:g&&g[2]?g[2].split(' ').slice(-2).map(w=>w[0]).join(''):'?',gBg:g?g[3]:'#ECEAE5',gC:g?g[4]:'#4A5870',st:g?(full?B('Đủ người','warning'):B('Còn chỗ','info')):B('','neutral'),warn:g?(g[6]||!g[2]):false,warnText:g&&g[6]?'Lò Văn Sinh đang dẫn Tà Xùa 14/11 (trùng lịch)':'Chưa có guide',bg:gid?'#FFFFFF':'#ECEAE5',bd:gid?'1px solid #DDDAD3':'1.5px dashed #C5C3BD',
+        over:e=>e.preventDefault(), drop:e=>{ e.preventDefault(); if(this.state.drag) moveTo(this.state.drag,gid); },
+        cards:cards.map(p=>({name:p.name,code:p.code,pref:p.pref==='together'?'Đi cùng':'Cho phép chia',color:COLORS[p.bi%COLORS.length],start:e=>{ e.dataTransfer.setData('text/plain',p.id); this.setState({drag:p.id}); }}))}; });
+    const sp=s.split?people.find(p=>p.id===s.split.pid):null;
+    // O13
+    const need={tn:14,gay:28,den:14};
+    const items=[['tn','Túi ngủ −5°C · M','TN-5-M','1 · mỗi người',s.recalc?12:14,need.tn,s.picked.length+11,'Phan Thị Ngọc'],['gay','Gậy trekking carbon','GTK-CB-01','2 · mỗi người',s.recalc?24:28,need.gay,28,'Phan Thị Ngọc'],['leu','Lều 4 người chống bão','LEU-4P-CB','1 · mỗi nhóm',3,3,3,'Phan Thị Ngọc'],['den','Đèn đội đầu 300 lm','DEN-300','1 · mỗi người',s.recalc?13:14,14,11,null],['sc','Bộ sơ cứu','SC-BO-01','1 · mỗi chuyến',1,1,1,'Phan Thị Ngọc']].map(([k,name,sku,cfg,needShown,needReal,got,prep])=>{ const miss=Math.max(0,needShown-got); return {k,name,sku,cfg,need:needShown,needC:s.recalc&&needShown!==needReal?'#B45309':'#151A24',got,miss:miss||'0',missC:miss?'#BE123C':'#4A5870',prep:prep||'Chưa phân công',prepC:prep?'#151A24':'#5E6B80',st:miss?B('Thiếu','warning'):B('Sẵn sàng','success'),open:()=>this.setState({assign:k,scan:'',scanErr:''})}; });
+    const aItem=items.find(i=>i.k===s.assign)||items[0];
+    const assets=['TN-M-0201','TN-M-0202','TN-M-0203','TN-M-0204','TN-M-0205','TN-M-0231','TN-M-0233'].map((code,i)=>{ const busy=i===4; const maint=i===6; const on=s.picked.includes(code); return {code,on,dis:busy||maint,note:busy?'Đang giữ cho RTK-26-004830':maint?'Rách khóa kéo, chờ sửa':'Tốt',nc:busy||maint?'#B45309':'#4A5870',st:maint?B('Bảo trì','warning'):busy?B('Đã giữ chỗ','info'):on?B('Đã giữ chỗ','info'):B('Sẵn sàng','success'),bg:on?'#EEF1F7':'#FFFFFF',toggle:()=>this.setState(x=>({picked:x.picked.includes(code)?x.picked.filter(c=>c!==code):[...x.picked,code]}))}; });
+    const doScan=()=>{ const c=s.scan.trim().toUpperCase(); if(!c) return; const a=assets.find(x=>x.code===c); if(!a){ this.setState({scanErr:'Không tìm thấy mã '+c+' thuộc thiết bị này.'}); return; } if(a.dis){ this.setState({scanErr:c+' không khả dụng: '+a.note+'.'}); return; } if(s.picked.includes(c)){ this.setState({scanErr:c+' đã được gán.'}); return; } this.setState(x=>({picked:[...x.picked,c],scan:'',scanErr:''})); this.toast('success','Đã gán '+c,aItem.name); };
+    // O14
+    const rowsP=people.filter(p=>s.grpF==='all'||p.grp===s.grpF);
+    const attRows=rowsP.map(p=>({name:p.name,group:p.grp?GROUPS.find(g=>g[0]===p.grp)[1]:'Chưa xếp nhóm',cells:ACTS.map((a,ci)=>{ const v=att[p.id][ci]; const b=v?ATT[v]:B('Chưa','neutral'); return {...b,tip:v?`${b.label} · ${a[0]} ${a[1]} · bởi Đinh Văn Toàn lúc 14/11 ${a[1]}`:'Chưa điểm danh',on:()=>{ const nx=ATT_ORDER[(ATT_ORDER.indexOf(v)+1)%4]; if(v){ this.setState({attEdit:{pid:p.id,ci,from:v,to:nx},aReason:'',aErr:false}); return; } const A={...att,[p.id]:[...att[p.id]]}; A[p.id][ci]=nx; this.setState({att:A}); }}; })}));
+    const attSum=ACTS.map((a,ci)=>{ const marked=rowsP.filter(p=>att[p.id][ci]); const pres=rowsP.filter(p=>att[p.id][ci]==='P'||att[p.id][ci]==='L').length; return {text:marked.length?`${pres}/${rowsP.length} có mặt`:'Chưa điểm danh',c:marked.length?(pres===rowsP.length?'#166534':'#B45309'):'#4A5870'}; });
+    const ae=s.attEdit; const aeP=ae?people.find(p=>p.id===ae.pid):null;
+    // O15
+    const eff=(s.oCase==='pending'&&s.manual)?'paidManual':s.oCase;
+    const O=buildO15(eff,{manual:s.manual,refund:s.oCAmt,reason:s.oCRSaved,me:me[0],admin,payReason:s.pReason});
+    const due=O.due;
+    const amtN=parseInt(String(s.pAmt).replace(/\D/g,''),10)||0; const amtErr=s.pTried&&(!amtN||amtN!==due);
+    const payOn=s.manualOn&&due>0;
+    const cxW=CX_WHEN[s.oWhen]; const cxPaid=(eff==='paid'||eff==='paidManual')?O_TOTAL:0; const cxRefund=Math.round(cxPaid*cxW.pct);
+    const caseChip=(k,l)=>this.chip(s.oCase===k,l,()=>this.setState({oCase:k,manual:false,oCAmt:3290000,oTab:'main'}));
+    // O38
+    const ST_OPTS=[['all','Tất cả'],['PendingPayment','Chờ thanh toán'],['Confirmed','Đã xác nhận'],['InFulfillment','Đang thực hiện'],['Completed','Hoàn tất'],['Expired','Hết hạn'],['Cancelled','Đã hủy']];
+    const dFrom=parseDMY(s.ordFrom), dTo=parseDMY(s.ordTo); const q=s.ordQ.trim().toLowerCase();
+    const scope=ORD.filter(o=>admin||o[13]===me[0]||(o[1]==='Rental'&&!o[13]));
+    const base=scope.filter(o=>(s.ordType==='all'||o[1]===s.ordType)&&(s.ordStatus==='all'||o[8]===s.ordStatus)&&(dFrom==null||parseCreated(o[6])>=dFrom)&&(dTo==null||parseCreated(o[6])<dTo+86400000)&&(!q||o[0].toLowerCase().includes(q)||o[3].toLowerCase().includes(q)||o[2].toLowerCase().includes(q)));
+    const tabDef=ORD_TABS.find(t=>t[0]===s.ordTab)||ORD_TABS[0];
+    const listAll=(s.ordView==='empty'?[]:base.filter(tabDef[2])).slice().sort((x,y)=>parseCreated(y[6])-parseCreated(x[6]));
+    const pages=Math.max(1,Math.ceil(listAll.length/ORD_PAGE)); const pg=Math.min(s.ordPage,pages);
+    const pageRows=listAll.slice((pg-1)*ORD_PAGE,pg*ORD_PAGE);
+    const ordFiltered=s.ordType!=='all'||s.ordStatus!=='all'||!!s.ordFrom||!!s.ordTo||!!q||s.ordTab!=='all';
+    const isList=s.ordView==='list'||s.ordView==='empty';
+    const stLabel=(ST_OPTS.find(o=>o[0]===s.ordStatus)||ST_OPTS[0])[1];
+    return {
+      dev, toasts:s.toasts, roleLabel:admin?'Admin':'Staff', meName:me[0], meInit:me[1],
+      navTrips:nav('trips',admin), navOrders:nav('torders',admin), navAll:nav('orders',admin),
+      // O09
+      viewOpts:[['cal','Lịch'],['table','Bảng']].map(([k,l])=>this.seg(s.view===k,l,()=>this.setState({view:k}))), isCal:s.view==='cal', isTable:s.view==='table',
+      mgrFilter:admin?'Tất cả':'Tôi', legend:Object.values(TS),
+      dowHead:['T2','T3','T4','T5','T6','T7','CN'], calCells:cells,
+      tripRows:rows.map(([name,ver,range,sold,total,min,price,mgr,src,stt])=>({name,ver,range,sold,total,pct:Math.round(sold/total*100)+'%',min:sold<min&&stt!=='Cancelled'&&stt!=='Draft'?`${min} · thiếu ${min-sold}`:String(min),minC:sold<min&&stt==='Open'?'#BE123C':'#151A24',minW:sold<min&&stt==='Open'?700:400,price:vnd(price),mgr,src,st:TS[stt]})),
+      newOpen:s.newOpen, openNew:()=>this.setState({newOpen:true,nTried:false}), closeNew:()=>this.setState({newOpen:false}),
+      nStart:s.nStart, nEnd:s.nEnd, nTotal:s.nTotal, nMin:s.nMin, nOnStart:e=>this.setState({nStart:e.target.value}), nOnEnd:e=>this.setState({nEnd:e.target.value}), nOnTotal:e=>this.setState({nTotal:e.target.value}), nOnMin:e=>this.setState({nMin:e.target.value}),
+      nEndErr:!!nEndErr, nEndBd:nEndErr?'1.5px solid #BE123C':'1px solid #C5C3BD', nMinErr, nMinBd:nMinErr?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      submitNew:()=>{ const p=v=>{ const m=v.match(/(\d+)\/(\d+)\/(\d+)\s+(\d+):(\d+)/); return m?new Date(+m[3],+m[2]-1,+m[1],+m[4],+m[5]).getTime():NaN; }; if(!(p(s.nEnd)>p(s.nStart))||+s.nMin>+s.nTotal){ this.setState({nTried:true}); return; } this.setState({newOpen:false}); this.toast('success','Đã tạo chuyến (Nháp)','Fansipan · '+s.nStart); },
+      // O10
+      o10Chips:[...['Draft','Open','ClosedForBooking','InProgress','Completed','Cancelled'].map(k=>this.chip(st===k&&!s.conflict,TS[k].label,()=>this.setState({tStatus:k,conflict:false}))),this.chip(s.conflict,'Xung đột dữ liệu',()=>this.setState({conflict:true}))],
+      tSt:TS[st], conflict:s.conflict, reload:()=>{ this.setState({conflict:false}); this.toast('info','Đã tải bản mới nhất','Tổng số chỗ: 16 → 18 (Hoàng Quốc Bảo).'); },
+      hasNext:!!NEXT[st], nextLabel:NEXT[st]?NEXT[st][0]:'', doNext:()=>{ const n=NEXT[st]; if(!n) return; this.setState({tStatus:n[1]}); this.toast('success','Đã chuyển trạng thái',TS[st].label+' → '+TS[n[1]].label); },
+      canCancel:st==='Open'||st==='ClosedForBooking', openCancel:()=>this.setState({cancelOpen:true,cErr:false,cReason:''}), closeCancel:()=>this.setState({cancelOpen:false}), cancelOpen:s.cancelOpen,
+      impact:[['Đơn bị hủy','9','#151A24'],['Người tham gia','14','#151A24'],['Cần hoàn · chờ duyệt','32.900.000 ₫','#B45309'],['Thiết bị giải phóng','46','#151A24']].map(([label,v,c])=>({label,v,c})),
+      cReason:s.cReason, onCReason:e=>this.setState({cReason:e.target.value,cErr:false}), cErr:s.cErr, cRBd:s.cErr?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      confirmCancel:()=>{ if(!this.state.cReason.trim()){ this.setState({cErr:true}); return; } this.setState({cancelOpen:false,tStatus:'Cancelled'}); this.toast('warning','Đã hủy chuyến','9 đơn → Đã hủy · tạo 7 dòng hoàn 32.900.000 ₫ ở trạng thái Chờ duyệt (Admin duyệt ở O28) · gửi 9 thông báo.'); },
+      sub10:this.sub('Tổng quan'), sub11:this.sub('Booking'), sub12:this.sub('Chia nhóm'), sub13:this.sub('Đồ cấp'), sub14:this.sub('Điểm danh'),
+      editHint:editable?(sold?'Đã có người đặt: chỉ tăng được số chỗ, đổi điều phối':'Sửa được toàn bộ'):'Chỉ xem ở trạng thái này',
+      tInfo:[['Khởi hành','14/11/2026 05:30'],['Kết thúc','16/11/2026 17:00'],['Điều phối','Phan Thị Ngọc'],['Tổng số chỗ','16',`Đã cam kết ${sold} — không được nhỏ hơn`],['Tối thiểu để khởi hành','6'],['Giá / người','2.450.000 ₫'],['Chính sách hoàn tiền','Tour tiêu chuẩn · v2',null,'span 2'],['Nguồn','Lịch lặp · T7 hằng tuần']].map(([label,value,hint,span])=>{ const lockF=!editable||(sold&&!['Tổng số chỗ','Điều phối'].includes(label)); return {label,value,hint:hint||'',hd:hint?'block':'none',span:span||'auto',bg:lockF?'#F5F4F1':'#FFFFFF',bd:lockF?'#DDDAD3':'#C5C3BD'}; }),
+      saveTrip:()=>{ if(s.conflict) return; this.toast('success','Đã lưu chuyến','Phiên bản dữ liệu được cập nhật.'); },
+      readyText:`${okN}/5 đạt`, readyC:okN===5?'#166534':'#B45309',
+      checklist:checks.map(([ok,label,detail,href])=>({label,detail,href,...(ok?G.success:G.danger),fixD:ok?'none':'inline'})),
+      // O11
+      bookings:BOOK.map((b,i)=>{ const open=s.open.includes(i); return {code:b[0],name:b[1],email:b[2],n:b[3],unit:vnd(2450000),pref:b[4]==='together'?'Đi cùng một nhóm':'Cho phép chia',split:b[5]?'Đã tách':'Không',splitC:b[5]?'#B45309':'#4A5870',splitW:b[5]?600:400,splitTip:b[5]?'Nhóm Mây 1 đủ 8 người · 12/11 10:05 · duyệt bởi Phan Thị Ngọc':'',st:OS[b[6]],pay:PS[b[7]],open,chev:open?'▾':'▸',bg:open?'#F5F4F1':'#FFFFFF',
+        toggle:()=>this.setState(x=>({open:x.open.includes(i)?x.open.filter(y=>y!==i):[...x.open,i]})),
+        parts:PEOPLE[b[0]].map((p,pi)=>{ const pp=people.find(x=>x.code===b[0]&&x.name===p[0]); const g=pp&&pp.grp?GROUPS.find(x=>x[0]===pp.grp)[1]:null; return {name:p[0],phone:p[1]||'Chưa cập nhật',phc:p[1]?'#151A24':'#5E6B80',email:p[2]||'Chưa cập nhật',emc:p[2]?'#151A24':'#5E6B80',age:p[3]?p[3]+' tuổi':'Chưa cập nhật',agc:p[3]?'#151A24':'#5E6B80',ec:p[4]||'Chưa cập nhật',ecc:p[4]?'#151A24':'#5E6B80',group:g||'Chưa xếp nhóm',gc:g?'#151A24':'#B45309',linked:p[5]?'✓ Có tài khoản':'○ Chưa liên kết',lc:p[5]?'#166534':'#4A5870'}; })}; }),
+      expandLabel:s.open.length===BOOK.length?'Thu gọn tất cả':'Mở rộng tất cả', expandAll:()=>this.setState(x=>({open:x.open.length===BOOK.length?[]:BOOK.map((_,i)=>i)})),
+      manifest:()=>this.toast('success','Đang xuất manifest','14 người · 3 nhóm · kèm liên hệ khẩn cấp.'),
+      // O12
+      cols, autoGroup:()=>{ const P=people.map(p=>({...p})); const cap={}; GROUPS.forEach(g=>cap[g[0]]=g[5]-P.filter(p=>p.grp===g[0]).length); const codes=[...new Set(P.filter(p=>!p.grp).map(p=>p.code))]; codes.forEach(c=>{ const mem=P.filter(p=>p.code===c&&!p.grp); const pre=P.find(p=>p.code===c&&p.grp); let target=pre&&cap[pre.grp]>=mem.length?pre.grp:GROUPS.map(g=>g[0]).find(g=>cap[g]>=mem.length); if(target){ mem.forEach(m=>m.grp=target); cap[target]-=mem.length; } }); this.setState({people:P}); this.toast('success','Đã tự động chia nhóm','Giữ người cùng đơn chung nhóm.'); },
+      splitOpen:!!s.split, splitCode:sp?sp.code:'', splitName:sp?sp.name:'', splitTo:s.split?GROUPS.find(g=>g[0]===s.split.gid)[1]:'',
+      closeSplit:()=>this.setState({split:null}), sReason:s.sReason, onSReason:e=>this.setState({sReason:e.target.value,sErr:false}), sErr:s.sErr, sRBd:s.sErr?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      confirmSplit:()=>{ if(!this.state.sReason.trim()){ this.setState({sErr:true}); return; } const {pid,gid}=this.state.split; this.setState(x=>({people:x.people.map(p=>p.id===pid?{...p,grp:gid}:p),split:null})); this.toast('success','Đã duyệt tách nhóm','Khách nhận thông báo kèm lý do.'); },
+      // O13
+      shortage:true, recalc:s.recalc, doRecalc:()=>{ this.setState({recalc:false}); this.toast('success','Đã tính lại số lượng','Túi ngủ 14 · Gậy 28 · Đèn 14.'); },
+      items, assignOpen:!!s.assign, closeAssign:()=>this.setState({assign:null}), aItem,
+      scan:s.scan, onScan:e=>this.setState({scan:e.target.value,scanErr:''}), onScanKey:e=>{ if(e.key==='Enter') doScan(); }, doScan, scanErr:s.scanErr,
+      assetList:assets, aSel:s.picked.length+11,
+      // O14
+      grpOpts:[['all','Tất cả'],['g1','Mây 1'],['g2','Mây 2'],['g3','Mây 3']].map(([k,l])=>this.seg(s.grpF===k,l,()=>this.setState({grpF:k}))),
+      attCols:ACTS.map(([day,time,name])=>({day,time,name})), attRows, attSum,
+      attOpen:!!ae, closeAtt:()=>this.setState({attEdit:null}),
+      attEditText:ae?`${aeP.name} · ${ACTS[ae.ci][0]} ${ACTS[ae.ci][1]} ${ACTS[ae.ci][2]}: ${ATT[ae.from].label} → ${ae.to?ATT[ae.to].label:'Chưa điểm danh'}`:'',
+      aReason:s.aReason, onAReason:e=>this.setState({aReason:e.target.value,aErr:false}), aErr:s.aErr, aRBd:s.aErr?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      confirmAtt:()=>{ if(!this.state.aReason.trim()){ this.setState({aErr:true}); return; } const A={...att,[ae.pid]:[...att[ae.pid]]}; A[ae.pid][ae.ci]=ae.to; this.setState({att:A,attEdit:null}); this.toast('success','Đã sửa điểm danh','Ghi vào nhật ký kèm lý do.'); },
+      // O15
+      o15Chips:[...O_CASES.map(([k,l])=>caseChip(k,l)),this.chip(s.manualOn,'Ghi nhận thủ công (FR-F04): '+(s.manualOn?'Bật':'Tắt'),()=>this.setState(x=>({manualOn:!x.manualOn})))],
+      oSt:OS[O.ord], oPay:PS[O.pay], oUpd:O.upd, oBnOn:O.bn.on, oBn:O.bn, oHoldLine:O.hold,
+      oTabs:[['main','Chi tiết'],['audit','Lịch sử']].map(([k,l])=>({label:l,on:()=>this.setState({oTab:k}),bd:s.oTab===k?'#14213D':'transparent',c:s.oTab===k?'#14213D':'#4A5870',w:s.oTab===k?600:500})),
+      oTabMain:s.oTab==='main', oTabAudit:s.oTab==='audit',
+      oParts:[['Trần Thu Hà','thuha.tran@gmail.com','0912 345 678','Trần Văn Bình · 0983 112 233','Mây 1'],['Nguyễn Minh Anh','minhanh.ng@gmail.com',null,null,'Mây 1']].map(([name,email,phone,ec,group])=>({name,email,phone:phone||'Chưa cập nhật',phc:phone?'#151A24':'#5E6B80',ec:ec||'Chưa cập nhật',ecc:ec?'#343F52':'#5E6B80',group,edit:()=>this.toast('info','Sửa thay khách',name+' · thay đổi sẽ ghi nhật ký.')})),
+      oTx:O.rows, oTxCount:O.rows.length+' dòng', oSum:O.sum, oAudit:O.audit,
+      canCancelO:eff==='paid'||eff==='paidManual'||eff==='pending',
+      openCancelO:()=>this.setState({oCxOpen:true,cxReason:'',cxTried:false,oSim:false,oCChanged:false,oWhen:'100'}),
+      cxOpen:s.oCxOpen, cxClose:()=>this.setState({oCxOpen:false}),
+      cxWhen:[['200','≥ 168 giờ'],['100','72 – 168 giờ'],['30','24 – 72 giờ']].map(([k,l])=>({label:l,on:()=>this.setState({oWhen:k,oCChanged:false}),bd:s.oWhen===k?'#14213D':'#C5C3BD',bg:s.oWhen===k?'#14213D':'#FFFFFF',c:s.oWhen===k?'#FFFFFF':'#14213D'})),
+      cxHours:cxW.hours, cxRules:CX_RULES.map(([when,pct],i)=>({when,pct,bg:i===cxW.idx?'#EEF1F7':'#FFFFFF',w:i===cxW.idx?700:400})),
+      cxPaid:vnd(cxPaid), cxRefund:vnd(cxRefund), cxLose:vnd(cxPaid-cxRefund),
+      cxNote:cxPaid>0?'Khi xác nhận: đơn chuyển Đã hủy, chỗ trả lại chuyến, tạo 1 dòng hoàn '+vnd(cxRefund)+' ở trạng thái Chờ duyệt. Admin duyệt ở O28 trước khi gửi SePay; khách nhận thông báo.':'Đơn chưa thu tiền: hủy sẽ đóng VA SePay và trả chỗ, không tạo dòng hoàn.',
+      cxBtn:cxPaid>0?'Hủy đơn & tạo yêu cầu hoàn':'Hủy đơn',
+      cxChanged:s.oCChanged, cxReason:s.cxReason, onCxReason:e=>this.setState({cxReason:e.target.value}), cxErr:s.cxTried&&!s.cxReason.trim(), cxRBd:s.cxTried&&!s.cxReason.trim()?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      cxSimBd:s.oSim?'#BE123C':'#C5C3BD', cxSimBg:s.oSim?'#FFE4E8':'#FFFFFF', cxSimC:s.oSim?'#BE123C':'#4A5870', cxToggleSim:()=>this.setState(x=>({oSim:!x.oSim,oCChanged:false})),
+      cxConfirm:()=>{ if(!s.cxReason.trim()){ this.setState({cxTried:true}); return; } if(s.oSim){ this.setState({oSim:false,oCChanged:true}); return; }
+        if(cxPaid>0){ this.setState({oCxOpen:false,oCase:'cancelled',oCAmt:cxRefund,oCRSaved:s.cxReason.trim(),oTab:'main'}); this.toast('success','Đã hủy đơn RTK-26-004852','Tạo 1 dòng hoàn '+vnd(cxRefund)+' ở trạng thái Chờ duyệt. Admin duyệt ở O28.'); }
+        else { this.setState({oCxOpen:false,oCase:'cancelledUnpaid',oTab:'main'}); this.toast('success','Đã hủy đơn RTK-26-004852','Chưa thu tiền: đã đóng VA SePay, không tạo dòng hoàn.'); } },
+      payBg:payOn?'#14213D':'#ECEAE5', payFg:payOn?'#FFFFFF':'#5E6B80', payBd:payOn?'0':'1px dashed #9AA1AC', payCur:payOn?'pointer':'not-allowed', payOff:!payOn,
+      payTip:!s.manualOn?'FR-F04 — API chưa có, tắt mặc định':(due>0?'':'Đơn không còn khoản phải thu'),
+      payOpen:s.payOpen, openPay:()=>{ if(!payOn){ this.toast('info',s.manualOn?'Không còn khoản phải thu':'Ghi nhận thủ công đang tắt','FR-F04 — API chưa có, tắt mặc định. Bật bằng chip phía trên khung (chỉ dùng với đơn Chờ chuyển khoản).'); return; } this.setState({payOpen:true,pTried:false,pAmt:due?String(due):'',pReason:''}); }, closePay:()=>this.setState({payOpen:false}),
+      pAmt:s.pAmt, onPAmt:e=>this.setState({pAmt:e.target.value}), pAmtErr:amtErr, pAmtMsg:!amtN?'Nhập số tiền.':`Phải bằng số còn lại ${vnd(due)} (không nhận thanh toán từng phần).`, pAmtBd:amtErr?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      pReason:s.pReason, onPReason:e=>this.setState({pReason:e.target.value}), pRErr:s.pTried&&!s.pReason.trim(), pRBd:s.pTried&&!s.pReason.trim()?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      submitPay:()=>{ if(!amtN||amtN!==due||!s.pReason.trim()){ this.setState({pTried:true}); return; } this.setState({payOpen:false,manual:true}); this.toast('success','Đã ghi nhận thanh toán',vnd(amtN)+' · đã đóng VA SePay · đơn chuyển Đã xác nhận.'); },
+      // O38
+      o38Chips:[['list','Danh sách'],['empty','Rỗng'],['loading','Đang tải'],['error','Lỗi tải']].map(([k,l])=>this.chip(s.ordView===k,l,()=>this.setState({ordView:k,ordPage:1}))),
+      ordStaff:!admin, ordCountText:isList?`${listAll.length} đơn · ${listAll.filter(o=>o[1]==='Tour').length} tour · ${listAll.filter(o=>o[1]==='Rental').length} thuê · giờ GMT+7`:'',
+      ordExport:()=>{ if(!listAll.length){ this.toast('warning','Không có dữ liệu để xuất','Bộ lọc hiện tại không có đơn nào.'); return; } this.toast('success','Đang xuất CSV',listAll.length+' đơn theo bộ lọc hiện tại · UTF-8.'); },
+      ordTabs:ORD_TABS.map(([k,l,fn])=>{ const n=s.ordView==='empty'?0:base.filter(fn).length; const a=s.ordTab===k; const hot=(k==='recon'||k==='refund')&&n>0; return {label:l,count:n,on:()=>this.setState({ordTab:k,ordPage:1}),bd:a?'#14213D':'transparent',c:a?'#14213D':'#4A5870',w:a?600:500,cbg:hot?'#FEF3C7':'#ECEAE5',cc:hot?'#B45309':'#4A5870'}; }),
+      ordTypeOpts:[['all','Tất cả loại'],['Tour','Tour'],['Rental','Thuê']].map(([k,l])=>this.seg(s.ordType===k,l,()=>this.setState({ordType:k,ordPage:1}))),
+      ordToggleMenu:()=>this.setState(x=>({ordMenu:!x.ordMenu})), ordMenuOpen:s.ordMenu, ordStatusLabel:stLabel,
+      ordStatusOpts:ST_OPTS.map(([k,l])=>({label:l,bg:s.ordStatus===k?'#EEF1F7':'transparent',w:s.ordStatus===k?700:400,on:()=>this.setState({ordStatus:k,ordMenu:false,ordPage:1})})),
+      ordFrom:s.ordFrom, ordTo:s.ordTo, ordQ:s.ordQ, onOrdFrom:e=>this.setState({ordFrom:e.target.value,ordPage:1}), onOrdTo:e=>this.setState({ordTo:e.target.value,ordPage:1}), onOrdQ:e=>this.setState({ordQ:e.target.value,ordPage:1}),
+      ordFiltered, ordClear:()=>this.setState({ordType:'all',ordStatus:'all',ordFrom:'',ordTo:'',ordQ:'',ordTab:'all',ordPage:1,ordView:'list'}),
+      ordLoading:s.ordView==='loading', ordSkel:[1,2,3,4,5,6], ordError:s.ordView==='error', ordRetry:()=>{ this.setState({ordView:'loading'}); setTimeout(()=>this.setState({ordView:'list'}),900); },
+      ordEmpty:isList&&listAll.length===0, ordHasRows:isList&&listAll.length>0,
+      ordEmptyTitle:ordFiltered?'Không có đơn khớp bộ lọc':'Chưa có đơn hàng nào', ordEmptyMsg:ordFiltered?'Thử đổi tab, bỏ bớt bộ lọc hoặc kiểm tra lại mã đơn / email.':'Đơn tour và đơn thuê của khách sẽ xuất hiện ở đây ngay khi được tạo.',
+      ordRows:pageRows.map(o=>({code:o[0],ty:ORD_TYPE[o[1]],name:o[2],email:o[3],svc:o[4],sub:o[5],created:o[6],total:vnd(o[7]),st:OS[o[8]],pay:PS[o[9]],refundFlag:o[12],deadline:o[11],dlC:o[10]==='recon'?'#B45309':'#343F52',dlW:o[10]==='recon'?700:400,href:o[1]==='Tour'?'#o15':O23})),
+      ordRange:listAll.length?`Hiển thị ${(pg-1)*ORD_PAGE+1}–${Math.min(pg*ORD_PAGE,listAll.length)} / ${listAll.length}`:'',
+      ordPages:Array.from({length:pages},(_,i)=>i+1).map(n=>({n,on:()=>this.setState({ordPage:n}),bd:n===pg?'#14213D':'#C5C3BD',bg:n===pg?'#14213D':'#FFFFFF',c:n===pg?'#FFFFFF':'#14213D'})),
+      ordPrev:()=>this.setState({ordPage:Math.max(1,pg-1)}), ordNext:()=>this.setState({ordPage:Math.min(pages,pg+1)}), ordPrevC:pg>1?'#14213D':'#9AA1AC', ordNextC:pg<pages?'#14213D':'#9AA1AC',
+      notifyOpen:s.notifyOpen, openNotify:()=>this.setState({notifyOpen:true}), closeNotify:()=>this.setState({notifyOpen:false}), sendNotify:()=>{ this.setState({notifyOpen:false}); this.toast('success','Đã gửi thông báo','Trần Thu Hà sẽ thấy trong Trung tâm thông báo.'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

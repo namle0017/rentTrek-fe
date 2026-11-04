@@ -4,7 +4,7 @@
 }
 .heading h1 {
   margin: 10px 0;
-  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  font-size: var(--font-size-page-title);
   line-height: 1.25;
   letter-spacing: -0.04em;
 }
@@ -14,8 +14,8 @@
 }
 .eyebrow {
   margin: 0;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.12em;
   color: var(--color-primary);
 }
@@ -33,7 +33,7 @@
   display: grid;
   flex: 1 1 145px;
   gap: 8px;
-  font-size: 0.875rem;
+  font-size: var(--font-size-label);
 }
 .filters .searchField {
   flex-grow: 2;
@@ -41,7 +41,7 @@
 }
 .resultCount {
   color: var(--color-text-muted);
-  font-size: 0.875rem;
+  font-size: var(--font-size-meta);
   margin: 24px 0 16px;
 }
 .productGrid {
@@ -54,7 +54,7 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 24px;
-  font-size: 0.875rem;
+  font-size: var(--font-size-label);
   color: var(--color-text-muted);
 }
 .breadcrumb a {
@@ -102,7 +102,7 @@
   padding: 28px;
 }
 .productInfo h1 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: var(--font-size-page-title);
   line-height: 1.3;
   margin: 12px 0 16px;
 }
@@ -113,7 +113,7 @@
   min-width: 0;
 }
 .variantPicker legend {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin-bottom: 12px;
 }
 .variantButtons {
@@ -130,7 +130,7 @@
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
   gap: 8px 20px;
-  font-size: 0.875rem;
+  font-size: var(--font-size-meta);
 }
 .specifications dt {
   color: var(--color-text-muted);
@@ -148,21 +148,21 @@
   border-top: 1px solid var(--color-border);
 }
 .salePrice strong {
-  font-size: 1.4rem;
+  font-size: var(--font-size-metric);
   color: var(--color-primary);
 }
 .rentalPrices h2,
 .description h2 {
-  font-size: 1.125rem;
+  font-size: var(--font-size-section-title);
 }
 .rentalPrices table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem;
+  font-size: var(--font-size-body);
 }
 .rentalPrices caption {
   text-align: left;
-  font-size: 0.8rem;
+  font-size: var(--font-size-meta);
   color: var(--color-text-muted);
   padding-bottom: 12px;
 }
@@ -181,7 +181,7 @@
 }
 .note {
   color: var(--color-text-muted);
-  font-size: 0.8rem;
+  font-size: var(--font-size-meta);
   margin: 20px 0 0;
 }
 .description {

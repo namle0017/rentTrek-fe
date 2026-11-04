@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: var(--font-size-label);
   color: var(--color-text-subtle, #4a5870);
   margin-bottom: 24px;
 }
@@ -30,7 +30,7 @@
 }
 
 .breadcrumbCurrent {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text, #1d2420);
 }
 
@@ -65,8 +65,8 @@
 
 .sidebarHeading {
   padding: 0 12px 12px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-subtle, #4a5870);
   letter-spacing: 0.02em;
 }
@@ -93,8 +93,8 @@
   gap: 12px;
   padding: 0 14px;
   border-radius: var(--radius, 8px);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #343f52;
   text-decoration: none;
   background: transparent;
@@ -118,7 +118,7 @@
 .navItemActive {
   background: var(--color-surface, #ffffff);
   color: var(--color-primary-heading, #173d2d);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   box-shadow: inset 3px 0 0 var(--color-primary, #204b39), 0 1px 3px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--color-border-subtle, #dddad3);
   border-left-width: 1px;
@@ -154,16 +154,16 @@
 
 .paneTitle {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 32px;
+  font-size: var(--font-size-page-title);
   line-height: 40px;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-heading, #173d2d);
   margin: 0;
   letter-spacing: -0.01em;
 }
 
 .paneMeta {
-  font-size: 14px;
+  font-size: var(--font-size-meta);
   color: var(--color-text-subtle, #4a5870);
 }
 
@@ -183,8 +183,8 @@
 }
 
 .cardTitle {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-heading, #173d2d);
   margin: 0 0 18px;
 }
@@ -211,8 +211,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
-  font-weight: 700;
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-semibold);
   background: rgba(32, 75, 57, 0.08);
   color: var(--color-primary, #204b39);
   border: 1.5px solid rgba(32, 75, 57, 0.18);
@@ -233,8 +233,8 @@
 }
 
 .userName {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: var(--color-primary-heading, #173d2d);
   margin: 0 0 6px;
 }
@@ -254,8 +254,8 @@
 
 .codeBadge {
   font-family: ui-monospace, Menlo, Monaco, 'Cascadia Mono', monospace;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   background: #eef1f7;
   color: #14213d;
   padding: 3px 8px;
@@ -269,8 +269,8 @@
   border: none;
   background: transparent;
   color: #31476f;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   border-radius: 4px;
   transition: background 0.15s ease, color 0.15s ease;
@@ -288,21 +288,21 @@
 
 .metaDivider {
   color: #9aa1ac;
-  font-size: 14px;
+  font-size: var(--font-size-meta);
 }
 
 .roleText {
-  font-size: 13px;
+  font-size: var(--font-size-meta);
   color: var(--color-text-subtle, #4a5870);
-  font-weight: 500;
+  font-weight: var(--font-weight-body);
 }
 
 .statusPill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   padding: 2px 8px;
   border-radius: 999px;
   background: #e7f6ec;
@@ -317,7 +317,7 @@
 }
 
 .avatarSubtext {
-  font-size: 12px;
+  font-size: var(--font-size-meta);
   color: #5e6b80;
   margin-top: 6px;
 }
@@ -347,7 +347,7 @@
   padding: 0 12px;
   border: 1px solid var(--color-border-subtle, #dddad3);
   border-radius: var(--radius, 8px);
-  font-size: 15px;
+  font-size: var(--font-size-control);
   background: #ffffff;
   color: var(--color-text, #1d2420);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -363,12 +363,12 @@
 .fieldGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-label);
 }
 
 .fieldLabel {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #232b38;
 }
 
@@ -377,7 +377,7 @@
   padding: 0 12px;
   border: 1px solid var(--color-border-subtle, #dddad3);
   border-radius: var(--radius, 8px);
-  font-size: 15px;
+  font-size: var(--font-size-body);
   background: var(--color-bg-subtle, #f5f4f1);
   display: flex;
   align-items: center;
@@ -386,15 +386,15 @@
 }
 
 .readOnlyValue {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .readOnlyBadge {
-  font-size: 12px;
-  font-weight: 500;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-subtle, #4a5870);
   background: #eceae5;
   padding: 2px 8px;
@@ -412,8 +412,8 @@
 }
 
 .dirtyNotice {
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: var(--color-accent, #c55742);
   margin-right: auto;
 }
@@ -425,8 +425,8 @@
   border: 1px solid #c5c3bd;
   background: #ffffff;
   color: #343f52;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: all 0.15s ease;
 }
@@ -448,8 +448,8 @@
   border: none;
   background: var(--color-primary, #204b39);
   color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -488,7 +488,7 @@
   border-radius: var(--radius, 8px);
   background: var(--color-danger-bg, #ffe4e8);
   border: 1px solid var(--color-danger-border, #be123c);
-  font-size: 14px;
+  font-size: var(--font-size-body);
   line-height: 20px;
   color: #232b38;
   margin-bottom: 16px;

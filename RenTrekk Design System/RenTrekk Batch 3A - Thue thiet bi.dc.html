@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314213D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-weight='800' font-size='20' text-anchor='middle' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECEAE5;color:#151A24;font-family:'Be Vietnam Pro',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#31476F;text-underline-offset:2px}
+a:hover{color:#14213D}
+*{box-sizing:border-box}
+input,textarea,button{font-family:inherit}
+@keyframes rtspin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+
+<div style="padding:64px;display:flex;flex-direction:column;gap:96px;width:max-content">
+
+<div style="display:flex;align-items:flex-end;gap:32px;width:1800px">
+  <div>
+    <div style="font-size:13px;font-weight:600;letter-spacing:.12em;color:#31476F">RENTREKK · BATCH 3A</div>
+    <h1 style="margin:8px 0 0;font-size:48px;line-height:56px;font-weight:700;color:#14213D;letter-spacing:-.02em">Thuê thiết bị · C06–C09</h1>
+    <p style="margin:8px 0 0;font-size:15px;color:#4A5870">Web 1440px. Luồng: C06 → C07/C08 → C09 → C04P (Batch 2) → C05. Mỗi đơn thuê chỉ chứa đồ thuê. Bản này chưa thu tiền cọc (deposit_amount = 0).</p>
+  </div>
+  <div style="margin-left:auto;display:flex;gap:20px;font-size:14px;font-weight:600"><a href="RenTrekk Batch 2 - Tour.dc.html">← Batch 2</a><a href="RenTrekk Batch 3B - Don hang.dc.html">Batch 3B →</a></div>
+</div>
+
+<!-- ================= C06 ================= -->
+<section id="c06" data-screen-label="C06 Danh mục thuê" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C06</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Danh mục thuê thiết bị</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/rentals</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c6Chips }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:4px"><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Tour</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#FFFFFF;border-bottom:3px solid #E29A78">Thuê thiết bị</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;color:#FFFFFF"><a href="#c09" style="height:40px;padding:0 12px;display:flex;align-items:center;gap:8px;color:#FFFFFF;font-size:14px;font-weight:500;text-decoration:none">Giỏ thuê<span style="min-width:20px;height:20px;border-radius:10px;background:#FFFFFF;color:#14213D;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ cartCount }}</span></a><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span></div>
+      </header>
+      <div style="padding:40px 80px 64px;display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;align-items:flex-end;gap:16px">
+          <div style="flex:1"><div style="font-size:13px;color:#4A5870">Trang chủ / Thuê thiết bị</div><h3 style="font-family:'Playfair Display',Georgia,serif;margin:6px 0 0;font-size:36px;line-height:44px;font-weight:700;color:#14213D">Thuê thiết bị theo ngày</h3></div>
+          <div role="tablist" style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px">
+            <sc-for list="{{ c6Tabs }}" as="t" hint-placeholder-count="2"><button role="tab" onClick="{{ t.on }}" style="height:40px;padding:0 18px;border:0;border-radius:7px;background:{{ t.bg }};color:{{ t.c }};font-size:14px;font-weight:600;cursor:pointer">{{ t.label }}</button></sc-for>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:280px minmax(0,1fr);gap:32px;align-items:start">
+          <aside style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:22px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:13px;font-weight:600;color:#232B38">Khoảng ngày thuê</span>
+              <button onClick="{{ c6ToggleDates }}" style="height:44px;padding:0 12px;border:{{ c6DateBd }};border-radius:8px;background:#FFFFFF;font-size:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;color:{{ c6DateC }}">{{ c6DateLabel }}<span style="color:#5E6B80">▦</span></button>
+              <span style="font-size:12px;color:#4A5870">Chọn ngày để xem số thiết bị còn trống.</span>
+            </div>
+            <fieldset style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+              <legend style="font-size:13px;font-weight:600;color:#232B38;margin-bottom:10px">Danh mục</legend>
+              <sc-for list="{{ c6Cats }}" as="o" hint-placeholder-count="4"><label style="display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer;min-height:28px"><input type="checkbox" checked="{{ o.on }}" onChange="{{ o.toggle }}" style="width:18px;height:18px;accent-color:#14213D"></input><span style="flex:1">{{ o.label }}</span></label></sc-for>
+            </fieldset>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:13px;font-weight:600;color:#232B38">Size</span>
+              <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="height:36px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;display:flex;align-items:center;font-size:13px;font-weight:600">S</span><span style="height:36px;padding:0 14px;border-radius:8px;border:1px solid #14213D;background:#14213D;color:#FFFFFF;display:flex;align-items:center;font-size:13px;font-weight:600">M</span><span style="height:36px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;display:flex;align-items:center;font-size:13px;font-weight:600">L</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:13px;font-weight:600;color:#232B38">Màu</span>
+              <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="height:36px;padding:0 12px;border-radius:8px;border:1px solid #C5C3BD;display:flex;align-items:center;font-size:13px">Xanh rêu</span><span style="height:36px;padding:0 12px;border-radius:8px;border:1px solid #C5C3BD;display:flex;align-items:center;font-size:13px">Cam</span><span style="height:36px;padding:0 12px;border-radius:8px;border:1px solid #C5C3BD;display:flex;align-items:center;font-size:13px">Xám</span><span style="height:36px;padding:0 12px;border-radius:8px;border:1px solid #C5C3BD;display:flex;align-items:center;font-size:13px">Đen</span></div>
+            </div>
+          </aside>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <span style="font-size:15px;color:#343F52"><b style="color:#151A24">{{ c6Count }}</b> {{ c6Noun }}</span>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+              <sc-for list="{{ c6Items }}" as="p" hint-placeholder-count="8">
+                <a href="{{ p.href }}" style="display:block;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden;text-decoration:none;color:#151A24;opacity:{{ p.op }}" style-hover="box-shadow:0 8px 24px rgba(20,33,61,.12)">
+                  <div style="position:relative;height:160px;background:#ADBBD3 url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center">
+                    
+                    <sc-if value="{{ p.showAvail }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:10px;left:10px;display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ p.abg }};color:{{ p.afg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ p.aic }}</span>{{ p.alabel }}</span></sc-if>
+                  </div>
+                  <div style="padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px">
+                    <div style="font-size:12px;color:#4A5870">{{ p.cat }}</div>
+                    <div style="font-size:15px;font-weight:600;line-height:21px;min-height:42px">{{ p.name }}</div>
+                    <div style="font-size:12px;color:#4A5870">{{ p.opts }}</div>
+                    <div style="font-size:17px;font-weight:700;margin-top:6px">Từ {{ p.price }}<span style="font-size:12px;font-weight:400;color:#4A5870">/ngày</span></div>
+                  </div>
+                </a>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C06 · FR-P01, P06 · API 4.1, 4.2, 4.4<br>· Tab: Thiết bị lẻ → PRODUCTS (GET /products) · Combo → PRODUCT_BUNDLES (GET /bundles); chỉ hiện status = Active (Draft, Discontinued bị ẩn)<br>· Ảnh → PRODUCT_VARIANT_IMAGES.image_url (is_primary) của variant đầu; combo dùng ảnh thành phần đầu<br>· Tên → PRODUCTS.name / PRODUCT_BUNDLES.name · Danh mục → CATEGORIES.name (GET /categories, category_type = Equipment; combo = Bundle; Tour không hiện ở đây)<br>· “Từ” = MIN(RENTAL_PRICE_TIERS.daily_price) theo product_variant_id / bundle_id<br>· Tùy chọn = COUNT(PRODUCT_VARIANTS) theo size? / color?<br>· Lọc size → PRODUCT_VARIANTS.size? · màu → color?<br>· Khả dụng (chỉ khi có khoảng ngày) = COUNT(EQUIPMENT_ASSETS asset_status = Available, không có ASSET_ASSIGNMENTS status ∈ {Reserved, Issued} giao với reserved_from–reserved_until; khoảng giữ có thể cộng thêm thời gian vệ sinh, D-11 · rental.cleaningBufferHours); combo = MIN(khả dụng thành phần ÷ quantity)<br>· Khả dụng chỉ để tham khảo (query from/to ở 4.2); kết quả cuối kiểm tra lại khi tạo đơn (5.2)</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C07 ================= -->
+<section id="c07" data-screen-label="C07 Chi tiết sản phẩm" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C07</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chi tiết sản phẩm thuê</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/rentals/products/:productId</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c7Chips }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:4px"><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Tour</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#FFFFFF;border-bottom:3px solid #E29A78">Thuê thiết bị</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;color:#FFFFFF"><a href="#c09" style="height:40px;padding:0 12px;display:flex;align-items:center;gap:8px;color:#FFFFFF;font-size:14px;font-weight:500;text-decoration:none">Giỏ thuê<span style="min-width:20px;height:20px;border-radius:10px;background:#FFFFFF;color:#14213D;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ cartCount }}</span></a><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span></div>
+      </header>
+      <div style="padding:32px 80px 64px;display:flex;flex-direction:column;gap:24px">
+        <div style="font-size:13px;color:#4A5870">Thuê thiết bị / Lều trại</div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 520px;gap:48px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="height:520px;border-radius:14px;background:#ADBBD3 url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center"></div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+              <sc-for list="{{ c7Thumbs }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.on }}" aria-label="{{ t.label }}" style="height:96px;border-radius:10px;cursor:pointer;background:#ADBBD3 url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&q=60&auto=format) center/cover no-repeat;border:2px solid {{ t.bd }};font:500 11px ui-monospace,Menlo,monospace;color:#343F52">{{ t.label }}</button></sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <sc-if value="{{ c7Retired }}" hint-placeholder-val="{{ false }}">
+              <div role="status" style="display:flex;gap:10px;padding:12px 14px;border-radius:10px;background:#ECEAE5;border:1px solid #C5C3BD;font-size:14px;color:#232B38"><span aria-hidden="true" style="color:#4A5870;font-weight:700">○</span><span><b>Biến thể này đã ngừng cho thuê.</b> Hãy chọn màu khác.</span></div>
+            </sc-if>
+            <div>
+              <div style="font-size:13px;color:#4A5870">Lều trại</div>
+              <h3 style="font-family:'Playfair Display',Georgia,serif;margin:6px 0 0;font-size:34px;line-height:42px;font-weight:700;color:#14213D">Lều 2 người Naturehike</h3>
+              <p style="margin:12px 0 0;font-size:15px;line-height:24px;color:#232B38">Lều 2 lớp, khung nhôm, chịu gió cấp 6. Nặng 1,7 kg, dựng trong 5 phút. Phù hợp cho lán nghỉ trên 2.800 m.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:14px;font-weight:600">Màu: <span style="font-weight:400">{{ c7VarName }}</span> <span style="font:500 12px ui-monospace,Menlo,monospace;color:#4A5870;margin-left:8px">SKU {{ c7Sku }}</span></div>
+              <div role="radiogroup" style="display:flex;gap:8px"><sc-for list="{{ c7Vars }}" as="v" hint-placeholder-count="3"><button role="radio" aria-checked="{{ v.on }}" onClick="{{ v.pick }}" style="height:44px;padding:0 16px;border-radius:8px;border:{{ v.bd }};background:{{ v.bg }};color:{{ v.c }};font-size:14px;font-weight:600;cursor:pointer;text-decoration:{{ v.td }}">{{ v.label }}</button></sc-for></div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:12px 16px;font-size:14px;font-weight:600;border-bottom:1px solid #ECEAE5">Bảng giá theo số ngày</div>
+              <sc-if value="{{ c7HasTiers }}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{ c7Tiers }}" as="t" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;padding:11px 16px;font-size:14px;background:{{ t.bg }};border-top:1px solid #ECEAE5"><span style="color:#343F52;font-weight:{{ t.w }}">{{ t.range }}</span><span style="font-weight:700">{{ t.price }}<span style="font-weight:400;color:#4A5870;font-size:12px">/ngày</span></span></div></sc-for>
+              </sc-if>
+              <sc-if value="{{ c7NoTiers }}" hint-placeholder-val="{{ false }}"><div style="padding:16px;font-size:14px;color:#4A5870">Biến thể này chưa có bảng giá. Liên hệ để được báo giá.</div></sc-if>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:13px;font-weight:600;color:#232B38">Nhận – Trả</span>
+                <div style="display:flex;gap:6px"><sc-for list="{{ c7Dates }}" as="d" hint-placeholder-count="3"><button onClick="{{ d.pick }}" style="flex:1;min-height:52px;padding:6px 8px;border-radius:8px;border:{{ d.bd }};background:{{ d.bg }};color:#151A24;font-size:13px;cursor:pointer;line-height:18px"><b>{{ d.label }}</b><br><span style="color:#4A5870">{{ d.days }}</span></button></sc-for></div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:13px;font-weight:600;color:#232B38">Số lượng</span>
+                <div style="display:flex;align-items:center;border:1px solid #C5C3BD;border-radius:10px;overflow:hidden;background:#FFFFFF"><button onClick="{{ c7Dec }}" aria-label="Giảm" style="width:44px;height:52px;border:0;background:#FFFFFF;font-size:18px;cursor:pointer;color:#14213D">−</button><span style="width:40px;text-align:center;font-size:16px;font-weight:700">{{ c7Qty }}</span><button onClick="{{ c7Inc }}" aria-label="Tăng" style="width:44px;height:52px;border:0;background:#FFFFFF;font-size:18px;cursor:pointer;color:#14213D">+</button></div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:{{ c7Av.bg }};border:1px solid {{ c7Av.fg }}"><span aria-hidden="true" style="color:{{ c7Av.fg }};font-weight:700">{{ c7Av.ic }}</span><span style="flex:1;font-size:14px;color:#232B38">{{ c7AvText }}</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;border-top:1px solid #DDDAD3"><div><div style="font-size:14px;font-weight:600">Giá tạm tính</div><div style="font-size:12px;color:#4A5870">{{ c7Calc }}</div></div><span style="font-size:26px;font-weight:700;color:#14213D">{{ c7Line }}</span></div>
+            <button onClick="{{ c7Add }}" disabled="{{ c7Dis }}" style="height:52px;border-radius:8px;border:0;background:{{ c7BtnBg }};color:{{ c7BtnC }};font-size:16px;font-weight:600;cursor:pointer">{{ c7BtnLabel }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C07 · FR-P03, P05, P06, R01 · API 4.3, 4.6, 5.1<br>· Gallery → PRODUCT_VARIANT_IMAGES theo product_variant_id, display_order<br>· Tên, mô tả → PRODUCTS.name, description?<br>· Biến thể → PRODUCT_VARIANTS.variant_name, size?, color?, sku (chữ nhỏ), status (Discontinued = ngừng cho thuê, gạch ngang + disable)<br>· Bảng giá → RENTAL_PRICE_TIERS.min_days, max_days? (rỗng = “trở lên”), daily_price; hàng đang áp dụng được tô<br>· Nhận – Trả → RENTAL_ORDERS.rental_start_at, rental_end_at (đơn tạo ở C09)<br>· Số lượng → RENTAL_ORDER_ITEMS.quantity ≤ khả dụng<br>· Khả dụng: công thức C06 (POST /rental-availability), chỉ hiện khi đã chọn ngày; thời gian giữ có thể tính thêm thời gian vệ sinh giữa hai lượt thuê (D-11, cấu hình rental.cleaningBufferHours) nên “còn N” có thể ít hơn tồn kho thực tế<br>· Giá tạm = billable_days × daily_price (bậc theo số ngày) × quantity → line_amount tạm; billable_days = max(1, ceil(giờ thuê ÷ 24)); số tiền chính thức do server tính (5.1)<br>· Không có bậc giá (PRICE_TIER_NOT_FOUND) → không hiện 0 ₫, nút “Liên hệ”, disable · variant status = Discontinued → disable</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C08 ================= -->
+<section id="c08" data-screen-label="C08 Chi tiết combo" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C08</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chi tiết combo</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/rentals/bundles/:bundleId</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c8Chips }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:4px"><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Tour</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#FFFFFF;border-bottom:3px solid #E29A78">Thuê thiết bị</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;color:#FFFFFF"><a href="#c09" style="height:40px;padding:0 12px;display:flex;align-items:center;gap:8px;color:#FFFFFF;font-size:14px;font-weight:500;text-decoration:none">Giỏ thuê<span style="min-width:20px;height:20px;border-radius:10px;background:#FFFFFF;color:#14213D;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ cartCount }}</span></a><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span></div>
+      </header>
+      <div style="padding:32px 80px 64px;display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:48px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div style="font-size:13px;color:#4A5870">Thuê thiết bị / Combo / Cắm trại</div>
+          <div><span style="display:inline-flex;font-size:12px;font-weight:600;color:#14213D;background:#EEF1F7;padding:3px 8px;border-radius:4px">Combo · Cắm trại</span><h3 style="font-family:'Playfair Display',Georgia,serif;margin:10px 0 0;font-size:34px;line-height:42px;font-weight:700;color:#14213D">Combo Cắm trại 2 người</h3><p style="margin:10px 0 0;font-size:15px;line-height:24px;color:#232B38;max-width:640px">Đủ đồ ngủ cho 2 người trong 1 lều. Thành phần được chốt khi bạn đặt, kể cả khi combo thay đổi sau này.</p></div>
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+            <div style="padding:14px 20px;font-size:16px;font-weight:600;border-bottom:1px solid #ECEAE5">Thành phần mỗi combo</div>
+            <sc-for list="{{ c8Items }}" as="i" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:16px;padding:14px 20px;border-bottom:1px solid #ECEAE5;background:{{ i.rowBg }}">
+                <div style="width:72px;height:72px;border-radius:8px;flex:none;background:#ADBBD3 url(https://images.unsplash.com/photo-1551632811-561732d1e306?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font:500 9px ui-monospace,Menlo,monospace;color:#343F52"></div>
+                <div style="flex:1"><div style="font-size:15px;font-weight:600">{{ i.name }}</div><div style="font-size:13px;color:#4A5870">{{ i.variant }}</div></div>
+                <span style="font-size:15px;font-weight:700;width:48px">× {{ i.qty }}</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ i.bg }};color:{{ i.fg }};font-size:12px;font-weight:600;white-space:nowrap;width:150px;justify-content:center"><span aria-hidden="true">{{ i.ic }}</span>{{ i.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <aside style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:16px;box-shadow:0 8px 24px rgba(20,33,61,.08)">
+          <div style="height:200px;border-radius:10px;background:#ADBBD3 url(https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center"></div>
+          <div>
+            <div style="font-size:14px;font-weight:600;margin-bottom:6px">Bảng giá combo</div>
+            <sc-for list="{{ c8Tiers }}" as="t" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;padding:9px 12px;font-size:14px;border-radius:6px;background:{{ t.bg }}"><span style="color:#343F52;font-weight:{{ t.w }}">{{ t.range }}</span><b>{{ t.price }}<span style="font-weight:400;color:#4A5870;font-size:12px">/ngày</span></b></div></sc-for>
+          </div>
+          <div style="font-size:14px;color:#343F52;display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid #ECEAE5"><span>Nhận – Trả</span><b>14/11 → 17/11/2026 · 3 ngày</b></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:{{ c8Av.bg }};border:1px solid {{ c8Av.fg }}"><span aria-hidden="true" style="color:{{ c8Av.fg }};font-weight:700">{{ c8Av.ic }}</span><span style="flex:1;font-size:14px;color:#232B38">{{ c8AvText }}</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline"><div><div style="font-size:14px;font-weight:600">Giá tạm tính</div><div style="font-size:12px;color:#4A5870">1 combo × 220.000 ₫ × 3 ngày</div></div><span style="font-size:24px;font-weight:700;color:#14213D">660.000 ₫</span></div>
+          <button onClick="{{ c8Add }}" disabled="{{ c8Dis }}" style="height:52px;border-radius:8px;border:0;background:{{ c8BtnBg }};color:{{ c8BtnC }};font-size:16px;font-weight:600;cursor:pointer">{{ c8BtnLabel }}</button>
+        </aside>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C08 · FR-P04, R02 · API 4.5, 4.6, 5.1<br>· Header → PRODUCT_BUNDLES.name, description?, CATEGORIES.name (category_type = Bundle); combo status = Discontinued → không hiện/không thuê được<br>· Thành phần → PRODUCT_BUNDLE_ITEMS.product_variant_id → PRODUCT_VARIANTS (variant_name, size?, color?), quantity<br>· Bảng giá → RENTAL_PRICE_TIERS với bundle_id<br>· Khả dụng thành phần = công thức C06 cho variant; “đủ cho N combo” = floor(khả dụng ÷ quantity)<br>· Số combo còn = MIN theo thành phần; khoảng giữ có thể cộng thời gian vệ sinh (D-11, rental.cleaningBufferHours)<br>· Combo chưa có ảnh riêng (D-3): dùng ảnh thành phần đầu<br>· “Thiếu: …” = thành phần có khả dụng &lt; quantity → nút disable</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C09 ================= -->
+<section id="c09" data-screen-label="C09 Giỏ & Checkout thuê" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C09</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Giỏ &amp; Checkout thuê</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/checkout/rental</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c9Chips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:24px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <span style="width:1px;height:24px;background:#31476F"></span>
+        <span style="font-size:15px;color:#D6DDEA">Giỏ thuê &amp; thanh toán</span>
+        <a href="#c06" style="margin-left:auto;color:#D6DDEA;font-size:14px;font-weight:500">Tiếp tục chọn đồ</a>
+      </header>
+      <sc-if value="{{ c9Empty }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:80px">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+            <div style="width:64px;height:64px;border-radius:50%;background:#ECEAE5;color:#4A5870;font-size:24px;display:flex;align-items:center;justify-content:center">○</div>
+            <div style="font-size:22px;font-weight:700;color:#14213D">Giỏ thuê đang trống</div>
+            <div style="font-size:15px;color:#4A5870;max-width:400px">Chọn lều, túi ngủ, balo hoặc combo cho chuyến sắp tới. Giá tính theo số ngày thuê.</div>
+            <a href="#c06" onClick="{{ c9Restore }}" style="margin-top:8px;height:48px;padding:0 22px;border-radius:8px;background:#14213D;color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;text-decoration:none">Xem thiết bị</a>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ c9HasLines }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:32px 80px 64px;display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:40px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <h3 style="margin:0;font-size:32px;font-weight:700;color:#14213D">Giỏ thuê</h3>
+            <sc-if value="{{ c9AlertShow }}" hint-placeholder-val="{{ false }}">
+              <div role="alert" style="display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:{{ c9Alert.bg }};border:1px solid {{ c9Alert.fg }};font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:{{ c9Alert.fg }};font-weight:700">{{ c9Alert.ic }}</span><span style="flex:1"><b style="color:{{ c9Alert.fg }}">{{ c9Alert.title }}</b> {{ c9Alert.msg }}</span><span style="align-self:flex-start;flex:none;font:600 11px ui-monospace,Menlo,monospace;color:{{ c9Alert.fg }};border:1px solid {{ c9Alert.fg }};border-radius:4px;padding:2px 6px;white-space:nowrap">{{ c9Alert.code }}</span></div>
+            </sc-if>
+            <div style="background:#FFFFFF;border:{{ c9DateBd }};border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:20px">
+              <div style="flex:1"><div style="font-size:13px;color:#4A5870">Thời gian thuê · áp cho cả đơn</div><div style="font-size:16px;font-weight:600;margin-top:2px;color:{{ c9DateC }}">{{ c9DateText }}</div><sc-if value="{{ c9PeriodErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size:13px;font-weight:600;color:#BE123C;margin-top:4px">✕ Giờ trả phải sau giờ nhận. Chọn lại ngày thuê.</div></sc-if></div>
+              <span style="font-size:14px;font-weight:600;color:#14213D;background:#EEF1F7;padding:6px 10px;border-radius:6px">{{ c9DaysText }}</span>
+              <button style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600">Đổi ngày</button>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <sc-for list="{{ c9Lines }}" as="l" hint-placeholder-count="3">
+                <div style="padding:18px 20px;border-bottom:1px solid #ECEAE5;background:{{ l.rowBg }};box-shadow:{{ l.sh }};display:flex;flex-direction:column;gap:12px">
+                  <div style="display:grid;grid-template-columns:80px minmax(0,1fr) 130px 120px 120px;gap:16px;align-items:center">
+                    <div style="width:80px;height:80px;border-radius:8px;background:#ADBBD3 url(https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font:500 9px ui-monospace,Menlo,monospace;color:#343F52"></div>
+                    <div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:{{ l.kbg }};color:{{ l.kfg }}">{{ l.kind }}</span><span style="font-size:15px;font-weight:600">{{ l.name }}</span></div><div style="font-size:13px;color:#4A5870;margin-top:4px">{{ l.sub }}</div></div>
+                    <div style="display:flex;align-items:center;border:1px solid #C5C3BD;border-radius:8px;overflow:hidden;justify-self:start"><button onClick="{{ l.dec }}" aria-label="Giảm" style="width:36px;height:40px;border:0;background:#FFFFFF;font-size:16px;cursor:pointer;color:#14213D">−</button><span style="width:36px;text-align:center;font-weight:700">{{ l.qty }}</span><button onClick="{{ l.inc }}" aria-label="Tăng" style="width:36px;height:40px;border:0;background:#FFFFFF;font-size:16px;cursor:pointer;color:#14213D">+</button></div>
+                    <div style="font-size:13px;color:#343F52;text-align:right">{{ l.unit }}<br><span style="color:#4A5870">{{ l.daysText }}</span></div>
+                    <div style="text-align:right;font-size:16px;font-weight:700;color:{{ l.amtC }}">{{ l.amt }}</div>
+                  </div>
+                  <sc-if value="{{ l.isCombo }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-left:96px;font-size:13px;color:#343F52;display:flex;gap:16px;flex-wrap:wrap"><span style="color:#4A5870">Mỗi combo gồm:</span><span>Túi ngủ −5°C · M × 1</span><span>Đệm hơi bơm tay × 1</span></div>
+                  </sc-if>
+                  <sc-if value="{{ l.hasPromo }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-left:96px;display:flex;justify-content:space-between;font-size:13px;padding:8px 12px;border-radius:8px;background:#E7F6EC"><span style="color:#166534;font-weight:600">✓ Gậy trekking giảm 50% khi thuê từ 3 ngày</span><span style="color:#166534;font-weight:700">−60.000 ₫</span></div>
+                  </sc-if>
+                  <sc-if value="{{ l.noTier }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-left:96px;display:flex;align-items:center;gap:10px;font-size:13px;color:#BE123C"><span style="font-weight:600">✕ Thiết bị chưa có giá cho số ngày này.</span><button onClick="{{ l.remove }}" style="height:32px;padding:0 10px;border-radius:6px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:13px;font-weight:600;cursor:pointer">Xóa dòng</button><a href="#c07" style="font-size:13px;font-weight:600">Đổi ngày thuê</a></div>
+                  </sc-if>
+                  <sc-if value="{{ l.out }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-left:96px;display:flex;align-items:center;gap:10px;font-size:13px;color:#BE123C"><span style="font-weight:600">✕ Chỉ còn 0 thiết bị trong khoảng này.</span><button onClick="{{ l.remove }}" style="height:32px;padding:0 10px;border-radius:6px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:13px;font-weight:600;cursor:pointer">Xóa dòng</button><a href="#c07" style="font-size:13px;font-weight:600">Đổi màu khác</a></div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px">
+              <div style="font-size:15px;font-weight:600">Mã khuyến mãi</div>
+              <div style="display:flex;gap:8px"><input placeholder="Nhập mã" value="{{ c9PromoVal }}" onChange="{{ c9PromoChange }}" aria-invalid="{{ c9PromoErr }}" style="flex:1;height:44px;padding:0 12px;border:{{ c9PromoBd }};border-radius:8px;font:600 14px ui-monospace,Menlo,monospace;outline:none"></input><button style="height:44px;padding:0 18px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600">Áp dụng</button></div>
+              <sc-if value="{{ c9PromoErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size:13px;color:#B45309;font-weight:600">! {{ c9PromoMsg }}</div></sc-if>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px">
+                <div style="font-size:15px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px">Chính sách thuê <span style="font-size:11px;font-weight:600;color:{{ c9PolFg }};background:{{ c9PolBg }};padding:2px 8px;border-radius:999px">{{ c9PolTag }}</span></div>
+                <div style="font-size:13px;line-height:20px;color:#343F52;margin-bottom:10px">Kiểm tra đồ cùng nhân viên khi nhận. Trả trễ, hỏng hoặc mất được tính phí và thu bằng một lần thanh toán bổ sung sau khi nhân viên xác định.</div>
+                <sc-for list="{{ c9Rules }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid #ECEAE5;font-size:13px"><span style="color:#343F52">{{ r.when }}</span><b>{{ r.pct }}</b></div></sc-for>
+                <label style="display:flex;gap:10px;align-items:flex-start;margin-top:10px;padding-top:12px;border-top:1px solid #ECEAE5;font-size:13px;line-height:20px;cursor:pointer"><input type="checkbox" checked="{{ c9Agree }}" onChange="{{ c9AgreeToggle }}" style="width:18px;height:18px;margin-top:1px;accent-color:#14213D;flex:none"></input><span>Tôi đã đọc và đồng ý chính sách thuê (phiên bản {{ c9PolVer }}).</span></label>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px">
+                <label for="c9-note" style="font-size:15px;font-weight:600">Ghi chú <span style="font-weight:400;font-size:13px;color:#4A5870">(không bắt buộc)</span></label>
+                <textarea id="c9-note" rows="4" placeholder="Ví dụ: nhận đồ lúc 07:30" style="padding:10px 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:14px;resize:vertical;outline:none"></textarea>
+              </div>
+            </div>
+          </div>
+          <aside style="position:sticky;top:24px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:12px;font-size:14px">
+            <div style="font-size:17px;font-weight:700">Tóm tắt đơn thuê</div>
+            <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Tạm tính · {{ c9ItemCount }} món</span><span>{{ c9Sub }}</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Giảm giá</span><span style="color:#166534;font-weight:600">{{ c9Disc }}</span></div>
+            <div style="display:flex;flex-direction:column;gap:4px;padding-top:12px;border-top:1px solid #DDDAD3"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:15px;font-weight:700">Cần thanh toán hôm nay</span><span style="font-size:24px;font-weight:700;color:#14213D">{{ c9Today }}</span></div><span style="font-size:12px;color:#4A5870">Bằng tiền thuê. Chuyển khoản đúng và đủ số tiền trong một lần.</span></div>
+            <div role="radiogroup" style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+              <sc-for list="{{ c9Pays }}" as="m" hint-placeholder-count="1"><label style="display:flex;gap:10px;align-items:center;padding:12px;border-radius:10px;border:{{ m.bd }};background:{{ m.bg }};cursor:pointer;font-size:14px"><input type="radio" name="pm9" checked="{{ m.on }}" onChange="{{ m.pick }}" style="width:18px;height:18px;accent-color:#14213D"></input>{{ m.label }}</label></sc-for>
+            </div>
+            <button onClick="{{ c9Pay }}" disabled="{{ c9PayDis }}" style="height:52px;border-radius:8px;border:0;background:{{ c9PayBg }};color:{{ c9PayC }};font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;margin-top:4px">{{ c9Spin }}{{ c9PayLabel }}</button>
+            <div style="font-size:12px;color:#4A5870;text-align:center">Sau khi bấm, bạn sang <a href="RenTrekk Batch 2 - Tour.dc.html#c04p" style="font-weight:600">C04P · Thanh toán chuyển khoản</a> để quét mã VietQR. Đơn được giữ chỗ 15 phút.</div>
+          </aside>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C09 · FR-R01–R04, C01, M03 · API 4.6, 5.1, 5.2, 6.1<br>· Thời gian → RENTAL_ORDERS.rental_start_at, rental_end_at (cả đơn; gửi/nhận UTC, hiển thị Asia/Ho_Chi_Minh)<br>· Dòng → RENTAL_ORDER_ITEMS.product_variant_id? XOR bundle_id?, quantity; billable_days S; daily_price S theo bậc; line_amount = quantity × daily_price × billable_days<br>· Combo: thành phần thu gọn; khi chốt ghi RENTAL_BUNDLE_ITEM_SNAPSHOTS (product_variant_id, quantity_per_bundle)<br>· KM theo dòng → APPLIED_PROMOTIONS.rental_order_item_id? · mã nhập tay → promotionCode (≤ 50 ký tự)<br>· Tổng (server tính, 5.1) → ORDERS.subtotal_amount, discount_amount, total_amount<br>· ⏸ Cọc hoãn (D-1): RENTAL_ORDERS.deposit_amount = 0, totalPayable = totalAmount → “Cần thanh toán hôm nay” = tiền thuê. Không hiện dòng cọc ở bản này; chính sách chỉ nói phí phát sinh thu bằng một lần thanh toán bổ sung (PAYMENTS purpose = AdditionalCharge)<br>· Chính sách → ORDERS.refund_policy_id → REFUND_POLICIES.description? + REFUND_POLICY_RULES (policy_type = Rental, D-6); checkbox → acceptedRefundPolicyVersion · Ghi chú → ORDERS.note?<br>· Bấm thanh toán: (1) POST /rental-orders, header Idempotency-Key (UUID mới mỗi lần bấm) → ORDERS (order_type = Rental, status = PendingPayment, payment_status = Unpaid, hold_expires_at) + RENTAL_ORDERS + RENTAL_ORDER_ITEMS + ASSET_ASSIGNMENTS (Reserved, có thể cộng thời gian vệ sinh D-11) → (2) POST /orders/{orderId}/payments { paymentMethod: BankTransfer }, Idempotency-Key → PAYMENTS (payment_type = Collection, purpose = RentalFee, payment_method = BankTransfer, status = Pending, provider_order_id) → (3) chuyển sang C04P Thanh toán chuyển khoản (Batch 2, dùng chung với đơn tour) → C05. Không vẽ lại màn QR ở đây<br>· Phương thức: chỉ BankTransfer (VietQR qua SePay VA)<br>· Lỗi (errors.code, Phụ lục B): RESOURCE_UNAVAILABLE 409 → gọi lại 4.6/5.1, đánh dấu đỏ dòng thiếu · PROMOTION_INVALID / PROMOTION_EXHAUSTED 409 → gọi lại 5.1, hiện tổng mới, khách bấm xác nhận lại (đơn chưa tạo) · REFUND_POLICY_CHANGED 409 → hiện lại chính sách, đồng ý lại · PRICE_TIER_NOT_FOUND 400 → “chưa có giá cho số ngày này”, không hiện 0 ₫ · INVALID_RENTAL_PERIOD 400 → báo ở ô chọn ngày · PAYMENT_PROVIDER_ERROR 502 → đơn đã tạo, chỉ gọi lại bước (2) với cùng orderId, an toàn để thử lại · HOLD_EXPIRED / ORDER_NOT_PAYABLE 409 → màn hết hạn (C05)</div>
+    </sc-if>
+  </div>
+</section>
+
+</div>
+
+<div aria-live="polite" style="position:fixed;right:24px;bottom:24px;display:flex;flex-direction:column;gap:8px;z-index:50;max-width:380px">
+  <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="0">
+    <div role="status" style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:#FFFFFF;border:1px solid #DDDAD3;border-left:4px solid {{ t.fg }};border-radius:10px;box-shadow:0 12px 32px rgba(20,33,61,.18);font-size:14px">
+      <span aria-hidden="true" style="color:{{ t.fg }};font-weight:700">{{ t.ic }}</span>
+      <div style="flex:1"><div style="font-weight:600">{{ t.title }}</div><div style="font-size:13px;color:#4A5870">{{ t.msg }}</div></div>
+    </div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDevNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Annotation&quot;}}">
+const G = {neutral:{bg:'#ECEAE5',fg:'#4A5870',ic:'○'},info:{bg:'#E0F2F6',fg:'#0E7490',ic:'◷'},warning:{bg:'#FEF3C7',fg:'#B45309',ic:'!'},success:{bg:'#E7F6EC',fg:'#166534',ic:'✓'},danger:{bg:'#FFE4E8',fg:'#BE123C',ic:'✕'}};
+const vnd = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.') + ' ₫';
+const PRODUCTS = [
+  ['Lều 2 người Naturehike','Lều trại',80000,'3 màu',4,'#c07'],['Lều 4 người chống bão','Lều trại',140000,'2 màu',2,'#c07'],['Túi ngủ −5°C','Đồ ngủ',45000,'3 size',12,'#c07'],['Đệm hơi bơm tay','Đồ ngủ',30000,'1 tùy chọn',9,'#c07'],
+  ['Balo trekking 40L','Balo',60000,'3 size · 2 màu',0,'#c07'],['Balo trekking 60L','Balo',75000,'2 size',4,'#c07'],['Gậy trekking carbon','Phụ kiện',20000,'1 tùy chọn',20,'#c07'],['Đèn pin đội đầu 300 lm','Phụ kiện',15000,'1 tùy chọn',15,'#c07']
+];
+const BUNDLES = [['Combo Ngủ ấm','Đồ ngủ',85000,'Túi ngủ + đệm',9,'#c08'],['Combo Cắm trại 2 người','Lều trại',190000,'Lều + 2 túi ngủ + 2 đệm',4,'#c08'],['Combo Leo đỉnh','Phụ kiện',90000,'Balo 40L + gậy + đèn',0,'#c08']];
+const VARS = [{c:'Xanh rêu',sku:'NH-T2P-XR',av:4},{c:'Cam',sku:'NH-T2P-CA',av:1},{c:'Xám',sku:'NH-T2P-XA',av:0}];
+const TIERS = [[1,2,120000],[3,5,95000],[6,null,80000]];
+const tierFor = d => TIERS.find(([a,b])=>d>=a&&(b===null||d<=b));
+const LINES = () => [
+  {id:1,kind:'Thiết bị',name:'Lều 2 người Naturehike',sub:'Xanh rêu · SKU NH-T2P-XR',qty:1,unit:95000},
+  {id:2,kind:'Combo',name:'Combo Ngủ ấm',sub:'Thành phần chốt khi đặt',qty:2,unit:85000,combo:true},
+  {id:3,kind:'Thiết bị',name:'Gậy trekking carbon',sub:'SKU GTK-CB-01',qty:2,unit:20000,promo:true}
+];
+class Component extends DCLogic {
+  state = { c6Tab:'p', c6Dates:true, c6Cats:[], c7:'normal', c7Var:0, c7Days:3, c7Qty:1, c7Gal:0, c8:'ok', c9:'normal', lines:LINES(), pm:'bank', agree:true, promo:'', paying:false, cart:3, toasts:[] };
+  toast(kind,title,msg){ const id=Math.random(); const g=G[kind]; this.setState(s=>({toasts:[...s.toasts,{id,fg:g.fg,ic:g.ic,title,msg}]})); setTimeout(()=>this.setState(s=>({toasts:s.toasts.filter(t=>t.id!==id)})),3600); }
+  chip(a,label,on){ return {label,on,bg:a?'#14213D':'#FFFFFF',c:a?'#FFFFFF':'#14213D',bd:a?'#14213D':'#C5C3BD'}; }
+  renderVals() {
+    const s=this.state, dev=this.props.showDevNotes ?? true;
+    // C06
+    const src=(s.c6Tab==='p'?PRODUCTS:BUNDLES).filter(p=>!s.c6Cats.length||s.c6Cats.includes(p[1]));
+    const c6Items=src.map(([name,cat,min,opts,av,href])=>{ const g=av===0?G.warning:G.info; return {name,cat,opts,price:vnd(min),href,img:s.c6Tab==='p'?'ảnh variant chính':'ảnh thành phần đầu',showAvail:s.c6Dates,abg:g.bg,afg:g.fg,aic:g.ic,alabel:av===0?'Hết trong khoảng này':`Còn ${av}${s.c6Tab==='p'?'':' combo'}`,op:s.c6Dates&&av===0?.6:1}; });
+    // C07
+    const noDate=s.c7==='nodate', noTier=s.c7==='notier', retired=s.c7==='retired';
+    const v=VARS[s.c7Var]; const av=v.av;
+    const t=tierFor(s.c7Days); const line=s.c7Qty*t[2]*s.c7Days;
+    const out=!noDate&&av===0;
+    const c7Dis=noTier||retired||out||noDate;
+    // C09
+    const lines=s.lines, outMode=s.c9==='out', promoX=s.c9==='promoX', promoI=s.c9==='promoI', pol=s.c9==='policy', noTier9=s.c9==='notier', period=s.c9==='period', prov=s.c9==='provider';
+    const promoDrop=promoX||promoI, dead=noTier9||period;
+    const sub=lines.reduce((a,l)=>a+l.qty*l.unit*3,0), disc=lines.some(l=>l.promo&&!promoDrop)?60000:0, total=sub-disc;
+    const lineOut=outMode&&lines.some(l=>l.id===1);
+    const payBlocked=lineOut||dead||!s.agree;
+    const ALERTS={
+      out:{...G.danger,code:'RESOURCE_UNAVAILABLE',title:'Một thiết bị vừa hết trong khoảng ngày bạn chọn.',msg:'Sửa dòng được đánh dấu bên dưới rồi thanh toán lại. Bạn chưa bị trừ tiền.'},
+      promoX:{...G.warning,code:'PROMOTION_EXHAUSTED',title:'Mã GAY50 đã hết lượt sử dụng.',msg:`Đơn chưa được tạo. Tổng mới: ${vnd(sub)} (trước đó ${vnd(sub-60000)}). Kiểm tra lại rồi bấm thanh toán để xác nhận.`},
+      promoI:{...G.warning,code:'PROMOTION_INVALID',title:'Mã GAY50 không còn áp dụng cho giỏ này.',msg:`Đơn chưa được tạo. Tổng mới: ${vnd(sub)} (trước đó ${vnd(sub-60000)}). Kiểm tra lại rồi bấm thanh toán để xác nhận.`},
+      policy:{...G.warning,code:'REFUND_POLICY_CHANGED',title:'Chính sách thuê vừa được cập nhật (phiên bản 2).',msg:'Đơn chưa được tạo. Xem lại chính sách bên dưới và đồng ý lại để tiếp tục.'},
+      notier:{...G.danger,code:'PRICE_TIER_NOT_FOUND',title:'Lều 2 người Naturehike chưa có giá cho số ngày này.',msg:'Hệ thống không tính giá 0 ₫. Đổi ngày thuê hoặc xóa dòng này để tiếp tục.'},
+      period:{...G.danger,code:'INVALID_RENTAL_PERIOD',title:'Thời gian thuê không hợp lệ.',msg:'Giờ trả phải sau giờ nhận. Chọn lại ở ô Thời gian thuê bên dưới.'},
+      provider:{...G.danger,code:'PAYMENT_PROVIDER_ERROR',title:'Cổng thanh toán đang gặp sự cố, vui lòng thử lại sau.',msg:'Đơn TRK851204 đã được tạo và đang giữ chỗ 15 phút. Bạn chưa bị trừ tiền; bấm “Thử thanh toán lại” để tạo lại mã QR.'}
+    };
+    const al=ALERTS[s.c9]||{bg:'#FFFFFF',fg:'#4A5870',ic:'',code:'',title:'',msg:''};
+    return {
+      dev, toasts:s.toasts, cartCount:s.cart,
+      c6Chips:[[true,'Đã chọn ngày'],[false,'Chưa chọn ngày']].map(([v2,l])=>this.chip(s.c6Dates===v2,l,()=>this.setState({c6Dates:v2}))),
+      c6Tabs:[['p','Thiết bị lẻ'],['b','Combo']].map(([v2,l])=>({label:l,bg:s.c6Tab===v2?'#FFFFFF':'transparent',c:s.c6Tab===v2?'#14213D':'#4A5870',on:()=>this.setState({c6Tab:v2})})),
+      c6ToggleDates:()=>this.setState(x=>({c6Dates:!x.c6Dates})), c6DateLabel:s.c6Dates?'14/11 → 17/11/2026 · 3 ngày':'Chọn ngày nhận – trả', c6DateC:s.c6Dates?'#151A24':'#5E6B80', c6DateBd:s.c6Dates?'1.5px solid #31476F':'1px solid #C5C3BD',
+      c6Cats:['Lều trại','Đồ ngủ','Balo','Phụ kiện'].map(c=>({label:c,on:s.c6Cats.includes(c),toggle:()=>this.setState(x=>({c6Cats:x.c6Cats.includes(c)?x.c6Cats.filter(y=>y!==c):[...x.c6Cats,c]}))})),
+      c6Items, c6Count:c6Items.length, c6Noun:s.c6Tab==='p'?'thiết bị':'combo',
+      // C07
+      c7Chips:[['normal','Bình thường'],['nodate','Chưa chọn ngày'],['soldout','Hết trong khoảng'],['notier','Chưa có bậc giá'],['retired','Ngừng cho thuê']].map(([k,l])=>this.chip(s.c7===k,l,()=>this.setState({c7:k,c7Var:k==='soldout'?2:0,c7Qty:1}))),
+      c7Retired:retired, c7GalMain:`ảnh ${v.c.toLowerCase()} ${s.c7Gal+1}/4 · display_order`,
+      c7Thumbs:[0,1,2,3].map(i=>({label:'Ảnh '+(i+1),bd:s.c7Gal===i?'#14213D':'transparent',on:()=>this.setState({c7Gal:i})})),
+      c7VarName:v.c, c7Sku:v.sku,
+      c7Vars:VARS.map((x,i)=>{ const on=s.c7Var===i; const off=retired&&i===0; return {label:x.c,on,bd:on?'2px solid #14213D':'1px solid #C5C3BD',bg:on?'#EEF1F7':'#FFFFFF',c:off?'#5E6B80':'#14213D',td:off?'line-through':'none',pick:()=>this.setState({c7Var:i,c7Qty:1})}; }),
+      c7HasTiers:!noTier, c7NoTiers:noTier,
+      c7Tiers:TIERS.map(([a,b,p])=>{ const on=!noDate&&t[0]===a; return {range:b===null?`Từ ${a} ngày trở lên`:`${a}–${b} ngày`,price:vnd(p),bg:on?'#EEF1F7':'#FFFFFF',w:on?700:400}; }),
+      c7Dates:[[2,'14/11 → 16/11'],[3,'14/11 → 17/11'],[6,'14/11 → 20/11']].map(([d,label])=>{ const on=!noDate&&s.c7Days===d; return {label,days:d+' ngày',bd:on?'2px solid #14213D':'1px solid #C5C3BD',bg:on?'#EEF1F7':'#FFFFFF',pick:()=>this.setState({c7Days:d,c7:s.c7==='nodate'?'normal':s.c7})}; }),
+      c7Qty:s.c7Qty, c7Dec:()=>this.setState(x=>({c7Qty:Math.max(1,x.c7Qty-1)})), c7Inc:()=>this.setState(x=>({c7Qty:Math.min(Math.max(1,av),x.c7Qty+1)})),
+      c7Av:noDate?G.neutral:out?G.warning:G.info,
+      c7AvText:noDate?'Chọn ngày nhận – trả để xem số thiết bị còn trống.':out?'Hết trong khoảng này. Thử màu khác hoặc ngày 21/11 → 24/11 (còn 3).':`Còn ${av} thiết bị trong khoảng này.`,
+      c7Calc:noDate||noTier?'Chọn ngày để tính giá':`${s.c7Qty} × ${vnd(t[2])} × ${s.c7Days} ngày`, c7Line:noDate||noTier?'—':vnd(line),
+      c7Dis, c7BtnBg:c7Dis?'#DDDAD3':'#A4532F', c7BtnC:c7Dis?'#4A5870':'#FFFFFF', c7BtnLabel:noTier?'Liên hệ để thuê':retired?'Ngừng cho thuê':out?'Hết trong khoảng này':noDate?'Chọn ngày để thêm vào giỏ':'Thêm vào giỏ thuê',
+      c7Add:()=>{ if(c7Dis) return; this.setState(x=>({cart:x.cart+1})); this.toast('success','Đã thêm vào giỏ thuê',`Lều 2 người · ${v.c} × ${s.c7Qty}`); },
+      // C08
+      c8Chips:[['ok','Đủ thiết bị'],['missing','Thiếu thành phần']].map(([k,l])=>this.chip(s.c8===k,l,()=>this.setState({c8:k}))),
+      c8Items:[['Lều 2 người Naturehike','Xanh rêu · NH-T2P-XR',1,s.c8==='missing'?0:4],['Túi ngủ −5°C','Size M · TN-5-M',2,12],['Đệm hơi bơm tay','Mặc định · DH-BT-01',2,9]].map(([name,variant,qty,a])=>{ const ok=a>=qty; const n=Math.floor(a/qty); return {name,variant,qty,...(ok?G.success:G.danger),label:ok?`Đủ cho ${n} combo`:'Hết trong khoảng',rowBg:ok?'#FFFFFF':'#FFE4E8'}; }),
+      c8Tiers:[[1,2,260000],[3,5,220000],[6,null,190000]].map(([a,b,p])=>({range:b===null?`Từ ${a} ngày trở lên`:`${a}–${b} ngày`,price:vnd(p),bg:a===3?'#EEF1F7':'transparent',w:a===3?700:400})),
+      c8Av:s.c8==='missing'?G.danger:G.info, c8AvText:s.c8==='missing'?'Thiếu: Lều 2 người Naturehike. Combo không thuê được trong khoảng này.':'Còn 4 combo trong khoảng này.',
+      c8Dis:s.c8==='missing', c8BtnBg:s.c8==='missing'?'#DDDAD3':'#A4532F', c8BtnC:s.c8==='missing'?'#4A5870':'#FFFFFF', c8BtnLabel:s.c8==='missing'?'Thiếu thành phần':'Thêm vào giỏ thuê',
+      c8Add:()=>{ if(s.c8==='missing') return; this.setState(x=>({cart:x.cart+1})); this.toast('success','Đã thêm vào giỏ thuê','Combo Cắm trại 2 người × 1'); },
+      // C09
+      c9Chips:[['normal','Bình thường'],['out','Hết thiết bị'],['promoX','Mã KM hết lượt'],['promoI','Mã KM không hợp lệ'],['policy','Chính sách đổi'],['notier','Chưa có bậc giá'],['period','Ngày không hợp lệ'],['provider','Lỗi cổng thanh toán'],['empty','Giỏ trống']].map(([k,l])=>this.chip(s.c9===k,l,()=>this.setState({c9:k,lines:k==='empty'?[]:LINES(),agree:k!=='policy',promo:(k==='promoX'||k==='promoI')?'GAY50':'',paying:false}))),
+      c9Empty:lines.length===0, c9HasLines:lines.length>0, c9Out:lineOut,
+      c9AlertShow:!!ALERTS[s.c9], c9Alert:al,
+      c9Restore:()=>this.setState({c9:'normal',lines:LINES(),agree:true,promo:''}),
+      c9DateText:period?'Nhận Th 7, 14/11/2026 · 18:00 → Trả Th 7, 14/11/2026 · 08:00 (GMT+7)':'Nhận Th 7, 14/11/2026 · 08:00 → Trả Th 3, 17/11/2026 · 18:00 (GMT+7)',
+      c9DateBd:period?'1.5px solid #BE123C':'1px solid #DDDAD3', c9DateC:period?'#BE123C':'#151A24', c9PeriodErr:period, c9DaysText:period?'— ngày tính tiền':'3 ngày tính tiền',
+      c9Lines:lines.map(l=>{ const isOut=outMode&&l.id===1, nt=noTier9&&l.id===1, priced=!period&&!nt; return {...l,unit:priced?vnd(l.unit)+'/ngày':'—',daysText:priced?'× 3 ngày':'',amt:priced?vnd(l.qty*l.unit*3):(nt?'Chưa có giá':'—'),amtC:nt?'#BE123C':'#151A24',isCombo:!!l.combo,hasPromo:!!l.promo&&!promoDrop,out:isOut,noTier:nt,kbg:l.combo?'#EEF1F7':'#ECEAE5',kfg:l.combo?'#14213D':'#4A5870',rowBg:(isOut||nt)?'#FFE4E8':'#FFFFFF',sh:(isOut||nt)?'inset 4px 0 0 #BE123C':'none',
+        dec:()=>this.setState(x=>({lines:x.lines.map(y=>y.id===l.id?{...y,qty:Math.max(1,y.qty-1)}:y)})), inc:()=>this.setState(x=>({lines:x.lines.map(y=>y.id===l.id?{...y,qty:y.qty+1}:y)})),
+        remove:()=>this.setState(x=>({lines:x.lines.filter(y=>y.id!==l.id),c9:'normal'}))}; }),
+      c9PromoVal:s.promo, c9PromoChange:e=>this.setState({promo:e.target.value}), c9PromoErr:promoDrop, c9PromoBd:promoDrop?'1.5px solid #B45309':'1px solid #C5C3BD', c9PromoMsg:promoX?'Mã đã hết lượt sử dụng. Tổng đã được tính lại không có mã.':'Mã không còn áp dụng cho giỏ này. Tổng đã được tính lại không có mã.',
+      c9ItemCount:lines.reduce((a,l)=>a+l.qty,0), c9Sub:dead?'—':vnd(sub), c9Disc:dead?'—':(disc?'−'+vnd(disc):'0 ₫'), c9Total:dead?'—':vnd(total), c9Today:dead?'—':vnd(total),
+      c9Rules:(pol?[['Hủy trước ≥ 72 giờ so với giờ nhận','Hoàn 100%'],['Hủy trước ≥ 24 giờ','Hoàn 50%'],['Dưới 24 giờ','Không hoàn tiền thuê']]:[['Hủy trước ≥ 48 giờ so với giờ nhận','Hoàn 100%'],['Hủy trước ≥ 24 giờ','Hoàn 50%'],['Dưới 24 giờ','Không hoàn tiền thuê']]).map(([when,pct])=>({when,pct})),
+      c9PolVer:pol?2:1, c9PolTag:pol?'Đã cập nhật':'Phiên bản 1', c9PolBg:pol?'#FEF3C7':'#ECEAE5', c9PolFg:pol?'#B45309':'#4A5870',
+      c9Agree:s.agree, c9AgreeToggle:()=>this.setState(x=>({agree:!x.agree})),
+      c9Pays:[['bank','Chuyển khoản ngân hàng (VietQR)']].map(([k,label])=>({label,on:true,bd:'1.5px solid #14213D',bg:'#EEF1F7',pick:()=>this.setState({pm:k})})),
+      c9PayDis:s.paying||payBlocked, c9PayBg:payBlocked?'#DDDAD3':s.paying?'#84411F':'#A4532F', c9PayC:payBlocked?'#4A5870':'#FFFFFF',
+      c9Spin:s.paying?React.createElement('span',{'aria-hidden':true,style:{width:14,height:14,border:'2px solid rgba(255,255,255,.35)',borderTopColor:'#fff',borderRadius:'50%',display:'inline-block',animation:'rtspin .8s linear infinite'}}):null,
+      c9PayLabel:s.paying?'Đang tạo đơn và mã VietQR…':dead?'Chưa thể thanh toán':prov?`Thử thanh toán lại · ${vnd(total)}`:`Thanh toán ${vnd(total)}`,
+      c9Pay:()=>{ if(s.paying||payBlocked) return; this.setState({paying:true}); setTimeout(()=>{ this.setState({paying:false}); this.toast('info','Đã tạo đơn TRK851204 và mã VietQR','Chuyển sang C04P Thanh toán chuyển khoản (Batch 2), sau đó C05.'); },1200); }
+    };
+  }
+}
+</script>
+</body>
+</html>

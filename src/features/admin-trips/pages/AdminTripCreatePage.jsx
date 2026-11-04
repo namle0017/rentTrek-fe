@@ -279,7 +279,7 @@ export default function AdminTripCreatePage() {
                 readOnly
                 disabled
               />
-              <span style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px' }}>
+              <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b', marginTop: '4px' }}>
                 Giá vé cố định từ Tour đã chọn (không chỉnh sửa thủ công)
               </span>
             </div>
@@ -402,7 +402,7 @@ export default function AdminTripCreatePage() {
                   </option>
                 ))}
               </select>
-              <span style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px' }}>
+              <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b', marginTop: '4px' }}>
                 Có thể phân công sau trong giao diện Quản lý chi tiết & Chia nhóm Hướng dẫn viên
               </span>
             </div>
@@ -435,7 +435,7 @@ export default function AdminTripCreatePage() {
                 }}
               />
               {errors.totalSlots && <span className={styles.fieldError}>{errors.totalSlots}</span>}
-              <span style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px' }}>
+              <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b', marginTop: '4px' }}>
                 Tự động điền theo sức chứa tối đa thiết kế của Tour
               </span>
             </div>
@@ -455,7 +455,7 @@ export default function AdminTripCreatePage() {
                 }}
               />
               {errors.minParticipants && <span className={styles.fieldError}>{errors.minParticipants}</span>}
-              <span style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px' }}>
+              <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b', marginTop: '4px' }}>
                 Nếu không đạt sĩ số tối thiểu trước ngày chốt đoàn, hệ thống sẽ cảnh báo sĩ số
               </span>
             </div>
@@ -480,7 +480,7 @@ export default function AdminTripCreatePage() {
         <div className={styles.modalBackdrop} role="dialog" aria-modal="true">
           <div className={styles.modalCard} style={{ maxWidth: 600 }}>
             <div>
-              <h2 className={styles.cardTitle} style={{ fontSize: '1.25rem' }}>
+              <h2 className={styles.cardTitle} style={{ fontSize: "var(--font-size-section-title)" }}>
                 Xác nhận tạo chuyến đi mới
               </h2>
               <p className={styles.subtitle} style={{ marginTop: 4 }}>

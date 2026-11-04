@@ -49,7 +49,7 @@ export default function PolicyFormModal({ isOpen, onClose, onSubmit, isSubmittin
                 }}
                 autoFocus
               />
-              {error && <span style={{ color: '#dc2626', fontSize: 12 }}>{error}</span>}
+              {error && <span style={{ color: '#dc2626', fontSize: "var(--font-size-meta)" }}>{error}</span>}
             </div>
 
             <div className={styles.filterGroup}>
@@ -83,7 +83,7 @@ export default function PolicyFormModal({ isOpen, onClose, onSubmit, isSubmittin
                 background: '#f8fafc',
                 padding: '12px 14px',
                 borderRadius: 8,
-                fontSize: 13,
+                fontSize: "var(--font-size-meta)",
                 color: '#475569',
               }}
             >

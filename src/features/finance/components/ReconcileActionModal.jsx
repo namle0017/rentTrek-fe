@@ -65,7 +65,7 @@ export default function ReconcileActionModal({
                 padding: '12px 14px',
                 borderRadius: 6,
                 color: '#065f46',
-                fontSize: 13,
+                fontSize: "var(--font-size-meta)",
                 lineHeight: 1.5,
               }}
             >
@@ -91,7 +91,7 @@ export default function ReconcileActionModal({
                 padding: '12px 14px',
                 borderRadius: 6,
                 color: '#9f1239',
-                fontSize: 13,
+                fontSize: "var(--font-size-meta)",
                 lineHeight: 1.5,
               }}
             >

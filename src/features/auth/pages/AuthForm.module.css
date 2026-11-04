@@ -26,8 +26,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-medium);
 }
 
 .passwordToggleBtn:hover {
@@ -37,8 +37,8 @@
 .submitBtn {
   margin-top: 8px;
   padding: 12px 20px;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   border-radius: var(--radius);
   transition: all 0.2s ease;
 }
@@ -49,6 +49,6 @@
   border: 1px solid #fecaca;
   border-radius: var(--radius);
   color: var(--color-error);
-  font-size: 0.875rem;
+  font-size: var(--font-size-body);
   line-height: 1.4;
 }

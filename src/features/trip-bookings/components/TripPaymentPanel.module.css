@@ -10,20 +10,21 @@
 }
 .panel strong {
   color: #173d2d;
-  font-size: 1rem;
+  font-size: var(--font-size-body);
 }
 .panel p {
   margin: 4px 0 0;
   color: #68756d;
-  font-size: 0.8rem;
+  font-size: var(--font-size-body);
 }
 .primary {
   flex: 0 0 auto;
-  min-height: 45px;
+  min-height: var(--control-min-height);
   padding: 10px 20px;
   color: #fff;
   font: inherit;
-  font-weight: 800;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   background: #204b39;
   border: 0;
@@ -61,7 +62,7 @@
 }
 .details dt {
   color: #6a776f;
-  font-size: 0.78rem;
+  font-size: var(--font-size-label);
 }
 .details dd {
   display: flex;
@@ -69,15 +70,15 @@
   align-items: center;
   margin: 0;
   color: #293d34;
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   overflow-wrap: anywhere;
 }
 .details dd button {
   padding: 3px 8px;
   color: #204b39;
   font: inherit;
-  font-size: 0.7rem;
+  font-size: var(--font-size-control);
   cursor: pointer;
   background: #eaf4ec;
   border: 1px solid #cfe1d1;
@@ -87,7 +88,7 @@
   color: #8c572c;
 }
 .waiting {
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 @media (max-width: 620px) {

@@ -43,8 +43,8 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.15em;
   color: var(--color-accent-yellow);
   text-transform: uppercase;
@@ -59,9 +59,9 @@
 
 .heroTitle {
   margin: 0;
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: var(--font-size-page-title);
   line-height: 1.1;
-  font-weight: 800;
+  font-weight: var(--font-weight-bold);
   letter-spacing: -0.02em;
   color: #ffffff;
 }
@@ -76,7 +76,7 @@
 
 .heroDesc {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: var(--font-size-body);
   line-height: 1.6;
   color: #e5e7eb;
   max-width: 620px;
@@ -106,8 +106,8 @@
     align-items: center;
     gap: 12px;
     color: #f3d9a0;
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-semibold);
     letter-spacing: 0.18em;
   }
 
@@ -121,8 +121,8 @@
   .heroTitle {
     max-width: 900px;
     margin: 0;
-    font-size: clamp(2.6rem, 6.5vw, 5.2rem);
-    font-weight: 800;
+    font-size: var(--font-size-page-title);
+    font-weight: var(--font-weight-bold);
     line-height: 1.05;
     letter-spacing: -0.02em;
     text-wrap: balance;
@@ -139,7 +139,7 @@
     max-width: 560px;
     margin: 0;
     color: #dbe7e0;
-    font-size: 1.1rem;
+    font-size: var(--font-size-body);
     line-height: 1.7;
   }
 
@@ -156,8 +156,8 @@
     border-radius: 9999px;
     background: var(--color-cta);
     color: #ffffff;
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: var(--font-size-control);
+    font-weight: var(--font-weight-bold);
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -179,8 +179,8 @@
     border: 1px solid rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(8px);
     color: #ffffff;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: var(--font-size-control);
+    font-weight: var(--font-weight-semibold);
     transition: background-color 0.18s;
   }
 
@@ -203,8 +203,8 @@
     border-radius: 9999px;
     background: rgba(8, 28, 21, 0.6);
     border: 1px solid rgba(229, 231, 235, 0.25);
-    font-size: 13px;
-    font-weight: 600;
+    font-size: var(--font-size-status);
+    font-weight: var(--font-weight-semibold);
     color: #e5e7eb;
     backdrop-filter: blur(8px);
   }
@@ -238,8 +238,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: var(--font-size-meta);
+    font-weight: var(--font-weight-body);
     color: var(--color-primary);
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -247,15 +247,15 @@
 
   .sectionTitle {
     margin: 6px 0 0;
-    font-size: clamp(1.75rem, 3vw, 2.25rem);
-    font-weight: 800;
+    font-size: var(--font-size-section-title);
+    font-weight: var(--font-weight-bold);
     color: var(--color-text-main);
     letter-spacing: -0.01em;
   }
 
   .sectionLink {
-    font-size: 15px;
-    font-weight: 700;
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-medium);
     color: var(--color-primary);
     display: inline-flex;
     align-items: center;
@@ -302,22 +302,22 @@
   }
 
   .stepNumber {
-    font-size: 28px;
-    font-weight: 800;
+    font-size: var(--font-size-metric);
+    font-weight: var(--font-weight-bold);
     color: var(--color-primary);
     line-height: 1;
   }
 
   .stepTitle {
     margin: 0;
-    font-size: 18px;
-    font-weight: 700;
+    font-size: var(--font-size-subheading);
+    font-weight: var(--font-weight-semibold);
     color: var(--color-text-main);
   }
 
   .stepText {
     margin: 0;
-    font-size: 14px;
+    font-size: var(--font-size-meta);
     line-height: 1.6;
     color: var(--color-text-muted);
   }
@@ -341,19 +341,19 @@
   }
 
   .trustIcon {
-    font-size: 28px;
+    font-size: var(--font-size-subheading);
   }
 
   .trustTitle {
     margin: 0;
-    font-size: 18px;
-    font-weight: 700;
+    font-size: var(--font-size-subheading);
+    font-weight: var(--font-weight-semibold);
     color: var(--color-text-main);
   }
 
   .trustDesc {
     margin: 0;
-    font-size: 14px;
+    font-size: var(--font-size-meta);
     line-height: 1.6;
     color: var(--color-text-muted);
   }
@@ -380,7 +380,7 @@
   min-height: 54px;
   padding: 0 10px 0 26px;
   color: #fff;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   background: #e0674a;
   border-radius: 999px;
   box-shadow: 0 14px 30px rgb(224 103 74 / 0.32);
@@ -411,7 +411,7 @@
   min-height: 54px;
   padding: 0 24px;
   color: #fff;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   background: rgb(255 255 255 / 0.12);
   border: 1px solid rgb(255 255 255 / 0.4);
   border-radius: 999px;
@@ -425,7 +425,7 @@
 .textCta {
   padding: 0 8px;
   color: #f3d9a0;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .highlights {
@@ -443,8 +443,8 @@
   align-items: center;
   min-height: 42px;
   padding: 0 16px 0 5px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   background: rgb(7 30 22 / 0.45);
   border: 1px solid rgb(255 255 255 / 0.25);
   border-radius: 999px;
@@ -470,8 +470,8 @@
 .rent h2 {
   margin: 10px 0 0;
   color: #173d2d;
-  font-size: clamp(1.9rem, 3.6vw, 2.9rem);
-  font-weight: 800;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   line-height: 1.12;
 }
 
@@ -489,8 +489,8 @@
   align-items: center;
   gap: 10px;
   color: #c55742;
-  font-size: 0.75rem;
-  font-weight: 800;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.16em;
 }
 
@@ -511,7 +511,7 @@
 
 .moreLink {
   color: #204b39;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .moreLink:hover {
@@ -559,7 +559,7 @@
   max-width: 480px;
   margin: 16px 0 28px;
   color: #4d5a52;
-  font-size: 1.05rem;
+  font-size: var(--font-size-body);
   line-height: 1.7;
 }
 
@@ -579,14 +579,14 @@
 
 .stepNo {
   color: #e0674a;
-  font-size: 2.2rem;
-  font-weight: 800;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-bold);
   line-height: 1;
 }
 
 .steps strong {
   color: #173d2d;
-  font-size: 1.08rem;
+  font-size: var(--font-size-body);
 }
 
 .steps p {
@@ -650,8 +650,8 @@
   justify-self: start;
   padding: 3px 10px;
   color: #24513c;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   background: #eaf4ec;
   border-radius: 999px;
 }
@@ -708,14 +708,14 @@
 
 .gearCard strong {
   overflow: hidden;
-  font-size: 0.9rem;
+  font-size: var(--font-size-body);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .gearCard span {
   color: #a9bdb2;
-  font-size: 0.8rem;
+  font-size: var(--font-size-meta);
 }
 
 .gearCard b {
@@ -760,7 +760,7 @@
   min-height: 50px;
   padding: 0 26px;
   color: #173d2d;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   background: #fff;
   border-radius: 999px;
 }
@@ -790,8 +790,8 @@
 .cta h2 {
   max-width: 860px;
   margin: 0;
-  font-size: clamp(2.2rem, 5vw, 4rem);
-  font-weight: 800;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   line-height: 1.08;
   text-wrap: balance;
 }

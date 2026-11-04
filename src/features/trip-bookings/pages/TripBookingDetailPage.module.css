@@ -12,8 +12,8 @@
   gap: 6px;
   justify-self: start;
   color: var(--color-primary, #204b39);
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   text-decoration: none;
   padding: 4px 8px;
   margin-left: -8px;
@@ -42,8 +42,8 @@
 .header h1 {
   margin: 3px 0 4px;
   color: #173d2d;
-  font-size: clamp(1.4rem, 2.8vw, 1.9rem);
-  font-weight: 800;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-bold);
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
@@ -51,15 +51,15 @@
 .header p {
   margin: 0;
   color: #65756d;
-  font-size: 0.84rem;
-  font-weight: 500;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
 }
 
 .kicker {
   display: inline-block;
   color: #c55742;
-  font-size: 0.68rem;
-  font-weight: 800;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -77,8 +77,8 @@
   align-items: center;
   gap: 5px;
   padding: 4px 12px;
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   border-radius: 999px;
   white-space: nowrap;
 }
@@ -139,15 +139,15 @@
 
 .paymentNotice strong {
   display: block;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: #785412;
   margin-bottom: 2px;
 }
 
 .paymentNotice p {
   margin: 0;
-  font-size: 0.82rem;
+  font-size: var(--font-size-body);
   line-height: 1.45;
   color: #87621c;
 }
@@ -172,30 +172,30 @@
 
 .dangerNotice strong {
   display: block;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   color: #7f2d1d;
   margin-bottom: 2px;
 }
 
 .dangerNotice p {
   margin: 0;
-  font-size: 0.82rem;
+  font-size: var(--font-size-control);
   line-height: 1.45;
   color: #8c3b28;
 }
 
 .dangerNotice a {
   color: inherit;
-  font-weight: 800;
+  font-weight: var(--font-weight-bold);
   text-decoration: underline;
 }
 
 .countdown {
   padding: 10px 14px;
   color: #ffffff;
-  font-size: 0.84rem;
-  font-weight: 800;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   text-align: center;
   background: #204b39;
   border-radius: 10px;
@@ -222,7 +222,7 @@
 .groupingPending p {
   margin: 3px 0 0;
   color: var(--color-text-muted, #68756d);
-  font-size: 0.8rem;
+  font-size: var(--font-size-body);
   line-height: 1.45;
 }
 
@@ -247,14 +247,14 @@
 .groupingHeader h2 {
   margin: 3px 0 0;
   color: #173d2d;
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
 }
 
 .groupingHeader > span {
   color: var(--color-text-muted, #68756d);
-  font-size: 0.76rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
 }
 
 .groupingGrid {
@@ -279,23 +279,23 @@
 
 .groupCardHeader small {
   color: #c55742;
-  font-size: 0.62rem;
-  font-weight: 800;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   letter-spacing: 0.1em;
 }
 
 .groupCardHeader h3 {
   margin: 2px 0 0;
   color: #173d2d;
-  font-size: 0.98rem;
-  font-weight: 700;
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-semibold);
 }
 
 .groupCardHeader > span {
   padding: 3px 8px;
   color: #21523b;
-  font-size: 0.68rem;
-  font-weight: 800;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   background: #eaf4ec;
   border-radius: 999px;
 }
@@ -303,8 +303,8 @@
 .groupCard > p {
   margin: 10px 0 6px;
   color: #43574d;
-  font-size: 0.76rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
 }
 
 .groupCard ul {
@@ -313,13 +313,13 @@
   margin: 0;
   padding-left: 16px;
   color: #53635a;
-  font-size: 0.74rem;
+  font-size: var(--font-size-meta);
 }
 
 .groupingPrivacy {
   margin: 12px 0 0;
   color: var(--color-text-muted, #68756d);
-  font-size: 0.72rem;
+  font-size: var(--font-size-meta);
 }
 
 .layout {
@@ -350,14 +350,14 @@
 .sectionTitle h2 {
   margin: 2px 0 0;
   color: #173d2d;
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
 }
 
 .sectionTitle > span {
   color: #65726a;
-  font-size: 0.76rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   background: #f0f4f1;
   padding: 3px 10px;
   border-radius: 999px;
@@ -375,7 +375,7 @@
   margin: 12px 0 0;
   padding: 9px 12px;
   color: #604c24;
-  font-size: 0.76rem;
+  font-size: var(--font-size-meta);
   line-height: 1.4;
   background: #fffdf5;
   border: 1px solid #ede4cf;
@@ -407,9 +407,9 @@
   margin: 5px 0 12px;
   padding: 5px 8px;
   color: #173d2d;
-  font-size: 0.78rem;
+  font-size: var(--font-size-section-title);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   letter-spacing: -0.01em;
   word-break: break-all;
   overflow-wrap: break-word;
@@ -435,7 +435,7 @@
 
 .summary dt {
   color: #6a776f;
-  font-size: 0.76rem;
+  font-size: var(--font-size-label);
 }
 
 .summary dd {
@@ -443,8 +443,8 @@
   margin: 0;
   overflow: hidden;
   color: #173d2d;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   text-align: right;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -458,15 +458,15 @@
 
 .total dt {
   color: #173d2d;
-  font-size: 0.88rem;
-  font-weight: 800;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 .total dd {
   max-width: 100%;
   color: #c55742;
-  font-size: 1.1rem;
-  font-weight: 800;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
 }
 
 .invitationAction {
@@ -492,8 +492,8 @@
   flex: 1;
   gap: 6px;
   color: var(--color-text-muted, #69766f);
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   text-align: center;
 }
 
@@ -521,8 +521,8 @@
   width: 28px;
   height: 28px;
   color: #617067;
-  font-size: 0.78rem;
-  font-weight: 800;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   background: #ffffff;
   border: 2px solid #d5dcd5;
   border-radius: 50%;
@@ -531,7 +531,7 @@
 
 .timeline .timelineActive {
   color: var(--color-primary, #173d2d);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .timeline .timelineActive span {
@@ -572,13 +572,13 @@
     padding: 12px 6px;
   }
   .timeline li {
-    font-size: 0.7rem;
+    font-size: var(--font-size-meta);
     gap: 4px;
   }
   .timeline span {
     width: 26px;
     height: 26px;
-    font-size: 0.72rem;
+    font-size: var(--font-size-meta);
   }
   .timeline li:not(:last-child)::after {
     top: 13px;

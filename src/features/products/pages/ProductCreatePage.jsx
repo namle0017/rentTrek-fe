@@ -20,7 +20,7 @@ export default function ProductCreatePage() {
       <button
         type="button"
         className="btn btn-outline"
-        style={{ fontSize: 13, padding: '5px 12px', marginBottom: 12 }}
+        style={{ fontSize: "var(--font-size-control)", padding: '5px 12px', marginBottom: 12 }}
         onClick={() => navigate(ROUTES.PRODUCTS)}
       >
         ← Quay lại danh sách sản phẩm

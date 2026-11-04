@@ -10,7 +10,7 @@ export default function PolicyRuleStepChart({ policyName, rules = [] }) {
         <div className={styles.stepChartHeader}>
           <div className={styles.stepChartTitle}>Biểu đồ bậc thang hoàn tiền — {policyName}</div>
         </div>
-        <div style={{ padding: '24px 0', textAlign: 'center', color: '#94a3b8', fontSize: 13 }}>
+        <div style={{ padding: '24px 0', textAlign: 'center', color: '#94a3b8', fontSize: "var(--font-size-meta)" }}>
           Chưa có mốc quy tắc hoàn tiền nào. Hãy thêm mốc quy tắc để hiển thị biểu đồ bậc thang.
         </div>
       </div>
@@ -37,7 +37,7 @@ export default function PolicyRuleStepChart({ policyName, rules = [] }) {
               border: '1px solid #cbd5e1',
               borderRadius: 6,
               padding: '6px 12px',
-              fontSize: 12,
+              fontSize: "var(--font-size-meta)",
               boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
             }}
           >
@@ -103,7 +103,7 @@ export default function PolicyRuleStepChart({ policyName, rules = [] }) {
           justifyContent: 'space-between',
           borderTop: '1px dashed #cbd5e1',
           paddingTop: 8,
-          fontSize: 11,
+          fontSize: "var(--font-size-meta)",
           color: '#64748b',
         }}
       >

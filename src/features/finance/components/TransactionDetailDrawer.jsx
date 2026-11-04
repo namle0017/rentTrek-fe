@@ -76,15 +76,15 @@ export default function TransactionDetailDrawer({ payment, isOpen, onClose }) {
                 borderRadius: 8,
                 padding: '14px 16px',
                 color: '#991b1b',
-                fontSize: 13,
+                fontSize: "var(--font-size-meta)",
                 lineHeight: 1.5,
               }}
             >
-              <div style={{ fontWeight: 700, marginBottom: 4 }}>Giao dịch hoàn tiền không thành công</div>
+              <div style={{ fontWeight: "var(--font-weight-bold)", marginBottom: 4 }}>Giao dịch hoàn tiền không thành công</div>
               <div>
                 {payment.failureReason || 'Lỗi kết nối cổng thanh toán hoặc tài khoản đích không hợp lệ.'}
               </div>
-              <div style={{ marginTop: 8, fontSize: 12, color: '#b91c1c' }}>
+              <div style={{ marginTop: 8, fontSize: "var(--font-size-meta)", color: '#b91c1c' }}>
                 Gợi ý xử lý: Chuyển sang màn hình <strong>Hoàn tiền & Đối soát</strong> để kiểm tra số lần đã
                 thử lại hoặc thực hiện chuyển khoản thủ công.
               </div>
@@ -93,7 +93,7 @@ export default function TransactionDetailDrawer({ payment, isOpen, onClose }) {
 
           {/* Khối Thông tin Đơn hàng & Dịch vụ */}
           <div className={styles.calculationBox}>
-            <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 12, color: '#1e293b' }}>
+            <div style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-meta)", marginBottom: 12, color: '#1e293b' }}>
               Thông Tin Đơn Hàng & Dịch Vụ
             </div>
             <div className={styles.calcSummary}>
@@ -126,7 +126,7 @@ export default function TransactionDetailDrawer({ payment, isOpen, onClose }) {
               {payment.policyRuleDescription && (
                 <div className={styles.calcRow}>
                   <span className={styles.calcLabel}>Mốc chính sách:</span>
-                  <span style={{ fontSize: 13, color: '#0369a1', fontWeight: 600 }}>
+                  <span style={{ fontSize: "var(--font-size-meta)", color: '#0369a1', fontWeight: "var(--font-weight-semibold)" }}>
                     {payment.policyRuleDescription}
                   </span>
                 </div>
@@ -136,7 +136,7 @@ export default function TransactionDetailDrawer({ payment, isOpen, onClose }) {
 
           {/* Khối Tài chính & Số tiền */}
           <div className={styles.calculationBox}>
-            <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 12, color: '#1e293b' }}>
+            <div style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-meta)", marginBottom: 12, color: '#1e293b' }}>
               Dòng Tiền & Thực Nhận
             </div>
             <div className={styles.calcSummary}>
@@ -173,7 +173,7 @@ export default function TransactionDetailDrawer({ payment, isOpen, onClose }) {
 
           {/* Khối Tích hợp Cổng SePay & Ngân hàng */}
           <div className={styles.calculationBox}>
-            <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 12, color: '#1e293b' }}>
+            <div style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-meta)", marginBottom: 12, color: '#1e293b' }}>
               Tích Hợp SePay & Chuỗi Giao Dịch
             </div>
             <div className={styles.calcSummary}>
@@ -241,7 +241,7 @@ export default function TransactionDetailDrawer({ payment, isOpen, onClose }) {
 
           {/* Khối Nhật ký Kiểm toán (Audit Timeline) */}
           <div className={styles.calculationBox}>
-            <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 12, color: '#1e293b' }}>
+            <div style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-meta)", marginBottom: 12, color: '#1e293b' }}>
               Nhật Ký Thời Gian (Audit)
             </div>
             <div className={styles.calcSummary}>

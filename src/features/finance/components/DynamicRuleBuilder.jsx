@@ -12,10 +12,10 @@ export default function DynamicRuleBuilder({ rules = [], onChangeRule, onAddRule
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: 'var(--color-text)' }}>
+        <h3 style={{ margin: 0, fontSize: "var(--font-size-subheading)", fontWeight: "var(--font-weight-bold)", color: 'var(--color-text)' }}>
           Các Mốc Quy Tắc Hoàn Tiền ({rules.length})
         </h3>
-        <span style={{ fontSize: 12, color: '#64748b' }}>
+        <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b' }}>
           Tự động áp dụng theo thời điểm khách gửi yêu cầu hủy
         </span>
       </div>
@@ -41,7 +41,7 @@ export default function DynamicRuleBuilder({ rules = [], onChangeRule, onAddRule
                       background: pctStyle.bg,
                       color: pctStyle.color,
                       border: `1px solid ${pctStyle.border}`,
-                      fontWeight: 700,
+                      fontWeight: "var(--font-weight-bold)",
                     }}
                   >
                     Hoàn {pct}%
@@ -86,7 +86,7 @@ export default function DynamicRuleBuilder({ rules = [], onChangeRule, onAddRule
                     </div>
                   ) : null}
                   {isHoursInvalid && (
-                    <div style={{ fontSize: 11, color: '#dc2626', marginTop: 2 }}>Giờ phải ≥ 0</div>
+                    <div style={{ fontSize: "var(--font-size-meta)", color: '#dc2626', marginTop: 2 }}>Giờ phải ≥ 0</div>
                   )}
                 </div>
 
@@ -105,12 +105,12 @@ export default function DynamicRuleBuilder({ rules = [], onChangeRule, onAddRule
                     onChange={(e) => onChangeRule(index, 'refundPercentage', e.target.value)}
                     placeholder="0 - 100"
                     style={{
-                      fontWeight: 700,
+                      fontWeight: "var(--font-weight-bold)",
                       borderColor: isPctInvalid ? '#dc2626' : undefined,
                     }}
                   />
                   {isPctInvalid && (
-                    <div style={{ fontSize: 11, color: '#dc2626', marginTop: 2 }}>0% đến 100%</div>
+                    <div style={{ fontSize: "var(--font-size-meta)", color: '#dc2626', marginTop: 2 }}>0% đến 100%</div>
                   )}
                 </div>
 
@@ -130,7 +130,7 @@ export default function DynamicRuleBuilder({ rules = [], onChangeRule, onAddRule
                     }}
                   />
                   {!rule.description?.trim() && (
-                    <div style={{ fontSize: 11, color: '#f59e0b', marginTop: 2 }}>
+                    <div style={{ fontSize: "var(--font-size-meta)", color: '#f59e0b', marginTop: 2 }}>
                       Cần nhập mô tả hiển thị
                     </div>
                   )}
@@ -149,7 +149,7 @@ export default function DynamicRuleBuilder({ rules = [], onChangeRule, onAddRule
           borderColor: '#16a34a',
           color: '#16a34a',
           padding: '10px 16px',
-          fontWeight: 600,
+          fontWeight: "var(--font-weight-semibold)",
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

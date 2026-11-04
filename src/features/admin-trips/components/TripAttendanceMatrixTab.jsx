@@ -175,7 +175,7 @@ export default function TripAttendanceMatrixTab({ tripId }) {
                             ))}
                           </select>
                           {cell?.checkedBy && (
-                            <div className={styles.subtitle} style={{ fontSize: '0.74rem' }}>
+                            <div className={styles.subtitle} style={{ fontSize: "var(--font-size-section-title)" }}>
                               Bởi: {cell.checkedBy}
                             </div>
                           )}

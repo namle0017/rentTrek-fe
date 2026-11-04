@@ -63,7 +63,7 @@ export default function RefundManualModal({ item, isOpen, onClose, onConfirm, is
                 }}
                 autoFocus
               />
-              {error && <span style={{ color: '#dc2626', fontSize: 12 }}>{error}</span>}
+              {error && <span style={{ color: '#dc2626', fontSize: "var(--font-size-meta)" }}>{error}</span>}
             </div>
 
             <div className={styles.filterGroup}>
@@ -77,7 +77,7 @@ export default function RefundManualModal({ item, isOpen, onClose, onConfirm, is
               />
             </div>
 
-            <div style={{ fontSize: 12, color: '#64748b' }}>
+            <div style={{ fontSize: "var(--font-size-meta)", color: '#64748b' }}>
               ⚠️ Hành động này sẽ cập nhật trạng thái đơn thành "Đã hoàn thành công" và lưu nhật ký kiểm toán
               (Audit Log) theo mã tham chiếu.
             </div>

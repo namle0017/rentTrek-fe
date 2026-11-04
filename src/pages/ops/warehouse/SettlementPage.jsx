@@ -172,7 +172,6 @@ export default function SettlementPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <div className={styles.headerTop}>
-          <h1 className={styles.title}>Phí phát sinh & Quyết toán đơn thuê</h1>
           <form onSubmit={handleLookup} className={styles.orderLookup}>
             <input
               type="text"

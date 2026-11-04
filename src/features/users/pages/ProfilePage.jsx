@@ -6,8 +6,9 @@ import FormField from '@/components/FormField';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { FormSkeleton } from '@/components/skeleton';
 import Spinner from '@/components/Spinner';
-import { USER_ROLE_LABEL } from '@/constants/enums';
+import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
+import { useAuth } from '@/hooks/useAuth';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { getAvatarColor } from '@/utils/avatarColor';
 import { formatDate, formatDateTime } from '@/utils/formatDate';
@@ -19,12 +20,18 @@ import { useUpdateProfile } from '../hooks/useUpdateProfile';
 import styles from './ProfilePage.module.css';
 
 export default function ProfilePage() {
+  const { currentUser } = useAuth();
   const { data: profile, isLoading, isError } = useProfile();
   const updateProfileMutation = useUpdateProfile();
   const [serverErrorMsg, setServerErrorMsg] = useState('');
   const [activeTab, setActiveTab] = useState('profile'); // 'profile' | 'security'
   const [copied, setCopied] = useState(false);
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+
+  const role = profile?.role || currentUser?.role;
+  const isAdminOrStaff = role === USER_ROLE.ADMIN || role === USER_ROLE.STAFF;
+  const isGuide = role === USER_ROLE.GUIDE || role === USER_ROLE.TOUR_GUIDE;
+  const isCustomer = !isAdminOrStaff && !isGuide;
 
   const {
     register,
@@ -141,11 +148,27 @@ export default function ProfilePage() {
   return (
     <div className={styles.pageWrapper}>
       <div className="container">
-        {/* Breadcrumb */}
+        {/* Breadcrumb theo vai trò */}
         <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-          <Link to={ROUTES.HOME}>Trang chủ</Link>
-          <span className={styles.breadcrumbSeparator} aria-hidden="true">/</span>
-          <span>Tài khoản của tôi</span>
+          {isAdminOrStaff ? (
+            <>
+              <Link to={ROUTES.ADMIN}>Tổng quan</Link>
+              <span className={styles.breadcrumbSeparator} aria-hidden="true">/</span>
+              <span>Thông tin cá nhân</span>
+            </>
+          ) : isGuide ? (
+            <>
+              <Link to={ROUTES.GUIDE_TRIPS}>Lịch dẫn đoàn</Link>
+              <span className={styles.breadcrumbSeparator} aria-hidden="true">/</span>
+              <span>Thông tin cá nhân</span>
+            </>
+          ) : (
+            <>
+              <Link to={ROUTES.HOME}>Trang chủ</Link>
+              <span className={styles.breadcrumbSeparator} aria-hidden="true">/</span>
+              <span>Tài khoản của tôi</span>
+            </>
+          )}
           <span className={styles.breadcrumbSeparator} aria-hidden="true">/</span>
           <span className={styles.breadcrumbCurrent}>
             {activeTab === 'profile' ? 'Hồ sơ cá nhân' : 'Bảo mật & phiên'}
@@ -155,12 +178,16 @@ export default function ProfilePage() {
         <div className={styles.layoutGrid}>
           {/* Aside Sidebar: Điều hướng tài khoản */}
           <aside className={styles.accountSidebar} aria-label="Menu tài khoản">
-            <div className={styles.sidebarHeading}>Tài khoản của tôi</div>
+            <div className={styles.sidebarHeading}>
+              {isAdminOrStaff ? 'Quản lý tài khoản' : isGuide ? 'Tài khoản Guide' : 'Tài khoản của tôi'}
+            </div>
             <nav className={styles.sidebarNav}>
-              <Link to={ROUTES.MY_ORDERS} className={styles.navItem}>
-                <OutdoorIcon name="bag" size={16} />
-                <span>Đơn của tôi</span>
-              </Link>
+              {isCustomer && (
+                <Link to={ROUTES.MY_ORDERS} className={styles.navItem}>
+                  <OutdoorIcon name="bag" size={16} />
+                  <span>Đơn của tôi</span>
+                </Link>
+              )}
               <button
                 type="button"
                 className={`${styles.navItem} ${activeTab === 'profile' ? styles.navItemActive : ''}`}

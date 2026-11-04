@@ -67,18 +67,8 @@ export default function AssetGanttPage() {
 
   return (
     <div className={styles.container}>
-      {/* Top Header */}
-      <div className={styles.header}>
-        <div>
-          <div className={styles.breadcrumb}>
-            <span className={styles.routePath}>Lịch Gantt</span>
-          </div>
-          <h1 className={styles.title}>Lịch phân bổ thiết bị (Gantt Schedule)</h1>
-          <p className={styles.subtitle}>
-            Trực quan hóa lịch trình giữ đồ (Reserved) và giao đồ (Issued) của toàn bộ thiết bị theo thời gian thực.
-          </p>
-        </div>
-
+      {/* Actions */}
+      <div className={styles.header} style={{ justifyContent: 'flex-end', marginBottom: '16px' }}>
         <div className={styles.actions}>
           <Link to={ROUTES.OPS_ASSETS} className={styles.btnSecondary}>
             ← Quay lại danh sách thiết bị

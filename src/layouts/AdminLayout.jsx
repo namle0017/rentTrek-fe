@@ -61,7 +61,6 @@ export default function AdminLayout() {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showAlerts, setShowAlerts] = useState(false);
-  const [search, setSearch] = useState('');
   const dropdownRef = useRef(null);
   const alertsRef = useRef(null);
 
@@ -69,13 +68,6 @@ export default function AdminLayout() {
   const displayName =
     currentUser?.fullName || currentUser?.email || (isAdmin ? 'Quản trị viên' : 'Nhân viên vận hành');
   const alerts = useOperations(API_ENDPOINTS.ADMIN.DASHBOARD.ALERTS);
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-    if (search.trim()) {
-      navigate(ROUTES.ADMIN_ORDERS + '?search=' + encodeURIComponent(search.trim()));
-    }
-  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -101,7 +93,7 @@ export default function AdminLayout() {
     <div className={styles.layout}>
       <aside className={styles.sidebar}>
         <div style={{ padding: '0 0 16px 8px' }}>
-          <BrandLogo size="md" theme="light" suffix={isAdmin ? 'Admin' : 'Vận hành'} />
+          <BrandLogo size="md" theme="light" suffix={isAdmin ? 'Admin' : 'Vận hành'} to={ROUTES.ADMIN} />
         </div>
         <nav className={styles.nav}>
           <NavLink to={ROUTES.ADMIN} end>
@@ -137,7 +129,6 @@ export default function AdminLayout() {
             <>
               <div className={styles.sectionHeader}>Tài chính</div>
               <NavLink to={ROUTES.OPS_TRANSACTIONS}>Giao dịch</NavLink>
-              <NavLink to={ROUTES.OPS_REFUNDS}>Hoàn tiền & Đối soát</NavLink>
               <NavLink to={ROUTES.ADMIN_REFUNDS}>Hàng đợi hoàn tiền</NavLink>
               <NavLink to={ROUTES.OPS_REFUND_POLICIES}>Chính sách hoàn tiền</NavLink>
 
@@ -148,25 +139,7 @@ export default function AdminLayout() {
               <NavLink to={ROUTES.ADMIN_AUDIT}>Nhật ký kiểm toán</NavLink>
             </>
           )}
-
-          <div className={styles.sectionHeader}>Thực địa</div>
-          <NavLink to={ROUTES.GUIDE_TRIPS}>Cổng Hướng dẫn viên</NavLink>
         </nav>
-        <Link
-          to={ROUTES.HOME}
-          style={{
-            marginTop: 'auto',
-            paddingTop: '20px',
-            fontSize: '13px',
-            color: 'rgba(255, 255, 255, 0.7)',
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-          }}
-        >
-          ← Về trang khách hàng
-        </Link>
       </aside>
 
       <div className={styles.content}>
@@ -174,17 +147,6 @@ export default function AdminLayout() {
         <header className={styles.header}>
           <div className={styles.headerLeft}>
             <h1 className={styles.headerTitle}>{pageTitle}</h1>
-            <form className={styles.search} onSubmit={handleSearch}>
-              <span aria-hidden="true">⌕</span>
-              <input
-                type="search"
-                aria-label="Tìm mã đơn hoặc email khách"
-                placeholder="Tìm mã đơn, email khách…"
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-              />
-              <button type="submit">Tìm</button>
-            </form>
           </div>
 
           <div className={styles.headerRight}>

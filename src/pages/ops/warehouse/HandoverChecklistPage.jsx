@@ -120,7 +120,6 @@ export default function HandoverChecklistPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <div className={styles.headerTop}>
-          <h1 className={styles.title}>Giao thiết bị cho khách (Handover)</h1>
           <form onSubmit={handleLookup} className={styles.orderLookup}>
             <input
               type="text"

@@ -102,17 +102,12 @@ export default function AdminPostsPage() {
   };
 
   return (
-    <section className={styles.page} aria-labelledby="admin-posts-title">
-      <header className={styles.header}>
-        <div>
-          <p className={styles.eyebrow}>Nội dung</p>
-          <h1 id="admin-posts-title">Bài viết</h1>
-          <p className={styles.description}>Soạn, xuất bản cẩm nang và gắn bài chuẩn bị vào tour.</p>
-        </div>
+    <section className={styles.page}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
         <Link to={ROUTES.ADMIN_POST_CREATE} className="btn btn-primary">
           Viết bài
         </Link>
-      </header>
+      </div>
 
       <form className={styles.filters} onSubmit={handleSubmit}>
         <label className={styles.field}>

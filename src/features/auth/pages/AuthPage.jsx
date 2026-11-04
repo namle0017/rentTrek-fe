@@ -81,9 +81,17 @@ export default function AuthPage({ defaultMode }) {
     return r === 'admin' || r === 'staff' || r === 'administrator';
   };
 
+  const isRoleGuide = (role) => {
+    const r = String(role || '').toLowerCase();
+    return r === 'guide' || r === 'tourguide' || r === 'tour_guide';
+  };
+
   if (isAuthenticated) {
     if (isRoleAdminOrStaff(currentUser?.role)) {
       return <Navigate to={ROUTES.ADMIN} replace />;
+    }
+    if (isRoleGuide(currentUser?.role)) {
+      return <Navigate to={ROUTES.GUIDE_TRIPS} replace />;
     }
     return <Navigate to={redirectTo} replace />;
   }
@@ -108,6 +116,8 @@ export default function AuthPage({ defaultMode }) {
 
           if (isRoleAdminOrStaff(userRole)) {
             navigate(ROUTES.ADMIN, { replace: true });
+          } else if (isRoleGuide(userRole)) {
+            navigate(ROUTES.GUIDE_TRIPS, { replace: true });
           } else {
             navigate(redirectTo, { replace: true });
           }

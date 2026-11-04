@@ -7,8 +7,8 @@
 }
 
 .dayTitle {
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-dark);
   margin-bottom: 16px;
   display: flex;
@@ -21,8 +21,8 @@
   color: #ffffff;
   padding: 3px 10px;
   border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
 }
 
 .activityList {
@@ -61,8 +61,8 @@
 }
 
 .activityTime {
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-body);
   color: var(--color-primary);
   background: #ecfdf5;
   padding: 2px 8px;
@@ -70,20 +70,20 @@
 }
 
 .activityTitle {
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-section-title);
   color: var(--color-text);
 }
 
 .activityDesc {
-  font-size: 0.875rem;
+  font-size: var(--font-size-meta);
   color: var(--color-text-muted);
   line-height: 1.5;
   margin: 4px 0 0;
 }
 
 .activityLocation {
-  font-size: 0.8rem;
+  font-size: var(--font-size-meta);
   color: #64748b;
   margin-top: 2px;
 }

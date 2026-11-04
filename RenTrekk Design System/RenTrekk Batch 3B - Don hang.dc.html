@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314213D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-weight='800' font-size='20' text-anchor='middle' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECEAE5;color:#151A24;font-family:'Be Vietnam Pro',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#31476F;text-underline-offset:2px}
+a:hover{color:#14213D}
+*{box-sizing:border-box}
+input,textarea,button{font-family:inherit}
+</style>
+</helmet>
+
+<div style="padding:64px;display:flex;flex-direction:column;gap:96px;width:max-content">
+
+<div style="display:flex;align-items:flex-end;gap:32px;width:1800px">
+  <div>
+    <div style="font-size:13px;font-weight:600;letter-spacing:.12em;color:#31476F">RENTREKK · BATCH 3B</div>
+    <h1 style="margin:8px 0 0;font-size:48px;line-height:56px;font-weight:700;color:#14213D;letter-spacing:-.02em">Đơn của tôi · C10–C13</h1>
+    <p style="margin:8px 0 0;font-size:15px;color:#4A5870">Web 1440px. C12 là modal mở từ nút “Yêu cầu hủy” — biến thể Đơn tour trong C11 (API 7.1 → 7.2) và biến thể Đơn thuê trong C13 (API 5.5 → 5.6, chỉ khi chưa giao thiết bị). Dữ liệu theo bảng PAYMENTS / ACCOUNTS của DB thật; chưa thu cọc ở bản này.</p>
+  </div>
+  <div style="margin-left:auto;display:flex;gap:20px;font-size:14px;font-weight:600"><a href="RenTrekk Batch 3A - Thue thiet bi.dc.html">← Batch 3A</a><a href="RenTrekk Batch 3C - Chuyen va Blog.dc.html">Batch 3C →</a></div>
+</div>
+
+<!-- ================= C10 ================= -->
+<section id="c10" data-screen-label="C10 Đơn của tôi" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C10</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Đơn của tôi</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/account/orders</span>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;color:#FFFFFF"><span style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:18px">◔<span style="position:absolute;top:2px;right:0;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#BE123C;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">3</span></span><span style="display:flex;align-items:center;gap:10px;font-size:14px"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</span></div>
+      </header>
+      <div style="flex:1;display:flex;gap:32px;padding:40px 80px">
+        <aside style="width:220px;flex:none;display:flex;flex-direction:column;gap:2px">
+          <div style="padding:0 12px 12px;font-size:13px;color:#4A5870">Tài khoản của tôi</div>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#14213D;background:#FFFFFF;font-weight:600;box-shadow:inset 3px 0 0 #14213D">Đơn của tôi</span>
+          <a href="RenTrekk Batch 3C - Chuyen va Blog.dc.html#c14" style="height:44px;display:flex;align-items:center;padding:0 12px;font-size:14px;color:#343F52;text-decoration:none">Chuyến của tôi</a>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;font-size:14px;color:#343F52">Thông báo</span>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;font-size:14px;color:#343F52">Hồ sơ</span>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;font-size:14px;color:#343F52">Bảo mật &amp; phiên</span>
+        <div style="flex:1;display:flex;flex-direction:column;gap:16px;min-width:0">
+          <div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Đơn của tôi</div>
+          <div style="display:flex;align-items:center;gap:12px;border-bottom:1px solid #DDDAD3">
+            <div role="tablist" style="display:flex;gap:4px;flex:1">
+              <sc-for list="{{ c10Tabs }}" as="t" hint-placeholder-count="3"><button role="tab" onClick="{{ t.on }}" style="height:44px;padding:0 14px;border:0;background:transparent;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};cursor:pointer;display:flex;align-items:center;gap:6px">{{ t.label }}<span style="font-size:11px;padding:1px 7px;border-radius:999px;background:{{ t.cbg }};color:{{ t.cfg }}">{{ t.count }}</span></button></sc-for>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <div style="width:300px;height:40px;display:flex;align-items:center;gap:8px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF"><span style="color:#5E6B80">⌕</span><input value="{{ c10Q }}" onChange="{{ c10OnQ }}" placeholder="Tìm theo mã đơn" style="flex:1;border:0;outline:none;font-size:14px;background:transparent;min-width:0"></input></div>
+            <span style="height:40px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF;display:flex;align-items:center;font-size:14px;color:#14213D">Trạng thái: Tất cả ▾</span>
+            <span style="height:40px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF;display:flex;align-items:center;font-size:14px;color:#14213D">Ngày đặt: 30 ngày qua ▾</span>
+          </div>
+          <sc-if value="{{ c10Has }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:150px 70px minmax(0,1fr) 100px 130px 300px;gap:14px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Mã đơn</span><span>Loại</span><span>Dịch vụ</span><span>Ngày đặt</span><span style="text-align:right">Tổng tiền</span><span>Trạng thái</span></div>
+              <sc-for list="{{ c10Rows }}" as="r" hint-placeholder-count="7">
+                <div style="display:grid;grid-template-columns:150px 70px minmax(0,1fr) 100px 130px 300px;gap:14px;align-items:center;padding:14px 20px;border-top:1px solid #ECEAE5;color:#151A24" style-hover="background:#F5F4F1">
+                  <a href="{{ r.href }}" style="font:600 13px ui-monospace,Menlo,monospace;color:#31476F">{{ r.code }}</a>
+                  <span style="font-size:11px;font-weight:700;padding:3px 7px;border-radius:4px;justify-self:start;background:{{ r.kbg }};color:{{ r.kfg }}">{{ r.type }}</span>
+                  <a href="{{ r.href }}" style="text-decoration:none;color:#151A24"><span style="display:block;font-size:14px;font-weight:500">{{ r.svc }}</span><span style="display:block;font-size:12px;color:#4A5870">{{ r.when }}</span></a>
+                  <span style="font-size:13px;color:#343F52">{{ r.at }}</span>
+                  <span style="text-align:right;font-size:14px;font-weight:700">{{ r.total }}</span>
+                  <span style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+                    <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ r.st.bg }};color:{{ r.st.fg }};font-size:12px;font-weight:600;white-space:nowrap"><span aria-hidden="true">{{ r.st.ic }}</span>{{ r.st.label }}</span>
+                    <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ r.pay.bg }};color:{{ r.pay.fg }};font-size:12px;font-weight:600;white-space:nowrap"><span aria-hidden="true">{{ r.pay.ic }}</span>{{ r.pay.label }}</span>
+                    <sc-if value="{{ r.pending }}" hint-placeholder-val="{{ false }}"><span style="font:700 12px ui-monospace,Menlo,monospace;color:#B45309">◷ {{ c10Clock }}</span></sc-if>
+                  </span>
+                  <sc-if value="{{ r.pending }}" hint-placeholder-val="{{ false }}"><span style="grid-column:3 / -1;display:flex;justify-content:flex-end;gap:10px;align-items:center;margin-top:-4px"><span style="font-size:13px;color:#343F52">Giữ chỗ hết hạn sau {{ c10Clock }}</span><a href="{{ c04pHref }}" style="height:36px;padding:0 16px;border-radius:8px;background:#A4532F;color:#FFFFFF;font-size:13px;font-weight:600;display:flex;align-items:center;text-decoration:none">Thanh toán ngay</a></span></sc-if>
+                  <sc-if value="{{ r.hasNote }}" hint-placeholder-val="{{ false }}"><span style="grid-column:3 / -1;display:flex;justify-content:flex-end;margin-top:-4px"><span style="display:inline-flex;align-items:center;gap:6px;min-height:26px;padding:4px 10px 4px 8px;border-radius:13px;background:{{ r.noteBg }};color:{{ r.noteFg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ r.noteIc }}</span>{{ r.noteText }}</span></span></sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c10None }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px dashed #C5C3BD;border-radius:12px;padding:48px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;background:#FFFFFF"><div style="font-size:16px;font-weight:600">Không tìm thấy đơn “{{ c10Q }}”</div><div style="font-size:14px;color:#4A5870">Kiểm tra lại mã đơn, ví dụ RTK-26-004852.</div><button onClick="{{ c10Clear }}" style="margin-top:4px;height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Xóa tìm kiếm</button></div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C10 · FR-B06, F08, F09 · API 5.3 GET /users/me/orders<br>· Chỉ ORDERS.customer_user_id = mình (ACCOUNTS.user_id)<br>· Mã → order_code · Loại → order_type (Tour / Rental)<br>· Dịch vụ: Tour → TRIP_BOOKING_ORDERS.trip_id → TOURS.name + TRIPS.start_at; Thuê → “Thuê thiết bị · n dòng” (RENTAL_ORDER_ITEMS) + rental_start_at–rental_end_at<br>· Ngày đặt → ORDERS.created_at · Tổng tiền → ORDERS.total_amount (= totalPayable; không có cọc vì deposit_amount = 0, cọc hoãn D-1)<br>· Badge 1: ORDERS.status (Draft · PendingPayment · Confirmed · InFulfillment · Completed · Expired · Cancelled)<br>· Badge 2: ORDERS.payment_status (Unpaid · Paid · PartiallyRefunded · Refunded · NeedsReconciliation “Cần đối soát”). FE hiện “Đang xác minh” khi Unpaid + có PAYMENTS Collection status Pending → ẩn “Thanh toán ngay”, nhắc không chuyển lại<br>· “Thanh toán ngay” (PendingPayment, Unpaid, hold_expires_at còn hạn, không có Collection Pending) → C04P (POST /orders/:orderId/payments, header Idempotency-Key); đếm ngược = hold_expires_at − now<br>· NeedsReconciliation: “Đang xác minh khoản thanh toán X ₫ — không chuyển lại”, X = PAYMENTS.received_amount của dòng Collection; chờ Admin đối soát trước reconciliation_deadline_at<br>· Đơn Cancelled + có PAYMENTS Refund (original_payment_id → khoản thu gốc): status PendingApproval → “Đã hủy · Chờ duyệt hoàn tiền”; Pending → “Đã hủy · Đang hoàn tiền”; Succeeded → “Đã hoàn tiền”. Số tiền = PAYMENTS.amount của dòng Refund. payment_status chỉ đổi Refunded / PartiallyRefunded khi SePay báo succeeded (BR-33)<br>· Tab theo order_type; tìm theo order_code; lọc status, khoảng created_at; sortBy createdAt · serviceStartAt</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C11 + C12 (biến thể Đơn tour) ================= -->
+<section id="c11" data-screen-label="C11 Chi tiết đơn tour" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C11</span>
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#BE123C;color:#FFFFFF;padding:4px 8px;border-radius:6px">C12</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chi tiết đơn tour + Yêu cầu hủy (biến thể Đơn tour)</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/account/orders/:orderCode</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c11Chips }}" as="c" hint-placeholder-count="8"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px;color:#FFFFFF"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</div>
+      </header>
+      <div style="padding:32px 80px 64px;display:flex;flex-direction:column;gap:24px">
+        <a href="#c10" style="font-size:14px;font-weight:600;text-decoration:none">← Đơn của tôi</a>
+        <div style="display:flex;align-items:flex-start;gap:16px">
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font:700 28px ui-monospace,Menlo,monospace;color:#14213D">RTK-26-004852</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px 0 8px;border-radius:999px;background:{{ c11St.bg }};color:{{ c11St.fg }};font-size:13px;font-weight:600"><span aria-hidden="true">{{ c11St.ic }}</span>{{ c11St.label }}</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px 0 8px;border-radius:999px;background:{{ c11Pay.bg }};color:{{ c11Pay.fg }};font-size:13px;font-weight:600"><span aria-hidden="true">{{ c11Pay.ic }}</span>{{ c11Pay.label }}</span></div>
+            <div style="font-size:14px;color:#4A5870;margin-top:6px">Đơn tour · Đặt lúc Th 5, 05/11/2026 · 09:12 (GMT+7)</div>
+          </div>
+          <sc-if value="{{ c11CanCancel }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:8px"><button onClick="{{ c11OpenCancel }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #BE123C;background:#FFFFFF;color:#BE123C;font-size:14px;font-weight:600;cursor:pointer">Yêu cầu hủy</button><sc-if value="{{ c11ShowTrip }}" hint-placeholder-val="{{ true }}"><a href="RenTrekk Batch 3C - Chuyen va Blog.dc.html#c15" style="height:44px;padding:0 18px;border-radius:8px;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;display:flex;align-items:center;text-decoration:none">Xem chuyến</a></sc-if></div>
+          </sc-if>
+          <sc-if value="{{ c11NoCancel }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#4A5870;max-width:200px;text-align:right">Đơn đang được đối soát nên chưa thể hủy (allowedActions.canCancel = false)</span></sc-if>
+        </div>
+        <sc-if value="{{ c11Verifying }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="display:flex;gap:12px;padding:16px 18px;border-radius:12px;background:#E0F2F6;border:1px solid #0E7490;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#0E7490;font-weight:700">◷</span><div><b style="color:#0E7490">Đang xác minh khoản thanh toán 4.700.000 ₫ — không chuyển lại.</b><br>Hệ thống đang chờ ngân hàng xác nhận, đơn sẽ tự cập nhật. Nếu chưa chuyển khoản, bạn vẫn xem lại được hướng dẫn trong thời gian giữ chỗ. <a href="RenTrekk Batch 2 - Tour.dc.html#c04p" style="font-weight:600">Xem hướng dẫn chuyển khoản</a></div></div>
+        </sc-if>
+        <sc-if value="{{ c11Recon }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="display:flex;gap:12px;padding:16px 18px;border-radius:12px;background:#FEF3C7;border:1px solid #B45309;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#B45309;font-weight:700">!</span><div><b style="color:#B45309">Đang xác minh khoản thanh toán 4.800.000 ₫ — không chuyển lại.</b><br>Số tiền ngân hàng báo về khác tổng đơn (4.700.000 ₫) nên nhân viên sẽ đối soát và liên hệ bạn. Chỗ vẫn được giữ trong thời gian đối soát.</div></div>
+        </sc-if>
+        <sc-if value="{{ c11Cancelled }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="display:flex;gap:12px;padding:16px 18px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#BE123C;font-weight:700">✕</span><div><b style="color:#BE123C">Đơn đã hủy lúc Th 6, 06/11/2026 · 10:24 (GMT+7).</b><br>Lý do: {{ c11Reason }}<br>{{ c11CxMsg }}</div></div>
+        </sc-if>
+        <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px 12px;display:flex">
+          <sc-for list="{{ c11Steps }}" as="s" hint-placeholder-count="5">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative">
+              <div style="position:absolute;top:13px;left:-50%;width:100%;height:2px;background:{{ s.line }};display:{{ s.lineShow }}"></div>
+              <div style="position:relative;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:{{ s.bg }};color:{{ s.fg }};border:2px solid {{ s.bd }}">{{ s.mark }}</div>
+              <span style="font-size:13px;font-weight:{{ s.w }};color:{{ s.tc }}">{{ s.label }}</span>
+              <span style="font-size:11px;color:#4A5870">{{ s.at }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:24px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;gap:20px">
+              <div style="width:160px;height:110px;border-radius:8px;flex:none;background:#ADBBD3 url(https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font:500 10px ui-monospace,Menlo,monospace;color:#343F52"></div>
+              <div style="display:grid;grid-template-columns:110px 1fr;gap:6px 14px;font-size:14px;align-content:start">
+                <span style="color:#4A5870">Tour</span><a href="RenTrekk Batch 2 - Tour.dc.html#c03" style="font-weight:600">Chinh phục Fansipan qua cung Trạm Tôn</a>
+                <span style="color:#4A5870">Khởi hành</span><span>Th 7, 14/11/2026 · 05:30 (GMT+7)</span>
+                <span style="color:#4A5870">Kết thúc</span><span>Th 2, 16/11/2026 · 17:00 (GMT+7)</span>
+                <span style="color:#4A5870">Tập trung</span><span>Trạm Tôn, đèo Ô Quy Hồ, Sa Pa, Lào Cai</span>
+              </div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:16px 20px;display:flex;align-items:center;border-bottom:1px solid #ECEAE5"><span style="font-size:16px;font-weight:600;flex:1">Người tham gia · 2</span><span style="font-size:13px;color:#4A5870">Sửa được đến 48 giờ trước khởi hành</span></div>
+              <sc-for list="{{ c11Parts }}" as="p" hint-placeholder-count="2">
+                <div style="display:grid;grid-template-columns:minmax(0,1.4fr) 1fr 1fr 1.2fr 80px;gap:14px;align-items:center;padding:14px 20px;border-top:1px solid #ECEAE5;font-size:14px">
+                  <span><span style="display:block;font-weight:600">{{ p.name }}</span><span style="display:block;font-size:12px;color:#4A5870">{{ p.email }}</span></span>
+                  <span style="color:{{ p.phc }}">{{ p.phone }}</span>
+                  <span style="color:{{ p.gc }}">{{ p.group }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ p.lbg }};color:{{ p.lfg }};font-size:12px;font-weight:600;justify-self:start"><span aria-hidden="true">{{ p.lic }}</span>{{ p.link }}</span>
+                  <button disabled="{{ c11Cancelled }}" style="height:34px;border-radius:8px;border:0;background:transparent;color:{{ c11EditC }};font-size:13px;font-weight:600;cursor:pointer">Sửa</button>
+                </div>
+              </sc-for>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:16px 20px;font-size:16px;font-weight:600;border-bottom:1px solid #ECEAE5">Giao dịch</div>
+              <div style="display:grid;grid-template-columns:80px 92px minmax(0,1fr) 150px 126px 118px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Loại</span><span>Mục đích</span><span style="text-align:right">Số tiền</span><span>Phương thức</span><span>Trạng thái</span><span>Xử lý lúc</span></div>
+              <sc-for list="{{ c11Tx }}" as="t" hint-placeholder-count="1">
+                <div style="padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px">
+                  <div style="display:grid;grid-template-columns:80px 92px minmax(0,1fr) 150px 126px 118px;gap:12px;align-items:center">
+                    <span style="font-weight:500">{{ t.type }}</span><span style="color:#343F52">{{ t.purpose }}</span>
+                    <span style="text-align:right"><b>{{ t.amt }}</b><sc-if value="{{ t.hasRecv }}" hint-placeholder-val="{{ false }}"><br><span style="font-size:12px;color:#B45309;font-weight:600">{{ t.recv }}</span></sc-if></span>
+                    <span style="font-size:13px">{{ t.method }}</span>
+                    <span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ t.bg }};color:{{ t.fg }};font-size:12px;font-weight:600;white-space:nowrap"><span aria-hidden="true">{{ t.ic }}</span>{{ t.label }}</span></span>
+                    <span style="font-size:13px;color:{{ t.atc }}">{{ t.at }}</span>
+                  </div>
+                  <sc-if value="{{ t.hasFail }}" hint-placeholder-val="{{ false }}"><div style="margin-top:6px;font-size:12px;color:#BE123C">✕ {{ t.fail }}</div></sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;font-size:14px">
+              <div style="font-size:16px;font-weight:600">Thanh toán</div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#343F52">2 người × 2.450.000 ₫</span><span>4.900.000 ₫</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Tạm tính</span><span>4.900.000 ₫</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><span style="color:#343F52">Khuyến mãi<br><span style="font-size:12px;color:#4A5870">Mã FANSIPAN200 · Đã áp dụng</span></span><span style="color:#166534;font-weight:600">−200.000 ₫</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid #ECEAE5"><span style="font-weight:700">Tổng thanh toán</span><span style="font-size:22px;font-weight:700;color:#14213D">4.700.000 ₫</span></div>
+            </div>
+            <sc-if value="{{ c11HasRf }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;font-size:14px">
+                <div style="display:flex;align-items:center;gap:8px"><span style="font-size:16px;font-weight:600;flex:1">Hoàn tiền</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ c11RfBadge.bg }};color:{{ c11RfBadge.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ c11RfBadge.ic }}</span>{{ c11RfBadge.label }}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Đã thanh toán</span><span>{{ c11RfPaid }}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Hoàn theo chính sách ({{ c11RfPct }}%)</span><span style="color:#166534;font-weight:700">{{ c11RfAmt }}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Không được hoàn</span><span style="color:#BE123C;font-weight:600">{{ c11RfLose }}</span></div>
+                <div style="display:flex;padding:8px 0 0;border-top:1px solid #ECEAE5">
+                  <sc-for list="{{ c11RfSteps }}" as="s" hint-placeholder-count="3">
+                    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;text-align:center">
+                      <div style="position:absolute;top:13px;left:-50%;width:100%;height:2px;background:{{ s.line }};display:{{ s.lineShow }}"></div>
+                      <div style="position:relative;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:{{ s.bg }};color:{{ s.fg }};border:2px solid {{ s.bd }}">{{ s.mark }}</div>
+                      <span style="font-size:12px;font-weight:{{ s.w }};color:{{ s.tc }};padding:0 4px">{{ s.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <span style="font-size:13px;line-height:20px;color:#343F52">{{ c11RfDesc }}</span>
+                <span style="font-size:12px;line-height:18px;color:#4A5870">Admin duyệt trước khi hoàn; tiền về đúng tài khoản đã chuyển khoản, bạn không cần nhập tài khoản ngân hàng.</span>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{ c12TourOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ c12Close }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" aria-labelledby="c12t-t" style="position:absolute;top:90px;left:50%;transform:translateX(-50%);width:600px;max-height:800px;overflow-y:auto;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3)">
+          <div style="padding:22px 24px 0;display:flex;align-items:flex-start;gap:12px"><div style="flex:1"><div id="c12t-t" style="font-size:20px;font-weight:700">{{ c12Title }}</div><div style="font-size:13px;color:#4A5870;margin-top:4px">{{ c12Sub }}</div></div><button onClick="{{ c12Close }}" aria-label="Đóng" style="width:36px;height:36px;border:0;background:transparent;font-size:16px;cursor:pointer;color:#343F52">✕</button></div>
+          <div style="margin:14px 24px 0;padding:10px 12px;border:1px dashed #9AA1AC;border-radius:8px;background:#F5F4F1;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;color:#4A5870">Mô phỏng thời điểm hủy:<sc-for list="{{ c12When }}" as="w" hint-placeholder-count="3"><button onClick="{{ w.on }}" style="height:28px;padding:0 10px;border-radius:999px;border:1px solid {{ w.bd }};background:{{ w.bg }};color:{{ w.c }};font-size:12px;font-weight:600;cursor:pointer">{{ w.label }}</button></sc-for></div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;color:#4A5870">Mô phỏng phản hồi API:<sc-for list="{{ c12Scs }}" as="w" hint-placeholder-count="4"><button onClick="{{ w.on }}" style="height:28px;padding:0 10px;border-radius:999px;border:1px solid {{ w.bd }};background:{{ w.bg }};color:{{ w.c }};font:600 11px ui-monospace,Menlo,monospace;cursor:pointer">{{ w.label }}</button></sc-for></div>
+          </div>
+          <sc-if value="{{ c12Nc }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="margin:14px 24px 0;display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#BE123C;font-weight:700">✕</span><div><b style="color:#BE123C">Không thể hủy đơn này.</b><br>{{ c12NcMsg }}</div></div>
+          </sc-if>
+          <sc-if value="{{ c12Amt }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="margin:14px 24px 0;display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:#FEF3C7;border:1px solid #B45309;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#B45309;font-weight:700">!</span><div><b style="color:#B45309">Số tiền hoàn đã thay đổi.</b><br>Từ {{ c12AmtOld }} còn {{ c12AmtNew }} vì đơn đã sang mốc hoàn khác. Bảng bên dưới đã được tải lại, vui lòng xem lại rồi xác nhận.</div></div>
+          </sc-if>
+          <sc-if value="{{ c12Pol }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="margin:14px 24px 0;display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:#FEF3C7;border:1px solid #B45309;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#B45309;font-weight:700">!</span><div><b style="color:#B45309">Chính sách hoàn tiền đã được cập nhật (v1 → v2).</b><br>Các mốc hoàn bên dưới là phiên bản mới. Bạn cần đồng ý lại trước khi hủy.<label style="display:flex;gap:8px;align-items:center;margin-top:8px;font-weight:600;cursor:pointer"><input type="checkbox" checked="{{ c12Agree }}" onChange="{{ c12OnAgree }}" style="width:18px;height:18px;accent-color:#14213D">Tôi đã xem và đồng ý chính sách mới</label></div></div>
+          </sc-if>
+          <sc-if value="{{ c12Ok }}" hint-placeholder-val="{{ true }}">
+            <div style="margin:14px 24px 0;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:10px 14px;background:#F5F4F1;font-size:13px;display:flex;justify-content:space-between"><span style="font-weight:600;color:#343F52">Xem trước tác động</span><span style="color:#343F52">Còn <b>{{ c12Hours }}</b> đến {{ c12Start }}</span></div>
+              <div style="padding:8px 14px;border-top:1px solid #ECEAE5;font-size:12px;color:#4A5870">Chính sách: {{ c12Policy }}</div>
+              <sc-for list="{{ c12Rules }}" as="r" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;padding:9px 14px;font-size:14px;border-top:1px solid #ECEAE5;background:{{ r.bg }};font-weight:{{ r.w }}"><span>{{ r.when }}</span><span>{{ r.pct }}</span></div></sc-for>
+              <div style="padding:12px 14px;border-top:1px solid #DDDAD3;display:flex;flex-direction:column;gap:6px;font-size:14px">
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Đã thanh toán</span><span>{{ c12Paid }}</span></div>
+                <div style="display:flex;justify-content:space-between;font-weight:700"><span>Dự kiến hoàn</span><span style="color:#166534">{{ c12Refund }}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Không được hoàn</span><span style="color:#BE123C;font-weight:600">{{ c12Lose }}</span></div>
+                <span style="font-size:12px;color:#4A5870">{{ c12Note }} Số tiền được tính lại tại thời điểm hủy. {{ c12Impact }}</span>
+              </div>
+            </div>
+            <div style="padding:16px 24px 0;display:flex;flex-direction:column;gap:6px">
+              <label for="c12t-r" style="font-size:13px;font-weight:600">Lý do hủy <span style="color:#BE123C">*</span></label>
+              <textarea id="c12t-r" rows="3" value="{{ c12Reason }}" onChange="{{ c12OnReason }}" aria-invalid="{{ c12Err }}" placeholder="Ví dụ: thay đổi lịch công tác" style="padding:10px 12px;border:{{ c12Bd }};border-radius:8px;font-size:14px;resize:vertical;outline:none"></textarea>
+              <sc-if value="{{ c12Err }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập lý do hủy (5–500 ký tự).</span></sc-if>
+            </div>
+          </sc-if>
+          <div style="display:flex;justify-content:flex-end;gap:8px;padding:18px 24px;margin-top:16px;border-top:1px solid #ECEAE5">
+            <button onClick="{{ c12Close }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">{{ c12Keep }}</button>
+            <sc-if value="{{ c12Ok }}" hint-placeholder-val="{{ true }}"><button onClick="{{ c12Confirm }}" disabled="{{ c12BtnOff }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#BE123C;color:#FFFFFF;font-size:14px;font-weight:600;cursor:{{ c12BtnCur }};opacity:{{ c12BtnOp }}">{{ c12Btn }}</button></sc-if>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C11 · FR-B06, B07, F06, F08, F09<br>· Contract 03.1 chưa có endpoint “chi tiết đơn tour” (chỉ 7.1 / 7.2) → dùng chung hình dạng payments / allowedActions với 5.4<br>· Header → ORDERS.order_code, status, payment_status, created_at<br>· Timeline → ORDERS.status (+ cancelled_at)<br>· Chuyến → TRIPS.tour_id → TOURS.name, TRIPS.start_at, end_at, LOCATIONS.address<br>· Người tham gia → BOOKING_PARTICIPANTS.full_name, email?, phone?, trip_group_id? → TRIP_GROUPS.group_name (rỗng = “Chưa xếp nhóm”), linked_user_id? → ACCOUNTS<br>· Thanh toán → participant_count × unit_price, subtotal_amount, discount_amount, total_amount (không có cọc)<br>· KM → APPLIED_PROMOTIONS → PROMOTION_TIERS → PROMOTIONS.name / promotion_code, discount_amount, status<br>· Bảng Giao dịch → PAYMENTS của đơn: payment_type (Collection “Thanh toán” / Refund “Hoàn tiền”), purpose (TourFee “Phí tour”), amount, payment_method (BankTransfer “Chuyển khoản (VietQR)”), status, processed_at?<br>· received_amount ≠ amount → hiện thêm “Thực nhận X ₫” (chuyển thiếu / thừa)<br>· status: PendingApproval “Chờ duyệt” (chỉ Refund) · Pending (Collection: “Đang xác minh”; Refund: “Đang xử lý”) · Succeeded · Failed · Cancelled<br>· Failed + Collection → hiện failure_reason (câu tiếng Việt dành cho khách, 6.2); Failed + Refund → KHÔNG lộ failure_reason, chỉ ghi “Nhân viên đang xử lý”<br>· “Đang xác minh” = payment_status Unpaid + có Collection Pending (poll 6.2 mỗi 5 giây, tối đa 10 phút); NeedsReconciliation → banner “Đang xác minh khoản thanh toán X ₫ — không chuyển lại” (X = received_amount), ẩn nút hủy<br>· Khối “Hoàn tiền”: Chờ duyệt (PendingApproval) → Đang hoàn (Pending, đã gửi SePay) → Đã hoàn (Succeeded); Failed → “Đang xử lý thủ công” (Admin thử lại 8.3 / hoàn thủ công 8.6). payment_status của đơn đổi Refunded / PartiallyRefunded chỉ khi SePay báo succeeded<br>· Hủy → ORDERS.cancel_reason, cancelled_at<br><br>DEV · C12 (biến thể Đơn tour) · FR-B07, F05, F06 · API 7.1 → 7.2<br>· Mở modal: GET /trip-bookings/:orderId/cancellation-preview → canCancel, hoursBeforeStart, refundPolicy, appliedRule, rules, paid, estimatedRefund, note<br>· Giờ còn lại = TRIPS.start_at − now (hoursBeforeStart)<br>· Mốc áp dụng = REFUND_POLICY_RULES (theo REFUND_POLICIES đã chốt trên đơn) có min_hours_before lớn nhất ≤ giờ còn lại<br>· Đã thanh toán (paid) = Σ PAYMENTS.amount (Collection, Succeeded) của đơn · Dự kiến hoàn (estimatedRefund) = paid × refund_percentage<br>· Xác nhận: POST /trip-bookings/:orderId/cancel { reason 5–500 ký tự, expectedRefundTotal = estimatedRefund }<br>· Kết quả (200): ORDERS.status = Cancelled, cancelled_at, cancel_reason; tạo 1 dòng PAYMENTS Refund status PendingApproval (KHÔNG phải Pending) với original_payment_id = khoản thu gốc, refund_policy_rule_id = mốc đã áp; giải phóng chỗ chuyến / ASSET_ASSIGNMENTS Reserved; APPLIED_PROMOTIONS → Reversed (hoàn lượt Q-09). paymentStatus giữ Paid tới khi SePay xác nhận hoàn<br>· Nếu có Collection Pending: server hủy VA order SePay sau khi commit, JOB-04 xử lý nếu SePay từ chối — request hủy không thất bại vì SePay<br>· Luồng hoàn: Admin duyệt (8.2) → SePay hoàn theo VA order gốc → Pending → job đồng bộ → Succeeded. Tiền về đúng tài khoản đã chuyển khoản, khách không nhập tài khoản<br>· Lỗi: ORDER_NOT_CANCELLABLE (409) → ẩn nút hủy, nêu lý do · REFUND_AMOUNT_CHANGED (409) → gọi lại 7.1, hiện số cũ → số mới, xác nhận lại với expectedRefundTotal mới · REFUND_POLICY_CHANGED (409) → hiện lại chính sách, bắt đồng ý lại · ORDER_NOT_FOUND (404) → màn lỗi 404 ở Batch 6<br>· Đơn chưa thu tiền: paid = 0, estimatedRefund = 0, vẫn hủy được (refund = null)</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C13 + C12 (biến thể Đơn thuê) ================= -->
+<section id="c13" data-screen-label="C13 Chi tiết đơn thuê" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C13</span>
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#BE123C;color:#FFFFFF;padding:4px 8px;border-radius:6px">C12</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chi tiết đơn thuê + Yêu cầu hủy (biến thể Đơn thuê)</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/account/orders/:orderCode</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c13Chips }}" as="c" hint-placeholder-count="12"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px;color:#FFFFFF"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</div>
+      </header>
+      <div style="padding:32px 80px 64px;display:flex;flex-direction:column;gap:24px">
+        <a href="#c10" style="font-size:14px;font-weight:600;text-decoration:none">← Đơn của tôi</a>
+        <div style="display:flex;align-items:flex-start;gap:16px">
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font:700 28px ui-monospace,Menlo,monospace;color:#14213D">RTK-26-004812</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px 0 8px;border-radius:999px;background:{{ c13St.bg }};color:{{ c13St.fg }};font-size:13px;font-weight:600"><span aria-hidden="true">{{ c13St.ic }}</span>{{ c13St.label }}</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px 0 8px;border-radius:999px;background:{{ c13Pay.bg }};color:{{ c13Pay.fg }};font-size:13px;font-weight:600"><span aria-hidden="true">{{ c13Pay.ic }}</span>{{ c13Pay.label }}</span></div>
+            <div style="font-size:14px;color:#4A5870;margin-top:6px">Đơn thuê · Đặt lúc Th 3, 03/11/2026 · 08:47 (GMT+7) · Phụ trách: Phan Thị Ngọc</div>
+          </div>
+          <sc-if value="{{ c13CanCancel }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:#4A5870;max-width:170px;text-align:right">Chưa giao thiết bị nên còn hủy được</span><button onClick="{{ c13OpenCancel }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #BE123C;background:#FFFFFF;color:#BE123C;font-size:14px;font-weight:600;cursor:pointer">Yêu cầu hủy</button></div>
+          </sc-if>
+          <sc-if value="{{ c13Issued }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:#4A5870;max-width:170px;text-align:right">Đã nhận đồ nên không thể hủy đơn</span>
+              <sc-if value="{{ c13RvBtn }}" hint-placeholder-val="{{ true }}"><button onClick="{{ c13AskReview }}" disabled="{{ c13RvOff }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:{{ c13RvCur }};opacity:{{ c13RvOp }}">Yêu cầu kiểm tra lại phí</button></sc-if>
+              <sc-if value="{{ c13RvSent }}" hint-placeholder-val="{{ false }}"><span style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #DDDAD3;background:#ECEAE5;color:#4A5870;font-size:14px;font-weight:600;display:flex;align-items:center">✓ Đã gửi yêu cầu kiểm tra lại</span></sc-if>
+            </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ c13Cancelled }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="display:flex;gap:12px;padding:16px 18px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#BE123C;font-weight:700">✕</span><div><b style="color:#BE123C">Đơn đã hủy lúc Th 6, 06/11/2026 · 10:24 (GMT+7).</b><br>Lý do: {{ c13CxReason }}<br>{{ c13CxMsg }} Thiết bị đã giữ đã được giải phóng.</div></div>
+        </sc-if>
+        <sc-if value="{{ c13Overdue }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="display:flex;gap:12px;padding:16px 18px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#BE123C;font-weight:700">✕</span><div><b style="color:#BE123C">Quá hạn trả 1 ngày 4 giờ.</b> Còn 2 thiết bị chưa trả. Phí trả trễ ước tính 40.000 ₫ (2 gậy × 20.000 ₫ × 1 ngày) và tăng theo mỗi ngày trễ.</div></div>
+        </sc-if>
+        <sc-if value="{{ c13Reviewing }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="display:flex;gap:12px;padding:16px 18px;border-radius:12px;background:#E0F2F6;border:1px solid #0E7490;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#0E7490;font-weight:700">◷</span><div><b style="color:#0E7490">Phí đang được xem xét lại.</b> Yêu cầu của bạn gửi lúc Th 6, 13/11/2026 · 19:02. Phí vẫn ở trạng thái Đã xác định cho tới khi nhân viên phản hồi qua thông báo.<sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><br><span style="font:600 11px ui-monospace,Menlo,monospace;color:#B45309">⚠ DB chưa có bảng charge_review_requests (D-4) — cần bổ sung trước khi code</span></sc-if></div></div>
+        </sc-if>
+        <sc-if value="{{ c13Nr }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="display:flex;gap:12px;padding:16px 18px;border-radius:12px;background:#ECEAE5;border:1px solid #C5C3BD;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#4A5870;font-weight:700">○</span><div><b>Không thể yêu cầu kiểm tra lại phí này.</b> Phí không còn ở trạng thái Đã xác định hoặc đã có một yêu cầu đang mở, nên nút “Yêu cầu kiểm tra lại phí” được ẩn.<sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><br><span style="font:600 11px ui-monospace,Menlo,monospace;color:#4A5870">409 CHARGE_NOT_REVIEWABLE</span></sc-if></div></div>
+        </sc-if>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:24px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:18px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+              <div><div style="font-size:12px;color:#4A5870">Nhận đồ</div><div style="font-size:15px;font-weight:600;margin-top:2px">Th 3, 10/11/2026 · 08:00</div></div>
+              <div><div style="font-size:12px;color:#4A5870">Hạn trả</div><div style="font-size:15px;font-weight:600;margin-top:2px;color:{{ c13DueC }}">Th 6, 13/11/2026 · 18:00</div></div>
+              <div><div style="font-size:12px;color:#4A5870">Số ngày tính tiền</div><div style="font-size:15px;font-weight:600;margin-top:2px">3 ngày</div></div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:16px 20px;font-size:16px;font-weight:600;border-bottom:1px solid #ECEAE5">Dòng thuê</div>
+              <sc-for list="{{ c13Lines }}" as="l" hint-placeholder-count="3">
+                <div style="padding:14px 20px;border-top:1px solid #ECEAE5">
+                  <div style="display:grid;grid-template-columns:minmax(0,1fr) 60px 150px 120px;gap:14px;font-size:14px;align-items:center"><span style="font-weight:600">{{ l.name }}</span><span>× {{ l.qty }}</span><span style="color:#343F52">{{ l.unit }} × 3 ngày</span><span style="text-align:right;font-weight:700">{{ l.amt }}</span></div>
+                  <sc-if value="{{ l.combo }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#4A5870;margin-top:6px">Thành phần đã chốt: Túi ngủ −5°C · M × 1 · Đệm hơi bơm tay × 1</div></sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:16px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #ECEAE5"><span style="font-size:16px;font-weight:600;flex:1">Thiết bị đã giao</span><span style="font-size:14px;font-weight:600">{{ c13Progress }}</span><div style="width:140px;height:8px;border-radius:4px;background:#ECEAE5;overflow:hidden"><div style="height:100%;width:{{ c13Pct }};background:#166534"></div></div></div>
+              <sc-if value="{{ c13HasAssets }}" hint-placeholder-val="{{ true }}">
+                <div style="display:grid;grid-template-columns:130px minmax(0,1fr) 110px 110px 130px 140px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Mã thiết bị</span><span>Thiết bị</span><span>Giao lúc</span><span>Trả lúc</span><span>Tình trạng</span><span>Trạng thái</span></div>
+                <sc-for list="{{ c13Assets }}" as="a" hint-placeholder-count="5">
+                  <div style="display:grid;grid-template-columns:130px minmax(0,1fr) 110px 110px 130px 140px;gap:12px;align-items:center;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:13px">
+                    <span style="font:600 13px ui-monospace,Menlo,monospace;color:#14213D">{{ a.code }}</span><span>{{ a.name }}</span><span style="color:#343F52">10/11 08:05</span><span style="color:{{ a.rc }}">{{ a.ret }}</span><span style="color:{{ a.cc }}">{{ a.cond }}</span>
+                    <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ a.bg }};color:{{ a.fg }};font-size:12px;font-weight:600;justify-self:start;white-space:nowrap"><span aria-hidden="true">{{ a.ic }}</span>{{ a.label }}</span>
+                  </div>
+                </sc-for>
+              </sc-if>
+              <sc-if value="{{ c13NoAssets }}" hint-placeholder-val="{{ false }}"><div style="padding:18px 20px;font-size:14px;color:#4A5870">Chưa giao thiết bị. Mã thiết bị chỉ hiện sau khi nhân viên giao đồ cho bạn.</div></sc-if>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:16px 20px;font-size:16px;font-weight:600;border-bottom:1px solid #ECEAE5">Phí phát sinh</div>
+              <sc-if value="{{ c13HasCharges }}" hint-placeholder-val="{{ false }}">
+                <sc-for list="{{ c13Charges }}" as="c" hint-placeholder-count="1">
+                  <div style="display:grid;grid-template-columns:80px 120px minmax(0,1fr) 100px 130px;gap:12px;align-items:center;padding:14px 20px;border-top:1px solid #ECEAE5;font-size:14px"><span style="font-weight:600">{{ c.type }}</span><span style="font:600 13px ui-monospace,Menlo,monospace">{{ c.asset }}</span><span style="color:#343F52">{{ c.reason }}</span><span style="text-align:right;font-weight:700;text-decoration:{{ c.deco }};color:{{ c.amc }}">{{ c.amt }}</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ c.bg }};color:{{ c.fg }};font-size:12px;font-weight:600;justify-self:start;white-space:nowrap"><span aria-hidden="true">{{ c.ic }}</span>{{ c.label }}</span></div>
+                </sc-for>
+              </sc-if>
+              <sc-if value="{{ c13NoCharges }}" hint-placeholder-val="{{ true }}"><div style="padding:18px 20px;font-size:14px;color:#4A5870">Chưa có phí phát sinh.</div></sc-if>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px;font-size:14px">
+              <div style="font-size:16px;font-weight:600">Thanh toán</div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Tạm tính</span><span>1.340.000 ₫</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Giảm giá</span><span>0 ₫</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;font-weight:700;padding-top:10px;border-top:1px solid #ECEAE5"><span>Tổng thanh toán</span><span style="font-size:22px;color:#14213D">1.340.000 ₫</span></div>
+              <span style="font-size:12px;color:#4A5870">Chưa áp dụng cọc ở bản này (cọc 0 ₫).</span>
+            </div>
+            <sc-if value="{{ c13ShowDue }}" hint-placeholder-val="{{ true }}">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px;font-size:14px">
+                <div style="font-size:16px;font-weight:600">Phí phát sinh cần thanh toán</div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Phí đã xác định</span><span>{{ c13Assessed }}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Đã thanh toán</span><span>{{ c13Settled }}</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:10px;border-top:1px solid #ECEAE5"><span style="font-weight:700">Cần thanh toán</span><span style="font-size:22px;font-weight:700;color:#14213D">{{ c13Due }}</span></div>
+                <sc-if value="{{ c13HasDue }}" hint-placeholder-val="{{ false }}">
+                  <a href="RenTrekk Batch 2 - Tour.dc.html#c04p" style="height:44px;border-radius:8px;background:#A4532F;color:#FFFFFF;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none">Thanh toán phí · {{ c13DueTxt }}</a>
+                  <span style="font-size:12px;color:#4A5870">Thanh toán bằng chuyển khoản VietQR ở bước tiếp theo.</span><sc-if value="{{ c13Reviewing }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#0E7490">Phí đang được xem xét lại — bạn có thể chờ kết quả trước khi thanh toán.</span></sc-if>
+                </sc-if>
+                <sc-if value="{{ c13PayPending }}" hint-placeholder-val="{{ false }}"><div role="status" style="display:flex;gap:8px;padding:12px 14px;border-radius:10px;background:#E0F2F6;color:#0E7490;font-size:13px;line-height:20px;font-weight:600"><span aria-hidden="true">◷</span><span>Đang xác minh khoản thanh toán phí {{ c13DueTxt }} — không chuyển lại.</span></div></sc-if>
+                <sc-if value="{{ c13NoDue }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#4A5870">Không có khoản phí nào cần thanh toán.</span></sc-if>
+              </div>
+            </sc-if>
+            <sc-if value="{{ c13HasRf }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;font-size:14px">
+                <div style="display:flex;align-items:center;gap:8px"><span style="font-size:16px;font-weight:600;flex:1">Hoàn tiền</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ c13RfBadge.bg }};color:{{ c13RfBadge.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ c13RfBadge.ic }}</span>{{ c13RfBadge.label }}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Đã thanh toán</span><span>{{ c13RfPaid }}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Hoàn theo chính sách ({{ c13RfPct }}%)</span><span style="color:#166534;font-weight:700">{{ c13RfAmt }}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Không được hoàn</span><span style="color:#BE123C;font-weight:600">{{ c13RfLose }}</span></div>
+                <div style="display:flex;padding:8px 0 0;border-top:1px solid #ECEAE5">
+                  <sc-for list="{{ c13RfSteps }}" as="s" hint-placeholder-count="3">
+                    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;text-align:center">
+                      <div style="position:absolute;top:13px;left:-50%;width:100%;height:2px;background:{{ s.line }};display:{{ s.lineShow }}"></div>
+                      <div style="position:relative;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:{{ s.bg }};color:{{ s.fg }};border:2px solid {{ s.bd }}">{{ s.mark }}</div>
+                      <span style="font-size:12px;font-weight:{{ s.w }};color:{{ s.tc }};padding:0 4px">{{ s.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <span style="font-size:13px;line-height:20px;color:#343F52">{{ c13RfDesc }}</span>
+                <span style="font-size:12px;line-height:18px;color:#4A5870">Admin duyệt trước khi hoàn; tiền về đúng tài khoản đã chuyển khoản, bạn không cần nhập tài khoản ngân hàng.</span>
+              </div>
+            </sc-if>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:16px 20px;font-size:16px;font-weight:600;border-bottom:1px solid #ECEAE5">Giao dịch</div>
+              <sc-for list="{{ c13Tx }}" as="t" hint-placeholder-count="1">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px"><span><span style="display:block;font-weight:500">{{ t.title }}</span><span style="font-size:12px;color:#4A5870">{{ t.sub }}</span></span><span style="text-align:right;flex:none"><b>{{ t.amt }}</b><br><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;color:{{ t.fg }};font-weight:600"><span aria-hidden="true">{{ t.ic }}</span>{{ t.label }}</span></span></div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{ c12RentOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ c12Close }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" aria-labelledby="c12r-t" style="position:absolute;top:90px;left:50%;transform:translateX(-50%);width:600px;max-height:800px;overflow-y:auto;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3)">
+          <div style="padding:22px 24px 0;display:flex;align-items:flex-start;gap:12px"><div style="flex:1"><div id="c12r-t" style="font-size:20px;font-weight:700">{{ c12Title }}</div><div style="font-size:13px;color:#4A5870;margin-top:4px">{{ c12Sub }}</div></div><button onClick="{{ c12Close }}" aria-label="Đóng" style="width:36px;height:36px;border:0;background:transparent;font-size:16px;cursor:pointer;color:#343F52">✕</button></div>
+          <div style="margin:14px 24px 0;padding:10px 12px;border:1px dashed #9AA1AC;border-radius:8px;background:#F5F4F1;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;color:#4A5870">Mô phỏng thời điểm hủy:<sc-for list="{{ c12When }}" as="w" hint-placeholder-count="3"><button onClick="{{ w.on }}" style="height:28px;padding:0 10px;border-radius:999px;border:1px solid {{ w.bd }};background:{{ w.bg }};color:{{ w.c }};font-size:12px;font-weight:600;cursor:pointer">{{ w.label }}</button></sc-for></div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;color:#4A5870">Mô phỏng phản hồi API:<sc-for list="{{ c12Scs }}" as="w" hint-placeholder-count="4"><button onClick="{{ w.on }}" style="height:28px;padding:0 10px;border-radius:999px;border:1px solid {{ w.bd }};background:{{ w.bg }};color:{{ w.c }};font:600 11px ui-monospace,Menlo,monospace;cursor:pointer">{{ w.label }}</button></sc-for></div>
+          </div>
+          <sc-if value="{{ c12Nc }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="margin:14px 24px 0;display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#BE123C;font-weight:700">✕</span><div><b style="color:#BE123C">Không thể hủy đơn này.</b><br>{{ c12NcMsg }}</div></div>
+          </sc-if>
+          <sc-if value="{{ c12Amt }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="margin:14px 24px 0;display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:#FEF3C7;border:1px solid #B45309;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#B45309;font-weight:700">!</span><div><b style="color:#B45309">Số tiền hoàn đã thay đổi.</b><br>Từ {{ c12AmtOld }} còn {{ c12AmtNew }} vì đơn đã sang mốc hoàn khác. Bảng bên dưới đã được tải lại, vui lòng xem lại rồi xác nhận.</div></div>
+          </sc-if>
+          <sc-if value="{{ c12Pol }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="margin:14px 24px 0;display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:#FEF3C7;border:1px solid #B45309;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#B45309;font-weight:700">!</span><div><b style="color:#B45309">Chính sách hoàn tiền đã được cập nhật (v1 → v2).</b><br>Các mốc hoàn bên dưới là phiên bản mới. Bạn cần đồng ý lại trước khi hủy.<label style="display:flex;gap:8px;align-items:center;margin-top:8px;font-weight:600;cursor:pointer"><input type="checkbox" checked="{{ c12Agree }}" onChange="{{ c12OnAgree }}" style="width:18px;height:18px;accent-color:#14213D">Tôi đã xem và đồng ý chính sách mới</label></div></div>
+          </sc-if>
+          <sc-if value="{{ c12Ok }}" hint-placeholder-val="{{ true }}">
+            <div style="margin:14px 24px 0;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:10px 14px;background:#F5F4F1;font-size:13px;display:flex;justify-content:space-between"><span style="font-weight:600;color:#343F52">Xem trước tác động</span><span style="color:#343F52">Còn <b>{{ c12Hours }}</b> đến {{ c12Start }}</span></div>
+              <div style="padding:8px 14px;border-top:1px solid #ECEAE5;font-size:12px;color:#4A5870">Chính sách: {{ c12Policy }}</div>
+              <sc-for list="{{ c12Rules }}" as="r" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;padding:9px 14px;font-size:14px;border-top:1px solid #ECEAE5;background:{{ r.bg }};font-weight:{{ r.w }}"><span>{{ r.when }}</span><span>{{ r.pct }}</span></div></sc-for>
+              <div style="padding:12px 14px;border-top:1px solid #DDDAD3;display:flex;flex-direction:column;gap:6px;font-size:14px">
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Đã thanh toán</span><span>{{ c12Paid }}</span></div>
+                <div style="display:flex;justify-content:space-between;font-weight:700"><span>Dự kiến hoàn</span><span style="color:#166534">{{ c12Refund }}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Không được hoàn</span><span style="color:#BE123C;font-weight:600">{{ c12Lose }}</span></div>
+                <span style="font-size:12px;color:#4A5870">{{ c12Note }} Số tiền được tính lại tại thời điểm hủy. {{ c12Impact }}</span>
+              </div>
+            </div>
+            <div style="padding:16px 24px 0;display:flex;flex-direction:column;gap:6px">
+              <label for="c12r-r" style="font-size:13px;font-weight:600">Lý do hủy <span style="color:#BE123C">*</span></label>
+              <textarea id="c12r-r" rows="3" value="{{ c12Reason }}" onChange="{{ c12OnReason }}" aria-invalid="{{ c12Err }}" placeholder="Ví dụ: thay đổi lịch công tác" style="padding:10px 12px;border:{{ c12Bd }};border-radius:8px;font-size:14px;resize:vertical;outline:none"></textarea>
+              <sc-if value="{{ c12Err }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập lý do hủy (5–500 ký tự).</span></sc-if>
+            </div>
+          </sc-if>
+          <div style="display:flex;justify-content:flex-end;gap:8px;padding:18px 24px;margin-top:16px;border-top:1px solid #ECEAE5">
+            <button onClick="{{ c12Close }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">{{ c12Keep }}</button>
+            <sc-if value="{{ c12Ok }}" hint-placeholder-val="{{ true }}"><button onClick="{{ c12Confirm }}" disabled="{{ c12BtnOff }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#BE123C;color:#FFFFFF;font-size:14px;font-weight:600;cursor:{{ c12BtnCur }};opacity:{{ c12BtnOp }}">{{ c12Btn }}</button></sc-if>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C13 · FR-R06–R08, C05, C06 · API 5.4 GET /rental-orders/:orderId<br>· Thời gian → RENTAL_ORDERS.rental_start_at, rental_end_at; billableDays; quá hạn = now − rental_end_at khi còn assignment Issued<br>· Phụ trách → handled_by_user_id? → ACCOUNTS.full_name (rỗng → “Chưa phân công”)<br>· Dòng → RENTAL_ORDER_ITEMS.*; combo → RENTAL_BUNDLE_ITEM_SNAPSHOTS.product_variant_id, quantity_per_bundle<br>· Thiết bị → ASSET_ASSIGNMENTS → EQUIPMENT_ASSETS.asset_code, assigned_at, returned_at?, return_condition?, status. API chỉ trả Issued / Returned / LostOrException (không trả Reserved nên đơn chưa giao không lộ mã tài sản)<br>· AssignmentStatus: Issued “Đã giao” · Returned “Đã trả” · LostOrException “Mất / ngoại lệ”<br>· return_condition: Normal “Bình thường” · Damaged “Hư hỏng” · MissingAccessory “Thiếu phụ kiện” · Lost “Mất”<br>· Tiến độ = COUNT(status = Returned) / COUNT(*)<br>· Phí → RENTAL_CHARGES.charge_type (LateReturn “Trả trễ” · Damage “Hư hỏng” · Loss “Mất” · Other “Khác”, vệ sinh → Other), equipment_asset_id? → asset_code, amount, reason, status (ẩn Draft; Assessed “Đã xác định” · Settled “Đã quyết toán” · Voided “Đã hủy” gạch ngang)<br>· Khối “Thanh toán”: ORDERS.total_amount; cọc hoãn (RENTAL_ORDERS.deposit_amount = 0, D-1) nên KHÔNG còn khối “Quyết toán cọc”; depositSettlement luôn null (D-5)<br>· Khối “Phí phát sinh cần thanh toán” = Σ RENTAL_CHARGES.amount có status Assessed (chưa Settled). Nút “Thanh toán phí” → tạo PAYMENTS Collection purpose AdditionalCharge (POST /orders/:orderId/payments) → C04P; thành công thì phí → Settled. Có Collection AdditionalCharge Pending → ẩn nút, hiện “Đang xác minh … không chuyển lại”<br>· Chưa có quy tắc chốt: có chặn thanh toán phí khi đang xem xét lại hay không (đề xuất: không chặn)<br>· Giao dịch → PAYMENTS (payment_type Collection / Refund, purpose RentalFee / AdditionalCharge, status gồm PendingApproval)<br>· allowedActions: canPay · canCancel (+ cancelBlockedReason “Không thể hủy sau khi đã giao thiết bị”) · canRequestChargeReview; FE chỉ bật / tắt nút theo đây<br>· “Yêu cầu kiểm tra lại phí” → API 5.7 POST /rental-orders/:orderId/charges/:chargeId/review-requests { message 10–1000 ký tự }; chỉ phí Assessed, mỗi phí tối đa 1 yêu cầu mở. 409 CHARGE_NOT_REVIEWABLE → ẩn nút. ⚠ DB chưa có bảng charge_review_requests (D-4) — cần bổ sung trước khi code; banner “Đang xem xét lại” là placeholder<br>· Khối Hoàn tiền: như C11 (Chờ duyệt → Đang hoàn → Đã hoàn)<br><br>DEV · C12 (biến thể Đơn thuê) · FR-R07, F05, F06 · API 5.5 → 5.6<br>· “Yêu cầu hủy” chỉ hiện khi chưa có assignment Issued và đơn PendingPayment / Confirmed (canCancel); hủy toàn đơn (P0, Q-07)<br>· Mở modal: GET /rental-orders/:orderId/cancellation-preview; mốc theo RENTAL_ORDERS.rental_start_at − now (hoursBeforeStart); chính sách “Thuê thiết bị” phiên bản đã chốt trên đơn (D-6)<br>· paid = Σ PAYMENTS Collection Succeeded; estimatedRefund = paid × refund_percentage; không có phần hoàn cọc (D-1)<br>· Xác nhận: POST /rental-orders/:orderId/cancel { reason 5–500 ký tự, expectedRefundTotal }<br>· Kết quả: ORDERS.status = Cancelled, cancelled_at, cancel_reason; ASSET_ASSIGNMENTS Reserved → Cancelled (giải phóng ngay); nếu đã thu: 1 dòng PAYMENTS Refund status PendingApproval, original_payment_id, refund_policy_rule_id; response refund { paymentId, status, total, message } (refund = null khi chưa thu tiền)<br>· Admin duyệt (8.2) → SePay hoàn theo VA order gốc (provider_order_id) → tiền về đúng tài khoản đã chuyển khoản<br>· Lỗi: ORDER_NOT_CANCELLABLE → ẩn nút, nêu lý do · REFUND_AMOUNT_CHANGED → gọi lại 5.5 · REFUND_POLICY_CHANGED → hiện lại chính sách, đồng ý lại · ORDER_NOT_FOUND → màn lỗi 404 (Batch 6)</div>
+    </sc-if>
+  </div>
+</section>
+
+</div>
+
+<div aria-live="polite" style="position:fixed;right:24px;bottom:24px;display:flex;flex-direction:column;gap:8px;z-index:50;max-width:380px">
+  <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="0">
+    <div role="status" style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:#FFFFFF;border:1px solid #DDDAD3;border-left:4px solid {{ t.fg }};border-radius:10px;box-shadow:0 12px 32px rgba(20,33,61,.18);font-size:14px">
+      <span aria-hidden="true" style="color:{{ t.fg }};font-weight:700">{{ t.ic }}</span>
+      <div style="flex:1"><div style="font-weight:600">{{ t.title }}</div><div style="font-size:13px;color:#4A5870">{{ t.msg }}</div></div>
+    </div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDevNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Annotation&quot;}}">
+const G = {neutral:{bg:'#ECEAE5',fg:'#4A5870',ic:'○'},info:{bg:'#E0F2F6',fg:'#0E7490',ic:'◷'},warning:{bg:'#FEF3C7',fg:'#B45309',ic:'!'},progress:{bg:'#EDE9FE',fg:'#6D28D9',ic:'▶'},success:{bg:'#E7F6EC',fg:'#166534',ic:'✓'},danger:{bg:'#FFE4E8',fg:'#BE123C',ic:'✕'}};
+const B = (label,g) => ({...G[g],label});
+const vnd = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.') + ' ₫';
+// ORDERS.status (Phụ lục A)
+const OS = {Draft:B('Nháp','neutral'),Confirmed:B('Đã xác nhận','success'),PendingPayment:B('Chờ thanh toán','warning'),InFulfillment:B('Đang thực hiện','progress'),Completed:B('Hoàn tất','success'),Cancelled:B('Đã hủy','danger'),Expired:B('Hết hạn','neutral')};
+// ORDERS.payment_status; Verifying = FE hiển thị khi Unpaid + có PAYMENTS Collection Pending
+const PS = {Paid:B('Đã thanh toán','success'),Unpaid:B('Chưa thanh toán','neutral'),Verifying:B('Đang xác minh','info'),NeedsReconciliation:B('Cần đối soát','warning'),Refunded:B('Đã hoàn tiền','info'),PartiallyRefunded:B('Hoàn một phần','info')};
+// PAYMENTS.status
+const PST = {PendingApproval:B('Chờ duyệt','warning'),Pending:B('Đang xử lý','info'),Succeeded:B('Thành công','success'),Failed:B('Thất bại','danger'),Cancelled:B('Đã hủy','neutral')};
+const VERIFY = B('Đang xác minh','info');
+const PURPOSE = {TourFee:'Phí tour',RentalFee:'Phí thuê',AdditionalCharge:'Phí phát sinh'};
+const METHOD = 'Chuyển khoản (VietQR)';
+const C04P = 'RenTrekk Batch 2 - Tour.dc.html#c04p';
+const PAID_T = 4700000, PAID_R = 1340000;
+const ORDERS = [
+  {code:'RTK-26-004852',type:'Tour',svc:'Chinh phục Fansipan qua cung Trạm Tôn',when:'Th 7, 14/11/2026 · 2 người',at:'05/11/2026',total:4700000,st:'Confirmed',pay:'Paid',href:'#c11'},
+  {code:'RTK-26-004841',type:'Thuê',svc:'3 món thiết bị',when:'15/11 → 17/11/2026',at:'06/11/2026',total:520000,st:'PendingPayment',pay:'Unpaid',verifying:true,href:'#c13'},
+  {code:'RTK-26-004830',type:'Thuê',svc:'5 món thiết bị',when:'14/11 → 17/11/2026',at:'06/11/2026',total:855000,st:'PendingPayment',pay:'Unpaid',payNow:true,href:'#c13'},
+  {code:'RTK-26-004820',type:'Tour',svc:'Bạch Mộc Lương Tử – săn mây',when:'Th 7, 21/11/2026 · 2 người',at:'04/11/2026',total:3200000,st:'PendingPayment',pay:'NeedsReconciliation',recv:3300000,href:'#c11'},
+  {code:'RTK-26-004812',type:'Thuê',svc:'5 món thiết bị',when:'10/11 → 13/11/2026',at:'03/11/2026',total:1340000,st:'InFulfillment',pay:'Paid',href:'#c13'},
+  {code:'RTK-26-004799',type:'Tour',svc:'Lảo Thẩn – nóc nhà Y Tý',when:'CN, 08/11/2026 · 2 người',at:'01/11/2026',total:3300000,st:'Cancelled',pay:'Paid',rf:{st:'PendingApproval',amt:2310000},href:'#c11'},
+  {code:'RTK-26-004790',type:'Tour',svc:'Mù Cang Chải mùa lúa chín',when:'Th 7, 07/11/2026 · 2 người',at:'28/10/2026',total:3100000,st:'Cancelled',pay:'Paid',rf:{st:'Pending',amt:2170000},href:'#c11'},
+  {code:'RTK-26-004777',type:'Tour',svc:'Tà Chì Nhù mùa hoa chi pâu',when:'Th 3, 03/11/2026 · 1 người',at:'12/10/2026',total:1890000,st:'Cancelled',pay:'Refunded',rf:{st:'Succeeded',amt:1890000},href:'#c11'},
+  {code:'RTK-26-004760',type:'Thuê',svc:'3 món thiết bị',when:'24/10 → 26/10/2026',at:'20/10/2026',total:540000,st:'Completed',pay:'Paid',href:'#c13'},
+  {code:'RTK-26-004701',type:'Tour',svc:'Pu Luông – ruộng bậc thang và bản Thái',when:'Th 7, 17/10/2026 · 3 người',at:'10/10/2026',total:3870000,st:'Expired',pay:'Unpaid',href:'#c11'}
+];
+const RFN = {PendingApproval:['warning','Đã hủy · Chờ duyệt hoàn tiền'],Pending:['info','Đã hủy · Đang hoàn tiền'],Succeeded:['success','Đã hoàn tiền']};
+const NONOTE = {hasNote:false,noteBg:'',noteFg:'',noteIc:'',noteText:''};
+const mkNote = (g,text) => ({hasNote:true,noteBg:G[g].bg,noteFg:G[g].fg,noteIc:G[g].ic,noteText:text});
+// Chính sách hoàn tiền (REFUND_POLICY_RULES): [min_hours_before, refund_percentage, nhãn]
+const VT = {
+  rules:[[168,100,'Hủy trước ≥ 168 giờ (7 ngày)'],[72,70,'Hủy trước ≥ 72 giờ (3 ngày)'],[24,30,'Hủy trước ≥ 24 giờ'],[0,0,'Dưới 24 giờ']],
+  rules2:[[168,100,'Hủy trước ≥ 168 giờ (7 ngày)'],[72,60,'Hủy trước ≥ 72 giờ (3 ngày)'],[24,20,'Hủy trước ≥ 24 giờ'],[0,0,'Dưới 24 giờ']],
+  paid:PAID_T, opts:[['Hôm nay 06/11 · 10:24',187,'187 giờ (7 ngày 19 giờ)'],['10/11 · 08:00',93,'93 giờ (3 ngày 21 giờ)'],['13/11 · 03:30',26,'26 giờ (1 ngày 2 giờ)']]
+};
+const VR = {
+  rules:[[72,100,'Hủy trước ≥ 72 giờ (3 ngày)'],[48,50,'Hủy trước ≥ 48 giờ (2 ngày)'],[0,0,'Dưới 48 giờ']],
+  rules2:[[72,100,'Hủy trước ≥ 72 giờ (3 ngày)'],[48,30,'Hủy trước ≥ 48 giờ (2 ngày)'],[0,0,'Dưới 48 giờ']],
+  paid:PAID_R, opts:[['Hôm nay 06/11 · 10:24',93,'93 giờ (3 ngày 21 giờ)'],['08/11 · 08:00',48,'48 giờ (2 ngày)'],['10/11 · 06:00',2,'2 giờ']]
+};
+const calc = (V,wi,sc) => {
+  const rs = sc==='policy' ? V.rules2 : V.rules, h = V.opts[wi][1];
+  const i = rs.findIndex(r => h>=r[0]);
+  const rf = ix => Math.round(V.paid*rs[ix][1]/100);
+  let a=i, b=i;
+  if(sc==='amount'){ b=Math.min(i+1,rs.length-1); if(b===i&&a>0) a=a-1; }
+  return {rs, idx:b, pct:rs[b][1], refund:rf(b), oldRefund:rf(a), hours:V.opts[wi][2], paid:V.paid};
+};
+// Khối "Hoàn tiền": Chờ duyệt → Đang hoàn → Đã hoàn (hoặc Đang xử lý thủ công khi dòng hoàn Failed)
+const rfCard = (st,amt,paid) => {
+  const pct = paid ? Math.round(amt*100/paid) : 0;
+  const idx = {PendingApproval:0,Pending:1,Failed:2,Succeeded:3}[st];
+  const labels = ['Chờ duyệt','Đang hoàn', st==='Failed' ? 'Đang xử lý thủ công' : 'Đã hoàn'];
+  const steps = labels.map((label,i)=>{
+    const done = i<idx, act = i===idx, warn = act && st==='Failed';
+    return {label, mark: done?'✓':warn?'!':String(i+1), bg: done?'#14213D':warn?'#FEF3C7':'#FFFFFF', fg: done?'#FFFFFF':warn?'#B45309':act?'#14213D':'#5E6B80', bd: done?'#14213D':warn?'#B45309':act?'#14213D':'#C5C3BD', w: act?700:500, tc: act||done?'#151A24':'#4A5870', line: i<=idx?'#14213D':'#DDDAD3', lineShow: i===0?'none':'block'};
+  });
+  const desc = {
+    PendingApproval:'Quản trị viên sẽ duyệt yêu cầu trước khi hoàn tiền. Bạn sẽ nhận thông báo khi có kết quả.',
+    Pending:'Đã gửi lệnh hoàn tiền tới ngân hàng, đang chờ kết quả (thường 3–5 ngày làm việc).',
+    Succeeded:'Tiền đã hoàn về tài khoản bạn dùng để chuyển khoản.',
+    Failed:'Lệnh hoàn tiền chưa thực hiện được. Nhân viên đang xử lý thủ công và sẽ liên hệ bạn.'
+  }[st];
+  return {steps, desc, pct, amt:vnd(amt), paid:vnd(paid), lose:vnd(paid-amt), badge:PST[st]};
+};
+const rfMsg = (st,amt) => amt<=0 ? 'Theo chính sách, đơn này không được hoàn tiền.' : ({
+  PendingApproval:`Yêu cầu hoàn ${vnd(amt)} đang chờ Quản trị viên duyệt.`,
+  Pending:`Khoản hoàn ${vnd(amt)} đã được gửi tới ngân hàng, đang chờ kết quả (thường 3–5 ngày làm việc).`,
+  Succeeded:`Đã hoàn ${vnd(amt)} về tài khoản bạn dùng để chuyển khoản.`,
+  Failed:`Khoản hoàn ${vnd(amt)} chưa chuyển được. Nhân viên đang xử lý thủ công và sẽ liên hệ bạn.`
+})[st];
+const RULES_NOTE = 'Admin duyệt trước khi hoàn; tiền về đúng tài khoản bạn đã chuyển khoản, không cần nhập tài khoản ngân hàng.';
+const ASSETS = [['LEU-2P-0142','Lều 2 người · Xanh rêu'],['TN-M-0218','Túi ngủ −5°C · M (combo)'],['DH-0097','Đệm hơi bơm tay (combo)'],['GAY-TK-0310','Gậy trekking carbon'],['GAY-TK-0311','Gậy trekking carbon']];
+const RT = ['13/11 17:40','13/11 17:40','13/11 17:42','13/11 17:50','13/11 17:55'];
+const COND = {Normal:['Bình thường','#151A24'],Damaged:['Hư hỏng','#B45309'],MissingAccessory:['Thiếu phụ kiện','#B45309'],Lost:['Mất','#BE123C']};
+const CT = {LateReturn:'Trả trễ',Damage:'Hư hỏng',Loss:'Mất',Other:'Khác'};
+const CST = {Assessed:B('Đã xác định','warning'),Settled:B('Đã quyết toán','success'),Voided:B('Đã hủy','neutral')};
+const RN = ['R','Normal'], IS = ['I',null];
+const ASS = {renting:[IS,IS,IS,IS,IS],partial:[RN,RN,RN,IS,IS],overdue:[RN,RN,RN,IS,IS],charge:[['R','Damaged'],RN,RN,IS,IS],lost:[RN,['R','MissingAccessory'],RN,['L','Lost'],IS],settled:[['R','Damaged'],RN,RN,RN,RN]};
+const CH = {
+  partial:[['LateReturn','TN-M-0218','Trả trễ 1 ngày',25000,'Assessed']],
+  overdue:[['LateReturn','TN-M-0218','Trả trễ 1 ngày',25000,'Assessed']],
+  charge:[['Damage','LEU-2P-0142','Rách cửa lều khoảng 5 cm',150000,'Assessed']],
+  lost:[['Loss','GAY-TK-0310','Không trả lại gậy, nhân viên xác nhận mất',450000,'Assessed'],['Other','TN-M-0218','Thiếu phụ kiện: dây rút túi nén',30000,'Assessed'],['LateReturn',null,'Phí trả trễ — nhân viên đã hủy',20000,'Voided']],
+  settled:[['Damage','LEU-2P-0142','Rách cửa lều khoảng 5 cm',150000,'Settled']]
+};
+class Component extends DCLogic {
+  state = { tab:'all', q:'', clock:492, c11:'active', modal:false, when:0, sc:'ok', agree:false, reason:'', err:false, c13:'confirmed', rv:false, rfT:null, rfR:null, toasts:[] };
+  componentDidMount(){ this.t=setInterval(()=>this.setState(s=>({clock:s.clock>0?s.clock-1:0})),1000); }
+  componentWillUnmount(){ clearInterval(this.t); }
+  toast(kind,title,msg){ const id=Math.random(); const g=G[kind]; this.setState(s=>({toasts:[...s.toasts,{id,fg:g.fg,ic:g.ic,title,msg}]})); setTimeout(()=>this.setState(s=>({toasts:s.toasts.filter(t=>t.id!==id)})),3600); }
+  chip(a,label,on){ return {label,on,bg:a?'#14213D':'#FFFFFF',c:a?'#FFFFFF':'#14213D',bd:a?'#14213D':'#C5C3BD'}; }
+  renderVals() {
+    const s=this.state, dev=this.props.showDevNotes ?? true;
+    const rows=ORDERS.filter(o=>(s.tab==='all'||o.type===(s.tab==='tour'?'Tour':'Thuê'))&&(!s.q||o.code.toLowerCase().includes(s.q.trim().toLowerCase())));
+    // ===== C12 (dùng chung 2 biến thể) =====
+    const mod=s.modal, isR=mod==='rental', V=isR?VR:VT, cc=calc(V,s.when,s.sc);
+    const btnOff=s.sc==='policy'&&!s.agree;
+    // ===== C11 =====
+    const k11=s.c11, cx=k11.startsWith('cx_');
+    const rfSt=({cx_pa:'PendingApproval',cx_pend:'Pending',cx_done:'Succeeded',cx_fail:'Failed'})[k11]||'PendingApproval';
+    const rfT=s.rfT ?? 3290000, hasRfT=cx&&rfT>0;
+    const cardT=rfCard(rfSt,rfT>0?rfT:PAID_T,PAID_T);
+    const c11Pay=cx?(k11==='cx_done'?PS.Refunded:PS.Paid):k11==='verifying'?PS.Verifying:k11==='recon'?PS.NeedsReconciliation:PS.Paid;
+    const c11St=cx?OS.Cancelled:(k11==='verifying'||k11==='recon')?OS.PendingPayment:OS.Confirmed;
+    const stepLabels=['Tạo đơn','Chờ thanh toán','Đã xác nhận','Đang thực hiện','Hoàn thành'];
+    const mkSteps=(labels,ats,doneN,act,last)=>labels.map((label,i)=>{ const done=i<doneN, isAct=i===act, bad=last&&i===labels.length-1; return {label,at:ats[i],mark:bad?'✕':done?'✓':String(i+1),bg:bad?'#BE123C':done?'#14213D':'#FFFFFF',fg:bad||done?'#FFFFFF':isAct?'#14213D':'#5E6B80',bd:bad?'#BE123C':done||isAct?'#14213D':'#C5C3BD',w:bad||isAct?700:500,tc:bad?'#BE123C':done||isAct?'#151A24':'#4A5870',line:bad?'#BE123C':i<=Math.max(act,doneN-1)?'#14213D':'#DDDAD3',lineShow:i===0?'none':'block'}; });
+    const c11Steps=cx?mkSteps(['Tạo đơn','Chờ thanh toán','Đã xác nhận','Đã hủy'],['05/11 09:12','05/11 09:12','05/11 09:18','06/11 10:24'],4,-1,true)
+      :(k11==='verifying'||k11==='recon')?mkSteps(stepLabels,['05/11 09:12','05/11 09:12','','',''],1,1,false)
+      :mkSteps(stepLabels,['05/11 09:12','05/11 09:12','05/11 09:18','14/11',''],3,3,false);
+    const txRow=(type,purpose,amt,st,at,o={})=>({type,purpose:PURPOSE[purpose],amt:vnd(amt),hasRecv:!!o.recv,recv:o.recv||'',method:METHOD,...st,at,atc:at==='Chưa cập nhật'?'#5E6B80':'#343F52',hasFail:!!o.fail,fail:o.fail||''});
+    let tx11;
+    if(k11==='verifying') tx11=[txRow('Thanh toán','TourFee',PAID_T,PST.Failed,'06/11/2026 09:40',{fail:'Cổng thanh toán đang gặp sự cố nên chưa tạo được mã thanh toán. Vui lòng thử lại sau.'}),txRow('Thanh toán','TourFee',PAID_T,VERIFY,'Chưa cập nhật')];
+    else if(k11==='recon') tx11=[txRow('Thanh toán','TourFee',PAID_T,VERIFY,'Chưa cập nhật',{recv:'Thực nhận 4.800.000 ₫'})];
+    else tx11=[txRow('Thanh toán','TourFee',PAID_T,PST.Succeeded,'05/11/2026 09:18')];
+    if(hasRfT) tx11.push(txRow('Hoàn tiền','TourFee',rfT,PST[rfSt],rfSt==='Succeeded'?'09/11/2026 15:40':'Chưa cập nhật',{fail:rfSt==='Failed'?'Nhân viên đang xử lý':''}));
+    // ===== C13 =====
+    const k13=s.c13, dk=(k13==='notreview'||k13==='chargepay')?'charge':k13;
+    const cx13=k13==='cancelled', pre=k13==='confirmed'||cx13;
+    const al=pre?[]:ASS[dk];
+    const returned=al.filter(a=>a[0]==='R').length;
+    const chs=pre?[]:(CH[dk]||[]);
+    const due=chs.filter(c=>c[4]==='Assessed').reduce((a,c)=>a+c[3],0);
+    const settledSum=chs.filter(c=>c[4]==='Settled').reduce((a,c)=>a+c[3],0);
+    const hasAssessed=due>0;
+    const rvEff=s.rv&&hasAssessed&&k13!=='notreview';
+    const rfR=s.rfR ?? 670000, hasRfR=cx13&&rfR>0;
+    const cardR=rfCard('PendingApproval',rfR>0?rfR:PAID_R,PAID_R);
+    const c13St=cx13?OS.Cancelled:k13==='confirmed'?OS.Confirmed:k13==='settled'?OS.Completed:OS.InFulfillment;
+    const rvMode=pre||k13==='notreview'||dk==='settled'?'hide':rvEff?'sent':'btn';
+    const rtx=(title,sub,amt,st)=>({title,sub,amt:vnd(amt),...st});
+    const tx13=[rtx('Thanh toán · Phí thuê',METHOD+' · 03/11 08:51',PAID_R,PST.Succeeded)];
+    if(k13==='settled') tx13.push(rtx('Thanh toán · Phí phát sinh',METHOD+' · 14/11 09:20',150000,PST.Succeeded));
+    if(k13==='chargepay') tx13.push(rtx('Thanh toán · Phí phát sinh',METHOD+' · chờ ngân hàng xác nhận',150000,VERIFY));
+    if(hasRfR) tx13.push(rtx('Hoàn tiền · Phí thuê',METHOD+' · chưa xử lý',rfR,PST.PendingApproval));
+    const ch13=(key,label,extra={})=>this.chip(k13===key&&!extra.not,label,()=>this.setState({c13:key,rv:false,modal:false,...(extra.set||{})}));
+    return {
+      dev, toasts:s.toasts,
+      // ===== C10 =====
+      c10Tabs:[['all','Tất cả'],['tour','Tour'],['rent','Thuê']].map(([k,l])=>{ const a=s.tab===k; return {label:l,count:ORDERS.filter(o=>k==='all'||o.type===(k==='tour'?'Tour':'Thuê')).length,bd:a?'#14213D':'transparent',c:a?'#14213D':'#4A5870',w:a?600:500,cbg:a?'#14213D':'#ECEAE5',cfg:a?'#FFFFFF':'#4A5870',on:()=>this.setState({tab:k})}; }),
+      c10Q:s.q, c10OnQ:e=>this.setState({q:e.target.value}), c10Clear:()=>this.setState({q:''}),
+      c10Rows:rows.map(o=>{
+        let n=NONOTE;
+        if(o.rf){ const [g,l]=RFN[o.rf.st]; n=mkNote(g,`${l} ${vnd(o.rf.amt)}`); }
+        else if(o.verifying) n=mkNote('info',`Đang xác minh khoản thanh toán ${vnd(o.total)} — không chuyển lại`);
+        else if(o.pay==='NeedsReconciliation') n=mkNote('warning',`Đang xác minh khoản thanh toán ${vnd(o.recv)} — không chuyển lại. Nhân viên sẽ liên hệ bạn`);
+        return {code:o.code,type:o.type,svc:o.svc,when:o.when,at:o.at,href:o.href,total:vnd(o.total),st:OS[o.st],pay:o.verifying?PS.Verifying:PS[o.pay],kbg:o.type==='Tour'?'#EEF1F7':'#ECEAE5',kfg:o.type==='Tour'?'#14213D':'#4A5870',pending:!!o.payNow,...n};
+      }),
+      c10Has:rows.length>0, c10None:rows.length===0, c10Clock:`${String(Math.floor(s.clock/60)).padStart(2,'0')}:${String(s.clock%60).padStart(2,'0')}`, c04pHref:C04P,
+      // ===== C11 =====
+      c11Chips:[
+        this.chip(k11==='active'&&mod!=='tour','Đã xác nhận',()=>this.setState({c11:'active',modal:false})),
+        this.chip(k11==='verifying','Đang xác minh thanh toán',()=>this.setState({c11:'verifying',modal:false})),
+        this.chip(k11==='recon','Cần đối soát',()=>this.setState({c11:'recon',modal:false})),
+        this.chip(mod==='tour','Mở modal hủy (C12)',()=>this.setState({c11:'active',modal:'tour',when:0,sc:'ok',agree:false,err:false})),
+        this.chip(k11==='cx_pa','Đã hủy · Chờ duyệt',()=>this.setState({c11:'cx_pa',modal:false,rfT:null,reason:this.state.reason||'Thay đổi lịch công tác'})),
+        this.chip(k11==='cx_pend','Đã hủy · Đang hoàn',()=>this.setState({c11:'cx_pend',modal:false,rfT:null,reason:this.state.reason||'Thay đổi lịch công tác'})),
+        this.chip(k11==='cx_done','Đã hủy · Đã hoàn',()=>this.setState({c11:'cx_done',modal:false,rfT:null,reason:this.state.reason||'Thay đổi lịch công tác'})),
+        this.chip(k11==='cx_fail','Đã hủy · Hoàn thất bại',()=>this.setState({c11:'cx_fail',modal:false,rfT:null,reason:this.state.reason||'Thay đổi lịch công tác'}))
+      ],
+      c11St, c11Pay, c11CanCancel:k11==='active'||k11==='verifying', c11ShowTrip:k11==='active', c11NoCancel:k11==='recon',
+      c11Verifying:k11==='verifying', c11Recon:k11==='recon', c11Cancelled:cx,
+      c11Reason:s.reason||'Thay đổi lịch công tác', c11CxMsg:rfMsg(rfSt,rfT), c11EditC:cx?'#5E6B80':'#31476F',
+      c11Steps,
+      c11Parts:[['Trần Thu Hà','thuha.tran@gmail.com','0912 345 678','Nhóm Mây 1',true],['Nguyễn Minh Anh','minhanh.ng@gmail.com',null,null,false]].map(([name,email,phone,group,linked])=>({name,email,phone:phone||'Chưa cập nhật',phc:phone?'#151A24':'#5E6B80',group:group||'Chưa xếp nhóm',gc:group?'#151A24':'#5E6B80',link:linked?'Tài khoản của bạn':'Chưa liên kết',lbg:linked?G.success.bg:G.neutral.bg,lfg:linked?G.success.fg:G.neutral.fg,lic:linked?'✓':'○'})),
+      c11Tx:tx11,
+      c11HasRf:hasRfT, c11RfBadge:cardT.badge, c11RfSteps:cardT.steps, c11RfDesc:cardT.desc, c11RfAmt:cardT.amt, c11RfPaid:cardT.paid, c11RfPct:cardT.pct, c11RfLose:cardT.lose,
+      c11OpenCancel:()=>this.setState({modal:'tour',when:0,sc:'ok',agree:false,err:false}),
+      // ===== C12 (biến thể Đơn tour / Đơn thuê) =====
+      c12TourOpen:mod==='tour', c12RentOpen:mod==='rental', c12Close:()=>this.setState({modal:false}),
+      c12Title:isR?'Yêu cầu hủy đơn thuê RTK-26-004812':'Yêu cầu hủy đơn tour RTK-26-004852',
+      c12Sub:isR?'Nhận đồ Th 3, 10/11/2026 · 08:00 (GMT+7) · chưa giao thiết bị':'Khởi hành Th 7, 14/11/2026 · 05:30 (GMT+7)',
+      c12Start:isR?'giờ nhận đồ':'giờ khởi hành',
+      c12When:V.opts.map(([l],i)=>{ const a=s.when===i; return {label:l,bd:a?'#14213D':'#C5C3BD',bg:a?'#14213D':'#FFFFFF',c:a?'#FFFFFF':'#14213D',on:()=>this.setState({when:i})}; }),
+      c12Scs:[['ok','Xem trước bình thường'],['nc','ORDER_NOT_CANCELLABLE'],['amount','REFUND_AMOUNT_CHANGED'],['policy','REFUND_POLICY_CHANGED']].map(([k,l])=>{ const a=s.sc===k; return {label:l,bd:a?'#14213D':'#C5C3BD',bg:a?'#14213D':'#FFFFFF',c:a?'#FFFFFF':'#14213D',on:()=>this.setState({sc:k,agree:false})}; }),
+      c12Ok:s.sc!=='nc', c12Nc:s.sc==='nc', c12Amt:s.sc==='amount', c12Pol:s.sc==='policy',
+      c12NcMsg:isR?'Thiết bị đã được giao cho bạn (hoặc đơn đã hủy / hoàn tất) nên không thể hủy đơn thuê này. Nếu cần hỗ trợ, hãy liên hệ nhân viên phụ trách.':'Chuyến đã khởi hành, hoặc đơn đã hủy / hoàn tất nên không thể hủy đơn tour này. Nếu cần hỗ trợ, hãy liên hệ nhân viên.',
+      c12AmtOld:vnd(cc.oldRefund), c12AmtNew:vnd(cc.refund),
+      c12Agree:s.agree, c12OnAgree:e=>this.setState({agree:e.target.checked}),
+      c12Policy:(isR?'Thuê thiết bị':'Hoàn tiền tour')+(s.sc==='policy'?' · phiên bản 2 (mới)':' · phiên bản 1 (đã chốt trên đơn)'),
+      c12Hours:cc.hours,
+      c12Rules:cc.rs.map((r,i)=>({when:r[2],pct:r[1]?`Hoàn ${r[1]}%`:'Không hoàn',bg:i===cc.idx?'#EEF1F7':'#FFFFFF',w:i===cc.idx?700:400})),
+      c12Paid:vnd(cc.paid), c12Refund:vnd(cc.refund), c12Lose:vnd(cc.paid-cc.refund),
+      c12Impact:isR?'Thiết bị đã giữ cho đơn sẽ được giải phóng ngay.':'Chỗ của chuyến sẽ được giải phóng. Lượt dùng mã FANSIPAN200 sẽ được hoàn lại.',
+      c12Note:RULES_NOTE,
+      c12Reason:s.reason, c12OnReason:e=>this.setState({reason:e.target.value,err:false}), c12Err:s.err, c12Bd:s.err?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      c12Keep:s.sc==='nc'?'Đóng':'Giữ đơn',
+      c12Btn:s.sc==='amount'?`Xác nhận với số mới · hoàn ${vnd(cc.refund)}`:cc.refund>0?`Hủy đơn · hoàn ${vnd(cc.refund)}`:'Hủy đơn · không hoàn',
+      c12BtnOff:btnOff, c12BtnOp:btnOff?0.45:1, c12BtnCur:btnOff?'not-allowed':'pointer',
+      c12Confirm:()=>{
+        const st=this.state;
+        if(st.sc==='nc') return;
+        const r=st.reason.trim();
+        if(r.length<5||r.length>500){ this.setState({err:true}); return; }
+        if(st.sc==='policy'&&!st.agree) return;
+        const refund=cc.refund, rental=st.modal==='rental';
+        this.setState(rental?{modal:false,c13:'cancelled',rv:false,rfR:refund}:{modal:false,c11:'cx_pa',rfT:refund});
+        this.toast('success','Đã hủy đơn',refund>0?`Yêu cầu hoàn ${vnd(refund)} đang chờ Quản trị viên duyệt.`:'Theo chính sách, đơn này không được hoàn tiền.');
+      },
+      // ===== C13 =====
+      c13Chips:[
+        ch13('confirmed','Đã xác nhận (chưa giao)',{not:mod==='rental'}),
+        this.chip(mod==='rental','Mở modal hủy (C12)',()=>this.setState({c13:'confirmed',rv:false,modal:'rental',when:0,sc:'ok',agree:false,err:false})),
+        ch13('renting','Đang thuê'),
+        ch13('partial','Trả một phần'),
+        ch13('overdue','Quá hạn trả'),
+        ch13('charge','Có phí phát sinh',{not:s.rv}),
+        this.chip(k13==='charge'&&s.rv,'Phí đang xem xét lại',()=>this.setState({c13:'charge',rv:true,modal:false})),
+        ch13('notreview','CHARGE_NOT_REVIEWABLE'),
+        ch13('lost','Mất thiết bị'),
+        ch13('chargepay','Đang xác minh thanh toán phí'),
+        ch13('settled','Đã thanh toán phí'),
+        ch13('cancelled','Đã hủy · Chờ duyệt hoàn',{set:{rfR:null}})
+      ],
+      c13St, c13Pay:PS.Paid, c13Cancelled:cx13, c13Overdue:k13==='overdue', c13Reviewing:rvEff, c13Nr:k13==='notreview', c13DueC:k13==='overdue'?'#BE123C':'#151A24',
+      c13CanCancel:k13==='confirmed', c13Issued:!pre,
+      c13OpenCancel:()=>this.setState({modal:'rental',when:0,sc:'ok',agree:false,err:false}),
+      c13RvBtn:rvMode==='btn', c13RvSent:rvMode==='sent', c13RvOff:dk==='renting', c13RvOp:dk==='renting'?0.45:1, c13RvCur:dk==='renting'?'not-allowed':'pointer',
+      c13CxReason:s.reason||'Đổi lịch đi', c13CxMsg:rfMsg('PendingApproval',rfR),
+      c13Lines:[['Lều 2 người Naturehike · Xanh rêu',1,120000,false],['Combo Ngủ ấm',1,85000,true],['Gậy trekking carbon',2,20000,false]].map(([name,qty,u,combo])=>({name,qty,unit:vnd(u),amt:vnd(qty*u*3),combo})),
+      c13Progress:pre?'Chưa giao thiết bị':`${returned}/5 đã trả`, c13Pct:(pre?0:returned/5*100)+'%', c13HasAssets:al.length>0, c13NoAssets:al.length===0,
+      c13Assets:al.map(([st,cond],i)=>{ const [code,name]=ASSETS[i]; const ret=st==='R', cd=cond?COND[cond]:null; return {code,name,ret:ret?RT[i]:'Chưa trả',rc:ret?'#343F52':'#5E6B80',cond:cd?cd[0]:'Chưa cập nhật',cc:cd?cd[1]:'#5E6B80',...(st==='R'?B('Đã trả','success'):st==='L'?B('Mất / ngoại lệ','danger'):B('Đã giao','progress'))}; }),
+      c13HasCharges:chs.length>0, c13NoCharges:chs.length===0,
+      c13Charges:chs.map(([type,asset,reason,amt,st])=>({type:CT[type],asset:asset||'—',reason,amt:vnd(amt),deco:st==='Voided'?'line-through':'none',amc:st==='Voided'?'#5E6B80':'#151A24',...CST[st]})),
+      c13ShowDue:!pre, c13Assessed:vnd(due+settledSum), c13Settled:vnd(settledSum), c13Due:vnd(due),
+      c13HasDue:due>0&&k13!=='chargepay', c13NoDue:due===0, c13PayPending:k13==='chargepay', c13DueTxt:vnd(due),
+      c13Tx:tx13,
+      c13HasRf:hasRfR, c13RfBadge:cardR.badge, c13RfSteps:cardR.steps, c13RfDesc:cardR.desc, c13RfAmt:cardR.amt, c13RfPaid:cardR.paid, c13RfPct:cardR.pct, c13RfLose:cardR.lose,
+      c13AskReview:()=>{ this.setState({rv:true}); this.toast('info','Đã gửi yêu cầu','Nhân viên sẽ kiểm tra lại phí và phản hồi qua thông báo.'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

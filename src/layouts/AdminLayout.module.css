@@ -19,8 +19,8 @@
 }
 
 .logo {
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: #fff;
   padding: 0 8px;
 }
@@ -35,8 +35,8 @@
   padding: 9px 12px;
   border-radius: var(--radius);
   color: rgb(255 255 255 / 0.8);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   text-decoration: none;
   transition: all 0.15s ease;
 }
@@ -45,14 +45,14 @@
 .nav a:hover {
   background: rgb(255 255 255 / 0.12);
   color: #fff;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .sectionHeader {
-  font-size: 11px;
+  font-size: var(--font-size-label);
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.45);
-  font-weight: 700;
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.5px;
   margin: 18px 8px 6px;
 }
@@ -82,15 +82,17 @@
   align-items: center;
   gap: 16px;
   flex: 1;
+  min-width: 0;
 }
 
 .headerTitle {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text);
   margin: 0;
   line-height: 1.3;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .headerRight {
@@ -108,8 +110,8 @@
   background: none;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  width: 38px;
-  height: 38px;
+  width: 48px;
+  height: 48px;
   padding: 0;
   flex-shrink: 0;
   display: flex;
@@ -137,11 +139,12 @@
   top: -5px;
   background: #dc2626;
   color: #fff;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  font-size: 10px;
-  font-weight: 700;
+  min-width: 28px;
+  min-height: 28px;
+  height: auto;
+  border-radius: 50%;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -160,7 +163,7 @@
     0 8px 10px -6px rgba(0, 0, 0, 0.08);
   width: 320px;
   padding: 16px;
-  font-size: 13px;
+  font-size: var(--font-size-body);
   z-index: 200;
   animation: fadeIn 0.15s ease-out;
 }
@@ -168,7 +171,7 @@
 .alertPanel strong {
   display: block;
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: var(--font-size-body);
   color: var(--color-text);
 }
 
@@ -178,7 +181,7 @@
   border-top: 1px solid var(--color-border-subtle, #eceae5);
   color: var(--color-primary);
   text-decoration: none;
-  font-size: 13px;
+  font-size: var(--font-size-body);
 }
 
 .alertPanel a:hover {
@@ -203,8 +206,8 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 7px 14px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text);
   cursor: pointer;
   transition: all 0.15s ease;
@@ -216,7 +219,7 @@
 }
 
 .arrowIcon {
-  font-size: 11px;
+  font-size: var(--font-size-body);
   color: var(--color-text-muted);
 }
 
@@ -243,15 +246,15 @@
 }
 
 .dropdownUserName {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: var(--color-text);
 }
 
 .dropdownUserRole {
-  font-size: 12px;
+  font-size: var(--font-size-meta);
   color: var(--color-primary);
-  font-weight: 600;
+  font-weight: var(--font-weight-body);
   margin-top: 2px;
 }
 
@@ -266,7 +269,7 @@
   width: 100%;
   text-align: left;
   padding: 8px 10px;
-  font-size: 13px;
+  font-size: var(--font-size-meta);
   color: var(--color-text);
   border-radius: 4px;
   text-decoration: none;
@@ -282,7 +285,7 @@
 
 .logoutItem {
   color: #dc2626;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .logoutItem:hover {

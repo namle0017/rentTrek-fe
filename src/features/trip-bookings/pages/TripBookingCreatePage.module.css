@@ -11,8 +11,8 @@
   align-items: center;
   gap: 6px;
   color: #2b5329;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   text-decoration: none;
 }
 
@@ -29,14 +29,14 @@
 .hero h1 {
   margin: 5px 0 0;
   color: #173d2d;
-  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-size: var(--font-size-page-title);
   line-height: 1.15;
 }
 
 .kicker {
   color: #c55742;
-  font-size: 0.68rem;
-  font-weight: 800;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.14em;
 }
 
@@ -72,8 +72,8 @@
   flex: 1;
   gap: 8px;
   color: var(--color-text-muted, #69766f);
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   text-align: center;
 }
 
@@ -101,8 +101,8 @@
   width: 32px;
   height: 32px;
   color: #617067;
-  font-size: 0.82rem;
-  font-weight: 800;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   background: #ffffff;
   border: 2px solid #d5dcd5;
   border-radius: 50%;
@@ -111,7 +111,7 @@
 
 .steps .stepActive {
   color: var(--color-primary, #173d2d);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .steps .stepActive span {
@@ -142,13 +142,13 @@
 .card h2 {
   margin: 0;
   color: #173d2d;
-  font-size: 1.3rem;
+  font-size: var(--font-size-section-title);
 }
 
 .cardHint {
   margin: -12px 0 0;
   color: #6b776f;
-  font-size: 0.84rem;
+  font-size: var(--font-size-meta);
 }
 
 .field {
@@ -158,8 +158,8 @@
 
 .field label {
   color: #34483f;
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 .field label span {
@@ -168,10 +168,11 @@
 
 .field input {
   width: 100%;
-  min-height: 44px;
+  min-height: var(--control-min-height);
   padding: 9px 11px;
   color: #1d3028;
   font: inherit;
+  font-size: var(--font-size-control);
   background: #fffdf9;
   border: 1px solid #ccd6cd;
   border-radius: 10px;
@@ -184,7 +185,7 @@
 .fieldError {
   margin: 0;
   color: #ad3d34;
-  font-size: 0.74rem;
+  font-size: var(--font-size-body);
 }
 
 .choices {
@@ -199,8 +200,8 @@
   padding: 0;
   margin-bottom: 10px;
   color: #34483f;
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 .choices label {
@@ -232,12 +233,12 @@
 
 .choices strong {
   color: #173d2d;
-  font-size: 0.9rem;
+  font-size: var(--font-size-body);
 }
 
 .choices small {
   color: #66766d;
-  font-size: 0.76rem;
+  font-size: var(--font-size-meta);
 }
 
 .counterRow {
@@ -255,12 +256,12 @@
 
 .counterRow strong {
   color: #173d2d;
-  font-size: 0.9rem;
+  font-size: var(--font-size-body);
 }
 
 .counterRow small {
   color: #66766d;
-  font-size: 0.76rem;
+  font-size: var(--font-size-meta);
 }
 
 .counter {
@@ -275,7 +276,7 @@
   height: 46px;
   color: #204b39;
   font: inherit;
-  font-size: 1.2rem;
+  font-size: var(--font-size-control);
   cursor: pointer;
   background: #fff;
   border: 0;
@@ -290,8 +291,8 @@
   display: grid;
   width: 52px;
   color: #173d2d;
-  font-size: 1.05rem;
-  font-weight: 800;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   place-items: center;
 }
 
@@ -313,11 +314,11 @@
 .buyerCard span,
 .buyerCard small {
   color: #66766d;
-  font-size: 0.72rem;
+  font-size: var(--font-size-meta);
 }
 
 .buyerCard strong {
-  font-size: 0.92rem;
+  font-size: var(--font-size-body);
 }
 
 .sectionHeading {
@@ -331,7 +332,7 @@
 .sectionHeading h2 {
   margin: 3px 0 0;
   color: #173d2d;
-  font-size: 1.3rem;
+  font-size: var(--font-size-section-title);
 }
 
 .addButton,
@@ -339,8 +340,8 @@
 .tourLink {
   color: #204b39;
   font: inherit;
-  font-size: 0.8rem;
-  font-weight: 800;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   background: #fff;
   border: 1px solid #bfcfc3;
@@ -371,7 +372,7 @@
   grid-template-columns: 130px minmax(0, 1fr);
   gap: 9px 16px;
   margin: 0;
-  font-size: 0.86rem;
+  font-size: var(--font-size-meta);
 }
 
 .review dt {
@@ -381,7 +382,7 @@
 .review dd {
   margin: 0;
   color: #293d34;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   overflow-wrap: anywhere;
 }
 
@@ -396,8 +397,8 @@
 
 .noteField label {
   color: #34483f;
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 .noteField textarea {
@@ -406,6 +407,7 @@
   resize: vertical;
   color: #1d3028;
   font: inherit;
+  font-size: var(--font-size-control);
   background: #fffdf9;
   border: 1px solid #ccd6cd;
   border-radius: 10px;
@@ -414,7 +416,7 @@
 .noteField p {
   margin: 0;
   color: #ad3d34;
-  font-size: 0.74rem;
+  font-size: var(--font-size-meta);
 }
 
 .actions {
@@ -428,7 +430,8 @@
   padding: 12px 20px;
   color: #204b39;
   font: inherit;
-  font-weight: 700;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   background: #fff;
   border: 1px solid #bfcfc3;
@@ -440,7 +443,8 @@
   padding: 12px 28px;
   color: #fff;
   font: inherit;
-  font-weight: 800;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   background: #204b39;
   border: 0;
@@ -456,7 +460,7 @@
   padding: 10px;
   margin: 0;
   color: #9f392f;
-  font-size: 0.78rem;
+  font-size: var(--font-size-body);
   background: #fff0ed;
   border: 1px solid #efc0b7;
   border-radius: 10px;
@@ -486,20 +490,20 @@
 .summaryBody h2 {
   margin: 6px 0 8px;
   color: #173d2d;
-  font-size: 1.25rem;
+  font-size: var(--font-size-section-title);
 }
 
 .summaryTour {
   margin: 0;
   color: #293d34;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
 }
 
 .summaryDates {
   margin: 3px 0 0;
   color: #6a776f;
-  font-size: 0.78rem;
+  font-size: var(--font-size-meta);
 }
 
 .summary dl {
@@ -516,14 +520,14 @@
 
 .summary dt {
   color: #6a776f;
-  font-size: 0.8rem;
+  font-size: var(--font-size-label);
 }
 
 .summary dd {
   margin: 0;
   color: #293d34;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
 }
 
 .summary .total {
@@ -534,21 +538,21 @@
 
 .summary .total dt {
   color: #173d2d;
-  font-size: 0.9rem;
-  font-weight: 800;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 .summary .total dd {
   color: #173d2d;
-  font-size: 1.3rem;
-  font-weight: 800;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
 }
 
 .holdNote {
   margin: 14px 0;
   padding: 11px 12px;
   color: #604c24;
-  font-size: 0.75rem;
+  font-size: var(--font-size-meta);
   background: #fff8e6;
   border: 1px solid #ead8a6;
   border-radius: 10px;
@@ -609,14 +613,14 @@
   }
 
   .steps li {
-    font-size: 0.72rem;
+    font-size: var(--font-size-meta);
     gap: 6px;
   }
 
   .steps span {
     width: 28px;
     height: 28px;
-    font-size: 0.75rem;
+    font-size: var(--font-size-meta);
   }
 
   .steps li:not(:last-child)::after {

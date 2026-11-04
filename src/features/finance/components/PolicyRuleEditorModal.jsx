@@ -64,7 +64,7 @@ export default function PolicyRuleEditorModal({ isOpen, onClose, onSave, initial
                   color: '#dc2626',
                   padding: '8px 12px',
                   borderRadius: 6,
-                  fontSize: 13,
+                  fontSize: "var(--font-size-meta)",
                 }}
               >
                 {error}
@@ -75,7 +75,7 @@ export default function PolicyRuleEditorModal({ isOpen, onClose, onSave, initial
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <label className={styles.filterLabel}>Mốc thời gian trước khởi hành (Giờ) *</label>
                 {daysEquivalent > 0 && (
-                  <span style={{ fontSize: 12, color: '#0369a1', fontWeight: 600 }}>
+                  <span style={{ fontSize: "var(--font-size-meta)", color: '#0369a1', fontWeight: "var(--font-weight-semibold)" }}>
                     ≈ {daysEquivalent} ngày trước giờ đi
                   </span>
                 )}
@@ -113,9 +113,9 @@ export default function PolicyRuleEditorModal({ isOpen, onClose, onSave, initial
                     setRefundPercentage(e.target.value);
                     if (error) setError('');
                   }}
-                  style={{ width: '130px', fontWeight: 700 }}
+                  style={{ width: '130px', fontWeight: "var(--font-weight-bold)" }}
                 />
-                <span style={{ fontWeight: 700, fontSize: 15, color: '#1e293b' }}>%</span>
+                <span style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-body)", color: '#1e293b' }}>%</span>
               </div>
             </div>
 

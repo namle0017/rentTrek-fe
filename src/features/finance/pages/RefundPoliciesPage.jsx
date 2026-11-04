@@ -124,7 +124,7 @@ export default function RefundPoliciesPage() {
                 >
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-                      <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: 'var(--color-text)' }}>
+                      <h2 style={{ margin: 0, fontSize: "var(--font-size-section-title)", fontWeight: "var(--font-weight-bold)", color: 'var(--color-text)' }}>
                         {currentPolicy.name}
                       </h2>
                       <span
@@ -149,7 +149,7 @@ export default function RefundPoliciesPage() {
                     </div>
 
                     <div
-                      style={{ fontSize: 13, color: '#64748b', display: 'flex', gap: 16, flexWrap: 'wrap' }}
+                      style={{ fontSize: "var(--font-size-meta)", color: '#64748b', display: 'flex', gap: 16, flexWrap: 'wrap' }}
                     >
                       <span>
                         Mã chính sách: <strong style={{ color: '#334155' }}>{currentPolicy.policyId}</strong>
@@ -174,7 +174,7 @@ export default function RefundPoliciesPage() {
                     <p
                       style={{
                         margin: '8px 0 0 0',
-                        fontSize: 12,
+                        fontSize: "var(--font-size-body)",
                         color: isPolicyLocked ? '#b45309' : '#16a34a',
                       }}
                     >
@@ -193,7 +193,7 @@ export default function RefundPoliciesPage() {
                         style={{
                           borderColor: '#818cf8',
                           color: '#4338ca',
-                          fontSize: 13,
+                          fontSize: "var(--font-size-control)",
                           padding: '7px 14px',
                         }}
                         onClick={() => handleCloneVersion(currentPolicy.policyId)}
@@ -210,7 +210,7 @@ export default function RefundPoliciesPage() {
                         style={{
                           borderColor: '#16a34a',
                           color: '#16a34a',
-                          fontSize: 13,
+                          fontSize: "var(--font-size-control)",
                           padding: '7px 14px',
                         }}
                       >
@@ -235,14 +235,14 @@ export default function RefundPoliciesPage() {
                     alignItems: 'center',
                   }}
                 >
-                  <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700 }}>
+                  <h3 style={{ margin: 0, fontSize: "var(--font-size-subheading)", fontWeight: "var(--font-weight-bold)" }}>
                     Bảng Mốc Quy Tắc ({currentPolicy.rules?.length || 0})
                   </h3>
                   {!isPolicyLocked && (
                     <button
                       type="button"
                       className="btn btn-outline"
-                      style={{ fontSize: 12, padding: '4px 10px', borderColor: '#16a34a', color: '#16a34a' }}
+                      style={{ fontSize: "var(--font-size-control)", padding: '4px 10px', borderColor: '#16a34a', color: '#16a34a' }}
                       onClick={handleOpenAddRule}
                     >
                       + Thêm mốc
@@ -281,11 +281,11 @@ export default function RefundPoliciesPage() {
                             return (
                               <tr key={rule.ruleId}>
                                 <td>
-                                  <div style={{ fontWeight: 600 }}>
+                                  <div style={{ fontWeight: "var(--font-weight-semibold)" }}>
                                     {hours === 0 ? 'Dưới mốc trước (0h)' : `≥ ${hours} giờ`}
                                   </div>
                                   {days > 0 && (
-                                    <div style={{ fontSize: 11, color: '#64748b' }}>
+                                    <div style={{ fontSize: "var(--font-size-meta)", color: '#64748b' }}>
                                       Tương đương {days} ngày trước khởi hành
                                     </div>
                                   )}
@@ -293,8 +293,8 @@ export default function RefundPoliciesPage() {
                                 <td className={styles.numberCell}>
                                   <span
                                     style={{
-                                      fontWeight: 800,
-                                      fontSize: 14,
+                                      fontWeight: "var(--font-weight-bold)",
+                                      fontSize: "var(--font-size-meta)",
                                       color:
                                         pct === 100
                                           ? '#16a34a'
@@ -309,7 +309,7 @@ export default function RefundPoliciesPage() {
                                   </span>
                                 </td>
                                 <td>
-                                  <span style={{ fontSize: 13, color: '#334155' }}>
+                                  <span style={{ fontSize: "var(--font-size-meta)", color: '#334155' }}>
                                     {rule.description || 'Không có mô tả'}
                                   </span>
                                 </td>
@@ -322,7 +322,7 @@ export default function RefundPoliciesPage() {
                                       <button
                                         type="button"
                                         className="btn btn-outline"
-                                        style={{ fontSize: 11, padding: '3px 8px' }}
+                                        style={{ fontSize: "var(--font-size-control)", padding: '3px 8px' }}
                                         onClick={() => handleOpenEditRule(rule)}
                                         title="Chỉnh sửa mốc quy tắc"
                                       >
@@ -332,7 +332,7 @@ export default function RefundPoliciesPage() {
                                         type="button"
                                         className="btn btn-outline"
                                         style={{
-                                          fontSize: 11,
+                                          fontSize: "var(--font-size-control)",
                                           padding: '3px 8px',
                                           color: '#dc2626',
                                           borderColor: '#fca5a5',

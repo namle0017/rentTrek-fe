@@ -26,28 +26,28 @@
   background: #14213d;
   color: #ffffff;
   font-family: monospace;
-  font-weight: 700;
-  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-status);
   padding: 3px 8px;
   border-radius: 6px;
 }
 
 .routePath {
   font-family: monospace;
-  font-size: 13px;
+  font-size: var(--font-size-meta);
   color: #4a5870;
 }
 
 .title {
   margin: 0;
-  font-size: 26px;
-  font-weight: 700;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-bold);
   color: #14213d;
 }
 
 .subtitle {
   margin: 4px 0 0;
-  font-size: 14px;
+  font-size: var(--font-size-meta);
   color: #64748b;
 }
 
@@ -62,8 +62,8 @@
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   padding: 9px 16px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -98,7 +98,7 @@
   background: #f1f5f9;
   border: 1px solid #cbd5e1;
   color: #1e293b;
-  font-size: 18px;
+  font-size: var(--font-size-label);
   width: 32px;
   height: 32px;
   border-radius: 6px;
@@ -116,8 +116,8 @@
   background: #ffffff;
   border: 1px solid #cbd5e1;
   color: #334155;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   padding: 0 12px;
   height: 32px;
   border-radius: 6px;
@@ -132,13 +132,13 @@
   border: 1px solid #cbd5e1;
   border-radius: 6px;
   padding: 5px 10px;
-  font-size: 13px;
+  font-size: var(--font-size-control);
   color: #1e293b;
   outline: none;
 }
 
 .dateRangeText {
-  font-size: 13px;
+  font-size: var(--font-size-meta);
   color: #64748b;
   margin-left: 6px;
 }
@@ -150,7 +150,7 @@
 }
 
 .filterLabel {
-  font-size: 13px;
+  font-size: var(--font-size-label);
   color: #64748b;
   margin-right: 4px;
 }
@@ -161,8 +161,8 @@
   color: #475569;
   border-radius: 6px;
   padding: 6px 12px;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition: all 0.15s;
 }
@@ -195,14 +195,14 @@
 }
 
 .metricLabel {
-  font-size: 12px;
+  font-size: var(--font-size-label);
   color: #64748b;
-  font-weight: 500;
+  font-weight: var(--font-weight-semibold);
 }
 
 .metricValue {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: var(--font-size-metric);
+  font-weight: var(--font-weight-bold);
   color: #0f172a;
 }
 
@@ -215,16 +215,16 @@
 }
 
 .syncTag {
-  font-size: 13px;
+  font-size: var(--font-size-meta);
   color: #0284c7;
-  font-weight: 500;
+  font-weight: var(--font-weight-body);
 }
 
 .legendBar {
   display: flex;
   align-items: center;
   gap: 14px;
-  font-size: 13px;
+  font-size: var(--font-size-label);
   color: #475569;
   flex-wrap: wrap;
   padding: 6px 10px;
@@ -234,7 +234,7 @@
 }
 
 .legendTitle {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: #1e293b;
 }
 
@@ -308,8 +308,8 @@
   width: 220px;
   min-width: 220px;
   padding: 12px 16px;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   color: #475569;
   text-transform: uppercase;
   border-right: 1px solid #e2e8f0;
@@ -344,14 +344,14 @@
 }
 
 .dayOfWeek {
-  font-size: 11px;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #64748b;
 }
 
 .dayNum {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #1e293b;
 }
 
@@ -377,13 +377,13 @@
 }
 
 .variantTitle {
-  font-weight: 700;
-  font-size: 13px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-section-title);
   color: #0f172a;
 }
 
 .variantMeta {
-  font-size: 11px;
+  font-size: var(--font-size-meta);
   color: #64748b;
 }
 
@@ -398,8 +398,8 @@
   padding: 8px 2px;
   text-align: center;
   border-right: 1px solid #e2e8f0;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   color: #334155;
   display: flex;
   align-items: center;
@@ -410,7 +410,7 @@
 .occOverbooked {
   background: #fee2e2;
   color: #991b1b;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .overbookedBadge {
@@ -419,7 +419,7 @@
   border-radius: 9999px;
   width: 14px;
   height: 14px;
-  font-size: 10px;
+  font-size: var(--font-size-status);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -452,8 +452,8 @@
 
 .assetCodeTag {
   font-family: monospace;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   color: #1e293b;
   background: #f1f5f9;
   padding: 2px 6px;
@@ -461,7 +461,7 @@
 }
 
 .assetStatusMini {
-  font-size: 11px;
+  font-size: var(--font-size-meta);
   color: #64748b;
 }
 
@@ -538,8 +538,8 @@
 }
 
 .barText {
-  font-size: 11px;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -574,15 +574,15 @@
 
 .infoModalTitle {
   margin: 0;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
   color: #1e293b;
 }
 
 .infoModalClose {
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: var(--font-size-body);
   cursor: pointer;
   color: #94a3b8;
 }
@@ -592,7 +592,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-size: 13px;
+  font-size: var(--font-size-meta);
 }
 
 .infoRow {
@@ -607,7 +607,7 @@
 
 .codeBadge {
   font-family: monospace;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   background: #f1f5f9;
   padding: 2px 6px;
   border-radius: 4px;

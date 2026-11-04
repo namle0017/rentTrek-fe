@@ -20,7 +20,7 @@ export default function RefundApproveDrawer({ item, isOpen, onClose, onApprove, 
         <div className={styles.drawerBody}>
           <div className={styles.filterGroup}>
             <span className={styles.filterLabel}>Khách hàng yêu cầu hủy</span>
-            <div style={{ fontWeight: 600, fontSize: 15 }}>{item.customerName}</div>
+            <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-body)" }}>{item.customerName}</div>
             <div className={styles.statSubtext}>SĐT: {item.customerPhone}</div>
           </div>
 
@@ -48,7 +48,7 @@ export default function RefundApproveDrawer({ item, isOpen, onClose, onApprove, 
                 padding: '10px 14px',
                 borderRadius: 6,
                 color: '#9f1239',
-                fontSize: 13,
+                fontSize: "var(--font-size-meta)",
               }}
             >
               "{item.cancelReason || 'Khách yêu cầu hủy đơn qua hệ thống'}"
@@ -56,7 +56,7 @@ export default function RefundApproveDrawer({ item, isOpen, onClose, onApprove, 
           </div>
 
           <div className={styles.calculationBox}>
-            <div style={{ fontWeight: 700, fontSize: 14, color: '#334155' }}>
+            <div style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-meta)", color: '#334155' }}>
               Công thức tính tiền hoàn theo chính sách
             </div>
 
@@ -85,7 +85,7 @@ export default function RefundApproveDrawer({ item, isOpen, onClose, onApprove, 
             <div className={styles.calcDivider} />
 
             <div className={styles.calcRow}>
-              <span className={styles.calcLabel} style={{ fontWeight: 700 }}>
+              <span className={styles.calcLabel} style={{ fontWeight: "var(--font-weight-bold)" }}>
                 Số tiền SePay sẽ chuyển hoàn:
               </span>
               <span className={styles.calcResult}>{formatCurrency(item.proposedRefund)}</span>
@@ -94,7 +94,7 @@ export default function RefundApproveDrawer({ item, isOpen, onClose, onApprove, 
 
           <div
             style={{
-              fontSize: 12,
+              fontSize: "var(--font-size-meta)",
               color: '#64748b',
               lineHeight: 1.5,
               background: '#f1f5f9',

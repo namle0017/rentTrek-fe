@@ -63,13 +63,13 @@ export default function PolicyMasterList({
         <div
           style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}
         >
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#334155' }}>
+          <span style={{ fontSize: "var(--font-size-meta)", fontWeight: "var(--font-weight-bold)", color: '#334155' }}>
             Danh Sách ({policies.length})
           </span>
           <button
             type="button"
             className="btn btn-primary"
-            style={{ fontSize: 12, padding: '4px 10px' }}
+            style={{ fontSize: "var(--font-size-control)", padding: '4px 10px' }}
             onClick={() => navigate(ROUTES.OPS_REFUND_POLICY_CREATE)}
             title="Tạo chính sách hoàn tiền mới"
           >
@@ -89,11 +89,11 @@ export default function PolicyMasterList({
       {/* Danh sách các Policy Cards */}
       <div className={styles.masterList}>
         {isLoading ? (
-          <div style={{ padding: 24, textAlign: 'center', color: '#94a3b8', fontSize: 13 }}>
+          <div style={{ padding: 24, textAlign: 'center', color: '#94a3b8', fontSize: "var(--font-size-meta)" }}>
             Đang tải danh sách...
           </div>
         ) : !filteredPolicies.length ? (
-          <div style={{ padding: 24, textAlign: 'center', color: '#94a3b8', fontSize: 13 }}>
+          <div style={{ padding: 24, textAlign: 'center', color: '#94a3b8', fontSize: "var(--font-size-meta)" }}>
             Không tìm thấy chính sách nào.
           </div>
         ) : (
@@ -119,7 +119,7 @@ export default function PolicyMasterList({
                     style={{
                       background: isTour ? '#e0f2fe' : '#fef3c7',
                       color: isTour ? '#0369a1' : '#b45309',
-                      fontSize: 10,
+                      fontSize: "var(--font-size-status)",
                       padding: '2px 6px',
                     }}
                   >
@@ -132,7 +132,7 @@ export default function PolicyMasterList({
                   <span>Hiệu lực: {p.effectiveUntil ? formatDate(p.effectiveUntil) : 'Vĩnh viễn'}</span>
                 </div>
 
-                <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 4 }}>
+                <div style={{ fontSize: "var(--font-size-meta)", color: '#94a3b8', marginTop: 4 }}>
                   {p.rules?.length || 0} mốc quy tắc hoàn tiền
                 </div>
               </div>

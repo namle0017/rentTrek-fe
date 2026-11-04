@@ -128,12 +128,12 @@ export default function RefundPolicyCreatePage() {
           <button
             type="button"
             className="btn btn-outline"
-            style={{ fontSize: 13, padding: '5px 12px', marginBottom: 8 }}
+            style={{ fontSize: "var(--font-size-control)", padding: '5px 12px', marginBottom: 8 }}
             onClick={() => navigate(ROUTES.OPS_REFUND_POLICIES)}
           >
             ← Quay lại danh sách
           </button>
-          <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: 'var(--color-text)' }}>
+          <h2 style={{ margin: 0, fontSize: "var(--font-size-section-title)", fontWeight: "var(--font-weight-bold)", color: 'var(--color-text)' }}>
             Tạo Mới Chính Sách Hoàn Tiền
           </h2>
           <p className={styles.pageSubtitle} style={{ marginTop: 4 }}>
@@ -150,7 +150,7 @@ export default function RefundPolicyCreatePage() {
         <div className={styles.formLeftCol}>
           {/* Card 1: Thông tin cơ bản */}
           <div className={styles.tableCard} style={{ padding: '20px 24px' }}>
-            <h3 style={{ margin: '0 0 16px 0', fontSize: 16, fontWeight: 700, color: 'var(--color-text)' }}>
+            <h3 style={{ margin: '0 0 16px 0', fontSize: "var(--font-size-subheading)", fontWeight: "var(--font-weight-bold)", color: 'var(--color-text)' }}>
               1. Thông Tin Cơ Bản Chính Sách
             </h3>
 
@@ -171,7 +171,7 @@ export default function RefundPolicyCreatePage() {
                   required
                 />
                 {!isNameValid && name.length > 0 && (
-                  <div style={{ fontSize: 11, color: '#dc2626', marginTop: 4 }}>
+                  <div style={{ fontSize: "var(--font-size-meta)", color: '#dc2626', marginTop: 4 }}>
                     Tên chính sách cần ít nhất 3 ký tự.
                   </div>
                 )}
@@ -222,7 +222,7 @@ export default function RefundPolicyCreatePage() {
                 </label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
                   <label
-                    style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, cursor: 'pointer' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: "var(--font-size-label)", cursor: 'pointer' }}
                   >
                     <input
                       type="checkbox"
@@ -255,7 +255,7 @@ export default function RefundPolicyCreatePage() {
 
           {/* Card 2: Dynamic Rule Builder */}
           <div className={styles.tableCard} style={{ padding: '20px 24px' }}>
-            <h3 style={{ margin: '0 0 16px 0', fontSize: 16, fontWeight: 700, color: 'var(--color-text)' }}>
+            <h3 style={{ margin: '0 0 16px 0', fontSize: "var(--font-size-subheading)", fontWeight: "var(--font-weight-bold)", color: 'var(--color-text)' }}>
               2. Bậc Thang Tỷ Lệ Hoàn Tiền (Dynamic Rule Builder)
             </h3>
 
@@ -278,7 +278,7 @@ export default function RefundPolicyCreatePage() {
                 <span>{name || 'Chính sách mới (Chưa đặt tên)'}</span>
                 <span>{REFUND_POLICY_TYPE_LABEL[policyType]}</span>
               </div>
-              <div style={{ fontSize: 12, color: '#64748b', marginTop: 4 }}>
+              <div style={{ fontSize: "var(--font-size-meta)", color: '#64748b', marginTop: 4 }}>
                 Hiệu lực: {effectiveFrom} → {isPermanent || !effectiveUntil ? 'Vĩnh viễn' : effectiveUntil}
               </div>
             </div>
@@ -334,8 +334,8 @@ export default function RefundPolicyCreatePage() {
                 disabled={!isFormValid || createMutation.isPending}
                 style={{
                   padding: '12px 18px',
-                  fontWeight: 700,
-                  fontSize: 14,
+                  fontWeight: "var(--font-weight-bold)",
+                  fontSize: "var(--font-size-control)",
                   opacity: !isFormValid ? 0.6 : 1,
                   cursor: !isFormValid ? 'not-allowed' : 'pointer',
                 }}

@@ -1,0 +1,135 @@
+:root {
+  --font-family-body: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-size-page-title: 28px;
+  --font-size-section-title: 22px;
+  --font-size-subheading: 20px;
+  --font-size-body: 18px;
+  --font-size-control: 18px;
+  --font-size-label: 16px;
+  --font-size-status: 16px;
+  --font-size-meta: 14px;
+  --font-size-metric: 32px;
+  --font-weight-body: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-body: 1.6;
+  --line-height-heading: 1.35;
+  --line-height-compact: 1.5;
+  --space-label: 8px;
+  --space-field: 16px;
+  --space-section: 24px;
+  --control-min-height: 48px;
+
+  --app-font-size: var(--font-size-body);
+  --app-line-height: var(--line-height-body);
+  --app-title-size: var(--font-size-page-title);
+  --app-section-size: var(--font-size-section-title);
+  --app-subheading-size: var(--font-size-subheading);
+}
+
+.app-layout,
+.app-dialog {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+}
+
+:where(.app-layout, .app-dialog) :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+  overflow-wrap: anywhere;
+}
+:where(.app-layout, .app-dialog) h1 {
+  font-size: var(--font-size-page-title);
+}
+:where(.app-layout, .app-dialog) h2 {
+  font-size: var(--font-size-section-title);
+}
+:where(.app-layout, .app-dialog) :is(h3, h4, h5, h6) {
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-semibold);
+}
+:where(.app-layout, .app-dialog) :is(h1, h2, h3, h4, h5, h6) :is(a, span, code) {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+:where(.app-layout, .app-dialog) :is(label, legend, dt, thead th) {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-compact);
+}
+:where(.app-layout, .app-dialog) :is(small, time, figcaption) {
+  font-size: var(--font-size-meta);
+  line-height: var(--line-height-compact);
+}
+:where(.app-layout, .app-dialog) :is(table, tbody td, tbody th) {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-compact);
+}
+:where(.app-layout, .app-dialog) tbody :is(strong, b) {
+  font-weight: var(--font-weight-medium);
+}
+:where(.app-layout, .app-dialog) :is(button, input, select, textarea, option) {
+  font-family: inherit;
+  font-size: var(--font-size-control);
+  line-height: var(--line-height-compact);
+}
+:where(.app-layout, .app-dialog) button {
+  font-weight: var(--font-weight-semibold);
+}
+:where(.app-layout, .app-dialog)
+  :is(
+    button,
+    select,
+    input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden'])
+  ) {
+  min-height: var(--control-min-height);
+}
+:where(.app-layout, .app-dialog) :is(input, select, textarea) {
+  min-width: 0;
+}
+:where(.app-layout, .app-dialog) :is(p, dd, td, th, label, button) {
+  overflow-wrap: anywhere;
+}
+
+/* Shared roles for new UI; CSS modules use the same tokens. */
+.text-page-title {
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+}
+.text-section-title {
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+}
+.text-subheading {
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-heading);
+}
+.text-body {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+}
+.text-label,
+.text-status {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-compact);
+}
+.text-meta {
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-compact);
+}
+.text-metric {
+  font-size: var(--font-size-metric);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+  font-variant-numeric: tabular-nums;
+}

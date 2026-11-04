@@ -21,19 +21,20 @@
   display: inline-flex;
   align-items: center;
   gap: 14px;
-  font-size: 20px;
-  font-weight: 800;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: #fff;
   white-space: nowrap;
 }
 .nav {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 32px;
   margin-left: auto;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 .nav > a {
   position: relative;
@@ -67,7 +68,7 @@
   border: none;
   color: white;
   font: inherit;
-  font-size: 13px;
+  font-size: var(--font-size-control);
   outline: none;
 }
 .headerSearch:focus-within {
@@ -81,7 +82,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 12px;
+  font-size: var(--font-size-meta);
   white-space: nowrap;
 }
 .account {
@@ -121,7 +122,7 @@
   background: var(--color-surface, #ffffff);
   color: var(--color-text);
   box-shadow: 0 12px 32px rgb(16 40 28 / 0.12);
-  font-size: 13px;
+  font-size: var(--font-size-label);
   animation: accountMenuIn 0.15s ease-out;
 }
 
@@ -144,9 +145,9 @@
 }
 
 .accountName {
-  font-weight: 700;
+  font-weight: var(--font-weight-medium);
   color: var(--color-primary);
-  font-size: 14px;
+  font-size: var(--font-size-body);
   text-decoration: none;
   overflow-wrap: anywhere;
 }
@@ -156,7 +157,7 @@
 }
 
 .accountEmail {
-  font-size: 12px;
+  font-size: var(--font-size-meta);
   color: var(--color-text-muted);
   overflow-wrap: anywhere;
 }
@@ -175,8 +176,8 @@
   border-radius: 8px;
   color: var(--color-text);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-label);
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
@@ -198,8 +199,8 @@
   background: transparent;
   color: #c62828;
   font: inherit;
-  font-weight: 600;
-  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-label);
   transition: background-color 0.15s ease;
 }
 
@@ -225,7 +226,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.875rem;
+  font-size: var(--font-size-meta);
 }
 
 .userNameLink {
@@ -250,13 +251,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.875rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   flex-shrink: 0;
 }
 
 .userName {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: #ffffff;
   white-space: nowrap;
 }
@@ -267,8 +268,8 @@
   border: 1px solid #ffffff;
   border-radius: 8px;
   padding: 6px 14px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
@@ -281,8 +282,8 @@
 
 .authLink {
   color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   text-decoration: none;
   padding: 6px 12px;
   border-radius: 6px;
@@ -296,8 +297,8 @@
 .authBtnPrimary {
   background: #22c55e;
   color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   text-decoration: none;
   padding: 6px 14px;
   border-radius: 8px;
@@ -312,8 +313,8 @@
   display: inline-block;
   padding: 2px 8px;
   border-radius: 9999px;
-  font-size: 0.6875rem;
-  font-weight: 600;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   background-color: #ecfdf5;
   color: var(--color-primary);
   border: 1px solid #a7f3d0;
@@ -349,7 +350,7 @@
   padding: 64px 0 28px;
   background: #071e16;
   color: #b7ccbd;
-  font-size: 14px;
+  font-size: var(--font-size-meta);
 }
 .footerGrid {
   display: grid;
@@ -365,8 +366,8 @@
 .footerGrid h2 {
   margin: 0 0 12px;
   color: #edf3ee;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
 }
 .footerGrid > div:not(:first-child) > a {
   display: flex;
@@ -388,7 +389,7 @@
   gap: 24px;
   padding-top: 32px;
   border-top: 1px solid #204132;
-  font-size: 12px;
+  font-size: var(--font-size-meta);
 }
 .footerBottom p {
   margin: 0;
@@ -455,7 +456,7 @@
 @media (max-width: 540px) {
   .logo {
     gap: 4px;
-    font-size: 18px;
+    font-size: var(--font-size-body);
   }
   .headerInner {
     gap: 16px 10px;
@@ -471,7 +472,7 @@
     flex-basis: 100%;
     width: 100%;
     gap: 18px;
-    font-size: 12px;
+    font-size: var(--font-size-label);
   }
   .footer {
     padding-top: 40px;

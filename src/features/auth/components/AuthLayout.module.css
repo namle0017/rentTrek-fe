@@ -44,8 +44,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 1.75rem;
-  font-weight: 800;
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: -0.03em;
   color: #ffffff;
   text-decoration: none;
@@ -53,7 +53,7 @@
 
 .brandIcon {
   color: #4ade80;
-  font-size: 1.5rem;
+  font-size: var(--font-size-subheading);
 }
 
 .heroTextGroup {
@@ -71,8 +71,8 @@
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 9999px;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #a7f3d0;
@@ -80,8 +80,8 @@
 
 .heroHeading {
   margin: 0;
-  font-size: clamp(2rem, 3.2vw, 3rem);
-  font-weight: 800;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-bold);
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: #ffffff;
@@ -89,7 +89,7 @@
 
 .heroDescription {
   margin: 0;
-  font-size: 1.0625rem;
+  font-size: var(--font-size-meta);
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.85);
 }
@@ -105,8 +105,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 0.9375rem;
-  font-weight: 500;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   color: rgba(255, 255, 255, 0.95);
 }
 
@@ -120,12 +120,12 @@
   border: 1px solid #4ade80;
   color: #4ade80;
   border-radius: 50%;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
 }
 
 .heroFooter {
-  font-size: 0.8125rem;
+  font-size: var(--font-size-meta);
   color: rgba(255, 255, 255, 0.55);
 }
 
@@ -157,8 +157,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-primary);
   text-decoration: none;
   margin-bottom: 8px;
@@ -172,15 +172,15 @@
 
 .formTitle {
   margin: 0;
-  font-size: 1.875rem;
-  font-weight: 800;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-bold);
   letter-spacing: -0.02em;
   color: var(--color-text);
 }
 
 .formSubtitle {
   margin: 0;
-  font-size: 0.9375rem;
+  font-size: var(--font-size-body);
   color: var(--color-text-muted);
 }
 
@@ -190,7 +190,7 @@
 
 .formFooter {
   text-align: center;
-  font-size: 0.9375rem;
+  font-size: var(--font-size-body);
   color: var(--color-text-muted);
   padding-top: 8px;
   border-top: 1px solid var(--color-border);
@@ -198,7 +198,7 @@
 
 .alternateLink {
   color: var(--color-primary);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   text-decoration: none;
   transition: color 0.15s ease;
 }

@@ -121,7 +121,7 @@ export default function TransactionTable({ payments = [], isLoading = false, onS
                       >
                         {PAYMENT_TYPE_LABEL[item.paymentType] || item.paymentType}
                       </span>
-                      <span style={{ fontSize: 12, color: '#475569', fontWeight: 500 }}>
+                      <span style={{ fontSize: "var(--font-size-meta)", color: '#475569', fontWeight: "var(--font-weight-medium)" }}>
                         {PAYMENT_PURPOSE_LABEL[item.purpose] || item.purpose}
                       </span>
                     </div>
@@ -133,7 +133,7 @@ export default function TransactionTable({ payments = [], isLoading = false, onS
                       {isRefund ? `-${formatCurrency(Math.abs(item.amount))}` : formatCurrency(item.amount)}
                     </div>
                     {item.receivedAmount !== null && item.receivedAmount !== undefined && (
-                      <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>
+                      <div style={{ fontSize: "var(--font-size-meta)", color: '#64748b', marginTop: 2 }}>
                         Thực nhận: {formatCurrency(item.receivedAmount)}
                       </div>
                     )}
@@ -154,7 +154,7 @@ export default function TransactionTable({ payments = [], isLoading = false, onS
 
                   {/* Cột 4: Phương thức */}
                   <td>
-                    <div style={{ fontSize: 13, fontWeight: 500 }}>
+                    <div style={{ fontSize: "var(--font-size-meta)", fontWeight: "var(--font-weight-medium)" }}>
                       {PAYMENT_METHOD_LABEL[item.paymentMethod] ||
                         item.paymentMethod ||
                         'Chuyển khoản (VietQR)'}

@@ -524,7 +524,7 @@ export default function AdminTripListPage() {
               type="button"
               className={`${styles.btnOutline} ${styles.btnSm}`}
               onClick={handleToday}
-              style={{ borderRadius: 9999, padding: '4px 12px', fontSize: '0.75rem' }}
+              style={{ borderRadius: 9999, padding: '4px 12px', fontSize: "var(--font-size-control)" }}
             >
               Hôm nay (20/11)
             </button>
@@ -779,7 +779,7 @@ export default function AdminTripListPage() {
                           </span>
                           <span
                             style={{
-                              fontWeight: 600,
+                              fontWeight: "var(--font-weight-semibold)",
                               color: trip.isUnderCapacity ? '#b45309' : '#166534',
                             }}
                           >
@@ -826,7 +826,7 @@ export default function AdminTripListPage() {
               </div>
             ) : (
               <div className={styles.dailyEmptyPanel}>
-                <p style={{ margin: 0, fontWeight: 500, fontSize: '0.875rem' }}>
+                <p style={{ margin: 0, fontWeight: "var(--font-weight-medium)", fontSize: "var(--font-size-body)" }}>
                   Không có chuyến đi nào được xếp lịch vào ngày này.
                 </p>
                 <Link
@@ -882,8 +882,8 @@ export default function AdminTripListPage() {
                             {dayRole && (
                               <span
                                 style={{
-                                  fontSize: '0.6875rem',
-                                  fontWeight: 600,
+                                  fontSize: "var(--font-size-meta)",
+                                  fontWeight: "var(--font-weight-semibold)",
                                   color: dayRole.type === 'departure' ? '#166534' : '#64748b',
                                 }}
                               >

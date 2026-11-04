@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314213D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-weight='800' font-size='20' text-anchor='middle' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECEAE5;color:#151A24;font-family:'Be Vietnam Pro',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#31476F;text-underline-offset:2px}
+a:hover{color:#14213D}
+*{box-sizing:border-box}
+input,textarea,button{font-family:inherit}
+@keyframes rtspin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+
+<div style="padding:64px;display:flex;flex-direction:column;gap:96px;width:max-content">
+
+<div style="display:flex;align-items:flex-end;gap:32px;width:1800px">
+  <div>
+    <div style="font-size:13px;font-weight:600;letter-spacing:.12em;color:#31476F">RENTREKK · BATCH 1</div>
+    <h1 style="margin:8px 0 0;font-size:48px;line-height:56px;font-weight:700;color:#14213D;letter-spacing:-.02em">Tài khoản · A01–A07</h1>
+    <p style="margin:8px 0 0;font-size:15px;color:#4A5870">Web 1440px. Mỗi màn bấm thử được; dùng các nút trạng thái phía trên khung để xem từng trường hợp.</p>
+  </div>
+  <a href="RenTrekk Design System.dc.html" style="margin-left:auto;font-weight:600;font-size:14px">← Design System</a>
+</div>
+
+<!-- ========== A01 ========== -->
+<section id="a01" data-screen-label="A01 Đăng nhập" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">A01</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Đăng nhập</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/login</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ a1Chips }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;height:900px;display:flex;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16)">
+      <div style="width:640px;flex:none;position:relative;background:#ADBBD3 url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=60&auto=format) center/cover no-repeat">
+        <div style="position:absolute;inset:0;background:rgba(20,33,61,.55);display:flex;flex-direction:column;justify-content:space-between;padding:48px 56px;color:#FFFFFF">
+          <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+          
+          <div><div style="width:48px;height:2px;background:#E29A78;margin-bottom:20px"></div><div style="font-family:'Playfair Display',Georgia,serif;font-size:36px;line-height:44px;font-weight:700;max-width:440px">Biển mây chờ bạn ở độ cao 3.143 m.</div></div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center">
+        <div style="width:400px;display:flex;flex-direction:column;gap:20px">
+          <div><div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Đăng nhập</div><div style="font-size:15px;color:#4A5870;margin-top:6px">Chào mừng bạn quay lại RenTrekk.</div></div>
+          <sc-if value="{{ a1Wrong }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;gap:10px;padding:12px 14px;border-radius:10px;background:#FFE4E8;border:1px solid #BE123C;font-size:14px;line-height:20px;color:#232B38"><span aria-hidden="true" style="color:#BE123C;font-weight:700">✕</span><span><b style="color:#BE123C">Email hoặc mật khẩu không đúng.</b> Kiểm tra lại và thử lần nữa.</span></div>
+          </sc-if>
+          <sc-if value="{{ a1Locked }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;gap:10px;padding:12px 14px;border-radius:10px;background:#FFE4E8;border:1px solid #BE123C;font-size:14px;line-height:20px;color:#232B38"><span aria-hidden="true" style="color:#BE123C;font-weight:700">✕</span><span><b style="color:#BE123C">Tài khoản đang bị tạm khóa.</b> Bạn chưa thể đăng nhập. Liên hệ hỗ trợ qua trang <a href="#">Liên hệ</a> để được mở khóa.</span></div>
+          </sc-if>
+          <sc-if value="{{ a1Unconf }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;gap:10px;padding:12px 14px;border-radius:10px;background:#FEF3C7;border:1px solid #B45309;font-size:14px;line-height:20px;color:#232B38"><span aria-hidden="true" style="color:#B45309;font-weight:700">!</span><span><b style="color:#B45309">Email chưa được xác thực.</b> Kiểm tra hộp thư của bạn để hoàn tất xác thực trước khi đăng nhập.</span></div>
+          </sc-if>
+          <sc-if value="{{ a1Success }}" hint-placeholder-val="{{ false }}">
+            <div role="status" style="display:flex;gap:10px;padding:12px 14px;border-radius:10px;background:#E7F6EC;border:1px solid #166534;font-size:14px;line-height:20px;color:#232B38"><span aria-hidden="true" style="color:#166534;font-weight:700">✓</span><span><b style="color:#166534">Đăng nhập thành công.</b> Đang chuyển đến Trang chủ…</span></div>
+          </sc-if>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label for="a1-email" style="font-size:13px;font-weight:600;color:#232B38">Email</label>
+            <input id="a1-email" type="email" autocomplete="email" value="{{ a1Email }}" onChange="{{ a1OnEmail }}" placeholder="ten@email.com" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;color:#151A24;background:#FFFFFF;outline:none" style-focus="border-color:#31476F;box-shadow:0 0 0 3px #D6DDEA"></input>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><label for="a1-pw" style="font-size:13px;font-weight:600;color:#232B38">Mật khẩu</label><a href="#a03" style="font-size:13px;font-weight:600">Quên mật khẩu?</a></div>
+            <div style="display:flex;align-items:center;height:44px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF;padding-right:4px">
+              <input id="a1-pw" type="{{ a1PwType }}" autocomplete="current-password" value="{{ a1Pw }}" onChange="{{ a1OnPw }}" onKeyDown="{{ a1OnKey }}" style="flex:1;min-width:0;height:100%;padding:0 12px;border:0;border-radius:8px;font-size:15px;color:#151A24;background:transparent;outline:none"></input>
+              <button onClick="{{ a1TogglePw }}" type="button" style="height:36px;padding:0 10px;border:0;background:transparent;color:#31476F;font-size:13px;font-weight:600;cursor:pointer">{{ a1PwBtn }}</button>
+            </div>
+          </div>
+          <button onClick="{{ a1Submit }}" disabled="{{ a1Loading }}" style="height:48px;border-radius:8px;border:0;background:{{ a1BtnBg }};color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">{{ a1Spin }}{{ a1BtnLabel }}</button>
+          <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:#4A5870"><span style="flex:1;height:1px;background:#DDDAD3"></span>hoặc<span style="flex:1;height:1px;background:#DDDAD3"></span></div>
+          <button style="height:48px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer" style-hover="background:#F5F4F1"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid #14213D;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">G</span>Tiếp tục với Google</button>
+          <div style="text-align:center;font-size:14px;color:#4A5870">Chưa có tài khoản? <a href="#a02" style="font-weight:600">Đăng ký</a></div>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · A01 · FR-A02, A07<br>· Email → ACCOUNTS.email (trim + lowercase trước khi so)<br>· Mật khẩu → so ACCOUNTS.password_hash<br>· Google → USER_EXTERNAL_LOGINS.provider + provider_subject; không tự ghép tài khoản chỉ vì trùng email<br>· Thành công (S): tạo REFRESH_TOKENS (family_id, token_hash, expires_at) + ACCESS_TOKENS (jti, expires_at); cập nhật ACCOUNTS.last_login_at<br>· Điều hướng theo ROLES.role_name: Customer → C01 · Staff/Admin → O01 · Guide → G01<br>· Sai thông tin: một thông báo chung, không lộ email có tồn tại<br>· Bị khóa: ACCOUNTS.status = Locked — chỉ hiện sau khi mật khẩu đúng<br>· Chưa xác thực: ACCOUNTS.email_confirmed_at rỗng, chỉ khi bật Q-03. ERD chưa có token xác minh → chỉ banner, chưa có nút gửi lại<br>· Nút submit khóa khi loading (chống bấm 2 lần); Enter trong ô mật khẩu = gửi<br>· Demo: mật khẩu “Fansipan@2026” → thành công; khác → sai thông tin<br>· Phiên hết hạn giữa chừng (UAT-03): refresh token hết hạn/bị thu hồi → API 401 → về đây kèm returnUrl, dùng màn lỗi chung <a href="RenTrekk Batch 6 - Man hinh loi.dc.html#e03" style="color:#31476F;font-weight:700">E03 Phiên hết hạn</a> (Batch 6), không vẽ lại ở A01<br>· Tài khoản bị khóa giữa chừng (ACCOUNTS.status = Locked khi đang dùng) → <a href="RenTrekk Batch 6 - Man hinh loi.dc.html#e09" style="color:#31476F;font-weight:700">E09 Tài khoản bị khóa trong phiên</a> (Batch 6). Trạng thái “Bị khóa” ở A01 chỉ cho lúc đăng nhập</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ========== A02 ========== -->
+<section id="a02" data-screen-label="A02 Đăng ký" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">A02</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Đăng ký</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/register</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ a2Chips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;height:900px;display:flex;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16)">
+      <div style="width:640px;flex:none;position:relative;background:#ADBBD3 url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=60&auto=format) center/cover no-repeat">
+        <div style="position:absolute;inset:0;background:rgba(20,33,61,.55);display:flex;flex-direction:column;justify-content:space-between;padding:48px 56px;color:#FFFFFF">
+          <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+          
+          <div><div style="width:48px;height:2px;background:#E29A78;margin-bottom:20px"></div><div style="font-family:'Playfair Display',Georgia,serif;font-size:36px;line-height:44px;font-weight:700;max-width:460px">Đặt chuyến cho cả nhóm, thuê đủ đồ theo ngày.</div></div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center">
+        <sc-if value="{{ a2Form }}" hint-placeholder-val="{{ true }}">
+          <div style="width:440px;display:flex;flex-direction:column;gap:16px">
+            <div><div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Tạo tài khoản</div><div style="font-size:15px;color:#4A5870;margin-top:6px">Đã có tài khoản? <a href="#a01" style="font-weight:600">Đăng nhập</a></div></div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="a2-name" style="font-size:13px;font-weight:600;color:#232B38">Họ và tên <span style="color:#BE123C">*</span></label>
+              <input id="a2-name" value="{{ a2Name }}" onChange="{{ a2OnName }}" autocomplete="name" aria-invalid="{{ a2NameInv }}" style="height:44px;padding:0 12px;border:{{ a2NameBd }};border-radius:8px;font-size:15px;color:#151A24;background:#FFFFFF;outline:none" style-focus="box-shadow:0 0 0 3px #D6DDEA"></input>
+              <sc-if value="{{ a2NameErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a2NameErr }}</span></sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="a2-email" style="font-size:13px;font-weight:600;color:#232B38">Email <span style="color:#BE123C">*</span></label>
+              <input id="a2-email" type="email" value="{{ a2Email }}" onChange="{{ a2OnEmail }}" autocomplete="email" aria-invalid="{{ a2EmailInv }}" style="height:44px;padding:0 12px;border:{{ a2EmailBd }};border-radius:8px;font-size:15px;color:#151A24;background:#FFFFFF;outline:none" style-focus="box-shadow:0 0 0 3px #D6DDEA"></input>
+              <sc-if value="{{ a2EmailErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a2EmailErr }}</span></sc-if>
+              <sc-if value="{{ a2Exists }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Email này đã được đăng ký. <a href="#a01" style="color:#BE123C;font-weight:600">Đăng nhập</a> hoặc <a href="#a03" style="color:#BE123C;font-weight:600">đặt lại mật khẩu</a>.</span></sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="a2-phone" style="font-size:13px;font-weight:600;color:#232B38">Số điện thoại <span style="font-weight:400;color:#4A5870">(tùy chọn)</span></label>
+              <input id="a2-phone" type="tel" value="{{ a2Phone }}" onChange="{{ a2OnPhone }}" autocomplete="tel" aria-invalid="{{ a2PhoneInv }}" style="height:44px;padding:0 12px;border:{{ a2PhoneBd }};border-radius:8px;font-size:15px;color:#151A24;background:#FFFFFF;outline:none" style-focus="box-shadow:0 0 0 3px #D6DDEA"></input>
+              <sc-if value="{{ a2PhoneErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a2PhoneErr }}</span></sc-if>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label for="a2-pw" style="font-size:13px;font-weight:600;color:#232B38">Mật khẩu <span style="color:#BE123C">*</span></label>
+                <input id="a2-pw" type="password" value="{{ a2Pw }}" onChange="{{ a2OnPw }}" autocomplete="new-password" aria-invalid="{{ a2PwInv }}" style="height:44px;padding:0 12px;border:{{ a2PwBd }};border-radius:8px;font-size:15px;color:#151A24;background:#FFFFFF;outline:none" style-focus="box-shadow:0 0 0 3px #D6DDEA"></input>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label for="a2-pw2" style="font-size:13px;font-weight:600;color:#232B38">Nhập lại mật khẩu <span style="color:#BE123C">*</span></label>
+                <input id="a2-pw2" type="password" value="{{ a2Pw2 }}" onChange="{{ a2OnPw2 }}" autocomplete="new-password" aria-invalid="{{ a2Pw2Inv }}" style="height:44px;padding:0 12px;border:{{ a2Pw2Bd }};border-radius:8px;font-size:15px;color:#151A24;background:#FFFFFF;outline:none" style-focus="box-shadow:0 0 0 3px #D6DDEA"></input>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-top:-4px">
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px"><sc-for list="{{ a2Meter }}" as="m" hint-placeholder-count="4"><span style="height:4px;border-radius:2px;background:{{ m }}"></span></sc-for></div>
+              <span style="font-size:12px;color:#4A5870">{{ a2MeterText }}</span>
+              <sc-if value="{{ a2PwErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a2PwErr }}</span></sc-if>
+              <sc-if value="{{ a2Pw2Err }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a2Pw2Err }}</span></sc-if>
+            </div>
+            <button onClick="{{ a2Submit }}" disabled="{{ a2Loading }}" style="height:48px;border-radius:8px;border:0;background:{{ a2BtnBg }};color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">{{ a2Spin }}{{ a2BtnLabel }}</button>
+            <button style="height:48px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer"><span style="width:22px;height:22px;border-radius:50%;border:1.5px solid #14213D;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">G</span>Tiếp tục với Google</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ a2Done }}" hint-placeholder-val="{{ false }}">
+          <div style="width:440px;display:flex;flex-direction:column;gap:16px">
+            <div style="width:56px;height:56px;border-radius:50%;background:#E7F6EC;color:#166534;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center">✓</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Tạo tài khoản thành công</div>
+            <div style="font-size:15px;line-height:24px;color:#343F52">Chào {{ a2Hello }}, tài khoản của bạn đã sẵn sàng để đặt chuyến và thuê thiết bị.</div>
+            <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:10px">
+              <span style="font-size:13px;color:#4A5870">Mã người dùng</span><span style="font:700 15px ui-monospace,Menlo,monospace;color:#14213D">KH-00319</span>
+            </div>
+            <button style="height:48px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:15px;font-weight:600;cursor:pointer">Bắt đầu khám phá</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · A02 · FR-A01<br>· Họ và tên → ACCOUNTS.full_name (bắt buộc)<br>· Email → ACCOUNTS.email UQ, chuẩn hóa lowercase (UAT-01)<br>· Số điện thoại → ACCOUNTS.phone? (rỗng hợp lệ)<br>· Mật khẩu → ACCOUNTS.password_hash (≥ 8 ký tự, có chữ số). Thanh độ mạnh suy ra từ độ dài + loại ký tự, không lưu<br>· (ẩn) ACCOUNTS.role_id = Customer (S) — không có ô chọn vai trò<br>· (ẩn) PROFILES.user_code (S) sinh tự động, UQ → hiện ở màn thành công<br>· Ghi ACCOUNTS (status = Active, created_at) + PROFILES (user_id, user_code)<br>· Email trùng: lỗi gắn trên ô Email<br>· Demo: “thuha.tran@gmail.com” (mọi kiểu hoa/thường) → email đã tồn tại</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ========== A03 ========== -->
+<section id="a03" data-screen-label="A03 Quên mật khẩu" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">A03</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Quên mật khẩu</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/forgot-password</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ a3Chips }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;height:900px;display:flex;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16)">
+      <div style="width:640px;flex:none;position:relative;background:#ADBBD3 url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&q=60&auto=format) center/cover no-repeat">
+        <div style="position:absolute;inset:0;background:rgba(20,33,61,.55);display:flex;flex-direction:column;justify-content:space-between;padding:48px 56px;color:#FFFFFF">
+          <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+          
+          <div><div style="width:48px;height:2px;background:#E29A78;margin-bottom:20px"></div><div style="font-family:'Playfair Display',Georgia,serif;font-size:36px;line-height:44px;font-weight:700;max-width:440px">Lấy lại quyền truy cập trong vài phút.</div></div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center">
+        <sc-if value="{{ a3Form }}" hint-placeholder-val="{{ true }}">
+          <div style="width:400px;display:flex;flex-direction:column;gap:20px">
+            <a href="#a01" style="font-size:14px;font-weight:600;text-decoration:none">← Quay lại đăng nhập</a>
+            <div><div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Quên mật khẩu</div><div style="font-size:15px;line-height:24px;color:#4A5870;margin-top:6px">Nhập email đã đăng ký. Chúng tôi sẽ gửi link đặt lại mật khẩu.</div></div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="a3-email" style="font-size:13px;font-weight:600;color:#232B38">Email</label>
+              <input id="a3-email" type="email" value="{{ a3Email }}" onChange="{{ a3OnEmail }}" onKeyDown="{{ a3OnKey }}" aria-invalid="{{ a3Inv }}" placeholder="ten@email.com" style="height:44px;padding:0 12px;border:{{ a3Bd }};border-radius:8px;font-size:15px;color:#151A24;background:#FFFFFF;outline:none" style-focus="box-shadow:0 0 0 3px #D6DDEA"></input>
+              <sc-if value="{{ a3Err }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a3Err }}</span></sc-if>
+            </div>
+            <button onClick="{{ a3Submit }}" disabled="{{ a3Loading }}" style="height:48px;border-radius:8px;border:0;background:{{ a3BtnBg }};color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">{{ a3Spin }}{{ a3BtnLabel }}</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ a3Sent }}" hint-placeholder-val="{{ false }}">
+          <div style="width:420px;display:flex;flex-direction:column;gap:16px">
+            <div style="width:56px;height:56px;border-radius:50%;background:#E0F2F6;color:#0E7490;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center">✉</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Kiểm tra hộp thư</div>
+            <div style="font-size:15px;line-height:24px;color:#343F52">Nếu email <b>{{ a3Shown }}</b> tồn tại trong hệ thống, chúng tôi đã gửi link đặt lại mật khẩu. Link chỉ dùng được một lần và có thời hạn.</div>
+            <div style="font-size:14px;line-height:22px;color:#4A5870;padding:12px 14px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:10px">Không thấy email? Kiểm tra thư mục spam hoặc gửi lại sau ít phút.</div>
+            <div style="display:flex;gap:8px">
+              <button onClick="{{ a3Resend }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Gửi lại link</button>
+              <a href="#a01" style="height:44px;padding:0 12px;display:flex;align-items:center;font-size:14px;font-weight:600;text-decoration:none">Quay lại đăng nhập</a>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · A03 · FR-A04<br>· Email → tra ACCOUNTS.email (lowercase)<br>· Nếu tồn tại (S): tạo PASSWORD_RESET_TOKENS (user_id, token_hash, expires_at); gửi link /reset-password?token=…<br>· Màn “đã gửi” hiện giống nhau dù email có hay không — không lộ email tồn tại<br>· Tài khoản chỉ dùng Google (password_hash rỗng): vẫn hiện cùng thông báo; theo PRD §FR-A04 không ép reset cục bộ</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ========== A04 ========== -->
+<section id="a04" data-screen-label="A04 Đặt lại mật khẩu" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">A04</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Đặt lại mật khẩu</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/reset-password?token=…</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ a4Chips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;height:900px;display:flex;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16)">
+      <div style="width:640px;flex:none;position:relative;background:#ADBBD3 url(https://images.unsplash.com/photo-1551632811-561732d1e306?w=900&q=60&auto=format) center/cover no-repeat">
+        <div style="position:absolute;inset:0;background:rgba(20,33,61,.55);display:flex;flex-direction:column;justify-content:space-between;padding:48px 56px;color:#FFFFFF">
+          <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+          
+          <div><div style="width:48px;height:2px;background:#E29A78;margin-bottom:20px"></div><div style="font-family:'Playfair Display',Georgia,serif;font-size:36px;line-height:44px;font-weight:700;max-width:440px">Một mật khẩu mới cho hành trình tiếp theo.</div></div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center">
+        <sc-if value="{{ a4Form }}" hint-placeholder-val="{{ true }}">
+          <div style="width:400px;display:flex;flex-direction:column;gap:18px">
+            <div><div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Đặt mật khẩu mới</div><div style="font-size:15px;color:#4A5870;margin-top:6px">Cho tài khoản thu•••@gmail.com</div></div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="a4-pw" style="font-size:13px;font-weight:600;color:#232B38">Mật khẩu mới</label>
+              <input id="a4-pw" type="password" value="{{ a4Pw }}" onChange="{{ a4OnPw }}" autocomplete="new-password" aria-invalid="{{ a4PwInv }}" style="height:44px;padding:0 12px;border:{{ a4PwBd }};border-radius:8px;font-size:15px;background:#FFFFFF;outline:none" style-focus="box-shadow:0 0 0 3px #D6DDEA"></input>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:4px"><sc-for list="{{ a4Meter }}" as="m" hint-placeholder-count="4"><span style="height:4px;border-radius:2px;background:{{ m }}"></span></sc-for></div>
+              <span style="font-size:12px;color:#4A5870">{{ a4MeterText }}</span>
+              <sc-if value="{{ a4PwErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a4PwErr }}</span></sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="a4-pw2" style="font-size:13px;font-weight:600;color:#232B38">Nhập lại mật khẩu mới</label>
+              <input id="a4-pw2" type="password" value="{{ a4Pw2 }}" onChange="{{ a4OnPw2 }}" autocomplete="new-password" aria-invalid="{{ a4Pw2Inv }}" style="height:44px;padding:0 12px;border:{{ a4Pw2Bd }};border-radius:8px;font-size:15px;background:#FFFFFF;outline:none" style-focus="box-shadow:0 0 0 3px #D6DDEA"></input>
+              <sc-if value="{{ a4Pw2Err }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a4Pw2Err }}</span></sc-if>
+            </div>
+            <div style="font-size:13px;line-height:20px;color:#343F52;padding:10px 12px;background:#E0F2F6;border-radius:8px;display:flex;gap:8px"><span aria-hidden="true" style="color:#0E7490;font-weight:700">◷</span>Sau khi đổi, mọi thiết bị đang đăng nhập sẽ bị đăng xuất.</div>
+            <button onClick="{{ a4Submit }}" disabled="{{ a4Loading }}" style="height:48px;border-radius:8px;border:0;background:{{ a4BtnBg }};color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">{{ a4Spin }}{{ a4BtnLabel }}</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ a4Bad }}" hint-placeholder-val="{{ false }}">
+          <div style="width:420px;display:flex;flex-direction:column;gap:16px">
+            <div style="width:56px;height:56px;border-radius:50%;background:#FEF3C7;color:#B45309;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center">!</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">{{ a4BadTitle }}</div>
+            <div style="font-size:15px;line-height:24px;color:#343F52">{{ a4BadText }}</div>
+            <a href="#a03" style="height:48px;border-radius:8px;background:#14213D;color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none">Gửi lại link</a>
+            <a href="#a01" style="font-size:14px;font-weight:600;text-align:center">Quay lại đăng nhập</a>
+          </div>
+        </sc-if>
+        <sc-if value="{{ a4Done }}" hint-placeholder-val="{{ false }}">
+          <div style="width:420px;display:flex;flex-direction:column;gap:16px">
+            <div style="width:56px;height:56px;border-radius:50%;background:#E7F6EC;color:#166534;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center">✓</div>
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Đã đổi mật khẩu</div>
+            <div style="font-size:15px;line-height:24px;color:#343F52">Mọi phiên đăng nhập trước đó đã được đăng xuất. Hãy đăng nhập lại bằng mật khẩu mới.</div>
+            <a href="#a01" style="height:48px;border-radius:8px;background:#14213D;color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none">Đăng nhập</a>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · A04 · FR-A04<br>· Kiểm tra token: tra PASSWORD_RESET_TOKENS theo token_hash<br>· Hết hạn: expires_at &lt; now → màn “Link đã hết hạn”<br>· Đã dùng: used_at có giá trị → màn “Link đã được sử dụng”<br>· Email che một phần: từ ACCOUNTS.email của user_id<br>· Gửi (S): cập nhật ACCOUNTS.password_hash; ghi used_at; thu hồi mọi REFRESH_TOKENS của user (revoked_at, revoked_reason = PasswordReset) + ACCESS_TOKENS liên quan<br>· “Gửi lại link” → A03<br>· Token sai/hết hạn: mật khẩu và phiên không thay đổi (UAT-02)</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ========== A05 ========== -->
+<section id="a05" data-screen-label="A05 Hồ sơ cá nhân" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">A05</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Hồ sơ cá nhân</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/account/profile</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ a5RoleChips }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+      <span style="width:1px;background:#C5C3BD;margin:0 6px"></span>
+      <sc-for list="{{ a5FillChips }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;display:flex;flex-direction:column;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16)">
+      <sc-if value="{{ a5IsCust }}" hint-placeholder-val="{{ true }}">
+        <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+          <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+          <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:16px;color:#FFFFFF">
+            <span style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:18px">◔<span style="position:absolute;top:2px;right:0;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#BE123C;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ unread }}</span></span>
+            <span style="display:flex;align-items:center;gap:10px;font-size:14px"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</span>
+          </div>
+        </header>
+      </sc-if>
+      <div style="flex:1;display:flex">
+        <sc-if value="{{ a5IsGuide }}" hint-placeholder-val="{{ false }}">
+          <aside style="width:240px;flex:none;background:#FFFFFF;border-right:1px solid #DDDAD3;display:flex;flex-direction:column">
+            <div style="height:64px;display:flex;align-items:center;gap:10px;padding:0 20px;border-bottom:1px solid #DDDAD3"><span style="font-weight:700;color:#14213D">RenTrekk <span style="font-weight:500;color:#4A5870;font-size:13px">Guide</span></span></div>
+            <nav style="padding:12px;display:flex;flex-direction:column;gap:2px;font-size:15px">
+              <span style="height:48px;display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:8px;color:#343F52"><span style="width:20px;text-align:center">◎</span>Chuyến hôm nay</span>
+              <span style="height:48px;display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:8px;color:#343F52"><span style="width:20px;text-align:center">◫</span>Nhóm</span>
+              <span style="height:48px;display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:8px;color:#343F52"><span style="width:20px;text-align:center">✓</span>Điểm danh</span>
+              <span style="height:48px;display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:8px;color:#343F52"><span style="width:20px;text-align:center">◔</span>Thông báo<span style="margin-left:auto;font-size:11px;font-weight:700;min-width:20px;height:20px;border-radius:10px;background:#BE123C;color:#FFFFFF;display:flex;align-items:center;justify-content:center">2</span></span>
+              <span style="height:48px;display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:8px;background:#EEF1F7;color:#14213D;font-weight:700"><span style="width:20px;text-align:center">●</span>Tôi</span>
+            </nav>
+          </aside>
+        </sc-if>
+        <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+          <sc-if value="{{ a5IsGuide }}" hint-placeholder-val="{{ false }}">
+            <div style="height:64px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 40px;color:#FFFFFF;font-size:20px;font-weight:700">Tôi</div>
+          </sc-if>
+          <div style="flex:1;display:flex;gap:32px;padding:{{ a5Pad }}">
+            <sc-if value="{{ a5IsCust }}" hint-placeholder-val="{{ true }}">
+              <aside style="width:240px;flex:none;display:flex;flex-direction:column;gap:2px">
+                <div style="padding:0 12px 12px;font-size:13px;color:#4A5870">Tài khoản của tôi</div>
+                <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52">Đơn của tôi</span>
+                <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52">Chuyến của tôi</span>
+                <a href="#a07" style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52;text-decoration:none">Thông báo</a>
+                <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#14213D;background:#FFFFFF;font-weight:600;box-shadow:inset 3px 0 0 #14213D">Hồ sơ</span>
+                <a href="#a06" style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52;text-decoration:none">Bảo mật &amp; phiên</a>
+              </aside>
+            </sc-if>
+            <div style="flex:1;max-width:880px;display:flex;flex-direction:column;gap:20px">
+              <div style="display:flex;align-items:flex-end;gap:16px">
+                <div><div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Hồ sơ cá nhân</div><div style="font-size:14px;color:#4A5870;margin-top:4px">Tham gia từ 02/09/2026</div></div>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:flex;align-items:center;gap:20px">
+                <div style="width:88px;height:88px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;background:{{ a5AvBg }};color:#14213D;border:{{ a5AvBd }}">{{ a5Initials }}</div>
+                <div style="flex:1">
+                  <div style="font-size:20px;font-weight:700">{{ a5NameShow }}</div>
+                  <div style="display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap">
+                    <span style="font:600 13px ui-monospace,Menlo,monospace;background:#EEF1F7;color:#14213D;padding:3px 8px;border-radius:4px">{{ a5Code }}</span>
+                    <button onClick="{{ a5Copy }}" style="height:28px;padding:0 8px;border:0;background:transparent;color:#31476F;font-size:12px;font-weight:600;cursor:pointer">Sao chép</button>
+                    <span style="font-size:13px;color:#4A5870">· {{ a5RoleLabel }}</span>
+                    <sc-if value="{{ a5ShowExp }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;font-weight:600;color:#14213D">· {{ a5Exp }}</span></sc-if>
+                  </div>
+                  <sc-if value="{{ a5NoAvatar }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#5E6B80;margin-top:4px">Chưa có ảnh đại diện</div></sc-if>
+                </div>
+                <div style="display:flex;gap:8px">
+                  <button style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">{{ a5AvBtn }}</button>
+                  <sc-if value="{{ a5HasAvatar }}" hint-placeholder-val="{{ true }}"><button style="height:40px;padding:0 12px;border-radius:8px;border:0;background:transparent;color:#31476F;font-size:14px;font-weight:600;cursor:pointer">Gỡ ảnh</button></sc-if>
+                </div>
+              </div>
+
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:18px">
+                <div style="font-size:16px;font-weight:600">Thông tin cơ bản</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px 20px">
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <label for="a5-name" style="font-size:13px;font-weight:600;color:#232B38">Họ và tên <span style="color:#BE123C">*</span></label>
+                    <input id="a5-name" value="{{ a5Name }}" onChange="{{ a5OnName }}" aria-invalid="{{ a5NameInv }}" style="height:44px;padding:0 12px;border:{{ a5NameBd }};border-radius:8px;font-size:15px;background:#FFFFFF;outline:none" style-focus="box-shadow:0 0 0 3px #D6DDEA"></input>
+                    <sc-if value="{{ a5NameInv }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập họ và tên.</span></sc-if>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <label for="a5-phone" style="font-size:13px;font-weight:600;color:#232B38">Số điện thoại</label>
+                    <input id="a5-phone" type="tel" value="{{ a5Phone }}" onChange="{{ a5OnPhone }}" placeholder="Chưa cập nhật" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;background:#FFFFFF;outline:none" style-focus="border-color:#31476F;box-shadow:0 0 0 3px #D6DDEA"></input>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <span style="font-size:13px;font-weight:600;color:#232B38">Email</span>
+                    <div style="height:44px;padding:0 12px;border:1px solid #DDDAD3;border-radius:8px;font-size:15px;background:#F5F4F1;display:flex;align-items:center;justify-content:space-between;color:#343F52">thuha.tran@gmail.com<span style="font-size:12px;color:#4A5870">Chỉ đọc</span></div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <span style="font-size:13px;font-weight:600;color:#232B38">Vai trò</span>
+                    <div style="height:44px;padding:0 12px;border:1px solid #DDDAD3;border-radius:8px;font-size:15px;background:#F5F4F1;display:flex;align-items:center;justify-content:space-between;color:#343F52">{{ a5RoleLabel }}<span style="font-size:12px;color:#4A5870">Chỉ đọc</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:18px">
+                <div style="font-size:16px;font-weight:600">Thông tin cá nhân</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px 20px">
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <label for="a5-dob" style="font-size:13px;font-weight:600;color:#232B38">Ngày sinh</label>
+                    <input id="a5-dob" value="{{ a5Dob }}" onChange="{{ a5OnDob }}" placeholder="Chưa cập nhật · dd/mm/yyyy" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;background:#FFFFFF;outline:none" style-focus="border-color:#31476F;box-shadow:0 0 0 3px #D6DDEA"></input>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <label for="a5-addr" style="font-size:13px;font-weight:600;color:#232B38">Địa chỉ</label>
+                    <input id="a5-addr" value="{{ a5Addr }}" onChange="{{ a5OnAddr }}" placeholder="Chưa cập nhật" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;background:#FFFFFF;outline:none" style-focus="border-color:#31476F;box-shadow:0 0 0 3px #D6DDEA"></input>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px;grid-column:1 / -1">
+                    <label for="a5-bio" style="font-size:13px;font-weight:600;color:#232B38">Giới thiệu</label>
+                    <textarea id="a5-bio" rows="3" value="{{ a5Bio }}" onChange="{{ a5OnBio }}" placeholder="Chưa cập nhật" style="padding:10px 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;line-height:22px;background:#FFFFFF;outline:none;resize:vertical" style-focus="border-color:#31476F;box-shadow:0 0 0 3px #D6DDEA"></textarea>
+                  </div>
+                  <sc-if value="{{ a5IsGuide }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <label for="a5-career" style="font-size:13px;font-weight:600;color:#232B38">Bắt đầu hành nghề</label>
+                      <input id="a5-career" value="{{ a5Career }}" onChange="{{ a5OnCareer }}" placeholder="Chưa cập nhật · dd/mm/yyyy" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;background:#FFFFFF;outline:none" style-focus="border-color:#31476F;box-shadow:0 0 0 3px #D6DDEA"></input>
+                      <span style="font-size:12px;color:#4A5870">{{ a5ExpHelp }}</span>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:12px;justify-content:flex-end;padding:4px 0 32px">
+                <span style="font-size:13px;color:#4A5870;margin-right:auto">{{ a5DirtyText }}</span>
+                <button onClick="{{ a5Reset }}" disabled="{{ a5Clean }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:{{ a5ResetC }};font-size:14px;font-weight:600;cursor:pointer">Hủy thay đổi</button>
+                <button onClick="{{ a5Save }}" disabled="{{ a5SaveDis }}" style="height:44px;padding:0 20px;border-radius:8px;border:0;background:{{ a5SaveBg }};color:{{ a5SaveC }};font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer">{{ a5Spin }}{{ a5SaveLabel }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · A05 · FR-A03<br>· Avatar → PROFILES.avatar_url? (rỗng → chữ cái đầu của ACCOUNTS.full_name)<br>· Họ và tên → ACCOUNTS.full_name W<br>· Số điện thoại → ACCOUNTS.phone? W<br>· Email → ACCOUNTS.email R (đổi email là luồng riêng)<br>· Mã người dùng → PROFILES.user_code R<br>· Vai trò → ACCOUNTS.role_id → ROLES.role_name R<br>· Ngày sinh → PROFILES.date_of_birth? · Địa chỉ → PROFILES.address? · Giới thiệu → PROFILES.bio?<br>· Bắt đầu hành nghề → PROFILES.career_start_date? (chỉ Guide/Staff). “X năm kinh nghiệm” = floor((today − career_start_date) / 365.25)<br>· Tham gia từ → ACCOUNTS.created_at<br>· Không sửa role_id, status ở màn này<br>· Nút Lưu chỉ bật khi có thay đổi; khóa khi đang lưu<br>· Bấm Lưu mà phiên đã hết hạn (UAT-03) → giữ nguyên dữ liệu đang nhập (không mất), chuyển <a href="RenTrekk Batch 6 - Man hinh loi.dc.html#e03" style="color:#31476F;font-weight:700">E03 Phiên hết hạn</a> (Batch 6); đăng nhập lại xong quay lại A05<br>· Tài khoản bị khóa giữa chừng → <a href="RenTrekk Batch 6 - Man hinh loi.dc.html#e09" style="color:#31476F;font-weight:700">E09 Tài khoản bị khóa trong phiên</a> (Batch 6)</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ========== A06 ========== -->
+<section id="a06" data-screen-label="A06 Bảo mật & phiên" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">A06</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Bảo mật &amp; phiên đăng nhập</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/account/security</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ a6Chips }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;display:flex;flex-direction:column;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16)">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;color:#FFFFFF">
+          <span style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:18px">◔<span style="position:absolute;top:2px;right:0;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#BE123C;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ unread }}</span></span>
+          <span style="display:flex;align-items:center;gap:10px;font-size:14px"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</span>
+        </div>
+      </header>
+      <div style="flex:1;display:flex;gap:32px;padding:40px 80px">
+        <aside style="width:240px;flex:none;display:flex;flex-direction:column;gap:2px">
+          <div style="padding:0 12px 12px;font-size:13px;color:#4A5870">Tài khoản của tôi</div>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52">Đơn của tôi</span>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52">Chuyến của tôi</span>
+          <a href="#a07" style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52;text-decoration:none">Thông báo</a>
+          <a href="#a05" style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52;text-decoration:none">Hồ sơ</a>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#14213D;background:#FFFFFF;font-weight:600;box-shadow:inset 3px 0 0 #14213D">Bảo mật &amp; phiên</span>
+        </aside>
+        <div style="flex:1;max-width:880px;display:flex;flex-direction:column;gap:20px;padding-bottom:32px">
+          <div><div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">Bảo mật &amp; phiên đăng nhập</div><div style="font-size:14px;color:#4A5870;margin-top:4px">Lần đăng nhập gần nhất: CN, 18/10/2026 · 08:42 (GMT+7)</div></div>
+
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px">
+            <div style="font-size:16px;font-weight:600">{{ a6PwTitle }}</div>
+            <sc-if value="{{ a6HasPw }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <label for="a6-cur" style="font-size:13px;font-weight:600;color:#232B38">Mật khẩu hiện tại</label>
+                  <input id="a6-cur" type="password" value="{{ a6Cur }}" onChange="{{ a6OnCur }}" aria-invalid="{{ a6CurInv }}" style="height:44px;padding:0 12px;border:{{ a6CurBd }};border-radius:8px;font-size:15px;background:#FFFFFF;outline:none"></input>
+                  <sc-if value="{{ a6CurErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a6CurErr }}</span></sc-if>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <label for="a6-new" style="font-size:13px;font-weight:600;color:#232B38">Mật khẩu mới</label>
+                  <input id="a6-new" type="password" value="{{ a6New }}" onChange="{{ a6OnNew }}" aria-invalid="{{ a6NewInv }}" style="height:44px;padding:0 12px;border:{{ a6NewBd }};border-radius:8px;font-size:15px;background:#FFFFFF;outline:none"></input>
+                  <sc-if value="{{ a6NewErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a6NewErr }}</span></sc-if>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <label for="a6-new2" style="font-size:13px;font-weight:600;color:#232B38">Nhập lại mật khẩu mới</label>
+                  <input id="a6-new2" type="password" value="{{ a6New2 }}" onChange="{{ a6OnNew2 }}" aria-invalid="{{ a6New2Inv }}" style="height:44px;padding:0 12px;border:{{ a6New2Bd }};border-radius:8px;font-size:15px;background:#FFFFFF;outline:none"></input>
+                  <sc-if value="{{ a6New2Err }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ a6New2Err }}</span></sc-if>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:flex-end"><button onClick="{{ a6ChangePw }}" disabled="{{ a6PwLoading }}" style="height:44px;padding:0 18px;border-radius:8px;border:0;background:{{ a6PwBg }};color:#FFFFFF;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer">{{ a6PwSpin }}{{ a6PwLabel }}</button></div>
+            </sc-if>
+            <sc-if value="{{ a6NoPw }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:16px">
+                <div style="flex:1;font-size:14px;line-height:22px;color:#343F52">Tài khoản này đang đăng nhập bằng Google và chưa có mật khẩu. Thiết lập mật khẩu để có thêm một cách đăng nhập.</div>
+                <button style="height:44px;padding:0 18px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Thiết lập mật khẩu</button>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+            <div style="padding:20px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #DDDAD3">
+              <div style="flex:1"><div style="font-size:16px;font-weight:600">Phiên đang hoạt động</div><div style="font-size:13px;color:#4A5870;margin-top:2px">{{ a6SessCount }}</div></div>
+              <sc-if value="{{ a6HasSess }}" hint-placeholder-val="{{ true }}"><button onClick="{{ a6AskAll }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #BE123C;background:#FFFFFF;color:#BE123C;font-size:14px;font-weight:600;cursor:pointer">Đăng xuất tất cả thiết bị</button></sc-if>
+            </div>
+            <sc-for list="{{ a6Sessions }}" as="x" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:16px;padding:16px 24px;border-bottom:1px solid #ECEAE5">
+                <span style="width:40px;height:40px;border-radius:10px;background:#EEF1F7;color:#14213D;display:flex;align-items:center;justify-content:center;font-size:16px;flex:none">◧</span>
+                <div style="flex:1">
+                  <div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600">{{ x.title }}<sc-if value="{{ x.current }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px 0 7px;border-radius:999px;background:#E7F6EC;color:#166534;font-size:12px;font-weight:600"><span aria-hidden="true">✓</span>Phiên hiện tại</span></sc-if></div>
+                  <div style="font-size:13px;color:#4A5870;margin-top:2px">Bắt đầu {{ x.start }} · Hết hạn {{ x.exp }}</div>
+                </div>
+                <button onClick="{{ x.ask }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Đăng xuất phiên này</button>
+              </div>
+            </sc-for>
+            <sc-if value="{{ a6NoSess }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:32px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+                <div style="font-size:15px;font-weight:600">Đã đăng xuất khỏi mọi thiết bị</div>
+                <div style="font-size:13px;color:#4A5870">Bạn sẽ được chuyển về trang Đăng nhập.</div>
+                <button onClick="{{ a6Restore }}" style="height:36px;padding:0 12px;border:0;background:transparent;color:#31476F;font-size:13px;font-weight:600;cursor:pointer">Khôi phục dữ liệu mẫu</button>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px 24px;display:flex;flex-direction:column;gap:16px">
+            <div style="font-size:16px;font-weight:600">Tài khoản liên kết</div>
+            <sc-if value="{{ a6GgLinked }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:16px">
+              <span style="width:40px;height:40px;border-radius:50%;border:1.5px solid #14213D;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">G</span>
+              <div style="flex:1"><div style="font-size:15px;font-weight:600">Google</div><div style="font-size:13px;color:#4A5870">Liên kết lúc 02/09/2026 · 10:14</div></div>
+              <button onClick="{{ a6Unlink }}" disabled="{{ a6NoPw }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid {{ a6UnBd }};background:{{ a6UnBg }};color:{{ a6UnC }};font-size:14px;font-weight:600;cursor:pointer">Gỡ liên kết</button>
+            </div>
+            <sc-if value="{{ a6NoPw }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;line-height:20px;color:#343F52;padding:10px 12px;background:#FEF3C7;border-radius:8px;display:flex;gap:8px"><span aria-hidden="true" style="color:#B45309;font-weight:700">!</span>Không thể gỡ vì đây là cách đăng nhập duy nhất. Hãy thiết lập mật khẩu trước.</div></sc-if>
+            </sc-if>
+            <sc-if value="{{ a6GgUnlinked }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:16px">
+                <span style="width:40px;height:40px;border-radius:50%;border:1.5px dashed #9AA1AC;color:#5E6B80;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">G</span>
+                <div style="flex:1"><div style="font-size:15px;font-weight:600">Google</div><div style="font-size:13px;line-height:20px;color:#4A5870">Chưa liên kết. Liên kết để đăng nhập nhanh bằng Google; bạn vẫn đăng nhập được bằng email và mật khẩu.</div></div>
+                <button onClick="{{ a6GgLink }}" disabled="{{ a6GgLoading }}" style="height:44px;padding:0 18px;border-radius:8px;border:0;background:{{ a6GgBg }};color:#FFFFFF;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer;white-space:nowrap">{{ a6GgSpin }}{{ a6GgLabel }}</button>
+              </div>
+              <sc-if value="{{ a6GgConflict }}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size:13px;line-height:20px;color:#9F1239;padding:10px 12px;background:#FFE4E8;border-radius:8px;display:flex;gap:8px"><span aria-hidden="true" style="font-weight:700">✕</span>Tài khoản Google này đã liên kết với tài khoản khác. Hãy dùng tài khoản Google khác, hoặc đăng nhập vào tài khoản đã liên kết đó.</div></sc-if>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{ a6Modal }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ a6Close }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:480px;background:#FFFFFF;border-radius:14px;box-shadow:0 24px 48px rgba(8,14,28,.3);overflow:hidden">
+          <div style="padding:20px 24px 0"><div style="font-size:20px;font-weight:700">{{ a6MTitle }}</div></div>
+          <div style="margin:16px 24px;border:1px solid #DDDAD3;border-radius:10px;overflow:hidden">
+            <div style="padding:8px 12px;background:#F5F4F1;font-size:12px;font-weight:600;color:#343F52">Xem trước tác động</div>
+            <div style="padding:12px;display:flex;flex-direction:column;gap:8px;font-size:14px">
+              <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Số phiên bị đăng xuất</span><b>{{ a6MCount }}</b></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Bao gồm phiên hiện tại</span><b>{{ a6MCurrent }}</b></div>
+              <div style="font-size:13px;line-height:20px;color:#4A5870">{{ a6MNote }}</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;padding:16px 24px;border-top:1px solid #ECEAE5">
+            <button onClick="{{ a6Close }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Hủy</button>
+            <button onClick="{{ a6Confirm }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#BE123C;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Đăng xuất</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · A06 · FR-A05, A07<br>· Lần đăng nhập gần nhất → ACCOUNTS.last_login_at? (rỗng → “Chưa cập nhật”)<br>· Đổi mật khẩu → ACCOUNTS.password_hash; nếu rỗng → khối “Thiết lập mật khẩu”<br>· Phiên → REFRESH_TOKENS lọc revoked_at rỗng và expires_at &gt; now, gộp theo family_id; “Bắt đầu” = created_at của token đầu family; “Hết hạn” = expires_at của token mới nhất<br>· “Phiên hiện tại” = family_id của refresh token đang dùng<br>· ERD không lưu thiết bị/trình duyệt → không hiển thị tên thiết bị; tiêu đề phiên = thứ tự<br>· Đăng xuất (S): REFRESH_TOKENS.revoked_at + revoked_reason = UserLogout; ACCESS_TOKENS.revoked_at cùng family<br>· Tài khoản liên kết → USER_EXTERNAL_LOGINS (user_id, provider, provider_subject, created_at) của user hiện tại; có dòng provider = Google → “Đã liên kết”, không có dòng → “Chưa liên kết Google”<br>· Liên kết Google (FR-A07, P2): bấm “Liên kết tài khoản Google” → chuyển sang OAuth Google (nút khóa + “Đang chuyển sang Google…”). Callback thành công (S): ghi USER_EXTERNAL_LOGINS (user_id, provider = Google, provider_subject = mã “sub” của Google, created_at); không ghép theo email trùng<br>· Ràng buộc DB: UNIQUE (provider, provider_subject) → một provider_subject không thuộc hai tài khoản<br>· Lỗi: provider_subject đã thuộc tài khoản khác → hiện “Tài khoản Google này đã liên kết với tài khoản khác”; không ghi gì, không tiết lộ tài khoản kia. Người dùng hủy ở màn Google → quay lại A06, không đổi gì<br>· Không cho gỡ cách đăng nhập cuối cùng (password_hash rỗng và chỉ còn 1 liên kết)<br>· Hàng nút trên khung: “Đã liên kết Google” · “Chưa liên kết Google” · “Lỗi: Google đã liên kết tài khoản khác” (trạng thái lỗi sau khi bấm liên kết). Bấm nút liên kết trong demo → thành công<br>· Phiên bị thu hồi / hết hạn khi đang ở màn này (UAT-03; vd. “Đăng xuất tất cả” từ thiết bị khác) → <a href="RenTrekk Batch 6 - Man hinh loi.dc.html#e03" style="color:#31476F;font-weight:700">E03 Phiên hết hạn</a> (Batch 6); tài khoản bị khóa giữa chừng → <a href="RenTrekk Batch 6 - Man hinh loi.dc.html#e09" style="color:#31476F;font-weight:700">E09 Tài khoản bị khóa trong phiên</a> (Batch 6). Chỉ dẫn link, không vẽ lại</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ========== A07 ========== -->
+<section id="a07" data-screen-label="A07 Thông báo" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">A07</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Trung tâm thông báo</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/notifications + dropdown chuông</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <button onClick="{{ a7ToggleBell }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:13px;font-weight:600;cursor:pointer">{{ a7BellBtn }}</button>
+      <button onClick="{{ a7ResetData }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:13px;font-weight:600;cursor:pointer">Khôi phục dữ liệu mẫu</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;display:flex;flex-direction:column;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16)">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;color:#FFFFFF">
+          <button onClick="{{ a7ToggleBell }}" aria-label="Thông báo" aria-expanded="{{ a7Bell }}" style="position:relative;width:40px;height:40px;border:0;border-radius:8px;background:{{ a7BellBg }};color:#FFFFFF;font-size:18px;cursor:pointer">◔<sc-if value="{{ hasUnread }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;top:2px;right:0;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#BE123C;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ unread }}</span></sc-if></button>
+          <span style="display:flex;align-items:center;gap:10px;font-size:14px"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</span>
+        </div>
+      </header>
+      <sc-if value="{{ a7Bell }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:64px;right:150px;width:400px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;box-shadow:0 24px 48px rgba(8,14,28,.2);z-index:5;overflow:hidden">
+          <div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #DDDAD3"><span style="font-size:15px;font-weight:700;flex:1">Thông báo</span><button onClick="{{ a7MarkAll }}" style="border:0;background:transparent;color:#31476F;font-size:13px;font-weight:600;cursor:pointer;padding:6px">Đánh dấu tất cả đã đọc</button></div>
+          <sc-for list="{{ a7Drop }}" as="n" hint-placeholder-count="4">
+            <button onClick="{{ n.open }}" style="width:100%;text-align:left;display:flex;gap:12px;padding:12px 16px;border:0;border-bottom:1px solid #ECEAE5;background:{{ n.rowBg }};cursor:{{ n.cursor }}" style-hover="background:#ECEAE5">
+              <span style="width:32px;height:32px;border-radius:50%;flex:none;background:{{ n.bg }};color:{{ n.fg }};font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ n.ic }}</span>
+              <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:{{ n.w }};color:#151A24">{{ n.title }}</span><span style="display:block;font-size:12px;color:#4A5870;margin-top:2px">{{ n.time }}</span></span>
+              <span style="width:8px;height:8px;border-radius:50%;margin-top:6px;flex:none;background:{{ n.dot }}"></span>
+            </button>
+          </sc-for>
+          <a href="#a07" onClick="{{ a7CloseBell }}" style="display:block;text-align:center;padding:12px;font-size:14px;font-weight:600;text-decoration:none">Xem tất cả thông báo</a>
+        </div>
+      </sc-if>
+      <div style="flex:1;display:flex;gap:32px;padding:40px 80px">
+        <aside style="width:240px;flex:none;display:flex;flex-direction:column;gap:2px">
+          <div style="padding:0 12px 12px;font-size:13px;color:#4A5870">Tài khoản của tôi</div>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52">Đơn của tôi</span>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52">Chuyến của tôi</span>
+          <span style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#14213D;background:#FFFFFF;font-weight:600;box-shadow:inset 3px 0 0 #14213D">Thông báo<sc-if value="{{ hasUnread }}" hint-placeholder-val="{{ true }}"><span style="margin-left:auto;font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#14213D;color:#FFFFFF;display:flex;align-items:center;justify-content:center">{{ unread }}</span></sc-if></span>
+          <a href="#a05" style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52;text-decoration:none">Hồ sơ</a>
+          <a href="#a06" style="height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;font-size:14px;color:#343F52;text-decoration:none">Bảo mật &amp; phiên</a>
+        </aside>
+        <div style="flex:1;max-width:880px;display:flex;flex-direction:column;gap:16px;padding-bottom:32px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D;flex:1">Thông báo</div>
+            <button onClick="{{ a7MarkAll }}" disabled="{{ a7NoUnread }}" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:transparent;color:{{ a7MarkC }};font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#EEF1F7">Đánh dấu tất cả đã đọc</button>
+          </div>
+          <div role="tablist" style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3">
+            <sc-for list="{{ a7Tabs }}" as="t" hint-placeholder-count="2">
+              <button role="tab" onClick="{{ t.on }}" style="height:44px;padding:0 12px;border:0;background:transparent;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};cursor:pointer;display:flex;align-items:center;gap:6px">{{ t.label }}<span style="font-size:11px;padding:1px 7px;border-radius:999px;background:{{ t.cbg }};color:{{ t.cfg }}">{{ t.count }}</span></button>
+            </sc-for>
+          </div>
+          <sc-for list="{{ a7Groups }}" as="g" hint-placeholder-count="2">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:12px;font-weight:600;letter-spacing:.06em;color:#4A5870;padding:8px 0 0">{{ g.label }}</div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+                <sc-for list="{{ g.items }}" as="n" hint-placeholder-count="3">
+                  <button onClick="{{ n.open }}" style="width:100%;text-align:left;display:flex;gap:14px;padding:16px 20px;border:0;border-bottom:1px solid #ECEAE5;background:{{ n.rowBg }};cursor:{{ n.cursor }};font:inherit" style-hover="background:#ECEAE5">
+                    <span style="width:40px;height:40px;border-radius:50%;flex:none;background:{{ n.bg }};color:{{ n.fg }};font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ n.ic }}</span>
+                    <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+                      <span style="display:flex;gap:12px;align-items:baseline"><span style="flex:1;font-size:15px;font-weight:{{ n.w }};color:#151A24">{{ n.title }}</span><span style="font-size:12px;color:#4A5870;white-space:nowrap">{{ n.time }}</span></span>
+                      <span style="font-size:14px;line-height:21px;color:{{ n.cc }}">{{ n.content }}</span>
+                      <sc-if value="{{ n.hasLink }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;font-weight:600;color:#31476F;margin-top:2px">{{ n.linkLabel }} →</span></sc-if>
+                    </span>
+                    <span aria-label="{{ n.srRead }}" style="width:10px;height:10px;border-radius:50%;margin-top:6px;flex:none;background:{{ n.dot }}"></span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ a7Empty }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px dashed #C5C3BD;border-radius:12px;padding:48px 20px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+              <div style="width:48px;height:48px;border-radius:50%;background:#E7F6EC;color:#166534;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center">✓</div>
+              <div style="font-size:16px;font-weight:600">Bạn đã đọc hết thông báo</div>
+              <div style="font-size:14px;color:#4A5870">Thông báo mới về đơn, thanh toán, hoàn tiền, chuyến và phí phát sinh sẽ xuất hiện ở đây.</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · A07 · FR-O01<br>· Chỉ bản ghi NOTIFICATIONS.recipient_user_id = mình<br>· Icon + màu theo notification_type (map trong code, không hiện enum)<br>· Tiêu đề → title · Nội dung → content<br>· Thời gian → created_at (tương đối; &gt; 7 ngày hiện ngày)<br>· Chưa đọc: read_at rỗng → in đậm + chấm + nền night-50<br>· Bấm (S): ghi read_at rồi điều hướng theo related_entity_type? + related_entity_id?: Order → C11 (đơn tour) / C13 (đơn thuê), chọn theo loại đơn · Payment → màn chi tiết đơn tương ứng: tra PAYMENTS.order_id rồi mở C11 (đơn tour) / C13 (đơn thuê) — khách không có màn chi tiết giao dịch riêng · Trip → C15 · RentalCharge → C13 · rỗng → không điều hướng<br>· Mẫu thông báo thanh toán / hoàn tiền (S, sinh ở server khi trạng thái đổi; recipient_user_id = chủ đơn; notification_type là đề xuất, free text):<br>&nbsp; 1) “Đã nhận thanh toán” — PaymentReceived — webhook SePay xác nhận: ORDERS.status = Confirmed, payment_status = Paid; entity = Order<br>&nbsp; 2) “Đang xác minh thanh toán” — PaymentVerifying — ORDERS.payment_status = NeedsReconciliation (chuyển sai số tiền / sau hết hạn; PAYMENTS.received_amount ≠ amount); nội dung dặn khách không chuyển lại; entity = Order<br>&nbsp; 3) “Yêu cầu hoàn tiền đang chờ duyệt” — RefundPendingApproval — sau khách hủy: dòng PAYMENTS payment_type = Refund, status = PendingApproval; entity = Payment<br>&nbsp; 4) “Đã hoàn tiền” — RefundSucceeded — dòng Refund status = Succeeded; entity = Payment<br>&nbsp; 5) “Hoàn tiền gặp sự cố, nhân viên đang xử lý” — RefundFailed — dòng Refund status = Failed; không hiện failure_reason và không có nút thử lại cho khách (Admin xử lý ở O28 Hoàn tiền &amp; đối soát); entity = Payment<br>· Admin từ chối duyệt hoàn: API chưa có endpoint từ chối nên chưa có mẫu thông báo<br>· “Đánh dấu tất cả đã đọc” → read_at = now cho mọi bản ghi chưa đọc<br>· Badge chuông = COUNT(read_at IS NULL); ẩn khi 0<br>· Dropdown: 4 bản ghi mới nhất</div>
+    </sc-if>
+  </div>
+</section>
+
+</div>
+
+<div aria-live="polite" style="position:fixed;right:24px;bottom:24px;display:flex;flex-direction:column;gap:8px;z-index:50;max-width:380px">
+  <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="0">
+    <div role="status" style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:#FFFFFF;border:1px solid #DDDAD3;border-left:4px solid {{ t.fg }};border-radius:10px;box-shadow:0 12px 32px rgba(20,33,61,.18);font-size:14px">
+      <span aria-hidden="true" style="color:{{ t.fg }};font-weight:700">{{ t.ic }}</span>
+      <div style="flex:1"><div style="font-weight:600">{{ t.title }}</div><div style="font-size:13px;color:#4A5870">{{ t.msg }}</div></div>
+    </div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDevNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Annotation&quot;}}">
+const G = {
+  neutral:{bg:'#ECEAE5',fg:'#4A5870',ic:'○'}, info:{bg:'#E0F2F6',fg:'#0E7490',ic:'◷'}, warning:{bg:'#FEF3C7',fg:'#B45309',ic:'!'},
+  progress:{bg:'#EDE9FE',fg:'#6D28D9',ic:'▶'}, success:{bg:'#E7F6EC',fg:'#166534',ic:'✓'}, danger:{bg:'#FFE4E8',fg:'#BE123C',ic:'✕'}, night:{bg:'#EEF1F7',fg:'#14213D',ic:'▲'}
+};
+const NOTIFS = () => [
+  {id:1,g:'success',ic:'✓',title:'Đã nhận thanh toán',content:'Đơn thuê RTK-26-004830 đã nhận 2.472.000 ₫. Đơn đã được xác nhận.',time:'5 phút trước',today:true,read:false,link:'Xem chi tiết đơn thuê',ent:'Order',to:'C13'},
+  {id:7,g:'warning',ic:'◷',title:'Đang xác minh thanh toán',content:'Đơn RTK-26-004841: ngân hàng ghi nhận khoản chuyển nhưng số tiền chưa khớp. Nhân viên đang xác minh và sẽ liên hệ bạn. Bạn không cần chuyển lại.',time:'40 phút trước',today:true,read:false,link:'Xem chi tiết đơn tour',ent:'Order',to:'C11'},
+  {id:8,g:'info',ic:'◷',title:'Yêu cầu hoàn tiền đang chờ duyệt',content:'Đơn tour RTK-26-004812 đã hủy. Yêu cầu hoàn 1.715.000 ₫ đang chờ nhân viên duyệt.',time:'1 giờ trước',today:true,read:false,link:'Xem chi tiết đơn tour',ent:'Payment',to:'C11'},
+  {id:2,g:'warning',ic:'!',title:'Phát sinh phí thiết bị',content:'Gậy trekking GAY-TK-0310 trả trễ 1 ngày: 25.000 ₫. Vui lòng kiểm tra và thanh toán.',time:'2 giờ trước',today:true,read:false,link:'Xem phí phát sinh',ent:'RentalCharge',to:'C13'},
+  {id:3,g:'night',ic:'▲',title:'Chuyến Fansipan sắp khởi hành',content:'Tập trung Th 7, 14/11/2026 · 05:30 (GMT+7). Hãy hoàn tất khai báo người tham gia.',time:'Hôm qua · 21:10',today:false,read:false,link:'Xem chuyến của tôi',ent:'Trip',to:'C15'},
+  {id:9,g:'danger',ic:'!',title:'Hoàn tiền gặp sự cố, nhân viên đang xử lý',content:'Khoản hoàn 1.715.000 ₫ cho đơn thuê RTK-26-004790 chưa thực hiện được. Nhân viên đang xử lý, bạn không cần làm gì thêm.',time:'Hôm qua · 09:30',today:false,read:false,link:'Xem chi tiết đơn thuê',ent:'Payment',to:'C13'},
+  {id:4,g:'info',ic:'↺',title:'Đã hoàn tiền',content:'3.430.000 ₫ cho đơn RTK-26-004799 đã được hoàn về tài khoản ngân hàng bạn đã chuyển khoản.',time:'15/10/2026 · 14:22',today:false,read:true,link:'Xem chi tiết đơn tour',ent:'Payment',to:'C11'},
+  {id:5,g:'danger',ic:'✕',title:'Chuyến Tà Chì Nhù đã hủy',content:'Chuyến 03/11/2026 không đủ số người tối thiểu. Đơn RTK-26-004777 được hoàn 100%.',time:'12/10/2026 · 09:05',today:false,read:true,link:'Xem chi tiết đơn tour',ent:'Order',to:'C11'},
+  {id:6,g:'neutral',ic:'○',title:'Cập nhật chính sách hoàn tiền',content:'Chính sách hoàn tiền cho tour áp dụng từ 01/11/2026.',time:'08/10/2026 · 16:40',today:false,read:true,link:null}
+];
+const SESS = () => [
+  {id:1,current:true,start:'CN, 18/10/2026 · 08:42',exp:'CN, 25/10/2026 · 08:42'},
+  {id:2,start:'Th 6, 16/10/2026 · 21:04',exp:'Th 6, 23/10/2026 · 21:04'},
+  {id:3,start:'Th 3, 13/10/2026 · 07:15',exp:'Th 3, 20/10/2026 · 07:15'}
+];
+const PROFILE = {full:{name:'Trần Thu Hà',phone:'0912 345 678',dob:'21/04/1996',addr:'12 Trần Hưng Đạo, Hoàn Kiếm, Hà Nội',bio:'Mê săn mây, đã lên Fansipan 3 lần.',career:'15/03/2020'},empty:{name:'Trần Thu Hà',phone:'',dob:'',addr:'',bio:'',career:''}};
+const bd = e => e ? '1.5px solid #BE123C' : '1px solid #C5C3BD';
+const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+const strength = pw => { let s=0; if(pw.length>=8)s++; if(/\d/.test(pw))s++; if(/[A-Z]/.test(pw)&&/[a-z]/.test(pw))s++; if(/[^A-Za-z0-9]/.test(pw)||pw.length>=12)s++; return pw?s:0; };
+const meter = pw => { const s=strength(pw); const col=s<=1?'#BE123C':s===2?'#B45309':'#166534'; return {bars:[0,1,2,3].map(i=>i<s?col:'#DDDAD3'),text:!pw?'Tối thiểu 8 ký tự, có ít nhất 1 chữ số.':['Rất yếu','Yếu','Trung bình','Mạnh','Rất mạnh'][s]}; };
+class Component extends DCLogic {
+  state = {
+    a1:'default', a1Email:'thuha.tran@gmail.com', a1Pw:'', a1Show:false,
+    a2:'form', a2Name:'', a2Email:'', a2Phone:'', a2Pw:'', a2Pw2:'', a2Err:{}, a2Loading:false,
+    a3:'form', a3Email:'', a3Err:'', a3Loading:false,
+    a4:'form', a4Pw:'', a4Pw2:'', a4Err:{}, a4Loading:false,
+    a5Role:'Customer', a5Fill:'full', a5:{...PROFILE.full}, a5Base:{...PROFILE.full}, a5Saving:false, a5Tried:false,
+    a6Mode:'password', a6Gg:'linked', a6Sess:SESS(), a6Modal:null, a6Cur:'', a6New:'', a6New2:'', a6Err:{}, a6PwLoading:false,
+    a7Filter:'all', a7Bell:true, notifs:NOTIFS(), toasts:[]
+  };
+  toast(kind,title,msg){ const id=Math.random(); const g=G[kind]; this.setState(s=>({toasts:[...s.toasts,{id,fg:g.fg,ic:g.ic,title,msg}]})); setTimeout(()=>this.setState(s=>({toasts:s.toasts.filter(t=>t.id!==id)})),3800); }
+  spin(){ return React.createElement('span',{'aria-hidden':true,style:{width:14,height:14,border:'2px solid rgba(255,255,255,.35)',borderTopColor:'#fff',borderRadius:'50%',display:'inline-block',animation:'rtspin .8s linear infinite'}}); }
+  chips(key,opts,extra){ const s=this.state; return opts.map(([v,label])=>{ const a=s[key]===v; return {label,bg:a?'#14213D':'#FFFFFF',c:a?'#FFFFFF':'#14213D',bd:a?'#14213D':'#C5C3BD',on:()=>this.setState({[key]:v,...(extra?extra(v):{})})}; }); }
+  renderVals() {
+    const s=this.state, dev=this.props.showDevNotes ?? true;
+    // A01
+    const a1Loading=s.a1==='loading';
+    const a1Submit=()=>{ if(a1Loading) return; this.setState({a1:'loading'}); setTimeout(()=>this.setState(x=>({a1:x.a1Pw==='Fansipan@2026'?'success':'wrong'})),1100); };
+    // A02
+    const e2=s.a2Err, m2=meter(s.a2Pw);
+    const a2Submit=()=>{ if(s.a2Loading) return; const e={}; if(!s.a2Name.trim()) e.name='Vui lòng nhập họ và tên.'; if(!s.a2Email.trim()) e.email='Vui lòng nhập email.'; else if(!emailOk(s.a2Email)) e.email='Email chưa đúng định dạng.'; if(s.a2Phone&&s.a2Phone.replace(/\D/g,'').length!==10) e.phone='Số điện thoại cần đủ 10 chữ số.'; if(s.a2Pw.length<8||!/\d/.test(s.a2Pw)) e.pw='Mật khẩu cần tối thiểu 8 ký tự và có chữ số.'; if(s.a2Pw2!==s.a2Pw||!s.a2Pw2) e.pw2='Mật khẩu nhập lại chưa khớp.'; if(Object.keys(e).length){ this.setState({a2Err:e}); return; } this.setState({a2Loading:true}); setTimeout(()=>{ if(this.state.a2Email.trim().toLowerCase()==='thuha.tran@gmail.com') this.setState({a2Loading:false,a2Err:{exists:true}}); else this.setState({a2Loading:false,a2:'success'}); },1000); };
+    const a2Set=(k,ek)=>ev=>this.setState({[k]:ev.target.value,a2Err:{...this.state.a2Err,[ek]:null,exists:ek==='email'?false:this.state.a2Err.exists}});
+    // A03
+    const a3Submit=()=>{ if(s.a3Loading) return; if(!emailOk(s.a3Email)){ this.setState({a3Err:s.a3Email.trim()?'Email chưa đúng định dạng.':'Vui lòng nhập email.'}); return; } this.setState({a3Loading:true}); setTimeout(()=>this.setState({a3Loading:false,a3:'sent'}),900); };
+    // A04
+    const e4=s.a4Err, m4=meter(s.a4Pw);
+    const a4Submit=()=>{ if(s.a4Loading) return; const e={}; if(s.a4Pw.length<8||!/\d/.test(s.a4Pw)) e.pw='Mật khẩu cần tối thiểu 8 ký tự và có chữ số.'; if(s.a4Pw2!==s.a4Pw||!s.a4Pw2) e.pw2='Mật khẩu nhập lại chưa khớp.'; if(Object.keys(e).length){ this.setState({a4Err:e}); return; } this.setState({a4Loading:true}); setTimeout(()=>this.setState({a4Loading:false,a4:'done'}),1000); };
+    // A05
+    const p=s.a5, isG=s.a5Role==='Guide';
+    const dirty=Object.keys(p).some(k=>p[k]!==s.a5Base[k]);
+    const nameInv=!p.name.trim();
+    const set5=k=>ev=>this.setState({a5:{...this.state.a5,[k]:ev.target.value}});
+    let years=null; const m=p.career.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if(m){ const d=new Date(+m[3],+m[2]-1,+m[1]); years=Math.floor((new Date(2026,9,18)-d)/(365.25*864e5)); }
+    const initials=p.name.trim().split(/\s+/).slice(-2).map(w=>w[0]).join('').toUpperCase()||'?';
+    const hasAv=s.a5Fill==='full';
+    // A06
+    const e6=s.a6Err, hasPw=s.a6Mode==='password';
+    const modal=s.a6Modal, modalAll=modal==='all', target=modal&&!modalAll?s.a6Sess.find(x=>x.id===modal):null;
+    const a6ChangePw=()=>{ if(s.a6PwLoading) return; const e={}; if(!s.a6Cur) e.cur='Vui lòng nhập mật khẩu hiện tại.'; if(s.a6New.length<8||!/\d/.test(s.a6New)) e.nw='Tối thiểu 8 ký tự và có chữ số.'; else if(s.a6New===s.a6Cur) e.nw='Mật khẩu mới cần khác mật khẩu hiện tại.'; if(s.a6New2!==s.a6New||!s.a6New2) e.nw2='Mật khẩu nhập lại chưa khớp.'; if(Object.keys(e).length){ this.setState({a6Err:e}); return; } this.setState({a6PwLoading:true}); setTimeout(()=>{ this.setState({a6PwLoading:false,a6Cur:'',a6New:'',a6New2:'',a6Err:{}}); this.toast('success','Đã đổi mật khẩu','Lần sau hãy đăng nhập bằng mật khẩu mới.'); },1000); };
+    // A07
+    const unread=s.notifs.filter(n=>!n.read).length;
+    const openN=n=>()=>{ this.setState(x=>({notifs:x.notifs.map(y=>y.id===n.id?{...y,read:true}:y)})); if(n.link) this.toast('info','Đang mở',n.link+' → '+n.to+' (bản demo)'); };
+    const mapN=n=>({...n,...G[n.g],ic:n.ic,w:n.read?500:700,cc:n.read?'#4A5870':'#232B38',rowBg:n.read?'#FFFFFF':'#EEF1F7',dot:n.read?'transparent':'#14213D',srRead:n.read?'Đã đọc':'Chưa đọc',hasLink:!!n.link,linkLabel:n.link||'',cursor:n.link?'pointer':'default',open:openN(n)});
+    const list=s.notifs.filter(n=>s.a7Filter==='all'||!n.read);
+    const a7Groups=[['HÔM NAY',list.filter(n=>n.today)],['TRƯỚC ĐÓ',list.filter(n=>!n.today)]].filter(([,l])=>l.length).map(([label,l])=>({label,items:l.map(mapN)}));
+    const markAll=()=>this.setState(x=>({notifs:x.notifs.map(n=>({...n,read:true}))}));
+    return {
+      dev, toasts:s.toasts, unread, hasUnread:unread>0,
+      // A01
+      a1Chips:this.chips('a1',[['default','Mặc định'],['wrong','Sai thông tin'],['locked','Bị khóa'],['unconfirmed','Chưa xác thực email'],['loading','Đang tải']]),
+      a1Wrong:s.a1==='wrong', a1Locked:s.a1==='locked', a1Unconf:s.a1==='unconfirmed', a1Success:s.a1==='success', a1Loading,
+      a1Email:s.a1Email, a1Pw:s.a1Pw, a1OnEmail:e=>this.setState({a1Email:e.target.value}), a1OnPw:e=>this.setState({a1Pw:e.target.value}),
+      a1OnKey:e=>{ if(e.key==='Enter') a1Submit(); }, a1PwType:s.a1Show?'text':'password', a1PwBtn:s.a1Show?'Ẩn':'Hiện', a1TogglePw:()=>this.setState(x=>({a1Show:!x.a1Show})),
+      a1Submit, a1Spin:a1Loading?this.spin():null, a1BtnLabel:a1Loading?'Đang đăng nhập…':'Đăng nhập', a1BtnBg:a1Loading?'#213456':'#14213D',
+      // A02
+      a2Chips:this.chips('a2',[['form','Form'],['exists','Email đã tồn tại'],['success','Thành công']]).map((c,i)=>i===1?{...c,bg:e2.exists?'#14213D':'#FFFFFF',c:e2.exists?'#FFFFFF':'#14213D',bd:e2.exists?'#14213D':'#C5C3BD',on:()=>this.setState({a2:'form',a2Name:'Trần Thu Hà',a2Email:'ThuHa.Tran@gmail.com',a2Pw:'Fansipan2026',a2Pw2:'Fansipan2026',a2Err:{exists:true}})}:{...c,bg:s.a2===['form','exists','success'][i]&&!e2.exists?'#14213D':'#FFFFFF',c:s.a2===['form','exists','success'][i]&&!e2.exists?'#FFFFFF':'#14213D',bd:s.a2===['form','exists','success'][i]&&!e2.exists?'#14213D':'#C5C3BD',on:()=>this.setState({a2:i===2?'success':'form',a2Err:{}})}),
+      a2Form:s.a2!=='success', a2Done:s.a2==='success', a2Hello:(s.a2Name.trim().split(/\s+/).pop())||'bạn',
+      a2Name:s.a2Name, a2Email:s.a2Email, a2Phone:s.a2Phone, a2Pw:s.a2Pw, a2Pw2:s.a2Pw2,
+      a2OnName:a2Set('a2Name','name'), a2OnEmail:a2Set('a2Email','email'), a2OnPhone:a2Set('a2Phone','phone'), a2OnPw:a2Set('a2Pw','pw'), a2OnPw2:a2Set('a2Pw2','pw2'),
+      a2NameErr:e2.name||'', a2EmailErr:e2.email||'', a2PhoneErr:e2.phone||'', a2PwErr:e2.pw||'', a2Pw2Err:e2.pw2||'', a2Exists:!!e2.exists,
+      a2NameInv:!!e2.name, a2EmailInv:!!(e2.email||e2.exists), a2PhoneInv:!!e2.phone, a2PwInv:!!e2.pw, a2Pw2Inv:!!e2.pw2,
+      a2NameBd:bd(e2.name), a2EmailBd:bd(e2.email||e2.exists), a2PhoneBd:bd(e2.phone), a2PwBd:bd(e2.pw), a2Pw2Bd:bd(e2.pw2),
+      a2Meter:m2.bars, a2MeterText:m2.text, a2Submit, a2Loading:s.a2Loading, a2Spin:s.a2Loading?this.spin():null, a2BtnLabel:s.a2Loading?'Đang tạo tài khoản…':'Tạo tài khoản', a2BtnBg:s.a2Loading?'#213456':'#14213D',
+      // A03
+      a3Chips:this.chips('a3',[['form','Nhập email'],['sent','Đã gửi']],v=>v==='sent'&&!this.state.a3Email?{a3Email:'thuha.tran@gmail.com'}:{}),
+      a3Form:s.a3==='form', a3Sent:s.a3==='sent', a3Email:s.a3Email, a3Shown:s.a3Email.trim().toLowerCase()||'thuha.tran@gmail.com',
+      a3OnEmail:e=>this.setState({a3Email:e.target.value,a3Err:''}), a3OnKey:e=>{ if(e.key==='Enter') a3Submit(); },
+      a3Err:s.a3Err, a3Inv:!!s.a3Err, a3Bd:bd(s.a3Err), a3Submit, a3Loading:s.a3Loading, a3Spin:s.a3Loading?this.spin():null, a3BtnLabel:s.a3Loading?'Đang gửi…':'Gửi link đặt lại', a3BtnBg:s.a3Loading?'#213456':'#14213D',
+      a3Resend:()=>this.toast('info','Đã gửi lại','Nếu email tồn tại, link mới đã được gửi.'),
+      // A04
+      a4Chips:this.chips('a4',[['form','Form'],['expired','Link hết hạn'],['used','Link đã dùng'],['done','Thành công']]),
+      a4Form:s.a4==='form', a4Bad:s.a4==='expired'||s.a4==='used', a4Done:s.a4==='done',
+      a4BadTitle:s.a4==='used'?'Link đã được sử dụng':'Link đã hết hạn',
+      a4BadText:s.a4==='used'?'Link đặt lại mật khẩu này đã được dùng trước đó. Mỗi link chỉ dùng được một lần. Hãy yêu cầu link mới nếu bạn vẫn cần đổi mật khẩu.':'Link đặt lại mật khẩu chỉ có hiệu lực trong thời gian ngắn. Hãy yêu cầu link mới để tiếp tục.',
+      a4Pw:s.a4Pw, a4Pw2:s.a4Pw2, a4OnPw:e=>this.setState({a4Pw:e.target.value,a4Err:{...this.state.a4Err,pw:null}}), a4OnPw2:e=>this.setState({a4Pw2:e.target.value,a4Err:{...this.state.a4Err,pw2:null}}),
+      a4PwErr:e4.pw||'', a4Pw2Err:e4.pw2||'', a4PwInv:!!e4.pw, a4Pw2Inv:!!e4.pw2, a4PwBd:bd(e4.pw), a4Pw2Bd:bd(e4.pw2), a4Meter:m4.bars, a4MeterText:m4.text,
+      a4Submit, a4Loading:s.a4Loading, a4Spin:s.a4Loading?this.spin():null, a4BtnLabel:s.a4Loading?'Đang lưu…':'Đổi mật khẩu', a4BtnBg:s.a4Loading?'#213456':'#14213D',
+      // A05
+      a5RoleChips:this.chips('a5Role',[['Customer','Customer'],['Guide','Guide']]),
+      a5FillChips:this.chips('a5Fill',[['full','Đã điền đủ'],['empty','Trường trống']],v=>({a5:{...PROFILE[v]},a5Base:{...PROFILE[v]}})),
+      a5IsCust:!isG, a5IsGuide:isG, a5Pad:isG?'32px 40px':'40px 80px',
+      a5RoleLabel:isG?'Guide':'Khách hàng', a5Code:isG?'GD-00042':'KH-00318',
+      a5Name:p.name, a5Phone:p.phone, a5Dob:p.dob, a5Addr:p.addr, a5Bio:p.bio, a5Career:p.career,
+      a5OnName:set5('name'), a5OnPhone:set5('phone'), a5OnDob:set5('dob'), a5OnAddr:set5('addr'), a5OnBio:set5('bio'), a5OnCareer:set5('career'),
+      a5NameInv:nameInv, a5NameBd:bd(nameInv), a5NameShow:p.name.trim()||'Chưa cập nhật', a5Initials:initials,
+      a5AvBg:hasAv?'#ADBBD3 url(https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=900&q=60&auto=format) center/cover no-repeat':'#ECEAE5', a5AvBd:hasAv?'0':'1.5px dashed #9AA1AC',
+      a5HasAvatar:hasAv, a5NoAvatar:!hasAv, a5AvBtn:hasAv?'Đổi ảnh':'Tải ảnh lên',
+      a5ShowExp:isG&&years!==null, a5Exp:years!==null?`${years} năm kinh nghiệm`:'', a5ExpHelp:years!==null?`Hiển thị: “${years} năm kinh nghiệm”`:'Chưa cập nhật — sẽ không hiển thị số năm kinh nghiệm',
+      a5Copy:()=>this.toast('success','Đã sao chép',`Mã người dùng ${isG?'GD-00042':'KH-00318'}`),
+      a5Clean:!dirty, a5ResetC:dirty?'#14213D':'#5E6B80', a5Reset:()=>this.setState(x=>({a5:{...x.a5Base}})),
+      a5DirtyText:dirty?'Có thay đổi chưa lưu':'Mọi thay đổi đã được lưu',
+      a5SaveDis:!dirty||s.a5Saving||nameInv, a5SaveBg:(!dirty||nameInv)?'#DDDAD3':s.a5Saving?'#213456':'#14213D', a5SaveC:(!dirty||nameInv)?'#4A5870':'#FFFFFF',
+      a5Spin:s.a5Saving?this.spin():null, a5SaveLabel:s.a5Saving?'Đang lưu…':'Lưu thay đổi',
+      a5Save:()=>{ if(!dirty||s.a5Saving||nameInv) return; this.setState({a5Saving:true}); setTimeout(()=>{ this.setState(x=>({a5Saving:false,a5Base:{...x.a5}})); this.toast('success','Đã lưu hồ sơ','Thông tin cá nhân đã được cập nhật.'); },900); },
+      // A06
+      a6Chips:[...this.chips('a6Mode',[['password','Có mật khẩu'],['google','Chỉ đăng nhập Google']],v=>v==='google'?{a6Gg:'linked'}:{}),...this.chips('a6Gg',[['linked','Đã liên kết Google'],['unlinked','Chưa liên kết Google'],['conflict','Lỗi: Google đã liên kết tài khoản khác']],v=>v!=='linked'?{a6Mode:'password'}:{})],
+      a6GgLinked:s.a6Gg==='linked', a6GgUnlinked:s.a6Gg!=='linked', a6GgConflict:s.a6Gg==='conflict', a6GgLoading:s.a6Gg==='linking',
+      a6GgSpin:s.a6Gg==='linking'?this.spin():null, a6GgLabel:s.a6Gg==='linking'?'Đang chuyển sang Google…':'Liên kết tài khoản Google', a6GgBg:s.a6Gg==='linking'?'#213456':'#14213D',
+      a6GgLink:()=>{ if(s.a6Gg==='linking') return; this.setState({a6Gg:'linking'}); setTimeout(()=>{ this.setState({a6Gg:'linked'}); this.toast('success','Đã liên kết Google','Từ nay bạn có thể đăng nhập bằng Google (bản demo).'); },1300); },
+      a6HasPw:hasPw, a6NoPw:!hasPw, a6PwTitle:hasPw?'Đổi mật khẩu':'Mật khẩu',
+      a6Cur:s.a6Cur, a6New:s.a6New, a6New2:s.a6New2,
+      a6OnCur:e=>this.setState({a6Cur:e.target.value,a6Err:{...this.state.a6Err,cur:null}}), a6OnNew:e=>this.setState({a6New:e.target.value,a6Err:{...this.state.a6Err,nw:null}}), a6OnNew2:e=>this.setState({a6New2:e.target.value,a6Err:{...this.state.a6Err,nw2:null}}),
+      a6CurErr:e6.cur||'', a6NewErr:e6.nw||'', a6New2Err:e6.nw2||'', a6CurInv:!!e6.cur, a6NewInv:!!e6.nw, a6New2Inv:!!e6.nw2, a6CurBd:bd(e6.cur), a6NewBd:bd(e6.nw), a6New2Bd:bd(e6.nw2),
+      a6ChangePw, a6PwLoading:s.a6PwLoading, a6PwSpin:s.a6PwLoading?this.spin():null, a6PwLabel:s.a6PwLoading?'Đang lưu…':'Đổi mật khẩu', a6PwBg:s.a6PwLoading?'#213456':'#14213D',
+      a6Sessions:s.a6Sess.map((x,i)=>({...x,current:!!x.current,title:x.current?'Phiên trên thiết bị này':`Phiên đăng nhập ${i+1}`,ask:()=>this.setState({a6Modal:x.id})})),
+      a6HasSess:s.a6Sess.length>0, a6NoSess:s.a6Sess.length===0, a6SessCount:s.a6Sess.length?`${s.a6Sess.length} phiên còn hiệu lực`:'Không có phiên nào',
+      a6AskAll:()=>this.setState({a6Modal:'all'}), a6Close:()=>this.setState({a6Modal:null}),
+      a6Modal:!!modal, a6MTitle:modalAll?'Đăng xuất tất cả thiết bị?':'Đăng xuất phiên này?',
+      a6MCount:modalAll?s.a6Sess.length:1, a6MCurrent:modalAll||(target&&target.current)?'Có':'Không',
+      a6MNote:modalAll||(target&&target.current)?'Bạn sẽ cần đăng nhập lại trên thiết bị này.':'Thiết bị dùng phiên này sẽ phải đăng nhập lại khi truy cập.',
+      a6Confirm:()=>{ if(modalAll){ this.setState({a6Sess:[],a6Modal:null}); this.toast('success','Đã đăng xuất tất cả thiết bị','Mọi phiên đã bị thu hồi.'); } else { this.setState(x=>({a6Sess:x.a6Sess.filter(y=>y.id!==modal),a6Modal:null})); this.toast('success','Đã đăng xuất phiên','Phiên đã bị thu hồi.'); } },
+      a6Restore:()=>this.setState({a6Sess:SESS()}),
+      a6UnBd:hasPw?'#C5C3BD':'#DDDAD3', a6UnBg:hasPw?'#FFFFFF':'#F5F4F1', a6UnC:hasPw?'#14213D':'#5E6B80',
+      a6Unlink:()=>{ if(hasPw) this.toast('info','Gỡ liên kết Google','Cần xác nhận bằng mật khẩu (bản demo).'); },
+      // A07
+      a7Bell:s.a7Bell, a7BellBg:s.a7Bell?'#31476F':'transparent', a7BellBtn:s.a7Bell?'Đóng dropdown chuông':'Mở dropdown chuông',
+      a7ToggleBell:()=>this.setState(x=>({a7Bell:!x.a7Bell})), a7CloseBell:()=>this.setState({a7Bell:false}),
+      a7Drop:s.notifs.slice(0,4).map(mapN), a7MarkAll:markAll, a7NoUnread:unread===0, a7MarkC:unread?'#31476F':'#5E6B80',
+      a7Tabs:[['all','Tất cả',s.notifs.length],['unread','Chưa đọc',unread]].map(([v,label,count])=>{ const a=s.a7Filter===v; return {label,count,bd:a?'#14213D':'transparent',c:a?'#14213D':'#4A5870',w:a?600:500,cbg:a?'#14213D':'#ECEAE5',cfg:a?'#FFFFFF':'#4A5870',on:()=>this.setState({a7Filter:v})}; }),
+      a7Groups, a7Empty:list.length===0, a7ResetData:()=>this.setState({notifs:NOTIFS()})
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -56,12 +56,12 @@ export default function RefundQueueTable({
                       <span className={styles.codeBadge}>{item.orderCode}</span>
                     </td>
                     <td>
-                      <div style={{ fontWeight: 600 }}>{item.customerName}</div>
+                      <div style={{ fontWeight: "var(--font-weight-semibold)" }}>{item.customerName}</div>
                       <div className={styles.statSubtext}>{item.customerPhone}</div>
                     </td>
                     <td className={styles.numberCell}>{formatCurrency(item.totalCollected)}</td>
                     <td className={styles.numberCell}>
-                      <span style={{ fontWeight: 700, color: '#dc2626' }}>
+                      <span style={{ fontWeight: "var(--font-weight-bold)", color: '#dc2626' }}>
                         {formatCurrency(item.proposedRefund)}
                       </span>
                       <div className={styles.statSubtext}>({item.refundPercentage}%)</div>
@@ -72,14 +72,14 @@ export default function RefundQueueTable({
                       </span>
                     </td>
                     <td style={{ maxWidth: 220 }}>
-                      <span style={{ fontSize: 13, color: '#475569' }}>{item.cancelReason}</span>
+                      <span style={{ fontSize: "var(--font-size-meta)", color: '#475569' }}>{item.cancelReason}</span>
                     </td>
                     <td>{formatDateTime(item.createdAt)}</td>
                     <td style={{ textAlign: 'center' }}>
                       <button
                         type="button"
                         className="btn btn-primary"
-                        style={{ padding: '6px 14px', fontSize: 13 }}
+                        style={{ padding: '6px 14px', fontSize: "var(--font-size-control)" }}
                         onClick={() => onOpenApproveDrawer(item)}
                       >
                         Xem & Duyệt hoàn
@@ -110,13 +110,13 @@ export default function RefundQueueTable({
                       <span className={styles.codeBadge}>{item.orderCode}</span>
                     </td>
                     <td>
-                      <div style={{ fontWeight: 600 }}>{item.customerName}</div>
+                      <div style={{ fontWeight: "var(--font-weight-semibold)" }}>{item.customerName}</div>
                       <div className={styles.statSubtext}>
                         {item.bankName} - {item.bankAccount}
                       </div>
                     </td>
                     <td className={styles.numberCell}>
-                      <span style={{ fontWeight: 700, color: '#dc2626' }}>
+                      <span style={{ fontWeight: "var(--font-weight-bold)", color: '#dc2626' }}>
                         {formatCurrency(Math.abs(item.amount))}
                       </span>
                     </td>
@@ -158,18 +158,18 @@ export default function RefundQueueTable({
                         <span className={styles.codeBadge}>{item.orderCode}</span>
                       </td>
                       <td>
-                        <div style={{ fontWeight: 600 }}>{item.customerName}</div>
+                        <div style={{ fontWeight: "var(--font-weight-semibold)" }}>{item.customerName}</div>
                         <div className={styles.statSubtext}>
                           {item.bankName} - {item.bankAccount}
                         </div>
                       </td>
                       <td className={styles.numberCell}>
-                        <span style={{ fontWeight: 700, color: '#dc2626' }}>
+                        <span style={{ fontWeight: "var(--font-weight-bold)", color: '#dc2626' }}>
                           {formatCurrency(Math.abs(item.amount))}
                         </span>
                       </td>
                       <td style={{ maxWidth: 240 }}>
-                        <span style={{ color: '#be123c', fontSize: 13 }}>⚠️ {item.failureReason}</span>
+                        <span style={{ color: '#be123c', fontSize: "var(--font-size-meta)" }}>⚠️ {item.failureReason}</span>
                       </td>
                       <td>
                         <span
@@ -179,7 +179,7 @@ export default function RefundQueueTable({
                           {item.retryCount} / {item.maxRetries} lần
                         </span>
                         {isMaxRetry && (
-                          <div style={{ color: '#be123c', fontSize: 11, marginTop: 2 }}>
+                          <div style={{ color: '#be123c', fontSize: "var(--font-size-meta)", marginTop: 2 }}>
                             Cần xử lý thủ công
                           </div>
                         )}
@@ -190,7 +190,7 @@ export default function RefundQueueTable({
                           <button
                             type="button"
                             className="btn btn-outline"
-                            style={{ padding: '5px 10px', fontSize: 12 }}
+                            style={{ padding: '5px 10px', fontSize: "var(--font-size-control)" }}
                             onClick={() => onRetry(item.paymentId)}
                             disabled={isRetrying || isMaxRetry}
                             title={isMaxRetry ? 'Đã đạt tối đa 3 lần thử' : 'Thử lại qua cổng SePay'}
@@ -200,7 +200,7 @@ export default function RefundQueueTable({
                           <button
                             type="button"
                             className="btn btn-primary"
-                            style={{ padding: '5px 10px', fontSize: 12 }}
+                            style={{ padding: '5px 10px', fontSize: "var(--font-size-control)" }}
                             onClick={() => onOpenManualModal(item)}
                           >
                             Hoàn thủ công
@@ -237,12 +237,12 @@ export default function RefundQueueTable({
                         <span className={styles.codeBadge}>{order.orderCode}</span>
                       </td>
                       <td>
-                        <div style={{ fontWeight: 600 }}>{order.customerName}</div>
+                        <div style={{ fontWeight: "var(--font-weight-semibold)" }}>{order.customerName}</div>
                         <div className={styles.statSubtext}>{order.customerPhone}</div>
                       </td>
                       <td className={styles.numberCell}>{formatCurrency(order.totalAmount)}</td>
                       <td className={styles.numberCell}>
-                        <span style={{ fontWeight: 700 }}>{formatCurrency(order.receivedAmount)}</span>
+                        <span style={{ fontWeight: "var(--font-weight-bold)" }}>{formatCurrency(order.receivedAmount)}</span>
                       </td>
                       <td>
                         <span
@@ -256,18 +256,18 @@ export default function RefundQueueTable({
                         </span>
                       </td>
                       <td>
-                        <div style={{ color: '#b91c1c', fontWeight: 600 }}>
+                        <div style={{ color: '#b91c1c', fontWeight: "var(--font-weight-semibold)" }}>
                           ⏰ {formatDateTime(order.reconciliationDeadlineAt)}
                         </div>
                         <div className={styles.statSubtext}>Trong vòng 24 giờ</div>
                       </td>
-                      <td style={{ maxWidth: 200, fontSize: 13 }}>{order.notes}</td>
+                      <td style={{ maxWidth: 200, fontSize: "var(--font-size-body)" }}>{order.notes}</td>
                       <td style={{ textAlign: 'center' }}>
                         <div className={styles.actionBtnGroup} style={{ justifyContent: 'center' }}>
                           <button
                             type="button"
                             className="btn btn-primary"
-                            style={{ padding: '5px 10px', fontSize: 12 }}
+                            style={{ padding: '5px 10px', fontSize: "var(--font-size-control)" }}
                             onClick={() => onOpenReconcileModal(order, 'accept')}
                             title="Xác nhận đơn và tự động hoàn tiền thừa"
                           >
@@ -278,7 +278,7 @@ export default function RefundQueueTable({
                             className="btn btn-outline"
                             style={{
                               padding: '5px 10px',
-                              fontSize: 12,
+                              fontSize: "var(--font-size-control)",
                               color: '#dc2626',
                               borderColor: '#fca5a5',
                             }}
@@ -317,7 +317,7 @@ export default function RefundQueueTable({
                     </td>
                     <td>{hist.customerName}</td>
                     <td className={styles.numberCell}>
-                      <span style={{ fontWeight: 700 }}>{formatCurrency(Math.abs(hist.amount))}</span>
+                      <span style={{ fontWeight: "var(--font-weight-bold)" }}>{formatCurrency(Math.abs(hist.amount))}</span>
                     </td>
                     <td>
                       <span className={styles.codeBadge} style={{ background: '#f0fdf4', color: '#166534' }}>

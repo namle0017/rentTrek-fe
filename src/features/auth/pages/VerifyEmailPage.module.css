@@ -10,20 +10,21 @@
 .card h1 {
   margin: 0 0 8px;
   color: #173d2d;
-  font-size: 1.6rem;
+  font-size: var(--font-size-page-title);
 }
 .card p {
   margin: 0 0 22px;
   color: #69766f;
-  font-size: 0.9rem;
+  font-size: var(--font-size-body);
 }
 .action {
   display: inline-flex;
-  min-height: 46px;
+  min-height: var(--control-min-height);
   padding: 11px 20px;
   color: #fff;
   font: inherit;
-  font-weight: 800;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   background: #204b39;
   border: 0;

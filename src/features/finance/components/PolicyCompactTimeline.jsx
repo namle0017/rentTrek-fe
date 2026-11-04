@@ -31,7 +31,7 @@ export default function PolicyCompactTimeline({ rules = [], policyName }) {
     <div className={styles.compactTimelineCard}>
       <div className={styles.compactTimelineHeader}>
         <h4 className={styles.compactTimelineTitle}>Tiến Trình Hoàn Tiền Theo Mốc Giờ: {policyName}</h4>
-        <span style={{ fontSize: 12, color: '#64748b' }}>
+        <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b' }}>
           Tự động áp dụng theo thời điểm khách hàng gửi yêu cầu hủy
         </span>
       </div>

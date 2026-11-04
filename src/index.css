@@ -132,7 +132,7 @@ a {
 
 .page-title {
   margin: 0 0 16px;
-  font-size: 1.5rem;
+  font-size: var(--font-size-page-title);
 }
 
 .page-header .page-title {
@@ -165,7 +165,8 @@ a {
   gap: 8px;
   padding: 8px 16px;
   font: inherit;
-  font-weight: 500;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-medium);
   border: 1px solid transparent;
   border-radius: var(--radius);
   cursor: pointer;
@@ -203,24 +204,25 @@ a {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-field);
   max-width: 560px;
 }
 
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-label);
 }
 
 .form-field label {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .input {
   width: 100%;
   padding: 8px 12px;
   font: inherit;
+  font-size: var(--font-size-control);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
@@ -234,7 +236,7 @@ a {
 .text-error {
   margin: 0;
   color: var(--color-error);
-  font-size: 0.875rem;
+  font-size: var(--font-size-body);
 }
 
 /* ===== States ===== */
@@ -297,7 +299,7 @@ a {
 
 .hero h1 {
   margin: 0;
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: var(--font-size-page-title);
 }
 
 .status-page {
@@ -312,7 +314,7 @@ a {
 
 .status-page h1 {
   margin: 0;
-  font-size: 3rem;
+  font-size: var(--font-size-page-title);
   color: var(--color-primary);
 }
 
@@ -333,8 +335,8 @@ a {
 }
 
 .auth-logo {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
   color: var(--color-primary);
 }
 
@@ -376,8 +378,8 @@ a {
 .dev-clock-jumps__title {
   margin: 0 0 8px;
   color: var(--color-primary-heading);
-  font-size: 0.8125rem;
-  font-weight: 700;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
 }
 
 .dev-clock-jumps__buttons {
@@ -387,12 +389,12 @@ a {
 }
 
 .dev-clock-jumps__buttons button {
-  min-height: 36px;
+  min-height: var(--control-min-height);
   padding: 4px 12px;
   color: var(--color-primary-heading);
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-semibold);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);

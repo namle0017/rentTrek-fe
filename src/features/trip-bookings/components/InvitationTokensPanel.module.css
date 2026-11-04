@@ -5,8 +5,8 @@
 }
 .linkBox label {
   color: #31483d;
-  font-size: 0.75rem;
-  font-weight: 800;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 .linkBox div {
   display: flex;
@@ -18,7 +18,7 @@
   padding: 8px 10px;
   color: #1c3027;
   font: inherit;
-  font-size: 0.75rem;
+  font-size: var(--font-size-control);
   background: #fff;
   border: 1px solid #ccd7ce;
   border-radius: 9px;
@@ -29,8 +29,8 @@
   padding: 8px 10px;
   color: #204b39;
   font: inherit;
-  font-size: 0.72rem;
-  font-weight: 800;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   background: #fff;
   border: 1px solid #204b39;
@@ -38,5 +38,5 @@
 }
 .linkBox small {
   color: #6d766f;
-  font-size: 0.68rem;
+  font-size: var(--font-size-meta);
 }

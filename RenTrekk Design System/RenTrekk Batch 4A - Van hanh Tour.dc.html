@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314213D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-weight='800' font-size='20' text-anchor='middle' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECEAE5;color:#151A24;font-family:'Be Vietnam Pro',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#31476F;text-underline-offset:2px}
+a:hover{color:#14213D}
+*{box-sizing:border-box}
+input,textarea,button,select{font-family:inherit}
+</style>
+</helmet>
+
+<div style="padding:64px;display:flex;flex-direction:column;gap:96px;width:max-content">
+
+<div style="display:flex;align-items:flex-end;gap:32px;width:1800px">
+  <div>
+    <div style="font-size:13px;font-weight:600;letter-spacing:.12em;color:#31476F">RENTREKK · BATCH 4A · BACK-OFFICE</div>
+    <h1 style="margin:8px 0 0;font-size:48px;line-height:56px;font-weight:700;color:#14213D;letter-spacing:-.02em">Dashboard, Người dùng, Danh mục, Tour · O01–O08</h1>
+    <p style="margin:8px 0 0;font-size:15px;color:#4A5870">Web 1440px, shell vận hành. Vai trò xem (Admin / Staff) đổi trong Tweaks; menu và quyền thay đổi theo.</p>
+  </div>
+  <div style="margin-left:auto;display:flex;gap:20px;font-size:14px;font-weight:600"><a href="RenTrekk Sitemap &amp; Shells.dc.html">Shells</a><a href="RenTrekk Batch 4B - Van hanh Chuyen.dc.html">Batch 4B →</a></div>
+</div>
+
+<!-- ================= O01 ================= -->
+<section id="o01" data-screen-label="O01 Dashboard" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O01</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Dashboard</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navDash }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…<span style="margin-left:auto;font-size:11px;border:1px solid #DDDAD3;border-radius:4px;padding:2px 6px">Ctrl K</span></div><div style="margin-left:auto;position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#14213D">◔<span style="position:absolute;top:4px;right:2px;min-width:18px;height:18px;border-radius:9px;background:#BE123C;color:#FFFFFF;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">5</span></div><div style="display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;align-items:flex-end;gap:12px"><div style="flex:1"><div style="font-size:28px;font-weight:700;color:#14213D">Chào buổi sáng, {{ meFirst }}</div><div style="font-size:14px;color:#4A5870;margin-top:2px">CN, 18/10/2026 · 08:30 (GMT+7) · {{ scopeText }}</div></div></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;color:#4A5870">{{ k.label }}</span><span style="font-size:30px;line-height:36px;font-weight:700;color:#14213D">{{ k.value }}</span><span style="font-size:12px;color:#4A5870">{{ k.sub }}</span></div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:{{ alertCols }};gap:12px">
+            <sc-for list="{{ alerts }}" as="a" hint-placeholder-count="6">
+              <a href="{{ a.href }}" style="background:#FFFFFF;border:1px solid #DDDAD3;border-top:3px solid {{ a.fg }};border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;text-decoration:none;color:#151A24" style-hover="box-shadow:0 6px 16px rgba(20,33,61,.1)">
+                <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:#343F52"><span aria-hidden="true" style="width:22px;height:22px;border-radius:50%;background:{{ a.bg }};color:{{ a.fg }};font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ a.ic }}</span>{{ a.label }}</span>
+                <span style="font-size:26px;font-weight:700;color:{{ a.fg }}">{{ a.n }}</span>
+                <span style="display:{{ a.subd }};font-size:12px;font-weight:{{ a.subw }};color:{{ a.subc }};line-height:16px">{{ a.sub }}</span>
+                <span style="font-size:12px;font-weight:600;color:#31476F">Xem danh sách →</span>
+              </a>
+            </sc-for>
+          </div>
+          <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:flex-start;gap:16px">
+                <div style="flex:1"><div style="font-size:16px;font-weight:600">Doanh thu</div><div style="font-size:13px;color:#4A5870;margin-top:2px">Đã thu − đã hoàn (thanh toán thành công) · {{ revRange }}</div></div>
+                <div style="display:flex;gap:18px;align-items:center;font-size:12px;color:#343F52"><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#14213D"></span>Tour</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#A4532F"></span>Thuê thiết bị</span></div>
+                <div style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ revModes }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.on }}" style="height:30px;padding:0 12px;border:0;border-radius:7px;background:{{ o.bg }};color:{{ o.c }};font-size:13px;font-weight:600;cursor:pointer">{{ o.label }}</button></sc-for></div>
+              </div>
+              <div style="display:flex;gap:28px;align-items:baseline"><div><div style="font-size:12px;color:#4A5870">Tổng kỳ</div><div style="font-size:24px;font-weight:700;color:#14213D">{{ revTotal }}</div></div><div><div style="font-size:12px;color:#4A5870">Tour</div><div style="font-size:16px;font-weight:600">{{ revTour }}</div></div><div><div style="font-size:12px;color:#4A5870">Thuê thiết bị</div><div style="font-size:16px;font-weight:600">{{ revRent }}</div></div><div><div style="font-size:12px;color:#4A5870">Đã hoàn</div><div style="font-size:16px;font-weight:600;color:#BE123C">−{{ revRefund }}</div></div></div>
+              <div style="display:grid;grid-template-columns:56px 1fr;gap:8px">
+                <div style="height:200px;display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:#4A5870;text-align:right"><sc-for list="{{ revAxis }}" as="a" hint-placeholder-count="5"><span>{{ a }}</span></sc-for></div>
+                <div style="height:200px;display:flex;align-items:flex-end;gap:10px;border-bottom:1px solid #C5C3BD;background:repeating-linear-gradient(to top,#ECEAE5 0 1px,transparent 1px 50px)">
+                  <sc-for list="{{ revBars }}" as="b" hint-placeholder-count="12"><div title="{{ b.tip }}" style="flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;cursor:default"><div style="height:{{ b.hr }};background:#A4532F;border-radius:3px 3px 0 0;opacity:{{ b.op }}"></div><div style="height:{{ b.ht }};background:#14213D;opacity:{{ b.op }}"></div></div></sc-for>
+                </div>
+                <span></span>
+                <div style="display:flex;gap:10px"><sc-for list="{{ revBars }}" as="b" hint-placeholder-count="12"><span style="flex:1;text-align:center;font-size:11px;color:{{ b.lc }};font-weight:{{ b.lw }}">{{ b.label }}</span></sc-for></div>
+              </div>
+            </div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:16px;align-items:start">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:14px 20px;display:flex;align-items:center;border-bottom:1px solid #ECEAE5"><span style="font-size:16px;font-weight:600;flex:1">Chuyến khởi hành trong 7 ngày</span><a href="RenTrekk Batch 4B - Van hanh Chuyen.dc.html#o09" style="font-size:13px;font-weight:600">Lịch chuyến →</a></div>
+              <div style="display:grid;grid-template-columns:minmax(0,1.6fr) 110px 150px minmax(0,1.6fr);gap:12px;padding:9px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Chuyến</span><span>Khởi hành</span><span>Đã bán / Sức chứa</span><span>Cần xử lý</span></div>
+              <sc-for list="{{ soon }}" as="t" hint-placeholder-count="5">
+                <a href="RenTrekk Batch 4B - Van hanh Chuyen.dc.html#o10" style="display:grid;grid-template-columns:minmax(0,1.6fr) 110px 150px minmax(0,1.6fr);gap:12px;align-items:center;padding:12px 20px;border-top:1px solid #ECEAE5;text-decoration:none;color:#151A24;font-size:14px" style-hover="background:#F5F4F1">
+                  <span><span style="display:block;font-weight:600">{{ t.tour }}</span><span style="display:block;font-size:12px;color:#4A5870">{{ t.mgr }}</span></span>
+                  <span style="font-size:13px">{{ t.date }}</span>
+                  <span style="display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;font-weight:600">{{ t.sold }} / {{ t.total }}</span><span style="height:6px;border-radius:3px;background:#ECEAE5;overflow:hidden"><span style="display:block;height:100%;width:{{ t.pct }};background:#14213D"></span></span></span>
+                  <span style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ t.flags }}" as="f" hint-placeholder-count="1"><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ f.bg }};color:{{ f.fg }};font-size:12px;font-weight:600;white-space:nowrap"><span aria-hidden="true">{{ f.ic }}</span>{{ f.label }}</span></sc-for></span>
+                </a>
+              </sc-for>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="padding:14px 20px;display:flex;align-items:center;border-bottom:1px solid #ECEAE5"><span style="font-size:16px;font-weight:600;flex:1">Thanh toán đang chờ · sắp hết hạn giữ chỗ</span><a href="RenTrekk Batch 4B - Van hanh Chuyen.dc.html#o38" style="font-size:13px;font-weight:600">Đơn hàng →</a></div>
+              <sc-for list="{{ holds }}" as="h" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-top:1px solid #ECEAE5"><div style="flex:1"><div style="font:600 13px ui-monospace,Menlo,monospace;color:#31476F">{{ h.code }}</div><div style="font-size:12px;color:#4A5870">{{ h.who }}</div></div><span style="font:700 14px ui-monospace,Menlo,monospace;color:#B45309">◷ {{ h.left }}</span></div>
+              </sc-for>
+              <div style="padding:10px 20px;font-size:12px;color:#4A5870;border-top:1px solid #ECEAE5">Chờ khách chuyển khoản. Quá hold_expires_at sẽ tự trả chỗ / thiết bị.</div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O01 · FR-O04<br>· Booking tuần = COUNT ORDERS order_type = Tour, created_at trong tuần<br>· Lấp chỗ = Σ participant_count (đơn hiệu lực) / Σ TRIPS.total_slots các chuyến Open/Closed<br>· Doanh thu = Σ PAYMENTS (payment_type = Collection, status = Succeeded; lấy received_amount nếu có, ngược lại amount) − Σ PAYMENTS (Refund, Succeeded), theo processed_at<br>· Thiết bị đang cho thuê = COUNT ASSET_ASSIGNMENTS status = Issued<br>· Biểu đồ doanh thu (Admin): mỗi cột = Σ Collection Succeeded theo processed_at, tách theo ORDERS.order_type (Tour / Rental); trừ Σ Refund Succeeded ở tổng kỳ; cột cuối là kỳ đang chạy<br>· Widget “Cần xử lý” (Admin thấy đủ 6; Staff chỉ thấy 3 widget không phải tài chính):<br>&nbsp;&nbsp;- Hoàn tiền chờ duyệt = PAYMENTS payment_type = Refund, status = PendingApproval → O28 tab Chờ duyệt (8.1/8.2)<br>&nbsp;&nbsp;- Hoàn tiền thất bại = Refund, status = Failed, chưa có dòng retry_of_payment_id trỏ tới và chưa có manual_reference (8.3/8.6)<br>&nbsp;&nbsp;- Cần đối soát = ORDERS.payment_status = NeedsReconciliation; đồng hồ đếm ngược tới reconciliation_deadline_at, tô đỏ khi còn &lt; 2 giờ (8.4/8.5)<br>&nbsp;&nbsp;- Thanh toán đang chờ = PAYMENTS Collection, status = Pending, hold_expires_at &lt; now + 15 phút<br>&nbsp;&nbsp;- Phí chờ chốt = RENTAL_CHARGES status = Draft<br>&nbsp;&nbsp;- Quá hạn trả = ASSET_ASSIGNMENTS Issued, reserved_until &lt; now<br>· 3 widget tài chính đầu link tới O28 (Batch 4E, tab tương ứng); “Đơn hàng →” link O38 (danh sách đơn chung)<br>· Panel hạn giữ chỗ: ORDERS PendingPayment, hold_expires_at &lt; now + 15 phút (cùng nguồn widget Thanh toán đang chờ)<br>· 7 ngày: TRIPS.start_at ∈ [now, now+7d]; cờ: chưa xếp nhóm = COUNT participant trip_group_id rỗng; thiếu đồ = TRIP_PROVIDED_ITEMS Missing; chưa đủ = đã bán &lt; min_participants<br>· Staff: lọc TRIPS.managed_by_user_id / RENTAL_ORDERS.handled_by_user_id = mình; ẩn doanh thu và widget hoàn tiền / đối soát (contract mục 8 chỉ Admin)</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O02 ================= -->
+<section id="o02" data-screen-label="O02 Người dùng" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O02</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Người dùng — danh sách</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/users · Admin</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navUsers }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…<span style="margin-left:auto;font-size:11px;border:1px solid #DDDAD3;border-radius:4px;padding:2px 6px">Ctrl K</span></div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <sc-if value="{{ isStaff }}" hint-placeholder-val="{{ false }}"><main style="flex:1;display:flex;align-items:center;justify-content:center"><div style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center"><div style="width:56px;height:56px;border-radius:50%;background:#FFE4E8;color:#BE123C;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center">✕</div><div style="font-size:20px;font-weight:700">Bạn không có quyền xem trang này</div><div style="font-size:14px;color:#4A5870">Quản lý người dùng chỉ dành cho Admin.</div></div></main></sc-if>
+        <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ true }}">
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:13px;color:#4A5870">Hệ thống / <span style="color:#151A24">Người dùng</span></div>
+          <div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px;font-weight:700;color:#14213D;margin-right:auto">Người dùng</div><button onClick="{{ exportCsv }}" style="height:40px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Xuất CSV</button><button onClick="{{ openCreate }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Tạo tài khoản Staff/Guide</button></div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div style="width:280px;height:40px;display:flex;align-items:center;gap:8px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF"><span style="color:#5E6B80">⌕</span><input value="{{ uQ }}" onChange="{{ uOnQ }}" placeholder="Tên, email, mã người dùng" style="flex:1;border:0;outline:none;font-size:14px;background:transparent;min-width:0"></input></div>
+            <div style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ roleOpts }}" as="o" hint-placeholder-count="5"><button onClick="{{ o.on }}" style="height:32px;padding:0 12px;border:0;border-radius:7px;background:{{ o.bg }};color:{{ o.c }};font-size:13px;font-weight:600;cursor:pointer">{{ o.label }}</button></sc-for></div>
+            <div style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ statusOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.on }}" style="height:32px;padding:0 12px;border:0;border-radius:7px;background:{{ o.bg }};color:{{ o.c }};font-size:13px;font-weight:600;cursor:pointer">{{ o.label }}</button></sc-for></div>
+            <div style="position:relative;margin-left:auto">
+              <button onClick="{{ toggleCols }}" aria-expanded="{{ colsOpen }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Cột hiển thị ▾</button>
+              <sc-if value="{{ colsOpen }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;right:0;top:46px;z-index:5;width:220px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:10px;box-shadow:0 12px 32px rgba(20,33,61,.16);padding:8px"><sc-for list="{{ colOpts }}" as="c" hint-placeholder-count="3"><label style="display:flex;gap:10px;align-items:center;height:36px;padding:0 8px;font-size:14px;cursor:pointer"><input type="checkbox" checked="{{ c.on }}" onChange="{{ c.toggle }}" style="width:16px;height:16px;accent-color:#14213D"></input>{{ c.label }}</label></sc-for></div></sc-if>
+            </div>
+          </div>
+          <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:10px;background:#14213D;color:#FFFFFF;font-size:14px"><b>Đã chọn {{ selCount }}</b><span style="flex:1"></span><button onClick="{{ exportCsv }}" style="height:34px;padding:0 12px;border-radius:6px;border:1px solid #536A93;background:transparent;color:#FFFFFF;font-size:13px;font-weight:600;cursor:pointer">Xuất CSV</button><button onClick="{{ bulkLock }}" style="height:34px;padding:0 12px;border-radius:6px;border:0;background:#BE123C;color:#FFFFFF;font-size:13px;font-weight:600;cursor:pointer">Khóa tài khoản</button><button onClick="{{ clearSel }}" style="height:34px;padding:0 10px;border:0;background:transparent;color:#D6DDEA;font-size:13px;cursor:pointer">Bỏ chọn</button></div></sc-if>
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+            <div style="display:grid;grid-template-columns:{{ uCols }};gap:12px;padding:10px 16px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870;align-items:center">
+              <input type="checkbox" checked="{{ allSel }}" onChange="{{ toggleAll }}" aria-label="Chọn tất cả" style="width:16px;height:16px;accent-color:#14213D"></input>
+              <button onClick="{{ sortName }}" style="border:0;background:transparent;padding:0;text-align:left;font:inherit;color:inherit;cursor:pointer">Họ tên {{ sortArrow }}</button><span>Mã</span><span>Email / SĐT</span><span>Vai trò</span><span>Trạng thái</span>
+              <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ true }}"><span>Đăng nhập gần nhất</span></sc-if><sc-if value="{{ showCreated }}" hint-placeholder-val="{{ true }}"><span>Ngày tạo</span></sc-if>
+            </div>
+            <sc-for list="{{ uRows }}" as="u" hint-placeholder-count="8">
+              <div onClick="{{ u.open }}" style="display:grid;grid-template-columns:{{ uCols }};gap:12px;padding:11px 16px;border-top:1px solid #ECEAE5;align-items:center;font-size:14px;cursor:pointer;background:{{ u.rowBg }}" style-hover="background:#F5F4F1">
+                <input type="checkbox" checked="{{ u.sel }}" onChange="{{ u.toggle }}" onClick="{{ stop }}" aria-label="Chọn" style="width:16px;height:16px;accent-color:#14213D"></input>
+                <span style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:32px;height:32px;flex:none;border-radius:50%;background:{{ u.avBg }};color:{{ u.avC }};font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ u.ini }}</span><span style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ u.name }}</span></span>
+                <span style="font:500 12px ui-monospace,Menlo,monospace;color:#343F52">{{ u.code }}</span>
+                <span style="min-width:0"><span style="display:block;overflow:hidden;text-overflow:ellipsis">{{ u.email }}</span><span style="display:{{ u.phd }};font-size:12px;color:{{ u.phc }}">{{ u.phone }}</span></span>
+                <span style="font-size:13px;font-weight:600;color:#14213D">{{ u.role }}</span>
+                <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ u.st.bg }};color:{{ u.st.fg }};font-size:12px;font-weight:600;justify-self:start;white-space:nowrap"><span aria-hidden="true">{{ u.st.ic }}</span>{{ u.st.label }}</span>
+                <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;color:{{ u.llc }}">{{ u.login }}</span></sc-if><sc-if value="{{ showCreated }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;color:#343F52">{{ u.created }}</span></sc-if>
+              </div>
+            </sc-for>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid #ECEAE5;font-size:13px;color:#4A5870"><span style="flex:1">Hiển thị 1–{{ uCount }} / 1.284 người dùng</span><span>Số dòng: 10 ▾</span><div style="display:flex;gap:4px"><span style="width:32px;height:32px;border-radius:6px;border:1px solid #DDDAD3;display:flex;align-items:center;justify-content:center;color:#9AA1AC">‹</span><span style="width:32px;height:32px;border-radius:6px;background:#14213D;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-weight:600">1</span><span style="width:32px;height:32px;border-radius:6px;border:1px solid #DDDAD3;display:flex;align-items:center;justify-content:center;color:#14213D">2</span><span style="width:32px;height:32px;border-radius:6px;border:1px solid #DDDAD3;display:flex;align-items:center;justify-content:center;color:#14213D">3</span><span style="width:32px;height:32px;border-radius:6px;border:1px solid #DDDAD3;display:flex;align-items:center;justify-content:center;color:#14213D">›</span></div></div>
+          </div>
+        </main>
+        </sc-if>
+      </div>
+      <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeDrawer }}" style="position:absolute;inset:0;background:rgba(14,24,45,.35)"></div>
+        <aside role="dialog" aria-label="Chi tiết người dùng" style="position:absolute;top:0;right:0;bottom:0;width:480px;background:#FFFFFF;box-shadow:-12px 0 32px rgba(20,33,61,.18);display:flex;flex-direction:column">
+          <div style="padding:20px 24px;display:flex;gap:14px;align-items:center;border-bottom:1px solid #ECEAE5"><span style="width:52px;height:52px;border-radius:50%;background:{{ dU.avBg }};color:{{ dU.avC }};font-weight:700;display:flex;align-items:center;justify-content:center">{{ dU.ini }}</span><div style="flex:1"><div style="font-size:18px;font-weight:700">{{ dU.name }}</div><div style="font:500 12px ui-monospace,Menlo,monospace;color:#4A5870">{{ dU.code }}</div></div><button onClick="{{ closeDrawer }}" aria-label="Đóng" style="width:36px;height:36px;border:0;background:transparent;font-size:16px;cursor:pointer">✕</button></div>
+          <div style="padding:20px 24px;display:grid;grid-template-columns:150px 1fr;gap:12px 14px;font-size:14px">
+            <span style="color:#4A5870">Email</span><span>{{ dU.email }}</span>
+            <span style="color:#4A5870">Số điện thoại</span><span style="color:{{ dU.phc }}">{{ dU.phone }}</span>
+            <span style="color:#4A5870">Vai trò</span><span style="font-weight:600">{{ dU.role }}</span>
+            <span style="color:#4A5870">Trạng thái</span><span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ dU.st.bg }};color:{{ dU.st.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ dU.st.ic }}</span>{{ dU.st.label }}</span></span>
+            <span style="color:#4A5870">Xác thực email</span><span style="color:{{ dU.vc }}">{{ dU.verified }}</span>
+            <span style="color:#4A5870">Đăng nhập gần nhất</span><span style="color:{{ dU.llc }}">{{ dU.login }}</span>
+          </div>
+          <div style="margin:0 24px;padding:14px 0;border-top:1px solid #ECEAE5;font-size:12px;color:#4A5870">Tạo lúc {{ dU.created }} 09:14 · Cập nhật lúc 16/10/2026 11:02</div>
+          <div style="margin-top:auto;padding:16px 24px;border-top:1px solid #ECEAE5;display:flex;gap:8px;justify-content:flex-end"><a href="#o03" onClick="{{ closeDrawer }}" style="height:40px;padding:0 16px;border-radius:8px;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;display:flex;align-items:center;text-decoration:none">Mở trang chi tiết</a></div>
+        </aside>
+      </sc-if>
+      <sc-if value="{{ createOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeCreate }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" style="position:absolute;top:120px;left:50%;transform:translateX(-50%);width:520px;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3);padding:24px;display:flex;flex-direction:column;gap:14px">
+          <div style="font-size:20px;font-weight:700">Tạo tài khoản nội bộ</div>
+          <div style="display:flex;gap:8px"><sc-for list="{{ cRoles }}" as="r" hint-placeholder-count="2"><button onClick="{{ r.pick }}" style="flex:1;height:44px;border-radius:8px;border:{{ r.bd }};background:{{ r.bg }};color:#14213D;font-size:14px;font-weight:600;cursor:pointer">{{ r.label }}</button></sc-for></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Họ và tên <span style="color:#BE123C">*</span></label><input value="{{ cName }}" onChange="{{ cOnName }}" style="height:44px;padding:0 12px;border:{{ cNameBd }};border-radius:8px;font-size:15px;outline:none"></input><sc-if value="{{ cNameErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập họ và tên.</span></sc-if></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Email <span style="color:#BE123C">*</span></label><input value="{{ cEmail }}" onChange="{{ cOnEmail }}" placeholder="ten@rentrekk.vn" style="height:44px;padding:0 12px;border:{{ cEmailBd }};border-radius:8px;font-size:15px;outline:none"></input><sc-if value="{{ cEmailErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ cEmailMsg }}</span></sc-if></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Số điện thoại</label><input placeholder="Không bắt buộc" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;outline:none"></input></div>
+          <div style="font-size:13px;color:#4A5870;background:#F5F4F1;border-radius:8px;padding:10px 12px">Hệ thống gửi email để người dùng tự đặt mật khẩu. Thử email trùng: <b>toan.dinh@rentrekk.vn</b></div>
+          <div style="display:flex;justify-content:flex-end;gap:8px"><button onClick="{{ closeCreate }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Hủy</button><button onClick="{{ submitCreate }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Tạo tài khoản</button></div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O02 · FR-A06 · Admin<br>· Họ tên → ACCOUNTS.full_name · avatar → PROFILES.avatar_url? (rỗng → chữ viết tắt)<br>· Mã → PROFILES.user_code · Email → ACCOUNTS.email · SĐT → phone? (rỗng → “Chưa cập nhật”)<br>· Vai trò → role_id → ROLES.role_name · Trạng thái → ACCOUNTS.status (Hoạt động / Đã khóa); “Chưa xác thực” khi email_confirmed_at rỗng<br>· Đăng nhập gần nhất → last_login_at? (rỗng → “Chưa đăng nhập”) · Ngày tạo → created_at<br>· Drawer: created_at · updated_at<br>· Tạo: ACCOUNTS (role_id Staff/Guide, password_hash rỗng) + PROFILES (user_code S) + PASSWORD_RESET_TOKENS gửi email; email UQ<br>· Khóa hàng loạt → modal lý do (như O03), audit từng user<br>· Staff truy cập → màn không có quyền</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O03 ================= -->
+<section id="o03" data-screen-label="O03 Chi tiết người dùng" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O03</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Người dùng — chi tiết</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/users/:userId · Admin</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navUsers }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:13px;color:#4A5870"><a href="#o02">Người dùng</a> / <span style="color:#151A24">Đinh Văn Toàn</span></div>
+          <div style="display:flex;align-items:center;gap:16px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px">
+            <span style="width:64px;height:64px;border-radius:50%;background:#D6DDEA;color:#14213D;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center">ĐT</span>
+            <div style="flex:1"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:24px;font-weight:700;color:#14213D">Đinh Văn Toàn</span><span style="font-size:12px;font-weight:700;color:#14213D;background:#EEF1F7;padding:3px 8px;border-radius:4px">{{ uRole }}</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ uSt.bg }};color:{{ uSt.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ uSt.ic }}</span>{{ uSt.label }}</span></div><div style="font-size:13px;color:#4A5870;margin-top:4px"><span style="font-family:ui-monospace,Menlo,monospace">GD-0007</span> · toan.dinh@rentrekk.vn · 6 năm kinh nghiệm · Đăng nhập gần nhất 18/10/2026 06:12</div></div>
+            <button onClick="{{ openLock }}" style="height:40px;padding:0 16px;border-radius:8px;border:1px solid {{ lockBd }};background:#FFFFFF;color:{{ lockC }};font-size:14px;font-weight:600;cursor:pointer">{{ lockLabel }}</button>
+          </div>
+          <div role="tablist" style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3"><sc-for list="{{ uTabs }}" as="t" hint-placeholder-count="6"><button role="tab" onClick="{{ t.on }}" style="height:44px;padding:0 14px;border:0;background:transparent;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};cursor:pointer">{{ t.label }}</button></sc-for></div>
+
+          <sc-if value="{{ tProfile }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:grid;grid-template-columns:160px 1fr;gap:28px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px"><span style="width:120px;height:120px;border-radius:50%;background:#D6DDEA;color:#14213D;font-size:36px;font-weight:700;display:flex;align-items:center;justify-content:center">ĐT</span><button style="height:36px;padding:0 12px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:13px;font-weight:600">Đổi ảnh</button></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                <sc-for list="{{ pFields }}" as="f" hint-placeholder-count="8"><div style="display:flex;flex-direction:column;gap:6px;grid-column:{{ f.span }}"><label style="font-size:13px;font-weight:600;color:#232B38">{{ f.label }}</label><div style="min-height:44px;padding:11px 12px;border:1px solid {{ f.bd }};background:{{ f.bg }};border-radius:8px;font-size:15px;color:{{ f.c }}">{{ f.value }}</div><span style="display:{{ f.hd }};font-size:12px;color:#4A5870">{{ f.hint }}</span></div></sc-for>
+                <div style="grid-column:1 / -1;display:flex;justify-content:flex-end;gap:8px;padding-top:8px;border-top:1px solid #ECEAE5"><span style="font-size:12px;color:#4A5870;margin-right:auto;align-self:center">Tạo lúc 02/03/2024 09:14 · Cập nhật lúc 16/10/2026 11:02</span><button onClick="{{ saveProfile }}" style="height:44px;padding:0 18px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Lưu thay đổi</button></div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ tRole }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px">
+                <div style="font-size:16px;font-weight:600">Vai trò</div><div style="font-size:13px;color:#4A5870">Mỗi tài khoản đúng một vai trò.</div>
+                <sc-for list="{{ roleCards }}" as="r" hint-placeholder-count="4"><label style="display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:10px;border:{{ r.bd }};background:{{ r.bg }};cursor:pointer"><input type="radio" name="role" checked="{{ r.on }}" onChange="{{ r.pick }}" style="width:18px;height:18px;accent-color:#14213D;margin-top:2px"></input><span><span style="display:block;font-size:15px;font-weight:600">{{ r.label }}</span><span style="display:block;font-size:13px;color:#4A5870">{{ r.desc }}</span></span></label></sc-for>
+                <sc-if value="{{ roleChanged }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:10px;padding:12px;border-radius:10px;background:#FEF3C7;border:1px solid #B45309;font-size:13px;color:#232B38"><span style="color:#B45309;font-weight:700">!</span><span>Đổi khỏi Guide sẽ gỡ người này khỏi <b>2 nhóm sắp dẫn</b> (Fansipan 14/11, Tà Xùa 21/11). Các nhóm đó sẽ thiếu guide.</span></div><button onClick="{{ saveRole }}" style="align-self:flex-end;height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Lưu vai trò</button></sc-if>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px">
+                <div style="font-size:16px;font-weight:600">Trạng thái tài khoản</div>
+                <div style="display:flex;align-items:center;gap:10px"><span style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px 0 8px;border-radius:999px;background:{{ uSt.bg }};color:{{ uSt.fg }};font-size:13px;font-weight:600"><span aria-hidden="true">{{ uSt.ic }}</span>{{ uSt.label }}</span></div>
+                <div style="font-size:14px;line-height:22px;color:#343F52">Khóa tài khoản sẽ đăng xuất người dùng khỏi mọi thiết bị ngay lập tức. Mọi thay đổi được ghi vào nhật ký hệ thống.</div>
+                <button onClick="{{ openLock }}" style="align-self:flex-start;height:40px;padding:0 16px;border-radius:8px;border:0;background:{{ lockBtnBg }};color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">{{ lockLabel }}</button>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ tSess }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:120px 150px 150px 150px minmax(0,1fr) 110px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Chuỗi phiên</span><span>Tạo lúc</span><span>Hết hạn</span><span>Thu hồi lúc</span><span>Lý do thu hồi</span><span></span></div>
+              <sc-for list="{{ sessions }}" as="s" hint-placeholder-count="4">
+                <div style="display:grid;grid-template-columns:120px 150px 150px 150px minmax(0,1fr) 110px;gap:12px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:13px;align-items:center;background:{{ s.bg }}">
+                  <span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:{{ s.dot }}"></span><span style="font-family:ui-monospace,Menlo,monospace;color:#343F52">{{ s.fam }}</span><span style="display:{{ s.chainD }};color:#4A5870">↳</span></span>
+                  <span>{{ s.created }}</span><span>{{ s.exp }}</span><span style="color:{{ s.rc }}">{{ s.revoked }}</span><span style="color:{{ s.rrc }}">{{ s.reason }}</span>
+                  <button onClick="{{ s.revoke }}" disabled="{{ s.dis }}" style="height:32px;border-radius:6px;border:1px solid {{ s.bbd }};background:#FFFFFF;color:{{ s.bc }};font-size:12px;font-weight:600;cursor:pointer">{{ s.btn }}</button>
+                </div>
+              </sc-for>
+              <div style="padding:10px 20px;font-size:12px;color:#4A5870;border-top:1px solid #ECEAE5">↳ = token được xoay vòng từ token phía trên (cùng chuỗi).</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ tLinks }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;align-items:center;gap:14px"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #DDDAD3;display:flex;align-items:center;justify-content:center;font-weight:700;color:#14213D">G</span><div style="flex:1"><div style="font-size:15px;font-weight:600">Google</div><div style="font-size:13px;color:#4A5870">Liên kết lúc 02/03/2024 09:15</div></div><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:#E7F6EC;color:#166534;font-size:12px;font-weight:600">✓ Đã liên kết</span></div>
+          </sc-if>
+          <sc-if value="{{ tAudit }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden"><sc-for list="{{ uAudit }}" as="a" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:140px 160px minmax(0,1fr);gap:14px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:13px"><span style="color:#4A5870">{{ a.at }}</span><span style="font-weight:600">{{ a.actor }}</span><span>{{ a.text }}</span></div></sc-for></div>
+          </sc-if>
+          <sc-if value="{{ tGroups }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:minmax(0,1.6fr) 170px 140px 100px 150px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Chuyến</span><span>Khởi hành</span><span>Nhóm</span><span>Sĩ số</span><span>Trạng thái chuyến</span></div>
+              <sc-for list="{{ ledGroups }}" as="g" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:minmax(0,1.6fr) 170px 140px 100px 150px;gap:12px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px;align-items:center"><span style="font-weight:600">{{ g.tour }}</span><span style="font-size:13px">{{ g.date }}</span><span>{{ g.group }}</span><span>{{ g.size }}</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ g.bg }};color:{{ g.fg }};font-size:12px;font-weight:600;justify-self:start"><span aria-hidden="true">{{ g.ic }}</span>{{ g.label }}</span></div></sc-for>
+            </div>
+          </sc-if>
+        </main>
+      </div>
+      <sc-if value="{{ lockOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeLock }}" style="position:absolute;inset:0;background:rgba(14,24,45,.55)"></div>
+        <div role="dialog" aria-modal="true" style="position:absolute;top:140px;left:50%;transform:translateX(-50%);width:540px;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 48px rgba(8,14,28,.3);overflow:hidden">
+          <div style="padding:22px 24px 0;font-size:20px;font-weight:700">{{ lockTitle }}</div>
+          <sc-if value="{{ willLock }}" hint-placeholder-val="{{ true }}">
+            <div style="margin:14px 24px 0;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden"><div style="padding:10px 14px;background:#F5F4F1;font-size:13px;font-weight:600;color:#343F52">Xem trước tác động</div><div style="padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:14px"><span>✕ Thu hồi <b>3 phiên đăng nhập</b> đang hoạt động</span><span>! <b>2 nhóm sắp dẫn</b> vẫn gán người này: Mây 1 (14/11), Sống lưng 1 (21/11)</span><span>○ Không thể đăng nhập cho đến khi được mở khóa</span></div></div>
+          </sc-if>
+          <div style="padding:16px 24px 0;display:flex;flex-direction:column;gap:6px"><label for="o3-r" style="font-size:13px;font-weight:600">Lý do <span style="color:#BE123C">*</span></label><textarea id="o3-r" rows="3" value="{{ lockReason }}" onChange="{{ onLockReason }}" style="padding:10px 12px;border:{{ lockRBd }};border-radius:8px;font-size:14px;resize:vertical;outline:none"></textarea><sc-if value="{{ lockErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập lý do.</span></sc-if></div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;padding:18px 24px;margin-top:16px;border-top:1px solid #ECEAE5"><button onClick="{{ closeLock }}" style="height:44px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Hủy</button><button onClick="{{ confirmLock }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:{{ lockBtnBg }};color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">{{ lockConfirm }}</button></div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O03 · Admin<br>· Hồ sơ: ACCOUNTS.full_name, email, phone? + PROFILES.avatar_url?, address?, date_of_birth?, bio?, career_start_date? (Guide/Staff), user_code (chỉ đọc)<br>· Quyền: ACCOUNTS.role_id ← ROLES (role_name, description?); ACCOUNTS.status<br>· Khóa: modal lý do → AUDIT_LOGS (action, entity_type = User, details); REFRESH_TOKENS.revoked_at = now, revoked_reason toàn bộ chuỗi<br>· Phiên: REFRESH_TOKENS family_id, created_at, expires_at, revoked_at?, revoked_reason?, replaced_by_refresh_token_id? → hiển thị chuỗi xoay vòng<br>· Liên kết ngoài: USER_EXTERNAL_LOGINS.provider, created_at<br>· Hoạt động: AUDIT_LOGS actor_user_id = user OR entity_id = user<br>· Theo vai trò: Guide → TRIP_GROUPS.guide_user_id; Customer → ORDERS.customer_user_id; Staff → TRIPS.managed_by_user_id</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O04 ================= -->
+<section id="o04" data-screen-label="O04 Danh mục & Địa điểm" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O04</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Danh mục &amp; Địa điểm</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/catalog · Admin</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navCat }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px;font-weight:700;color:#14213D;margin-right:auto">Danh mục &amp; Địa điểm</div><label style="display:flex;align-items:center;gap:8px;font-size:14px;color:#343F52;cursor:pointer"><input type="checkbox" checked="{{ showHidden }}" onChange="{{ toggleHidden }}" style="width:16px;height:16px;accent-color:#14213D"></input>Hiện mục đã ẩn</label><button style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600">{{ catAddLabel }}</button></div>
+          <div role="tablist" style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3"><sc-for list="{{ catTabs }}" as="t" hint-placeholder-count="2"><button role="tab" onClick="{{ t.on }}" style="height:44px;padding:0 14px;border:0;background:transparent;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};cursor:pointer">{{ t.label }}</button></sc-for></div>
+          <sc-if value="{{ tCats }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) 120px minmax(0,1.6fr) 90px 150px 110px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Tên</span><span>Loại</span><span>Mô tả</span><span>Đang dùng</span><span>Trạng thái</span><span></span></div>
+              <sc-for list="{{ cats }}" as="c" hint-placeholder-count="7">
+                <div style="display:grid;grid-template-columns:minmax(0,1fr) 120px minmax(0,1.6fr) 90px 150px 110px;gap:12px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px;align-items:center;opacity:{{ c.op }}">
+                  <span style="font-weight:600">{{ c.name }}</span><span style="font-size:12px;font-weight:700;padding:3px 7px;border-radius:4px;background:#EEF1F7;color:#14213D;justify-self:start">{{ c.type }}</span><span style="font-size:13px;color:{{ c.dc }}">{{ c.desc }}</span><span style="font-size:13px">{{ c.used }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ c.st.bg }};color:{{ c.st.fg }};font-size:12px;font-weight:600;justify-self:start"><span aria-hidden="true">{{ c.st.ic }}</span>{{ c.st.label }}</span>
+                  <button onClick="{{ c.toggle }}" style="height:32px;border-radius:6px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:12px;font-weight:600;cursor:pointer">{{ c.act }}</button>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ tLocs }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:16px;align-items:start">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+                <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) 160px 90px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Tên</span><span>Địa chỉ</span><span>Tọa độ</span><span>Số tour</span></div>
+                <sc-for list="{{ locs }}" as="l" hint-placeholder-count="5"><div onClick="{{ l.pick }}" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) 160px 90px;gap:12px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px;align-items:center;cursor:pointer;background:{{ l.bg }};box-shadow:{{ l.sh }}"><span style="font-weight:600">{{ l.name }}</span><span style="font-size:13px;color:#343F52">{{ l.addr }}</span><span style="font:500 12px ui-monospace,Menlo,monospace;color:#343F52">{{ l.ll }}</span><span>{{ l.used }}</span></div></sc-for>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:16px;font-weight:600">Sửa địa điểm</div>
+                <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Tên <span style="color:#BE123C">*</span></label><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center">{{ locSel.name }}</div></div>
+                <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Địa chỉ <span style="color:#BE123C">*</span></label><div style="min-height:44px;padding:11px 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px">{{ locSel.addr }}</div></div>
+                <div style="height:200px;border-radius:10px;background:repeating-linear-gradient(135deg,#ECEAE5 0 10px,#F5F4F1 10px 20px);position:relative;display:flex;align-items:center;justify-content:center"><span style="font:500 11px ui-monospace,Menlo,monospace;color:#343F52;background:#FFFFFF;padding:4px 8px;border-radius:4px">bản đồ · bấm để đặt ghim</span><span style="position:absolute;left:52%;top:40%;width:16px;height:16px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#A4532F;border:2px solid #FFFFFF"></span></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Vĩ độ</label><div style="height:40px;padding:0 10px;border:1px solid #C5C3BD;border-radius:8px;font:500 14px ui-monospace,Menlo,monospace;display:flex;align-items:center">{{ locSel.lat }}</div></div><div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600">Kinh độ</label><div style="height:40px;padding:0 10px;border:1px solid #C5C3BD;border-radius:8px;font:500 14px ui-monospace,Menlo,monospace;display:flex;align-items:center">{{ locSel.lng }}</div></div></div>
+                <div style="font-size:12px;color:#4A5870">Tạo lúc 14/01/2025 10:20 · Cập nhật lúc 02/09/2026 15:44</div>
+                <div style="display:flex;gap:8px;justify-content:flex-end"><button style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600">Ẩn địa điểm</button><button style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600">Lưu</button></div>
+              </div>
+            </div>
+          </sc-if>
+        </main>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O04 · Admin<br>· Danh mục → CATEGORIES.name, category_type (Tour / Equipment “Thiết bị” / Bundle “Combo”), description? (rỗng → “Chưa cập nhật”), status<br>· Đang dùng = COUNT TOURS / PRODUCTS / PRODUCT_BUNDLES theo category_id<br>· “Ẩn” → is_deleted = 1 (không xóa vĩnh viễn); “Hiện mục đã ẩn” → hiện is_deleted = 1 mờ đi + “Khôi phục”<br>· Địa điểm → LOCATIONS.name, address, latitude, longitude (map picker)<br>· Số tour = COUNT TOURS.main_location_id<br>· Form: created_at · updated_at</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O05 ================= -->
+<section id="o05" data-screen-label="O05 Tour danh sách" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O05</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Tour — danh sách</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/tours</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navTours }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px;font-weight:700;color:#14213D;margin-right:auto">Tour</div><sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ true }}"><a href="#o06" style="height:40px;padding:0 16px;border-radius:8px;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;display:flex;align-items:center;text-decoration:none">Tạo tour</a></sc-if><sc-if value="{{ isStaff }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#4A5870">Chế độ chỉ xem</span></sc-if></div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:280px;height:40px;display:flex;align-items:center;gap:8px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF;font-size:14px;color:#5E6B80">⌕ Tên tour</div>
+            <span style="height:40px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;background:#FFFFFF;display:flex;align-items:center;font-size:14px;color:#14213D">Danh mục: Tất cả ▾</span>
+            <div style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ tStatusOpts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.on }}" style="height:32px;padding:0 12px;border:0;border-radius:7px;background:{{ o.bg }};color:{{ o.c }};font-size:13px;font-weight:600;cursor:pointer">{{ o.label }}</button></sc-for></div>
+            <label style="margin-left:auto;display:flex;align-items:center;gap:8px;font-size:14px;color:#343F52;cursor:pointer"><input type="checkbox" checked="{{ allVers }}" onChange="{{ toggleVers }}" style="width:16px;height:16px;accent-color:#14213D"></input>Hiện mọi phiên bản</label>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+            <div style="display:grid;grid-template-columns:minmax(0,2fr) 100px 140px 80px 120px 130px 150px 90px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Tour</span><span>Danh mục</span><span>Địa điểm</span><span>Thời lượng</span><span style="text-align:right">Giá cơ sở</span><span>Phiên bản</span><span>Trạng thái</span><span>Sắp tới</span></div>
+            <sc-for list="{{ tours }}" as="t" hint-placeholder-count="6">
+              <a href="#o06" style="display:grid;grid-template-columns:minmax(0,2fr) 100px 140px 80px 120px 130px 150px 90px;gap:12px;padding:10px 20px;border-top:1px solid #ECEAE5;font-size:14px;align-items:center;text-decoration:none;color:#151A24;background:{{ t.bg }}" style-hover="background:#F5F4F1">
+                <span style="display:flex;align-items:center;gap:12px;min-width:0;padding-left:{{ t.indent }}"><span style="width:56px;height:40px;flex:none;border-radius:6px;background:#ADBBD3 url(https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=900&q=60&auto=format) center/cover no-repeat"></span><span style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.name }}</span></span>
+                <span style="font-size:13px">{{ t.cat }}</span><span style="font-size:13px">{{ t.loc }}</span><span style="font-size:13px">{{ t.dur }}</span><span style="text-align:right;font-weight:600">{{ t.price }}</span>
+                <span style="display:flex;align-items:center;gap:6px;font-size:13px"><b>v{{ t.ver }}</b><span style="display:{{ t.lockD }};font-size:11px;font-weight:600;color:#4A5870;background:#ECEAE5;padding:2px 6px;border-radius:4px">⚿ đã khóa</span></span>
+                <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ t.st.bg }};color:{{ t.st.fg }};font-size:12px;font-weight:600;justify-self:start"><span aria-hidden="true">{{ t.st.ic }}</span>{{ t.st.label }}</span>
+                <span style="font-size:13px;color:{{ t.upC }}">{{ t.up }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </main>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O05 · FR-T01, T06<br>· Ảnh → TOUR_IMAGES is_primary · Tên → TOURS.name<br>· Danh mục → CATEGORIES.name · Địa điểm → LOCATIONS.name<br>· Thời lượng → duration_days N duration_nights Đ<br>· Giá cơ sở → base_price · Phiên bản → version; “đã khóa” khi itinerary_locked_at có giá trị<br>· Trạng thái → TOURS.status · Sắp tới = COUNT TRIPS start_at &gt; now<br>· Mặc định: version lớn nhất mỗi tour_family_id; “Hiện mọi phiên bản” → hiện các bản cũ thụt vào dưới bản mới<br>· Staff: chỉ xem, ẩn “Tạo tour”</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O06 + O07 ================= -->
+<section id="o06" data-screen-label="O06 Trình chỉnh sửa tour" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O06</span><span style="font:700 13px ui-monospace,Menlo,monospace;background:#31476F;color:#FFFFFF;padding:4px 8px;border-radius:6px">O07</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Trình chỉnh sửa tour + Lịch sử phiên bản</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/tours/:tourId</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px"><sc-for list="{{ o6Chips }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for></div></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="position:relative;width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navTours }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:13px;color:#4A5870"><a href="#o05">Tour</a> / <span style="color:#151A24">Chinh phục Fansipan qua cung Trạm Tôn</span></div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="flex:1"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:26px;font-weight:700;color:#14213D">Chinh phục Fansipan qua cung Trạm Tôn</span><span style="font-size:13px;font-weight:700;color:#14213D;background:#EEF1F7;padding:3px 8px;border-radius:4px">v{{ o6Ver }}</span><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ o6St.bg }};color:{{ o6St.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ o6St.ic }}</span>{{ o6St.label }}</span></div><div style="font-size:13px;color:#4A5870;margin-top:4px">Tạo bởi Phan Thị Ngọc · Tạo lúc 02/09/2026 10:15 · Cập nhật lúc 15/10/2026 16:40</div></div>
+            <button onClick="{{ openVers }}" style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Lịch sử phiên bản</button>
+            <button style="height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600">Lưu trữ</button>
+            <button onClick="{{ o6Publish }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">{{ o6PubLabel }}</button>
+          </div>
+          <sc-if value="{{ o6Locked }}" hint-placeholder-val="{{ false }}"><div role="status" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;background:#FEF3C7;border:1px solid #B45309;font-size:14px;color:#232B38"><span style="color:#B45309;font-weight:700">!</span><span style="flex:1"><b>Lịch trình đã khóa do có chuyến đã bán</b> (khóa lúc 05/10/2026 09:12). Lịch trình và đồ được cấp chỉ xem.</span><button onClick="{{ newVersion }}" style="height:36px;padding:0 14px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:13px;font-weight:600;cursor:pointer">Tạo phiên bản mới</button></div></sc-if>
+          <div role="tablist" style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3"><sc-for list="{{ o6Tabs }}" as="t" hint-placeholder-count="8"><button role="tab" onClick="{{ t.on }}" style="height:44px;padding:0 12px;border:0;background:transparent;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:14px;font-weight:{{ t.w }};cursor:pointer;white-space:nowrap">{{ t.label }}</button></sc-for></div>
+
+          <sc-if value="{{ o6tInfo }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+              <sc-for list="{{ infoFields }}" as="f" hint-placeholder-count="9"><div style="display:flex;flex-direction:column;gap:6px;grid-column:{{ f.span }}"><label style="font-size:13px;font-weight:600;color:#232B38">{{ f.label }}</label><div style="min-height:44px;padding:11px 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;line-height:22px">{{ f.value }}</div></div></sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ o6tImg }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
+              <sc-for list="{{ imgs }}" as="i" hint-placeholder-count="5"><div style="background:#FFFFFF;border:{{ i.bd }};border-radius:10px;overflow:hidden"><div style="height:120px;background:#ADBBD3 url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:flex-start;justify-content:space-between;padding:8px"><span style="font:600 11px ui-monospace,Menlo,monospace;background:#FFFFFF;padding:2px 6px;border-radius:4px">#{{ i.n }}</span><span style="display:{{ i.pd }};font-size:11px;font-weight:700;background:#14213D;color:#FFFFFF;padding:2px 6px;border-radius:4px">Ảnh đại diện</span></div><div style="display:flex;gap:4px;padding:8px"><button onClick="{{ i.primary }}" style="flex:1;height:30px;border-radius:6px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:12px;font-weight:600;cursor:pointer">Đặt đại diện</button><span style="width:30px;height:30px;border-radius:6px;border:1px solid #DDDAD3;display:flex;align-items:center;justify-content:center;color:#4A5870;cursor:grab">⠿</span></div></div></sc-for>
+              <div style="border:1.5px dashed #C5C3BD;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#31476F;min-height:166px">+ Tải ảnh lên</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ o6tItin }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:13px;color:#4A5870">{{ itinHint }}</div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+                <sc-for list="{{ days }}" as="d" hint-placeholder-count="3">
+                  <div onDragOver="{{ d.over }}" onDrop="{{ d.drop }}" style="background:{{ d.bg }};border:1px solid #DDDAD3;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:360px">
+                    <div style="display:flex;align-items:center;padding:4px 4px 6px"><span style="font-size:15px;font-weight:700;flex:1">Ngày {{ d.n }}</span><span style="font-size:12px;color:#4A5870">{{ d.count }} hoạt động</span></div>
+                    <sc-for list="{{ d.acts }}" as="a" hint-placeholder-count="3">
+                      <div draggable="{{ a.drag }}" onDragStart="{{ a.start }}" style="background:#FFFFFF;border:1px solid #DDDAD3;border-left:3px solid #31476F;border-radius:8px;padding:10px 12px;cursor:{{ a.cur }};display:flex;flex-direction:column;gap:3px">
+                        <div style="display:flex;gap:8px;align-items:center"><b style="font-size:13px;color:#14213D">{{ a.time }}</b><span style="font-size:12px;color:#4A5870">· {{ a.dur }}</span><span style="margin-left:auto;color:#9AA1AC;display:{{ a.hd }}">⠿</span></div>
+                        <div style="font-size:14px;font-weight:600">{{ a.name }}</div>
+                        <div style="font-size:12px;line-height:18px;color:{{ a.dc }}">{{ a.desc }}</div>
+                      </div>
+                    </sc-for>
+                    <button onClick="{{ d.add }}" disabled="{{ o6Locked }}" style="height:40px;border-radius:8px;border:1.5px dashed {{ d.addBd }};background:transparent;color:{{ d.addC }};font-size:13px;font-weight:600;cursor:pointer">+ Thêm hoạt động</button>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ o6tPrep }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden"><div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) 90px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Tên vật dụng</span><span>Ghi chú</span><span></span></div><sc-for list="{{ prepRows }}" as="p" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) 90px;gap:12px;padding:8px 20px;border-top:1px solid #ECEAE5;align-items:center"><div style="height:40px;padding:0 10px;border:1px solid #DDDAD3;border-radius:6px;font-size:14px;display:flex;align-items:center">{{ p.name }}</div><div style="height:40px;padding:0 10px;border:1px solid #DDDAD3;border-radius:6px;font-size:14px;display:flex;align-items:center;color:{{ p.nc }}">{{ p.note }}</div><span style="font-size:13px;color:#31476F;font-weight:600">Ẩn</span></div></sc-for><div style="padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px;font-weight:600;color:#31476F">+ Thêm vật dụng</div></div>
+          </sc-if>
+          <sc-if value="{{ o6tProv }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden"><div style="display:grid;grid-template-columns:minmax(0,1.4fr) 140px 90px 160px minmax(0,1fr);gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Thiết bị (variant)</span><span>SKU</span><span>Số lượng</span><span>Cơ sở tính</span><span>Ghi chú</span></div><sc-for list="{{ provRows }}" as="p" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:minmax(0,1.4fr) 140px 90px 160px minmax(0,1fr);gap:12px;padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px;align-items:center;background:{{ o6RoBg }}"><span style="font-weight:600">{{ p.name }}</span><span style="font:500 12px ui-monospace,Menlo,monospace">{{ p.sku }}</span><span>{{ p.qty }}</span><span>{{ p.basis }}</span><span style="font-size:13px;color:{{ p.nc }}">{{ p.note }}</span></div></sc-for></div>
+          </sc-if>
+          <sc-if value="{{ o6tPosts }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden"><sc-for list="{{ tPosts }}" as="p" hint-placeholder-count="3"><div style="display:flex;gap:14px;align-items:center;padding:12px 20px;border-top:1px solid #ECEAE5"><span style="color:#9AA1AC;cursor:grab">⠿</span><b style="width:24px;color:#14213D">{{ p.n }}</b><span style="flex:1;font-size:14px;font-weight:600">{{ p.title }}</span><span style="font-size:12px;color:#4A5870">{{ p.type }}</span><span style="font-size:13px;color:#31476F;font-weight:600">Gỡ</span></div></sc-for><div style="padding:12px 20px;border-top:1px solid #ECEAE5;font-size:14px;font-weight:600;color:#31476F">+ Gắn bài viết</div></div>
+          </sc-if>
+          <sc-if value="{{ o6tTrips }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;font-size:14px;color:#343F52;display:flex;align-items:center;gap:12px"><span style="flex:1">12 chuyến dùng tour này (8 chuyến v3, 4 chuyến v2). Danh sách đầy đủ và thao tác ở Lịch chuyến.</span><a href="RenTrekk Batch 4B - Van hanh Chuyen.dc.html#o09" style="font-weight:600">Mở Lịch chuyến →</a></div>
+          </sc-if>
+        </main>
+      </div>
+      <sc-if value="{{ versOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeVers }}" style="position:absolute;inset:0;background:rgba(14,24,45,.35)"></div>
+        <aside role="dialog" aria-label="Lịch sử phiên bản" style="position:absolute;top:0;right:0;bottom:0;width:560px;background:#FFFFFF;box-shadow:-12px 0 32px rgba(20,33,61,.18);display:flex;flex-direction:column">
+          <div style="padding:20px 24px;display:flex;align-items:center;border-bottom:1px solid #ECEAE5"><div style="flex:1"><div style="font-size:18px;font-weight:700">Lịch sử phiên bản</div><div style="font-size:13px;color:#4A5870">Cùng họ tour · bấm 2 phiên bản để so sánh</div></div><button onClick="{{ closeVers }}" aria-label="Đóng" style="width:36px;height:36px;border:0;background:transparent;font-size:16px;cursor:pointer">✕</button></div>
+          <div style="padding:8px 0">
+            <sc-for list="{{ versions }}" as="v" hint-placeholder-count="3">
+              <label style="display:grid;grid-template-columns:24px 50px 140px minmax(0,1fr) 80px;gap:10px;align-items:center;padding:12px 24px;font-size:14px;cursor:pointer;background:{{ v.bg }}"><input type="checkbox" checked="{{ v.on }}" onChange="{{ v.toggle }}" style="width:16px;height:16px;accent-color:#14213D"></input><b>v{{ v.ver }}</b><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ v.st.bg }};color:{{ v.st.fg }};font-size:12px;font-weight:600;justify-self:start"><span aria-hidden="true">{{ v.st.ic }}</span>{{ v.st.label }}</span><span style="font-size:12px;color:#4A5870">{{ v.meta }}</span><span style="font-size:12px;text-align:right">{{ v.trips }} chuyến</span></label>
+            </sc-for>
+          </div>
+          <div style="margin:0 24px;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden;flex:1;display:flex;flex-direction:column;min-height:0">
+            <div style="padding:10px 14px;background:#F5F4F1;font-size:13px;font-weight:600;color:#343F52">So sánh lịch trình v2 → v3</div>
+            <sc-for list="{{ diff }}" as="d" hint-placeholder-count="5"><div style="display:flex;gap:10px;padding:8px 14px;border-top:1px solid #ECEAE5;font-size:13px;background:{{ d.bg }}"><b style="width:54px;color:{{ d.fg }}">{{ d.kind }}</b><span style="width:60px;color:#4A5870">{{ d.day }}</span><span style="flex:1;color:#232B38;text-decoration:{{ d.td }}">{{ d.text }}</span></div></sc-for>
+          </div>
+          <div style="padding:16px 24px;display:flex;justify-content:flex-end;gap:8px"><button onClick="{{ newVersion }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Tạo phiên bản mới từ v3</button></div>
+        </aside>
+      </sc-if>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O06 · FR-T01–T05, N03<br>· Thông tin: TOURS.name, category_id, main_location_id, description?, duration_days, duration_nights, duration_minutes, base_price, status<br>· Ảnh: TOUR_IMAGES.image_url, display_order (kéo), is_primary (tối đa 1)<br>· Lịch trình: TOUR_ACTIVITIES.day_number (≤ duration_days), start_time, duration_minutes, name, description?, display_order; kéo thả giữa cột đổi day_number<br>· Tự mang: TOUR_PREPARATION_ITEMS.item_name, note? · Ẩn = is_deleted<br>· Được cấp: TOUR_PROVIDED_ITEMS.product_variant_id (sku), quantity, quantity_basis (Mỗi người / Mỗi nhóm / Mỗi chuyến), note?<br>· Bài viết: TOUR_POSTS.post_id, display_order<br>· Khóa: itinerary_locked_at có giá trị → Lịch trình + Được cấp chỉ đọc<br>· Header: created_by_user_id → ACCOUNTS.full_name, created_at, updated_at<br><br>DEV · O07 · FR-T05<br>· TOURS cùng tour_family_id: version, status, itinerary_locked_at?, created_at; số chuyến = COUNT TRIPS.tour_id<br>· Tạo bản mới: sao chép TOURS + ACTIVITIES + PREPARATION + PROVIDED + IMAGES → version + 1, status = Draft<br>· Diff: so TOUR_ACTIVITIES theo day_number + name</div></sc-if>
+  </div>
+</section>
+
+<!-- ================= O08 ================= -->
+<section id="o08" data-screen-label="O08 Lịch lặp chuyến" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px"><span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">O08</span><h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Lịch lặp chuyến</h2><span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/ops/tours/:tourId/recurrence</span></div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex">
+      <aside style="width:232px;flex:none;background:#14213D;display:flex;flex-direction:column">
+        <div style="height:64px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid #213456"><span style="color:#FFFFFF;font-size:17px;font-weight:800"><span style="position:relative;display:inline-block">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.32em;left:2em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.07em;height:.28em;background:#E29A78;border-radius:1px"></span><span style="width:.07em;height:.2em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span> <span style="font-weight:500;color:#ADBBD3;font-size:13px">Vận hành</span></span></div>
+        <nav style="padding:8px 12px 16px;display:flex;flex-direction:column;gap:1px"><sc-for list="{{ navTours }}" as="n" hint-placeholder-count="14"><div style="height:{{ n.h }};display:flex;align-items:{{ n.al }};gap:10px;padding:{{ n.pad }};border-radius:8px;background:{{ n.bg }};color:{{ n.c }};font-size:{{ n.fs }};font-weight:{{ n.w }};letter-spacing:{{ n.ls }}"><span style="width:20px;text-align:center;display:{{ n.icd }}">{{ n.ic }}</span><span style="flex:1">{{ n.label }}</span><span style="display:{{ n.bd }};font-size:11px;font-weight:700;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#FEF3C7;color:#B45309;align-items:center;justify-content:center">{{ n.badge }}</span></div></sc-for></nav>
+      </aside>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+        <header style="height:64px;flex:none;background:#FFFFFF;border-bottom:1px solid #DDDAD3;display:flex;align-items:center;gap:16px;padding:0 24px"><div style="width:440px;height:40px;border:1px solid #C5C3BD;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:#5E6B80">⌕ Tìm mã đơn, mã thiết bị, SKU, email…</div><div style="margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid #DDDAD3"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ meInit }}</span><div style="line-height:18px"><div style="font-size:14px;font-weight:600">{{ meName }}</div><div style="font-size:12px;color:#4A5870">{{ roleLabel }}</div></div></div></header>
+        <main style="padding:24px 32px 40px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:13px;color:#4A5870"><a href="#o05">Tour</a> / <a href="#o06">Fansipan qua Trạm Tôn</a> / <span style="color:#151A24">Lịch lặp</span></div>
+          <div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px;font-weight:700;color:#14213D;margin-right:auto">Lịch lặp chuyến</div><label style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;cursor:pointer"><span>Bật lịch lặp</span><button role="switch" aria-checked="{{ rActive }}" onClick="{{ toggleActive }}" style="width:44px;height:24px;border-radius:12px;border:0;background:{{ swBg }};position:relative;cursor:pointer;padding:0"><span style="position:absolute;top:3px;left:{{ swX }};width:18px;height:18px;border-radius:50%;background:#FFFFFF"></span></button></label></div>
+          <div style="display:grid;grid-template-columns:440px minmax(0,1fr);gap:16px;align-items:start">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Tần suất</span><div style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ freqOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.on }}" style="flex:1;height:36px;border:0;border-radius:7px;background:{{ o.bg }};color:{{ o.c }};font-size:13px;font-weight:600;cursor:pointer">{{ o.label }}</button></sc-for></div></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Lặp mỗi</span><div style="display:flex;align-items:center;border:1px solid #C5C3BD;border-radius:8px;overflow:hidden"><button onClick="{{ ivDec }}" aria-label="Giảm" style="width:40px;height:44px;border:0;background:#FFFFFF;font-size:16px;cursor:pointer">−</button><span style="flex:1;text-align:center;font-weight:700">{{ rIv }} {{ ivUnit }}</span><button onClick="{{ ivInc }}" aria-label="Tăng" style="width:40px;height:44px;border:0;background:#FFFFFF;font-size:16px;cursor:pointer">+</button></div></div>
+                <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Giờ khởi hành</span><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center">05:30</div></div>
+              </div>
+              <sc-if value="{{ isWeekly }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Các thứ trong tuần</span><div style="display:flex;gap:6px"><sc-for list="{{ dowOpts }}" as="d" hint-placeholder-count="7"><button onClick="{{ d.toggle }}" aria-pressed="{{ d.on }}" style="flex:1;height:40px;border-radius:8px;border:1px solid {{ d.bd }};background:{{ d.bg }};color:{{ d.c }};font-size:13px;font-weight:600;cursor:pointer">{{ d.label }}</button></sc-for></div><sc-if value="{{ dowErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Chọn ít nhất một thứ.</span></sc-if></div></sc-if>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Từ ngày</span><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center">01/11/2026</div></div><div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Đến ngày</span><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center">31/03/2027</div></div></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Số chỗ mặc định</span><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center">16</div></div><div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:600">Giá mặc định/người</span><div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;display:flex;align-items:center">2.450.000 ₫</div></div></div>
+              <div style="font-size:13px;line-height:20px;color:#343F52;background:#F5F4F1;border-radius:8px;padding:10px 12px">Sửa lịch lặp không thay đổi các chuyến đã tạo. Ngày đã có chuyến từ lịch này sẽ không tạo trùng.</div>
+              <div style="display:flex;justify-content:flex-end;gap:8px"><button onClick="{{ genTrips }}" disabled="{{ genDis }}" style="height:44px;padding:0 16px;border-radius:8px;border:0;background:{{ genBg }};color:{{ genC }};font-size:14px;font-weight:600;cursor:pointer">Lưu &amp; tạo {{ newCount }} chuyến</button></div>
+            </div>
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;gap:12px"><span style="font-size:16px;font-weight:700;flex:1">Tháng 11/2026</span><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#343F52"><span style="width:12px;height:12px;border-radius:3px;background:#E7F6EC;border:1px solid #166534"></span>Đã tạo</span><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#343F52"><span style="width:12px;height:12px;border-radius:3px;background:#E0F2F6;border:1px dashed #0E7490"></span>Sẽ tạo</span></div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px"><sc-for list="{{ dowHead }}" as="h" hint-placeholder-count="7"><span style="font-size:12px;font-weight:600;color:#4A5870;text-align:center;padding:4px 0">{{ h }}</span></sc-for>
+                <sc-for list="{{ cal }}" as="c" hint-placeholder-count="35"><div style="height:76px;border-radius:8px;border:{{ c.bd }};background:{{ c.bg }};padding:6px 8px;display:flex;flex-direction:column;gap:4px;opacity:{{ c.op }}"><span style="font-size:13px;font-weight:600;color:#232B38">{{ c.d }}</span><span style="font-size:11px;font-weight:600;color:{{ c.fg }}">{{ c.label }}</span></div></sc-for>
+              </div>
+              <div style="font-size:13px;color:#343F52">{{ calSummary }}</div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}"><div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · O08 · FR-D03<br>· TOUR_RECURRENCE_RULES.frequency (Hằng ngày / Hằng tuần / Hằng tháng), interval_value, days_of_week? (chỉ Hằng tuần), start_time, start_date, end_date, default_total_slots, default_price, is_active<br>· Preview: các ngày khớp rule trong [start_date, end_date]<br>· “Đã tạo” = có TRIPS.recurrence_rule_id = rule này và DATE(start_at) = ngày → không tạo lại<br>· “Sẽ tạo” → TRIPS mới (status Draft, total_slots = default_total_slots, price_per_person = default_price, refund_policy_id mặc định Active, managed_by_user_id = người tạo)<br>· Ngày quá khứ: mờ, không tạo</div></sc-if>
+  </div>
+</section>
+
+</div>
+
+<div aria-live="polite" style="position:fixed;right:24px;bottom:24px;display:flex;flex-direction:column;gap:8px;z-index:50;max-width:380px">
+  <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="0">
+    <div role="status" style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:#FFFFFF;border:1px solid #DDDAD3;border-left:4px solid {{ t.fg }};border-radius:10px;box-shadow:0 12px 32px rgba(20,33,61,.18);font-size:14px"><span aria-hidden="true" style="color:{{ t.fg }};font-weight:700">{{ t.ic }}</span><div style="flex:1"><div style="font-weight:600">{{ t.title }}</div><div style="font-size:13px;color:#4A5870">{{ t.msg }}</div></div></div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;role&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Admin&quot;,&quot;Staff&quot;],&quot;default&quot;:&quot;Admin&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Vai trò xem&quot;},&quot;showDevNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Annotation&quot;}}">
+const G = {neutral:{bg:'#ECEAE5',fg:'#4A5870',ic:'○'},info:{bg:'#E0F2F6',fg:'#0E7490',ic:'◷'},warning:{bg:'#FEF3C7',fg:'#B45309',ic:'!'},progress:{bg:'#EDE9FE',fg:'#6D28D9',ic:'▶'},success:{bg:'#E7F6EC',fg:'#166534',ic:'✓'},danger:{bg:'#FFE4E8',fg:'#BE123C',ic:'✕'}};
+const B = (label,g) => ({...G[g],label});
+const vnd = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.') + ' ₫';
+const NAV = [
+  ['h','TỔNG QUAN'],['dash','Dashboard','◫'],
+  ['h','VẬN HÀNH'],['trips','Chuyến','◷',3],['orders','Tất cả đơn hàng','▥',4],['torders','Đơn tour','▤'],['rentals','Đơn thuê','▦',2],['assets','Thiết bị','▣'],
+  ['h','DANH MỤC'],['tours','Tour','△'],['products','Sản phẩm & combo','◇'],['cat','Danh mục & địa điểm','⌖',0,1],
+  ['h','TÀI CHÍNH'],['tx','Giao dịch','₫'],['refunds','Hoàn tiền','↺',5,1],['promo','Khuyến mãi','%',0,1],
+  ['h','NỘI DUNG'],['posts','Bài viết','✎'],
+  ['h','HỆ THỐNG'],['users','Người dùng','◎',0,1],['settings','Cấu hình & nhật ký','⚙',0,1]
+];
+const nav = (active, admin) => NAV.filter(n=>!(n[4]&&!admin)).map(n=>{ if(n[0]==='h') return {label:n[1],h:'30px',al:'flex-end',pad:'0 10px 6px',bg:'transparent',c:'#8193B5',fs:'11px',w:600,ls:'.08em',icd:'none',ic:'',bd:'none',badge:''}; const a=n[0]===active; return {label:n[1],ic:n[2],h:'38px',al:'center',pad:'0 10px',bg:a?'#31476F':'transparent',c:a?'#FFFFFF':'#D6DDEA',fs:'14px',w:a?600:500,ls:'0',icd:'block',bd:n[3]?'flex':'none',badge:n[3]||''}; });
+const ACCOUNTS = [
+  ['Trần Thu Hà','CU-10482','thuha.tran@gmail.com','0912 345 678','Customer','active','18/10/2026 07:55','14/03/2025'],
+  ['Đinh Văn Toàn','GD-0007','toan.dinh@rentrekk.vn','0904 221 908','Guide','active','18/10/2026 06:12','02/03/2024'],
+  ['Phan Thị Ngọc','ST-0003','ngoc.phan@rentrekk.vn','0936 118 440','Staff','active','18/10/2026 08:20','11/01/2024'],
+  ['Lò Văn Sinh','GD-0012','sinh.lo@rentrekk.vn',null,'Guide','active','17/10/2026 21:40','19/06/2024'],
+  ['Nguyễn Minh Anh','CU-10511','minhanh.ng@gmail.com',null,'Customer','unverified',null,'05/11/2026'],
+  ['Vũ Hoàng Long','CU-09877','long.vh@outlook.com','0978 552 019','Customer','locked','02/09/2026 13:08','22/07/2025'],
+  ['Hoàng Quốc Bảo','AD-0001','bao.hoang@rentrekk.vn','0913 000 111','Admin','active','18/10/2026 08:02','01/12/2023'],
+  ['Mai Lan Chi','CU-10390','lanchi.mai@gmail.com','0987 664 213','Customer','active','11/10/2026 19:22','03/02/2026']
+];
+const UST = {active:B('Hoạt động','success'),locked:B('Đã khóa','danger'),unverified:B('Chưa xác thực email','warning')};
+const AV = {Customer:['#EEF1F7','#14213D'],Guide:['#EDE9FE','#6D28D9'],Staff:['#E0F2F6','#0E7490'],Admin:['#14213D','#FFFFFF']};
+const ini = n => n.split(' ').slice(-2).map(w=>w[0]).join('');
+const ACTS0 = {1:[['a1','05:30','Tập trung tại Trạm Tôn',30,'Guide kiểm tra đồ và phát đồ được cấp.'],['a2','06:00','Trekking qua rừng trúc',240,'Nghỉ 10 phút mỗi giờ.'],['a3','10:30','Ăn trưa tại lán 2.200 m',60,null],['a4','11:30','Leo lên lán 2.800 m',240,null]],2:[['b1','03:30','Leo đỉnh đón bình minh',150,'Mang đèn đội đầu.'],['b2','06:00','Ngắm biển mây trên đỉnh',60,null],['b3','07:30','Quay về lán 2.800 m',120,null]],3:[['c1','07:00','Xuống núi về Trạm Tôn',300,null],['c2','12:30','Trả đồ được cấp',60,'Guide thu lại theo danh sách.']]};
+const dur = m => m>=60 ? (m%60? `${Math.floor(m/60)} giờ ${m%60} phút` : `${m/60} giờ`) : `${m} phút`;
+class Component extends DCLogic {
+  state = { sort:1, uQ:'', roleF:'all', stF:'all', sel:[], colsOpen:false, cols:{phone:true,login:true,created:true}, drawer:null, create:false, cRole:'Staff', cName:'', cEmail:'', cTried:false,
+    uTab:'profile', uRole:'Guide', uRoleSaved:'Guide', locked:false, lockOpen:false, lockReason:'', lockErr:false, revoked:[],
+    catTab:'cats', hidden:{}, showHidden:false, loc:0,
+    tStatus:'all', allVers:false, o6Tab:'itin', locked6:true, ver:3, versOpen:false, acts:ACTS0, drag:null, primary:0, cmp:[2,3],
+    freq:'weekly', iv:1, dow:[6], active:true, toasts:[] };
+  toast(kind,title,msg){ const id=Math.random(); const g=G[kind]; this.setState(s=>({toasts:[...s.toasts,{id,fg:g.fg,ic:g.ic,title,msg}]})); setTimeout(()=>this.setState(s=>({toasts:s.toasts.filter(t=>t.id!==id)})),3600); }
+  chip(a,label,on){ return {label,on,bg:a?'#14213D':'#FFFFFF',c:a?'#FFFFFF':'#14213D',bd:a?'#14213D':'#C5C3BD'}; }
+  seg(a,label,on){ return {label,on,bg:a?'#FFFFFF':'transparent',c:a?'#14213D':'#4A5870'}; }
+  tab(a,label,on){ return {label,on,bd:a?'#14213D':'transparent',c:a?'#14213D':'#4A5870',w:a?600:500}; }
+  renderVals() {
+    const s=this.state, dev=this.props.showDevNotes ?? true, admin=(this.props.role ?? 'Admin')==='Admin';
+    const me=admin?['Hoàng Quốc Bảo','HB','Bảo']:['Phan Thị Ngọc','PN','Ngọc'];
+    // O02
+    let urows=ACCOUNTS.map((u,i)=>({u,i,status:i===1&&s.locked?'locked':u[5]})).filter(({u,status})=>(s.roleF==='all'||u[4]===s.roleF)&&(s.stF==='all'||status===s.stF)&&(!s.uQ||(u[0]+u[1]+u[2]).toLowerCase().includes(s.uQ.toLowerCase())));
+    urows.sort((a,b)=>s.sort*a.u[0].split(' ').pop().localeCompare(b.u[0].split(' ').pop(),'vi'));
+    const colsT=['28px','minmax(0,1.4fr)','100px','minmax(0,1.5fr)','90px','170px',s.cols.login?'150px':'',s.cols.created?'100px':''].filter(Boolean).join(' ');
+    const mapU=({u,i,status})=>({name:u[0],ini:ini(u[0]),code:u[1],email:u[2],phone:u[3]||'Chưa cập nhật',phc:u[3]?'#4A5870':'#5E6B80',phd:s.cols.phone?'block':'none',role:u[4],st:UST[status],login:u[6]||'Chưa đăng nhập',llc:u[6]?'#343F52':'#5E6B80',created:u[7],avBg:AV[u[4]][0],avC:AV[u[4]][1],sel:s.sel.includes(i),rowBg:s.sel.includes(i)?'#EEF1F7':'#FFFFFF',verified:status==='unverified'?'Chưa xác thực':'Đã xác thực',vc:status==='unverified'?'#B45309':'#166534',
+      toggle:()=>this.setState(x=>({sel:x.sel.includes(i)?x.sel.filter(y=>y!==i):[...x.sel,i]})), open:()=>this.setState({drawer:i})});
+    const dRow=s.drawer!==null?mapU({u:ACCOUNTS[s.drawer],i:s.drawer,status:s.drawer===1&&s.locked?'locked':ACCOUNTS[s.drawer][5]}):mapU({u:ACCOUNTS[0],i:0,status:'active'});
+    const emailDup=s.cEmail.trim().toLowerCase()==='toan.dinh@rentrekk.vn', emailBad=!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.cEmail.trim());
+    // O06
+    const locked=s.locked6;
+    const days=[1,2,3].map(d=>({n:d,count:s.acts[d].length,bg:locked?'#ECEAE5':'#F5F4F1',addBd:locked?'#DDDAD3':'#8193B5',addC:locked?'#9AA1AC':'#31476F',
+      over:e=>{ if(!locked) e.preventDefault(); }, drop:e=>{ e.preventDefault(); const id=this.state.drag; if(!id) return; const a={1:[...this.state.acts[1]],2:[...this.state.acts[2]],3:[...this.state.acts[3]]}; let item; [1,2,3].forEach(k=>{ const ix=a[k].findIndex(x=>x[0]===id); if(ix>=0) item=a[k].splice(ix,1)[0]; }); if(item){ a[d].push(item); this.setState({acts:a,drag:null}); this.toast('success','Đã chuyển hoạt động',`${item[2]} → Ngày ${d}`); } },
+      add:()=>{ if(locked) return; const a={...this.state.acts}; a[d]=[...a[d],['n'+Math.random(),'14:00','Hoạt động mới',60,null]]; this.setState({acts:a}); },
+      acts:s.acts[d].map(x=>({time:x[1],name:x[2],dur:dur(x[3]),desc:x[4]||'Chưa cập nhật mô tả',dc:x[4]?'#343F52':'#5E6B80',drag:locked?'false':'true',cur:locked?'default':'grab',hd:locked?'none':'inline',start:e=>{ e.dataTransfer.setData('text/plain',x[0]); this.setState({drag:x[0]}); }}))}));
+    // O08
+    const year=2026, mon=10; const first=new Date(year,mon,1); const offset=(first.getDay()+6)%7; const dim=30;
+    const cells=[]; for(let i=0;i<35;i++){ const d=i-offset+1; if(d<1||d>dim){ cells.push({d:'',label:'',bg:'transparent',bd:'0',fg:'#4A5870',op:1}); continue; } const dt=new Date(year,mon,d); const wd=dt.getDay();
+      let match=false; if(s.freq==='daily') match=((d-1)%s.iv)===0; else if(s.freq==='weekly'){ const wk=Math.floor((d-1+offset)/7); match=s.dow.includes(wd)&&(wk%s.iv===0); } else match=d===14;
+      const done=match&&d<=14; cells.push({d,label:!s.active&&match?'Tạm tắt':match?(done?'Đã tạo':'Sẽ tạo'):'',bg:match?(done?'#E7F6EC':'#E0F2F6'):'#F5F4F1',bd:match?(done?'1px solid #166534':'1px dashed #0E7490'):'1px solid #ECEAE5',fg:done?'#166534':'#0E7490',op:s.active?1:.55}); }
+    const created=cells.filter(c=>c.label==='Đã tạo').length, toCreate=cells.filter(c=>c.label==='Sẽ tạo').length;
+    const tours=[['Chinh phục Fansipan qua cung Trạm Tôn','Leo núi','Sa Pa, Lào Cai','3N2Đ',2450000,3,true,'pub',8],['Sống lưng khủng long Tà Xùa','Săn mây','Bắc Yên, Sơn La','2N1Đ',1490000,2,true,'pub',6],['Lảo Thẩn – nóc nhà Y Tý','Săn mây','Bát Xát, Lào Cai','2N1Đ',1650000,1,true,'pub',4],['Bạch Mộc Lương Tử – Ky Quan San','Leo núi','Bát Xát, Lào Cai','3N2Đ',3150000,1,false,'pub',2],['Tà Chì Nhù mùa hoa chi pâu','Leo núi','Trạm Tấu, Yên Bái','2N1Đ',1890000,1,false,'draft',0],['Pu Luông – ruộng bậc thang','Dã ngoại','Bá Thước, Thanh Hóa','2N1Đ',1290000,2,false,'arch',0]];
+    const TST={pub:B('Đã xuất bản','success'),draft:B('Nháp','neutral'),arch:B('Lưu trữ','neutral')};
+    let tlist=[]; tours.filter(t=>s.tStatus==='all'||t[7]===s.tStatus).forEach(t=>{ tlist.push({t,old:false}); if(s.allVers&&t[0].startsWith('Chinh')){ tlist.push({t:[t[0],t[1],t[2],t[3],2350000,2,true,'arch',0],old:true}); tlist.push({t:[t[0],t[1],t[2],t[3],2200000,1,true,'arch',0],old:true}); } });
+    return {
+      dev, toasts:s.toasts, isAdmin:admin, isStaff:!admin, roleLabel:admin?'Admin':'Staff', meName:me[0], meInit:me[1], meFirst:me[2],
+      stop:e=>e.stopPropagation(),
+      navDash:nav('dash',admin), navUsers:nav('users',admin), navCat:nav('cat',admin), navTours:nav('tours',admin),
+      // O01
+      scopeText:admin?'Toàn hệ thống':'Chỉ dữ liệu được giao cho bạn',
+      kpis:(admin?[['Booking tuần này','38','Tuần 12/10 – 18/10'],['Tỉ lệ lấp chỗ','74%','Chuyến Open & đã đóng bán'],['Doanh thu tháng 10','412.350.000 ₫','Đã thu − đã hoàn'],['Thiết bị đang cho thuê','126','trên 410 thiết bị']]:[['Booking tuần này','14','Chuyến bạn điều phối'],['Tỉ lệ lấp chỗ','81%','Chuyến bạn điều phối'],['Đơn thuê đang xử lý','9','Được giao cho bạn'],['Thiết bị đang cho thuê','42','Từ đơn của bạn']]).map(([label,value,sub])=>({label,value,sub})),
+      alerts:(()=>{ const reconSecs=6130, reconRed=reconSecs<7200, hh=String(Math.floor(reconSecs/3600)).padStart(2,'0'), mm=String(Math.floor(reconSecs%3600/60)).padStart(2,'0'), ss=String(reconSecs%60).padStart(2,'0');
+        const L=[['Thiết bị quá hạn trả',admin?4:2,'danger','#o01',null,0],['Hoàn tiền chờ duyệt',5,'info','RenTrekk Batch 4E - Tai chinh va Khuyen mai.dc.html#o28','PAYMENTS Refund · PendingApproval',1],['Hoàn tiền thất bại',2,'danger','RenTrekk Batch 4E - Tai chinh va Khuyen mai.dc.html#o28','Chưa thử lại / chưa hoàn thủ công',1],['Cần đối soát',1,'danger','RenTrekk Batch 4E - Tai chinh va Khuyen mai.dc.html#o28','◷ Hạn xử lý còn '+hh+':'+mm+':'+ss,1],['Thanh toán đang chờ',admin?3:1,'warning','RenTrekk Batch 4E - Tai chinh va Khuyen mai.dc.html#o28','Sắp hết hạn giữ chỗ (< 15 phút)',0],['Phí chờ chốt',admin?7:3,'warning','#o01',null,0]];
+        return L.filter(x=>admin||!x[5]).map(([label,n,g,href,sub])=>({label,n,href,...G[g],sub:sub||'',subd:sub?'block':'none',subc:label==='Cần đối soát'&&reconRed?'#BE123C':'#4A5870',subw:label==='Cần đối soát'&&reconRed?700:500})); })(),
+      alertCols:'repeat('+(admin?6:3)+',1fr)',
+      soon:[['Pu Luông – ruộng bậc thang','Phan Thị Ngọc','Th 7, 24/10',12,20,[]],['Sống lưng khủng long Tà Xùa','Phan Thị Ngọc','Th 7, 24/10',4,16,[B('Chưa đủ tối thiểu (4/6)','warning')]],['Lảo Thẩn – nóc nhà Y Tý','Trịnh Đức Hải','CN, 25/10',9,16,[B('Chưa xếp nhóm 3','warning')]],['Chinh phục Fansipan qua Trạm Tôn','Phan Thị Ngọc','Th 7, 24/10',14,16,[B('Chưa xếp nhóm 6','warning'),B('Thiếu đồ cấp 2','danger')]]].filter((x,i)=>admin||x[1]==='Phan Thị Ngọc').map(([tour,mgr,date,sold,total,flags])=>({tour,mgr:'Điều phối: '+mgr,date,sold,total,pct:Math.round(sold/total*100)+'%',flags:flags.length?flags:[B('Sẵn sàng','success')]})),
+      ...(()=>{ const M=(s.revMode||'month')==='month'; const data=M?[['T11',182,64,9],['T12',121,58,6],['T1',96,41,4],['T2',158,47,7],['T3',204,52,11],['T4',236,61,8],['T5',198,72,9],['T6',142,88,6],['T7',131,94,5],['T8',168,90,8],['T9',279,76,12],['T10',318,108,14]]:[['27/7',31,23,1],['3/8',29,24,2],['10/8',36,22,1],['17/8',38,21,2],['24/8',44,22,2],['31/8',47,21,1],['7/9',58,18,3],['14/9',71,19,2],['21/9',69,17,4],['28/9',81,20,3],['5/10',86,27,5],['12/10',61,19,2]];
+        const max=Math.max(...data.map(d=>d[1]+d[2])); const top=Math.ceil(max/100)*100||100; const sum=k=>data.reduce((a,d)=>a+d[k],0); const mil=n=>vnd(n*1000000);
+        return { revModes:[['month','12 tháng'],['week','12 tuần']].map(([k,l])=>this.seg((s.revMode||'month')===k,l,()=>this.setState({revMode:k}))), revRange:M?'T11/2025 – T10/2026':'27/07 – 18/10/2026',
+          revTotal:mil(sum(1)+sum(2)-sum(3)), revTour:mil(sum(1)), revRent:mil(sum(2)), revRefund:mil(sum(3)),
+          revAxis:[4,3,2,1,0].map(i=>i?(top*i/4)+' tr':'0'), revBars:data.map(([label,t,r,f],i)=>({label,ht:(t/top*100)+'%',hr:(r/top*100)+'%',op:!M&&i===11?.45:1,lc:i===11?'#14213D':'#4A5870',lw:i===11?700:400,tip:`${label}: Tour ${mil(t)} · Thuê ${mil(r)} · Hoàn −${mil(f)}${!M&&i===11?' (tuần đang chạy)':''}`})) }; })(),
+      holds:[['RTK-26-004901','Lê Hải Yến · Tour Fansipan · 3 người','04:12'],['RTK-26-004903','Đỗ Minh Quân · Thuê 4 món','09:47'],['RTK-26-004905','Ngô Thảo · Tour Tà Xùa · 2 người','13:05']].slice(0,admin?3:1).map(([code,who,left])=>({code,who,left})),
+      // O02
+      exportCsv:()=>this.toast('success','Đang xuất CSV','Tệp sẽ tải xuống khi sẵn sàng.'),
+      openCreate:()=>this.setState({create:true,cTried:false,cName:'',cEmail:''}), closeCreate:()=>this.setState({create:false}),
+      uQ:s.uQ, uOnQ:e=>this.setState({uQ:e.target.value}),
+      roleOpts:[['all','Tất cả'],['Customer','Customer'],['Staff','Staff'],['Guide','Guide'],['Admin','Admin']].map(([k,l])=>this.seg(s.roleF===k,l,()=>this.setState({roleF:k}))),
+      statusOpts:[['all','Mọi trạng thái'],['active','Hoạt động'],['locked','Đã khóa']].map(([k,l])=>this.seg(s.stF===k,l,()=>this.setState({stF:k}))),
+      colsOpen:s.colsOpen, toggleCols:()=>this.setState(x=>({colsOpen:!x.colsOpen})),
+      colOpts:[['phone','Số điện thoại'],['login','Đăng nhập gần nhất'],['created','Ngày tạo']].map(([k,label])=>({label,on:s.cols[k],toggle:()=>this.setState(x=>({cols:{...x.cols,[k]:!x.cols[k]}}))})),
+      showLogin:s.cols.login, showCreated:s.cols.created, uCols:colsT,
+      hasSel:s.sel.length>0, selCount:s.sel.length, clearSel:()=>this.setState({sel:[]}), bulkLock:()=>this.toast('warning','Cần nhập lý do','Mở modal khóa cho '+s.sel.length+' tài khoản (như O03).'),
+      allSel:urows.length>0&&urows.every(r=>s.sel.includes(r.i)), toggleAll:()=>this.setState(x=>({sel:urows.every(r=>x.sel.includes(r.i))?[]:urows.map(r=>r.i)})),
+      sortName:()=>this.setState(x=>({sort:-x.sort})), sortArrow:s.sort>0?'▲':'▼',
+      uRows:urows.map(mapU), uCount:urows.length,
+      drawerOpen:s.drawer!==null, dU:dRow, closeDrawer:()=>this.setState({drawer:null}),
+      createOpen:s.create, cRoles:['Staff','Guide'].map(r=>({label:r,bd:s.cRole===r?'2px solid #14213D':'1px solid #C5C3BD',bg:s.cRole===r?'#EEF1F7':'#FFFFFF',pick:()=>this.setState({cRole:r})})),
+      cName:s.cName, cOnName:e=>this.setState({cName:e.target.value}), cEmail:s.cEmail, cOnEmail:e=>this.setState({cEmail:e.target.value}),
+      cNameErr:s.cTried&&!s.cName.trim(), cNameBd:s.cTried&&!s.cName.trim()?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      cEmailErr:s.cTried&&(emailBad||emailDup), cEmailMsg:emailDup?'Email này đã được dùng cho tài khoản khác.':'Email chưa đúng định dạng.', cEmailBd:s.cTried&&(emailBad||emailDup)?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      submitCreate:()=>{ if(!s.cName.trim()||emailBad||emailDup){ this.setState({cTried:true}); return; } this.setState({create:false}); this.toast('success','Đã tạo tài khoản '+s.cRole,'Email đặt mật khẩu đã gửi tới '+s.cEmail.trim()); },
+      // O03
+      uRole:s.uRoleSaved, uSt:s.locked?UST.locked:UST.active, lockLabel:s.locked?'Mở khóa tài khoản':'Khóa tài khoản', lockBd:s.locked?'#C5C3BD':'#BE123C', lockC:s.locked?'#14213D':'#BE123C', lockBtnBg:s.locked?'#14213D':'#BE123C',
+      uTabs:[['profile','Hồ sơ'],['role','Quyền'],['sess','Phiên'],['links','Liên kết ngoài'],['audit','Hoạt động'],['groups','Nhóm đã dẫn']].map(([k,l])=>this.tab(s.uTab===k,l,()=>this.setState({uTab:k}))),
+      tProfile:s.uTab==='profile', tRole:s.uTab==='role', tSess:s.uTab==='sess', tLinks:s.uTab==='links', tAudit:s.uTab==='audit', tGroups:s.uTab==='groups',
+      pFields:[['Họ và tên','Đinh Văn Toàn'],['Mã người dùng','GD-0007',null,true,'Do hệ thống cấp, không sửa được'],['Email','toan.dinh@rentrekk.vn'],['Số điện thoại','0904 221 908'],['Ngày sinh','09/08/1990'],['Bắt đầu hành nghề','01/04/2020',null,false,'→ 6 năm kinh nghiệm'],['Địa chỉ',null,'1 / -1'],['Giới thiệu','Guide chính tuyến Fansipan và Tà Xùa, chứng chỉ sơ cứu vùng núi.','1 / -1']].map(([label,v,span,ro,hint])=>({label,value:v||'Chưa cập nhật',c:v?(ro?'#4A5870':'#151A24'):'#5E6B80',bg:ro?'#F5F4F1':'#FFFFFF',bd:ro?'#DDDAD3':'#C5C3BD',span:span||'auto',hint:hint||'',hd:hint?'block':'none'})),
+      saveProfile:()=>this.toast('success','Đã lưu hồ sơ','Thay đổi được ghi vào nhật ký.'),
+      roleCards:[['Customer','Đặt tour, thuê đồ, theo dõi đơn'],['Staff','Điều phối chuyến được giao, xử lý đơn thuê'],['Guide','Xem nhóm phụ trách, điểm danh'],['Admin','Toàn quyền cấu hình hệ thống']].map(([r,desc])=>({label:r,desc,on:s.uRole===r,bd:s.uRole===r?'1.5px solid #14213D':'1px solid #DDDAD3',bg:s.uRole===r?'#EEF1F7':'#FFFFFF',pick:()=>this.setState({uRole:r})})),
+      roleChanged:s.uRole!==s.uRoleSaved, saveRole:()=>{ this.setState({uRoleSaved:s.uRole}); this.toast('success','Đã đổi vai trò','Đinh Văn Toàn → '+s.uRole); },
+      sessions:[['f-7a21','12/10 06:10','11/11 06:10',null,null,false],['f-7a21','15/10 06:12','14/11 06:12',null,null,true],['f-6c09','01/10 20:44','31/10 20:44',null,null,false],['f-51e3','20/08 09:02','19/09 09:02','03/09 10:15','Người dùng đăng xuất',false]].map(([fam,created,exp,rev,reason,chain],i)=>{ const r=s.locked||s.revoked.includes(i)?(rev||'18/10 08:31'):rev; const rr=s.locked&&!rev?'Admin khóa tài khoản':s.revoked.includes(i)&&!rev?'Admin thu hồi':reason; const live=!r; return {fam,created,exp,revoked:r||'Chưa cập nhật',rc:r?'#151A24':'#5E6B80',reason:rr||'—',rrc:rr?'#343F52':'#5E6B80',chainD:chain?'inline':'none',dot:live?'#166534':'#9AA1AC',bg:live?'#FFFFFF':'#F5F4F1',dis:!live,btn:live?'Thu hồi':'Đã thu hồi',bbd:live?'#BE123C':'#DDDAD3',bc:live?'#BE123C':'#5E6B80',revoke:()=>{ if(!live) return; this.setState(x=>({revoked:[...x.revoked,i]})); this.toast('success','Đã thu hồi phiên','Chuỗi '+fam+' bị đăng xuất.'); }}; }),
+      uAudit:[['18/10 06:12','Đinh Văn Toàn','Đăng nhập'],['17/10 21:05','Đinh Văn Toàn','Điểm danh 7 người · Hoạt động “Leo đỉnh đón bình minh”'],['16/10 11:02','Hoàng Quốc Bảo','Cập nhật hồ sơ: Giới thiệu'],['15/10 14:30','Phan Thị Ngọc','Gán vào nhóm Mây 1 · Fansipan 14/11'],['03/09 10:15','Đinh Văn Toàn','Đăng xuất']].map(([at,actor,text])=>({at,actor,text})),
+      ledGroups:[['Chinh phục Fansipan qua Trạm Tôn','Th 7, 14/11/2026','Mây 1','7/8','Open','info','Mở bán'],['Sống lưng khủng long Tà Xùa','Th 7, 21/11/2026','Sống lưng 1','5/8','Open','info','Mở bán'],['Chinh phục Fansipan qua Trạm Tôn','Th 7, 10/10/2026','Mây 2','8/8','c','success','Hoàn thành'],['Lảo Thẩn – nóc nhà Y Tý','CN, 27/09/2026','Y Tý 1','6/8','c','success','Hoàn thành']].map(([tour,date,group,size,_,g,label])=>({tour,date,group,size,...B(label,g)})),
+      openLock:()=>this.setState({lockOpen:true,lockErr:false,lockReason:''}), closeLock:()=>this.setState({lockOpen:false}), lockOpen:s.lockOpen, willLock:!s.locked,
+      lockTitle:s.locked?'Mở khóa tài khoản Đinh Văn Toàn':'Khóa tài khoản Đinh Văn Toàn', lockConfirm:s.locked?'Mở khóa':'Khóa tài khoản',
+      lockReason:s.lockReason, onLockReason:e=>this.setState({lockReason:e.target.value,lockErr:false}), lockErr:s.lockErr, lockRBd:s.lockErr?'1.5px solid #BE123C':'1px solid #C5C3BD',
+      confirmLock:()=>{ if(!this.state.lockReason.trim()){ this.setState({lockErr:true}); return; } const was=this.state.locked; this.setState({locked:!was,lockOpen:false}); this.toast(was?'success':'warning',was?'Đã mở khóa':'Đã khóa tài khoản',was?'Người dùng đăng nhập lại được.':'Đã thu hồi 3 phiên đăng nhập.'); },
+      // O04
+      catTabs:[['cats','Danh mục'],['locs','Địa điểm']].map(([k,l])=>this.tab(s.catTab===k,l,()=>this.setState({catTab:k}))), tCats:s.catTab==='cats', tLocs:s.catTab==='locs',
+      catAddLabel:s.catTab==='cats'?'Thêm danh mục':'Thêm địa điểm', showHidden:s.showHidden, toggleHidden:()=>this.setState(x=>({showHidden:!x.showHidden})),
+      cats:[['Leo núi','Tour','Cung đường lên đỉnh, độ khó trung bình – cao',5,'pub'],['Săn mây','Tour','Điểm ngắm biển mây, 1–2 ngày',3,'pub'],['Dã ngoại','Tour',null,1,'pub'],['Lều trại','Thiết bị','Lều 2–4 người',6,'pub'],['Đồ ngủ','Thiết bị',null,4,'pub'],['Cắm trại','Combo','Combo đủ đồ cho nhóm',2,'pub'],['Đi biển','Tour','Tạm dừng khai thác',0,'arch']].map((c,i)=>({c,i})).filter(({i})=>s.showHidden||!s.hidden[i]).map(({c,i})=>{ const h=!!s.hidden[i]; return {name:c[0],type:c[1],desc:c[2]||'Chưa cập nhật',dc:c[2]?'#343F52':'#5E6B80',used:c[3],st:h?B('Đã ẩn','neutral'):TST[c[4]],op:h?.55:1,act:h?'Khôi phục':'Ẩn',toggle:()=>{ this.setState(x=>({hidden:{...x.hidden,[i]:!x.hidden[i]}})); this.toast(h?'success':'info',h?'Đã khôi phục':'Đã ẩn danh mục',c[0]); }}; }),
+      locs:[['Trạm Tôn','Đèo Ô Quy Hồ, thị xã Sa Pa, Lào Cai','22.3497','103.7747',1],['Bản Tà Xùa','Xã Tà Xùa, huyện Bắc Yên, Sơn La','21.3200','104.4500',1],['Y Tý','Xã Y Tý, huyện Bát Xát, Lào Cai','22.6250','103.6200',2],['Bản Đôn','Xã Lũng Cao, huyện Bá Thước, Thanh Hóa','20.3600','105.1100',1]].map((l,i)=>({name:l[0],addr:l[1],ll:l[2]+', '+l[3],used:l[4],bg:s.loc===i?'#EEF1F7':'#FFFFFF',sh:s.loc===i?'inset 3px 0 0 #14213D':'none',pick:()=>this.setState({loc:i})})),
+      locSel:(()=>{ const L=[['Trạm Tôn','Đèo Ô Quy Hồ, thị xã Sa Pa, Lào Cai','22.3497','103.7747'],['Bản Tà Xùa','Xã Tà Xùa, huyện Bắc Yên, Sơn La','21.3200','104.4500'],['Y Tý','Xã Y Tý, huyện Bát Xát, Lào Cai','22.6250','103.6200'],['Bản Đôn','Xã Lũng Cao, huyện Bá Thước, Thanh Hóa','20.3600','105.1100']][s.loc]; return {name:L[0],addr:L[1],lat:L[2],lng:L[3]}; })(),
+      // O05
+      tStatusOpts:[['all','Tất cả'],['pub','Đã xuất bản'],['draft','Nháp'],['arch','Lưu trữ']].map(([k,l])=>this.seg(s.tStatus===k,l,()=>this.setState({tStatus:k}))),
+      allVers:s.allVers, toggleVers:()=>this.setState(x=>({allVers:!x.allVers})),
+      tours:tlist.map(({t,old})=>({name:old?'↳ '+t[0]:t[0],cat:t[1],loc:t[2],dur:t[3],price:vnd(t[4]),ver:t[5],lockD:t[6]?'inline':'none',st:TST[t[7]],up:t[8]?t[8]+' chuyến':'0',upC:t[8]?'#151A24':'#5E6B80',bg:old?'#F5F4F1':'#FFFFFF',indent:old?'24px':'0'})),
+      // O06/O07
+      o6Chips:[this.chip(locked,'Đã khóa lịch trình',()=>this.setState({locked6:true,ver:3})),this.chip(!locked,'Bản nháp mới (sửa được)',()=>this.setState({locked6:false,ver:4}))],
+      o6Ver:s.ver, o6St:locked?TST.pub:TST.draft, o6Locked:locked, o6PubLabel:locked?'Đã xuất bản':'Xuất bản v4',
+      o6Publish:()=>{ if(locked) return; this.toast('success','Đã xuất bản v4','Chuyến mới sẽ dùng phiên bản này. Chuyến cũ giữ v3.'); },
+      newVersion:()=>{ this.setState({locked6:false,ver:4,versOpen:false,o6Tab:'itin'}); this.toast('success','Đã tạo phiên bản v4 (Nháp)','Sao chép lịch trình, đồ cấp, đồ tự mang và ảnh từ v3.'); },
+      openVers:()=>this.setState({versOpen:true}), closeVers:()=>this.setState({versOpen:false}), versOpen:s.versOpen,
+      o6Tabs:[['info','Thông tin chung'],['img','Ảnh'],['itin','Lịch trình'],['prep','Đồ tự mang'],['prov','Đồ được cấp'],['posts','Bài viết'],['rec','Lịch lặp'],['trips','Chuyến']].map(([k,l])=>this.tab(s.o6Tab===k,l,()=>{ if(k==='rec'){ window.location.hash='o08'; return; } this.setState({o6Tab:k}); })),
+      o6tInfo:s.o6Tab==='info', o6tImg:s.o6Tab==='img', o6tItin:s.o6Tab==='itin', o6tPrep:s.o6Tab==='prep', o6tProv:s.o6Tab==='prov', o6tPosts:s.o6Tab==='posts', o6tTrips:s.o6Tab==='trips',
+      infoFields:[['Tên tour','Chinh phục Fansipan qua cung Trạm Tôn','span 2'],['Danh mục','Leo núi'],['Địa điểm chính','Trạm Tôn'],['Số ngày','3'],['Số đêm','2'],['Tổng thời lượng (phút)','3.570'],['Giá cơ sở / người','2.450.000 ₫'],['Mô tả','Cung Trạm Tôn là đường lên Fansipan đẹp và phổ biến nhất: rừng trúc, lán 2.800 m, đỉnh 3.143 m lúc bình minh.','1 / -1']].map(([label,value,span])=>({label,value,span:span||'auto'})),
+      imgs:[0,1,2,3].map(i=>({n:i+1,pd:s.primary===i?'inline':'none',bd:s.primary===i?'2px solid #14213D':'1px solid #DDDAD3',primary:()=>this.setState({primary:i})})),
+      itinHint:locked?'Chỉ xem. Tạo phiên bản mới để sửa lịch trình.':'Kéo thẻ giữa các cột để đổi ngày. Số ngày tối đa = 3 (theo Thông tin chung).',
+      days,
+      prepRows:[['Giày trekking cổ cao','Đã đi quen'],['Áo giữ nhiệt',null],['Đèn pin đội đầu','Pin dự phòng'],['Thuốc cá nhân',null],['Căn cước công dân','Thủ tục vào vườn quốc gia'],['Bình nước 1 lít',null]].map(([name,note])=>({name,note:note||'Chưa cập nhật',nc:note?'#151A24':'#5E6B80'})),
+      provRows:[['Lều 4 người chống bão','LEU-4P-CB',1,'Mỗi nhóm',null],['Túi ngủ −5°C · M','TN-5-M',1,'Mỗi người','Thu lại khi xuống núi'],['Gậy trekking carbon','GTK-CB-01',2,'Mỗi người',null],['Bộ sơ cứu','SC-BO-01',1,'Mỗi chuyến','Guide trưởng giữ']].map(([name,sku,qty,basis,note])=>({name,sku,qty,basis,note:note||'Chưa cập nhật',nc:note?'#343F52':'#5E6B80'})), o6RoBg:locked?'#F5F4F1':'#FFFFFF',
+      tPosts:[['Chuẩn bị gì cho chuyến Fansipan 3 ngày 2 đêm','Cẩm nang'],['Giữ ấm khi ngủ lều ở độ cao 2.800 m','Kỹ năng'],['Nhận biết và xử lý say độ cao','An toàn']].map(([title,type],i)=>({n:i+1,title,type})),
+      versions:[[s.ver===4?4:null],[3],[2],[1]].filter(x=>x[0]).map(([v])=>{ const st=v===4?TST.draft:v===3?TST.pub:TST.arch; const on=s.cmp.includes(v); return {ver:v,st,on,bg:on?'#EEF1F7':'#FFFFFF',meta:v===4?'Tạo lúc 18/10/2026 · chưa khóa':v===3?'Tạo 02/09/2026 · khóa 05/10/2026':v===2?'Tạo 10/03/2026 · khóa 01/04/2026':'Tạo 14/01/2025 · khóa 20/02/2025',trips:v===4?0:v===3?8:v===2?4:6,toggle:()=>this.setState(x=>({cmp:x.cmp.includes(v)?x.cmp.filter(y=>y!==v):[...x.cmp.slice(-1),v]}))}; }),
+      diff:[['Thêm','Ngày 1','10:30 Ăn trưa tại lán 2.200 m · 60 phút','add'],['Sửa','Ngày 1','11:30 Leo lên lán 2.800 m · 210 → 240 phút','mod'],['Bỏ','Ngày 2','05:00 Leo đỉnh (giờ cũ)','del'],['Thêm','Ngày 2','03:30 Leo đỉnh đón bình minh','add'],['Giữ','Ngày 3','07:00 Xuống núi về Trạm Tôn','same']].map(([kind,day,text,k])=>({kind,day,text,bg:k==='add'?'#E7F6EC':k==='del'?'#FFE4E8':k==='mod'?'#FEF3C7':'#FFFFFF',fg:k==='add'?'#166534':k==='del'?'#BE123C':k==='mod'?'#B45309':'#4A5870',td:k==='del'?'line-through':'none'})),
+      // O08
+      rActive:s.active, toggleActive:()=>this.setState(x=>({active:!x.active})), swBg:s.active?'#14213D':'#C5C3BD', swX:s.active?'23px':'3px',
+      freqOpts:[['daily','Hằng ngày'],['weekly','Hằng tuần'],['monthly','Hằng tháng']].map(([k,l])=>this.seg(s.freq===k,l,()=>this.setState({freq:k}))),
+      rIv:s.iv, ivUnit:s.freq==='daily'?'ngày':s.freq==='weekly'?'tuần':'tháng', ivDec:()=>this.setState(x=>({iv:Math.max(1,x.iv-1)})), ivInc:()=>this.setState(x=>({iv:Math.min(4,x.iv+1)})),
+      isWeekly:s.freq==='weekly', dowErr:s.freq==='weekly'&&!s.dow.length,
+      dowOpts:[[1,'T2'],[2,'T3'],[3,'T4'],[4,'T5'],[5,'T6'],[6,'T7'],[0,'CN']].map(([v,label])=>{ const on=s.dow.includes(v); return {label,on,bd:on?'#14213D':'#C5C3BD',bg:on?'#14213D':'#FFFFFF',c:on?'#FFFFFF':'#14213D',toggle:()=>this.setState(x=>({dow:x.dow.includes(v)?x.dow.filter(y=>y!==v):[...x.dow,v]}))}; }),
+      dowHead:['T2','T3','T4','T5','T6','T7','CN'], cal:cells,
+      calSummary:s.active?`${created} ngày đã có chuyến · ${toCreate} chuyến mới sẽ được tạo trong tháng này.`:'Lịch lặp đang tắt — không tạo chuyến mới.',
+      newCount:s.active?toCreate:0, genDis:!s.active||(s.freq==='weekly'&&!s.dow.length), genBg:!s.active||(s.freq==='weekly'&&!s.dow.length)?'#DDDAD3':'#14213D', genC:!s.active||(s.freq==='weekly'&&!s.dow.length)?'#4A5870':'#FFFFFF',
+      genTrips:()=>this.toast('success',`Đã tạo ${toCreate} chuyến (Nháp)`,'Bỏ qua '+created+' ngày đã có chuyến.')
+    };
+  }
+}
+</script>
+</body>
+</html>

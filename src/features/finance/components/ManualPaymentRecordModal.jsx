@@ -59,7 +59,7 @@ export default function ManualPaymentRecordModal({
                   background: '#fef2f2',
                   padding: '8px 12px',
                   borderRadius: 6,
-                  fontSize: 13,
+                  fontSize: "var(--font-size-meta)",
                 }}
               >
                 ⚠️ {error}

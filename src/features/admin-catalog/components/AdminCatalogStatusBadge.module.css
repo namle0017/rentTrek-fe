@@ -5,8 +5,8 @@
   padding: 2px 10px;
   border: 1px solid transparent;
   border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
   white-space: nowrap;
 }
 

@@ -1,6 +1,6 @@
 .page {
   display: grid;
-  gap: 24px;
+  gap: var(--space-section);
   max-width: 1280px;
   padding: 32px 24px 64px;
   margin: 0 auto;
@@ -8,7 +8,7 @@
 .pageHeader h1 {
   margin: 4px 0;
   color: var(--color-primary-heading);
-  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-size: var(--font-size-page-title);
 }
 .pageHeader p {
   margin: 0;
@@ -16,8 +16,8 @@
 }
 .kicker {
   color: var(--color-accent);
-  font-size: 0.7rem;
-  font-weight: 800;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.13em;
 }
 .filters {
@@ -29,14 +29,15 @@
 .filters label {
   display: grid;
   gap: 4px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 .filters select,
 .filters input {
-  min-height: 44px;
+  min-height: var(--control-min-height);
   padding: 8px 12px;
   font: inherit;
+  font-size: var(--font-size-control);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
@@ -53,13 +54,13 @@
 .table th {
   padding: 12px 16px;
   color: var(--color-text-muted);
-  font-size: 0.75rem;
+  font-size: var(--font-size-label);
   text-align: left;
   border-bottom: 1px solid var(--color-border);
 }
 .table td {
   padding: 16px;
-  font-size: 0.85rem;
+  font-size: var(--font-size-body);
   vertical-align: top;
   border-bottom: 1px solid var(--color-border);
 }
@@ -79,8 +80,8 @@
   display: inline-block;
   padding: 2px 8px;
   color: var(--color-primary);
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   background: var(--color-bg-warm);
   border-radius: 999px;
 }
@@ -93,7 +94,7 @@
 }
 .actions button {
   width: 100%;
-  min-height: 44px;
+  min-height: var(--control-min-height);
 }
 .srOnly {
   position: absolute;
@@ -140,7 +141,7 @@
   .table td[data-label]::before {
     display: block;
     color: var(--color-text-muted);
-    font-size: 0.7rem;
+    font-size: var(--font-size-body);
     content: attr(data-label);
   }
 }

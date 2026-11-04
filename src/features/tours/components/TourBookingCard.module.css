@@ -12,8 +12,8 @@
 .eyebrow {
   margin-bottom: 6px;
   color: var(--color-text-muted);
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.06em;
 }
 
@@ -24,8 +24,8 @@
 }
 .price {
   color: #173d2d;
-  font-size: clamp(1.65rem, 3vw, 2rem);
-  font-weight: 800;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
 }
 
 .priceUnit,
@@ -33,7 +33,7 @@
 .emptyText,
 .unavailable {
   color: #69766f;
-  font-size: 0.78rem;
+  font-size: var(--font-size-label);
 }
 
 .deposit,
@@ -56,8 +56,8 @@
   padding: 0;
   margin-bottom: 10px;
   color: #263d33;
-  font-size: 0.84rem;
-  font-weight: 700;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* float để legend không cắt border-top của fieldset */
@@ -100,11 +100,11 @@
   display: grid;
 }
 .tripOption strong {
-  font-size: 0.86rem;
+  font-size: var(--font-size-meta);
 }
 .tripOption small {
   color: #69766f;
-  font-size: 0.74rem;
+  font-size: var(--font-size-meta);
 }
 .tripOption:has(input:disabled) {
   cursor: not-allowed;
@@ -143,8 +143,8 @@
   padding: 0;
   color: #173d2d;
   font: inherit;
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   background: #fff;
   border: 1px solid #d8ddd8;
@@ -164,7 +164,7 @@
 }
 .counterValue {
   min-width: 28px;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   text-align: center;
 }
 
@@ -175,8 +175,8 @@
   padding: 13px 14px;
   margin-bottom: 14px;
   color: #d9f3dd;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-body);
   background: #204b39;
   border-radius: 10px;
 }
@@ -188,11 +188,12 @@
 
 .btnBook {
   width: 100%;
-  min-height: 48px;
+  min-height: var(--control-min-height);
   padding: 13px 18px;
   color: #fff;
   font: inherit;
-  font-weight: 700;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   background: #e0674a;
   border: 0;

@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314213D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-weight='800' font-size='20' text-anchor='middle' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECEAE5;color:#151A24;font-family:'Be Vietnam Pro',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#31476F;text-underline-offset:2px}
+a:hover{color:#14213D}
+*{box-sizing:border-box}
+input,textarea,button{font-family:inherit}
+@keyframes rtspin{to{transform:rotate(360deg)}}
+@keyframes rtshimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+</style>
+</helmet>
+
+<div style="padding:64px;display:flex;flex-direction:column;gap:96px;width:max-content">
+
+<div style="display:flex;align-items:flex-end;gap:32px;width:1800px">
+  <div>
+    <div style="font-size:13px;font-weight:600;letter-spacing:.12em;color:#31476F">RENTREKK · BATCH 2</div>
+    <h1 style="margin:8px 0 0;font-size:48px;line-height:56px;font-weight:700;color:#14213D;letter-spacing:-.02em">Khám phá, Tour, Đặt chuyến · C01–C05 + C04P</h1>
+    <p style="margin:8px 0 0;font-size:15px;color:#4A5870">Web 1440px. Luồng bấm được: C03 “Đặt ngay” → C04 bốn bước → C04P chuyển khoản VietQR → C05 kết quả. Chỉ còn một phương thức thanh toán: chuyển khoản (SePay VA). Nút trạng thái phía trên mỗi khung mở các trường hợp trong spec.</p>
+  </div>
+  <div style="margin-left:auto;display:flex;gap:20px;font-size:14px;font-weight:600"><a href="RenTrekk Design System.dc.html">Design System</a><a href="RenTrekk Batch 1 - Tai khoan.dc.html">Batch 1</a><a href="#c04">C04</a><a href="#c04p">C04P</a><a href="#c05">C05</a></div>
+</div>
+
+<!-- ================= C01 ================= -->
+<section id="c01" data-screen-label="C01 Trang chủ" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C01</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Trang chủ / Khám phá</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c1Chips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+          <a href="RenTrekk Batch 1 - Tai khoan.dc.html#a02" style="height:40px;padding:0 12px;display:flex;align-items:center;color:#FFFFFF;font-size:14px;font-weight:500;text-decoration:none">Đăng ký</a>
+          <a href="RenTrekk Batch 1 - Tai khoan.dc.html#a01" style="height:40px;padding:0 16px;display:flex;align-items:center;border-radius:8px;border:1px solid #536A93;color:#FFFFFF;font-size:14px;font-weight:600;text-decoration:none">Đăng nhập</a>
+        </div>
+      </header>
+      <div style="background:#FFFFFF;border-bottom:1px solid #DDDAD3;padding:28px 80px 20px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:flex-end;gap:24px">
+          <div style="flex:1"><div style="font-size:13px;color:#4A5870">Xin chào! Bạn đang xem với tư cách khách · <a href="RenTrekk Batch 1 - Tai khoan.dc.html#a01">Đăng nhập</a> để đặt chuyến nhanh hơn</div><h3 style="margin:6px 0 0;font-family:'Playfair Display',Georgia,serif;font-size:36px;line-height:44px;font-weight:700;color:#14213D">Khám phá chuyến đi</h3></div>
+          <span style="font-size:13px;color:#4A5870">Giờ hiển thị theo GMT+7</span>
+        </div>
+        <div role="search" style="display:grid;grid-template-columns:1.4fr 1.3fr 0.9fr auto;border:1px solid #C5C3BD;border-radius:12px;overflow:hidden">
+          <div style="padding:10px 16px;border-right:1px solid #DDDAD3"><div style="font-size:12px;font-weight:600;color:#4A5870">Địa điểm</div><div style="font-size:15px;font-weight:500;margin-top:2px;display:flex;justify-content:space-between">Tất cả địa điểm<span style="color:#5E6B80">▾</span></div></div>
+          <div style="padding:10px 16px;border-right:1px solid #DDDAD3"><div style="font-size:12px;font-weight:600;color:#4A5870">Khởi hành trong khoảng</div><div style="font-size:15px;font-weight:500;margin-top:2px">01/11 → 30/11/2026</div></div>
+          <div style="padding:10px 16px;border-right:1px solid #DDDAD3"><div style="font-size:12px;font-weight:600;color:#4A5870">Số người</div><div style="font-size:15px;font-weight:500;margin-top:2px;display:flex;justify-content:space-between">2 người<span style="color:#5E6B80">▾</span></div></div>
+          <a href="#c02" style="padding:0 28px;background:#14213D;color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;text-decoration:none">Tìm chuyến</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <sc-for list="{{ c1When }}" as="w" hint-placeholder-count="4"><button onClick="{{ w.on }}" style="height:36px;padding:0 14px;border-radius:999px;border:1px solid {{ w.bd }};background:{{ w.bg }};color:{{ w.c }};font-size:13px;font-weight:600;cursor:pointer">{{ w.label }}</button></sc-for>
+          <span style="width:1px;height:22px;background:#DDDAD3;margin:0 6px"></span>
+          <sc-for list="{{ c1CatOpts }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.on }}" style="height:36px;padding:0 14px;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:500;cursor:pointer">{{ c.label }}</button></sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ c1Loaded }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:32px 80px 0;display:flex;flex-direction:column;gap:48px">
+          <div>
+            <div style="display:flex;align-items:baseline;margin-bottom:16px;gap:12px"><h3 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:700;color:#14213D">Chuyến sắp khởi hành</h3><span style="font-size:14px;color:#4A5870;flex:1">{{ c1TripCount }} chuyến đang mở bán</span><a href="#c02" style="font-size:14px;font-weight:600">Xem tất cả →</a></div>
+            <sc-if value="{{ c1HasTrips }}" hint-placeholder-val="{{ true }}">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+              <sc-for list="{{ c1Trips }}" as="t" hint-placeholder-count="8">
+                <a href="#c03" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden;text-decoration:none;color:#151A24" style-hover="box-shadow:0 8px 24px rgba(20,33,61,.12)">
+                  <div style="position:relative;height:160px;background:#ADBBD3 url({{ t.img }}) center/cover no-repeat">
+                    <div style="position:absolute;top:10px;left:10px;background:#FFFFFF;border-radius:8px;padding:4px 10px;text-align:center;line-height:16px"><div style="font-size:11px;color:#4A5870">{{ t.dow }}</div><div style="font-size:20px;font-weight:700;color:#14213D;line-height:22px">{{ t.day }}</div><div style="font-size:11px;color:#4A5870">{{ t.mon }}</div></div>
+                    <span style="position:absolute;top:10px;right:10px;display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;background:{{ t.sbg }};color:{{ t.sfg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ t.sic }}</span>{{ t.slots }}</span>
+                  </div>
+                  <div style="padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1">
+                    <div style="font-size:12px;color:#4A5870">{{ t.cat }} · {{ t.loc }}</div>
+                    <div style="font-size:15px;line-height:21px;font-weight:600;min-height:42px">{{ t.tour }}</div>
+                    <div style="display:flex;gap:10px;font-size:12px;color:#343F52"><span>{{ t.dur }}</span><span>Tập trung {{ t.time }}</span><span><span style="color:#A4532F" aria-hidden="true">★</span> {{ t.rating }}</span></div>
+                    <div style="margin-top:auto;padding-top:10px;border-top:1px solid #ECEAE5;display:flex;align-items:baseline;justify-content:space-between"><span style="font-size:17px;font-weight:700">{{ t.price }}<span style="font-size:12px;font-weight:400;color:#4A5870"> /người</span></span><span style="font-size:13px;font-weight:600;color:#31476F">Xem chuyến →</span></div>
+                  </div>
+                </a>
+              </sc-for>
+            </div>
+            </sc-if>
+            <sc-if value="{{ c1NoTrips }}" hint-placeholder-val="{{ false }}"><div style="border:1px dashed #C5C3BD;border-radius:12px;padding:40px;text-align:center;background:#FFFFFF;font-size:14px;color:#4A5870">Không có chuyến nào trong khoảng này. Thử khoảng ngày khác.</div></sc-if>
+          </div>
+
+          <div>
+            <div style="display:flex;align-items:baseline;margin-bottom:16px"><h3 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:700;color:#14213D;flex:1">Thuê đồ cho chuyến đi</h3><a href="RenTrekk Batch 3A - Thue thiet bi.dc.html#c06" style="font-size:14px;font-weight:600">Thuê thiết bị →</a></div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+              <sc-for list="{{ rentals }}" as="r" hint-placeholder-count="4">
+                <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden;display:flex">
+                  <div style="width:96px;flex:none;background:#ADBBD3 url(https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=300&q=60&auto=format) center/cover no-repeat"></div>
+                  <div style="padding:12px 14px;display:flex;flex-direction:column;gap:3px"><div style="font-size:12px;color:#4A5870">{{ r.kind }}</div><div style="font-size:14px;font-weight:600;line-height:20px">{{ r.name }}</div><div style="font-size:14px;font-weight:700">Từ {{ r.price }}<span style="font-size:12px;font-weight:400;color:#4A5870">/ngày</span></div></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="padding-bottom:56px">
+            <div style="display:flex;align-items:baseline;margin-bottom:20px"><h3 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:32px;font-weight:700;color:#14213D;flex:1">Bài hướng dẫn mới</h3><a href="#" style="font-size:14px;font-weight:600">Cẩm nang →</a></div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+              <sc-for list="{{ posts }}" as="p" hint-placeholder-count="3">
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="height:180px;border-radius:12px;background:#ADBBD3 url(https://images.unsplash.com/photo-1551632811-561732d1e306?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center"></div>
+                  <div style="display:flex;gap:8px;font-size:12px;color:#4A5870"><span style="font-weight:600;color:#31476F">{{ p.type }}</span>·<span>{{ p.date }}</span></div>
+                  <div style="font-size:18px;line-height:26px;font-weight:600">{{ p.title }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ c1Loading }}" hint-placeholder-val="{{ false }}">
+        <div aria-busy="true" style="padding:48px 80px 56px;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;gap:10px"><sc-for list="{{ five }}" as="x" hint-placeholder-count="5"><span style="width:110px;height:40px;border-radius:999px;background:#ECEAE5"></span></sc-for></div>
+          <div style="width:260px;height:32px;border-radius:6px;background:#DDDAD3;margin-top:24px"></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+            <sc-for list="{{ three }}" as="x" hint-placeholder-count="3">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+                <div style="height:220px;background:linear-gradient(90deg,#ECEAE5 0,#F5F4F1 50%,#ECEAE5 100%);background-size:800px 100%;animation:rtshimmer 1.4s linear infinite"></div>
+                <div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px"><span style="width:60%;height:12px;border-radius:4px;background:#ECEAE5"></span><span style="width:90%;height:18px;border-radius:4px;background:#ECEAE5"></span><span style="width:40%;height:12px;border-radius:4px;background:#ECEAE5"></span><span style="width:45%;height:22px;border-radius:4px;background:#DDDAD3;margin-top:8px"></span></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ c1Error }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:64px 80px 80px;display:flex;justify-content:center">
+          <div role="alert" style="width:560px;border:1px solid #BE123C;background:#FFE4E8;border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;gap:10px;align-items:center;color:#BE123C;font-size:18px;font-weight:700"><span aria-hidden="true">✕</span>Không tải được nội dung</div>
+            <div style="font-size:15px;line-height:24px;color:#232B38">Kết nối tới máy chủ bị gián đoạn. Kiểm tra mạng rồi thử lại. Ô tìm kiếm phía trên vẫn dùng được.</div>
+            <button onClick="{{ c1Retry }}" style="align-self:flex-start;margin-top:6px;height:44px;padding:0 18px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Thử lại</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <footer style="background:#0E182D;color:#ADBBD3;padding:32px 80px;display:flex;gap:64px;font-size:13px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <div style="display:flex;flex-direction:column;gap:6px"><b style="color:#FFFFFF">Khám phá</b><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px"><b style="color:#FFFFFF">Hỗ trợ</b><span>Chính sách hoàn tiền</span><span>Hướng dẫn thuê đồ</span><span>Liên hệ</span></div>
+        <span style="margin-left:auto;align-self:flex-end">Giờ hiển thị theo GMT+7</span>
+      </footer>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C01 · FR-T06<br>· Tìm kiếm: Địa điểm → LOCATIONS.name; khoảng ngày lọc TRIPS.start_at; số người ≤ chỗ còn (công thức ở C03) → chuyển C02 kèm query<br>· Chip → CATEGORIES.name theo category_type (loại tour)<br>· Tour nổi bật → TOURS status = Published; card như C02<br>· Chuyến sắp khởi hành → TRIPS status = Open, sắp start_at tăng dần; giá → price_per_person; badge chỗ còn: ≤ 4 = warning, còn lại = info<br>· Thuê nhiều → PRODUCTS / PRODUCT_BUNDLES status đang bán; “Từ” = MIN(RENTAL_PRICE_TIERS.daily_price)<br>· Bài mới → POSTS status = Published, sắp published_at; loại = post_type<br>· Khối nào rỗng thì ẩn cả khối<br>· Đang tải: skeleton, không hiện 0 ₫<br>· Lỗi: banner + Thử lại; hero tìm kiếm vẫn hoạt động</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C02 ================= -->
+<section id="c02" data-screen-label="C02 Danh sách tour" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C02</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Danh sách tour</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/tours</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <button onClick="{{ c2Reset }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:13px;font-weight:600;cursor:pointer">Có kết quả</button>
+      <button onClick="{{ c2MakeEmpty }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:13px;font-weight:600;cursor:pointer">Không có kết quả</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:4px"><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#FFFFFF;border-bottom:3px solid #E29A78">Tour</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Thuê thiết bị</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:12px"><span style="height:40px;padding:0 12px;display:flex;align-items:center;color:#FFFFFF;font-size:14px;font-weight:500">Giỏ thuê</span><span style="height:40px;padding:0 16px;display:flex;align-items:center;border-radius:8px;border:1px solid #536A93;color:#FFFFFF;font-size:14px;font-weight:600">Đăng nhập</span></div>
+      </header>
+      <div style="padding:40px 80px 64px;display:flex;flex-direction:column;gap:24px">
+        <div><div style="font-size:13px;color:#4A5870">Trang chủ / Tour</div><h3 style="font-family:'Playfair Display',Georgia,serif;margin:6px 0 0;font-size:36px;line-height:44px;font-weight:700;color:#14213D">Tour trekking</h3></div>
+        <div style="display:grid;grid-template-columns:280px minmax(0,1fr);gap:32px;align-items:start">
+          <aside style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:22px">
+            <div style="display:flex;align-items:center"><span style="font-size:16px;font-weight:600;flex:1">Bộ lọc</span><button onClick="{{ c2Reset }}" style="border:0;background:transparent;color:#31476F;font-size:13px;font-weight:600;cursor:pointer;padding:4px">Xóa bộ lọc</button></div>
+            <fieldset style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+              <legend style="font-size:13px;font-weight:600;color:#232B38;margin-bottom:10px">Danh mục</legend>
+              <sc-for list="{{ c2CatOpts }}" as="o" hint-placeholder-count="3">
+                <label style="display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer;min-height:28px"><input type="checkbox" checked="{{ o.on }}" onChange="{{ o.toggle }}" style="width:18px;height:18px;accent-color:#14213D"></input><span style="flex:1">{{ o.label }}</span><span style="font-size:12px;color:#4A5870">{{ o.count }}</span></label>
+              </sc-for>
+            </fieldset>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:13px;font-weight:600;color:#232B38">Địa điểm</span>
+              <div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:14px;display:flex;align-items:center;justify-content:space-between">Tất cả địa điểm<span style="color:#5E6B80">▾</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:13px;font-weight:600;color:#232B38">Số ngày</span>
+              <div style="display:flex;gap:6px"><sc-for list="{{ c2DurOpts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.on }}" aria-pressed="{{ o.active }}" style="flex:1;height:40px;border-radius:8px;border:1px solid {{ o.bd }};background:{{ o.bg }};color:{{ o.c }};font-size:13px;font-weight:600;cursor:pointer">{{ o.label }}</button></sc-for></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:13px;font-weight:600;color:#232B38">Giá mỗi người</span>
+              <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center"><div style="height:44px;padding:0 10px;border:1px solid #C5C3BD;border-radius:8px;font-size:14px;display:flex;align-items:center">1.000.000 ₫</div><span style="color:#4A5870">–</span><div style="height:44px;padding:0 10px;border:1px solid #C5C3BD;border-radius:8px;font-size:14px;display:flex;align-items:center">4.000.000 ₫</div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:13px;font-weight:600;color:#232B38">Ngày khởi hành</span>
+              <div style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:14px;display:flex;align-items:center;justify-content:space-between">01/11 → 30/11/2026<span style="color:#5E6B80">▦</span></div>
+            </div>
+          </aside>
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-size:15px;color:#343F52;flex:1"><b style="color:#151A24">{{ c2Count }}</b> tour phù hợp</span>
+              <span style="font-size:13px;color:#4A5870">Sắp xếp</span>
+              <div style="display:flex;gap:4px;padding:4px;background:#ECEAE5;border-radius:10px"><sc-for list="{{ c2SortOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.on }}" style="height:34px;padding:0 12px;border:0;border-radius:7px;background:{{ o.bg }};color:{{ o.c }};font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">{{ o.label }}</button></sc-for></div>
+            </div>
+            <sc-if value="{{ c2HasResults }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+                <sc-for list="{{ c2List }}" as="t" hint-placeholder-count="6">
+                  <a href="#c03" style="display:block;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden;text-decoration:none;color:#151A24" style-hover="box-shadow:0 8px 24px rgba(20,33,61,.12)">
+                    <div style="height:180px;background:#ADBBD3 url(https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center"></div>
+                    <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:7px">
+                      <div style="font-size:12px;color:#4A5870">{{ t.cat }} · {{ t.loc }}</div>
+                      <div style="font-size:16px;line-height:23px;font-weight:600;min-height:46px">{{ t.name }}</div>
+                      <div style="display:flex;gap:12px;font-size:13px;color:#343F52"><span>{{ t.dur }}</span><span><span style="color:#A4532F" aria-hidden="true">★</span> <b>{{ t.rating }}</b> ({{ t.reviews }})</span></div>
+                      <div style="font-size:13px;color:#343F52">{{ t.nextLabel }}</div>
+                      <div style="padding-top:10px;margin-top:2px;border-top:1px solid #ECEAE5;font-size:18px;font-weight:700">{{ t.priceLabel }}<span style="font-size:13px;font-weight:400;color:#4A5870"> /người</span></div>
+                    </div>
+                  </a>
+                </sc-for>
+              </div>
+              <div style="display:flex;justify-content:center;flex-direction:column;align-items:center;gap:8px;margin-top:8px">
+                <span style="font-size:13px;color:#4A5870">Đang xem {{ c2Count }} / 18 tour</span>
+                <button style="height:44px;padding:0 20px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Tải thêm</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ c2Empty }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px dashed #C5C3BD;border-radius:12px;padding:64px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;background:#FFFFFF">
+                <div style="width:56px;height:56px;border-radius:50%;background:#ECEAE5;color:#4A5870;font-size:22px;display:flex;align-items:center;justify-content:center">○</div>
+                <div style="font-size:18px;font-weight:600">Không có tour phù hợp</div>
+                <div style="font-size:14px;color:#4A5870;max-width:420px">Thử bỏ bớt điều kiện lọc hoặc mở rộng khoảng ngày khởi hành.</div>
+                <button onClick="{{ c2Reset }}" style="margin-top:6px;height:44px;padding:0 18px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Xóa bộ lọc</button>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C02 · FR-T06<br>· Ảnh → TOUR_IMAGES.image_url (is_primary = 1)<br>· Tên → TOURS.name · Danh mục → category_id → CATEGORIES.name · Địa điểm → main_location_id → LOCATIONS.name<br>· Thời lượng → duration_days ngày duration_nights đêm<br>· Giá “Từ” = MIN(TRIPS.price_per_person) chuyến Open; không có thì TOURS.base_price<br>· Khởi hành gần nhất = MIN(TRIPS.start_at) status = Open; không có → “Sắp có lịch”<br>· Đánh giá = AVG(REVIEWS.rating) qua participant_id → BOOKING_PARTICIPANTS.trip_id → TRIPS.tour_id, gộp theo tour_family_id; (n) = COUNT<br>· Chỉ TOURS.status = Published, bản version mới nhất trong tour_family_id<br>· Lọc: CATEGORIES, LOCATIONS, duration_days, khoảng giá, TRIPS.start_at · Sắp xếp: giá, ngày gần nhất, đánh giá<br>· Rỗng → “Xóa bộ lọc”</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C03 ================= -->
+<section id="c03" data-screen-label="C03 Chi tiết tour" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C03</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Chi tiết tour</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/tours/:tourId</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c3Chips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:4px"><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#FFFFFF;border-bottom:3px solid #E29A78">Tour</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Thuê thiết bị</span><span style="height:72px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:#D6DDEA">Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;color:#FFFFFF"><span style="display:flex;align-items:center;gap:10px;font-size:14px"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</span></div>
+      </header>
+      <sc-if value="{{ c3Archived }}" hint-placeholder-val="{{ false }}">
+        <div role="status" style="background:#ECEAE5;border-bottom:1px solid #C5C3BD;padding:14px 80px;display:flex;gap:10px;align-items:center;font-size:14px;color:#232B38"><span aria-hidden="true" style="color:#4A5870;font-weight:700">○</span><span><b>Tour đã ngừng mở bán.</b> Bạn vẫn xem được thông tin vì có đơn <a href="#">RTK-26-004612</a> với tour này.</span></div>
+      </sc-if>
+      <div style="padding:32px 80px 64px;display:flex;flex-direction:column;gap:28px">
+        <div style="font-size:13px;color:#4A5870">Trang chủ / Tour / Leo núi</div>
+        <div style="display:grid;grid-template-columns:2fr 1fr;grid-template-rows:200px 200px;gap:8px;border-radius:14px;overflow:hidden">
+          <div style="grid-row:1 / 3;background:#ADBBD3 url(https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8px;grid-row:1 / 3">
+            <sc-for list="{{ c3Thumbs }}" as="t" hint-placeholder-count="4">
+              <button onClick="{{ t.on }}" aria-label="{{ t.label }}" style="border:0;padding:0;cursor:pointer;background:#ADBBD3 url(https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=900&q=60&auto=format) center/cover no-repeat;outline:{{ t.ol }};outline-offset:-3px;font:500 11px ui-monospace,Menlo,monospace;color:#343F52">{{ t.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:48px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:40px">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="font-size:14px;color:#4A5870">Leo núi · Sa Pa, Lào Cai</div>
+              <h3 style="font-family:'Playfair Display',Georgia,serif;margin:0;font-size:40px;line-height:48px;font-weight:700;color:#14213D;letter-spacing:-.01em">Chinh phục Fansipan qua cung Trạm Tôn</h3>
+              <div style="display:flex;gap:16px;align-items:center;font-size:15px;color:#343F52;flex-wrap:wrap"><span>3 ngày 2 đêm</span><span style="width:4px;height:4px;border-radius:2px;background:#9AA1AC"></span><span><span style="color:#A4532F" aria-hidden="true">★</span> <b>4,8</b> · <a href="#c03-review">126 đánh giá</a></span></div>
+              <p style="margin:8px 0 0;font-size:16px;line-height:27px;color:#232B38;text-wrap:pretty">Cung Trạm Tôn là đường lên Fansipan đẹp và phổ biến nhất: đi qua rừng trúc, nghỉ đêm ở lán 2.800 m và lên đỉnh 3.143 m đúng lúc mặt trời mọc trên biển mây. Đoàn chia nhóm tối đa 8 người, mỗi nhóm có một guide đi kèm suốt hành trình.</p>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <h4 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:700;color:#14213D">Điểm tập trung</h4>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:12px">
+                <div style="height:200px;border-radius:8px;background:repeating-linear-gradient(135deg,#ECEAE5 0 10px,#F5F4F1 10px 20px);display:flex;align-items:center;justify-content:center"><span style="font:500 11px ui-monospace,Menlo,monospace;color:#343F52;background:#FFFFFF;padding:4px 8px;border-radius:4px">bản đồ · 22.3497, 103.7747</span></div>
+                <div style="padding:8px;display:flex;flex-direction:column;gap:6px"><div style="font-size:16px;font-weight:600">Trạm Tôn</div><div style="font-size:14px;line-height:22px;color:#343F52">Đèo Ô Quy Hồ, thị xã Sa Pa, Lào Cai</div><a href="#" style="font-size:14px;font-weight:600;margin-top:auto">Mở trong Google Maps</a></div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <h4 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:700;color:#14213D">Lịch trình</h4>
+              <div role="tablist" style="display:flex;gap:4px;border-bottom:1px solid #DDDAD3">
+                <sc-for list="{{ c3DayTabs }}" as="t" hint-placeholder-count="3"><button role="tab" onClick="{{ t.on }}" style="height:44px;padding:0 16px;border:0;background:transparent;border-bottom:2px solid {{ t.bd }};margin-bottom:-1px;color:{{ t.c }};font-size:15px;font-weight:{{ t.w }};cursor:pointer">{{ t.label }}</button></sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column">
+                <sc-for list="{{ c3Acts }}" as="a" hint-placeholder-count="5">
+                  <div style="display:grid;grid-template-columns:64px 20px minmax(0,1fr);gap:12px">
+                    <div style="font-size:15px;font-weight:700;color:#14213D;padding-top:1px">{{ a.time }}</div>
+                    <div style="display:flex;flex-direction:column;align-items:center"><span style="width:12px;height:12px;border-radius:50%;border:2px solid #14213D;background:#FFFFFF;margin-top:5px"></span><span style="flex:1;width:2px;background:#DDDAD3;display:{{ a.line }}"></span></div>
+                    <div style="padding-bottom:20px"><div style="font-size:15px;font-weight:600">{{ a.name }} <span style="font-weight:400;color:#4A5870;font-size:13px">· {{ a.dur }}</span></div><div style="font-size:14px;line-height:22px;color:{{ a.dc }};margin-top:2px">{{ a.desc }}</div></div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px">
+                <h4 style="margin:0 0 14px;font-size:18px;font-weight:700">Bạn cần tự mang</h4>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <sc-for list="{{ c3Prep }}" as="p" hint-placeholder-count="6">
+                    <div style="display:flex;gap:10px"><span style="width:18px;height:18px;flex:none;border:1.5px solid #8193B5;border-radius:4px;margin-top:2px"></span><div><div style="font-size:14px;font-weight:500">{{ p.name }}</div><sc-if value="{{ p.hasNote }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#4A5870">{{ p.note }}</div></sc-if></div></div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px">
+                <h4 style="margin:0 0 14px;font-size:18px;font-weight:700">Được cấp sẵn</h4>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <sc-for list="{{ c3Prov }}" as="p" hint-placeholder-count="4">
+                    <div style="display:flex;gap:10px;align-items:flex-start"><span style="width:18px;height:18px;flex:none;border-radius:50%;background:#E7F6EC;color:#166534;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px">✓</span><div style="flex:1"><div style="font-size:14px;font-weight:500">{{ p.name }}</div><sc-if value="{{ p.hasNote }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#4A5870">{{ p.note }}</div></sc-if></div><span style="font-size:13px;color:#343F52;white-space:nowrap">{{ p.qty }}</span></div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div id="c03-trips" style="display:flex;flex-direction:column;gap:16px">
+              <h4 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:700;color:#14213D">Lịch khởi hành</h4>
+              <sc-if value="{{ c3HasTrips }}" hint-placeholder-val="{{ true }}">
+                <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+                  <div style="display:grid;grid-template-columns:minmax(0,2.2fr) 1.1fr 1fr 1.2fr 1.2fr 96px;gap:12px;padding:10px 20px;background:#F5F4F1;font-size:12px;font-weight:600;color:#4A5870"><span>Ngày đi – về</span><span style="text-align:right">Giá / người</span><span>Chỗ còn</span><span>Khởi hành khi</span><span>Trạng thái</span><span></span></div>
+                  <sc-for list="{{ c3Trips }}" as="r" hint-placeholder-count="5">
+                    <div style="display:grid;grid-template-columns:minmax(0,2.2fr) 1.1fr 1fr 1.2fr 1.2fr 96px;gap:12px;align-items:center;padding:14px 20px;border-top:1px solid #ECEAE5;background:{{ r.rowBg }};box-shadow:{{ r.sh }}">
+                      <div><div style="font-size:14px;font-weight:600;color:{{ r.tc }}">{{ r.range }}</div><div style="font-size:12px;color:#4A5870">{{ r.time }}</div></div>
+                      <span style="text-align:right;font-size:14px;font-weight:600;color:{{ r.tc }}">{{ r.price }}</span>
+                      <span style="font-size:14px;color:{{ r.tc }}">{{ r.slots }}</span>
+                      <span style="font-size:13px;color:#4A5870">đủ {{ r.min }} người</span>
+                      <span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ r.bg }};color:{{ r.fg }};font-size:12px;font-weight:600;white-space:nowrap;justify-self:start"><span aria-hidden="true">{{ r.ic }}</span>{{ r.label }}</span>
+                      <button onClick="{{ r.pick }}" disabled="{{ r.dis }}" style="height:36px;border-radius:8px;border:1px solid {{ r.bbd }};background:{{ r.bbg }};color:{{ r.bc }};font-size:13px;font-weight:600;cursor:pointer">{{ r.btn }}</button>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ c3NoTrips }}" hint-placeholder-val="{{ false }}">
+                <div style="border:1px dashed #C5C3BD;border-radius:12px;padding:32px;display:flex;align-items:center;gap:16px;background:#FFFFFF">
+                  <div style="width:48px;height:48px;border-radius:50%;background:#E0F2F6;color:#0E7490;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">◷</div>
+                  <div style="flex:1"><div style="font-size:16px;font-weight:600">Sắp có lịch</div><div style="font-size:14px;color:#4A5870">Tour chưa có chuyến mở bán. Lịch mới thường được mở trước 4–6 tuần.</div></div>
+                </div>
+              </sc-if>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px">
+                <h4 style="margin:0 0 4px;font-size:18px;font-weight:700">Chính sách hoàn tiền</h4>
+                <div style="font-size:13px;color:#4A5870;margin-bottom:12px">Áp dụng cho chuyến đang chọn, tính theo giờ trước khởi hành</div>
+                <sc-for list="{{ refundRules }}" as="r" hint-placeholder-count="4">
+                  <div style="display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid #ECEAE5;font-size:14px"><span style="color:#343F52">{{ r.when }}</span><b>{{ r.pct }}</b></div>
+                </sc-for>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px">
+                <h4 style="margin:0 0 14px;font-size:18px;font-weight:700">Bài cần đọc trước chuyến</h4>
+                <div style="display:flex;flex-direction:column;gap:2px">
+                  <sc-for list="{{ c3Posts }}" as="p" hint-placeholder-count="3">
+                    <a href="#" style="display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #ECEAE5;text-decoration:none;color:#151A24"><span style="font-size:12px;font-weight:600;color:#31476F;width:76px;flex:none">{{ p.type }}</span><span style="font-size:14px;font-weight:500;flex:1">{{ p.title }}</span><span style="color:#31476F">→</span></a>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div id="c03-review" style="display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;align-items:baseline;gap:12px"><h4 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:700;color:#14213D">Đánh giá</h4><span style="font-size:15px;color:#343F52"><span style="color:#A4532F">★</span> <b>4,8</b> trên 5 · 126 đánh giá</span></div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+                <sc-for list="{{ c3Reviews }}" as="r" hint-placeholder-count="3">
+                  <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px">
+                    <div style="display:flex;align-items:center;gap:10px"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ r.ini }}</span><div><div style="font-size:14px;font-weight:600">{{ r.name }}</div><div style="font-size:12px;color:#4A5870">{{ r.date }}</div></div></div>
+                    <div style="color:#A4532F;letter-spacing:2px" aria-label="{{ r.aria }}">{{ r.stars }}</div>
+                    <div style="font-size:14px;line-height:22px;color:{{ r.cc }}">{{ r.comment }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <button style="align-self:flex-start;height:40px;padding:0 14px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600">Xem thêm đánh giá</button>
+            </div>
+          </div>
+
+          <aside style="position:sticky;top:24px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:16px;box-shadow:0 8px 24px rgba(20,33,61,.08)">
+            <sc-if value="{{ c3CanBook }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:16px">
+                <div><div style="font-size:13px;color:#4A5870">Chuyến đã chọn</div><div style="font-size:16px;font-weight:600;margin-top:4px">{{ c3SelRange }}</div><div style="font-size:13px;color:#4A5870">Tập trung 05:30 (GMT+7)</div></div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-top:1px solid #ECEAE5;border-bottom:1px solid #ECEAE5"><span style="font-size:14px;color:#343F52">Giá mỗi người</span><span style="font-size:24px;font-weight:700">{{ c3SelPrice }}</span></div>
+                <div style="font-size:14px;color:#343F52;display:flex;justify-content:space-between"><span>Chỗ còn</span><b>{{ c3SelSlots }}</b></div>
+                <div style="font-size:13px;line-height:20px;color:#4A5870">Chuyến khởi hành khi đủ {{ c3SelMin }} người. Nếu không đủ, bạn được hoàn 100%.</div>
+                <a href="#c04" onClick="{{ c3Book }}" style="height:52px;border-radius:8px;background:#A4532F;color:#FFFFFF;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none" style-hover="background:#84411F">Đặt ngay</a>
+                <a href="#c03-trips" style="text-align:center;font-size:14px;font-weight:600">Xem các ngày khác</a>
+              </div>
+            </sc-if>
+            <sc-if value="{{ c3CantBook }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:13px;color:#4A5870">Giá tham khảo</div>
+                <div style="font-size:24px;font-weight:700">Từ 2.450.000 ₫<span style="font-size:13px;font-weight:400;color:#4A5870"> /người</span></div>
+                <div style="font-size:14px;line-height:22px;color:#343F52">{{ c3CantText }}</div>
+                <button disabled="" style="height:52px;border-radius:8px;border:0;background:#DDDAD3;color:#4A5870;font-size:16px;font-weight:600">{{ c3CantBtn }}</button>
+              </div>
+            </sc-if>
+          </aside>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C03 · FR-T01–T06, D01<br>· Gallery → TOUR_IMAGES.image_url sắp display_order<br>· Header → TOURS.name, CATEGORIES.name, duration_days/nights, AVG rating (như C02)<br>· Mô tả → TOURS.description? (rỗng → ẩn đoạn)<br>· Điểm tập trung → LOCATIONS.name, address, latitude, longitude<br>· Lịch trình → TOUR_ACTIVITIES nhóm day_number, sắp display_order: start_time · name · duration_minutes · description? (rỗng → “Chưa cập nhật”)<br>· Tự mang → TOUR_PREPARATION_ITEMS.item_name, note?<br>· Được cấp → TOUR_PROVIDED_ITEMS → PRODUCT_VARIANTS.variant_name, quantity, quantity_basis (mỗi người / mỗi nhóm), note?<br>· Lịch khởi hành → TRIPS.start_at, end_at, price_per_person, min_participants, status<br>· Chỗ còn = TRIPS.total_slots − Σ TRIP_BOOKING_ORDERS.participant_count của ORDERS status ∈ {PendingPayment còn hạn hold_expires_at, Confirmed, InFulfillment}<br>· “Hết chỗ” = Open nhưng chỗ còn = 0 (nhãn suy ra, không phải enum)<br>· Chính sách → TRIPS.refund_policy_id → REFUND_POLICY_RULES (min_hours_before, refund_percentage), sắp giảm dần<br>· Bài cần đọc → TOUR_POSTS (display_order) → POSTS.title, post_type<br>· Review → REVIEWS.rating, comment?, created_at; tên viết tắt từ BOOKING_PARTICIPANTS.full_name<br>· Archived + khách có đơn cũ → banner, ẩn đặt chỗ</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C04 ================= -->
+<section id="c04" data-screen-label="C04 Checkout tour" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C04</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Checkout tour</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/checkout/tour/:tripId</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c4Chips }}" as="c" hint-placeholder-count="7"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:24px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <span style="width:1px;height:24px;background:#31476F"></span>
+        <span style="font-size:15px;color:#D6DDEA">Đặt chuyến</span>
+        <a href="#c03" style="margin-left:auto;color:#D6DDEA;font-size:14px;font-weight:500">Quay lại tour</a>
+      </header>
+      <div style="padding:32px 80px 64px;display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:40px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;align-items:flex-start;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:20px 12px">
+            <sc-for list="{{ c4Steps }}" as="s" hint-placeholder-count="4">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative">
+                <div style="position:absolute;top:15px;left:-50%;width:100%;height:2px;background:{{ s.line }};display:{{ s.lineShow }}"></div>
+                <div style="position:relative;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:{{ s.bg }};color:{{ s.fg }};border:2px solid {{ s.bd }}">{{ s.mark }}</div>
+                <span style="font-size:13px;text-align:center;font-weight:{{ s.w }};color:{{ s.tc }}">{{ s.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ c4Expired }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;gap:12px;align-items:center;padding:16px 18px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C">
+              <span aria-hidden="true" style="color:#BE123C;font-weight:700">✕</span>
+              <div style="flex:1;font-size:14px;line-height:22px;color:#232B38"><b style="color:#BE123C">Đã hết thời gian giữ chỗ.</b> Đơn {{ c4Code }} đã hết hạn và chỗ được trả lại cho chuyến. Bạn có thể đặt lại nếu chuyến còn chỗ.</div>
+              <button onClick="{{ c4Restart }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer">Đặt lại</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c4SoldOut }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;gap:12px;align-items:center;padding:16px 18px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C">
+              <span aria-hidden="true" style="color:#BE123C;font-weight:700">✕</span>
+              <div style="flex:1;font-size:14px;line-height:22px;color:#232B38"><b style="color:#BE123C">Chuyến không còn đủ chỗ.</b> Chỉ còn 1 chỗ trong khi đơn của bạn có {{ c4N }} người. Bạn chưa bị trừ tiền.</div>
+              <a href="#c03-trips" style="height:40px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;display:flex;align-items:center;text-decoration:none">Chọn chuyến khác</a>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c4PriceChanged }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;gap:12px;align-items:center;padding:16px 18px;border-radius:12px;background:#FEF3C7;border:1px solid #B45309">
+              <span aria-hidden="true" style="color:#B45309;font-weight:700">!</span>
+              <div style="flex:1;font-size:14px;line-height:22px;color:#232B38"><b style="color:#B45309">Giá chuyến đã thay đổi.</b> Giá mỗi người đổi từ 2.450.000 ₫ thành 2.550.000 ₫. Hãy xác nhận giá mới để tiếp tục.</div>
+              <button onClick="{{ c4AcceptPrice }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap">Xác nhận giá mới</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ c4ErrProvider }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;gap:12px;align-items:center;padding:16px 18px;border-radius:12px;background:#FFE4E8;border:1px solid #BE123C">
+              <span aria-hidden="true" style="color:#BE123C;font-weight:700">✕</span>
+              <div style="flex:1;font-size:14px;line-height:22px;color:#232B38"><b style="color:#BE123C">Cổng thanh toán đang gặp sự cố, vui lòng thử lại sau.</b> Bạn chưa bị trừ tiền và chưa có mã chuyển khoản nào được tạo. Thử lại là an toàn: hệ thống dùng lại cùng Idempotency-Key nên không tạo trùng.</div>
+              <button onClick="{{ c4Pay }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap">Thử lại</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c4ErrPolicy }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;gap:12px;align-items:center;padding:16px 18px;border-radius:12px;background:#FEF3C7;border:1px solid #B45309">
+              <span aria-hidden="true" style="color:#B45309;font-weight:700">!</span>
+              <div style="flex:1;font-size:14px;line-height:22px;color:#232B38"><b style="color:#B45309">Chính sách hoàn tiền của chuyến vừa được cập nhật.</b> Hãy xem lại bảng chính sách bên dưới và đồng ý lại để tiếp tục thanh toán.</div>
+              <a href="#c04-policy" style="height:40px;padding:0 16px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;display:flex;align-items:center;text-decoration:none;white-space:nowrap">Xem chính sách</a>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c4ErrPromo }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;gap:12px;align-items:center;padding:16px 18px;border-radius:12px;background:#FEF3C7;border:1px solid #B45309">
+              <span aria-hidden="true" style="color:#B45309;font-weight:700">!</span>
+              <div style="flex:1;font-size:14px;line-height:22px;color:#232B38"><b style="color:#B45309">Mã FANSIPAN200 không còn áp dụng được.</b> Mã đã hết lượt hoặc hết hiệu lực trong lúc bạn xác nhận. Tổng thanh toán mới là <b>{{ c4PromoNewTotal }}</b>.</div>
+              <button onClick="{{ c4AcceptTotal }}" style="height:40px;padding:0 16px;border-radius:8px;border:0;background:#14213D;color:#FFFFFF;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap">Xác nhận tổng mới</button>
+            </div>
+          </sc-if>
+
+          <!-- Step 1 -->
+          <sc-if value="{{ c4S0 }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:28px">
+              <div><h3 style="margin:0;font-size:24px;font-weight:700">Số người &amp; cách chia nhóm</h3><div style="font-size:14px;color:#4A5870;margin-top:4px">Chuyến còn {{ c4Avail }} chỗ. Chỗ được giữ ngay khi bạn bấm Tiếp tục.</div></div>
+              <div style="display:flex;align-items:center;gap:24px">
+                <div style="flex:1"><div style="font-size:15px;font-weight:600">Số người tham gia</div><div style="font-size:13px;color:#4A5870">Tối thiểu 1, tối đa {{ c4Avail }}</div></div>
+                <div style="display:flex;align-items:center;border:1px solid #C5C3BD;border-radius:10px;overflow:hidden">
+                  <button onClick="{{ c4Dec }}" aria-label="Bớt một người" disabled="{{ c4DecDis }}" style="width:48px;height:48px;border:0;background:#FFFFFF;font-size:20px;color:{{ c4DecC }};cursor:pointer">−</button>
+                  <span aria-live="polite" style="width:56px;text-align:center;font-size:18px;font-weight:700">{{ c4N }}</span>
+                  <button onClick="{{ c4Inc }}" aria-label="Thêm một người" disabled="{{ c4IncDis }}" style="width:48px;height:48px;border:0;background:#FFFFFF;font-size:20px;color:{{ c4IncC }};cursor:pointer">+</button>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:14px 16px;background:#F5F4F1;border-radius:10px;font-size:14px"><span style="color:#343F52">Đơn giá mỗi người</span><b>{{ c4Unit }}</b></div>
+              <fieldset style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:12px">
+                <legend style="font-size:15px;font-weight:600;margin-bottom:12px">Mong muốn chia nhóm</legend>
+                <sc-for list="{{ c4Groups }}" as="g" hint-placeholder-count="2">
+                  <label style="display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:10px;border:{{ g.bd }};background:{{ g.bg }};cursor:pointer">
+                    <input type="radio" name="grp" checked="{{ g.on }}" onChange="{{ g.pick }}" style="width:18px;height:18px;accent-color:#14213D;margin-top:2px"></input>
+                    <span><span style="display:block;font-size:15px;font-weight:600">{{ g.label }}</span><span style="display:block;font-size:13px;line-height:20px;color:#4A5870;margin-top:2px">{{ g.desc }}</span></span>
+                  </label>
+                </sc-for>
+              </fieldset>
+            </div>
+          </sc-if>
+
+          <!-- Step 2 -->
+          <sc-if value="{{ c4S1 }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div><h3 style="margin:0;font-size:24px;font-weight:700">Thông tin người tham gia</h3><div style="font-size:14px;color:#4A5870;margin-top:4px">Cần đủ {{ c4N }} người. Guide dùng thông tin này để liên hệ trong chuyến.</div></div>
+              <sc-for list="{{ c4Parts }}" as="p" hint-placeholder-count="2">
+                <div style="background:#FFFFFF;border:{{ p.cardBd }};border-radius:12px;overflow:hidden">
+                  <button onClick="{{ p.toggle }}" aria-expanded="{{ p.open }}" style="width:100%;display:flex;align-items:center;gap:14px;padding:16px 20px;border:0;background:transparent;cursor:pointer;text-align:left;font:inherit">
+                    <span style="width:32px;height:32px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none">{{ p.no }}</span>
+                    <span style="flex:1"><span style="display:block;font-size:15px;font-weight:600;color:#151A24">{{ p.title }}</span><span style="display:block;font-size:13px;color:#4A5870">{{ p.sub }}</span></span>
+                    <span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ p.sbg }};color:{{ p.sfg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ p.sic }}</span>{{ p.slabel }}</span>
+                    <span style="color:#4A5870;width:16px">{{ p.chev }}</span>
+                  </button>
+                  <sc-if value="{{ p.open }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:4px 20px 22px;display:flex;flex-direction:column;gap:16px;border-top:1px solid #ECEAE5">
+                      <label style="display:flex;align-items:center;gap:10px;font-size:14px;margin-top:14px;cursor:pointer"><input type="checkbox" checked="{{ p.me }}" onChange="{{ p.onMe }}" style="width:18px;height:18px;accent-color:#14213D"></input>Đây là tôi <span style="color:#4A5870;font-size:13px">— điền sẵn từ hồ sơ của bạn</span></label>
+                      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+                        <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600;color:#232B38">Họ và tên <span style="color:#BE123C">*</span></label><input value="{{ p.name }}" onChange="{{ p.onName }}" aria-invalid="{{ p.nameInv }}" style="height:44px;padding:0 12px;border:{{ p.nameBd }};border-radius:8px;font-size:15px;outline:none"></input><sc-if value="{{ p.nameInv }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Vui lòng nhập họ và tên.</span></sc-if></div>
+                        <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600;color:#232B38">Email</label><input value="{{ p.email }}" onChange="{{ p.onEmail }}" aria-invalid="{{ p.emailInv }}" placeholder="Không bắt buộc" style="height:44px;padding:0 12px;border:{{ p.emailBd }};border-radius:8px;font-size:15px;outline:none"></input><sc-if value="{{ p.emailInv }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ Email chưa đúng định dạng.</span></sc-if></div>
+                        <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600;color:#232B38">Điện thoại</label><input value="{{ p.phone }}" onChange="{{ p.onPhone }}" placeholder="Không bắt buộc" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;outline:none"></input></div>
+                        <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600;color:#232B38">Ngày sinh</label><input value="{{ p.dob }}" onChange="{{ p.onDob }}" aria-invalid="{{ p.dobInv }}" placeholder="dd/mm/yyyy" style="height:44px;padding:0 12px;border:{{ p.dobBd }};border-radius:8px;font-size:15px;outline:none"></input><sc-if value="{{ p.dobInv }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C">✕ {{ p.dobErr }}</span></sc-if></div>
+                        <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600;color:#232B38">Người liên hệ khẩn cấp</label><input value="{{ p.ecn }}" onChange="{{ p.onEcn }}" placeholder="Không bắt buộc" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;outline:none"></input></div>
+                        <div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:600;color:#232B38">SĐT khẩn cấp</label><input value="{{ p.ecp }}" onChange="{{ p.onEcp }}" placeholder="Không bắt buộc" style="height:44px;padding:0 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:15px;outline:none"></input></div>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <!-- Step 3 -->
+          <sc-if value="{{ c4S2 }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <h3 style="margin:0;font-size:24px;font-weight:700">Khuyến mãi</h3>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:12px">
+                <label for="c4-code" style="font-size:15px;font-weight:600">Mã khuyến mãi</label>
+                <div style="display:flex;gap:8px">
+                  <input id="c4-code" value="{{ c4Code2 }}" onChange="{{ c4OnCode }}" onKeyDown="{{ c4OnCodeKey }}" aria-invalid="{{ c4CodeInv }}" placeholder="Nhập mã" style="flex:1;height:48px;padding:0 14px;border:{{ c4CodeBd }};border-radius:8px;font:600 15px ui-monospace,Menlo,monospace;text-transform:uppercase;outline:none"></input>
+                  <button onClick="{{ c4ApplyCode }}" style="height:48px;padding:0 20px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:14px;font-weight:600;cursor:pointer">Áp dụng</button>
+                </div>
+                <sc-if value="{{ c4CodeInv }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#BE123C">✕ {{ c4CodeErr }}</span></sc-if>
+                <sc-if value="{{ c4CodeOk }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:#E7F6EC;border:1px solid #166534"><span aria-hidden="true" style="color:#166534;font-weight:700">✓</span><span style="flex:1;font-size:14px"><b>FANSIPAN200</b> · Giảm 200.000 ₫ cho đơn tour</span><button onClick="{{ c4RemoveCode }}" style="border:0;background:transparent;color:#31476F;font-size:13px;font-weight:600;cursor:pointer">Gỡ mã</button></div>
+                </sc-if>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px">
+                <div style="display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:15px;font-weight:600">Đi nhóm vui hơn</div><div style="font-size:13px;color:#4A5870">Tự áp dụng theo số người · 01/10 – 31/12/2026</div></div><span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ c4TierBadge.bg }};color:{{ c4TierBadge.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ c4TierBadge.ic }}</span>{{ c4TierBadge.label }}</span></div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <sc-for list="{{ c4Tiers }}" as="t" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:10px;border:1px solid {{ t.bd }};background:{{ t.bg }}">
+                      <span style="width:28px;height:28px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:{{ t.dotBg }};color:{{ t.dotC }}">{{ t.mark }}</span>
+                      <div style="flex:1"><div style="font-size:14px;font-weight:600">{{ t.label }}</div><div style="font-size:13px;color:#4A5870">{{ t.desc }}</div></div>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ c4HasHint }}" hint-placeholder-val="{{ true }}"><div style="font-size:14px;color:#14213D;font-weight:600">{{ c4TierHint }}</div></sc-if>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- Step 4 -->
+          <sc-if value="{{ c4S3 }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <h3 style="margin:0;font-size:24px;font-weight:700">Xác nhận &amp; thanh toán</h3>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px">
+                <div style="font-size:15px;font-weight:600;margin-bottom:4px">Chuyến của bạn</div>
+                <div style="display:grid;grid-template-columns:140px 1fr;gap:8px 16px;font-size:14px">
+                  <span style="color:#4A5870">Tour</span><span style="font-weight:500">Chinh phục Fansipan qua cung Trạm Tôn</span>
+                  <span style="color:#4A5870">Khởi hành</span><span style="font-weight:500">Th 7, 14/11/2026 · 05:30 (GMT+7)</span>
+                  <span style="color:#4A5870">Kết thúc</span><span style="font-weight:500">Th 2, 16/11/2026 · 17:00 (GMT+7)</span>
+                  <span style="color:#4A5870">Tập trung</span><span style="font-weight:500">Trạm Tôn, đèo Ô Quy Hồ, Sa Pa</span>
+                  <span style="color:#4A5870">Người tham gia</span><span style="font-weight:500">{{ c4PartNames }}</span>
+                </div>
+              </div>
+              <div id="c04-policy" style="background:#FFFFFF;border:{{ c4PolicyBd }};border-radius:12px;padding:24px">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="font-size:15px;font-weight:600">Chính sách hoàn tiền</div><sc-if value="{{ c4ErrPolicy }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:#FEF3C7;color:#B45309;font-size:12px;font-weight:600"><span aria-hidden="true">!</span>Phiên bản mới</span></sc-if></div>
+                <sc-for list="{{ c4Rules }}" as="r" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;padding:8px 8px;border-top:1px solid #ECEAE5;font-size:14px;background:{{ r.bg }}"><span style="color:#343F52">{{ r.when }}</span><b>{{ r.pct }}</b></div></sc-for>
+              </div>
+              <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:15px;font-weight:600">Phương thức thanh toán</div>
+                <div role="radiogroup" style="display:grid;grid-template-columns:1fr;gap:10px">
+                  <sc-for list="{{ c4Pays }}" as="m" hint-placeholder-count="1">
+                    <label style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:10px;border:{{ m.bd }};background:{{ m.bg }};cursor:pointer;font-size:14px;font-weight:500"><input type="radio" name="pm" checked="{{ m.on }}" onChange="{{ m.pick }}" style="width:18px;height:18px;accent-color:#14213D;margin-top:2px"></input><span><span style="display:block;font-size:15px;font-weight:600">{{ m.label }}</span><span style="display:block;font-size:13px;line-height:20px;color:#4A5870;margin-top:2px;font-weight:400">{{ m.desc }}</span></span></label>
+                  </sc-for>
+                </div>
+                <label for="c4-note" style="font-size:13px;font-weight:600;color:#232B38;margin-top:6px">Ghi chú cho đơn <span style="font-weight:400;color:#4A5870">(không bắt buộc)</span></label>
+                <textarea id="c4-note" rows="2" value="{{ c4Note }}" onChange="{{ c4OnNote }}" placeholder="Ví dụ: có 1 người ăn chay" style="padding:10px 12px;border:1px solid #C5C3BD;border-radius:8px;font-size:14px;resize:vertical;outline:none"></textarea>
+                <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:21px;cursor:pointer;margin-top:4px"><input type="checkbox" checked="{{ c4Agree }}" onChange="{{ c4OnAgree }}" aria-invalid="{{ c4AgreeErr }}" style="width:18px;height:18px;accent-color:#14213D;margin-top:2px"></input><span>Tôi đã đọc và đồng ý với chính sách hoàn tiền của chuyến này.</span></label>
+                <sc-if value="{{ c4AgreeErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#BE123C;margin-top:-6px">✕ Bạn cần đồng ý chính sách hoàn tiền để thanh toán.</span></sc-if>
+              </div>
+            </div>
+          </sc-if>
+
+          <div style="display:flex;align-items:center;gap:12px">
+            <sc-if value="{{ c4ShowBack }}" hint-placeholder-val="{{ false }}"><button onClick="{{ c4Back }}" style="height:48px;padding:0 20px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:15px;font-weight:600;cursor:pointer">Quay lại</button></sc-if>
+            <span style="flex:1"></span>
+            <sc-if value="{{ c4ShowNext }}" hint-placeholder-val="{{ true }}"><button onClick="{{ c4Next }}" disabled="{{ c4Blocked }}" style="height:48px;padding:0 28px;border-radius:8px;border:0;background:{{ c4NextBg }};color:{{ c4NextC }};font-size:15px;font-weight:600;cursor:pointer">{{ c4NextLabel }}</button></sc-if>
+            <sc-if value="{{ c4ShowPay }}" hint-placeholder-val="{{ false }}"><button onClick="{{ c4Pay }}" disabled="{{ c4PayDis }}" style="height:52px;padding:0 32px;border-radius:8px;border:0;background:{{ c4PayBg }};color:{{ c4PayC }};font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer">{{ c4PaySpin }}{{ c4PayLabel }}</button></sc-if>
+          </div>
+        </div>
+
+        <aside style="position:sticky;top:24px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:14px;overflow:hidden">
+          <div style="height:120px;background:#ADBBD3 url(https://images.unsplash.com/photo-1519681393784-d120267933ba?w=900&q=60&auto=format) center/cover no-repeat;display:flex;align-items:center;justify-content:center"></div>
+          <div style="padding:20px 22px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:17px;font-weight:600;line-height:24px">Chinh phục Fansipan qua cung Trạm Tôn</div>
+            <div style="font-size:13px;line-height:20px;color:#343F52">Th 7, 14/11/2026 · 05:30 → Th 2, 16/11/2026 · 17:00 (GMT+7)</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:{{ c4HoldBg }};border:1px solid {{ c4HoldBd }}">
+              <span aria-hidden="true" style="color:{{ c4HoldFg }};font-weight:700">◷</span>
+              <span style="flex:1;font-size:13px;color:#232B38">{{ c4HoldText }}</span>
+              <span style="font:700 18px ui-monospace,Menlo,monospace;color:{{ c4HoldFg }}">{{ c4Clock }}</span>
+            </div>
+            <sc-if value="{{ c4HasCode }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#4A5870">Mã đơn <b style="font-family:ui-monospace,Menlo,monospace;color:#14213D">{{ c4Code }}</b></div></sc-if>
+            <div style="border-top:1px solid #ECEAE5;padding-top:12px;display:flex;flex-direction:column;gap:10px;font-size:14px">
+              <div style="display:flex;justify-content:space-between"><span style="color:#343F52">{{ c4N }} người × {{ c4Unit }}</span><span>{{ c4Sub }}</span></div>
+              <sc-for list="{{ c4Discounts }}" as="d" hint-placeholder-count="0"><div style="display:flex;justify-content:space-between"><span style="color:#343F52">{{ d.label }}</span><span style="color:#166534;font-weight:600">−{{ d.amt }}</span></div></sc-for>
+              <sc-if value="{{ c4HasGift }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between"><span style="color:#343F52">Quà: Gậy trekking × 1</span><span style="color:#166534;font-weight:600">Miễn phí</span></div></sc-if>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid #ECEAE5"><span style="font-size:15px;font-weight:700">Tổng thanh toán</span><span style="font-size:24px;font-weight:700;color:#14213D">{{ c4Total }}</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C04 · FR-B01–B04, M03–M05, F01<br>· Guest vào route → bắt đăng nhập (A01) rồi quay lại<br>B1 · Số người → TRIP_BOOKING_ORDERS.participant_count (1 ≤ n ≤ chỗ còn) · Đơn giá → unit_price = TRIPS.price_per_person lúc chốt · Chia nhóm → grouping_preference<br>· Tiếp tục (S): tạo ORDERS (order_type = Tour, status = PendingPayment, payment_status = Unpaid, hold_expires_at, refund_policy_id của chuyến, order_code) + TRIP_BOOKING_ORDERS → bắt đầu đếm ngược<br>B2 · BOOKING_PARTICIPANTS: full_name (bắt buộc), email?, phone?, date_of_birth? (không ở tương lai), emergency_contact_name?, emergency_contact_phone?; “Đây là tôi” → linked_user_id (tối đa 1); ẩn: booking_order_id, trip_id, status; số participant = participant_count<br>B3 · Mã → PROMOTIONS.promotion_code? · Tự áp: status Active, applies_to = Tour, trong start_at–end_at, sắp priority · Bậc → PROMOTION_TIERS.min_threshold, qualification_metric, discount_type, discount_value; quà → gift_product_variant_id?, gift_quantity?<br>· Áp (S): APPLIED_PROMOTIONS (status Reserved); quà → ASSET_ASSIGNMENTS (applied_promotion_id, Reserved)<br>· Lỗi demo: HETHAN (end_at) · HETLUOT (max_uses) · DADUNG (max_uses_per_user) · KHONGCONG (is_stackable = 0) · HETQUA (hết thiết bị quà) · mã khác → không tồn tại · FANSIPAN200 hợp lệ<br>B4 · Breakdown: participant_count × unit_price = subtotal_amount − discount_amount (Σ APPLIED_PROMOTIONS.discount_amount) = total_amount · REFUND_POLICY_RULES · note?<br>· Phương thức: chỉ PAYMENTS.payment_method = BankTransfer (chuyển khoản / VietQR qua SePay VA). Không còn phương thức thẻ hay ví — chỉ một lựa chọn<br>· Thanh toán (S): POST /orders/{orderId}/payments · header Idempotency-Key (bắt buộc) · body { paymentMethod: BankTransfer } → 201 (tạo mới) / 200 (đã có lần Pending còn hạn). Server tạo PAYMENTS (payment_type = Collection, purpose = TourFee, payment_method = BankTransfer, amount = ORDERS.total_amount, status = Pending, provider_order_id = VA order SePay) → chuyển sang C04P<br>· Thử lại sau lỗi: gửi lại CÙNG Idempotency-Key (không sinh key mới trừ khi IDEMPOTENCY_KEY_REUSED 409)<br>· Đồng hồ = hold_expires_at − now; hết → ORDERS.status = Expired; POST trả HOLD_EXPIRED / ORDER_NOT_PAYABLE (409) → banner “Đã hết thời gian giữ chỗ”<br>Lỗi POST: PAYMENT_PROVIDER_ERROR (502) → banner “Cổng thanh toán đang gặp sự cố, vui lòng thử lại sau” + nút Thử lại (an toàn gọi lại) · REFUND_POLICY_CHANGED (409) → hiện lại REFUND_POLICY_RULES bản mới, bỏ tick đồng ý, bắt đồng ý lại · PROMOTION_INVALID / PROMOTION_EXHAUSTED (409) → gọi lại báo giá, hiện tổng mới (discount_amount, total_amount) rồi xác nhận lại</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C04P ================= -->
+<section id="c04p" data-screen-label="C04P Thanh toán chuyển khoản" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C04P</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Thanh toán chuyển khoản</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/checkout/pay/:orderCode</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px;align-items:center">
+      <sc-for list="{{ p4Kinds }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+      <span aria-hidden="true" style="width:1px;height:20px;background:#C5C3BD;margin:0 6px"></span>
+      <sc-for list="{{ p4Chips }}" as="c" hint-placeholder-count="6"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;min-height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:24px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <span style="width:1px;height:24px;background:#31476F"></span>
+        <span style="font-size:15px;color:#D6DDEA">Thanh toán đơn hàng</span>
+        <a href="#c04" style="margin-left:auto;color:#D6DDEA;font-size:14px;font-weight:500">Quay lại đơn</a>
+      </header>
+      <div style="padding:32px 80px 64px;display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:40px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:24px">
+
+          <sc-if value="{{ p4Show }}" hint-placeholder-val="{{ true }}">
+            <div role="status" aria-live="polite" style="display:flex;gap:12px;align-items:center;padding:14px 18px;border-radius:12px;background:{{ p4StripBg }};border:1px solid {{ p4StripBd }}">
+              {{ p4Spin }}
+              <div style="flex:1;font-size:14px;line-height:22px;color:#232B38"><b style="color:{{ p4StripFg }}">{{ p4StripTitle }}</b> {{ p4StripText }}</div>
+              <span style="font:700 20px ui-monospace,Menlo,monospace;color:{{ p4StripFg }}">{{ p4Clock }}</span>
+            </div>
+
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:14px;padding:28px;display:flex;flex-direction:column;gap:24px">
+              <div><h3 style="margin:0;font-size:24px;font-weight:700">Chuyển khoản qua VietQR</h3><div style="font-size:14px;color:#4A5870;margin-top:4px">Quét mã bằng app ngân hàng hoặc chuyển khoản thủ công theo thông tin bên cạnh.</div></div>
+              <div style="display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;align-items:start">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+                  <div style="padding:12px;border:1px solid #DDDAD3;border-radius:12px;background:#FFFFFF">{{ p4Qr }}</div>
+                  <div style="font-size:12px;line-height:18px;color:#4A5870;text-align:center">Ảnh VietQR (qrImageUrl) đã gồm số tiền và nội dung chuyển khoản</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0">
+                  <sc-for list="{{ p4Rows }}" as="r" hint-placeholder-count="4">
+                    <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #ECEAE5">
+                      <span style="width:150px;flex:none;font-size:13px;color:#4A5870">{{ r.label }}</span>
+                      <span style="flex:1;font-size:15px;line-height:22px;font-weight:{{ r.fw }};font-family:{{ r.ff }};color:#151A24;word-break:break-all">{{ r.value }}</span>
+                      <sc-if value="{{ r.copy }}" hint-placeholder-val="{{ true }}"><button onClick="{{ r.on }}" aria-label="{{ r.aria }}" style="height:32px;padding:0 12px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:13px;font-weight:600;cursor:pointer;flex:none">Sao chép</button></sc-if>
+                    </div>
+                  </sc-for>
+                  <div style="margin-top:8px;padding:14px 16px;border-radius:10px;background:#FEF3C7;border:1.5px solid #B45309;display:flex;flex-direction:column;gap:8px">
+                    <div style="display:flex;align-items:center;gap:12px"><span style="flex:1;font-size:13px;font-weight:700;color:#B45309">Nội dung chuyển khoản · bắt buộc ghi đúng</span><button onClick="{{ p4CopyContent }}" aria-label="Sao chép nội dung chuyển khoản" style="height:32px;padding:0 12px;border-radius:8px;border:1px solid #B45309;background:#FFFFFF;color:#14213D;font-size:13px;font-weight:600;cursor:pointer;flex:none">Sao chép</button></div>
+                    <div style="font:700 17px/26px ui-monospace,Menlo,monospace;letter-spacing:.04em;color:#14213D;word-break:break-all">{{ p4Content }}</div>
+                    <div style="font-size:12px;line-height:18px;color:#343F52">32 ký tự, viết hoa, không thêm hay bớt ký tự. Ghi sai hoặc thiếu nội dung thì hệ thống không nhận ra khoản chuyển của bạn.</div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:#F5F4F1;font-size:14px;color:#232B38"><span aria-hidden="true" style="color:#B45309;font-weight:700">!</span>Vui lòng chuyển đúng và đủ số tiền <b>{{ p4Amount }}</b> trong <b>một lần</b>. Không hỗ trợ chuyển bù nhiều lần.</div>
+            </div>
+
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:14px;padding:24px 28px;display:flex;flex-direction:column;gap:16px">
+              <div style="font-size:15px;font-weight:600">Thực hiện trong 3 bước</div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+                <sc-for list="{{ p4Steps }}" as="st" hint-placeholder-count="3">
+                  <div style="display:flex;gap:12px;align-items:flex-start"><span style="width:28px;height:28px;border-radius:50%;background:#14213D;color:#FFFFFF;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">{{ st.no }}</span><span style="font-size:14px;line-height:22px;color:#232B38">{{ st.text }}</span></div>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:#E0F2F6;font-size:14px;color:#232B38"><span aria-hidden="true" style="color:#0E7490;font-weight:700">◷</span>Hệ thống tự xác nhận trong vài giây sau khi nhận tiền — không cần chụp màn hình.</div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:12px">
+              <a href="#c04" style="height:48px;padding:0 20px;border-radius:8px;border:1px solid #C5C3BD;background:#FFFFFF;color:#14213D;font-size:15px;font-weight:600;display:flex;align-items:center;text-decoration:none">Quay lại đơn</a>
+              <span style="flex:1"></span>
+              <button onClick="{{ p4IPaid }}" style="height:52px;padding:0 28px;border-radius:8px;border:0;background:#A4532F;color:#FFFFFF;font-size:16px;font-weight:600;cursor:pointer">Tôi đã chuyển khoản</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ p4Out }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FFFFFF;border:1px solid #DDDAD3;border-radius:16px;padding:40px;display:flex;flex-direction:column;gap:20px;box-shadow:0 8px 24px rgba(20,33,61,.08)">
+              <div style="width:64px;height:64px;border-radius:50%;background:{{ p4OutBg }};color:{{ p4OutFg }};font-size:26px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ p4OutIcon }}</div>
+              <div><div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">{{ p4OutTitle }}</div><div style="font-size:15px;line-height:24px;color:#343F52;margin-top:8px">{{ p4OutText }}</div></div>
+              <sc-if value="{{ p4OutBox }}" hint-placeholder-val="{{ false }}">
+                <div style="border:1px solid #DDDAD3;border-radius:12px;padding:16px 20px;display:grid;grid-template-columns:200px 1fr;gap:10px 16px;font-size:14px">
+                  <span style="color:#4A5870">Số tiền cần trả</span><span style="font-weight:700">{{ p4Amount }}</span>
+                  <span style="color:#4A5870">Số tiền hệ thống ghi nhận</span><span style="font-weight:700;color:#B45309">{{ p4Recv }}</span>
+                  <span style="color:#4A5870">Trạng thái thanh toán</span><span><span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:#FEF3C7;color:#B45309;font-size:12px;font-weight:600"><span aria-hidden="true">!</span>Cần đối soát</span></span>
+                </div>
+              </sc-if>
+              <sc-if value="{{ p4OutNote }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;line-height:20px;color:#4A5870">{{ p4OutNoteText }}</div></sc-if>
+              <div style="display:flex;gap:10px">
+                <sc-if value="{{ p4HasBtn }}" hint-placeholder-val="{{ true }}"><a href="{{ p4BtnHref }}" onClick="{{ p4BtnOn }}" style="height:48px;padding:0 22px;border-radius:8px;background:{{ p4BtnBg }};color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;text-decoration:none">{{ p4BtnLabel }}</a></sc-if>
+                <a href="#c05" style="height:48px;padding:0 20px;border-radius:8px;background:#FFFFFF;color:#14213D;border:1px solid #C5C3BD;font-size:15px;font-weight:600;display:flex;align-items:center;text-decoration:none">Xem đơn</a>
+                <a href="#c01" style="height:48px;padding:0 14px;display:flex;align-items:center;font-size:15px;font-weight:600;text-decoration:none">Về trang chủ</a>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+
+        <aside style="position:sticky;top:24px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:14px;overflow:hidden">
+          <div style="padding:22px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:center;gap:10px"><span style="display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;background:#EEF1F7;color:#14213D;font-size:12px;font-weight:700">{{ p4KindLabel }}</span><span style="font-size:12px;color:#4A5870">Tóm tắt đơn</span></div>
+            <div style="font-size:12px;color:#4A5870">Mã đơn <b style="font:700 14px ui-monospace,Menlo,monospace;color:#14213D;margin-left:4px">{{ p4Code }}</b></div>
+            <div style="font-size:17px;font-weight:600;line-height:24px">{{ p4Service }}</div>
+            <div style="font-size:13px;line-height:20px;color:#343F52">{{ p4Detail }}</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:{{ p4HoldBg }};border:1px solid {{ p4HoldBd }}">
+              <span aria-hidden="true" style="color:{{ p4HoldFg }};font-weight:700">◷</span>
+              <span style="flex:1;font-size:13px;color:#232B38">{{ p4HoldText }}</span>
+              <span style="font:700 18px ui-monospace,Menlo,monospace;color:{{ p4HoldFg }}">{{ p4Clock }}</span>
+            </div>
+            <div style="font-size:12px;color:#4A5870">Hạn thanh toán: {{ p4ExpAt }} (GMT+7)</div>
+            <div style="border-top:1px solid #ECEAE5;padding-top:12px;display:flex;flex-direction:column;gap:10px;font-size:14px">
+              <div style="display:flex;justify-content:space-between"><span style="color:#343F52">Phương thức</span><span>Chuyển khoản (VietQR)</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid #ECEAE5"><span style="font-size:15px;font-weight:700">Cần chuyển</span><span style="font-size:24px;font-weight:700;color:#14213D">{{ p4Amount }}</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C04P · FR-F02, F04, F08 · dùng chung đơn tour và đơn thuê (contract mục 6)<br>· Vào màn từ C04 (đơn tour) hoặc luồng thuê (3A/3B); route theo ORDERS.order_code<br>6.1 · POST /orders/{orderId}/payments · header Idempotency-Key (bắt buộc) · body { paymentMethod: BankTransfer }<br>→ 201 (tạo mới) hoặc 200 (đã có lần Pending còn hạn → trả lại lần đó, không tạo VA mới). Response: paymentId (32 hex viết hoa) · orderCode · amount · currency = VND · status = Pending · expiresAt (= ORDERS.hold_expires_at) · bankTransfer { bankName · accountNumber (số VA) · accountName · transferContent (= paymentId, 32 hex viết hoa) · qrImageUrl }<br>· Ngân hàng → bankName · Số tài khoản → accountNumber (nút Sao chép) · Chủ tài khoản → accountName · Số tiền → amount (nút Sao chép) · Nội dung → transferContent (hiển thị nguyên văn, bắt buộc ghi đúng) · QR → qrImageUrl (đã nhúng số tiền + nội dung)<br>· PAYMENTS: payment_type = Collection · purpose = TourFee (đơn tour) / RentalFee (đơn thuê) · payment_method = BankTransfer · provider_order_id = VA order SePay · amount = ORDERS.total_amount · received_amount NULL đến khi SePay xác nhận · status = Pending · mỗi đơn tối đa 1 dòng thu Pending<br>· Đếm ngược = expiresAt − now (cùng đồng hồ giữ chỗ hold_expires_at). Chưa cọc: amount = toàn bộ tổng đơn (deposit_amount = 0)<br>· “Tôi đã chuyển khoản” KHÔNG gọi API ghi, chỉ bắt đầu/đẩy nhanh poll; khách không tự đánh dấu đã thanh toán<br>6.2 · Poll GET /orders/{orderId}/payments/{paymentId} mỗi 5 giây, tối đa 10 phút hoặc đến expiresAt → paymentId · status · amount · expiresAt · orderStatus · orderPaymentStatus · processedAt · failureReason<br>Trạng thái:<br>1. Đang chờ: status Pending + orderStatus PendingPayment (“Đang xác minh — bạn không cần thanh toán lại” nếu đã bấm đã chuyển)<br>2. Sắp hết hạn: còn &lt; 2 phút → dải cảnh báo vàng<br>3. Đã nhận tiền: Succeeded + orderStatus Confirmed → C05 thành công<br>4. Hết hạn: POST/GET trả HOLD_EXPIRED / ORDER_NOT_PAYABLE (409) hoặc orderStatus = Expired → ẩn QR, nút “Đặt lại”<br>5. Lỗi tạo VA: PAYMENT_PROVIDER_ERROR (502, failure_reason: “Cổng thanh toán đang gặp sự cố nên chưa tạo được mã thanh toán. Vui lòng thử lại sau.”) → nút Thử lại gọi lại 6.1 với CÙNG Idempotency-Key<br>6. Chuyển sai số tiền / đến muộn: orderPaymentStatus = NeedsReconciliation (received_amount ≠ amount). Chuyển thiếu → ORDERS.status Expired ngay, số đã chuyển hoàn sau Admin duyệt; chuyển thừa / đến muộn → còn PendingPayment đến reconciliation_deadline_at. Khách không chuyển lại → C05 “Cần đối soát”<br>· Lỗi 400 IDEMPOTENCY_KEY_REQUIRED, 404 ORDER_NOT_FOUND / PAYMENT_NOT_FOUND → lỗi lập trình FE / trang 404 (Batch 6)</div>
+    </sc-if>
+  </div>
+</section>
+
+<!-- ================= C05 ================= -->
+<section id="c05" data-screen-label="C05 Kết quả thanh toán" style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font:700 13px ui-monospace,Menlo,monospace;background:#14213D;color:#FFFFFF;padding:4px 8px;border-radius:6px">C05</span>
+    <h2 style="margin:0;font-size:28px;font-weight:700;color:#14213D">Kết quả thanh toán</h2>
+    <span style="font:500 13px ui-monospace,Menlo,monospace;color:#4A5870">/checkout/result/:orderCode</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-left:24px">
+      <sc-for list="{{ c5Chips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.on }}" style="height:32px;padding:0 12px;white-space:nowrap;flex:none;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.c }};font-size:13px;font-weight:600;cursor:pointer">{{ c.label }}</button></sc-for>
+    </div>
+  </div>
+  <div style="display:flex;gap:32px;align-items:flex-start">
+    <div style="width:1440px;height:900px;background:#F5F4F1;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(20,33,61,.16);display:flex;flex-direction:column">
+      <header style="height:72px;flex:none;background:#14213D;display:flex;align-items:center;padding:0 80px;gap:40px">
+        <span style="position:relative;display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1;letter-spacing:-.01em">RenTrekk<span aria-hidden="true" style="position:absolute;top:-.3em;left:2.08em;display:flex;gap:.1em;align-items:flex-end"><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(-30deg)"></span><span style="width:.06em;height:.26em;background:#E29A78;border-radius:1px"></span><span style="width:.06em;height:.18em;background:#E29A78;border-radius:1px;transform:rotate(30deg)"></span></span><span style="color:#E29A78">.</span></span>
+        <nav style="display:flex;gap:28px;font-size:15px;font-weight:500;color:#D6DDEA"><span>Tour</span><span>Thuê thiết bị</span><span>Cẩm nang</span></nav>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;color:#FFFFFF"><span style="display:flex;align-items:center;gap:10px;font-size:14px"><span style="width:36px;height:36px;border-radius:50%;background:#D6DDEA;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">TH</span>Thu Hà</span></div>
+      </header>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center">
+        <div style="width:640px;background:#FFFFFF;border:1px solid #DDDAD3;border-radius:16px;padding:40px;display:flex;flex-direction:column;gap:20px;box-shadow:0 8px 24px rgba(20,33,61,.08)">
+          <div style="width:64px;height:64px;border-radius:50%;background:{{ c5IcBg }};color:{{ c5IcFg }};font-size:26px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ c5Icon }}</div>
+          <div><div style="font-family:'Playfair Display',Georgia,serif;font-size:32px;line-height:40px;font-weight:700;color:#14213D">{{ c5Title }}</div><div style="font-size:15px;line-height:24px;color:#343F52;margin-top:8px">{{ c5Text }}</div></div>
+          <sc-if value="{{ c5Pending }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:#E0F2F6;font-size:14px;color:#232B38">{{ c5Spin }}Trang sẽ tự cập nhật khi có kết quả. Bạn không cần thanh toán lại.</div>
+          </sc-if>
+          <sc-if value="{{ c5Recon }}" hint-placeholder-val="{{ false }}">
+            <div role="status" style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:10px;background:#FEF3C7;border:1px solid #B45309;font-size:14px;line-height:22px;color:#232B38"><span aria-hidden="true" style="color:#B45309;font-weight:700">!</span><span>Nhân viên sẽ liên hệ trong 24 giờ để xử lý khoản tiền. <b>Vui lòng không chuyển khoản lại.</b></span></div>
+          </sc-if>
+          <div style="border:1px solid #DDDAD3;border-radius:12px;overflow:hidden">
+            <div style="display:grid;grid-template-columns:180px 1fr;gap:12px 16px;padding:18px 20px;font-size:14px;align-items:center">
+              <span style="color:#4A5870">Mã đơn</span><span style="font:700 15px ui-monospace,Menlo,monospace;color:#14213D">RTK-26-004852</span>
+              <span style="color:#4A5870">Trạng thái đơn</span><span><span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ c5St.bg }};color:{{ c5St.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ c5St.ic }}</span>{{ c5St.label }}</span></span>
+              <span style="color:#4A5870">Thanh toán</span><span><span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ c5Pay.bg }};color:{{ c5Pay.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ c5Pay.ic }}</span>{{ c5Pay.label }}</span></span>
+              <span style="color:#4A5870">Giao dịch thu</span><span><span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px 0 8px;border-radius:999px;background:{{ c5Tx.bg }};color:{{ c5Tx.fg }};font-size:12px;font-weight:600"><span aria-hidden="true">{{ c5Tx.ic }}</span>{{ c5Tx.label }}</span></span>
+              <span style="color:#4A5870">Số tiền cần trả</span><span style="font-weight:700">4.900.000 ₫</span>
+              <sc-if value="{{ c5ShowRecv }}" hint-placeholder-val="{{ false }}"><span style="color:#4A5870">Số tiền đã nhận</span><span style="font-weight:700;color:{{ c5RecvC }}">{{ c5Recv }}</span></sc-if>
+              <span style="color:#4A5870">Phương thức</span><span>Chuyển khoản (VietQR)</span>
+              <span style="color:#4A5870">Mã giao dịch SePay</span><span style="font-family:ui-monospace,Menlo,monospace;color:{{ c5PtxC }};font-style:{{ c5PtxS }}">{{ c5Ptx }}</span>
+              <sc-if value="{{ c5Failed }}" hint-placeholder-val="{{ false }}"><span style="color:#4A5870">Lý do thất bại</span><span style="color:#BE123C">{{ c5Reason }}</span></sc-if>
+            </div>
+            <div style="padding:14px 20px;background:#F5F4F1;font-size:13px;color:#343F52">Fansipan qua cung Trạm Tôn · Th 7, 14/11/2026 · 05:30 (GMT+7) · 2 người</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <sc-if value="{{ c5Failed }}" hint-placeholder-val="{{ false }}"><a href="#c04p" onClick="{{ c5Retry }}" style="height:48px;padding:0 22px;border-radius:8px;background:#A4532F;color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;text-decoration:none">Thanh toán lại</a></sc-if>
+            <sc-if value="{{ c5Expired }}" hint-placeholder-val="{{ false }}"><a href="#c03" style="height:48px;padding:0 22px;border-radius:8px;background:#A4532F;color:#FFFFFF;font-size:15px;font-weight:600;display:flex;align-items:center;text-decoration:none">Đặt lại</a></sc-if>
+            <a href="RenTrekk Batch 3B - Don hang.dc.html#c11" style="height:48px;padding:0 20px;border-radius:8px;background:{{ c5ViewBg }};color:{{ c5ViewC }};border:{{ c5ViewBd }};font-size:15px;font-weight:600;display:flex;align-items:center;text-decoration:none">Xem đơn</a>
+            <a href="#c01" style="height:48px;padding:0 14px;display:flex;align-items:center;font-size:15px;font-weight:600;text-decoration:none">Về trang chủ</a>
+          </div>
+          <sc-if value="{{ c5Failed }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#4A5870;margin-top:-8px">Chỗ của bạn vẫn được giữ thêm {{ c4Clock }}. “Thanh toán lại” mở lại màn chuyển khoản (C04P), không tạo đơn mới.</div></sc-if>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ dev }}" hint-placeholder-val="{{ true }}">
+      <div style="width:340px;font:500 12px/1.65 ui-monospace,Menlo,monospace;color:#343F52;background:#F5F4F1;border:1px dashed #9AA1AC;border-radius:8px;padding:14px 16px">DEV · C05 · FR-F02, F08, F09<br>· Mã đơn → ORDERS.order_code<br>· Trạng thái đơn → ORDERS.status (PendingPayment · Confirmed · Expired…) · Thanh toán → ORDERS.payment_status (2 badge riêng). Nhãn “Đang xác minh” khi payment_status = Unpaid VÀ có dòng thu Pending (không phải enum)<br>· Giao dịch thu → PAYMENTS (payment_type = Collection, purpose = TourFee, payment_method = BankTransfer): status, amount, received_amount?, provider_transaction_id? (rỗng → “Chưa cập nhật”), failure_reason? (chỉ khi Failed)<br>· Phương thức luôn hiển thị “Chuyển khoản (VietQR)” (BankTransfer là giá trị duy nhất)<br>· Dữ liệu từ GET /orders/{orderId}/payments/{paymentId} → status, orderStatus, orderPaymentStatus, processedAt, failureReason — KHÔNG coi redirect/ảnh chụp màn hình là đã trả<br>Biến thể:<br>1. Đang xác minh: PAYMENTS Pending + order PendingPayment + Unpaid → “Đang xác minh — bạn không cần thanh toán lại”, poll mỗi 5 giây tối đa 10 phút hoặc đến expiresAt<br>2. Thành công: Succeeded → Order Confirmed, payment_status Paid; hiện received_amount<br>3. Thất bại: Failed / Cancelled + order PendingPayment → hiện failure_reason; “Thanh toán lại” (chỉ khi còn hold_expires_at) → C04P gọi lại POST /orders/{orderId}/payments; hết hạn → nút “Đặt lại” về C03<br>4. Hết hạn: order Expired (bất kỳ payment status) → “Đặt lại”, không hiện QR / nút thanh toán<br>5. Cần đối soát: payment_status = NeedsReconciliation (received_amount khác amount, hoặc tiền về sau hạn / khi đơn đã Expired / Cancelled). Chuyển thiếu → order Expired ngay, số đã chuyển hoàn sau khi Admin duyệt; chuyển thừa / đến muộn → order còn PendingPayment đến reconciliation_deadline_at, Admin chấp nhận hoặc hoàn (contract 8.4, 8.5). Khách KHÔNG chuyển lại<br>· Xem đơn → C11 (Tour) / C13 (Rental)</div>
+    </sc-if>
+  </div>
+</section>
+
+</div>
+
+<div aria-live="polite" style="position:fixed;right:24px;bottom:24px;display:flex;flex-direction:column;gap:8px;z-index:50;max-width:380px">
+  <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="0">
+    <div role="status" style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:#FFFFFF;border:1px solid #DDDAD3;border-left:4px solid {{ t.fg }};border-radius:10px;box-shadow:0 12px 32px rgba(20,33,61,.18);font-size:14px">
+      <span aria-hidden="true" style="color:{{ t.fg }};font-weight:700">{{ t.ic }}</span>
+      <div style="flex:1"><div style="font-weight:600">{{ t.title }}</div><div style="font-size:13px;color:#4A5870">{{ t.msg }}</div></div>
+    </div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDevNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Annotation&quot;}}">
+const G = {
+  neutral:{bg:'#ECEAE5',fg:'#4A5870',ic:'○'}, info:{bg:'#E0F2F6',fg:'#0E7490',ic:'◷'}, warning:{bg:'#FEF3C7',fg:'#B45309',ic:'!'},
+  progress:{bg:'#EDE9FE',fg:'#6D28D9',ic:'▶'}, success:{bg:'#E7F6EC',fg:'#166534',ic:'✓'}, danger:{bg:'#FFE4E8',fg:'#BE123C',ic:'✕'}
+};
+const B = (label,g) => ({...G[g],label});
+const vnd = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.') + ' ₫';
+const TOURS = [
+  {id:'fs',name:'Chinh phục Fansipan qua cung Trạm Tôn',cat:'Leo núi',loc:'Sa Pa, Lào Cai',d:3,n:2,price:2450000,next:'Th 7, 14/11/2026',ns:1114,rating:4.8,reviews:126},
+  {id:'tx',name:'Sống lưng khủng long Tà Xùa',cat:'Săn mây',loc:'Bắc Yên, Sơn La',d:2,n:1,price:1490000,next:'Th 7, 14/11/2026',ns:1114,rating:4.9,reviews:211},
+  {id:'lt',name:'Lảo Thẩn – nóc nhà Y Tý',cat:'Săn mây',loc:'Bát Xát, Lào Cai',d:2,n:1,price:1650000,next:'CN, 08/11/2026',ns:1108,rating:4.7,reviews:84},
+  {id:'bm',name:'Bạch Mộc Lương Tử – Ky Quan San',cat:'Leo núi',loc:'Bát Xát, Lào Cai',d:3,n:2,price:3150000,next:'Th 7, 21/11/2026',ns:1121,rating:4.8,reviews:67},
+  {id:'pl',name:'Pu Luông – ruộng bậc thang và bản Thái',cat:'Dã ngoại',loc:'Bá Thước, Thanh Hóa',d:2,n:1,price:1290000,next:'Th 7, 07/11/2026',ns:1107,rating:4.6,reviews:142},
+  {id:'tc',name:'Tà Chì Nhù mùa hoa chi pâu',cat:'Leo núi',loc:'Trạm Tấu, Yên Bái',d:2,n:1,price:1890000,next:null,ns:9999,rating:4.5,reviews:39}
+];
+const card = t => ({...t,dur:`${t.d} ngày ${t.n} đêm`,rating:String(t.rating).replace('.',','),priceLabel:'Từ '+vnd(t.price),nextLabel:t.next?`Khởi hành gần nhất: ${t.next}`:'Sắp có lịch'});
+const DAYS = {
+  1:[['05:30','Tập trung tại Trạm Tôn',30,'Guide kiểm tra đồ cá nhân và phát đồ được cấp.'],['06:00','Trekking qua rừng trúc',240,'Đường dốc vừa, nghỉ 10 phút mỗi giờ.'],['10:30','Ăn trưa tại lán 2.200 m',60,null],['11:30','Leo lên lán 2.800 m',240,'Đoạn dốc nhất của hành trình.'],['16:00','Nhận chỗ nghỉ, ăn tối',120,null]],
+  2:[['03:30','Leo đỉnh đón bình minh',150,'Mang đèn pin đội đầu và áo giữ nhiệt.'],['06:00','Ngắm biển mây trên đỉnh 3.143 m',60,'Chụp ảnh tại cột mốc.'],['07:30','Quay về lán 2.800 m',120,null],['10:00','Nghỉ ngơi, ăn trưa',90,null]],
+  3:[['07:00','Xuống núi về Trạm Tôn',300,'Đi chậm, chú ý đầu gối ở đoạn dốc.'],['12:30','Trả đồ được cấp, về Sa Pa',60,'Guide thu lại thiết bị theo danh sách.']]
+};
+const dur = m => m>=60 ? (m%60? `${Math.floor(m/60)} giờ ${m%60} phút` : `${m/60} giờ`) : `${m} phút`;
+const TRIPS = [
+  {id:1,range:'Th 7, 31/10 – Th 2, 02/11/2026',time:'05:30 (GMT+7)',price:2450000,slots:null,min:6,st:'cancel'},
+  {id:2,range:'Th 7, 07/11 – Th 2, 09/11/2026',time:'05:30 (GMT+7)',price:2450000,slots:0,min:6,st:'full'},
+  {id:3,range:'Th 7, 14/11 – Th 2, 16/11/2026',time:'05:30 (GMT+7)',price:2450000,slots:4,min:6,st:'open'},
+  {id:4,range:'Th 7, 21/11 – Th 2, 23/11/2026',time:'05:30 (GMT+7)',price:2350000,slots:10,min:6,st:'open'},
+  {id:5,range:'Th 7, 28/11 – Th 2, 30/11/2026',time:'05:30 (GMT+7)',price:2450000,slots:14,min:6,st:'closed'}
+];
+const ST = {open:B('Mở bán','info'),full:B('Hết chỗ','warning'),closed:B('Đã đóng bán','warning'),cancel:B('Đã hủy','danger')};
+const ME = {name:'Trần Thu Hà',email:'thuha.tran@gmail.com',phone:'0912 345 678',dob:'21/04/1996',ecn:'Trần Văn Bình',ecp:'0983 112 233'};
+const emptyP = () => ({name:'',email:'',phone:'',dob:'',ecn:'',ecp:'',me:false});
+const emailOk = v => !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+const dobErr = v => { if(!v) return null; const m=v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if(!m) return 'Nhập theo dạng dd/mm/yyyy.'; if(new Date(+m[3],+m[2]-1,+m[1])>new Date(2026,9,18)) return 'Ngày sinh không được ở tương lai.'; return null; };
+const bd = e => e ? '1.5px solid #BE123C' : '1px solid #C5C3BD';
+const PROMO_ERR = {HETHAN:'Mã đã hết hạn sử dụng.',HETLUOT:'Mã đã hết lượt sử dụng.',DADUNG:'Bạn đã dùng hết số lượt cho mã này.',KHONGCONG:'Mã này không dùng chung được với khuyến mãi đang áp dụng.',HETQUA:'Quà tặng kèm mã này đã hết thiết bị trong thời gian chuyến.'};
+const P4 = {
+  tour:{label:'Đơn tour',code:'RTK-26-004852',service:'Chinh phục Fansipan qua cung Trạm Tôn',detail:'Th 7, 14/11/2026 · 05:30 (GMT+7) · 2 người',amount:4900000,recv:4500000,bank:'VietinBank',va:'VQRQ0098765432',holder:'CONG TY RENTREKK',pid:'3F9A2C7E81B04D56A9E0C4B7D21F8A63',exp:'10:42 · 30/10/2026',hold:'Giữ chỗ còn',redo:'#c03',redoLabel:'Đặt lại',gone:'chỗ được trả lại cho chuyến'},
+  rental:{label:'Đơn thuê',code:'TRK851204',service:'Thuê thiết bị trekking · 2 món',detail:'Nhận 20/11/2026 → trả 23/11/2026 (GMT+7) · 3 ngày',amount:420000,recv:400000,bank:'VietinBank',va:'VQRQ0012345678',holder:'CONG TY RENTREKK',pid:'7C1E5A9B0D2F4E3A8B6C1D0E9F2A3B4C',exp:'10:42 · 30/10/2026',hold:'Giữ thiết bị còn',redo:'RenTrekk Batch 3A - Thue thiet bi.dc.html#c06',redoLabel:'Đặt lại',gone:'thiết bị được trả lại kho'}
+};
+const C5 = {
+  pending:{icon:'◷',bg:G.info.bg,fg:G.info.fg,title:'Đang xác minh thanh toán',text:'Chúng tôi đang chờ ngân hàng xác nhận khoản chuyển khoản của bạn. Thường mất vài giây đến vài phút.',st:B('Chờ thanh toán','warning'),pay:B('Đang xác minh','info'),tx:B('Đang xử lý','info'),ptx:'Chưa cập nhật'},
+  success:{icon:'✓',bg:G.success.bg,fg:G.success.fg,title:'Đặt chuyến thành công',text:'Chỗ của bạn đã được xác nhận. Thông tin chuyến và danh sách cần mang đã được gửi tới thuha.tran@gmail.com.',st:B('Đã xác nhận','success'),pay:B('Đã thanh toán','success'),tx:B('Thành công','success'),ptx:'SEPAY-26111403851'},
+  failed:{icon:'✕',bg:G.danger.bg,fg:G.danger.fg,title:'Thanh toán chưa thành công',text:'Giao dịch chuyển khoản chưa được xác nhận. Bạn chưa bị trừ tiền và có thể thanh toán lại trong thời gian giữ chỗ.',st:B('Chờ thanh toán','warning'),pay:B('Chưa thanh toán','neutral'),tx:B('Thất bại','danger'),ptx:'Chưa cập nhật',reason:'Cổng thanh toán đang gặp sự cố nên chưa tạo được mã thanh toán. Vui lòng thử lại sau.'},
+  expired:{icon:'◷',bg:G.danger.bg,fg:G.danger.fg,title:'Đơn đã hết hạn',text:'Đã hết thời gian giữ chỗ nên đơn bị đóng và chỗ được trả lại cho chuyến. Bạn chưa chuyển khoản nên không bị trừ tiền.',st:B('Hết hạn','danger'),pay:B('Chưa thanh toán','neutral'),tx:B('Đã hủy','neutral'),ptx:'Chưa cập nhật'},
+  recon:{icon:'!',bg:G.warning.bg,fg:G.warning.fg,title:'Đang đối soát thanh toán',text:'Chúng tôi đã nhận 4.500.000 ₫, khác với số cần trả 4.900.000 ₫. Đơn đang chờ nhân viên xử lý, chưa được xác nhận.',st:B('Chờ thanh toán','warning'),pay:B('Cần đối soát','warning'),tx:B('Thành công','success'),ptx:'SEPAY-26111403902'}
+};
+class Component extends DCLogic {
+  state = {
+    c1:'loaded', c2Cats:[], c2Dur:null, c2Sort:'date', c3:'normal', c3Gal:0, c3Day:1, c3Sel:3,
+    step:0, n:2, grp:'together', parts:[{...ME,me:true},emptyP()], open:1, perr:[], tried:false,
+    holdOn:false, hold:600, code:'', codeErr:'', codeOk:false, unit:2450000, priceChanged:false, soldOut:false,
+    pm:'bank', note:'', agree:false, agreeErr:false, paying:false, c4Err:null, p4:'waiting', p4Kind:'tour', p4Left:600, c5:'pending', toasts:[]
+  };
+  componentDidMount(){ this.t=setInterval(()=>{ if(this.state.holdOn&&this.state.hold>0) this.setState(s=>({hold:s.hold-1})); if(this.state.p4==='waiting'&&this.state.p4Left>0) this.setState(s=>({p4Left:s.p4Left-1})); },1000); }
+  componentWillUnmount(){ clearInterval(this.t); }
+  toast(kind,title,msg){ const id=Math.random(); const g=G[kind]; this.setState(s=>({toasts:[...s.toasts,{id,fg:g.fg,ic:g.ic,title,msg}]})); setTimeout(()=>this.setState(s=>({toasts:s.toasts.filter(t=>t.id!==id)})),3800); }
+  spin(c){ return React.createElement('span',{'aria-hidden':true,style:{width:14,height:14,border:'2px solid rgba(255,255,255,.35)',borderTopColor:c||'#fff',borderRadius:'50%',display:'inline-block',animation:'rtspin .8s linear infinite'}}); }
+  qr(dim){ const N=25, ch=[]; let seed=11; const rnd=()=>{ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; };
+    const fin=(x,y)=>(x<8&&y<8)||(x>=N-8&&y<8)||(x<8&&y>=N-8);
+    for(let y=0;y<N;y++) for(let x=0;x<N;x++){ if(!fin(x,y)&&rnd()>0.5) ch.push(React.createElement('rect',{key:'q'+x+'-'+y,x,y,width:1,height:1,fill:'#14213D'})); }
+    [[0,0],[N-7,0],[0,N-7]].forEach(([x,y],i)=>{ ch.push(React.createElement('rect',{key:'a'+i,x,y,width:7,height:7,fill:'#14213D'}),React.createElement('rect',{key:'b'+i,x:x+1,y:y+1,width:5,height:5,fill:'#FFFFFF'}),React.createElement('rect',{key:'c'+i,x:x+2,y:y+2,width:3,height:3,fill:'#14213D'})); });
+    return React.createElement('svg',{viewBox:'0 0 '+N+' '+N,width:208,height:208,role:'img','aria-label':'Mã VietQR minh họa',style:{display:'block',opacity:dim?0.3:1},shapeRendering:'crispEdges'},ch); }
+  copy(what){ return ()=>{ try{ navigator.clipboard&&navigator.clipboard.writeText(what); }catch(e){} this.toast('success','Đã sao chép',what); }; }
+  chip(active,label,on){ return {label,on,bg:active?'#14213D':'#FFFFFF',c:active?'#FFFFFF':'#14213D',bd:active?'#14213D':'#C5C3BD'}; }
+  setParts(fn){ this.setState(s=>({parts:fn(s.parts.map(p=>({...p})))})); }
+  validateParts(){ const errs=this.state.parts.map(p=>({name:!p.name.trim(),email:!emailOk(p.email),dob:dobErr(p.dob)})); const bad=errs.findIndex(e=>e.name||e.email||e.dob); return {errs,bad}; }
+  renderVals() {
+    const s=this.state, dev=this.props.showDevNotes ?? true;
+    // C02
+    let list=TOURS.filter(t=>(!s.c2Cats.length||s.c2Cats.includes(t.cat))&&(!s.c2Dur||(s.c2Dur===4?t.d>=4:t.d===s.c2Dur)));
+    list=[...list].sort((a,b)=>s.c2Sort==='price'?a.price-b.price:s.c2Sort==='rating'?b.rating-a.rating:a.ns-b.ns);
+    // C03
+    const trip=TRIPS.find(t=>t.id===s.c3Sel)||TRIPS[2];
+    const noTrips=s.c3==='notrips', archived=s.c3==='archived';
+    // C04
+    const unit=s.priceChanged?2450000:s.unit;
+    const sub=s.n*unit, grpDisc=s.n>=4?Math.round(sub*0.1):0, codeDisc=s.codeOk?200000:0, total=sub-grpDisc-codeDisc;
+    const expired=s.holdOn&&s.hold===0;
+    const blocked=expired||s.soldOut||s.priceChanged||s.c4Err==='promo';
+    const mm=String(Math.floor(s.hold/60)).padStart(2,'0'), ss=String(s.hold%60).padStart(2,'0');
+    const pe=s.tried?this.validateParts().errs:[];
+    const goStep=k=>{ const st={step:k,soldOut:false,priceChanged:false,agreeErr:false,paying:false,c4Err:null}; if(k>0&&!this.state.holdOn){st.holdOn=true;st.hold=600;} if(this.state.holdOn&&this.state.hold===0){st.hold=600;} this.setState(st); };
+    const next=()=>{ if(blocked) return; if(s.step===0){ this.setState({step:1,holdOn:true,hold:s.holdOn?s.hold:600}); this.toast('info','Đã giữ chỗ','Hoàn tất trong 10 phút để giữ chỗ cho '+s.n+' người.'); return; } if(s.step===1){ const {bad}=this.validateParts(); if(bad>=0){ this.setState({tried:true,open:bad}); return; } this.setState({step:2,tried:false}); return; } if(s.step===2) this.setState({step:3}); };
+    const pay=()=>{ if(blocked||s.paying) return; if(!s.agree){ this.setState({agreeErr:true}); return; } this.setState({paying:true,c4Err:null}); setTimeout(()=>{ this.setState({paying:false,p4:'waiting',p4Kind:'tour',p4Left:Math.max(this.state.hold,150),c5:'pending'}); window.location.hash='c04p'; },1200); };
+    const applyCode=()=>{ const c=s.code.trim().toUpperCase(); if(!c) { this.setState({codeErr:'Vui lòng nhập mã.'}); return; } if(c==='FANSIPAN200') this.setState({codeOk:true,codeErr:'',code:''}); else this.setState({codeErr:PROMO_ERR[c]||'Mã khuyến mãi không tồn tại.',codeOk:false}); };
+    const tierBadge=s.n>=4?B('Đã đạt bậc 2','success'):s.n>=3?B('Đã đạt bậc 1','success'):B('Chưa đạt','neutral');
+    const tiers=[[3,'Bậc 1 · Từ 3 người','Tặng 1 gậy trekking cho cả nhóm'],[4,'Bậc 2 · Từ 4 người','Giảm 10% tổng tiền tour']].map(([min,label,desc])=>{ const ok=s.n>=min; return {label,desc,mark:ok?'✓':String(min),bd:ok?'#166534':'#DDDAD3',bg:ok?'#E7F6EC':'#FFFFFF',dotBg:ok?'#166534':'#ECEAE5',dotC:ok?'#FFFFFF':'#4A5870'}; });
+    const tierHint=s.n<3?`Thêm ${3-s.n} người để nhận quà gậy trekking.`:s.n<4?'Thêm 1 người để được giảm 10%.':'';
+    const stepsL=['Số người','Người tham gia','Khuyến mãi','Xác nhận & thanh toán'];
+    const parts=s.parts.slice(0,s.n).map((p,i)=>{ const e=pe[i]||{}; const ok=p.name.trim()&&emailOk(p.email)&&!dobErr(p.dob); const anyErr=e.name||e.email||e.dob; const open=s.open===i;
+      const setF=k=>ev=>{ const v=ev.target.value; this.setParts(a=>{a[i][k]=v;return a;}); };
+      return {no:i+1,open,chev:open?'▴':'▾',title:p.name.trim()||`Người tham gia ${i+1}`,sub:p.me?'Bạn · liên kết với tài khoản':(p.phone||p.email||'Chưa nhập thông tin liên hệ'),
+        ...(anyErr?B('Cần sửa','danger'):ok?B('Đủ thông tin','success'):B('Chưa nhập','neutral')), sbg:anyErr?G.danger.bg:ok?G.success.bg:G.neutral.bg, sfg:anyErr?G.danger.fg:ok?G.success.fg:G.neutral.fg, sic:anyErr?'✕':ok?'✓':'○', slabel:anyErr?'Cần sửa':ok?'Đủ thông tin':'Chưa nhập',
+        cardBd:anyErr?'1.5px solid #BE123C':'1px solid #DDDAD3',
+        toggle:()=>this.setState(x=>({open:x.open===i?-1:i})),
+        name:p.name,email:p.email,phone:p.phone,dob:p.dob,ecn:p.ecn,ecp:p.ecp,me:!!p.me,
+        onName:setF('name'),onEmail:setF('email'),onPhone:setF('phone'),onDob:setF('dob'),onEcn:setF('ecn'),onEcp:setF('ecp'),
+        onMe:()=>this.setParts(a=>{ const was=a[i].me; a.forEach((q,j)=>{ if(q.me&&j!==i){ a[j]=emptyP(); } }); a[i]=was?emptyP():{...ME,me:true}; return a; }),
+        nameInv:!!e.name,emailInv:!!e.email,dobInv:!!e.dob,dobErr:e.dob||'',nameBd:bd(e.name),emailBd:bd(e.email),dobBd:bd(e.dob)}; });
+    const c5=C5[s.c5];
+    return {
+      dev, toasts:s.toasts, five:[1,2,3,4,5], three:[1,2,3],
+      // C01
+      c1Chips:[['loaded','Đã tải'],['loading','Đang tải'],['error','Lỗi kết nối']].map(([v,l])=>this.chip(s.c1===v,l,()=>this.setState({c1:v}))),
+      c1Loaded:s.c1==='loaded', c1Loading:s.c1==='loading', c1Error:s.c1==='error',
+      c1Retry:()=>{ this.setState({c1:'loading'}); setTimeout(()=>this.setState({c1:'loaded'}),1200); },
+      c1When:[['all','Tất cả ngày'],['week','Tuần này'],['nov','Tháng 11'],['dec','Tháng 12']].map(([k,l])=>this.chip((s.c1When||'all')===k,l,()=>this.setState({c1When:k}))),
+      c1CatOpts:['Leo núi','Săn mây','Dã ngoại','Cắm trại'].map(c=>{ const on=(s.c1Cat||[]).includes(c); return {...this.chip(on,c,()=>this.setState(x=>({c1Cat:(x.c1Cat||[]).includes(c)?(x.c1Cat||[]).filter(y=>y!==c):[...(x.c1Cat||[]),c]}))),label:c}; }),
+      ...(()=>{ const U=id=>'https://images.unsplash.com/photo-'+id+'?w=600&q=60&auto=format';
+        const all=[['T7','07','Th 11','Pu Luông – ruộng bậc thang và bản Thái','Dã ngoại','Thanh Hóa','2N1Đ','05:30',1290000,3,'4,6','1501785888041-af3ef285b470','week'],['CN','08','Th 11','Lảo Thẩn – nóc nhà Y Tý','Săn mây','Lào Cai','2N1Đ','05:00',1650000,3,'4,7','1551632811-561732d1e306','week'],['T7','14','Th 11','Chinh phục Fansipan qua cung Trạm Tôn','Leo núi','Lào Cai','3N2Đ','05:30',2450000,4,'4,8','1464822759023-fed622ff2c3b','nov'],['T7','14','Th 11','Sống lưng khủng long Tà Xùa','Săn mây','Sơn La','2N1Đ','06:00',1490000,8,'4,9','1506905925346-21bda4d32df4','nov'],['T7','21','Th 11','Bạch Mộc Lương Tử – Ky Quan San','Leo núi','Lào Cai','3N2Đ','05:00',3150000,10,'4,8','1454496522488-7a8e488e8606','nov'],['T7','21','Th 11','Cắm trại hồ Đồng Đò','Cắm trại','Hà Nội','2N1Đ','08:00',890000,12,'4,5','1504280390367-361c6d9f38f4','nov'],['T7','05','Th 12','Tà Chì Nhù mùa hoa chi pâu','Leo núi','Yên Bái','2N1Đ','05:00',1890000,14,'4,5','1519681393784-d120267933ba','dec'],['T7','12','Th 12','Chinh phục Fansipan qua cung Trạm Tôn','Leo núi','Lào Cai','3N2Đ','05:30',2450000,16,'4,8','1478131143081-80f7f84ca84d','dec']];
+        const w=s.c1When||'all', cs=s.c1Cat||[];
+        const list=all.filter(t=>(w==='all'||t[12]===w||(w==='nov'&&t[12]==='week'))&&(!cs.length||cs.includes(t[4])));
+        return {c1Trips:list.map(t=>{ const g=t[9]<=4?G.warning:G.info; return {dow:t[0],day:t[1],mon:t[2],tour:t[3],cat:t[4],loc:t[5],dur:t[6],time:t[7],price:vnd(t[8]),slots:'Còn '+t[9]+' chỗ',sbg:g.bg,sfg:g.fg,sic:g.ic,rating:t[10],img:U(t[11])}; }),c1TripCount:list.length,c1HasTrips:list.length>0,c1NoTrips:!list.length}; })(),
+      c1Cats:['Leo núi','Săn mây','Dã ngoại','Cắm trại','Người mới bắt đầu'],
+      featured:TOURS.slice(0,3).map(card),
+      upcoming:[['Th 7','07','Th 11','Pu Luông – ruộng bậc thang và bản Thái','2 ngày 1 đêm',1290000,3],['CN','08','Th 11','Lảo Thẩn – nóc nhà Y Tý','2 ngày 1 đêm',1650000,3],['Th 7','14','Th 11','Chinh phục Fansipan qua cung Trạm Tôn','3 ngày 2 đêm',2450000,4],['Th 7','14','Th 11','Sống lưng khủng long Tà Xùa','2 ngày 1 đêm',1490000,8]].map(([dow,day,mon,tour,du,p,sl])=>{ const g=sl<=4?G.warning:G.info; return {dow,day,mon,tour,dur:du,time:'05:30',price:vnd(p),slots:`Còn ${sl} chỗ`,sbg:g.bg,sfg:g.fg,sic:g.ic}; }),
+      rentals:[['Thiết bị lẻ','Lều 2 người Naturehike',95000,'ảnh lều'],['Combo','Combo Ngủ ấm (túi ngủ + đệm)',95000,'ảnh combo'],['Thiết bị lẻ','Balo trekking 40L',60000,'ảnh balo'],['Thiết bị lẻ','Gậy trekking',25000,'ảnh gậy']].map(([kind,name,p,img])=>({kind,name,price:vnd(p),img})),
+      posts:[['Cẩm nang','12/10/2026','Chuẩn bị gì cho chuyến Fansipan 3 ngày 2 đêm'],['Kỹ năng','05/10/2026','Giữ ấm khi ngủ lều ở độ cao 2.800 m'],['Kinh nghiệm','28/09/2026','Đọc dự báo thời tiết để săn mây đúng ngày']].map(([type,date,title])=>({type,date,title})),
+      // C02
+      c2CatOpts:['Leo núi','Săn mây','Dã ngoại'].map(c=>({label:c,count:TOURS.filter(t=>t.cat===c).length,on:s.c2Cats.includes(c),toggle:()=>this.setState(x=>({c2Cats:x.c2Cats.includes(c)?x.c2Cats.filter(y=>y!==c):[...x.c2Cats,c]}))})),
+      c2DurOpts:[[1,'1'],[2,'2'],[3,'3'],[4,'4+']].map(([v,l])=>{ const a=s.c2Dur===v; return {label:l+' ngày',active:a,bd:a?'#14213D':'#C5C3BD',bg:a?'#14213D':'#FFFFFF',c:a?'#FFFFFF':'#14213D',on:()=>this.setState(x=>({c2Dur:x.c2Dur===v?null:v}))}; }),
+      c2SortOpts:[['date','Ngày gần nhất'],['price','Giá thấp nhất'],['rating','Đánh giá cao']].map(([v,l])=>({label:l,bg:s.c2Sort===v?'#FFFFFF':'transparent',c:s.c2Sort===v?'#14213D':'#4A5870',on:()=>this.setState({c2Sort:v})})),
+      c2List:list.map(card), c2Count:list.length, c2HasResults:list.length>0, c2Empty:list.length===0,
+      c2Reset:()=>this.setState({c2Cats:[],c2Dur:null}), c2MakeEmpty:()=>this.setState({c2Cats:[],c2Dur:4}),
+      // C03
+      c3Chips:[['normal','Bình thường'],['archived','Tour đã ngừng mở bán'],['notrips','Chưa có chuyến']].map(([v,l])=>this.chip(s.c3===v,l,()=>this.setState({c3:v}))),
+      c3Archived:archived, c3HasTrips:!noTrips&&!archived, c3NoTrips:noTrips||archived,
+      c3CanBook:!noTrips&&!archived, c3CantBook:noTrips||archived,
+      c3CantText:archived?'Tour không còn mở bán chuyến mới.':'Tour chưa có lịch khởi hành. Hãy quay lại sau.', c3CantBtn:archived?'Đã ngừng mở bán':'Sắp có lịch',
+      c3GalMain:`ảnh tour ${s.c3Gal+1}/5 · display_order`,
+      c3Thumbs:[1,2,3,4].map(i=>({label:'Ảnh '+(i+1),ol:s.c3Gal===i?'3px solid #14213D':'0',on:()=>this.setState({c3Gal:i})})),
+      c3DayTabs:[1,2,3].map(d=>{ const a=s.c3Day===d; return {label:'Ngày '+d,bd:a?'#14213D':'transparent',c:a?'#14213D':'#4A5870',w:a?700:500,on:()=>this.setState({c3Day:d})}; }),
+      c3Acts:DAYS[s.c3Day].map(([time,name,m,desc],i,a)=>({time,name,dur:dur(m),desc:desc||'Chưa cập nhật mô tả',dc:desc?'#343F52':'#5E6B80',line:i===a.length-1?'none':'block'})),
+      c3Prep:[['Giày trekking cổ cao','Đã đi quen, đế chống trơn'],['Áo giữ nhiệt và áo khoác chống nước',null],['Đèn pin đội đầu','Pin dự phòng cho đêm leo đỉnh'],['Thuốc cá nhân',null],['Căn cước công dân','Cần để làm thủ tục vào vườn quốc gia'],['Bình nước 1 lít',null]].map(([name,note])=>({name,note:note||'',hasNote:!!note})),
+      c3Prov:[['Lều 4 người','1 mỗi nhóm',null],['Túi ngủ −5°C','1 mỗi người','Thu lại khi xuống núi'],['Gậy trekking','2 mỗi người',null],['Áo mưa dùng một lần','1 mỗi người',null]].map(([name,qty,note])=>({name,qty,note:note||'',hasNote:!!note})),
+      c3Trips:TRIPS.map(t=>{ const b=ST[t.st]; const sel=s.c3Sel===t.id; const can=t.st==='open'; return {...b,range:t.range,time:t.time,price:vnd(t.price),slots:t.slots===null?'—':t.slots===0?'0':`${t.slots} / 16`,min:t.min,dis:!can,btn:sel?'Đã chọn':can?'Chọn':'—',bbd:sel?'#14213D':can?'#C5C3BD':'#DDDAD3',bbg:sel?'#14213D':can?'#FFFFFF':'#F5F4F1',bc:sel?'#FFFFFF':can?'#14213D':'#5E6B80',rowBg:sel?'#EEF1F7':'#FFFFFF',sh:sel?'inset 3px 0 0 #14213D':'none',tc:can?'#151A24':'#4A5870',pick:()=>this.setState({c3Sel:t.id})}; }),
+      c3SelRange:trip.range, c3SelPrice:vnd(trip.price), c3SelSlots:`${trip.slots} / 16`, c3SelMin:trip.min,
+      c3Book:()=>this.setState({step:0,holdOn:false,hold:600,unit:trip.price,n:Math.min(this.state.n,trip.slots),soldOut:false,priceChanged:false,codeOk:false,c5:'pending'}),
+      refundRules:[['Hủy trước ≥ 168 giờ (7 ngày)','Hoàn 100%'],['Hủy trước ≥ 72 giờ','Hoàn 70%'],['Hủy trước ≥ 24 giờ','Hoàn 30%'],['Dưới 24 giờ','Không hoàn']].map(([when,pct])=>({when,pct})),
+      c3Posts:[['Cẩm nang','Chuẩn bị gì cho chuyến Fansipan 3 ngày 2 đêm'],['Kỹ năng','Giữ ấm khi ngủ lều ở độ cao 2.800 m'],['An toàn','Nhận biết và xử lý say độ cao']].map(([type,title])=>({type,title})),
+      c3Reviews:[['HT','Hà T.','02/10/2026',5,'Guide rất có tâm, chia nhóm nhỏ nên ai cũng theo kịp. Bình minh trên đỉnh đẹp hơn mong đợi.'],['MN','Minh N.','21/09/2026',4,'Lán nghỉ hơi đông nhưng đồ được cấp đầy đủ, túi ngủ ấm.'],['QL','Quang L.','14/09/2026',5,null]].map(([ini,name,date,r,c])=>({ini,name,date,stars:'★'.repeat(r)+'☆'.repeat(5-r),aria:r+' trên 5 sao',comment:c||'Không có nhận xét.',cc:c?'#232B38':'#5E6B80'})),
+      // C04
+      c4Chips:[
+        this.chip(s.step===0&&!blocked,'Bước 1',()=>goStep(0)),this.chip(s.step===1&&!blocked,'Bước 2',()=>goStep(1)),this.chip(s.step===2&&!blocked,'Bước 3',()=>goStep(2)),this.chip(s.step===3&&!blocked,'Bước 4',()=>goStep(3)),
+        this.chip(s.priceChanged,'Giá đã đổi',()=>this.setState({step:3,priceChanged:true,soldOut:false,c4Err:null,holdOn:true,hold:Math.max(this.state.hold,300)})),
+        this.chip(s.soldOut,'Hết chỗ khi xác nhận',()=>this.setState({step:3,soldOut:true,priceChanged:false,c4Err:null,holdOn:true,hold:Math.max(this.state.hold,300)})),
+        this.chip(expired,'Hết hạn giữ chỗ',()=>this.setState({step:3,holdOn:true,hold:0,soldOut:false,priceChanged:false,c4Err:null})),
+        this.chip(s.c4Err==='provider'&&!expired,'Lỗi cổng thanh toán',()=>this.setState({step:3,c4Err:'provider',agree:true,agreeErr:false,soldOut:false,priceChanged:false,holdOn:true,hold:Math.max(this.state.hold,300)})),
+        this.chip(s.c4Err==='policy'&&!expired,'Chính sách đổi',()=>this.setState({step:3,c4Err:'policy',agree:false,agreeErr:false,soldOut:false,priceChanged:false,holdOn:true,hold:Math.max(this.state.hold,300)})),
+        this.chip(s.c4Err==='promo'&&!expired,'Khuyến mãi hết',()=>this.setState({step:3,c4Err:'promo',codeOk:true,agree:true,agreeErr:false,soldOut:false,priceChanged:false,holdOn:true,hold:Math.max(this.state.hold,300)}))
+      ],
+      c4Steps:stepsL.map((label,i)=>{ const done=i<s.step, act=i===s.step; return {label,mark:done?'✓':String(i+1),bg:done?'#14213D':'#FFFFFF',fg:done?'#FFFFFF':act?'#14213D':'#5E6B80',bd:done||act?'#14213D':'#C5C3BD',w:act?700:500,tc:act||done?'#151A24':'#4A5870',line:i<=s.step?'#14213D':'#DDDAD3',lineShow:i===0?'none':'block'}; }),
+      c4S0:s.step===0, c4S1:s.step===1, c4S2:s.step===2, c4S3:s.step===3,
+      c4Expired:expired, c4SoldOut:s.soldOut&&!expired, c4PriceChanged:s.priceChanged&&!expired&&!s.soldOut, c4Blocked:blocked,
+      c4Restart:()=>this.setState({step:0,holdOn:false,hold:600,soldOut:false,priceChanged:false,c4Err:null}),
+      c4AcceptPrice:()=>this.setState({priceChanged:false,unit:2550000}),
+      c4Avail:4, c4N:s.n, c4Unit:vnd(unit),
+      c4Dec:()=>this.setState(x=>({n:Math.max(1,x.n-1)})), c4Inc:()=>this.setState(x=>({n:Math.min(4,x.n+1),parts:x.parts.length<x.n+1?[...x.parts,emptyP()]:x.parts})),
+      c4DecDis:s.n<=1, c4IncDis:s.n>=4, c4DecC:s.n<=1?'#9AA1AC':'#14213D', c4IncC:s.n>=4?'#9AA1AC':'#14213D',
+      c4Groups:[['together','Đi cùng một nhóm','Cả đoàn của bạn được xếp chung một nhóm và một guide.'],['split','Cho phép chia nhóm','Có thể tách sang nhóm khác nếu nhóm hiện tại đã đủ người.']].map(([v,label,desc])=>{ const on=s.grp===v; return {label,desc,on,bd:on?'1.5px solid #14213D':'1px solid #DDDAD3',bg:on?'#EEF1F7':'#FFFFFF',pick:()=>this.setState({grp:v})}; }),
+      c4Parts:parts,
+      c4Code2:s.code, c4OnCode:e=>this.setState({code:e.target.value,codeErr:''}), c4OnCodeKey:e=>{ if(e.key==='Enter') applyCode(); }, c4ApplyCode:applyCode,
+      c4CodeInv:!!s.codeErr, c4CodeErr:s.codeErr, c4CodeBd:bd(s.codeErr), c4CodeOk:s.codeOk, c4RemoveCode:()=>this.setState({codeOk:false}),
+      c4TierBadge:tierBadge, c4Tiers:tiers, c4TierHint:tierHint, c4HasHint:!!tierHint,
+      c4PartNames:s.parts.slice(0,s.n).map(p=>p.name.trim()||'Chưa nhập').join(', '),
+      c4Pays:[['bank','Chuyển khoản ngân hàng (VietQR)','Quét mã VietQR hoặc chuyển khoản thủ công bằng app ngân hàng. Hệ thống tự xác nhận trong vài giây sau khi nhận tiền.']].map(([v,label,desc])=>({label,desc,on:true,bd:'1.5px solid #14213D',bg:'#EEF1F7',pick:()=>this.setState({pm:v})})),
+      c4ErrProvider:s.c4Err==='provider'&&!expired, c4ErrPolicy:s.c4Err==='policy'&&!expired, c4ErrPromo:s.c4Err==='promo'&&!expired,
+      c4PromoNewTotal:vnd(sub-grpDisc), c4AcceptTotal:()=>this.setState({c4Err:null,codeOk:false}), c4PolicyBd:s.c4Err==='policy'?'1.5px solid #B45309':'1px solid #DDDAD3',
+      c4Rules:[['Hủy trước ≥ 168 giờ (7 ngày)','Hoàn 100%'],['Hủy trước ≥ 72 giờ',s.c4Err==='policy'?'Hoàn 60%':'Hoàn 70%'],['Hủy trước ≥ 24 giờ','Hoàn 30%'],['Dưới 24 giờ','Không hoàn']].map(([when,pct],i)=>({when,pct,bg:s.c4Err==='policy'&&i===1?'#FEF3C7':'transparent'})),
+      c4Note:s.note, c4OnNote:e=>this.setState({note:e.target.value}),
+      c4Agree:s.agree, c4OnAgree:()=>this.setState(x=>({agree:!x.agree,agreeErr:false,c4Err:(x.c4Err==='policy'&&!x.agree)?null:x.c4Err})), c4AgreeErr:s.agreeErr,
+      c4ShowBack:s.step>0&&!expired, c4Back:()=>this.setState(x=>({step:Math.max(0,x.step-1)})),
+      c4ShowNext:s.step<3, c4Next:next, c4NextLabel:s.step===0?'Tiếp tục & giữ chỗ':'Tiếp tục', c4NextBg:blocked?'#DDDAD3':'#14213D', c4NextC:blocked?'#4A5870':'#FFFFFF',
+      c4ShowPay:s.step===3, c4Pay:pay, c4PayDis:blocked||s.paying, c4PayBg:blocked?'#DDDAD3':s.paying?'#84411F':'#A4532F', c4PayC:blocked?'#4A5870':'#FFFFFF',
+      c4PaySpin:s.paying?this.spin():null, c4PayLabel:s.paying?'Đang tạo mã chuyển khoản…':`Thanh toán ${vnd(total)}`,
+      c4Clock:s.holdOn?`${mm}:${ss}`:'10:00', c4HoldText:!s.holdOn?'Chỗ sẽ được giữ 10 phút sau bước 1':expired?'Đã hết thời gian giữ chỗ':'Giữ chỗ còn',
+      c4HoldBg:expired?G.danger.bg:s.holdOn&&s.hold<120?G.warning.bg:'#F5F4F1', c4HoldBd:expired?G.danger.fg:s.holdOn&&s.hold<120?G.warning.fg:'#DDDAD3', c4HoldFg:expired?G.danger.fg:s.holdOn&&s.hold<120?G.warning.fg:'#14213D',
+      c4HasCode:s.holdOn, c4Code:'RTK-26-004852',
+      c4Sub:vnd(sub), c4Total:vnd(total),
+      c4Discounts:[...(grpDisc?[{label:'Đi nhóm vui hơn · giảm 10%',amt:vnd(grpDisc)}]:[]),...(codeDisc?[{label:'Mã FANSIPAN200',amt:vnd(codeDisc)}]:[])],
+      c4HasGift:s.n>=3,
+      // C05
+      c5Chips:[['pending','Đang xác minh'],['success','Thành công'],['failed','Thất bại'],['expired','Hết hạn'],['recon','Cần đối soát']].map(([v,l])=>this.chip(s.c5===v,l,()=>this.setState({c5:v}))),
+      c5Pending:s.c5==='pending', c5Failed:s.c5==='failed', c5Expired:s.c5==='expired', c5Recon:s.c5==='recon', c5ShowRecv:s.c5==='success'||s.c5==='recon', c5Recv:s.c5==='recon'?'4.500.000 ₫':'4.900.000 ₫', c5RecvC:s.c5==='recon'?'#B45309':'#151A24', c5Reason:c5.reason||'', c5Spin:React.createElement('span',{'aria-hidden':true,style:{width:16,height:16,flex:'none',border:'2px solid #67D3E8',borderTopColor:'#0E7490',borderRadius:'50%',display:'inline-block',animation:'rtspin .8s linear infinite'}}),
+      c5Icon:c5.icon, c5IcBg:c5.bg, c5IcFg:c5.fg, c5Title:c5.title, c5Text:c5.text, c5St:c5.st, c5Pay:c5.pay, c5Tx:c5.tx,
+      c5Ptx:c5.ptx, c5PtxC:c5.ptx==='Chưa cập nhật'?'#5E6B80':'#151A24', c5PtxS:c5.ptx==='Chưa cập nhật'?'italic':'normal',
+      c5ViewBg:s.c5==='success'?'#14213D':'#FFFFFF', c5ViewC:s.c5==='success'?'#FFFFFF':'#14213D', c5ViewBd:s.c5==='success'?'0':'1px solid #C5C3BD',
+      c5Retry:()=>this.setState({p4:'waiting',p4Kind:'tour',p4Left:Math.max(this.state.hold,240)}),
+      // C04P
+      ...(()=>{
+        const k=P4[s.p4Kind]||P4.tour, eff=s.p4==='waiting'?(s.p4Left<=0?'expired':s.p4Left<120?'near':'waiting'):s.p4;
+        const show=eff==='waiting'||eff==='near', out=!show;
+        const m2=String(Math.floor(Math.max(0,s.p4Left)/60)).padStart(2,'0'), s2=String(Math.max(0,s.p4Left)%60).padStart(2,'0');
+        const clock=show||eff==='expired'?`${m2}:${s2}`:'—';
+        const near=eff==='near', expd=eff==='expired';
+        const stripG=near?G.warning:G.info;
+        const O={
+          paid:{ic:'✓',g:G.success,title:'Đã nhận tiền',text:`Đơn ${k.code} đã được xác nhận. Bạn sẽ được chuyển tới trang kết quả; nếu không tự chuyển, hãy bấm “Xem kết quả”.`,btn:'Xem kết quả',href:'#c05',on:()=>this.setState({c5:'success'}),bg:'#14213D'},
+          expired:{ic:'◷',g:G.danger,title:'Đã hết thời gian giữ chỗ',text:`Mã chuyển khoản đã hết hiệu lực và ${k.gone}. Vui lòng không chuyển khoản vào mã này nữa. Bạn có thể đặt lại nếu còn chỗ.`,btn:k.redoLabel,href:k.redo,on:()=>this.setState({c5:'expired'}),bg:'#A4532F'},
+          error:{ic:'!',g:G.danger,title:'Chưa tạo được mã chuyển khoản',text:'Cổng thanh toán đang gặp sự cố, vui lòng thử lại sau. Bạn chưa bị trừ tiền. Thử lại là an toàn: hệ thống dùng lại cùng Idempotency-Key nên không tạo trùng.',btn:'Thử lại',href:'#c04p',on:()=>this.setState({p4:'waiting',p4Left:600}),bg:'#A4532F'},
+          mismatch:{ic:'!',g:G.warning,title:'Đang xác minh thanh toán',text:'Đang xác minh thanh toán, nhân viên sẽ liên hệ trong 24 giờ. Vui lòng không chuyển lại.',btn:'Xem kết quả',href:'#c05',on:()=>this.setState({c5:'recon'}),bg:'#14213D',note:'Khoản chuyển có số tiền khác số cần trả, hoặc đến sau hạn giữ chỗ. Mọi cập nhật sẽ được gửi qua email.'}
+        }[eff]||{ic:'',g:G.neutral,title:'',text:'',btn:'',href:'#',on:()=>{},bg:'#14213D'};
+        return {
+          p4Kinds:[['tour','Đơn tour'],['rental','Đơn thuê']].map(([v,l])=>this.chip(s.p4Kind===v,l,()=>this.setState({p4Kind:v}))),
+          p4Chips:[['waiting','Đang chờ chuyển khoản',()=>this.setState({p4:'waiting',p4Left:600})],['near','Sắp hết hạn',()=>this.setState({p4:'waiting',p4Left:95})],['paid','Đã nhận tiền',()=>this.setState({p4:'paid'})],['expired','Hết hạn',()=>this.setState({p4:'expired',p4Left:0})],['error','Lỗi tạo VA',()=>this.setState({p4:'error'})],['mismatch','Sai số tiền / đến muộn',()=>this.setState({p4:'mismatch'})]].map(([v,l,fn])=>this.chip(eff===v,l,fn)),
+          p4Code:k.code, p4KindLabel:k.label, p4Service:k.service, p4Detail:k.detail, p4Amount:vnd(k.amount), p4Recv:vnd(k.recv), p4ExpAt:k.exp, p4Clock:clock,
+          p4Show:show, p4Out:out,
+          p4StripBg:stripG.bg, p4StripBd:stripG.fg, p4StripFg:stripG.fg,
+          p4StripTitle:near?'Sắp hết hạn thanh toán.':'Đang chờ chuyển khoản…',
+          p4StripText:near?'Còn chưa đến 2 phút. Hãy chuyển khoản ngay; hết giờ mã sẽ vô hiệu và đơn bị đóng.':'Trang tự cập nhật mỗi 5 giây khi hệ thống nhận được tiền. Bạn không cần tải lại trang.',
+          p4Spin:show?React.createElement('span',{'aria-hidden':true,style:{width:16,height:16,flex:'none',border:'2px solid '+(near?'#F5C26B':'#67D3E8'),borderTopColor:stripG.fg,borderRadius:'50%',display:'inline-block',animation:'rtspin .8s linear infinite'}}):null,
+          p4Qr:this.qr(near),
+          p4Rows:[['Ngân hàng',k.bank,false,null,'600','inherit'],['Số tài khoản (VA)',k.va,true,'Sao chép số tài khoản','700','ui-monospace,Menlo,monospace'],['Chủ tài khoản',k.holder,false,null,'600','inherit'],['Số tiền',vnd(k.amount),true,'Sao chép số tiền','700','ui-monospace,Menlo,monospace']].map(([label,value,copy,aria,fw,ff])=>({label,value,copy,aria:aria||'',fw,ff,on:this.copy(label==='Số tiền'?String(k.amount):value)})),
+          p4Content:k.pid, p4CopyContent:this.copy(k.pid),
+          p4Steps:['Mở app ngân hàng, quét mã VietQR hoặc nhập số tài khoản ở trên.','Chuyển đúng số tiền, ghi đúng nội dung chuyển khoản, trong một lần.','Chờ trong giây lát. Hệ thống tự xác nhận và chuyển bạn sang trang kết quả.'].map((text,i)=>({no:i+1,text})),
+          p4IPaid:()=>this.toast('info','Đang kiểm tra thanh toán','Hệ thống kiểm tra mỗi 5 giây. Bạn không cần làm gì thêm và không cần chuyển lại.'),
+          p4OutIcon:O.ic, p4OutBg:O.g.bg, p4OutFg:O.g.fg, p4OutTitle:O.title, p4OutText:O.text,
+          p4OutBox:eff==='mismatch', p4OutNote:!!O.note, p4OutNoteText:O.note||'',
+          p4HasBtn:true, p4BtnLabel:O.btn, p4BtnHref:O.href, p4BtnOn:O.on, p4BtnBg:O.bg,
+          p4HoldText:eff==='paid'?'Đã nhận tiền':expd?'Đã hết thời gian giữ chỗ':eff==='error'?'Chưa tạo được mã chuyển khoản':eff==='mismatch'?'Đang xác minh thanh toán':k.hold,
+          p4HoldBg:expd?G.danger.bg:near?G.warning.bg:eff==='paid'?G.success.bg:eff==='mismatch'?G.warning.bg:'#F5F4F1',
+          p4HoldBd:expd?G.danger.fg:near?G.warning.fg:eff==='paid'?G.success.fg:eff==='mismatch'?G.warning.fg:'#DDDAD3',
+          p4HoldFg:expd?G.danger.fg:near?G.warning.fg:eff==='paid'?G.success.fg:eff==='mismatch'?G.warning.fg:'#14213D'
+        };
+      })()
+    };
+  }
+}
+</script>
+</body>
+</html>

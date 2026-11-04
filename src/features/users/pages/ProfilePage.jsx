@@ -263,7 +263,7 @@ export default function ProfilePage() {
                           type="button"
                           className={styles.btnSecondary}
                           onClick={() => setIsAvatarModalOpen(true)}
-                          style={{ fontSize: '13px', padding: '6px 12px', height: 'auto' }}
+                          style={{ fontSize: "var(--font-size-control)", padding: '6px 12px', height: 'auto' }}
                         >
                           Đổi ảnh đại diện
                         </button>

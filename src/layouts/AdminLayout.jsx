@@ -46,6 +46,9 @@ function getPageTitle(pathname) {
   if (pathname === ROUTES.OPS_ASSETS) return 'Quản lý kho thiết bị';
   if (pathname === ROUTES.OPS_ASSETS_SCHEDULE) return 'Lịch Gantt thiết bị';
   if (pathname.includes('/provided-items')) return 'Chuẩn bị đồ cấp chuyến';
+  if (pathname.includes('/handover')) return 'Giao thiết bị';
+  if (pathname.includes('/return')) return 'Thu hồi thiết bị';
+  if (pathname.includes('/settlement')) return 'Quyết toán & Phí phát sinh';
   return 'Quản trị hệ thống';
 }
 
@@ -129,6 +132,9 @@ export default function AdminLayout() {
               <NavLink to={ROUTES.OPS_ASSETS}>Kho thiết bị</NavLink>
               <NavLink to={ROUTES.OPS_ASSETS_SCHEDULE}>Lịch Gantt thiết bị</NavLink>
               <NavLink to="/ops/trips/provided-items">Đồ cấp chuyến</NavLink>
+              <NavLink to="/ops/rentals/handover">Giao thiết bị</NavLink>
+              <NavLink to="/ops/rentals/return">Thu hồi thiết bị</NavLink>
+              <NavLink to="/ops/rentals/settlement">Quyết toán & Phí</NavLink>
 
               <div className={styles.sectionHeader}>Hệ thống & Vận hành</div>
               <NavLink to={ROUTES.ADMIN_USERS}>Người dùng & Nhân sự</NavLink>

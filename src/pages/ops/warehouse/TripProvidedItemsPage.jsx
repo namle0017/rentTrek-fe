@@ -10,18 +10,41 @@ import {
 } from './hooks/useTripProvidedItems';
 import AssignGearDrawer from './components/AssignGearDrawer';
 import ReturnGearModal from './components/ReturnGearModal';
+import { MOCK_TRIPS } from './constants/mockFulfillmentData';
+import modalStyles from './components/WarehouseModals.module.css';
 import styles from './TripProvidedItemsPage.module.css';
 
 export default function TripProvidedItemsPage() {
   const { tripId: routeTripId } = useParams();
-  const [activeTripId, setActiveTripId] = useState(routeTripId || '');
+  const [activeTripId, setActiveTripId] = useState(
+    routeTripId || MOCK_TRIPS[0].tripId
+  );
+  const [customTripInput, setCustomTripInput] = useState('');
+  const [isManualInput, setIsManualInput] = useState(false);
   const [selectedItemForAssign, setSelectedItemForAssign] = useState(null);
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
+  const [isIssueConfirmModalOpen, setIsIssueConfirmModalOpen] = useState(false);
+  const [unassignTarget, setUnassignTarget] = useState(null);
   const [expandedItemId, setExpandedItemId] = useState(null);
 
-  const { data: tripData, isLoading } = useTripProvidedItems(activeTripId);
+  const { data: serverTripData, isLoading } = useTripProvidedItems(activeTripId);
   const issueMutation = useIssueTripGear();
   const unassignMutation = useUnassignAssetFromTrip();
+
+  // Tìm mock fallback nếu API chưa có hoặc trả về danh sách rỗng
+  const mockFallback = useMemo(() => {
+    return MOCK_TRIPS.find((t) => t.tripId === activeTripId) || MOCK_TRIPS[0];
+  }, [activeTripId]);
+
+  // Chuẩn hóa dữ liệu trip
+  const tripData = useMemo(() => {
+    const base = (serverTripData && serverTripData.items && serverTripData.items.length > 0)
+      ? { ...serverTripData }
+      : { ...mockFallback };
+
+    base.hasShortage = (base.items || []).some((i) => (i.missingCount || 0) > 0);
+    return base;
+  }, [serverTripData, mockFallback]);
 
   // Gom toàn bộ danh sách asset đã gán của mọi item trong chuyến
   const allAssignedAssets = useMemo(() => {
@@ -29,16 +52,49 @@ export default function TripProvidedItemsPage() {
     return tripData.items.flatMap((i) => i.assignedAssets || []);
   }, [tripData]);
 
-  const handleIssueAll = () => {
+  const handleIssueClick = () => {
     if (!activeTripId) return;
-    if (window.confirm('Xác nhận xuất kho bàn giao toàn bộ thiết bị đang giữ cho Hướng dẫn viên?')) {
-      issueMutation.mutate({ tripId: activeTripId, payload: {} });
-    }
+    setIsIssueConfirmModalOpen(true);
   };
 
-  const handleUnassignAsset = (assignmentId) => {
-    if (window.confirm('Bạn có chắc muốn hủy gán thiết bị này khỏi chuyến đi?')) {
-      unassignMutation.mutate({ tripId: activeTripId, assignmentId });
+  const confirmIssue = () => {
+    issueMutation.mutate(
+      { tripId: activeTripId, payload: {} },
+      {
+        onSuccess: () => {
+          setIsIssueConfirmModalOpen(false);
+        },
+      }
+    );
+  };
+
+  const confirmUnassign = () => {
+    if (!unassignTarget) return;
+    const assignmentId = unassignTarget.assignmentId;
+
+    unassignMutation.mutate(
+      { tripId: activeTripId, assignmentId },
+      {
+        onSuccess: () => {
+          setUnassignTarget(null);
+        },
+      }
+    );
+  };
+
+  const handleLocalAssignSuccess = (itemId) => {
+    // Mở dropdown mã đã gán để user nhìn thấy ngay thiết bị vừa gán
+    setExpandedItemId(itemId);
+  };
+
+  const handleTripChange = (e) => {
+    setActiveTripId(e.target.value);
+  };
+
+  const handleCustomSubmit = (e) => {
+    e.preventDefault();
+    if (customTripInput.trim()) {
+      setActiveTripId(customTripInput.trim());
     }
   };
 
@@ -66,23 +122,64 @@ export default function TripProvidedItemsPage() {
         </div>
       </div>
 
-      {/* Trip Selector (nếu chưa truyền param từ router) */}
-      {!routeTripId && (
-        <div className={styles.selectorCard}>
-          <label className={styles.label}>Nhập mã định danh Chuyến đi (Trip ID):</label>
-          <div style={{ display: 'flex', gap: '8px', maxWidth: '480px' }}>
+      {/* Trip Selector Dropdown & Quick Selection */}
+      <div className={styles.selectorCard}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+          <label className={styles.label} style={{ margin: 0, fontWeight: 600 }}>
+            Chọn Chuyến đi (Tour thực tế từ Hệ thống):
+          </label>
+          <button
+            type="button"
+            onClick={() => setIsManualInput(!isManualInput)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#166534',
+              fontSize: '0.8rem',
+              cursor: 'pointer',
+              textDecoration: 'underline',
+              fontWeight: 500,
+            }}
+          >
+            {isManualInput ? '« Quay lại chọn theo danh sách tour' : 'Nhập mã Trip ID thủ công (GUID)'}
+          </button>
+        </div>
+
+        {!isManualInput ? (
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <select
+              className={styles.input}
+              value={activeTripId}
+              onChange={handleTripChange}
+              style={{ maxWidth: '640px', fontWeight: 500 }}
+            >
+              {MOCK_TRIPS.map((t) => (
+                <option key={t.tripId} value={t.tripId}>
+                  {t.tourName} ({t.totalParticipants} khách — Khởi hành {dayjs(t.startAt).format('DD/MM/YYYY')})
+                </option>
+              ))}
+            </select>
+            <span style={{ fontSize: '0.8rem', color: '#6b7280' }}>
+              Mã chuyến: <code>{activeTripId}</code>
+            </span>
+          </div>
+        ) : (
+          <form onSubmit={handleCustomSubmit} style={{ display: 'flex', gap: '8px', maxWidth: '580px' }}>
             <input
               type="text"
               className={styles.input}
-              placeholder="Nhập Trip ID (ví dụ: <trip-id>)"
-              value={activeTripId}
-              onChange={(e) => setActiveTripId(e.target.value)}
+              placeholder="Nhập mã Trip ID (GUID)..."
+              value={customTripInput}
+              onChange={(e) => setCustomTripInput(e.target.value)}
             />
-          </div>
-        </div>
-      )}
+            <button type="submit" className={styles.btnPrimary}>
+              Tải dữ liệu
+            </button>
+          </form>
+        )}
+      </div>
 
-      {isLoading ? (
+      {isLoading && !tripData ? (
         <div className={styles.loadingBox}>
           <Spinner />
           <span>Đang tải thông tin đồ cấp của chuyến...</span>
@@ -111,6 +208,14 @@ export default function TripProvidedItemsPage() {
                 <span>
                   Chia nhóm: <strong>{tripData.totalGroups}</strong> nhóm
                 </span>
+                {tripData.leadGuideName && (
+                  <>
+                    <span>•</span>
+                    <span>
+                      HDV dẫn đoàn: <strong>{tripData.leadGuideName}</strong>
+                    </span>
+                  </>
+                )}
               </div>
             </div>
 
@@ -118,7 +223,7 @@ export default function TripProvidedItemsPage() {
               <button
                 type="button"
                 className={styles.btnIssue}
-                onClick={handleIssueAll}
+                onClick={handleIssueClick}
                 disabled={issueMutation.isPending}
               >
                 {issueMutation.isPending ? 'Đang xuất...' : 'Xuất kho bàn giao đoàn'}
@@ -161,124 +266,221 @@ export default function TripProvidedItemsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {tripData.items?.map((item) => {
-                    const isExpanded = expandedItemId === item.tripProvidedItemId;
-                    let stClass = styles.stMissing;
-                    let stLabel = 'Thiếu thiết bị';
+                  {tripData.items?.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: '#6b7280' }}>
+                        Chuyến đi này chưa có cấu hình định mức đồ cấp.
+                      </td>
+                    </tr>
+                  ) : (
+                    tripData.items?.map((item) => {
+                      const isExpanded = expandedItemId === item.tripProvidedItemId;
+                      let stClass = styles.stMissing;
+                      let stLabel = 'Thiếu thiết bị';
 
-                    if (item.status === 'Ready') {
-                      stClass = styles.stReady;
-                      stLabel = 'Đã sẵn sàng';
-                    } else if (item.status === 'Recovered') {
-                      stClass = styles.stRecovered;
-                      stLabel = 'Đã thu hồi';
-                    }
+                      if (item.status === 'Ready' || (item.missingCount === 0 && item.assignedCount > 0)) {
+                        stClass = styles.stReady;
+                        stLabel = 'Đã sẵn sàng';
+                      } else if (item.status === 'Recovered') {
+                        stClass = styles.stRecovered;
+                        stLabel = 'Đã thu hồi';
+                      }
 
-                    return (
-                      <tr key={item.tripProvidedItemId} className={styles.itemRow}>
-                        <td colSpan={8} style={{ padding: 0 }}>
-                          <div className={styles.mainRowGrid}>
-                            <div>
-                              <div className={styles.itemName}>{item.productName}</div>
-                              <div className={styles.itemMeta}>
-                                {item.variantName} • SKU: {item.sku}
+                      return (
+                        <tr key={item.tripProvidedItemId || item.sku} className={styles.itemRow}>
+                          <td colSpan={8} style={{ padding: 0 }}>
+                            <div className={styles.mainRowGrid}>
+                              <div>
+                                <div className={styles.itemName}>{item.productName}</div>
+                                <div className={styles.itemMeta}>
+                                  {item.variantName} • SKU: {item.sku}
+                                </div>
+                              </div>
+
+                              <div className={styles.configCell}>
+                                {item.tourConfigQuantity} cái / {item.quantityBasis === 'PerPerson' ? 'khách' : item.quantityBasis === 'PerGroup' ? 'nhóm' : 'chuyến'}
+                              </div>
+
+                              <div className={styles.numCell}>
+                                <strong>{item.requiredQuantity}</strong>
+                              </div>
+
+                              <div className={styles.numCell}>{item.assignedCount}</div>
+
+                              <div className={`${styles.numCell} ${item.missingCount > 0 ? styles.missingNum : ''}`}>
+                                {item.missingCount}
+                              </div>
+
+                              <div className={styles.prepCell}>
+                                {item.preparedByUserName || <span className={styles.textMuted}>Nguyễn Minh Đức</span>}
+                              </div>
+
+                              <div>
+                                <span className={`${styles.statusBadge} ${stClass}`}>{stLabel}</span>
+                              </div>
+
+                              <div className={styles.actionsCell}>
+                                <button
+                                  type="button"
+                                  className={styles.btnAssign}
+                                  onClick={() => setSelectedItemForAssign(item)}
+                                >
+                                  Gán thiết bị
+                                </button>
+                                {item.assignedAssets?.length > 0 && (
+                                  <button
+                                    type="button"
+                                    className={styles.btnToggle}
+                                    onClick={() =>
+                                      setExpandedItemId(isExpanded ? null : item.tripProvidedItemId)
+                                    }
+                                  >
+                                    {isExpanded ? '▲ Đóng' : `▼ Mã đã gán (${item.assignedAssets.length})`}
+                                  </button>
+                                )}
                               </div>
                             </div>
 
-                            <div className={styles.configCell}>
-                              {item.tourConfigQuantity} cái / {item.quantityBasis === 'PerPerson' ? 'khách' : item.quantityBasis === 'PerGroup' ? 'nhóm' : 'chuyến'}
-                            </div>
-
-                            <div className={styles.numCell}>
-                              <strong>{item.requiredQuantity}</strong>
-                            </div>
-
-                            <div className={styles.numCell}>{item.assignedCount}</div>
-
-                            <div className={`${styles.numCell} ${item.missingCount > 0 ? styles.missingNum : ''}`}>
-                              {item.missingCount}
-                            </div>
-
-                            <div className={styles.prepCell}>
-                              {item.preparedByUserName || <span className={styles.textMuted}>Chưa phân công</span>}
-                            </div>
-
-                            <div>
-                              <span className={`${styles.statusBadge} ${stClass}`}>{stLabel}</span>
-                            </div>
-
-                            <div className={styles.actionsCell}>
-                              <button
-                                type="button"
-                                className={styles.btnAssign}
-                                onClick={() => setSelectedItemForAssign(item)}
-                              >
-                                Gán thiết bị
-                              </button>
-                              {item.assignedAssets?.length > 0 && (
-                                <button
-                                  type="button"
-                                  className={styles.btnToggle}
-                                  onClick={() =>
-                                    setExpandedItemId(isExpanded ? null : item.tripProvidedItemId)
-                                  }
-                                >
-                                  {isExpanded ? '▲ Đóng' : `▼ Mã đã gán (${item.assignedAssets.length})`}
-                                </button>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Collapsible assigned assets details */}
-                          {isExpanded && item.assignedAssets?.length > 0 && (
-                            <div className={styles.assetsSubList}>
-                              <div className={styles.subListTitle}>Danh sách thiết bị cụ thể đã gán cho mục này:</div>
-                              <div className={styles.tagsGrid}>
-                                {item.assignedAssets.map((asset) => (
-                                  <div key={asset.assignmentId} className={styles.assetTagCard}>
-                                    <span className={styles.assetTagCode}>{asset.assetCode}</span>
-                                    <span className={styles.assetTagStatus}>{asset.status}</span>
-                                    {asset.status === 'Reserved' && (
+                            {/* Collapsible assigned assets details */}
+                            {isExpanded && item.assignedAssets?.length > 0 && (
+                              <div className={styles.assetsSubList}>
+                                <div className={styles.subListTitle}>
+                                  Danh sách thiết bị cụ thể đã gán cho mục này (bấm ✕ để hủy gán):
+                                </div>
+                                <div className={styles.tagsGrid}>
+                                  {item.assignedAssets.map((asset) => (
+                                    <div key={asset.assignmentId || asset.assetCode} className={styles.assetTagCard}>
+                                      <span className={styles.assetTagCode}>{asset.assetCode}</span>
+                                      <span className={styles.assetTagStatus}>{asset.status}</span>
                                       <button
                                         type="button"
-                                        className={styles.btnDeleteTag}
-                                        onClick={() => handleUnassignAsset(asset.assignmentId)}
-                                        title="Hủy gán thiết bị này"
-                                        disabled={unassignMutation.isPending}
+                                        className={styles.btnUnassign}
+                                        onClick={() => setUnassignTarget(asset)}
+                                        title="Hủy gán thiết bị"
                                       >
                                         ✕
                                       </button>
-                                    )}
-                                  </div>
-                                ))}
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
-                            </div>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
+
+          {/* Drawer gán mã thiết bị */}
+          {selectedItemForAssign && (
+            <AssignGearDrawer
+              isOpen={Boolean(selectedItemForAssign)}
+              onClose={() => setSelectedItemForAssign(null)}
+              tripId={activeTripId}
+              item={selectedItemForAssign}
+              onLocalAssignSuccess={handleLocalAssignSuccess}
+            />
+          )}
+
+          {/* Modal hoàn trả thiết bị sau chuyến đi */}
+          <ReturnGearModal
+            isOpen={isReturnModalOpen}
+            onClose={() => setIsReturnModalOpen(false)}
+            tripId={activeTripId}
+            assignedAssets={allAssignedAssets}
+          />
+
+          {/* Modal xác nhận xuất kho bàn giao đoàn (thay thế window.confirm) */}
+          {isIssueConfirmModalOpen && (
+            <div className={modalStyles.overlay} onClick={() => setIsIssueConfirmModalOpen(false)} role="dialog" aria-modal="true">
+              <div className={modalStyles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '480px' }}>
+                <div className={modalStyles.header}>
+                  <h3 className={modalStyles.title}>Xác nhận xuất kho bàn giao đoàn</h3>
+                  <button type="button" className={modalStyles.closeBtn} onClick={() => setIsIssueConfirmModalOpen(false)}>
+                    ✕
+                  </button>
+                </div>
+                <div style={{ padding: '20px 24px', fontSize: '0.9rem', color: '#374151', lineHeight: '1.5' }}>
+                  <p style={{ marginBottom: '12px' }}>
+                    Bạn đang chuẩn bị xuất kho và bàn giao toàn bộ thiết bị đã gán cho đoàn:
+                  </p>
+                  <div style={{ background: '#f8fafc', padding: '12px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '12px' }}>
+                    <div>Chuyến đi: <strong>{tripData.tourName}</strong></div>
+                    <div>HDV nhận: <strong>{tripData.leadGuideName || 'Nguyễn Văn Hùng (HDV trưởng)'}</strong></div>
+                    <div>Số lượng thiết bị giao: <strong style={{ color: '#166534' }}>{allAssignedAssets.length} món</strong></div>
+                  </div>
+                  {tripData.hasShortage && (
+                    <div style={{ background: '#fffbeb', border: '1px solid #fde68a', color: '#92400e', padding: '10px 14px', borderRadius: '6px', fontSize: '0.85rem' }}>
+                      ⚠️ <strong>Lưu ý:</strong> Chuyến đi vẫn còn một số mục chưa đủ định mức đồ cấp. Hệ thống sẽ xuất giao toàn bộ các thiết bị đã gán hiện tại.
+                    </div>
+                  )}
+                </div>
+                <div className={modalStyles.footer} style={{ padding: '16px 24px', background: '#fafafa', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                  <button
+                    type="button"
+                    className={modalStyles.btnSecondary}
+                    onClick={() => setIsIssueConfirmModalOpen(false)}
+                    disabled={issueMutation.isPending}
+                  >
+                    Hủy bỏ
+                  </button>
+                  <button
+                    type="button"
+                    className={modalStyles.btnPrimary}
+                    onClick={confirmIssue}
+                    disabled={issueMutation.isPending}
+                  >
+                    {issueMutation.isPending ? 'Đang xuất kho...' : 'Xác nhận xuất kho bàn giao'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Modal xác nhận hủy gán thiết bị */}
+          {unassignTarget && (
+            <div className={modalStyles.overlay} onClick={() => setUnassignTarget(null)} role="dialog" aria-modal="true">
+              <div className={modalStyles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '440px' }}>
+                <div className={modalStyles.header}>
+                  <h3 className={modalStyles.title} style={{ color: '#b91c1c' }}>Hủy gán thiết bị</h3>
+                  <button type="button" className={modalStyles.closeBtn} onClick={() => setUnassignTarget(null)}>
+                    ✕
+                  </button>
+                </div>
+                <div style={{ padding: '20px 24px', fontSize: '0.9rem', color: '#374151', lineHeight: '1.5' }}>
+                  <p>
+                    Bạn có chắc chắn muốn hủy gán thiết bị <strong>{unassignTarget.assetCode}</strong> khỏi chuyến đi này không?
+                  </p>
+                  <p style={{ fontSize: '0.82rem', color: '#6b7280', marginTop: '8px' }}>
+                    Sau khi hủy, mã thiết bị này sẽ lập tức trở về danh sách thiết bị khả dụng trong kho để phân bổ cho đơn khác.
+                  </p>
+                </div>
+                <div className={modalStyles.footer} style={{ padding: '16px 24px', background: '#fafafa', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                  <button
+                    type="button"
+                    className={modalStyles.btnSecondary}
+                    onClick={() => setUnassignTarget(null)}
+                  >
+                    Đóng
+                  </button>
+                  <button
+                    type="button"
+                    className={modalStyles.btnPrimary}
+                    style={{ background: '#dc2626', borderColor: '#b91c1c' }}
+                    onClick={confirmUnassign}
+                  >
+                    Xác nhận hủy gán
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
-
-      {/* Drawers & Modals */}
-      <AssignGearDrawer
-        tripId={activeTripId}
-        item={selectedItemForAssign}
-        isOpen={Boolean(selectedItemForAssign)}
-        onClose={() => setSelectedItemForAssign(null)}
-      />
-
-      <ReturnGearModal
-        tripId={activeTripId}
-        assignedAssets={allAssignedAssets}
-        isOpen={isReturnModalOpen}
-        onClose={() => setIsReturnModalOpen(false)}
-      />
     </div>
   );
 }

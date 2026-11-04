@@ -5,5 +5,6 @@ export const assetKeys = {
   details: () => [...assetKeys.all, 'detail'],
   detail: (code) => [...assetKeys.details(), code],
   history: (code) => [...assetKeys.all, 'history', code],
+  variants: () => [...assetKeys.all, 'variants'],
   gantt: (params) => [...assetKeys.all, 'gantt', params],
 };

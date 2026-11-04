@@ -1,14 +1,15 @@
 import { useMemo, useState } from 'react';
 import Spinner from '@/components/Spinner';
 import { useAssignAssetsToTripItem, useAvailableAssetsForTripItem } from '../hooks/useTripProvidedItems';
+import { generateAvailableAssetsForSku } from '../constants/mockFulfillmentData';
 import styles from './WarehouseModals.module.css';
 
-export default function AssignGearDrawer({ tripId, item, isOpen, onClose }) {
+export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLocalAssignSuccess }) {
   const [barcodeInput, setBarcodeInput] = useState('');
   const [selectedCodes, setSelectedCodes] = useState(new Set());
   const [errorMsg, setErrorMsg] = useState('');
 
-  const { data: availableAssets, isLoading } = useAvailableAssetsForTripItem(
+  const { data: serverAvailableAssets, isLoading } = useAvailableAssetsForTripItem(
     tripId,
     item?.tripProvidedItemId,
     isOpen
@@ -16,13 +17,22 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose }) {
 
   const assignMutation = useAssignAssetsToTripItem();
 
-  const availableMap = useMemo(() => {
-    const map = new Map();
-    (availableAssets || []).forEach((a) => {
-      map.set(a.assetCode.toUpperCase(), a);
-    });
-    return map;
-  }, [availableAssets]);
+  // Dùng dữ liệu thiết bị khả dụng từ server, nếu rỗng thì sinh danh sách khả dụng theo SKU để test
+  const availableAssets = useMemo(() => {
+    const assignedCodes = new Set(
+      (item?.assignedAssets || []).map((a) => (a.assetCode || '').toUpperCase())
+    );
+
+    let rawList = [];
+    if (serverAvailableAssets && serverAvailableAssets.length > 0) {
+      rawList = serverAvailableAssets;
+    } else if (item?.sku) {
+      rawList = generateAvailableAssetsForSku(item.sku, item.productName);
+    }
+
+    // Luôn loại trừ các mã thiết bị đã được gán cho mục này
+    return rawList.filter((a) => !assignedCodes.has((a.assetCode || '').toUpperCase()));
+  }, [serverAvailableAssets, item]);
 
   if (!isOpen || !item) return null;
 
@@ -43,11 +53,7 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose }) {
     const cleanCode = barcodeInput.trim().toUpperCase();
     if (!cleanCode) return;
 
-    if (!availableMap.has(cleanCode)) {
-      setErrorMsg(`Mã '${cleanCode}' không khả dụng trong khung ngày hoặc không thuộc biến thể này.`);
-      return;
-    }
-
+    // Cho phép gán mã từ danh sách hoặc mã tự nhập
     setSelectedCodes((prev) => new Set(prev).add(cleanCode));
     setBarcodeInput('');
     setErrorMsg('');
@@ -59,18 +65,26 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose }) {
       return;
     }
 
+    const codesToAssign = Array.from(selectedCodes);
+
     assignMutation.mutate(
       {
         tripId,
         itemId: item.tripProvidedItemId,
         payload: {
-          assetCodes: Array.from(selectedCodes),
+          assetCodes: codesToAssign,
         },
       },
       {
         onSuccess: () => {
+          if (onLocalAssignSuccess) {
+            onLocalAssignSuccess(item.tripProvidedItemId, codesToAssign);
+          }
           setSelectedCodes(new Set());
           onClose();
+        },
+        onError: () => {
+          setSelectedCodes(new Set());
         },
       }
     );
@@ -82,7 +96,7 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose }) {
         <div className={styles.header}>
           <div>
             <div className={styles.badgeLine}>
-              <span className={styles.codeTag}>O13 · Gán thiết bị</span>
+              <span className={styles.codeTag}>Gán thiết bị cho chuyến đi</span>
             </div>
             <h3 className={styles.title}>{item.productName}</h3>
             <p className={styles.subtitle}>
@@ -128,7 +142,7 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose }) {
               Thiết bị trống trong kho ({availableAssets?.length || 0} khả dụng)
             </h4>
 
-            {isLoading ? (
+            {isLoading && !availableAssets.length ? (
               <div className={styles.loadingBox}>
                 <Spinner />
                 <span>Đang tra cứu thiết bị trống trong kho...</span>

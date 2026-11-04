@@ -8,13 +8,13 @@ export const ASSET_STATUS = Object.freeze({
 });
 
 export const ASSET_STATUS_OPTIONS = [
-  { value: '', label: 'Tất cả trạng thái' },
-  { value: ASSET_STATUS.AVAILABLE, label: 'Sẵn sàng (Available)' },
-  { value: ASSET_STATUS.RENTED, label: 'Đang cho thuê (Rented)' },
-  { value: ASSET_STATUS.MAINTENANCE, label: 'Bảo trì (Maintenance)' },
-  { value: ASSET_STATUS.DAMAGED, label: 'Hư hỏng (Damaged)' },
-  { value: ASSET_STATUS.LOST, label: 'Mất (Lost)' },
-  { value: ASSET_STATUS.RETIRED, label: 'Thanh lý (Retired)' },
+  { value: '', label: 'Tất cả' },
+  { value: ASSET_STATUS.AVAILABLE, label: 'Sẵn sàng' },
+  { value: ASSET_STATUS.RENTED, label: 'Đang cho thuê' },
+  { value: ASSET_STATUS.MAINTENANCE, label: 'Bảo trì' },
+  { value: ASSET_STATUS.DAMAGED, label: 'Hư hỏng' },
+  { value: ASSET_STATUS.LOST, label: 'Mất' },
+  { value: ASSET_STATUS.RETIRED, label: 'Thanh lý' },
 ];
 
 export const ASSET_STATUS_BADGE = {

@@ -11,7 +11,7 @@
 
 .modal {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   width: 90%;
   max-width: 540px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -91,14 +91,14 @@
   background: #1e293b;
   color: #ffffff;
   padding: 3px 8px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .statusPill {
   font-size: 12px;
   font-weight: 600;
   padding: 2px 8px;
-  border-radius: 9999px;
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
 }
 
@@ -109,7 +109,7 @@
   color: #9ca3af;
   cursor: pointer;
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: var(--radius);
 }
 
 .closeBtn:hover {
@@ -136,7 +136,7 @@
 .cardSection {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   padding: 16px;
 }
 
@@ -182,7 +182,7 @@
   width: 100%;
   padding: 9px 12px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: var(--radius);
   font-size: 14px;
   color: #111827;
   background: #ffffff;
@@ -202,7 +202,7 @@
   border: 1px solid #f87171;
   color: #991b1b;
   padding: 10px 14px;
-  border-radius: 6px;
+  border-radius: var(--radius);
   font-size: 13px;
 }
 
@@ -217,7 +217,7 @@
   background: #204b39;
   color: #ffffff;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius);
   padding: 9px 18px;
   font-size: 14px;
   font-weight: 600;
@@ -238,7 +238,7 @@
   background: #ffffff;
   color: #374151;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: var(--radius);
   padding: 9px 16px;
   font-size: 14px;
   font-weight: 500;
@@ -270,7 +270,7 @@
   background: #e0f2fe;
   color: #0369a1;
   padding: 2px 8px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-weight: 600;
   font-size: 12px;
 }
@@ -284,7 +284,7 @@
 .timelineItem {
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 6px;
+  border-radius: var(--radius);
   padding: 12px;
   font-size: 13px;
 }
@@ -306,7 +306,7 @@
   color: #6b7280;
   background: #f1f5f9;
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .timelineContent {
@@ -321,7 +321,7 @@
   padding: 6px 8px;
   background: #fff1f2;
   border: 1px solid #fecdd3;
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: #be123c;
   font-weight: 500;
 }

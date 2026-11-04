@@ -20,7 +20,7 @@ export const MOCK_TRIPS = [
         requiredQuantity: 6,
         assignedCount: 4,
         missingCount: 2,
-        preparedByUserName: 'Phạm Việt Bách (Thủ kho)',
+        preparedByUserName: 'Nguyễn Minh Đức (Thủ kho)',
         status: 'Draft',
         assignedAssets: [
           { assignmentId: 'asg-01', assetCode: 'SD-TENT-CU2-001', status: 'Reserved' },
@@ -39,7 +39,7 @@ export const MOCK_TRIPS = [
         requiredQuantity: 12,
         assignedCount: 12,
         missingCount: 0,
-        preparedByUserName: 'Phạm Việt Bách (Thủ kho)',
+        preparedByUserName: 'Nguyễn Minh Đức (Thủ kho)',
         status: 'Ready',
         assignedAssets: Array.from({ length: 12 }, (_, i) => ({
           assignmentId: `asg-pack-${i + 1}`,
@@ -57,7 +57,7 @@ export const MOCK_TRIPS = [
         requiredQuantity: 12,
         assignedCount: 10,
         missingCount: 2,
-        preparedByUserName: 'Phạm Việt Bách (Thủ kho)',
+        preparedByUserName: 'Nguyễn Minh Đức (Thủ kho)',
         status: 'Draft',
         assignedAssets: Array.from({ length: 10 }, (_, i) => ({
           assignmentId: `asg-sleep-${i + 1}`,
@@ -75,7 +75,7 @@ export const MOCK_TRIPS = [
         requiredQuantity: 6,
         assignedCount: 6,
         missingCount: 0,
-        preparedByUserName: 'Phạm Việt Bách (Thủ kho)',
+        preparedByUserName: 'Nguyễn Minh Đức (Thủ kho)',
         status: 'Ready',
         assignedAssets: Array.from({ length: 6 }, (_, i) => ({
           assignmentId: `asg-lamp-${i + 1}`,
@@ -105,7 +105,7 @@ export const MOCK_TRIPS = [
         requiredQuantity: 8,
         assignedCount: 8,
         missingCount: 0,
-        preparedByUserName: 'Phạm Việt Bách (Thủ kho)',
+        preparedByUserName: 'Nguyễn Minh Đức (Thủ kho)',
         status: 'Ready',
         assignedAssets: Array.from({ length: 8 }, (_, i) => ({
           assignmentId: `asg-tn-tent-${i + 1}`,
@@ -685,7 +685,7 @@ const STORAGE_PREFIX = 'rentrek_ops_';
 function safeGet(key, defaultVal) {
   try {
     const raw = localStorage.getItem(STORAGE_PREFIX + key);
-    return raw ? JSON.parse(raw) : defaultVal;
+    return raw ? JSON.parse(raw.replaceAll('Phạm Việt Bách', 'Nguyễn Minh Đức')) : defaultVal;
   } catch {
     return defaultVal;
   }
@@ -902,7 +902,7 @@ export function getPersistentOrderCharges(orderCode) {
     reason: c.reason,
     equipmentAssetCode: c.equipmentAssetCode,
     status: c.status,
-    createdByName: 'Phạm Việt Bách (Thủ kho)',
+    createdByName: 'Nguyễn Minh Đức (Thủ kho)',
     createdAt: c.createdAt,
   }));
   safeSet(`charges_${code}`, initial);
@@ -919,7 +919,7 @@ export function createPersistentRentalCharge(orderCode, payload) {
     reason: payload.reason,
     equipmentAssetCode: payload.equipmentAssetCode || payload.equipmentAssetId || '—',
     status: 'Draft',
-    createdByName: 'Phạm Việt Bách (Thủ kho)',
+    createdByName: 'Nguyễn Minh Đức (Thủ kho)',
     createdAt: new Date().toISOString(),
   };
   const updated = [...current, newCharge];

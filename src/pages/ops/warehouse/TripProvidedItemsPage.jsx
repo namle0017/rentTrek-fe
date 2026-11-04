@@ -309,7 +309,7 @@ export default function TripProvidedItemsPage() {
                               </div>
 
                               <div className={styles.prepCell}>
-                                {item.preparedByUserName || <span className={styles.textMuted}>Phạm Việt Bách</span>}
+                                {item.preparedByUserName || <span className={styles.textMuted}>Nguyễn Minh Đức</span>}
                               </div>
 
                               <div>

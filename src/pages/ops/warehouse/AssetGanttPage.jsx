@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
 import { useAssetGantt } from './hooks/useAssets';
+import { generateMockGanttData } from './constants/mockFulfillmentData';
 import styles from './AssetGanttPage.module.css';
 
 const DAY_LABELS = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
@@ -19,10 +20,17 @@ export default function AssetGanttPage() {
     [startDateStr, daysCount]
   );
 
-  const { data: ganttData, isLoading, isFetching } = useAssetGantt({
+  const { data: serverGanttData, isLoading, isFetching } = useAssetGantt({
     fromDate,
     toDate,
   });
+
+  const ganttData = useMemo(() => {
+    if (serverGanttData && serverGanttData.variantGroups && serverGanttData.variantGroups.length > 0) {
+      return serverGanttData;
+    }
+    return generateMockGanttData(startDateStr, daysCount);
+  }, [serverGanttData, startDateStr, daysCount]);
 
   // Tạo danh sách các ngày trong khoảng
   const daysList = useMemo(() => {

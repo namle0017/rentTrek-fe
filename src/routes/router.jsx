@@ -271,6 +271,30 @@ export const router = createBrowserRouter([
                 path: '/ops/trips/provided-items',
                 lazy: lazyPage(() => import('@/pages/ops/warehouse/TripProvidedItemsPage')),
               },
+              {
+                path: ROUTES.OPS_HANDOVER(),
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/HandoverChecklistPage')),
+              },
+              {
+                path: '/ops/rentals/handover',
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/HandoverChecklistPage')),
+              },
+              {
+                path: ROUTES.OPS_RETURN(),
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/ReturnChecklistPage')),
+              },
+              {
+                path: '/ops/rentals/return',
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/ReturnChecklistPage')),
+              },
+              {
+                path: ROUTES.OPS_SETTLEMENT(),
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/SettlementPage')),
+              },
+              {
+                path: '/ops/rentals/settlement',
+                lazy: lazyPage(() => import('@/pages/ops/warehouse/SettlementPage')),
+              },
             ],
           },
         ],

@@ -160,6 +160,7 @@ export const API_ENDPOINTS = {
   ASSETS: {
     ROOT: '/admin/assets',
     BULK_CREATE: '/admin/assets/bulk-create',
+    VARIANTS: '/admin/assets/variants',
     BY_CODE: (code) => `/admin/assets/${code}`,
     STATUS: (code) => `/admin/assets/${code}/status`,
     HISTORY: (code) => `/admin/assets/${code}/history`,
@@ -183,5 +184,21 @@ export const API_ENDPOINTS = {
     REJECT: (refundCaseId) => `/admin/refund-cases/${refundCaseId}/reject`,
     COMPLETE: (refundCaseId) => `/admin/refund-cases/${refundCaseId}/complete`,
     MARK_FAILED: (refundCaseId) => `/admin/refund-cases/${refundCaseId}/mark-failed`,
+  },
+  RENTAL_HANDOVER: {
+    HANDOVER_CHECKLIST: (orderCode) => `/admin/rental-orders/${orderCode}/handover-checklist`,
+    HANDOVER_SCAN: (orderCode) => `/admin/rental-orders/${orderCode}/handover/scan`,
+    HANDOVER_COMPLETE: (orderCode) => `/admin/rental-orders/${orderCode}/handover/complete`,
+    RETURN_CHECKLIST: (orderCode) => `/admin/rental-orders/${orderCode}/return-checklist`,
+    RETURN_SCAN: (orderCode) => `/admin/rental-orders/${orderCode}/return/scan`,
+    RETURN_REPORT_LOST: (orderCode) => `/admin/rental-orders/${orderCode}/return/report-lost`,
+    RETURN_COMPLETE: (orderCode) => `/admin/rental-orders/${orderCode}/return/complete`,
+  },
+  RENTAL_CHARGES: {
+    BY_ORDER: (orderCode) => `/admin/rental-orders/${orderCode}/charges`,
+    CREATE: (orderCode) => `/admin/rental-orders/${orderCode}/charges`,
+    ASSESS: (id) => `/admin/rental-charges/${id}/assess`,
+    VOID: (id) => `/admin/rental-charges/${id}/void`,
+    COMPLETE_ORDER: (orderCode) => `/admin/rental-orders/${orderCode}/complete`,
   },
 };

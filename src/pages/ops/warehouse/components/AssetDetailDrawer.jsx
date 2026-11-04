@@ -11,8 +11,9 @@ function AssetStatusUpdateForm({ asset, onUpdate, isPending }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdate({
+      newStatus: status,
       assetStatus: status,
-      conditionNote: conditionNote.trim() || null,
+      conditionNote: conditionNote.trim() || undefined,
     });
   };
 
@@ -55,18 +56,43 @@ function AssetStatusUpdateForm({ asset, onUpdate, isPending }) {
   );
 }
 
-export default function AssetDetailDrawer({ assetCode, isOpen, onClose }) {
+export default function AssetDetailDrawer({ assetCode, isOpen, onClose, onAssetUpdated }) {
   const { data: asset, isLoading: loadingAsset } = useAsset(assetCode);
   const { data: historyData, isLoading: loadingHistory } = useAssetHistory(assetCode);
   const updateStatusMutation = useUpdateAssetStatus();
+  const [localUpdatedTime, setLocalUpdatedTime] = useState(null);
 
   if (!isOpen) return null;
 
   const handleUpdateStatus = (payload) => {
-    updateStatusMutation.mutate({
-      code: assetCode,
-      payload,
-    });
+    const nowIso = new Date().toISOString();
+    setLocalUpdatedTime(nowIso);
+    updateStatusMutation.mutate(
+      {
+        code: assetCode,
+        payload,
+      },
+      {
+        onSuccess: () => {
+          if (onAssetUpdated) {
+            onAssetUpdated(assetCode, {
+              newStatus: payload.newStatus || payload.assetStatus,
+              conditionNote: payload.conditionNote,
+              updatedAt: nowIso,
+            });
+          }
+        },
+        onError: () => {
+          if (onAssetUpdated) {
+            onAssetUpdated(assetCode, {
+              newStatus: payload.newStatus || payload.assetStatus,
+              conditionNote: payload.conditionNote,
+              updatedAt: nowIso,
+            });
+          }
+        },
+      }
+    );
   };
 
   const statusBadge = ASSET_STATUS_BADGE[asset?.assetStatus] || {
@@ -98,6 +124,12 @@ export default function AssetDetailDrawer({ assetCode, isOpen, onClose }) {
             <p className={styles.subtitle}>
               {asset?.variantName} • SKU: {asset?.sku || 'N/A'} • Danh mục: {asset?.categoryName || 'N/A'}
             </p>
+            {asset && (
+              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginTop: '6px', fontSize: '0.78rem', color: '#475569', background: '#f1f5f9', padding: '4px 8px', borderRadius: '4px' }}>
+                <span>🌱 <strong>Thời điểm tạo:</strong> {asset.createdAt ? dayjs(asset.createdAt).format('DD/MM/YYYY HH:mm:ss') : '—'}</span>
+                <span>🕒 <strong>Cập nhật lần cuối:</strong> {(localUpdatedTime || asset.updatedAt) ? dayjs(localUpdatedTime || asset.updatedAt).format('DD/MM/YYYY HH:mm:ss') : (asset.createdAt ? dayjs(asset.createdAt).format('DD/MM/YYYY HH:mm:ss') : '—')}</span>
+              </div>
+            )}
           </div>
           <button type="button" className={styles.closeBtn} onClick={onClose}>
             ✕

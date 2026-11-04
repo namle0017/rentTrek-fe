@@ -1,5 +1,6 @@
 export const ASSET_STATUS = Object.freeze({
   AVAILABLE: 'Available',
+  RENTED: 'Rented',
   MAINTENANCE: 'Maintenance',
   DAMAGED: 'Damaged',
   LOST: 'Lost',
@@ -9,6 +10,7 @@ export const ASSET_STATUS = Object.freeze({
 export const ASSET_STATUS_OPTIONS = [
   { value: '', label: 'Tất cả trạng thái' },
   { value: ASSET_STATUS.AVAILABLE, label: 'Sẵn sàng (Available)' },
+  { value: ASSET_STATUS.RENTED, label: 'Đang cho thuê (Rented)' },
   { value: ASSET_STATUS.MAINTENANCE, label: 'Bảo trì (Maintenance)' },
   { value: ASSET_STATUS.DAMAGED, label: 'Hư hỏng (Damaged)' },
   { value: ASSET_STATUS.LOST, label: 'Mất (Lost)' },
@@ -17,6 +19,7 @@ export const ASSET_STATUS_OPTIONS = [
 
 export const ASSET_STATUS_BADGE = {
   [ASSET_STATUS.AVAILABLE]: { label: 'Sẵn sàng', bg: '#DCFCE7', color: '#166534', border: '#86EFAC' },
+  [ASSET_STATUS.RENTED]: { label: 'Đang thuê', bg: '#DBEAFE', color: '#1E40AF', border: '#93C5FD' },
   [ASSET_STATUS.MAINTENANCE]: { label: 'Bảo trì', bg: '#FEF3C7', color: '#92400E', border: '#FCD34D' },
   [ASSET_STATUS.DAMAGED]: { label: 'Hư hỏng', bg: '#FEE2E2', color: '#991B1B', border: '#FCA5A5' },
   [ASSET_STATUS.LOST]: { label: 'Mất đồ', bg: '#F3F4F6', color: '#374151', border: '#D1D5DB' },

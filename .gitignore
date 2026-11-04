@@ -38,3 +38,7 @@ AGENTS.md
 docs/superpowers/
 graphify-out/
 .visual-profile*
+
+# Exclude sensitive work plans and design system uploads
+docs/ADMIN-WORK-PLAN.md
+docs/RenTrekk Design System*

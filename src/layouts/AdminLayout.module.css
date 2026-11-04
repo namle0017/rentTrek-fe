@@ -303,9 +303,6 @@
     flex-wrap: wrap;
     gap: 12px;
   }
-  .search {
-    width: 100%;
-  }
 }
 
 @keyframes fadeIn {

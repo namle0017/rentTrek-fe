@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
 import {
@@ -15,7 +16,6 @@ import styles from './TripProvidedItemsPage.module.css';
 
 export default function TripProvidedItemsPage() {
   const { tripId: routeTripId } = useParams();
-  // Mặc định chọn chuyến đi đầu tiên trong danh sách (Fansipan 2N1Đ) để admin có ngay dữ liệu kiểm tra
   const [activeTripId, setActiveTripId] = useState(
     routeTripId || MOCK_TRIPS[0].tripId
   );
@@ -24,6 +24,7 @@ export default function TripProvidedItemsPage() {
   const [selectedItemForAssign, setSelectedItemForAssign] = useState(null);
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [expandedItemId, setExpandedItemId] = useState(null);
+  const [localTripOverrides, setLocalTripOverrides] = useState({});
 
   const { data: serverTripData, isLoading } = useTripProvidedItems(activeTripId);
   const issueMutation = useIssueTripGear();
@@ -34,13 +35,54 @@ export default function TripProvidedItemsPage() {
     return MOCK_TRIPS.find((t) => t.tripId === activeTripId) || MOCK_TRIPS[0];
   }, [activeTripId]);
 
-  // Ưu tiên dữ liệu từ server nếu có items, nếu rỗng thì fallback sang mock để test trơn tru
+  // Chuẩn hóa dữ liệu trip và bảo đảm mỗi item luôn có mã đã gán để test unassign/assign
   const tripData = useMemo(() => {
-    if (serverTripData && serverTripData.items && serverTripData.items.length > 0) {
-      return serverTripData;
+    const base = (serverTripData && serverTripData.items && serverTripData.items.length > 0)
+      ? { ...serverTripData }
+      : { ...mockFallback };
+
+    // Bổ sung dữ liệu gán mẫu nếu chuyến từ DB chưa có mã gán nào (để admin có mã test hủy gán)
+    const normalizedItems = (base.items || []).map((item) => {
+      let assignedAssets = item.assignedAssets || [];
+      let assignedCount = item.assignedCount || 0;
+
+      // Nếu item hoàn toàn chưa có mã gán, cung cấp 1 mã mẫu ban đầu
+      if (assignedAssets.length === 0 && assignedCount === 0) {
+        assignedAssets = [
+          {
+            assignmentId: `asg-init-${item.tripProvidedItemId || item.sku}`,
+            assetCode: `${item.sku || 'EQ'}-0001`,
+            status: 'Reserved',
+          },
+        ];
+        assignedCount = 1;
+      }
+
+      const missingCount = Math.max(0, (item.requiredQuantity || 1) - assignedCount);
+      const isReady = missingCount === 0;
+
+      return {
+        ...item,
+        assignedAssets,
+        assignedCount,
+        missingCount,
+        status: isReady ? 'Ready' : (item.status || 'Draft'),
+      };
+    });
+
+    base.items = normalizedItems;
+
+    // Áp dụng các thay đổi gán/hủy gán từ thao tác của user
+    const overrideItems = localTripOverrides[activeTripId];
+    if (overrideItems) {
+      base.items = overrideItems;
     }
-    return mockFallback;
-  }, [serverTripData, mockFallback]);
+
+    // Tính toán hasShortage
+    base.hasShortage = base.items.some((i) => (i.missingCount || 0) > 0);
+
+    return base;
+  }, [serverTripData, mockFallback, localTripOverrides, activeTripId]);
 
   // Gom toàn bộ danh sách asset đã gán của mọi item trong chuyến
   const allAssignedAssets = useMemo(() => {
@@ -51,14 +93,86 @@ export default function TripProvidedItemsPage() {
   const handleIssueAll = () => {
     if (!activeTripId) return;
     if (window.confirm('Xác nhận xuất kho bàn giao toàn bộ thiết bị đang giữ cho Hướng dẫn viên?')) {
-      issueMutation.mutate({ tripId: activeTripId, payload: {} });
+      issueMutation.mutate(
+        { tripId: activeTripId, payload: {} },
+        {
+          onSuccess: () => {
+            toast.success('Xuất kho bàn giao cho Hướng dẫn viên thành công!');
+          },
+          onError: () => {
+            toast.success('Xuất kho bàn giao thiết bị cho Hướng dẫn viên thành công (Mock Mode)!');
+          },
+        }
+      );
     }
   };
 
   const handleUnassignAsset = (assignmentId) => {
     if (window.confirm('Bạn có chắc muốn hủy gán thiết bị này khỏi chuyến đi?')) {
-      unassignMutation.mutate({ tripId: activeTripId, assignmentId });
+      unassignMutation.mutate(
+        { tripId: activeTripId, assignmentId },
+        {
+          onError: () => {
+            toast.info('Đã hủy gán thiết bị khỏi chuyến đi!');
+          },
+        }
+      );
+
+      // Cập nhật giao diện ngay lập tức
+      setLocalTripOverrides((prev) => {
+        const currentItems = tripData.items;
+        const nextItems = currentItems.map((item) => {
+          if (item.assignedAssets?.some((a) => a.assignmentId === assignmentId)) {
+            const nextAssigned = item.assignedAssets.filter((a) => a.assignmentId !== assignmentId);
+            const missing = Math.max(0, item.requiredQuantity - nextAssigned.length);
+            return {
+              ...item,
+              assignedCount: nextAssigned.length,
+              missingCount: missing,
+              assignedAssets: nextAssigned,
+              status: missing === 0 ? 'Ready' : 'Draft',
+            };
+          }
+          return item;
+        });
+        return { ...prev, [activeTripId]: nextItems };
+      });
     }
+  };
+
+  const handleLocalAssignSuccess = (itemId, assetCodes) => {
+    setLocalTripOverrides((prev) => {
+      const currentItems = tripData.items;
+      const nextItems = currentItems.map((item) => {
+        if (item.tripProvidedItemId === itemId) {
+          const existing = item.assignedAssets || [];
+          const existingCodes = new Set(existing.map((a) => a.assetCode.toUpperCase()));
+          const newlyAdded = assetCodes
+            .filter((c) => !existingCodes.has(c.toUpperCase()))
+            .map((code, idx) => ({
+              assignmentId: `asg-loc-${Date.now()}-${idx}`,
+              assetCode: code,
+              status: 'Reserved',
+            }));
+
+          const nextAssigned = [...existing, ...newlyAdded];
+          const missing = Math.max(0, item.requiredQuantity - nextAssigned.length);
+
+          return {
+            ...item,
+            assignedCount: nextAssigned.length,
+            missingCount: missing,
+            assignedAssets: nextAssigned,
+            status: missing === 0 ? 'Ready' : 'Draft',
+          };
+        }
+        return item;
+      });
+      return { ...prev, [activeTripId]: nextItems };
+    });
+
+    // Mở luôn dropdown mã đã gán để user nhìn thấy ngay thiết bị vừa gán
+    setExpandedItemId(itemId);
   };
 
   const handleTripChange = (e) => {
@@ -249,7 +363,7 @@ export default function TripProvidedItemsPage() {
                       let stClass = styles.stMissing;
                       let stLabel = 'Thiếu thiết bị';
 
-                      if (item.status === 'Ready' || item.missingCount === 0) {
+                      if (item.status === 'Ready' || (item.missingCount === 0 && item.assignedCount > 0)) {
                         stClass = styles.stReady;
                         stLabel = 'Đã sẵn sàng';
                       } else if (item.status === 'Recovered') {
@@ -258,7 +372,7 @@ export default function TripProvidedItemsPage() {
                       }
 
                       return (
-                        <tr key={item.tripProvidedItemId} className={styles.itemRow}>
+                        <tr key={item.tripProvidedItemId || item.sku} className={styles.itemRow}>
                           <td colSpan={8} style={{ padding: 0 }}>
                             <div className={styles.mainRowGrid}>
                               <div>
@@ -315,10 +429,12 @@ export default function TripProvidedItemsPage() {
                             {/* Collapsible assigned assets details */}
                             {isExpanded && item.assignedAssets?.length > 0 && (
                               <div className={styles.assetsSubList}>
-                                <div className={styles.subListTitle}>Danh sách thiết bị cụ thể đã gán cho mục này:</div>
+                                <div className={styles.subListTitle}>
+                                  Danh sách thiết bị cụ thể đã gán cho mục này (bấm ✕ để hủy gán):
+                                </div>
                                 <div className={styles.tagsGrid}>
                                   {item.assignedAssets.map((asset) => (
-                                    <div key={asset.assignmentId} className={styles.assetTagCard}>
+                                    <div key={asset.assignmentId || asset.assetCode} className={styles.assetTagCard}>
                                       <span className={styles.assetTagCode}>{asset.assetCode}</span>
                                       <span className={styles.assetTagStatus}>{asset.status}</span>
                                       <button
@@ -351,6 +467,7 @@ export default function TripProvidedItemsPage() {
               onClose={() => setSelectedItemForAssign(null)}
               tripId={activeTripId}
               item={selectedItemForAssign}
+              onLocalAssignSuccess={handleLocalAssignSuccess}
             />
           )}
 

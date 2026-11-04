@@ -73,7 +73,7 @@ export default function GuideLayout() {
         <nav className={styles.nav} aria-label="Điều hướng chính Guide">
           <div className={styles.sectionHeader}>Thực địa & Dẫn đoàn</div>
           <NavLink to={ROUTES.GUIDE_TRIPS} end>
-            <OutdoorIcon name="map-pin" size={16} />
+            <OutdoorIcon name="mapPin" size={16} />
             <span>Lịch dẫn đoàn</span>
           </NavLink>
 
@@ -145,7 +145,7 @@ export default function GuideLayout() {
                 aria-expanded={isDropdownOpen}
               >
                 <span>{displayName}</span>
-                <span>{isDropdownOpen ? '▴' : '▾'}</span>
+                <OutdoorIcon name={isDropdownOpen ? 'chevronUp' : 'chevron'} size={12} />
               </button>
 
               {isDropdownOpen && (

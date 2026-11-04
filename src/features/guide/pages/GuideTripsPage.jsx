@@ -230,7 +230,7 @@ export default function GuideTripsPage() {
           {/* Quick Search */}
           <div className={styles.searchBox}>
             <span className={styles.searchIcon} aria-hidden="true">
-              🔍
+              <OutdoorIcon name="search" size={14} />
             </span>
             <input
               type="search"
@@ -246,7 +246,9 @@ export default function GuideTripsPage() {
       {/* Bố cục Workspace chia đôi (Master - Detail trên Desktop) */}
       {trips.length === 0 ? (
         <div className={styles.emptyCard}>
-          <div className={styles.emptyIcon}>🏕️</div>
+          <div className={styles.emptyIcon}>
+            <OutdoorIcon name="compass" size={36} />
+          </div>
           <h2 className={styles.emptyTitle}>Chưa có chuyến đi nào trong mục này</h2>
           <p className={styles.emptyText}>
             {tab === 'today'
@@ -304,12 +306,16 @@ export default function GuideTripsPage() {
                     {/* Core Info Chips (Thông tin cốt lõi, loại bỏ mô tả rác) */}
                     <div className={styles.chipsRow}>
                       <span className={styles.chip} title="Thời gian khởi hành">
-                        <span className={styles.chipIcon}>📅</span>
+                        <span className={styles.chipIcon}>
+                          <OutdoorIcon name="calendar" size={12} />
+                        </span>
                         <span>{formatDate(item.startAt)}</span>
                       </span>
 
                       <span className={styles.chip} title="Sĩ số đoàn">
-                        <span className={styles.chipIcon}>👥</span>
+                        <span className={styles.chipIcon}>
+                          <OutdoorIcon name="users" size={12} />
+                        </span>
                         <span>
                           <strong>{item.participantCount}</strong>/{item.maxParticipants} khách
                         </span>
@@ -317,7 +323,9 @@ export default function GuideTripsPage() {
 
                       {item.meetingLocation?.name && (
                         <span className={styles.chip} title={item.meetingLocation.name}>
-                          <span className={styles.chipIcon}>📍</span>
+                          <span className={styles.chipIcon}>
+                            <OutdoorIcon name="mapPin" size={12} />
+                          </span>
                           <span>{item.meetingLocation.name.split('-')[0].trim()}</span>
                         </span>
                       )}
@@ -331,7 +339,8 @@ export default function GuideTripsPage() {
                         onClick={(e) => toggleExpand(item.tripId, e)}
                         aria-expanded={isExpanded}
                       >
-                        <span>{isExpanded ? '▴ Thu gọn điểm hẹn' : '▾ Chi tiết điểm tập kết & bản đồ'}</span>
+                        <OutdoorIcon name={isExpanded ? 'chevronUp' : 'chevron'} size={12} />
+                        <span>{isExpanded ? 'Thu gọn điểm hẹn' : 'Chi tiết điểm tập kết & bản đồ'}</span>
                       </button>
 
                       {isExpanded && item.meetingLocation && (
@@ -350,7 +359,8 @@ export default function GuideTripsPage() {
                               className={styles.mapsLink}
                               onClick={(e) => e.stopPropagation()}
                             >
-                              Mở vị trí trên Google Maps ↗
+                              <span>Mở vị trí trên Google Maps</span>
+                              <OutdoorIcon name="external" size={12} />
                             </a>
                           )}
                         </div>
@@ -462,7 +472,8 @@ export default function GuideTripsPage() {
                         className={styles.mapsLink}
                         style={{ fontSize: '0.78rem', marginTop: 2 }}
                       >
-                        Mở Google Maps ↗
+                        <span>Mở Google Maps</span>
+                        <OutdoorIcon name="external" size={12} />
                       </a>
                     )}
                   </div>
@@ -524,7 +535,9 @@ export default function GuideTripsPage() {
 
                 {/* Hướng dẫn tác nghiệp an toàn */}
                 <div className={styles.fieldTipsCard}>
-                  <div className={styles.tipIcon}>💡</div>
+                  <div className={styles.tipIcon}>
+                    <OutdoorIcon name="info" size={16} />
+                  </div>
                   <div>
                     <strong>Lưu ý thực địa:</strong> Khi vào vùng rừng mất kết nối Internet, bạn vẫn có thể thực hiện
                     điểm danh bình thường. Ứng dụng sẽ lưu bản ghi trên thiết bị và tự động đồng bộ khi trở lại vùng có

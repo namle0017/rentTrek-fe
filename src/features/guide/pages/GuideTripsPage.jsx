@@ -71,7 +71,7 @@ export default function GuideTripsPage() {
   const [tab, setTab] = useState('today'); // 'today' | 'upcoming' | 'completed'
   const { data: rawTrips, isLoading } = useGuideTrips(tab);
 
-  const trips = (rawTrips && rawTrips.length > 0) ? rawTrips : (MOCK_GUIDE_TRIPS[tab] || []);
+  const trips = rawTrips && rawTrips.length > 0 ? rawTrips : MOCK_GUIDE_TRIPS[tab] || [];
 
   if (isLoading) return <Spinner />;
 
@@ -82,8 +82,7 @@ export default function GuideTripsPage() {
           Lịch dẫn đoàn thực địa
         </h1>
         <p className={styles.metaText}>
-          Chỉ hiển thị các nhóm bạn được phân công phụ trách. Hoàn toàn bảo mật thông tin tài
-          chính.
+          Chỉ hiển thị các nhóm bạn được phân công phụ trách. Hoàn toàn bảo mật thông tin tài chính.
         </p>
       </div>
 
@@ -118,71 +117,70 @@ export default function GuideTripsPage() {
           </p>
         </div>
       ) : (
-        trips.map((item) => {
-          const mapsUrl =
-            item.meetingLocation?.latitude && item.meetingLocation?.longitude
-              ? `https://www.google.com/maps/search/?api=1&query=${item.meetingLocation.latitude},${item.meetingLocation.longitude}`
-              : null;
+        <div className={styles.tripsGrid}>
+          {trips.map((item) => {
+            const mapsUrl =
+              item.meetingLocation?.latitude && item.meetingLocation?.longitude
+                ? `https://www.google.com/maps/search/?api=1&query=${item.meetingLocation.latitude},${item.meetingLocation.longitude}`
+                : null;
 
-          return (
-            <div key={`${item.tripId}-${item.groupId}`} className={styles.tripCard}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
-                <span className={`${styles.badge} ${styles.badgePositive}`}>{item.groupName}</span>
-                <span className={`${styles.badge} ${styles.badgeWarning}`}>
-                  {TRIP_STATUS_LABEL[item.tripStatus] ?? item.tripStatus}
-                </span>
-              </div>
+            return (
+              <div key={`${item.tripId}-${item.groupId}`} className={styles.tripCard}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
+                  <span className={`${styles.badge} ${styles.badgePositive}`}>{item.groupName}</span>
+                  <span className={`${styles.badge} ${styles.badgeWarning}`}>
+                    {TRIP_STATUS_LABEL[item.tripStatus] ?? item.tripStatus}
+                  </span>
+                </div>
 
-              <h2 className={styles.cardTitle}>{item.tourName}</h2>
+                <h2 className={styles.cardTitle}>{item.tourName}</h2>
 
-              <p className={styles.metaText}>
-                Khởi hành: <strong>{formatDate(item.startAt)}</strong> →{' '}
-                {formatDate(item.endAt)}
-              </p>
-
-              <p className={styles.metaText}>
-                Sĩ số nhóm: <strong>{item.participantCount}</strong> / {item.maxParticipants}{' '}
-                khách
-              </p>
-
-              {item.meetingLocation?.name && (
                 <p className={styles.metaText}>
-                  Điểm tập kết: <strong>{item.meetingLocation.name}</strong> (
-                  {item.meetingLocation.address})
-                  {mapsUrl && (
-                    <>
-                      {' '}
-                      ·{' '}
-                      <a
-                        href={mapsUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{ color: 'var(--color-primary)', fontWeight: 700 }}
-                      >
-                        Mở bản đồ ↗
-                      </a>
-                    </>
-                  )}
+                  Khởi hành: <strong>{formatDate(item.startAt)}</strong> → {formatDate(item.endAt)}
                 </p>
-              )}
 
-              <div className={styles.actionGrid}>
-                <Link to={ROUTES.GUIDE_TRIP_GROUP(item.tripId)} className={styles.btnPrimary}>
-                  Danh sách khách
-                </Link>
-                <Link to={ROUTES.GUIDE_ATTENDANCE(item.tripId)} className={styles.btnAccent}>
-                  Điểm danh nhanh
-                </Link>
-                <Link to={ROUTES.GUIDE_ITINERARY(item.tripId)} className={styles.btnOutline}>
-                  Lịch trình
-                </Link>
-                <Link to={ROUTES.GUIDE_PROVIDED_ITEMS(item.tripId)} className={styles.btnOutline}>
-                  Đồ cấp đoàn
-                </Link>
+                <p className={styles.metaText}>
+                  Sĩ số nhóm: <strong>{item.participantCount}</strong> / {item.maxParticipants} khách
+                </p>
+
+                {item.meetingLocation?.name && (
+                  <p className={styles.metaText}>
+                    Điểm tập kết: <strong>{item.meetingLocation.name}</strong> ({item.meetingLocation.address})
+                    {mapsUrl && (
+                      <>
+                        {' '}
+                        ·{' '}
+                        <a
+                          href={mapsUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{ color: 'var(--color-primary)', fontWeight: 700 }}
+                        >
+                          Mở bản đồ ↗
+                        </a>
+                      </>
+                    )}
+                  </p>
+                )}
+
+                <div className={styles.actionGrid}>
+                  <Link to={ROUTES.GUIDE_TRIP_GROUP(item.tripId)} className={styles.btnPrimary}>
+                    Danh sách khách
+                  </Link>
+                  <Link to={ROUTES.GUIDE_ATTENDANCE(item.tripId)} className={styles.btnAccent}>
+                    Điểm danh nhanh
+                  </Link>
+                  <Link to={ROUTES.GUIDE_ITINERARY(item.tripId)} className={styles.btnOutline}>
+                    Lịch trình
+                  </Link>
+                  <Link to={ROUTES.GUIDE_PROVIDED_ITEMS(item.tripId)} className={styles.btnOutline}>
+                    Đồ cấp đoàn
+                  </Link>
+                </div>
               </div>
-            </div>
-          );
-        })
+            );
+          })}
+        </div>
       )}
     </>
   );

@@ -2,13 +2,7 @@ import { useState } from 'react';
 import { formatCurrency } from '@/utils/formatCurrency';
 import styles from './finance.module.css';
 
-export default function RefundManualModal({
-  item,
-  isOpen,
-  onClose,
-  onConfirm,
-  isSubmitting = false,
-}) {
+export default function RefundManualModal({ item, isOpen, onClose, onConfirm, isSubmitting = false }) {
   const [manualReference, setManualReference] = useState('');
   const [note, setNote] = useState('');
   const [error, setError] = useState('');
@@ -41,21 +35,23 @@ export default function RefundManualModal({
         <form onSubmit={handleSubmit}>
           <div className={styles.modalBody}>
             <div style={{ background: '#f8fafc', padding: '12px 16px', borderRadius: 8 }}>
-              <div>Đơn hàng: <strong>{item.orderCode}</strong></div>
-              <div>Khách hàng: <strong>{item.customerName}</strong></div>
+              <div>
+                Đơn hàng: <strong>{item.orderCode}</strong>
+              </div>
+              <div>
+                Khách hàng: <strong>{item.customerName}</strong>
+              </div>
               <div>
                 Số tiền cần hoàn:{' '}
-                <strong style={{ color: '#dc2626' }}>
-                  {formatCurrency(Math.abs(item.amount))}
-                </strong>
+                <strong style={{ color: '#dc2626' }}>{formatCurrency(Math.abs(item.amount))}</strong>
               </div>
-              <div>STK nhận: <strong>{item.bankAccount}</strong> ({item.bankName})</div>
+              <div>
+                STK nhận: <strong>{item.bankAccount}</strong> ({item.bankName})
+              </div>
             </div>
 
             <div className={styles.filterGroup}>
-              <label className={styles.filterLabel}>
-                Mã tham chiếu ngân hàng (Manual Reference) *
-              </label>
+              <label className={styles.filterLabel}>Mã tham chiếu ngân hàng (Manual Reference) *</label>
               <input
                 type="text"
                 className={styles.filterInput}
@@ -67,9 +63,7 @@ export default function RefundManualModal({
                 }}
                 autoFocus
               />
-              {error && (
-                <span style={{ color: '#dc2626', fontSize: 12 }}>{error}</span>
-              )}
+              {error && <span style={{ color: '#dc2626', fontSize: 12 }}>{error}</span>}
             </div>
 
             <div className={styles.filterGroup}>
@@ -84,24 +78,16 @@ export default function RefundManualModal({
             </div>
 
             <div style={{ fontSize: 12, color: '#64748b' }}>
-              ⚠️ Hành động này sẽ cập nhật trạng thái đơn thành "Đã hoàn thành công" và lưu nhật ký kiểm toán (Audit Log) theo mã tham chiếu.
+              ⚠️ Hành động này sẽ cập nhật trạng thái đơn thành "Đã hoàn thành công" và lưu nhật ký kiểm toán
+              (Audit Log) theo mã tham chiếu.
             </div>
           </div>
 
           <div className={styles.modalFooter}>
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={onClose}
-              disabled={isSubmitting}
-            >
+            <button type="button" className="btn btn-outline" onClick={onClose} disabled={isSubmitting}>
               Hủy
             </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={isSubmitting}
-            >
+            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
               {isSubmitting ? 'Đang lưu...' : 'Lưu giao dịch hoàn thủ công'}
             </button>
           </div>
@@ -110,4 +96,3 @@ export default function RefundManualModal({
     </div>
   );
 }
-

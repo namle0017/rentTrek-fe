@@ -17,6 +17,14 @@ export default function ProductCreatePage() {
 
   return (
     <section>
+      <button
+        type="button"
+        className="btn btn-outline"
+        style={{ fontSize: 13, padding: '5px 12px', marginBottom: 12 }}
+        onClick={() => navigate(ROUTES.PRODUCTS)}
+      >
+        ← Quay lại danh sách sản phẩm
+      </button>
       <h1 className="page-title">Thêm sản phẩm</h1>
       <ProductForm
         onSubmit={handleCreate}

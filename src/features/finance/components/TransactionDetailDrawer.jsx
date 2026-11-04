@@ -80,12 +80,13 @@ export default function TransactionDetailDrawer({ payment, isOpen, onClose }) {
                 lineHeight: 1.5,
               }}
             >
-              <div style={{ fontWeight: 700, marginBottom: 4 }}>
-                Giao dịch hoàn tiền không thành công
+              <div style={{ fontWeight: 700, marginBottom: 4 }}>Giao dịch hoàn tiền không thành công</div>
+              <div>
+                {payment.failureReason || 'Lỗi kết nối cổng thanh toán hoặc tài khoản đích không hợp lệ.'}
               </div>
-              <div>{payment.failureReason || 'Lỗi kết nối cổng thanh toán hoặc tài khoản đích không hợp lệ.'}</div>
               <div style={{ marginTop: 8, fontSize: 12, color: '#b91c1c' }}>
-                Gợi ý xử lý: Chuyển sang màn hình <strong>Hoàn tiền & Đối soát</strong> để kiểm tra số lần đã thử lại hoặc thực hiện chuyển khoản thủ công.
+                Gợi ý xử lý: Chuyển sang màn hình <strong>Hoàn tiền & Đối soát</strong> để kiểm tra số lần đã
+                thử lại hoặc thực hiện chuyển khoản thủ công.
               </div>
             </div>
           )}
@@ -112,11 +113,7 @@ export default function TransactionDetailDrawer({ payment, isOpen, onClose }) {
               </div>
               <div className={styles.calcRow}>
                 <span className={styles.calcLabel}>Loại dòng tiền:</span>
-                <span
-                  className={`${styles.badge} ${
-                    isRefund ? styles.badgeRefund : styles.badgeCollection
-                  }`}
-                >
+                <span className={`${styles.badge} ${isRefund ? styles.badgeRefund : styles.badgeCollection}`}>
                   {PAYMENT_TYPE_LABEL[payment.paymentType] || payment.paymentType}
                 </span>
               </div>
@@ -145,13 +142,8 @@ export default function TransactionDetailDrawer({ payment, isOpen, onClose }) {
             <div className={styles.calcSummary}>
               <div className={styles.calcRow}>
                 <span className={styles.calcLabel}>Số tiền kê khai:</span>
-                <span
-                  className={styles.calcResult}
-                  style={{ color: isRefund ? '#dc2626' : '#16a34a' }}
-                >
-                  {isRefund
-                    ? `-${formatCurrency(Math.abs(payment.amount))}`
-                    : formatCurrency(payment.amount)}
+                <span className={styles.calcResult} style={{ color: isRefund ? '#dc2626' : '#16a34a' }}>
+                  {isRefund ? `-${formatCurrency(Math.abs(payment.amount))}` : formatCurrency(payment.amount)}
                 </span>
               </div>
 

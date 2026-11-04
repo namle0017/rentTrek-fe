@@ -268,7 +268,9 @@
   width: 50%;
   flex-shrink: 0;
   box-sizing: border-box;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
   padding: 0 2px;
 }
 

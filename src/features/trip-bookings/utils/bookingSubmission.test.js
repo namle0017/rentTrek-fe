@@ -52,9 +52,9 @@ describe('normalizeBookingPayload', () => {
   it('requires a participant when booking for someone else and allows the buyer email', () => {
     const base = { tripId: 'trip-1', contactPhone: '0900000000', buyerParticipates: false };
 
-    expect(() => normalizeBookingPayload({ ...base, additionalParticipants: [] }, 'buyer@example.com')).toThrowError(
-      BookingValidationError,
-    );
+    expect(() =>
+      normalizeBookingPayload({ ...base, additionalParticipants: [] }, 'buyer@example.com'),
+    ).toThrowError(BookingValidationError);
     expect(
       normalizeBookingPayload(
         { ...base, additionalParticipants: [{ fullName: 'Mẹ', email: 'BUYER@example.com' }] },

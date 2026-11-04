@@ -1,26 +1,148 @@
-.page { display: grid; min-height: 68vh; padding: 52px 0 76px; place-items: start center; }
-.card { position: relative; width: min(100%, 680px); padding: 34px; overflow: hidden; background: #fffdf7; border: 1px solid #d9e1d9; border-radius: 24px; box-shadow: 0 20px 60px rgb(31 72 53 / 0.12); }
-.card::before { position: absolute; inset: 0 0 auto; height: 6px; content: ''; background: #ef765f; }
-.icon { display: grid; width: 52px; height: 52px; margin-bottom: 18px; color: #fff; background: #204b39; border-radius: 16px; place-items: center; }
-.kicker { color: #c55742; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em; }
-.card h1 { margin: 5px 0 8px; color: #173d2d; font-size: clamp(1.7rem, 4vw, 2.3rem); }
-.intro { margin: 0 0 25px; color: #69766f; font-size: 0.87rem; }
-.step { margin: 22px 0 10px; color: #173d2d; font-size: 0.95rem; }
-.names { display: flex; flex-wrap: wrap; gap: 7px; padding: 0; margin: 0; list-style: none; }
-.names li { padding: 5px 11px; color: #21523b; font-size: 0.78rem; font-weight: 700; background: #eaf4ec; border-radius: 999px; }
-.day { margin-top: 12px; }
-.day h3 { margin: 0 0 8px; color: #34483f; font-size: 0.84rem; }
-.day ol { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none; }
-.day li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; padding: 10px 12px; background: #f7f5ee; border-radius: 10px; }
-.day li.current { background: #edf5ee; outline: 1px solid #204b39; }
-.day time { color: #204b39; font-size: 0.8rem; font-weight: 800; }
-.day strong { color: #293d34; font-size: 0.84rem; }
-.day p { margin: 3px 0 0; color: #69766f; font-size: 0.76rem; }
-.currentBadge { margin-left: 8px; color: #c55742; font-size: 0.68rem; font-weight: 800; }
-.submit { display: grid; min-height: 49px; margin-top: 10px; padding: 12px 16px; color: #fff; font-weight: 800; text-align: center; text-decoration: none; background: #204b39; border: 0; border-radius: 12px; place-items: center; }
-.securityNote { padding-top: 18px; margin: 20px 0 0; color: #737c76; font-size: 0.72rem; border-top: 1px dashed #d1d8d1; }
+.page {
+  display: grid;
+  min-height: 68vh;
+  padding: 52px 0 76px;
+  place-items: start center;
+}
+.card {
+  position: relative;
+  width: min(100%, 680px);
+  padding: 34px;
+  overflow: hidden;
+  background: #fffdf7;
+  border: 1px solid #d9e1d9;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgb(31 72 53 / 0.12);
+}
+.card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  content: '';
+  background: #ef765f;
+}
+.icon {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 18px;
+  color: #fff;
+  background: #204b39;
+  border-radius: 16px;
+  place-items: center;
+}
+.kicker {
+  color: #c55742;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+.card h1 {
+  margin: 5px 0 8px;
+  color: #173d2d;
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+}
+.intro {
+  margin: 0 0 25px;
+  color: #69766f;
+  font-size: 0.87rem;
+}
+.step {
+  margin: 22px 0 10px;
+  color: #173d2d;
+  font-size: 0.95rem;
+}
+.names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.names li {
+  padding: 5px 11px;
+  color: #21523b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #eaf4ec;
+  border-radius: 999px;
+}
+.day {
+  margin-top: 12px;
+}
+.day h3 {
+  margin: 0 0 8px;
+  color: #34483f;
+  font-size: 0.84rem;
+}
+.day ol {
+  display: grid;
+  gap: 6px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.day li {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 12px;
+  background: #f7f5ee;
+  border-radius: 10px;
+}
+.day li.current {
+  background: #edf5ee;
+  outline: 1px solid #204b39;
+}
+.day time {
+  color: #204b39;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+.day strong {
+  color: #293d34;
+  font-size: 0.84rem;
+}
+.day p {
+  margin: 3px 0 0;
+  color: #69766f;
+  font-size: 0.76rem;
+}
+.currentBadge {
+  margin-left: 8px;
+  color: #c55742;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+.submit {
+  display: grid;
+  min-height: 49px;
+  margin-top: 10px;
+  padding: 12px 16px;
+  color: #fff;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  background: #204b39;
+  border: 0;
+  border-radius: 12px;
+  place-items: center;
+}
+.securityNote {
+  padding-top: 18px;
+  margin: 20px 0 0;
+  color: #737c76;
+  font-size: 0.72rem;
+  border-top: 1px dashed #d1d8d1;
+}
 
 @media (max-width: 560px) {
-  .page { padding: 28px 0 48px; }
-  .card { padding: 26px 20px; border-radius: 19px; }
+  .page {
+    padding: 28px 0 48px;
+  }
+  .card {
+    padding: 26px 20px;
+    border-radius: 19px;
+  }
 }

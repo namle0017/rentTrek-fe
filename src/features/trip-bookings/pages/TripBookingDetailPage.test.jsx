@@ -44,7 +44,13 @@ const booking = {
   holdExpiresAt: '2099-11-01T00:00:00Z',
   canManage: true,
   participants: [
-    { participantId: 'p-1', fullName: 'Buyer', email: 'buyer@example.com', linkedUserId: 'u-1', status: 'Registered' },
+    {
+      participantId: 'p-1',
+      fullName: 'Buyer',
+      email: 'buyer@example.com',
+      linkedUserId: 'u-1',
+      status: 'Registered',
+    },
     { participantId: 'p-2', fullName: 'Nguyễn An', email: 'an@example.com', status: 'Registered' },
   ],
 };

@@ -78,10 +78,18 @@ export default function VietQrPaymentModal({
             </div>
 
             <div className={styles.qrBankInfo}>
-              <div>Ngân hàng: <strong>{bankName}</strong></div>
-              <div>Số tài khoản: <strong style={{ color: '#2563eb' }}>{bankAccount}</strong></div>
-              <div>Chủ tài khoản: <strong>{accountHolder}</strong></div>
-              <div>Số tiền: <strong style={{ color: '#16a34a', fontSize: 15 }}>{formatCurrency(amount)}</strong></div>
+              <div>
+                Ngân hàng: <strong>{bankName}</strong>
+              </div>
+              <div>
+                Số tài khoản: <strong style={{ color: '#2563eb' }}>{bankAccount}</strong>
+              </div>
+              <div>
+                Chủ tài khoản: <strong>{accountHolder}</strong>
+              </div>
+              <div>
+                Số tiền: <strong style={{ color: '#16a34a', fontSize: 15 }}>{formatCurrency(amount)}</strong>
+              </div>
               <div>
                 Nội dung chuyển khoản:{' '}
                 <strong style={{ background: '#fef08a', padding: '2px 6px', borderRadius: 4 }}>
@@ -109,4 +117,3 @@ export default function VietQrPaymentModal({
     </div>
   );
 }
-

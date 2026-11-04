@@ -1,13 +1,7 @@
 import { formatCurrency } from '@/utils/formatCurrency';
 import styles from './finance.module.css';
 
-export default function RefundApproveDrawer({
-  item,
-  isOpen,
-  onClose,
-  onApprove,
-  isApproving = false,
-}) {
+export default function RefundApproveDrawer({ item, isOpen, onClose, onApprove, isApproving = false }) {
   if (!isOpen || !item) return null;
 
   return (
@@ -33,9 +27,15 @@ export default function RefundApproveDrawer({
           <div className={styles.filterGroup}>
             <span className={styles.filterLabel}>Tài khoản ngân hàng thụ hưởng</span>
             <div style={{ background: '#f8fafc', padding: '10px 14px', borderRadius: 6 }}>
-              <div>Ngân hàng: <strong>{item.bankName || 'Ngân hàng thụ hưởng'}</strong></div>
-              <div>Số tài khoản: <strong>{item.bankAccount}</strong></div>
-              <div>Chủ tài khoản: <strong>{item.accountHolder || item.customerName}</strong></div>
+              <div>
+                Ngân hàng: <strong>{item.bankName || 'Ngân hàng thụ hưởng'}</strong>
+              </div>
+              <div>
+                Số tài khoản: <strong>{item.bankAccount}</strong>
+              </div>
+              <div>
+                Chủ tài khoản: <strong>{item.accountHolder || item.customerName}</strong>
+              </div>
             </div>
           </div>
 
@@ -88,9 +88,7 @@ export default function RefundApproveDrawer({
               <span className={styles.calcLabel} style={{ fontWeight: 700 }}>
                 Số tiền SePay sẽ chuyển hoàn:
               </span>
-              <span className={styles.calcResult}>
-                {formatCurrency(item.proposedRefund)}
-              </span>
+              <span className={styles.calcResult}>{formatCurrency(item.proposedRefund)}</span>
             </div>
           </div>
 
@@ -104,17 +102,14 @@ export default function RefundApproveDrawer({
               borderRadius: 6,
             }}
           >
-            ℹ️ <strong>Nguyên tắc bất biến:</strong> Hệ thống tự động tính toán lại số tiền hoàn tại thời điểm duyệt theo chính sách tour. Không cho phép quản trị viên tự ý sửa tay số tiền nhằm đảm bảo tính minh bạch.
+            ℹ️ <strong>Nguyên tắc bất biến:</strong> Hệ thống tự động tính toán lại số tiền hoàn tại thời điểm
+            duyệt theo chính sách tour. Không cho phép quản trị viên tự ý sửa tay số tiền nhằm đảm bảo tính
+            minh bạch.
           </div>
         </div>
 
         <div className={styles.drawerFooter}>
-          <button
-            type="button"
-            className="btn btn-outline"
-            onClick={onClose}
-            disabled={isApproving}
-          >
+          <button type="button" className="btn btn-outline" onClick={onClose} disabled={isApproving}>
             Đóng
           </button>
           <button
@@ -131,4 +126,3 @@ export default function RefundApproveDrawer({
     </div>
   );
 }
-

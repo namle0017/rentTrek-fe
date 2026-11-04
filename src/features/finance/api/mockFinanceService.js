@@ -1,8 +1,4 @@
-import {
-  INITIAL_PAYMENTS,
-  INITIAL_REFUND_POLICIES,
-  INITIAL_REFUND_QUEUE,
-} from './mockFinanceData';
+import { INITIAL_PAYMENTS, INITIAL_REFUND_POLICIES, INITIAL_REFUND_QUEUE } from './mockFinanceData';
 
 const STORAGE_KEYS = {
   PAYMENTS: 'rentrek_mock_payments',
@@ -48,16 +44,7 @@ export const mockFinanceService = {
   // 17.1. Danh sách toàn bộ giao dịch tài chính
   getAllPayments: async (params = {}) => {
     await delay();
-    const {
-      pageNumber = 1,
-      pageSize = 10,
-      paymentType,
-      purpose,
-      status,
-      fromDate,
-      toDate,
-      search,
-    } = params;
+    const { pageNumber = 1, pageSize = 10, paymentType, purpose, status, fromDate, toDate, search } = params;
 
     let filtered = [...paymentsState];
 
@@ -519,7 +506,8 @@ export const mockFinanceService = {
     if (policy.isLocked || policy.activeTripsCount > 0) {
       throw {
         statusCode: 409,
-        message: 'Chính sách đã được áp dụng vào chuyến đi hoặc đơn hàng, không thể sửa trực tiếp. Vui lòng nhân bản phiên bản mới.',
+        message:
+          'Chính sách đã được áp dụng vào chuyến đi hoặc đơn hàng, không thể sửa trực tiếp. Vui lòng nhân bản phiên bản mới.',
         code: 'POLICY_ALREADY_IN_USE',
       };
     }
@@ -628,4 +616,3 @@ export const mockFinanceService = {
     };
   },
 };
-

@@ -9,13 +9,7 @@ import {
 } from '@/constants/enums';
 import styles from './finance.module.css';
 
-export default function TransactionFilterBar({
-  filters,
-  onChange,
-  onReset,
-  onExportExcel,
-  onExportCsv,
-}) {
+export default function TransactionFilterBar({ filters, onChange, onReset, onExportExcel, onExportCsv }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleInputChange = (field, value) => {
@@ -80,9 +74,7 @@ export default function TransactionFilterBar({
             aria-expanded={isExpanded}
           >
             <span>Bộ lọc nâng cao</span>
-            {activeAdvCount > 0 && (
-              <span className={styles.filterBadgeCount}>{activeAdvCount}</span>
-            )}
+            {activeAdvCount > 0 && <span className={styles.filterBadgeCount}>{activeAdvCount}</span>}
             <span>{isExpanded ? '▴' : '▾'}</span>
           </button>
 
@@ -111,8 +103,12 @@ export default function TransactionFilterBar({
                 onChange={(e) => handleInputChange('purpose', e.target.value)}
               >
                 <option value="All">Tất cả mục đích</option>
-                <option value={PAYMENT_PURPOSE.TOUR_FEE}>{PAYMENT_PURPOSE_LABEL[PAYMENT_PURPOSE.TOUR_FEE]}</option>
-                <option value={PAYMENT_PURPOSE.RENTAL_FEE}>{PAYMENT_PURPOSE_LABEL[PAYMENT_PURPOSE.RENTAL_FEE]}</option>
+                <option value={PAYMENT_PURPOSE.TOUR_FEE}>
+                  {PAYMENT_PURPOSE_LABEL[PAYMENT_PURPOSE.TOUR_FEE]}
+                </option>
+                <option value={PAYMENT_PURPOSE.RENTAL_FEE}>
+                  {PAYMENT_PURPOSE_LABEL[PAYMENT_PURPOSE.RENTAL_FEE]}
+                </option>
                 <option value={PAYMENT_PURPOSE.ADDITIONAL_CHARGE}>
                   {PAYMENT_PURPOSE_LABEL[PAYMENT_PURPOSE.ADDITIONAL_CHARGE]}
                 </option>
@@ -126,8 +122,7 @@ export default function TransactionFilterBar({
                 className={styles.filterInput}
                 value={filters.fromDate || ''}
                 onChange={(e) => handleInputChange('fromDate', e.target.value)}
-              >
-              </input>
+              ></input>
             </div>
 
             <div className={styles.filterGroup}>
@@ -137,8 +132,7 @@ export default function TransactionFilterBar({
                 className={styles.filterInput}
                 value={filters.toDate || ''}
                 onChange={(e) => handleInputChange('toDate', e.target.value)}
-              >
-              </input>
+              ></input>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', height: '100%', paddingBottom: 2 }}>

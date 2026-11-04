@@ -17,8 +17,16 @@ const HIGHLIGHTS = [
 ];
 
 const STEPS = [
-  ['01', 'Chọn chuyến và giữ chỗ', 'Xem ngày khởi hành, số chỗ còn và chính sách hoàn tiền trước khi thanh toán.'],
-  ['02', 'Mời người đi cùng', 'Khai báo người tham gia, gửi mã nhóm để mọi người tự vào nhóm bằng tài khoản của mình.'],
+  [
+    '01',
+    'Chọn chuyến và giữ chỗ',
+    'Xem ngày khởi hành, số chỗ còn và chính sách hoàn tiền trước khi thanh toán.',
+  ],
+  [
+    '02',
+    'Mời người đi cùng',
+    'Khai báo người tham gia, gửi mã nhóm để mọi người tự vào nhóm bằng tài khoản của mình.',
+  ],
   ['03', 'Thuê đồ còn thiếu', 'Đồ được cấp đã có sẵn trong chuyến; muốn thêm thì thuê theo ngày.'],
   ['04', 'Lên đường cùng guide', 'Guide điểm danh từng chặng, bạn theo dõi lịch trình ngay trên điện thoại.'],
 ];
@@ -35,7 +43,10 @@ export default function HomePage() {
 
   return (
     <>
-      <section className={styles.hero} style={{ '--hero-image': `url(${img('1506905925346-21bda4d32df4', 2000)})` }}>
+      <section
+        className={styles.hero}
+        style={{ '--hero-image': `url(${img('1506905925346-21bda4d32df4', 2000)})` }}
+      >
         <div className={`container ${styles.heroInner}`}>
           <span className={styles.kicker}>MÙA SĂN MÂY 2026</span>
           <h1 className={styles.heroTitle}>
@@ -118,8 +129,14 @@ export default function HomePage() {
           </ol>
         </div>
         <div className={styles.collage} aria-hidden="true">
-          <div className={styles.collageMain} style={{ backgroundImage: `url(${img('1551632811-561732d1e306', 1000)})` }} />
-          <div className={styles.collageSub} style={{ backgroundImage: `url(${img('1478131143081-80f7f84ca84d', 800)})` }} />
+          <div
+            className={styles.collageMain}
+            style={{ backgroundImage: `url(${img('1551632811-561732d1e306', 1000)})` }}
+          />
+          <div
+            className={styles.collageSub}
+            style={{ backgroundImage: `url(${img('1478131143081-80f7f84ca84d', 800)})` }}
+          />
           <div className={styles.collageNote}>
             <small>Nhóm Mây 1 · Fansipan</small>
             <strong>7/7 có mặt lúc leo đỉnh</strong>
@@ -153,8 +170,8 @@ export default function HomePage() {
               Không cần mua. <em>Thuê đúng ngày bạn đi.</em>
             </h2>
             <p className={styles.rentText}>
-              Lều, túi ngủ, balo, gậy và combo trọn bộ. Giá giảm theo số ngày thuê, mỗi thiết bị được kiểm tra trước khi
-              giao.
+              Lều, túi ngủ, balo, gậy và combo trọn bộ. Giá giảm theo số ngày thuê, mỗi thiết bị được kiểm tra
+              trước khi giao.
             </p>
             <ul className={styles.perks}>
               {PERKS.map((perk) => (
@@ -173,7 +190,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.cta} style={{ '--cta-image': `url(${img('1454496522488-7a8e488e8606', 2000)})` }}>
+      <section
+        className={styles.cta}
+        style={{ '--cta-image': `url(${img('1454496522488-7a8e488e8606', 2000)})` }}
+      >
         <div className={`container ${styles.ctaInner}`}>
           <h2>
             Biển mây không chờ ai. <em>Chỗ thì có hạn.</em>

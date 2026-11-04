@@ -1,6 +1,42 @@
-.linkBox { display: grid; gap: 6px; margin-bottom: 12px; }
-.linkBox label { color: #31483d; font-size: 0.75rem; font-weight: 800; }
-.linkBox div { display: flex; gap: 6px; }
-.linkBox input { min-width: 0; flex: 1; padding: 8px 10px; color: #1c3027; font: inherit; font-size: 0.75rem; background: #fff; border: 1px solid #ccd7ce; border-radius: 9px; }
-.linkBox div button { width: auto; min-height: 0; padding: 8px 10px; color: #204b39; font: inherit; font-size: 0.72rem; font-weight: 800; cursor: pointer; background: #fff; border: 1px solid #204b39; border-radius: 9px; }
-.linkBox small { color: #6d766f; font-size: 0.68rem; }
+.linkBox {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.linkBox label {
+  color: #31483d;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+.linkBox div {
+  display: flex;
+  gap: 6px;
+}
+.linkBox input {
+  min-width: 0;
+  flex: 1;
+  padding: 8px 10px;
+  color: #1c3027;
+  font: inherit;
+  font-size: 0.75rem;
+  background: #fff;
+  border: 1px solid #ccd7ce;
+  border-radius: 9px;
+}
+.linkBox div button {
+  width: auto;
+  min-height: 0;
+  padding: 8px 10px;
+  color: #204b39;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #204b39;
+  border-radius: 9px;
+}
+.linkBox small {
+  color: #6d766f;
+  font-size: 0.68rem;
+}

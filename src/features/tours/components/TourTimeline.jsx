@@ -41,9 +41,7 @@ export default function TourTimeline({ activities = [] }) {
                     <span className={styles.activityTitle}>{act.title}</span>
                   </div>
                   {act.description && <p className={styles.activityDesc}>{act.description}</p>}
-                  {act.location && (
-                    <div className={styles.activityLocation}>📍 {act.location}</div>
-                  )}
+                  {act.location && <div className={styles.activityLocation}>📍 {act.location}</div>}
                 </div>
               ))}
           </div>

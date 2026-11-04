@@ -18,18 +18,17 @@ export default function GuideProvidedItemsPage() {
     <>
       <div className={styles.subNavRow}>
         <Link to={ROUTES.GUIDE_TRIP_GROUP(tripId)} className={styles.btnOutline}>
-          ← Danh sách nhóm (G02)
+          ← Danh sách nhóm
         </Link>
         <Link to={ROUTES.GUIDE_ITINERARY(tripId)} className={styles.btnOutline}>
-          🗺️ Lịch trình (G05)
+          Lịch trình
         </Link>
       </div>
 
       <div className={styles.tripCard}>
-        <h1 className={styles.cardTitle}>Danh sách Đồ cấp Giao cho Đoàn (Màn G06 - 24.6)</h1>
+        <h1 className={styles.cardTitle}>Danh sách Đồ cấp Giao cho Đoàn</h1>
         <p className={styles.metaText}>
-          Kiểm tra bàn giao thiết bị thực địa và mã tài sản vật lý (Asset Code) trước khi xuất
-          phát.
+          Kiểm tra bàn giao thiết bị thực địa và mã tài sản vật lý (Asset Code) trước khi xuất phát.
         </p>
       </div>
 
@@ -47,9 +46,7 @@ export default function GuideProvidedItemsPage() {
               </div>
               <span
                 className={`${styles.badge} ${
-                  item.allocatedQuantity >= item.requiredQuantity
-                    ? styles.badgePositive
-                    : styles.badgeWarning
+                  item.allocatedQuantity >= item.requiredQuantity ? styles.badgePositive : styles.badgeWarning
                 }`}
               >
                 Đã cấp {item.allocatedQuantity}/{item.requiredQuantity} ({item.status})
@@ -60,7 +57,7 @@ export default function GuideProvidedItemsPage() {
               <div className={styles.subNavRow}>
                 {item.allocatedAssets.map((asset) => (
                   <span key={asset.assetCode} className={`${styles.badge} ${styles.badgePositive}`}>
-                    🏷️ {asset.assetCode} ({asset.status})
+                    Mã: {asset.assetCode} ({asset.status})
                   </span>
                 ))}
               </div>

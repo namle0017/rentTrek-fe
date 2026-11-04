@@ -9,13 +9,18 @@ import styles from './AdminLayout.module.css';
 function getPageTitle(pathname) {
   if (pathname === ROUTES.ADMIN) return 'Tổng quan';
   if (pathname === ROUTES.ADMIN_PROFILE) return 'Thông tin cá nhân';
+  if (pathname === ROUTES.ADMIN_TRIP_CREATE) return 'Tạo chuyến đi mới';
   if (pathname === ROUTES.ADMIN_TRIPS) return 'Quản lý chuyến đi';
+  if (pathname.startsWith(`${ROUTES.ADMIN_TRIPS}/`)) return 'Điều hành chuyến đi';
+  if (pathname.includes('/recurrence-rules')) return 'Quy tắc lịch lặp chuyến';
   if (pathname === ROUTES.ADMIN_PRODUCT_CREATE) return 'Thêm sản phẩm';
   if (pathname === ROUTES.OPS_TRANSACTIONS) return 'Giao dịch';
   if (pathname === ROUTES.OPS_REFUNDS) return 'Hoàn tiền & Đối soát';
   if (pathname === ROUTES.OPS_REFUND_POLICY_CREATE) return 'Tạo chính sách hoàn tiền';
   if (pathname.startsWith(ROUTES.OPS_REFUND_POLICIES)) return 'Chính sách hoàn tiền';
-  if (pathname === ROUTES.GUIDE_TRIPS) return 'Khu vực Guide';
+  if (pathname === ROUTES.OPS_ASSETS) return 'Quản lý kho thiết bị';
+  if (pathname === ROUTES.OPS_ASSETS_SCHEDULE) return 'Lịch Gantt thiết bị';
+  if (pathname.includes('/provided-items')) return 'Chuẩn bị đồ cấp chuyến';
   return 'Quản trị hệ thống';
 }
 
@@ -51,7 +56,7 @@ export default function AdminLayout() {
   return (
     <div className={styles.layout}>
       <aside className={styles.sidebar}>
-        <Link to={ROUTES.HOME} className={styles.logo}>
+        <Link to={ROUTES.ADMIN} className={styles.logo}>
           renTrek Admin
         </Link>
         <nav className={styles.nav}>
@@ -65,10 +70,14 @@ export default function AdminLayout() {
           <NavLink to={ROUTES.OPS_TRANSACTIONS}>Giao dịch</NavLink>
           <NavLink to={ROUTES.OPS_REFUNDS}>Hoàn tiền & Đối soát</NavLink>
           <NavLink to={ROUTES.OPS_REFUND_POLICIES}>Chính sách hoàn tiền</NavLink>
-          <NavLink to={ROUTES.GUIDE_TRIPS}>Khu vực Guide</NavLink>
-          <NavLink to={ROUTES.OPS_ASSETS}>Kho thiết bị (O20)</NavLink>
-          <NavLink to={ROUTES.OPS_ASSETS_SCHEDULE}>Lịch Gantt thiết bị (O21)</NavLink>
-          <NavLink to="/ops/trips/provided-items">Đồ cấp chuyến (O13)</NavLink>
+
+          <div className={styles.sectionHeader}>Kho & Thiết bị</div>
+          <NavLink to={ROUTES.OPS_ASSETS}>Kho thiết bị</NavLink>
+          <NavLink to={ROUTES.OPS_ASSETS_SCHEDULE}>Lịch Gantt thiết bị</NavLink>
+          <NavLink to="/ops/trips/provided-items">Đồ cấp chuyến</NavLink>
+
+          <div className={styles.sectionHeader}>Thực địa</div>
+          <NavLink to={ROUTES.GUIDE_TRIPS}>Cổng Hướng dẫn viên</NavLink>
         </nav>
       </aside>
 

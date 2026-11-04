@@ -6,14 +6,8 @@ import styles from '../pages/AdminTripOps.module.css';
 
 export default function TripKanbanBoardTab({ tripId }) {
   const { data: board, isLoading, isError, error, refetch } = useKanbanGroupsBoard(tripId);
-  const {
-    createGroup,
-    updateGroup,
-    deleteGroup,
-    assignParticipantGroup,
-    autoGroup,
-    approveSplit,
-  } = useKanbanGroupMutations(tripId);
+  const { createGroup, updateGroup, deleteGroup, assignParticipantGroup, autoGroup, approveSplit } =
+    useKanbanGroupMutations(tripId);
 
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
   const [editingGroup, setEditingGroup] = useState(null);
@@ -69,11 +63,7 @@ export default function TripKanbanBoardTab({ tripId }) {
   };
 
   const handleDeleteGroup = async (groupId, groupName) => {
-    if (
-      !window.confirm(
-        `Giải tán "${groupName}"? Toàn bộ khách trong nhóm sẽ quay về cột Chưa xếp nhóm.`,
-      )
-    )
+    if (!window.confirm(`Giải tán "${groupName}"? Toàn bộ khách trong nhóm sẽ quay về cột Chưa xếp nhóm.`))
       return;
     setFeedback(null);
     try {
@@ -156,8 +146,8 @@ export default function TripKanbanBoardTab({ tripId }) {
         <div>
           <h2 className={styles.cardTitle}>Bảng Kanban Chia nhóm & Phân công Guide (Màn O12)</h2>
           <p className={styles.subtitle}>
-            Kéo thả thẻ hành khách vào nhóm hoặc chọn nhanh từ menu. Ưu tiên giữ khách cùng đơn đặt
-            ở chung nhóm.
+            Kéo thả thẻ hành khách vào nhóm hoặc chọn nhanh từ menu. Ưu tiên giữ khách cùng đơn đặt ở chung
+            nhóm.
           </p>
         </div>
 
@@ -168,7 +158,7 @@ export default function TripKanbanBoardTab({ tripId }) {
             onClick={handleAutoGroup}
             disabled={autoGroup.isPending || unassigned.length === 0 || groups.length === 0}
           >
-            ⚡ Tự động chia nhóm (Auto-group)
+            Tự động chia nhóm (Auto-group)
           </button>
           <button type="button" className={styles.btnAccent} onClick={openNewGroupModal}>
             + Tạo nhóm mới
@@ -288,15 +278,13 @@ export default function TripKanbanBoardTab({ tripId }) {
                     Guide: {group.guide.fullName}
                   </span>
                 ) : (
-                  <span className={`${styles.badge} ${styles.badgeWarning}`}>
-                    Chưa gán Hướng dẫn viên
-                  </span>
+                  <span className={`${styles.badge} ${styles.badgeWarning}`}>Chưa gán Hướng dẫn viên</span>
                 )}
               </div>
 
               {group.hasScheduleWarning && (
                 <div className={`${styles.alertBanner} ${styles.alertError}`}>
-                  ⚠️ {group.scheduleWarningMessage}
+                  {group.scheduleWarningMessage}
                 </div>
               )}
 
@@ -375,11 +363,7 @@ export default function TripKanbanBoardTab({ tripId }) {
             </div>
 
             <div className={styles.actionRow} style={{ justifyContent: 'flex-end' }}>
-              <button
-                type="button"
-                className={styles.btnOutline}
-                onClick={() => setIsGroupModalOpen(false)}
-              >
+              <button type="button" className={styles.btnOutline} onClick={() => setIsGroupModalOpen(false)}>
                 Hủy
               </button>
               <button type="submit" className={styles.btnPrimary}>
@@ -398,8 +382,8 @@ export default function TripKanbanBoardTab({ tripId }) {
               Phê duyệt tách booking đi chung ({splitModalBooking.orderCode})
             </h2>
             <p className={styles.subtitle}>
-              Đơn hàng này đăng ký nguyện vọng đi chung nhóm. Vui lòng nhập lý do tách đoàn để lưu
-              vào nhật ký kiểm toán (Audit Log).
+              Đơn hàng này đăng ký nguyện vọng đi chung nhóm. Vui lòng nhập lý do tách đoàn để lưu vào nhật ký
+              kiểm toán (Audit Log).
             </p>
             <div className={styles.field}>
               <label htmlFor="splitReason">Lý do tách đoàn *</label>
@@ -412,11 +396,7 @@ export default function TripKanbanBoardTab({ tripId }) {
               />
             </div>
             <div className={styles.actionRow} style={{ justifyContent: 'flex-end' }}>
-              <button
-                type="button"
-                className={styles.btnOutline}
-                onClick={() => setSplitModalBooking(null)}
-              >
+              <button type="button" className={styles.btnOutline} onClick={() => setSplitModalBooking(null)}>
                 Đóng
               </button>
               <button type="submit" className={styles.btnAccent}>

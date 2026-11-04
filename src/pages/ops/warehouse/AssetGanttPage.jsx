@@ -63,8 +63,7 @@ export default function AssetGanttPage() {
       <div className={styles.header}>
         <div>
           <div className={styles.breadcrumb}>
-            <span className={styles.badgeO}>O21</span>
-            <span className={styles.routePath}>/ops/assets/schedule</span>
+            <span className={styles.routePath}>Lịch Gantt</span>
           </div>
           <h1 className={styles.title}>Lịch phân bổ thiết bị (Gantt Schedule)</h1>
           <p className={styles.subtitle}>

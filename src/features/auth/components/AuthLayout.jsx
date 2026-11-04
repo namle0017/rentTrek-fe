@@ -3,7 +3,14 @@ import SplitText from '@/components/SplitText';
 import { ROUTES } from '@/constants/routes';
 import styles from './AuthLayout.module.css';
 
-export default function AuthLayout({ title, subtitle, children, alternateText, alternateLinkText, alternateLinkTo }) {
+export default function AuthLayout({
+  title,
+  subtitle,
+  children,
+  alternateText,
+  alternateLinkText,
+  alternateLinkTo,
+}) {
   return (
     <div className={styles.splitPage}>
       {/* Cột trái: Hero & Câu chuyện hành trình (Figma: #32:14 / #32:70) */}

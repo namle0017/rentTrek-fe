@@ -91,10 +91,18 @@ function ParticipantEditForm({ orderId, participant, onClose }) {
           {errors.phone && <p role="alert">{errors.phone.message}</p>}
         </div>
       </div>
-      {emailChanged && <p className={styles.warning}>Đổi email sẽ gỡ quyền xem chuyến của tài khoản đang liên kết.</p>}
-      {serverMessage && <p className={styles.serverError} role="alert">{serverMessage}</p>}
+      {emailChanged && (
+        <p className={styles.warning}>Đổi email sẽ gỡ quyền xem chuyến của tài khoản đang liên kết.</p>
+      )}
+      {serverMessage && (
+        <p className={styles.serverError} role="alert">
+          {serverMessage}
+        </p>
+      )}
       <div className={styles.actions}>
-        <button type="button" className={styles.secondary} onClick={onClose}>Hủy</button>
+        <button type="button" className={styles.secondary} onClick={onClose}>
+          Hủy
+        </button>
         <button type="submit" className={styles.primary} disabled={updateParticipant.isPending}>
           {updateParticipant.isPending ? 'Đang lưu...' : 'Lưu'}
         </button>
@@ -115,7 +123,9 @@ export default function ParticipantRow({ orderId, participant, index, canEdit })
           <strong>{participant.fullName}</strong>
           <small>{contact || 'Không khai liên hệ'}</small>
         </div>
-        <span className={participant.linkedUserId ? styles.linked : styles.status}>{linkLabel(participant)}</span>
+        <span className={participant.linkedUserId ? styles.linked : styles.status}>
+          {linkLabel(participant)}
+        </span>
         {canEdit && !editing && (
           <button
             type="button"

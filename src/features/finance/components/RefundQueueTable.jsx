@@ -59,9 +59,7 @@ export default function RefundQueueTable({
                       <div style={{ fontWeight: 600 }}>{item.customerName}</div>
                       <div className={styles.statSubtext}>{item.customerPhone}</div>
                     </td>
-                    <td className={styles.numberCell}>
-                      {formatCurrency(item.totalCollected)}
-                    </td>
+                    <td className={styles.numberCell}>{formatCurrency(item.totalCollected)}</td>
                     <td className={styles.numberCell}>
                       <span style={{ fontWeight: 700, color: '#dc2626' }}>
                         {formatCurrency(item.proposedRefund)}
@@ -74,9 +72,7 @@ export default function RefundQueueTable({
                       </span>
                     </td>
                     <td style={{ maxWidth: 220 }}>
-                      <span style={{ fontSize: 13, color: '#475569' }}>
-                        {item.cancelReason}
-                      </span>
+                      <span style={{ fontSize: 13, color: '#475569' }}>{item.cancelReason}</span>
                     </td>
                     <td>{formatDateTime(item.createdAt)}</td>
                     <td style={{ textAlign: 'center' }}>
@@ -129,9 +125,7 @@ export default function RefundQueueTable({
                     </td>
                     <td>{formatDateTime(item.sentAt)}</td>
                     <td>
-                      <span className={`${styles.badge} ${styles.badgePending}`}>
-                        Đang chuyển qua SePay
-                      </span>
+                      <span className={`${styles.badge} ${styles.badgePending}`}>Đang chuyển qua SePay</span>
                       <div className={styles.statSubtext} style={{ marginTop: 2 }}>
                         Chờ webhook cập nhật
                       </div>
@@ -175,9 +169,7 @@ export default function RefundQueueTable({
                         </span>
                       </td>
                       <td style={{ maxWidth: 240 }}>
-                        <span style={{ color: '#be123c', fontSize: 13 }}>
-                          ⚠️ {item.failureReason}
-                        </span>
+                        <span style={{ color: '#be123c', fontSize: 13 }}>⚠️ {item.failureReason}</span>
                       </td>
                       <td>
                         <span
@@ -248,13 +240,9 @@ export default function RefundQueueTable({
                         <div style={{ fontWeight: 600 }}>{order.customerName}</div>
                         <div className={styles.statSubtext}>{order.customerPhone}</div>
                       </td>
+                      <td className={styles.numberCell}>{formatCurrency(order.totalAmount)}</td>
                       <td className={styles.numberCell}>
-                        {formatCurrency(order.totalAmount)}
-                      </td>
-                      <td className={styles.numberCell}>
-                        <span style={{ fontWeight: 700 }}>
-                          {formatCurrency(order.receivedAmount)}
-                        </span>
+                        <span style={{ fontWeight: 700 }}>{formatCurrency(order.receivedAmount)}</span>
                       </td>
                       <td>
                         <span
@@ -329,9 +317,7 @@ export default function RefundQueueTable({
                     </td>
                     <td>{hist.customerName}</td>
                     <td className={styles.numberCell}>
-                      <span style={{ fontWeight: 700 }}>
-                        {formatCurrency(Math.abs(hist.amount))}
-                      </span>
+                      <span style={{ fontWeight: 700 }}>{formatCurrency(Math.abs(hist.amount))}</span>
                     </td>
                     <td>
                       <span className={styles.codeBadge} style={{ background: '#f0fdf4', color: '#166534' }}>
@@ -343,9 +329,7 @@ export default function RefundQueueTable({
                     </td>
                     <td>{formatDateTime(hist.processedAt)}</td>
                     <td>
-                      <span className={`${styles.badge} ${styles.badgeSucceeded}`}>
-                        Hoàn tất
-                      </span>
+                      <span className={`${styles.badge} ${styles.badgeSucceeded}`}>Hoàn tất</span>
                     </td>
                   </tr>
                 ))}
@@ -357,4 +341,3 @@ export default function RefundQueueTable({
     </div>
   );
 }
-

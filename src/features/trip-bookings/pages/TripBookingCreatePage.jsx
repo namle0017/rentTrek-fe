@@ -84,7 +84,9 @@ export default function TripBookingCreatePage() {
         <span className={styles.kicker}>KHÔNG THỂ TIẾP TỤC</span>
         <h1>Thiếu chuyến đi</h1>
         <p>Vui lòng chọn lịch khởi hành từ trang chi tiết tour.</p>
-        <Link className={styles.backLink} to={ROUTES.TOURS}>Xem tour đang mở</Link>
+        <Link className={styles.backLink} to={ROUTES.TOURS}>
+          Xem tour đang mở
+        </Link>
       </section>
     );
   }
@@ -177,6 +179,15 @@ export default function TripBookingCreatePage() {
 
   return (
     <main className={styles.page}>
+      <div className={styles.backNav}>
+        <Link
+          to={tourId ? ROUTES.TOUR_DETAIL(tourId) : ROUTES.TOURS}
+          className={styles.backLink}
+        >
+          &larr; Quay lại {tour?.name ? `tour ${tour.name}` : 'danh sách tour'}
+        </Link>
+      </div>
+
       <header className={styles.hero}>
         <span className={styles.kicker}>ĐẶT CHUYẾN</span>
         <h1>{tour?.name || 'Hoàn tất thông tin đoàn'}</h1>
@@ -201,7 +212,8 @@ export default function TripBookingCreatePage() {
             <section className={styles.card}>
               <h2>Số người &amp; liên hệ</h2>
               <p className={styles.cardHint}>
-                {trip ? `Chuyến còn ${trip.availableSlots} chỗ. ` : ''}Chỗ được giữ khi bạn xác nhận ở bước cuối.
+                {trip ? `Chuyến còn ${trip.availableSlots} chỗ. ` : ''}Chỗ được giữ khi bạn xác nhận ở bước
+                cuối.
               </p>
 
               <div className={styles.field}>
@@ -268,8 +280,15 @@ export default function TripBookingCreatePage() {
                   >
                     −
                   </button>
-                  <output aria-live="polite" aria-label="Số người tham gia">{seats}</output>
-                  <button type="button" aria-label="Thêm một người" disabled={seats >= maxSeats} onClick={addOne}>
+                  <output aria-live="polite" aria-label="Số người tham gia">
+                    {seats}
+                  </output>
+                  <button
+                    type="button"
+                    aria-label="Thêm một người"
+                    disabled={seats >= maxSeats}
+                    onClick={addOne}
+                  >
                     +
                   </button>
                 </div>
@@ -285,7 +304,9 @@ export default function TripBookingCreatePage() {
                   <div>
                     <span>Người đặt tour · Bạn</span>
                     <strong>{currentUser?.fullName || currentUser?.email}</strong>
-                    <small>{currentUser?.email} · {contactPhone}</small>
+                    <small>
+                      {currentUser?.email} · {contactPhone}
+                    </small>
                   </div>
                 </section>
               )}
@@ -295,14 +316,23 @@ export default function TripBookingCreatePage() {
                   <span className={styles.kicker}>DANH SÁCH ĐOÀN</span>
                   <h2>{buyerParticipates ? 'Người đi cùng' : 'Người tham gia'}</h2>
                 </div>
-                <button type="button" className={styles.addButton} onClick={addOne} disabled={seats >= maxSeats}>
+                <button
+                  type="button"
+                  className={styles.addButton}
+                  onClick={addOne}
+                  disabled={seats >= maxSeats}
+                >
                   + Thêm người tham gia
                 </button>
               </div>
 
-              {fields.length === 0 && <p className={styles.emptyParticipants}>Bạn đang đặt 1 chỗ. Không có người đi cùng.</p>}
+              {fields.length === 0 && (
+                <p className={styles.emptyParticipants}>Bạn đang đặt 1 chỗ. Không có người đi cùng.</p>
+              )}
               {errors.additionalParticipants?.message && (
-                <p className={styles.serverError} role="alert">{errors.additionalParticipants.message}</p>
+                <p className={styles.serverError} role="alert">
+                  {errors.additionalParticipants.message}
+                </p>
               )}
 
               {fields.map((field, index) => (
@@ -322,8 +352,18 @@ export default function TripBookingCreatePage() {
               <section className={styles.card}>
                 <h2>Chuyến của bạn</h2>
                 <dl className={styles.review}>
-                  {tour?.name && <><dt>Tour</dt><dd>{tour.name}</dd></>}
-                  {trip && <><dt>Đợt khởi hành</dt><dd>{trip.dateRangeFormatted}</dd></>}
+                  {tour?.name && (
+                    <>
+                      <dt>Tour</dt>
+                      <dd>{tour.name}</dd>
+                    </>
+                  )}
+                  {trip && (
+                    <>
+                      <dt>Đợt khởi hành</dt>
+                      <dd>{trip.dateRangeFormatted}</dd>
+                    </>
+                  )}
                   <dt>Người đặt</dt>
                   <dd>
                     {currentUser?.fullName || currentUser?.email}
@@ -338,8 +378,20 @@ export default function TripBookingCreatePage() {
 
               <section className={styles.noteField}>
                 <label htmlFor="booking-note">Ghi chú cho ban tổ chức</label>
-                <textarea id="booking-note" rows="3" maxLength="1000" placeholder="Nhu cầu ăn uống, sức khỏe hoặc lưu ý khác..." {...register('note', { maxLength: { value: 1000, message: 'Ghi chú tối đa 1000 ký tự.' } })} aria-invalid={errors.note ? 'true' : 'false'} aria-describedby={errors.note ? 'booking-note-error' : undefined} />
-                {errors.note && <p id="booking-note-error" role="alert">{errors.note.message}</p>}
+                <textarea
+                  id="booking-note"
+                  rows="3"
+                  maxLength="1000"
+                  placeholder="Nhu cầu ăn uống, sức khỏe hoặc lưu ý khác..."
+                  {...register('note', { maxLength: { value: 1000, message: 'Ghi chú tối đa 1000 ký tự.' } })}
+                  aria-invalid={errors.note ? 'true' : 'false'}
+                  aria-describedby={errors.note ? 'booking-note-error' : undefined}
+                />
+                {errors.note && (
+                  <p id="booking-note-error" role="alert">
+                    {errors.note.message}
+                  </p>
+                )}
               </section>
             </>
           )}
@@ -353,7 +405,9 @@ export default function TripBookingCreatePage() {
               </button>
             )}
             {step < LAST_STEP ? (
-              <button type="submit" className={styles.submitButton}>Tiếp tục</button>
+              <button type="submit" className={styles.submitButton}>
+                Tiếp tục
+              </button>
             ) : (
               <button type="submit" className={styles.submitButton} disabled={createBooking.isPending}>
                 {createBooking.isPending ? 'Đang giữ chỗ...' : 'Xác nhận giữ chỗ'}
@@ -374,7 +428,9 @@ export default function TripBookingCreatePage() {
             {unitPrice > 0 && (
               <dl>
                 <div>
-                  <dt>{seats} người × {formatCurrency(unitPrice)}</dt>
+                  <dt>
+                    {seats} người × {formatCurrency(unitPrice)}
+                  </dt>
                   <dd>{formatCurrency(seats * unitPrice)}</dd>
                 </div>
                 <div className={styles.total}>
@@ -384,9 +440,14 @@ export default function TripBookingCreatePage() {
               </dl>
             )}
             <p className={styles.holdNote}>
-              Xác nhận sẽ giữ chỗ 15 phút để bạn chuyển khoản VietQR. Tổng tiền chính thức do hệ thống chốt khi giữ chỗ.
+              Xác nhận sẽ giữ chỗ 15 phút để bạn chuyển khoản VietQR. Tổng tiền chính thức do hệ thống chốt
+              khi giữ chỗ.
             </p>
-            {tourId && <Link className={styles.tourLink} to={ROUTES.TOUR_DETAIL(tourId)}>Xem lại chi tiết tour</Link>}
+            {tourId && (
+              <Link className={styles.tourLink} to={ROUTES.TOUR_DETAIL(tourId)}>
+                Xem lại chi tiết tour
+              </Link>
+            )}
           </div>
         </aside>
       </form>

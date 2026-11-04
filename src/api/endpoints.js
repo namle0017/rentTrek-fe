@@ -28,6 +28,7 @@ export const API_ENDPOINTS = {
   ASSETS: {
     ROOT: '/admin/assets',
     BULK_CREATE: '/admin/assets/bulk-create',
+    VARIANTS: '/admin/assets/variants',
     BY_CODE: (code) => `/admin/assets/${code}`,
     STATUS: (code) => `/admin/assets/${code}/status`,
     HISTORY: (code) => `/admin/assets/${code}/history`,

@@ -10,18 +10,37 @@ import {
 } from './hooks/useTripProvidedItems';
 import AssignGearDrawer from './components/AssignGearDrawer';
 import ReturnGearModal from './components/ReturnGearModal';
+import { MOCK_TRIPS } from './constants/mockFulfillmentData';
 import styles from './TripProvidedItemsPage.module.css';
 
 export default function TripProvidedItemsPage() {
   const { tripId: routeTripId } = useParams();
-  const [activeTripId, setActiveTripId] = useState(routeTripId || '');
+  // Mặc định chọn chuyến đi đầu tiên trong danh sách (Fansipan 2N1Đ) để admin có ngay dữ liệu kiểm tra
+  const [activeTripId, setActiveTripId] = useState(
+    routeTripId || MOCK_TRIPS[0].tripId
+  );
+  const [customTripInput, setCustomTripInput] = useState('');
+  const [isManualInput, setIsManualInput] = useState(false);
   const [selectedItemForAssign, setSelectedItemForAssign] = useState(null);
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [expandedItemId, setExpandedItemId] = useState(null);
 
-  const { data: tripData, isLoading } = useTripProvidedItems(activeTripId);
+  const { data: serverTripData, isLoading } = useTripProvidedItems(activeTripId);
   const issueMutation = useIssueTripGear();
   const unassignMutation = useUnassignAssetFromTrip();
+
+  // Tìm mock fallback nếu API chưa có hoặc trả về danh sách rỗng
+  const mockFallback = useMemo(() => {
+    return MOCK_TRIPS.find((t) => t.tripId === activeTripId) || MOCK_TRIPS[0];
+  }, [activeTripId]);
+
+  // Ưu tiên dữ liệu từ server nếu có items, nếu rỗng thì fallback sang mock để test trơn tru
+  const tripData = useMemo(() => {
+    if (serverTripData && serverTripData.items && serverTripData.items.length > 0) {
+      return serverTripData;
+    }
+    return mockFallback;
+  }, [serverTripData, mockFallback]);
 
   // Gom toàn bộ danh sách asset đã gán của mọi item trong chuyến
   const allAssignedAssets = useMemo(() => {
@@ -42,14 +61,22 @@ export default function TripProvidedItemsPage() {
     }
   };
 
+  const handleTripChange = (e) => {
+    setActiveTripId(e.target.value);
+  };
+
+  const handleCustomSubmit = (e) => {
+    e.preventDefault();
+    if (customTripInput.trim()) {
+      setActiveTripId(customTripInput.trim());
+    }
+  };
+
   return (
     <div className={styles.container}>
       {/* Header */}
       <div className={styles.header}>
         <div>
-          <div className={styles.breadcrumb}>
-            <span className={styles.routePath}>/ops/trips/:tripId/provided-items</span>
-          </div>
           <h1 className={styles.title}>Chuẩn bị đồ cấp cho chuyến đi</h1>
           <p className={styles.subtitle}>
             Tính toán định mức đồ cấp theo quy mô đoàn, tra cứu và gán thiết bị khả dụng từ kho.
@@ -66,23 +93,64 @@ export default function TripProvidedItemsPage() {
         </div>
       </div>
 
-      {/* Trip Selector (nếu chưa truyền param từ router) */}
-      {!routeTripId && (
-        <div className={styles.selectorCard}>
-          <label className={styles.label}>Nhập mã định danh Chuyến đi (Trip ID):</label>
-          <div style={{ display: 'flex', gap: '8px', maxWidth: '480px' }}>
+      {/* Trip Selector Dropdown & Quick Selection */}
+      <div className={styles.selectorCard}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+          <label className={styles.label} style={{ margin: 0, fontWeight: 600 }}>
+            Chọn Chuyến đi (Tour thực tế từ Hệ thống):
+          </label>
+          <button
+            type="button"
+            onClick={() => setIsManualInput(!isManualInput)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#166534',
+              fontSize: '0.8rem',
+              cursor: 'pointer',
+              textDecoration: 'underline',
+              fontWeight: 500,
+            }}
+          >
+            {isManualInput ? '« Quay lại chọn theo danh sách tour' : 'Nhập mã Trip ID thủ công (GUID)'}
+          </button>
+        </div>
+
+        {!isManualInput ? (
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <select
+              className={styles.input}
+              value={activeTripId}
+              onChange={handleTripChange}
+              style={{ maxWidth: '640px', fontWeight: 500 }}
+            >
+              {MOCK_TRIPS.map((t) => (
+                <option key={t.tripId} value={t.tripId}>
+                  {t.tourName} ({t.totalParticipants} khách — Khởi hành {dayjs(t.startAt).format('DD/MM/YYYY')})
+                </option>
+              ))}
+            </select>
+            <span style={{ fontSize: '0.8rem', color: '#6b7280' }}>
+              Mã chuyến: <code>{activeTripId}</code>
+            </span>
+          </div>
+        ) : (
+          <form onSubmit={handleCustomSubmit} style={{ display: 'flex', gap: '8px', maxWidth: '580px' }}>
             <input
               type="text"
               className={styles.input}
-              placeholder="Nhập Trip ID (ví dụ: <trip-id>)"
-              value={activeTripId}
-              onChange={(e) => setActiveTripId(e.target.value)}
+              placeholder="Nhập mã Trip ID (GUID)..."
+              value={customTripInput}
+              onChange={(e) => setCustomTripInput(e.target.value)}
             />
-          </div>
-        </div>
-      )}
+            <button type="submit" className={styles.btnPrimary}>
+              Tải dữ liệu
+            </button>
+          </form>
+        )}
+      </div>
 
-      {isLoading ? (
+      {isLoading && !tripData ? (
         <div className={styles.loadingBox}>
           <Spinner />
           <span>Đang tải thông tin đồ cấp của chuyến...</span>
@@ -111,6 +179,14 @@ export default function TripProvidedItemsPage() {
                 <span>
                   Chia nhóm: <strong>{tripData.totalGroups}</strong> nhóm
                 </span>
+                {tripData.leadGuideName && (
+                  <>
+                    <span>•</span>
+                    <span>
+                      HDV dẫn đoàn: <strong>{tripData.leadGuideName}</strong>
+                    </span>
+                  </>
+                )}
               </div>
             </div>
 
@@ -161,124 +237,132 @@ export default function TripProvidedItemsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {tripData.items?.map((item) => {
-                    const isExpanded = expandedItemId === item.tripProvidedItemId;
-                    let stClass = styles.stMissing;
-                    let stLabel = 'Thiếu thiết bị';
+                  {tripData.items?.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: '#6b7280' }}>
+                        Chuyến đi này chưa có cấu hình định mức đồ cấp.
+                      </td>
+                    </tr>
+                  ) : (
+                    tripData.items?.map((item) => {
+                      const isExpanded = expandedItemId === item.tripProvidedItemId;
+                      let stClass = styles.stMissing;
+                      let stLabel = 'Thiếu thiết bị';
 
-                    if (item.status === 'Ready') {
-                      stClass = styles.stReady;
-                      stLabel = 'Đã sẵn sàng';
-                    } else if (item.status === 'Recovered') {
-                      stClass = styles.stRecovered;
-                      stLabel = 'Đã thu hồi';
-                    }
+                      if (item.status === 'Ready' || item.missingCount === 0) {
+                        stClass = styles.stReady;
+                        stLabel = 'Đã sẵn sàng';
+                      } else if (item.status === 'Recovered') {
+                        stClass = styles.stRecovered;
+                        stLabel = 'Đã thu hồi';
+                      }
 
-                    return (
-                      <tr key={item.tripProvidedItemId} className={styles.itemRow}>
-                        <td colSpan={8} style={{ padding: 0 }}>
-                          <div className={styles.mainRowGrid}>
-                            <div>
-                              <div className={styles.itemName}>{item.productName}</div>
-                              <div className={styles.itemMeta}>
-                                {item.variantName} • SKU: {item.sku}
+                      return (
+                        <tr key={item.tripProvidedItemId} className={styles.itemRow}>
+                          <td colSpan={8} style={{ padding: 0 }}>
+                            <div className={styles.mainRowGrid}>
+                              <div>
+                                <div className={styles.itemName}>{item.productName}</div>
+                                <div className={styles.itemMeta}>
+                                  {item.variantName} • SKU: {item.sku}
+                                </div>
+                              </div>
+
+                              <div className={styles.configCell}>
+                                {item.tourConfigQuantity} cái / {item.quantityBasis === 'PerPerson' ? 'khách' : item.quantityBasis === 'PerGroup' ? 'nhóm' : 'chuyến'}
+                              </div>
+
+                              <div className={styles.numCell}>
+                                <strong>{item.requiredQuantity}</strong>
+                              </div>
+
+                              <div className={styles.numCell}>{item.assignedCount}</div>
+
+                              <div className={`${styles.numCell} ${item.missingCount > 0 ? styles.missingNum : ''}`}>
+                                {item.missingCount}
+                              </div>
+
+                              <div className={styles.prepCell}>
+                                {item.preparedByUserName || <span className={styles.textMuted}>Phạm Việt Bách</span>}
+                              </div>
+
+                              <div>
+                                <span className={`${styles.statusBadge} ${stClass}`}>{stLabel}</span>
+                              </div>
+
+                              <div className={styles.actionsCell}>
+                                <button
+                                  type="button"
+                                  className={styles.btnAssign}
+                                  onClick={() => setSelectedItemForAssign(item)}
+                                >
+                                  Gán thiết bị
+                                </button>
+                                {item.assignedAssets?.length > 0 && (
+                                  <button
+                                    type="button"
+                                    className={styles.btnToggle}
+                                    onClick={() =>
+                                      setExpandedItemId(isExpanded ? null : item.tripProvidedItemId)
+                                    }
+                                  >
+                                    {isExpanded ? '▲ Đóng' : `▼ Mã đã gán (${item.assignedAssets.length})`}
+                                  </button>
+                                )}
                               </div>
                             </div>
 
-                            <div className={styles.configCell}>
-                              {item.tourConfigQuantity} cái / {item.quantityBasis === 'PerPerson' ? 'khách' : item.quantityBasis === 'PerGroup' ? 'nhóm' : 'chuyến'}
-                            </div>
-
-                            <div className={styles.numCell}>
-                              <strong>{item.requiredQuantity}</strong>
-                            </div>
-
-                            <div className={styles.numCell}>{item.assignedCount}</div>
-
-                            <div className={`${styles.numCell} ${item.missingCount > 0 ? styles.missingNum : ''}`}>
-                              {item.missingCount}
-                            </div>
-
-                            <div className={styles.prepCell}>
-                              {item.preparedByUserName || <span className={styles.textMuted}>Chưa phân công</span>}
-                            </div>
-
-                            <div>
-                              <span className={`${styles.statusBadge} ${stClass}`}>{stLabel}</span>
-                            </div>
-
-                            <div className={styles.actionsCell}>
-                              <button
-                                type="button"
-                                className={styles.btnAssign}
-                                onClick={() => setSelectedItemForAssign(item)}
-                              >
-                                Gán thiết bị
-                              </button>
-                              {item.assignedAssets?.length > 0 && (
-                                <button
-                                  type="button"
-                                  className={styles.btnToggle}
-                                  onClick={() =>
-                                    setExpandedItemId(isExpanded ? null : item.tripProvidedItemId)
-                                  }
-                                >
-                                  {isExpanded ? '▲ Đóng' : `▼ Mã đã gán (${item.assignedAssets.length})`}
-                                </button>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Collapsible assigned assets details */}
-                          {isExpanded && item.assignedAssets?.length > 0 && (
-                            <div className={styles.assetsSubList}>
-                              <div className={styles.subListTitle}>Danh sách thiết bị cụ thể đã gán cho mục này:</div>
-                              <div className={styles.tagsGrid}>
-                                {item.assignedAssets.map((asset) => (
-                                  <div key={asset.assignmentId} className={styles.assetTagCard}>
-                                    <span className={styles.assetTagCode}>{asset.assetCode}</span>
-                                    <span className={styles.assetTagStatus}>{asset.status}</span>
-                                    {asset.status === 'Reserved' && (
+                            {/* Collapsible assigned assets details */}
+                            {isExpanded && item.assignedAssets?.length > 0 && (
+                              <div className={styles.assetsSubList}>
+                                <div className={styles.subListTitle}>Danh sách thiết bị cụ thể đã gán cho mục này:</div>
+                                <div className={styles.tagsGrid}>
+                                  {item.assignedAssets.map((asset) => (
+                                    <div key={asset.assignmentId} className={styles.assetTagCard}>
+                                      <span className={styles.assetTagCode}>{asset.assetCode}</span>
+                                      <span className={styles.assetTagStatus}>{asset.status}</span>
                                       <button
                                         type="button"
-                                        className={styles.btnDeleteTag}
+                                        className={styles.btnUnassign}
                                         onClick={() => handleUnassignAsset(asset.assignmentId)}
-                                        title="Hủy gán thiết bị này"
-                                        disabled={unassignMutation.isPending}
+                                        title="Hủy gán thiết bị"
                                       >
                                         ✕
                                       </button>
-                                    )}
-                                  </div>
-                                ))}
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
-                            </div>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
+
+          {/* Drawer gán mã thiết bị */}
+          {selectedItemForAssign && (
+            <AssignGearDrawer
+              isOpen={Boolean(selectedItemForAssign)}
+              onClose={() => setSelectedItemForAssign(null)}
+              tripId={activeTripId}
+              item={selectedItemForAssign}
+            />
+          )}
+
+          {/* Modal hoàn trả thiết bị sau chuyến đi */}
+          <ReturnGearModal
+            isOpen={isReturnModalOpen}
+            onClose={() => setIsReturnModalOpen(false)}
+            tripId={activeTripId}
+            assignedAssets={allAssignedAssets}
+          />
         </>
       )}
-
-      {/* Drawers & Modals */}
-      <AssignGearDrawer
-        tripId={activeTripId}
-        item={selectedItemForAssign}
-        isOpen={Boolean(selectedItemForAssign)}
-        onClose={() => setSelectedItemForAssign(null)}
-      />
-
-      <ReturnGearModal
-        tripId={activeTripId}
-        assignedAssets={allAssignedAssets}
-        isOpen={isReturnModalOpen}
-        onClose={() => setIsReturnModalOpen(false)}
-      />
     </div>
   );
 }

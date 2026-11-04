@@ -108,30 +108,109 @@ export const router = createBrowserRouter([
           {
             element: <AdminLayout />,
             children: [
-              { path: ROUTES.ADMIN, lazy: lazyPage(() => import('@/pages/AdminDashboardPage')) },
+              {
+                path: ROUTES.ADMIN,
+                lazy: lazyPage(() => import('@/pages/ops/system/DashboardPage')),
+              },
               {
                 path: ROUTES.ADMIN_PROFILE,
                 lazy: lazyPage(() => import('@/features/users/pages/ProfilePage')),
               },
+              // Đơn hàng & Đơn thuê
               {
-                path: ROUTES.ADMIN_TOURS,
-                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminToursPage')),
+                path: ROUTES.ADMIN_ORDERS,
+                lazy: lazyPage(() => import('@/pages/ops/orders/OrdersPage')),
               },
               {
-                path: ROUTES.ADMIN_PRODUCTS,
-                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductsPage')),
+                path: ROUTES.ADMIN_ORDER(),
+                lazy: lazyPage(() => import('@/pages/ops/orders/OrderDetailPage')),
               },
               {
-                path: ROUTES.ADMIN_TOUR_DETAIL(),
-                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourDetailPage')),
+                path: ROUTES.ADMIN_RENTAL_ORDERS,
+                lazy: lazyPage(() => import('@/features/rental-ops/pages/AdminRentalOrdersPage')),
               },
               {
-                path: ROUTES.ADMIN_PRODUCT_DETAIL(),
-                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductDetailPage')),
+                path: ROUTES.ADMIN_RENTAL_ORDER_DETAIL(),
+                lazy: lazyPage(() => import('@/features/rental-ops/pages/AdminRentalOrderDetailPage')),
+              },
+              // Nội dung, Đánh giá, Khuyến mãi & Danh mục
+              {
+                path: ROUTES.ADMIN_POSTS,
+                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostsPage')),
               },
               {
-                path: ROUTES.ADMIN_PRODUCT_CREATE,
-                lazy: lazyPage(() => import('@/features/products/pages/ProductCreatePage')),
+                path: ROUTES.ADMIN_POST_CREATE,
+                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostEditorPage')),
+              },
+              {
+                path: ROUTES.ADMIN_POST_EDIT(),
+                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostEditorPage')),
+              },
+              {
+                path: ROUTES.ADMIN_POST(),
+                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostEditorPage')),
+              },
+              {
+                path: ROUTES.ADMIN_REVIEWS,
+                lazy: lazyPage(() => import('@/pages/ops/system/ReviewsPage')),
+              },
+              {
+                path: ROUTES.ADMIN_MASTER,
+                lazy: lazyPage(() => import('@/pages/ops/system/MasterDataPage')),
+              },
+              {
+                path: ROUTES.ADMIN_PROMOTIONS,
+                lazy: lazyPage(() => import('@/pages/ops/system/PromotionsPage')),
+              },
+              {
+                path: ROUTES.ADMIN_PROMOTION(),
+                lazy: lazyPage(() => import('@/pages/ops/system/PromotionDetailPage')),
+              },
+              // Phân hệ Quản trị / Governance & Danh mục (Admin Only)
+              {
+                element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />,
+                children: [
+                  {
+                    path: ROUTES.ADMIN_TOURS,
+                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminToursPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_TOUR_DETAIL(),
+                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourDetailPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_PRODUCTS,
+                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductsPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_PRODUCT_DETAIL(),
+                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductDetailPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_PRODUCT_CREATE,
+                    lazy: lazyPage(() => import('@/features/products/pages/ProductCreatePage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_USERS,
+                    lazy: lazyPage(() => import('@/pages/ops/system/UsersPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_USER(),
+                    lazy: lazyPage(() => import('@/pages/ops/system/UserDetailPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_SETTINGS,
+                    lazy: lazyPage(() => import('@/pages/ops/system/SettingsPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_AUDIT,
+                    lazy: lazyPage(() => import('@/pages/ops/system/AuditPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_REPORTS,
+                    lazy: lazyPage(() => import('@/pages/ops/system/ReportsPage')),
+                  },
+                ],
               },
               // Quản lý chuyến đi (Trips Ops & Lifecycle)
               {
@@ -153,27 +232,6 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.ADMIN_TRIP_OPS(),
                 lazy: lazyPage(() => import('@/features/trip-groups/pages/TripOpsPage')),
-              },
-              // Quản lý Đơn thuê thiết bị & Bài viết
-              {
-                path: ROUTES.ADMIN_RENTAL_ORDERS,
-                lazy: lazyPage(() => import('@/features/rental-ops/pages/AdminRentalOrdersPage')),
-              },
-              {
-                path: ROUTES.ADMIN_RENTAL_ORDER_DETAIL(),
-                lazy: lazyPage(() => import('@/features/rental-ops/pages/AdminRentalOrderDetailPage')),
-              },
-              {
-                path: ROUTES.ADMIN_POSTS,
-                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostsPage')),
-              },
-              {
-                path: ROUTES.ADMIN_POST_CREATE,
-                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostEditorPage')),
-              },
-              {
-                path: ROUTES.ADMIN_POST_EDIT(),
-                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostEditorPage')),
               },
               // Phân hệ Tài chính & Hoàn tiền (Namle)
               {

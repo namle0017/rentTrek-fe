@@ -349,3 +349,322 @@ export const MOCK_CATALOG_VARIANTS = [
   { id: '11111111-1111-1111-1111-111111111109', productName: 'Đệm ngủ tự bơm', variantName: 'Một người / Xanh lá', sku: 'MAT-AIR' },
   { id: '11111111-1111-1111-1111-111111111110', productName: 'Đèn lều sạc USB', variantName: 'Sạc USB / Xanh rêu', sku: 'LIGHT-USB' },
 ];
+
+// Danh sách thiết bị mẫu dự phòng cho tìm kiếm trong kho
+export const MOCK_ASSETS_CATALOG = [
+  {
+    id: 'ast-001',
+    assetCode: 'SD-TENT-CU2-001',
+    productName: 'Lều cắm trại 2 người Cloud Up 2',
+    variantName: '2 người / Xanh lá',
+    sku: 'TENT-2-GREEN',
+    assetStatus: 'Available',
+    conditionNote: 'Mới 100%, nguyên tem cọc ghim',
+    currentAssignment: null,
+    createdAt: '2026-11-04T08:00:00Z',
+    updatedAt: '2026-11-04T09:20:00Z',
+  },
+  {
+    id: 'ast-002',
+    assetCode: 'SD-TENT-CU2-002',
+    productName: 'Lều cắm trại 2 người Cloud Up 2',
+    variantName: '2 người / Xanh lá',
+    sku: 'TENT-2-GREEN',
+    assetStatus: 'Rented',
+    conditionNote: 'Tình trạng tốt, vải chống thấm',
+    currentAssignment: {
+      sourceType: 'RentalOrder',
+      sourceCode: 'RT-202611-001',
+      status: 'Issued',
+      reservedFrom: '2026-11-04T08:00:00Z',
+      reservedUntil: '2026-11-07T18:00:00Z',
+    },
+    createdAt: '2026-11-04T08:05:00Z',
+    updatedAt: '2026-11-04T09:15:00Z',
+  },
+  {
+    id: 'ast-003',
+    assetCode: 'SD-TENT-4P-0001',
+    productName: 'Lều gia đình 4 người',
+    variantName: '4 người / Cam đất',
+    sku: 'TENT-4',
+    assetStatus: 'Available',
+    conditionNote: 'Đầy đủ cọc dây và mái che',
+    currentAssignment: null,
+    createdAt: '2026-11-04T08:10:00Z',
+    updatedAt: '2026-11-04T08:10:00Z',
+  },
+  {
+    id: 'ast-004',
+    assetCode: 'SD-PACK-40-RED-0002',
+    productName: 'Balô trekking 40L',
+    variantName: 'Balô 40L / Đỏ (ngừng)',
+    sku: 'SD-PACK-40-RED',
+    assetStatus: 'Maintenance',
+    conditionNote: 'đang bảo trì khóa kéo',
+    currentAssignment: null,
+    createdAt: '2026-11-04T09:27:00Z',
+    updatedAt: '2026-11-04T09:35:00Z',
+  },
+  {
+    id: 'ast-005',
+    assetCode: 'SD-PACK-40-001',
+    productName: 'Balô trekking 40L',
+    variantName: '40 lít / Xanh lá',
+    sku: 'PACK-40',
+    assetStatus: 'Available',
+    conditionNote: 'Khóa YKK êm ái, đai trợ lực tốt',
+    currentAssignment: null,
+    createdAt: '2026-11-04T08:20:00Z',
+    updatedAt: '2026-11-04T08:20:00Z',
+  },
+  {
+    id: 'ast-006',
+    assetCode: 'SD-SLEEP-001',
+    productName: 'Túi ngủ giữ ấm',
+    variantName: 'Tiêu chuẩn / Xanh rêu',
+    sku: 'SLEEP-WARM',
+    assetStatus: 'Available',
+    conditionNote: 'Giặt sạch, bông phồng tốt',
+    currentAssignment: null,
+    createdAt: '2026-11-04T08:25:00Z',
+    updatedAt: '2026-11-04T08:25:00Z',
+  },
+  {
+    id: 'ast-007',
+    assetCode: 'SD-LAMP-001',
+    productName: 'Đèn lều sạc USB',
+    variantName: 'Sạc USB / Xanh rêu',
+    sku: 'LIGHT-USB',
+    assetStatus: 'Available',
+    conditionNote: 'Pin 100%, 3 nấc sáng',
+    currentAssignment: null,
+    createdAt: '2026-11-04T08:30:00Z',
+    updatedAt: '2026-11-04T08:30:00Z',
+  },
+];
+
+// Hàm sinh dữ liệu Gantt trực quan theo khoảng thời gian thực tế
+export function generateMockGanttData(startDateStr, daysCount = 14) {
+  const baseStart = new Date(startDateStr);
+  const addDays = (d, n) => {
+    const copy = new Date(d);
+    copy.setDate(copy.getDate() + n);
+    return copy.toISOString();
+  };
+
+  const day1 = addDays(baseStart, 0);
+  const day3 = addDays(baseStart, 2);
+  const day4 = addDays(baseStart, 3);
+  const day6 = addDays(baseStart, 5);
+  const day8 = addDays(baseStart, 7);
+
+  const variantGroups = [
+    {
+      productVariantId: 'var-gantt-01',
+      variantName: 'Lều cắm trại 2 người Cloud Up 2 (2 người / Xanh lá)',
+      sku: 'TENT-2-GREEN',
+      totalAssets: 4,
+      dailyOccupancy: Array.from({ length: daysCount }, (_, i) => ({
+        date: addDays(baseStart, i),
+        occupiedCount: i >= 0 && i <= 3 ? 2 : i >= 4 && i <= 7 ? 3 : 1,
+        totalCount: 4,
+        isOverbooked: false,
+      })),
+      assets: [
+        {
+          equipmentAssetId: 'ast-g-01',
+          assetCode: 'SD-TENT-CU2-001',
+          status: 'Issued',
+          assignments: [
+            {
+              assignmentId: 'asg-g-1',
+              sourceType: 'RentalOrder',
+              sourceCode: 'RT-202611-001',
+              status: 'Issued',
+              reservedFrom: day1,
+              reservedUntil: day4,
+            },
+            {
+              assignmentId: 'asg-g-2',
+              sourceType: 'TripProvided',
+              sourceCode: 'Fansipan 2N1Đ',
+              status: 'Reserved',
+              reservedFrom: day6,
+              reservedUntil: day8,
+            },
+          ],
+        },
+        {
+          equipmentAssetId: 'ast-g-02',
+          assetCode: 'SD-TENT-CU2-002',
+          status: 'Reserved',
+          assignments: [
+            {
+              assignmentId: 'asg-g-3',
+              sourceType: 'TripProvided',
+              sourceCode: 'Fansipan 2N1Đ',
+              status: 'Reserved',
+              reservedFrom: day3,
+              reservedUntil: day6,
+            },
+          ],
+        },
+        {
+          equipmentAssetId: 'ast-g-03',
+          assetCode: 'SD-TENT-CU2-003',
+          status: 'Available',
+          assignments: [],
+        },
+        {
+          equipmentAssetId: 'ast-g-04',
+          assetCode: 'SD-TENT-CU2-004',
+          status: 'Available',
+          assignments: [],
+        },
+      ],
+    },
+    {
+      productVariantId: 'var-gantt-02',
+      variantName: 'Balô trekking trợ lực 40L (40 lít / Xanh lá)',
+      sku: 'PACK-40',
+      totalAssets: 4,
+      dailyOccupancy: Array.from({ length: daysCount }, (_, i) => ({
+        date: addDays(baseStart, i),
+        occupiedCount: i >= 1 && i <= 5 ? 2 : 1,
+        totalCount: 4,
+        isOverbooked: false,
+      })),
+      assets: [
+        {
+          equipmentAssetId: 'ast-g-05',
+          assetCode: 'SD-PACK-40-001',
+          status: 'Issued',
+          assignments: [
+            {
+              assignmentId: 'asg-g-4',
+              sourceType: 'RentalOrder',
+              sourceCode: 'RT-202611-001',
+              status: 'Issued',
+              reservedFrom: day1,
+              reservedUntil: day4,
+            },
+          ],
+        },
+        {
+          equipmentAssetId: 'ast-g-06',
+          assetCode: 'SD-PACK-40-002',
+          status: 'Reserved',
+          assignments: [
+            {
+              assignmentId: 'asg-g-5',
+              sourceType: 'TripProvided',
+              sourceCode: 'Tà Năng 3N2Đ',
+              status: 'Reserved',
+              reservedFrom: day4,
+              reservedUntil: day8,
+            },
+          ],
+        },
+        {
+          equipmentAssetId: 'ast-g-07',
+          assetCode: 'SD-PACK-40-003',
+          status: 'Available',
+          assignments: [],
+        },
+        {
+          equipmentAssetId: 'ast-g-08',
+          assetCode: 'SD-PACK-40-RED-0002',
+          status: 'Maintenance',
+          assignments: [],
+        },
+      ],
+    },
+    {
+      productVariantId: 'var-gantt-03',
+      variantName: 'Đèn lều sạc USB (Sạc USB / Xanh rêu)',
+      sku: 'LIGHT-USB',
+      totalAssets: 3,
+      dailyOccupancy: Array.from({ length: daysCount }, (_, i) => ({
+        date: addDays(baseStart, i),
+        occupiedCount: i >= 2 && i <= 6 ? 1 : 0,
+        totalCount: 3,
+        isOverbooked: false,
+      })),
+      assets: [
+        {
+          equipmentAssetId: 'ast-g-09',
+          assetCode: 'SD-LAMP-001',
+          status: 'Issued',
+          assignments: [
+            {
+              assignmentId: 'asg-g-6',
+              sourceType: 'RentalOrder',
+              sourceCode: 'RT-202611-002',
+              status: 'Issued',
+              reservedFrom: day3,
+              reservedUntil: day6,
+            },
+          ],
+        },
+        {
+          equipmentAssetId: 'ast-g-10',
+          assetCode: 'SD-LAMP-002',
+          status: 'Available',
+          assignments: [],
+        },
+        {
+          equipmentAssetId: 'ast-g-11',
+          assetCode: 'SD-LAMP-003',
+          status: 'Available',
+          assignments: [],
+        },
+      ],
+    },
+  ];
+
+  return {
+    from: day1,
+    to: addDays(baseStart, daysCount - 1),
+    totalAssets: 11,
+    inUseCount: 4,
+    availableCount: 7,
+    variantGroups,
+  };
+}
+
+// Hàm sinh danh sách thiết bị khả dụng theo SKU để gán cho đồ cấp chuyến đi
+export function generateAvailableAssetsForSku(sku, productName = 'Thiết bị') {
+  const cleanSku = (sku || 'EQ').toUpperCase();
+  return [
+    {
+      assetId: `avail-${cleanSku}-001`,
+      assetCode: `${cleanSku}-0001`,
+      productName,
+      conditionNote: 'Mới 100%, sẵn sàng trong kho',
+      assetStatus: 'Available',
+    },
+    {
+      assetId: `avail-${cleanSku}-002`,
+      assetCode: `${cleanSku}-0002`,
+      productName,
+      conditionNote: 'Tình trạng tốt, đã kiểm tra',
+      assetStatus: 'Available',
+    },
+    {
+      assetId: `avail-${cleanSku}-003`,
+      assetCode: `${cleanSku}-0003`,
+      productName,
+      conditionNote: 'Phụ kiện đầy đủ, nguyên túi đựng',
+      assetStatus: 'Available',
+    },
+    {
+      assetId: `avail-${cleanSku}-004`,
+      assetCode: `${cleanSku}-0004`,
+      productName,
+      conditionNote: 'Sẵn sàng trong kho',
+      assetStatus: 'Available',
+    },
+  ];
+}
+

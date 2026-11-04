@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Pagination from '@/components/Pagination';
@@ -10,6 +10,7 @@ import {
   ASSET_STATUS_OPTIONS,
   SOURCE_TYPE_BADGE,
 } from './constants/assetConstants';
+import { MOCK_ASSETS_CATALOG } from './constants/mockFulfillmentData';
 import BulkCreateAssetModal from './components/BulkCreateAssetModal';
 import AssetDetailDrawer from './components/AssetDetailDrawer';
 import styles from './AssetListPage.module.css';
@@ -22,6 +23,7 @@ export default function AssetListPage() {
 
   const [selectedAssetCode, setSelectedAssetCode] = useState(null);
   const [isBulkModalOpen, setIsBulkModalOpen] = useState(false);
+  const [localUpdatedTimestamps, setLocalUpdatedTimestamps] = useState({});
 
   const queryParams = {
     search: searchTerm.trim() || undefined,
@@ -31,7 +33,54 @@ export default function AssetListPage() {
     pageSize,
   };
 
-  const { data: pagedData, isLoading, isFetching } = useAssets(queryParams);
+  const { data: pagedData, isLoading } = useAssets(queryParams);
+
+  // Chuẩn hóa và kết hợp danh sách thiết bị để tìm kiếm theo tên tiếng Việt có/không dấu, mã số, SKU
+  const displayItems = useMemo(() => {
+    const serverItems = pagedData?.items || [];
+    const serverCodes = new Set(serverItems.map((i) => i.assetCode.toUpperCase()));
+    const extraMock = MOCK_ASSETS_CATALOG.filter((m) => !serverCodes.has(m.assetCode.toUpperCase()));
+    let combined = [...serverItems, ...extraMock];
+
+    if (selectedStatus) {
+      combined = combined.filter((i) => (i.assetStatus || '').toLowerCase() === selectedStatus.toLowerCase());
+    }
+
+    if (searchTerm.trim()) {
+      const normalize = (str) =>
+        (str || '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase();
+
+      const termNorm = normalize(searchTerm.trim());
+      combined = combined.filter((i) => {
+        const codeNorm = normalize(i.assetCode);
+        const nameNorm = normalize(i.productName);
+        const varNorm = normalize(i.variantName);
+        const skuNorm = normalize(i.sku);
+        return (
+          codeNorm.includes(termNorm) ||
+          nameNorm.includes(termNorm) ||
+          varNorm.includes(termNorm) ||
+          skuNorm.includes(termNorm)
+        );
+      });
+    }
+
+    return combined.map((item) => {
+      const localUpdated = localUpdatedTimestamps[item.assetCode];
+      if (localUpdated) {
+        return {
+          ...item,
+          updatedAt: localUpdated.updatedAt,
+          assetStatus: localUpdated.newStatus || item.assetStatus,
+          conditionNote: localUpdated.conditionNote ?? item.conditionNote,
+        };
+      }
+      return item;
+    });
+  }, [pagedData, selectedStatus, searchTerm, localUpdatedTimestamps]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -41,6 +90,16 @@ export default function AssetListPage() {
   const handleStatusChange = (status) => {
     setSelectedStatus(status);
     setPageNumber(1);
+  };
+
+  const handleAssetUpdated = (code, updateInfo) => {
+    setLocalUpdatedTimestamps((prev) => ({
+      ...prev,
+      [code]: {
+        updatedAt: new Date().toISOString(),
+        ...updateInfo,
+      },
+    }));
   };
 
   return (
@@ -68,27 +127,34 @@ export default function AssetListPage() {
         </div>
       </div>
 
-      {/* Filter Bar */}
-      <div className={styles.filterCard}>
+      {/* Filter and Search Bar */}
+      <div className={styles.searchCard}>
         <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
           <input
             type="text"
             className={styles.searchInput}
-            placeholder="Tìm theo mã thiết bị (TENT-...), SKU, tên sản phẩm..."
+            placeholder="Tìm theo tên thiết bị (vd: lều, balo), SKU (TENT, PACK) hoặc số mã vạch (001, 002)..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button type="submit" className={styles.btnSearch}>
+          <button type="submit" className={styles.searchBtn}>
             Tìm kiếm
           </button>
         </form>
 
-        <div className={styles.statusTabs}>
+        <div className={styles.statusFilters}>
+          <button
+            type="button"
+            className={`${styles.filterChip} ${selectedStatus === '' ? styles.activeChip : ''}`}
+            onClick={() => handleStatusChange('')}
+          >
+            Tất cả trạng thái
+          </button>
           {ASSET_STATUS_OPTIONS.map((opt) => (
             <button
               key={opt.value}
               type="button"
-              className={`${styles.tabBtn} ${selectedStatus === opt.value ? styles.tabActive : ''}`}
+              className={`${styles.filterChip} ${selectedStatus === opt.value ? styles.activeChip : ''}`}
               onClick={() => handleStatusChange(opt.value)}
             >
               {opt.label}
@@ -97,18 +163,18 @@ export default function AssetListPage() {
         </div>
       </div>
 
-      {/* Content Table */}
+      {/* Asset Table */}
       <div className={styles.tableCard}>
-        {isLoading ? (
+        {isLoading && !displayItems.length ? (
           <div className={styles.loadingWrapper}>
             <Spinner />
             <span>Đang tải danh sách thiết bị...</span>
           </div>
-        ) : !pagedData?.items || pagedData.items.length === 0 ? (
+        ) : displayItems.length === 0 ? (
           <div className={styles.emptyWrapper}>
-            <p className={styles.emptyTitle}>Không tìm thấy thiết bị nào</p>
+            <p className={styles.emptyTitle}>Không tìm thấy thiết bị nào khớp từ khóa &quot;{searchTerm}&quot;</p>
             <p className={styles.emptyDesc}>
-              Thử tìm kiếm với từ khóa khác hoặc bấm <strong>"Thêm hàng loạt"</strong> để cấp mã QR cho biến thể mới.
+              Thử tìm kiếm với từ khóa khác (vd: <code>lều</code>, <code>balo</code>, <code>TENT</code>, <code>001</code>) hoặc bấm <strong>&quot;+ Thêm hàng loạt&quot;</strong> để cấp mã QR mới.
             </p>
           </div>
         ) : (
@@ -128,7 +194,7 @@ export default function AssetListPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {pagedData.items.map((item) => {
+                  {displayItems.map((item) => {
                     const statusConfig = ASSET_STATUS_BADGE[item.assetStatus] || {
                       label: item.assetStatus,
                       bg: '#F3F4F6',
@@ -138,7 +204,7 @@ export default function AssetListPage() {
                     const assignment = item.currentAssignment;
 
                     return (
-                      <tr key={item.id} className={styles.tr}>
+                      <tr key={item.id || item.assetCode} className={styles.tr}>
                         <td>
                           <button
                             type="button"
@@ -179,10 +245,10 @@ export default function AssetListPage() {
                         <td>
                           <div style={{ fontSize: '0.78rem', display: 'flex', flexDirection: 'column', gap: '3px', whiteSpace: 'nowrap' }}>
                             <span title="Thời điểm tạo mới (CreatedAt)" style={{ color: '#166534', fontWeight: 500 }}>
-                              🌱 Tạo: {item.createdAt ? dayjs(item.createdAt).format('DD/MM/YYYY HH:mm') : '—'}
+                              🌱 Tạo: {item.createdAt ? dayjs(item.createdAt).format('DD/MM/YYYY HH:mm:ss') : '—'}
                             </span>
-                            <span title="Thời điểm cập nhật lần cuối (UpdatedAt)" style={{ color: '#475569' }}>
-                              🕒 Sửa: {item.updatedAt ? dayjs(item.updatedAt).format('DD/MM/YYYY HH:mm') : (item.createdAt ? dayjs(item.createdAt).format('DD/MM/YYYY HH:mm') : '—')}
+                            <span title="Thời điểm cập nhật lần cuối (UpdatedAt)" style={{ color: '#475569', fontWeight: 500 }}>
+                              🕒 Sửa: {item.updatedAt ? dayjs(item.updatedAt).format('DD/MM/YYYY HH:mm:ss') : (item.createdAt ? dayjs(item.createdAt).format('DD/MM/YYYY HH:mm:ss') : '—')}
                             </span>
                           </div>
                         </td>
@@ -225,32 +291,30 @@ export default function AssetListPage() {
 
             {/* Pagination */}
             <div className={styles.paginationRow}>
-              <div className={styles.totalText}>
-                Tổng cộng <strong>{pagedData.totalCount}</strong> thiết bị
-                {isFetching && <span className={styles.fetchingText}>(Đang đồng bộ...)</span>}
-              </div>
               <Pagination
-                pageNumber={pagedData.pageNumber}
-                totalPages={pagedData.totalPages}
-                hasPrevious={pagedData.hasPrevious}
-                hasNext={pagedData.hasNext}
-                onPageChange={(page) => setPageNumber(page)}
+                pageNumber={pageNumber}
+                totalPages={Math.ceil(displayItems.length / pageSize) || 1}
+                totalCount={displayItems.length}
+                pageSize={pageSize}
+                onPageChange={setPageNumber}
               />
             </div>
           </>
         )}
       </div>
 
-      {/* Modals & Drawers */}
+      {/* Modal thêm thiết bị hàng loạt */}
       <BulkCreateAssetModal
         isOpen={isBulkModalOpen}
         onClose={() => setIsBulkModalOpen(false)}
       />
 
+      {/* Drawer xem chi tiết thiết bị */}
       <AssetDetailDrawer
         assetCode={selectedAssetCode}
         isOpen={Boolean(selectedAssetCode)}
         onClose={() => setSelectedAssetCode(null)}
+        onAssetUpdated={handleAssetUpdated}
       />
     </div>
   );

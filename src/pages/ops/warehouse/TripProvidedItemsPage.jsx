@@ -19,14 +19,9 @@ export default function TripProvidedItemsPage() {
   const { data: pagedTrips } = useAdminTrips({ pageSize: 50 });
   const tripList = pagedTrips?.items || [];
 
-  const [activeTripId, setActiveTripId] = useState(routeTripId || '');
-
-  // Tự động chọn chuyến đầu tiên từ dữ liệu server nếu chưa có ID trên route
-  useMemo(() => {
-    if (!activeTripId && tripList.length > 0) {
-      setActiveTripId(tripList[0].tripId || tripList[0].id);
-    }
-  }, [activeTripId, tripList]);
+  const [selectedTripId, setSelectedTripId] = useState(routeTripId || '');
+  const activeTripId = selectedTripId || (tripList.length > 0 ? (tripList[0].tripId || tripList[0].id) : '');
+  const setActiveTripId = setSelectedTripId;
 
   const [customTripInput, setCustomTripInput] = useState('');
   const [isManualInput, setIsManualInput] = useState(false);

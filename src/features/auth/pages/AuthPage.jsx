@@ -10,6 +10,7 @@ import { applyServerErrors } from '@/utils/applyServerErrors';
 import { extractUserFromToken } from '@/utils/jwt';
 import { tokenStorage } from '@/utils/tokenStorage';
 import ForgotPasswordModal from '../components/ForgotPasswordModal';
+import EmailVerificationModal from '../components/EmailVerificationModal';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
 import { useLogin } from '../hooks/useLogin';
@@ -37,6 +38,8 @@ export default function AuthPage({ defaultMode }) {
   const [loginServerError, setLoginServerError] = useState('');
   const [registerServerError, setRegisterServerError] = useState('');
   const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
+  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
+  const [pendingVerifyEmail, setPendingVerifyEmail] = useState('');
   const [rememberMe, setRememberMe] = useState(() => {
     return Boolean(localStorage.getItem('rentrek_remembered_email'));
   });
@@ -134,16 +137,20 @@ export default function AuthPage({ defaultMode }) {
 
   const handleRegister = (values) => {
     setRegisterServerError('');
+    const targetEmail = values.email.trim();
     registerMutation.mutate(
       {
         fullName: values.fullName.trim(),
-        email: values.email.trim(),
+        email: targetEmail,
         phone: values.phone?.trim() || null,
         password: values.password,
         confirmPassword: values.confirmPassword,
       },
       {
-        onSuccess: () => navigate(redirectTo, { replace: true }),
+        onSuccess: () => {
+          setPendingVerifyEmail(targetEmail);
+          setIsVerifyModalOpen(true);
+        },
         onError: (error) => {
           if (error.statusCode === 409) {
             setRegisterError('email', { type: 'server', message: error.message });
@@ -703,6 +710,20 @@ export default function AuthPage({ defaultMode }) {
         onSuccessReset={(email) => {
           if (setValueLogin) {
             setValueLogin('email', email);
+          }
+          switchTo('login');
+        }}
+      />
+
+      {/* Modal Xác thực Email Đăng ký & OTP (Phương án A) */}
+      <EmailVerificationModal
+        isOpen={isVerifyModalOpen}
+        onClose={() => setIsVerifyModalOpen(false)}
+        email={pendingVerifyEmail}
+        onSuccessVerified={(verifiedEmail) => {
+          setIsVerifyModalOpen(false);
+          if (setValueLogin) {
+            setValueLogin('email', verifiedEmail);
           }
           switchTo('login');
         }}

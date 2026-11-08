@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import Spinner from '@/components/Spinner';
 import { useAssignAssetsToTripItem, useAvailableAssetsForTripItem } from '../hooks/useTripProvidedItems';
-import { generateAvailableAssetsForSku } from '../constants/mockFulfillmentData';
 import styles from './WarehouseModals.module.css';
 
 export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLocalAssignSuccess }) {
@@ -17,18 +16,13 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLoca
 
   const assignMutation = useAssignAssetsToTripItem();
 
-  // Dùng dữ liệu thiết bị khả dụng từ server, nếu rỗng thì sinh danh sách khả dụng theo SKU để test
+  // Dùng dữ liệu thiết bị khả dụng từ server
   const availableAssets = useMemo(() => {
     const assignedCodes = new Set(
       (item?.assignedAssets || []).map((a) => (a.assetCode || '').toUpperCase())
     );
 
-    let rawList = [];
-    if (serverAvailableAssets && serverAvailableAssets.length > 0) {
-      rawList = serverAvailableAssets;
-    } else if (item?.sku) {
-      rawList = generateAvailableAssetsForSku(item.sku, item.productName);
-    }
+    const rawList = serverAvailableAssets || [];
 
     // Luôn loại trừ các mã thiết bị đã được gán cho mục này
     return rawList.filter((a) => !assignedCodes.has((a.assetCode || '').toUpperCase()));

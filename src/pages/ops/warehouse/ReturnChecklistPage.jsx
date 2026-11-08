@@ -13,7 +13,6 @@ import Spinner from '@/components/Spinner';
 import RentalOrderSummary from './components/RentalOrderSummary';
 import BarcodeScanner from './components/BarcodeScanner';
 import FulfillmentProgress from './components/FulfillmentProgress';
-import { MOCK_ORDERS } from './constants/mockFulfillmentData';
 import layoutStyles from '@/layouts/RentalFulfillmentLayout.module.css';
 import styles from './ReturnChecklistPage.module.css';
 
@@ -49,22 +48,16 @@ export default function ReturnChecklistPage() {
   const completeMutation = useCompleteReturn(orderCode);
   const checklist = useMemo(() => {
     if (serverChecklist) return serverChecklist;
-    const order = MOCK_ORDERS[orderCode] || MOCK_ORDERS['RT-202611-001'];
-    const items = (order.returnItems || []).flatMap((group) =>
-      (group.assets || []).map((asset) => ({
-        assignmentId: asset.assignmentId,
-        equipmentAssetId: asset.assignmentId,
-        assetCode: asset.assetCode,
-        productName: group.productName,
-        variantName: group.variantName,
-        status:
-          asset.status === 'Lost' ? 'LostOrException' : asset.status === 'Returned' ? 'Returned' : 'Issued',
-        returnCondition: asset.conditionNote ? (asset.damageFee ? 'Damaged' : 'Normal') : null,
-        conditionNote: asset.conditionNote || null,
-        variantPriceTier: 500000,
-      })),
-    );
-    return { ...order, totalIssuedCount: items.length, items };
+    return {
+      orderCode,
+      orderStatus: 'InFulfillment',
+      customerName: '—',
+      customerPhone: '—',
+      rentalStartAt: new Date().toISOString(),
+      rentalEndAt: new Date().toISOString(),
+      totalIssuedCount: 0,
+      items: [],
+    };
   }, [serverChecklist, orderCode]);
   const resolvedCount = checklist.items.filter(isResolved).length;
   const pendingCount = Math.max(0, checklist.totalIssuedCount - resolvedCount);

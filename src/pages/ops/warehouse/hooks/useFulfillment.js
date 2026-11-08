@@ -141,7 +141,7 @@ export function useCreateRentalCharge(orderCode) {
 export function useAssessRentalCharge(orderCode) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (chargeId) => fulfillmentService.assessRentalCharge(chargeId),
+    mutationFn: (chargeId) => fulfillmentService.assessRentalCharge(orderCode, chargeId),
     onSuccess: (res) => {
       toast.success(res?.message || 'Đã chốt phí phát sinh (Assessed)');
       queryClient.invalidateQueries({ queryKey: fulfillmentKeys.charges(orderCode) });
@@ -156,7 +156,7 @@ export function useAssessRentalCharge(orderCode) {
 export function useVoidRentalCharge(orderCode) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ chargeId, payload }) => fulfillmentService.voidRentalCharge(chargeId, payload),
+    mutationFn: ({ chargeId, payload }) => fulfillmentService.voidRentalCharge(orderCode, chargeId, payload),
     onSuccess: (res) => {
       toast.success(res?.message || 'Đã hủy phí phát sinh');
       queryClient.invalidateQueries({ queryKey: fulfillmentKeys.charges(orderCode) });

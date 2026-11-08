@@ -10,7 +10,6 @@ import {
   useCompleteOrder,
 } from './hooks/useFulfillment';
 import Spinner from '@/components/Spinner';
-import { MOCK_ORDERS } from './constants/mockFulfillmentData';
 import styles from './SettlementPage.module.css';
 
 export default function SettlementPage() {
@@ -38,46 +37,24 @@ export default function SettlementPage() {
   const voidChargeMutation = useVoidRentalCharge(activeOrderCode);
   const completeOrderMutation = useCompleteOrder(activeOrderCode);
 
-  const mockOrder = useMemo(() => {
-    return MOCK_ORDERS[activeOrderCode] || MOCK_ORDERS[defaultOrder];
-  }, [activeOrderCode]);
-
-  // Checklist trả đồ
+  // Checklist trả đồ từ dữ liệu server
   const returnChecklist = useMemo(() => {
-    if (serverChecklist && serverChecklist.items?.length > 0) {
-      return serverChecklist;
-    }
-    return {
-      orderCode: mockOrder.orderCode,
-      customerName: mockOrder.customerName,
-      orderStatus: mockOrder.orderStatus,
-      returnedCount: 4,
-      totalIssuedCount: 4,
-      items: [
-        { assignmentId: 'as-01', assetCode: 'SD-TENT-CU2-001', productName: 'Lều cắm trại 2 người' },
-        { assignmentId: 'as-02', assetCode: 'SD-TENT-CU2-002', productName: 'Lều cắm trại 2 người' },
-        { assignmentId: 'as-03', assetCode: 'SD-PACK-40-001', productName: 'Balô trekking 40L' },
-        { assignmentId: 'as-04', assetCode: 'SD-PACK-40-002', productName: 'Balô trekking 40L' },
-      ],
-    };
-  }, [serverChecklist, mockOrder]);
+    return (
+      serverChecklist || {
+        orderCode: activeOrderCode,
+        customerName: '—',
+        orderStatus: 'InFulfillment',
+        returnedCount: 0,
+        totalIssuedCount: 0,
+        items: [],
+      }
+    );
+  }, [serverChecklist, activeOrderCode]);
 
-  // Danh sách các khoản phí phát sinh
+  // Danh sách các khoản phí phát sinh từ dữ liệu server
   const charges = useMemo(() => {
-    if (serverCharges && serverCharges.length > 0) {
-      return serverCharges;
-    }
-    return (mockOrder.charges || []).map((c) => ({
-      rentalChargeId: c.id,
-      chargeType: c.chargeType,
-      amount: c.amount,
-      reason: c.reason,
-      equipmentAssetCode: c.equipmentAssetCode,
-      status: c.status,
-      createdByName: 'Nguyễn Minh Đức (Thủ kho)',
-      createdAt: c.createdAt,
-    }));
-  }, [serverCharges, mockOrder]);
+    return serverCharges || [];
+  }, [serverCharges]);
 
   const handleCreateSubmit = (e) => {
     e.preventDefault();

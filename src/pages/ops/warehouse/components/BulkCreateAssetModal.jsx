@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { useAssetVariants, useBulkCreateAssets } from '../hooks/useAssets';
-import { MOCK_CATALOG_VARIANTS } from '../constants/mockFulfillmentData';
 import styles from './WarehouseModals.module.css';
 
 export default function BulkCreateAssetModal({ isOpen, onClose }) {
@@ -16,9 +15,9 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
   const { data: apiVariants, isLoading: loadingVariants } = useAssetVariants();
   const bulkCreateMutation = useBulkCreateAssets();
 
-  // Danh sách biến thể kết hợp từ API và Mock Catalog fallback
+  // Danh sách biến thể từ API
   const allVariants = useMemo(() => {
-    const rawList = (apiVariants && apiVariants.length > 0) ? apiVariants : MOCK_CATALOG_VARIANTS;
+    const rawList = apiVariants || [];
     return rawList.map((v) => ({
       variantId: v.id,
       productName: v.productName || v.name || 'Thiết bị',

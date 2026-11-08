@@ -8,7 +8,6 @@ import RentalOrderSummary from './components/RentalOrderSummary';
 import BarcodeScanner from './components/BarcodeScanner';
 import FulfillmentProgress from './components/FulfillmentProgress';
 import layoutStyles from '@/layouts/RentalFulfillmentLayout.module.css';
-import { MOCK_ORDERS } from './constants/mockFulfillmentData';
 import styles from './HandoverChecklistPage.module.css';
 
 const DEFAULT_ORDER = 'RT-202611-001';
@@ -31,8 +30,17 @@ function HandoverWorkspace({ activeOrderCode }) {
 
   const checklist = useMemo(() => {
     if (serverChecklist) return serverChecklist;
-    const order = MOCK_ORDERS[activeOrderCode] || MOCK_ORDERS[DEFAULT_ORDER];
-    return { ...order, items: order.handoverItems };
+    return {
+      orderCode: activeOrderCode,
+      orderStatus: 'Draft',
+      customerName: '—',
+      customerPhone: '—',
+      rentalStartAt: new Date().toISOString(),
+      rentalEndAt: new Date().toISOString(),
+      items: [],
+      scannedCount: 0,
+      totalRequiredCount: 0,
+    };
   }, [serverChecklist, activeOrderCode]);
   const isHandedOver = ['InFulfillment', 'Completed'].includes(checklist.orderStatus);
   const isBusy = scanMutation.isPending || completeMutation.isPending;

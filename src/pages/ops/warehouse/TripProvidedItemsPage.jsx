@@ -8,17 +8,26 @@ import {
   useTripProvidedItems,
   useUnassignAssetFromTrip,
 } from './hooks/useTripProvidedItems';
+import { useAdminTrips } from '@/features/admin-trips/hooks/useAdminTrips';
 import AssignGearDrawer from './components/AssignGearDrawer';
 import ReturnGearModal from './components/ReturnGearModal';
-import { MOCK_TRIPS } from './constants/mockFulfillmentData';
 import modalStyles from './components/WarehouseModals.module.css';
 import styles from './TripProvidedItemsPage.module.css';
 
 export default function TripProvidedItemsPage() {
   const { tripId: routeTripId } = useParams();
-  const [activeTripId, setActiveTripId] = useState(
-    routeTripId || MOCK_TRIPS[0].tripId
-  );
+  const { data: pagedTrips } = useAdminTrips({ pageSize: 50 });
+  const tripList = pagedTrips?.items || [];
+
+  const [activeTripId, setActiveTripId] = useState(routeTripId || '');
+
+  // Tự động chọn chuyến đầu tiên từ dữ liệu server nếu chưa có ID trên route
+  useMemo(() => {
+    if (!activeTripId && tripList.length > 0) {
+      setActiveTripId(tripList[0].tripId || tripList[0].id);
+    }
+  }, [activeTripId, tripList]);
+
   const [customTripInput, setCustomTripInput] = useState('');
   const [isManualInput, setIsManualInput] = useState(false);
   const [selectedItemForAssign, setSelectedItemForAssign] = useState(null);
@@ -31,20 +40,13 @@ export default function TripProvidedItemsPage() {
   const issueMutation = useIssueTripGear();
   const unassignMutation = useUnassignAssetFromTrip();
 
-  // Tìm mock fallback nếu API chưa có hoặc trả về danh sách rỗng
-  const mockFallback = useMemo(() => {
-    return MOCK_TRIPS.find((t) => t.tripId === activeTripId) || MOCK_TRIPS[0];
-  }, [activeTripId]);
-
-  // Chuẩn hóa dữ liệu trip
+  // Chuẩn hóa dữ liệu trip từ API server
   const tripData = useMemo(() => {
-    const base = (serverTripData && serverTripData.items && serverTripData.items.length > 0)
-      ? { ...serverTripData }
-      : { ...mockFallback };
-
+    if (!serverTripData) return { items: [] };
+    const base = { ...serverTripData };
     base.hasShortage = (base.items || []).some((i) => (i.missingCount || 0) > 0);
     return base;
-  }, [serverTripData, mockFallback]);
+  }, [serverTripData]);
 
   // Gom toàn bộ danh sách asset đã gán của mọi item trong chuyến
   const allAssignedAssets = useMemo(() => {
@@ -143,11 +145,14 @@ export default function TripProvidedItemsPage() {
               onChange={handleTripChange}
               style={{ maxWidth: '640px', fontWeight: "var(--font-weight-medium)" }}
             >
-              {MOCK_TRIPS.map((t) => (
-                <option key={t.tripId} value={t.tripId}>
-                  {t.tourName} ({t.totalParticipants} khách — Khởi hành {dayjs(t.startAt).format('DD/MM/YYYY')})
-                </option>
-              ))}
+              {tripList.map((t) => {
+                const id = t.tripId || t.id;
+                return (
+                  <option key={id} value={id}>
+                    {t.tourName || t.name} ({t.totalParticipants || t.currentParticipants || 0} khách — Khởi hành {t.startAt ? dayjs(t.startAt).format('DD/MM/YYYY') : 'N/A'})
+                  </option>
+                );
+              })}
             </select>
             <span style={{ fontSize: "var(--font-size-meta)", color: '#6b7280' }}>
               Mã chuyến: <code>{activeTripId}</code>

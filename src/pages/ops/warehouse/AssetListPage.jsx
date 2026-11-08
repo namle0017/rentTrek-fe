@@ -10,7 +10,6 @@ import {
   ASSET_STATUS_OPTIONS,
   SOURCE_TYPE_BADGE,
 } from './constants/assetConstants';
-import { MOCK_ASSETS_CATALOG } from './constants/mockFulfillmentData';
 import BulkCreateAssetModal from './components/BulkCreateAssetModal';
 import AssetDetailDrawer from './components/AssetDetailDrawer';
 import styles from './AssetListPage.module.css';
@@ -35,12 +34,9 @@ export default function AssetListPage() {
 
   const { data: pagedData, isLoading } = useAssets(queryParams);
 
-  // Chuẩn hóa và kết hợp danh sách thiết bị để tìm kiếm theo tên tiếng Việt có/không dấu, mã số, SKU
+  // Chuẩn hóa danh sách thiết bị thật từ server để tìm kiếm theo tên tiếng Việt có/không dấu, mã số, SKU
   const displayItems = useMemo(() => {
-    const serverItems = pagedData?.items || [];
-    const serverCodes = new Set(serverItems.map((i) => i.assetCode.toUpperCase()));
-    const extraMock = MOCK_ASSETS_CATALOG.filter((m) => !serverCodes.has(m.assetCode.toUpperCase()));
-    let combined = [...serverItems, ...extraMock];
+    let combined = pagedData?.items ? [...pagedData.items] : [];
 
     if (selectedStatus) {
       combined = combined.filter((i) => (i.assetStatus || '').toLowerCase() === selectedStatus.toLowerCase());

@@ -49,8 +49,11 @@ export default function ProductCard({ product }) {
           <Link to={detailUrl} className={styles.detailLink}>
             Xem chi tiết
           </Link>
-          <Link to={detailUrl} className={styles.rentLink}>
-            {product.isRentable ? 'Thuê ngay' : 'Chọn mua'}
+          <Link
+            to={product.isRentable ? `${detailUrl}#rental-config` : detailUrl}
+            className={styles.rentLink}
+          >
+            {product.isRentable ? 'Chọn lịch thuê' : 'Xem sản phẩm'}
           </Link>
         </div>
       </div>

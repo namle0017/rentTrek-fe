@@ -43,11 +43,17 @@ function OrderCard({ order }) {
     </>
   );
 
-  // ponytail: đơn thuê chưa có trang chi tiết, thêm Link khi có route RENTAL_ORDER_DETAIL
-  if (order.orderType !== ORDER_TYPE.TRIP_BOOKING)
+  if (![ORDER_TYPE.TRIP_BOOKING, ORDER_TYPE.RENTAL].includes(order.orderType))
     return <article className={styles.card}>{content}</article>;
   return (
-    <Link className={styles.card} to={ROUTES.TRIP_BOOKING_DETAIL(order.id)}>
+    <Link
+      className={styles.card}
+      to={
+        order.orderType === ORDER_TYPE.RENTAL
+          ? ROUTES.RENTAL_ORDER_DETAIL(order.id)
+          : ROUTES.TRIP_BOOKING_DETAIL(order.id)
+      }
+    >
       {content}
     </Link>
   );

@@ -178,7 +178,9 @@
   text-decoration: none;
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-label);
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .accountLink:hover {
@@ -486,5 +488,34 @@
   }
   .footerGrid > div:last-child {
     grid-column: 1 / -1;
+  }
+}
+.cartLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 6px 10px;
+  color: #245536;
+  border: 1px solid #d4dfce;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.cartLink:hover {
+  background: #eff5e9;
+}
+.cartLink:focus-visible {
+  outline: 3px solid #ce8b54;
+  outline-offset: 3px;
+}
+@media (max-width: 560px) {
+  .cartLink {
+    padding: 6px;
+  }
+  .cartLink span {
+    font-size: 11px;
   }
 }

@@ -7,6 +7,7 @@ import { DetailSkeleton } from '@/components/skeleton';
 import { ROUTES } from '@/constants/routes';
 import NotFoundPage from '@/pages/NotFoundPage';
 import { formatCurrency } from '@/utils/formatCurrency';
+import RentalConfigurator from '@/features/rentals/components/RentalConfigurator';
 import ProductImage from '../components/ProductImage';
 import ProductOfferingBadges from '../components/ProductOfferingBadges';
 import { useProduct } from '../hooks/useProducts';
@@ -284,6 +285,7 @@ export default function ProductDetailPage() {
               <strong>{formatCurrency(variant.salePrice)}</strong>
             </div>
           )}
+          {isRentable && <RentalConfigurator key={variant.id} product={product} variant={variant} />}
           <div className={styles.priceNote}>
             <OutdoorIcon name="shield" size={20} />
             <p>Giá tính bằng VND. Tình trạng còn hàng và lịch thuê cần được xác nhận khi đặt hàng.</p>

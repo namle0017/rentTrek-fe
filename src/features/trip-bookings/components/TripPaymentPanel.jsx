@@ -61,6 +61,19 @@ export default function TripPaymentPanel({ orderId, onSettled }) {
     );
   }
 
+  if (payment.isDemo)
+    return (
+      <section className={styles.panel}>
+        <div>
+          <strong>DEMO — KHÔNG CHUYỂN TIỀN THẬT</strong>
+          <p>
+            Tài khoản mẫu chỉ minh họa luồng thanh toán. Đơn chưa được ghi nhận đã thanh toán. Cần cấu hình
+            tài khoản SePay thật và tắt demo để hiển thị QR.
+          </p>
+        </div>
+      </section>
+    );
+
   const failed =
     status?.status === PAYMENT_TRANSACTION_STATUS.FAILED ||
     status?.status === PAYMENT_TRANSACTION_STATUS.CANCELLED;

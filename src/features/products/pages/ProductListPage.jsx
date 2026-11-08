@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import Pagination from '@/components/Pagination';
 import { CardSkeleton } from '@/components/skeleton';
 import { DEFAULT_PAGE_NUMBER } from '@/constants/config';
+import { ROUTES } from '@/constants/routes';
 import { useDebounce } from '@/hooks/useDebounce';
 import ProductCard from '../components/ProductCard';
 import { PRODUCT_OFFERING_LABEL, PRODUCT_SORT_OPTIONS } from '../constants/productCatalog';
@@ -15,21 +16,21 @@ import styles from './ProductDiscovery.module.css';
 const benefits = [
   {
     icon: 'shield',
-    title: 'Ký quỹ bảo mật',
+    title: 'Giá minh bạch, không thu cọc',
     description:
-      'Tiền thuê + Tiền cọc của bạn được giữ tại tài khoản trung gian của Sàn. Chủ đồ KHÔNG nhận được cho đến khi bạn đi du lịch về an toàn.',
+      'Xem báo giá theo thời gian và số lượng trước khi xác nhận. Hệ thống hiện không thu tiền cọc; thanh toán tiền thuê bằng VietQR.',
   },
   {
     icon: 'check',
-    title: 'Kiểm định 5 bước kỹ lưỡng',
+    title: 'Kiểm tra kho theo lịch thuê',
     description:
-      'Tất cả các sản phẩm có nhãn kiểm định đều đã trải qua quy trình xác thực chống rách, chống thấm và đầy đủ linh phụ kiện dựng lều.',
+      'Chọn thời điểm nhận và trả để kiểm tra thiết bị còn trống. Kho được kiểm tra lại và giữ nguyên tử khi bạn tạo đơn.',
   },
   {
     icon: 'users',
-    title: 'Cộng đồng dã ngoại Việt Nam',
+    title: 'Nhận và trả tại cửa hàng',
     description:
-      'Kết nối trực tiếp giữa các chủ lều giàu kinh nghiệm ở địa phương và các trekker đam mê xê dịch.',
+      'Nhận thiết bị theo lịch đã đặt, cùng nhân viên kiểm tra khi bàn giao và khi trả. Theo dõi đơn và thanh toán trong tài khoản.',
   },
 ];
 
@@ -144,13 +145,14 @@ export default function ProductListPage() {
       <section className={styles.hero} aria-labelledby="discovery-title">
         <div className={`container ${styles.heroInner}`}>
           <span className={styles.heroBadge}>NỀN TẢNG THUÊ ĐỒ DÃ NGOẠI CHUYÊN NGHIỆP</span>
-          <h1 id="discovery-title">
-            Chinh phục mọi cung đường - Thuê đồ dã ngoại an tâm tuyệt đối qua sàn ký quỹ
-          </h1>
+          <h1 id="discovery-title">Tất cả thiết bị cho hành trình ngoài trời</h1>
           <p>
-            Hàng ngàn lều trại, balo trợ lực và đồ trekking chuyên sâu sẵn sàng giao nhận trực tiếp hoặc vận
-            chuyển nhanh. Bảo mật dòng tiền ký quỹ 100%.
+            Chọn lều trại, balô và dụng cụ trekking. Thêm vào giỏ, chọn lịch thuê, xem tổng tiền và thanh toán
+            VietQR trong một luồng.
           </p>
+          <Link className="btn btn-primary" to={ROUTES.RENTAL_CART}>
+            Xem giỏ thuê & tính giá →
+          </Link>
         </div>
       </section>
       <div className="container">

@@ -5,6 +5,7 @@ import OutdoorIcon from '@/components/OutdoorIcon';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
+import { useRentalCart } from '@/features/rentals/hooks/useRentalCart';
 import { useAuth } from '@/hooks/useAuth';
 import { getAvatarColor } from '@/utils/avatarColor';
 import DevClockBar from './DevClockBar';
@@ -14,6 +15,8 @@ const exploration = ['Lều cắm trại', 'Balô', 'Đèn', 'Túi ngủ'];
 
 export default function MainLayout() {
   const { currentUser, isAuthenticated } = useAuth();
+  const rentalCart = useRentalCart();
+  const cartQuantity = rentalCart.items.reduce((sum, item) => sum + item.quantity, 0);
   const logoutMutation = useLogout();
   const location = useLocation();
   const navigate = useNavigate();
@@ -50,9 +53,9 @@ export default function MainLayout() {
       <DevClockBar />
       <header className={styles.header}>
         <div className={`container ${styles.headerInner}`}>
-          <Link to={ROUTES.HOME} className={styles.logo}>
+          <div className={styles.logo}>
             <BrandLogo size="md" theme="light" to={ROUTES.HOME} />
-          </Link>
+          </div>
 
           <nav className={styles.nav} aria-label="Điều hướng chính">
             <NavLink to={ROUTES.HOME} end>
@@ -64,6 +67,14 @@ export default function MainLayout() {
           </nav>
 
           <div className={styles.authSection}>
+            <Link
+              to={ROUTES.RENTAL_CART}
+              className={styles.cartLink}
+              aria-label={`Giỏ thuê, ${cartQuantity} thiết bị`}
+            >
+              <OutdoorIcon name="bag" size={20} />
+              <span>Giỏ thuê ({cartQuantity})</span>
+            </Link>
             {isAuthenticated ? (
               <details className={styles.account}>
                 <summary aria-label="Tài khoản">

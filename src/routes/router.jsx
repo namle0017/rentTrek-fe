@@ -28,6 +28,10 @@ export const router = createBrowserRouter([
         children: [
           { path: ROUTES.HOME, element: <HomePage /> },
           {
+            path: ROUTES.RENTAL_CART,
+            lazy: lazyPage(() => import('@/features/rentals/pages/RentalCartPage')),
+          },
+          {
             path: ROUTES.PRODUCTS,
             lazy: lazyPage(() => import('@/features/products/pages/ProductListPage')),
           },
@@ -73,6 +77,14 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.MY_ORDERS,
                 lazy: lazyPage(() => import('@/features/orders/pages/MyOrdersPage')),
+              },
+              {
+                path: ROUTES.RENTAL_CHECKOUT,
+                lazy: lazyPage(() => import('@/features/rentals/pages/RentalCheckoutPage')),
+              },
+              {
+                path: ROUTES.RENTAL_ORDER_DETAIL(),
+                lazy: lazyPage(() => import('@/features/rentals/pages/RentalOrderDetailPage')),
               },
               {
                 path: ROUTES.TRIP_BOOKING_CREATE,

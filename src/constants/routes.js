@@ -6,6 +6,8 @@ export const ROUTES = {
   PROFILE: '/profile',
   ADMIN_PROFILE: '/admin/profile',
   PRODUCTS: '/products',
+  RENTAL_CART: '/cart',
+  RENTAL_CHECKOUT: '/rental-checkout',
   PRODUCT_DETAIL: (productId = ':productId') => `/products/${productId}`,
   TOURS: '/tours',
   TOUR_DETAIL: (tourId = ':tourId') => `/tours/${tourId}`,
@@ -26,9 +28,11 @@ export const ROUTES = {
   ADMIN_USERS: '/admin/users',
   ADMIN_USER: (id = ':userId') => `/admin/users/${id}`,
   ADMIN_ORDERS: '/admin/orders',
-  ADMIN_ORDER: (code = ':orderCode') => `/admin/orders/${code.startsWith(':') ? code : encodeURIComponent(code)}`,
+  ADMIN_ORDER: (code = ':orderCode') =>
+    `/admin/orders/${code.startsWith(':') ? code : encodeURIComponent(code)}`,
   ADMIN_RENTALS: '/admin/rental-orders',
-  ADMIN_RENTAL: (code = ':orderCode') => `/admin/rental-orders/${code.startsWith(':') ? code : encodeURIComponent(code)}`,
+  ADMIN_RENTAL: (code = ':orderCode') =>
+    `/admin/rental-orders/${code.startsWith(':') ? code : encodeURIComponent(code)}`,
   ADMIN_MASTER: '/admin/master-data',
   ADMIN_PROMOTIONS: '/admin/promotions',
   ADMIN_PROMOTION: (id = ':promotionId') => `/admin/promotions/${id}`,

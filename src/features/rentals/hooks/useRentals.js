@@ -38,21 +38,24 @@ export function useCreateRentalOrder() {
     onSuccess: (res) => {
       queryClient.setQueryData(rentalKeys.orderDetail(res.data.id), res);
       queryClient.invalidateQueries({ queryKey: orderKeys.myLists() });
+      queryClient.invalidateQueries({ queryKey: ['rentals', 'availability'] });
+      queryClient.invalidateQueries({ queryKey: ['rentals', 'quote'] });
       toast.success(res.message || 'Đã tạo đơn thuê.');
     },
   });
 }
 
-export function useRentalOrder(orderId) {
+export function useRentalOrder(orderId, options = {}) {
   return useQuery({
     queryKey: rentalKeys.orderDetail(orderId),
     queryFn: () => rentalService.getOrderById(orderId),
     select: (res) => res.data,
     enabled: Boolean(orderId),
+    ...options,
   });
 }
 
-// 3 API Backend chưa triển khai: giữ mock data/fallback
+// Cancellation preview and charge reviews may be unavailable; actual API errors are propagated.
 export function useRentalCancellationPreview(orderId) {
   return useQuery({
     queryKey: ['rental', 'cancellationPreview', orderId],
@@ -67,9 +70,12 @@ export function useCancelRentalOrder() {
   return useMutation({
     mutationFn: ({ orderId, payload }) => rentalService.cancel(orderId, payload),
     onSuccess: (res, variables) => {
+      queryClient.setQueryData(rentalKeys.orderDetail(variables.orderId), res);
       queryClient.invalidateQueries({ queryKey: rentalKeys.orderDetail(variables.orderId) });
       queryClient.invalidateQueries({ queryKey: orderKeys.myLists() });
-      toast.success(res.data?.message || 'Đã gửi yêu cầu hủy đơn thuê.');
+      queryClient.invalidateQueries({ queryKey: ['rentals', 'availability'] });
+      queryClient.invalidateQueries({ queryKey: ['rentals', 'quote'] });
+      toast.success(res.message || 'Đã hủy đơn thuê chưa thanh toán.');
     },
     onError: (err) => {
       toast.error(err.response?.data?.message || 'Không thể hủy đơn thuê.');
@@ -94,7 +100,7 @@ export function useCreateRentalPayment() {
   return useMutation({
     mutationFn: ({ orderId, payload }) => rentalService.createPayment(orderId, payload),
     onError: (err) => {
-      toast.error(err.response?.data?.message || 'Khởi tạo thanh toán thất bại.');
+      toast.error(err.message || 'Khởi tạo thanh toán thất bại.');
     },
   });
 }
@@ -106,7 +112,9 @@ export function useRentalPaymentStatus(orderId, paymentId, options = {}) {
     select: (res) => res.data,
     enabled: Boolean(orderId && paymentId),
     refetchInterval: (query) => {
-      const status = query.state.data?.status;
+      const status = query.state.data?.data?.status;
+      const paymentStatus = query.state.data?.data?.orderPaymentStatus;
+      if (paymentStatus && paymentStatus !== 'Unpaid') return false;
       if (status === 'Succeeded' || status === 'Failed' || status === 'Cancelled') {
         return false;
       }

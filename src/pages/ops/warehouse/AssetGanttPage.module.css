@@ -620,3 +620,51 @@
   text-align: center;
   color: #64748b;
 }
+
+/* ===== Responsive Mobile & Tablet UX (Staff / Gantt) ===== */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+    gap: 14px;
+  }
+
+  .controlBar {
+    padding: 12px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .dateNav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .quickRange {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .metricsBar {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .metricCard {
+    padding: 10px;
+  }
+
+  .ganttScrollWrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .metricsBar {
+    grid-template-columns: 1fr;
+  }
+}

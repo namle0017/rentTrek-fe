@@ -661,3 +661,104 @@
   font-weight: var(--font-weight-semibold);
   box-shadow: 0 1px 2px rgba(32, 75, 57, 0.2);
 }
+
+/* ===== Responsive Mobile & Tablet UX (Staff / Warehouse) ===== */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .topToolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .itemCountBadge {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .actions {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: var(--font-size-meta);
+  }
+
+  .filterCard {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .filterHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .searchForm {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .statusButtonGroup {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .statusBtn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: var(--font-size-meta);
+  }
+
+  .tableCard {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius, 8px);
+  }
+
+  .assetTable th,
+  .assetTable td {
+    padding: 10px 12px;
+    white-space: nowrap;
+  }
+
+  .paginationBar {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .pageButtons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    width: 100%;
+  }
+}

@@ -25,6 +25,7 @@ export const API_ENDPOINTS = {
     ME: '/users/me',
     AVATAR: '/users/me/avatar',
     PASSWORD: '/users/me/password',
+    PASSWORD_OTP: '/users/me/password/request-otp',
     SESSIONS: '/users/me/sessions',
     SESSION_BY_ID: (familyId) => `/users/me/sessions/${familyId}`,
     REVOKE_OTHER_SESSIONS: '/users/me/sessions/revoke-others',

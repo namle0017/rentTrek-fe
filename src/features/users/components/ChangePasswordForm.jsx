@@ -1,10 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import FormField from '@/components/FormField';
 import PasswordStrengthMeter from '@/features/auth/components/PasswordStrengthMeter';
 import { applyServerErrors } from '@/utils/applyServerErrors';
+import { userService } from '../api/userService';
 import { useChangePassword } from '../hooks/useChangePassword';
 import styles from './ChangePasswordForm.module.css';
+
+const EyeIcon = ({ isVisible }) => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    {isVisible ? (
+      <>
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+        <circle cx="12" cy="12" r="3" />
+      </>
+    ) : (
+      <>
+        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+        <line x1="1" y1="1" x2="23" y2="23" />
+      </>
+    )}
+  </svg>
+);
 
 export default function ChangePasswordForm() {
   const changePasswordMutation = useChangePassword();
@@ -12,6 +40,9 @@ export default function ChangePasswordForm() {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [otpCooldown, setOtpCooldown] = useState(0);
+  const [otpSent, setOtpSent] = useState(false);
 
   const {
     register,
@@ -24,6 +55,7 @@ export default function ChangePasswordForm() {
   } = useForm({
     defaultValues: {
       currentPassword: '',
+      otp: '',
       newPassword: '',
       confirmNewPassword: '',
     },
@@ -31,21 +63,51 @@ export default function ChangePasswordForm() {
 
   const newPasswordValue = useWatch({ control, name: 'newPassword', defaultValue: '' });
 
+  // Cooldown countdown timer cho nút gửi OTP (60 giây)
+  useEffect(() => {
+    if (otpCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setOtpCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [otpCooldown]);
+
+  const handleSendOtp = async () => {
+    setServerErrorMsg('');
+    setIsSendingOtp(true);
+    try {
+      await userService.requestPasswordOtp();
+      setOtpSent(true);
+      setOtpCooldown(60);
+      toast.success('Mã OTP xác thực đã được gửi về email của bạn!');
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message || 'Không thể gửi mã OTP lúc này';
+      setServerErrorMsg(msg);
+      toast.error(msg);
+    } finally {
+      setIsSendingOtp(false);
+    }
+  };
+
   const onSubmit = (values) => {
     setServerErrorMsg('');
     changePasswordMutation.mutate(
       {
         currentPassword: values.currentPassword,
+        otp: values.otp.trim(),
         newPassword: values.newPassword,
         confirmNewPassword: values.confirmNewPassword,
       },
       {
         onSuccess: () => {
+          toast.success('Đổi mật khẩu thành công! Các thiết bị khác đã được đăng xuất an toàn.');
           reset({
             currentPassword: '',
+            otp: '',
             newPassword: '',
             confirmNewPassword: '',
           });
+          setOtpSent(false);
         },
         onError: (error) => {
           setServerErrorMsg(error.message);
@@ -58,6 +120,7 @@ export default function ChangePasswordForm() {
   const handleReset = () => {
     reset({
       currentPassword: '',
+      otp: '',
       newPassword: '',
       confirmNewPassword: '',
     });
@@ -69,7 +132,7 @@ export default function ChangePasswordForm() {
       <div className={styles.header}>
         <h2 className={styles.title}>Đổi mật khẩu tài khoản</h2>
         <p className={styles.subtitle}>
-          Để bảo vệ tài khoản, hãy sử dụng mật khẩu mạnh và không chia sẻ cho người khác.
+          Để bảo vệ tài khoản, bạn cần xác thực mã OTP gửi về email trước khi đặt mật khẩu mới.
         </p>
       </div>
 
@@ -94,8 +157,43 @@ export default function ChangePasswordForm() {
               onClick={() => setShowCurrentPassword((prev) => !prev)}
               aria-label={showCurrentPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
             >
-              {showCurrentPassword ? '🙈' : '👁️'}
+              <EyeIcon isVisible={showCurrentPassword} />
             </button>
+          </div>
+        </FormField>
+
+        {/* Mã xác thực OTP qua Email */}
+        <FormField label="Mã xác thực OTP (6 chữ số gửi qua email)" htmlFor="otp" error={errors.otp}>
+          <div className={styles.otpRow}>
+            <input
+              id="otp"
+              type="text"
+              maxLength={6}
+              inputMode="numeric"
+              className="input"
+              placeholder="Nhập 6 chữ số OTP"
+              {...register('otp', {
+                required: 'Vui lòng nhập mã OTP nhận từ email',
+                pattern: { value: /^\d{6}$/, message: 'Mã OTP gồm đúng 6 chữ số' },
+              })}
+            />
+            <button
+              type="button"
+              className={`btn btn-outline ${styles.otpBtn}`}
+              onClick={handleSendOtp}
+              disabled={isSendingOtp || otpCooldown > 0}
+            >
+              {isSendingOtp
+                ? 'Đang gửi...'
+                : otpCooldown > 0
+                ? `Gửi lại (${otpCooldown}s)`
+                : 'Gửi mã qua Email'}
+            </button>
+          </div>
+          <div className={styles.inputHelper}>
+            {otpSent
+              ? 'Mã OTP đã được gửi tới email tài khoản của bạn (hiệu lực 15 phút).'
+              : 'Nhấn nút "Gửi mã qua Email" để nhận mã xác thực bảo mật trước khi đổi mật khẩu.'}
           </div>
         </FormField>
 
@@ -125,12 +223,11 @@ export default function ChangePasswordForm() {
               onClick={() => setShowNewPassword((prev) => !prev)}
               aria-label={showNewPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
             >
-              {showNewPassword ? '🙈' : '👁️'}
+              <EyeIcon isVisible={showNewPassword} />
             </button>
           </div>
           <div className={styles.inputHelper}>
-            Mật khẩu phải dài ít nhất 8 ký tự, bao gồm chữ hoa (A-Z), chữ thường (a-z), chữ số (0-9) và ký tự
-            đặc biệt (@, #, $, %, ...).
+            Mật khẩu phải dài ít nhất 8 ký tự, bao gồm chữ hoa (A-Z), chữ thường (a-z), chữ số (0-9) và ký tự đặc biệt.
           </div>
         </FormField>
 
@@ -159,7 +256,7 @@ export default function ChangePasswordForm() {
               onClick={() => setShowConfirmPassword((prev) => !prev)}
               aria-label={showConfirmPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
             >
-              {showConfirmPassword ? '🙈' : '👁️'}
+              <EyeIcon isVisible={showConfirmPassword} />
             </button>
           </div>
         </FormField>

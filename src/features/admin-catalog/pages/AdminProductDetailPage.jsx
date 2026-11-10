@@ -2,6 +2,9 @@ import { Link, useParams } from 'react-router-dom';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
+import { useAuth } from '@/hooks/useAuth';
+import { USER_ROLE } from '@/constants/enums';
+import ProductVariantTools from '../components/ProductVariantTools';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
 import AdminCatalogStatusBadge from '../components/AdminCatalogStatusBadge';
@@ -13,6 +16,8 @@ const formatDayRange = (tier) =>
   tier.maxDays ? `${tier.minDays}–${tier.maxDays} ngày` : `Từ ${tier.minDays} ngày`;
 
 export default function AdminProductDetailPage() {
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
   const { productId } = useParams();
   const { data: product, isLoading, isError, error, refetch } = useAdminProduct(productId);
 
@@ -44,6 +49,7 @@ export default function AdminProductDetailPage() {
 
           <section className={styles.panel}>
             <h2 className={styles.panelTitle}>Biến thể</h2>
+            {isAdmin && <ProductVariantTools productId={product.productId} />}
             {product.variants.length === 0 ? (
               <p className={styles.hint}>Chưa có biến thể.</p>
             ) : (
@@ -84,6 +90,7 @@ export default function AdminProductDetailPage() {
                       ) : (
                         <p className={styles.warn}>Chưa có bảng giá, khách chưa thuê được biến thể này.</p>
                       )}
+                      {isAdmin && <ProductVariantTools productId={product.productId} variant={variant} />}
                     </div>
                   </li>
                 ))}
@@ -95,6 +102,11 @@ export default function AdminProductDetailPage() {
         <aside className={styles.side}>
           <section className={styles.panel}>
             <h2 className={styles.panelTitle}>Trạng thái</h2>
+            {isAdmin && (
+              <Link className="btn btn-primary" to={ROUTES.ADMIN_PRODUCT_EDIT(product.productId)}>
+                Chỉnh sửa sản phẩm
+              </Link>
+            )}
             <p className={styles.statusNow}>
               <AdminCatalogStatusBadge status={product.status} />
             </p>

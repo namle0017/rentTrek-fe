@@ -6,6 +6,8 @@ import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
 import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '@/constants/config';
 import { ROUTES } from '@/constants/routes';
+import { useAuth } from '@/hooks/useAuth';
+import { USER_ROLE } from '@/constants/enums';
 import AdminCatalogStatusBadge from '../components/AdminCatalogStatusBadge';
 import { PRODUCT_STATUS_OPTIONS } from '../constants/adminCatalogStatus';
 import { useAdminProducts } from '../hooks/useAdminCatalog';
@@ -15,6 +17,8 @@ const INITIAL_FILTERS = { search: '', status: '' };
 const dateFormatter = new Intl.DateTimeFormat('vi-VN', { dateStyle: 'short', timeZone: 'Asia/Ho_Chi_Minh' });
 
 export default function AdminProductsPage() {
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
   const navigate = useNavigate();
   const [draftFilters, setDraftFilters] = useState(INITIAL_FILTERS);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
@@ -39,7 +43,11 @@ export default function AdminProductsPage() {
           {isFetching ? 'Đang cập nhật danh sách…' : `${pagedProducts.totalItems} sản phẩm`}
         </p>
         <div className={styles.tableCard} aria-busy={isFetching}>
-          <div className={styles.tableScroll} tabIndex="0" aria-label="Bảng sản phẩm, cuộn ngang trên màn hình nhỏ">
+          <div
+            className={styles.tableScroll}
+            tabIndex="0"
+            aria-label="Bảng sản phẩm, cuộn ngang trên màn hình nhỏ"
+          >
             <table className={styles.table}>
               <thead>
                 <tr>
@@ -76,7 +84,10 @@ export default function AdminProductsPage() {
                               {product.name?.slice(0, 1).toUpperCase()}
                             </span>
                           )}
-                          <Link to={ROUTES.ADMIN_PRODUCT_DETAIL(product.productId)} className={styles.entityName}>
+                          <Link
+                            to={ROUTES.ADMIN_PRODUCT_DETAIL(product.productId)}
+                            className={styles.entityName}
+                          >
                             {product.name}
                           </Link>
                         </div>
@@ -119,7 +130,14 @@ export default function AdminProductsPage() {
 
   return (
     <section className={styles.page} aria-labelledby="admin-products-title">
-
+      <div className={styles.header}>
+        <h1 id="admin-products-title">Sản phẩm</h1>
+        {isAdmin && (
+          <Link className="btn btn-primary" to={ROUTES.ADMIN_PRODUCT_CREATE}>
+            <span aria-hidden="true">＋</span> Thêm sản phẩm
+          </Link>
+        )}
+      </div>
       <form className={styles.filters} onSubmit={handleSubmit}>
         <label className={styles.field}>
           <span>Tìm sản phẩm</span>

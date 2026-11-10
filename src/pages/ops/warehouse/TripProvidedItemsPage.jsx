@@ -97,18 +97,6 @@ export default function TripProvidedItemsPage() {
 
   return (
     <div className={styles.container}>
-      {/* Actions */}
-      <div className={styles.header} style={{ justifyContent: 'flex-end', marginBottom: '16px' }}>
-        <div className={styles.actions}>
-          <Link to={ROUTES.OPS_ASSETS} className={styles.btnSecondary}>
-            Danh sách thiết bị
-          </Link>
-          <Link to={ROUTES.OPS_ASSETS_SCHEDULE} className={styles.btnSecondary}>
-            Lịch phân bổ Gantt
-          </Link>
-        </div>
-      </div>
-
       {/* Trip Selector Dropdown & Quick Selection */}
       <div className={styles.selectorCard}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>

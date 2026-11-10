@@ -119,16 +119,14 @@ export default function AssetListPage() {
         </div>
         <div className={styles.actions}>
           <Link to={ROUTES.OPS_ASSETS_SCHEDULE} className={styles.btnSecondary}>
-            <OutdoorIcon name="calendar" size={15} />
-            <span>Lịch phân bổ (Gantt)</span>
+            Lịch phân bổ (Gantt)
           </Link>
           <button
             type="button"
             className={styles.btnPrimary}
             onClick={() => setIsBulkModalOpen(true)}
           >
-            <OutdoorIcon name="plus" size={15} />
-            <span>Thêm hàng loạt</span>
+            + Thêm hàng loạt
           </button>
         </div>
       </div>

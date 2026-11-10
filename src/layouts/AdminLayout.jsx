@@ -1,4 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
+import {
+  LayoutDashboard,
+  Map,
+  Package,
+  Warehouse,
+  FileText,
+  Tags,
+  Wallet,
+  Settings,
+  ChevronDown,
+  Menu,
+  X,
+  ArrowUpRight,
+} from 'lucide-react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from '@/components/BrandLogo';
 import OutdoorIcon from '@/components/OutdoorIcon';
@@ -53,6 +67,77 @@ function getPageTitle(pathname) {
   return 'Quản trị hệ thống';
 }
 
+const navigationGroups = [
+  {
+    title: 'Tour & chuyến đi',
+    icon: Map,
+    expanded: true,
+    items: [
+      [ROUTES.ADMIN_TRIPS, 'Chuyến đi'],
+      [ROUTES.ADMIN_TOURS, 'Danh mục tour'],
+    ],
+  },
+  {
+    title: 'Sản phẩm & đơn hàng',
+    icon: Package,
+    expanded: true,
+    items: [
+      [ROUTES.ADMIN_PRODUCTS, 'Sản phẩm'],
+      [ROUTES.ADMIN_RENTAL_ORDERS, 'Đơn thuê thiết bị'],
+      [ROUTES.ADMIN_ORDERS, 'Tất cả đơn hàng'],
+    ],
+  },
+  {
+    title: 'Kho & thiết bị',
+    icon: Warehouse,
+    items: [
+      [ROUTES.OPS_ASSETS, 'Kho thiết bị'],
+      [ROUTES.OPS_ASSETS_SCHEDULE, 'Lịch thiết bị'],
+      ['/ops/trips/provided-items', 'Đồ cấp chuyến'],
+      ['/ops/rentals/handover', 'Giao thiết bị'],
+      ['/ops/rentals/return', 'Thu hồi thiết bị'],
+      ['/ops/rentals/settlement', 'Quyết toán & phí'],
+    ],
+  },
+  {
+    title: 'Nội dung',
+    icon: FileText,
+    items: [
+      [ROUTES.ADMIN_POSTS, 'Bài viết & cẩm nang'],
+      [ROUTES.ADMIN_REVIEWS, 'Đánh giá'],
+    ],
+  },
+  {
+    title: 'Khuyến mãi & danh mục',
+    icon: Tags,
+    items: [
+      [ROUTES.ADMIN_PROMOTIONS, 'Khuyến mãi'],
+      [ROUTES.ADMIN_MASTER, 'Danh mục & địa điểm'],
+    ],
+  },
+  {
+    title: 'Tài chính',
+    icon: Wallet,
+    adminOnly: true,
+    items: [
+      [ROUTES.OPS_TRANSACTIONS, 'Giao dịch'],
+      [ROUTES.ADMIN_REFUNDS, 'Hoàn tiền'],
+      [ROUTES.OPS_REFUND_POLICIES, 'Chính sách hoàn tiền'],
+    ],
+  },
+  {
+    title: 'Hệ thống',
+    icon: Settings,
+    adminOnly: true,
+    items: [
+      [ROUTES.ADMIN_USERS, 'Người dùng & nhân sự'],
+      [ROUTES.ADMIN_REPORTS, 'Báo cáo'],
+      [ROUTES.ADMIN_SETTINGS, 'Cấu hình'],
+      [ROUTES.ADMIN_AUDIT, 'Nhật ký kiểm toán'],
+    ],
+  },
+];
+
 export default function AdminLayout() {
   const { currentUser } = useAuth();
   const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
@@ -62,6 +147,7 @@ export default function AdminLayout() {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showAlerts, setShowAlerts] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const dropdownRef = useRef(null);
   const alertsRef = useRef(null);
 
@@ -79,8 +165,19 @@ export default function AdminLayout() {
         setShowAlerts(false);
       }
     }
+    function handleEscape(event) {
+      if (event.key === 'Escape') {
+        setMobileNavOpen(false);
+        setIsDropdownOpen(false);
+        setShowAlerts(false);
+      }
+    }
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -92,61 +189,70 @@ export default function AdminLayout() {
 
   return (
     <div className={styles.layout}>
-      <aside className={styles.sidebar}>
-        <div style={{ padding: '0 0 16px 8px' }}>
+      {mobileNavOpen && (
+        <button className={styles.backdrop} aria-label="Đóng menu" onClick={() => setMobileNavOpen(false)} />
+      )}
+      <aside id="admin-navigation" className={`${styles.sidebar} ${mobileNavOpen ? styles.sidebarOpen : ''}`}>
+        <div className={styles.brand}>
           <BrandLogo size="md" theme="light" suffix={isAdmin ? 'Admin' : 'Vận hành'} to={ROUTES.ADMIN} />
+          <button className={styles.closeMenu} aria-label="Đóng menu" onClick={() => setMobileNavOpen(false)}>
+            <X size={18} />
+          </button>
         </div>
-        <nav className={styles.nav}>
-          <NavLink to={ROUTES.ADMIN} end>
+        <nav
+          className={styles.nav}
+          aria-label="Menu quản trị"
+          onClick={(event) => {
+            if (event.target.closest('a')) setMobileNavOpen(false);
+          }}
+        >
+          <NavLink className={styles.overviewLink} to={ROUTES.ADMIN} end>
+            <LayoutDashboard size={16} />
             Tổng quan
           </NavLink>
-
-          <div className={styles.sectionHeader}>Tour & Chuyến đi</div>
-          <NavLink to={ROUTES.ADMIN_TRIPS}>Quản lý chuyến đi</NavLink>
-          <NavLink to={ROUTES.ADMIN_TOURS}>Danh mục Tour</NavLink>
-
-          <div className={styles.sectionHeader}>Sản phẩm & Đơn hàng</div>
-          <NavLink to={ROUTES.ADMIN_PRODUCTS}>Sản phẩm</NavLink>
-          <NavLink to={ROUTES.ADMIN_RENTAL_ORDERS}>Đơn thuê thiết bị</NavLink>
-          <NavLink to={ROUTES.ADMIN_ORDERS}>Đơn hàng tổng hợp</NavLink>
-
-          <div className={styles.sectionHeader}>Kho & Thiết bị</div>
-          <NavLink to={ROUTES.OPS_ASSETS}>Kho thiết bị</NavLink>
-          <NavLink to={ROUTES.OPS_ASSETS_SCHEDULE}>Lịch Gantt thiết bị</NavLink>
-          <NavLink to="/ops/trips/provided-items">Đồ cấp chuyến</NavLink>
-          <NavLink to="/ops/rentals/handover">Giao thiết bị</NavLink>
-          <NavLink to="/ops/rentals/return">Thu hồi thiết bị</NavLink>
-          <NavLink to="/ops/rentals/settlement">Quyết toán & Phí</NavLink>
-
-          <div className={styles.sectionHeader}>Nội dung & Đánh giá</div>
-          <NavLink to={ROUTES.ADMIN_POSTS}>Bài viết & Cẩm nang</NavLink>
-          <NavLink to={ROUTES.ADMIN_REVIEWS}>Kiểm duyệt đánh giá</NavLink>
-
-          <div className={styles.sectionHeader}>Khuyến mãi & Danh mục</div>
-          <NavLink to={ROUTES.ADMIN_PROMOTIONS}>Khuyến mãi</NavLink>
-          <NavLink to={ROUTES.ADMIN_MASTER}>Danh mục & Địa điểm</NavLink>
-
-          {isAdmin && (
-            <>
-              <div className={styles.sectionHeader}>Tài chính</div>
-              <NavLink to={ROUTES.OPS_TRANSACTIONS}>Giao dịch</NavLink>
-              <NavLink to={ROUTES.ADMIN_REFUNDS}>Hàng đợi hoàn tiền</NavLink>
-              <NavLink to={ROUTES.OPS_REFUND_POLICIES}>Chính sách hoàn tiền</NavLink>
-
-              <div className={styles.sectionHeader}>Hệ thống & Phân quyền</div>
-              <NavLink to={ROUTES.ADMIN_USERS}>Người dùng & Nhân sự</NavLink>
-              <NavLink to={ROUTES.ADMIN_REPORTS}>Báo cáo vận hành</NavLink>
-              <NavLink to={ROUTES.ADMIN_SETTINGS}>Cấu hình hệ thống</NavLink>
-              <NavLink to={ROUTES.ADMIN_AUDIT}>Nhật ký kiểm toán</NavLink>
-            </>
-          )}
+          <span className={styles.navCaption}>QUẢN LÝ</span>
+          {navigationGroups
+            .filter((group) => !group.adminOnly || isAdmin)
+            .map(({ title, icon: Icon, items, expanded }) => {
+              const isCurrentGroup = items.some(
+                ([to]) => location.pathname === to || location.pathname.startsWith(`${to}/`),
+              );
+              return (
+                <details className={styles.navGroup} key={title} open={isCurrentGroup || !!expanded}>
+                  <summary>
+                    <Icon size={16} />
+                    <span>{title}</span>
+                    <ChevronDown size={13} className={styles.groupChevron} />
+                  </summary>
+                  <div className={styles.groupLinks}>
+                    {items.map(([to, label]) => (
+                      <NavLink key={to} to={to} end={to === ROUTES.OPS_ASSETS}>
+                        {label}
+                      </NavLink>
+                    ))}
+                  </div>
+                </details>
+              );
+            })}
         </nav>
+        <Link className={styles.siteLink} to={ROUTES.HOME}>
+          Về trang chủ <ArrowUpRight size={14} />
+        </Link>
       </aside>
 
       <div className={styles.content}>
-        <DevClockBar />
         <header className={styles.header}>
           <div className={styles.headerLeft}>
+            <button
+              type="button"
+              className={styles.menuToggle}
+              aria-label="Mở menu quản trị"
+              aria-expanded={mobileNavOpen}
+              aria-controls="admin-navigation"
+              onClick={() => setMobileNavOpen(!mobileNavOpen)}
+            >
+              <Menu size={20} />
+            </button>
             <h1 className={styles.headerTitle}>{pageTitle}</h1>
           </div>
 
@@ -190,7 +296,10 @@ export default function AdminLayout() {
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
                 aria-expanded={isDropdownOpen}
               >
-                <span>Xin chào, {displayName}</span>
+                <span className={styles.avatar} aria-hidden="true">
+                  {displayName.charAt(0).toUpperCase()}
+                </span>
+                <span className={styles.displayName}>{displayName}</span>
                 <span className={styles.arrowIcon}>
                   <OutdoorIcon name={isDropdownOpen ? 'chevronUp' : 'chevron'} size={12} />
                 </span>
@@ -226,6 +335,7 @@ export default function AdminLayout() {
           </div>
         </header>
 
+        <DevClockBar compact />
         <main className={styles.main}>
           <Outlet />
         </main>

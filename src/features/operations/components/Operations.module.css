@@ -1,4 +1,497 @@
-.page{display:flex;flex-direction:column;gap:var(--space-section);color:#151a24;max-width:1500px;margin:0 auto}
-.page h1{font-size:var(--font-size-page-title);color:#14213d;margin:0;letter-spacing:-.6px}.page h2{font-size:var(--font-size-section-title);margin:0 0 16px;color:#14213d}.page h3{font-size:var(--font-size-subheading);margin:0 0 8px}.page p{margin:5px 0;color:#4a5870}.eyebrow{font-size:var(--font-size-label);letter-spacing:1.7px;color:#68768e;font-weight:var(--font-weight-semibold);text-transform:uppercase}.heading{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}.filters{display:flex;gap:12px;align-items:end;flex-wrap:wrap}.filters label{display:flex;flex-direction:column;gap:var(--space-label);font-size:var(--font-size-label);color:#4a5870}.filters input,.filters select,.field input,.field select,.field textarea{border:1px solid #c5c3bd;border-radius:8px;background:#fff;min-height:var(--control-min-height);padding:9px 12px;color:#151a24;font:inherit;font-size:var(--font-size-control);max-width:100%}.filters input[type=search]{min-width:260px}.filters button,.primary,.secondary,.danger{min-height:var(--control-min-height);border-radius:8px;padding:8px 14px;font:var(--font-weight-semibold) var(--font-size-control) 'Be Vietnam Pro',sans-serif;cursor:pointer}.primary{border:1px solid #14213d;background:#14213d;color:#fff}.secondary{border:1px solid #dddAD3;background:#fff;color:#31476f}.danger{border:1px solid #fecaca;background:#fff1f2;color:#b91c1c}.primary:disabled,.secondary:disabled,.danger:disabled{opacity:.5;cursor:not-allowed}.card,.tableCard{border:1px solid #dddad3;background:#fff;border-radius:12px;overflow:hidden}.card{padding:22px}.tableScroll{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:var(--font-size-body);text-align:left;white-space:nowrap}.table th{background:#f5f4f1;color:#4a5870;font-size:var(--font-size-label);font-weight:var(--font-weight-semibold);padding:12px 18px}.table th button{background:none;border:0;color:inherit;font:inherit;font-size:var(--font-size-label);cursor:pointer;padding:0}.table td{padding:15px 18px;border-top:1px solid #eceae5;max-width:420px;white-space:normal;overflow-wrap:anywhere;vertical-align:middle}.table tbody tr:hover{background:#fafaf8}.table a{color:#31476f;font-weight:var(--font-weight-semibold)}.table small{display:block;color:#68768e;margin-top:4px}.tableTools{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 18px;font-size:var(--font-size-meta);color:#68768e}.tableCard nav{padding:16px}.rowActions{display:flex;gap:8px;flex-wrap:wrap}.rowActions button{font-size:var(--font-size-control);padding:5px 9px;min-height:var(--control-min-height)}.badge{display:inline-flex;align-items:center;padding:4px 10px;background:#e8edf5;color:#31476f;border-radius:999px;font-size:var(--font-size-status);font-weight:var(--font-weight-semibold);white-space:nowrap}.badge[data-status=Active],.badge[data-status=Confirmed],.badge[data-status=Paid],.badge[data-status=Succeeded],.badge[data-status=Published],.badge[data-status=Completed]{background:#dcfce7;color:#166534}.badge[data-status=Locked],.badge[data-status=Failed],.badge[data-status=Cancelled],.badge[data-status=High],.badge[data-status=Hidden]{background:#fee2e2;color:#991b1b}.badge[data-status=PendingPayment],.badge[data-status=NeedsReconciliation],.badge[data-status=Medium],.badge[data-status=PendingApproval]{background:#fef3c7;color:#92400e}.tabs{display:flex;gap:5px;background:#eceae5;padding:4px;border-radius:10px;flex-wrap:wrap;width:fit-content}.tabs button{border:0;border-radius:7px;background:transparent;padding:8px 13px;color:#4a5870;font:var(--font-weight-semibold) var(--font-size-label) 'Be Vietnam Pro';cursor:pointer}.tabs button[aria-selected=true]{background:#fff;color:#14213d;box-shadow:0 1px 3px #14213d12}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}.stat{background:#fff;border:1px solid #dddad3;border-radius:12px;padding:20px}.stat strong{display:block;font-size:var(--font-size-metric);color:#14213d;letter-spacing:-1px;margin:10px 0}.stat small{color:#68768e;font-size:var(--font-size-meta)}.stat a{color:#31476f;font-size:var(--font-size-meta)}.alert{display:flex;gap:14px;align-items:center;padding:16px 0;border-top:1px solid #eceae5}.alert:first-of-type{border-top:0}.alert div{flex:1}.alert a{font-size:var(--font-size-body);font-weight:var(--font-weight-medium);color:#31476f}.muted{color:#68768e;font-size:var(--font-size-meta)}.error{color:#b91c1c;font-size:var(--font-size-body);margin:4px 0}.details{display:grid;grid-template-columns:160px minmax(0,1fr);gap:12px;font-size:var(--font-size-meta)}.details dt{color:#68768e}.details dd{margin:0;overflow-wrap:anywhere}.overlay{position:fixed;inset:0;background:#14213d99;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}.dialog{background:#f5f4f1;border:1px solid #dddad3;border-radius:16px;width:min(680px,100%);max-height:90vh;overflow:auto;box-shadow:0 24px 64px #14213d33;padding:26px;color:#151a24}.dialog h2{color:#14213d;font-size:var(--font-size-section-title);margin:0 0 20px}.form{display:flex;flex-direction:column;gap:var(--space-field)}.formGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.field{display:flex;flex-direction:column;gap:7px;font-size:var(--font-size-label);color:#31476f}.field textarea{min-height:110px;resize:vertical}.field:has(textarea){grid-column:1/-1}.field small{font-size:var(--font-size-meta);color:#68768e}.field input[type=checkbox]{align-self:start;min-height:20px;width:20px}.footer{display:flex;justify-content:flex-end;gap:10px;padding-top:14px;border-top:1px solid #dddad3}.json{white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow:auto;font-size:var(--font-size-meta);line-height:1.7;background:#f5f4f1;padding:14px;border-radius:8px}.stack{display:flex;flex-direction:column;gap:14px}.toolbar{display:flex;gap:8px;flex-wrap:wrap}.editor{min-height:280px;border:1px solid #c5c3bd;border-radius:8px;padding:18px;background:#fff;line-height:1.8;overflow-wrap:anywhere}.preview{width:100%;min-height:280px;border:1px solid #dddad3;border-radius:8px;background:#fff}.chartRow{display:grid;grid-template-columns:120px 1fr 100px;gap:12px;align-items:center;font-size:var(--font-size-meta);padding:12px 0}.chartBar{height:12px;background:#e8edf5;border-radius:6px;overflow:hidden}.chartBar span{display:block;height:100%;background:#31476f;border-radius:6px}.notice{padding:14px 18px;background:#fef3c7;color:#92400e;font-size:var(--font-size-meta);border-radius:8px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.page h1{font-size:var(--font-size-page-title)}}
-@media(max-width:520px){.formGrid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.stat{padding:14px}.stat strong{font-size:var(--font-size-metric)}.filters input[type=search]{min-width:0;width:100%}.filters label{width:100%}.filters select{width:100%}.details{grid-template-columns:1fr;gap:6px}.details dd{margin-bottom:10px}.overlay{padding:10px}.dialog{padding:18px}.chartRow{grid-template-columns:80px 1fr 65px}.page{gap:16px}}
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-section);
+  color: #151a24;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+.page h1 {
+  font-size: var(--font-size-page-title);
+  color: #14213d;
+  margin: 0;
+  letter-spacing: -0.6px;
+}
+.page h2 {
+  font-size: var(--font-size-section-title);
+  margin: 0 0 16px;
+  color: #14213d;
+}
+.page h3 {
+  font-size: var(--font-size-subheading);
+  margin: 0 0 8px;
+}
+.page p {
+  margin: 5px 0;
+  color: #4a5870;
+}
+.eyebrow {
+  font-size: var(--font-size-label);
+  letter-spacing: 1.7px;
+  color: #68768e;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+}
+.heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.filters {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+  flex-wrap: wrap;
+}
+.filters label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-label);
+  font-size: var(--font-size-label);
+  color: #4a5870;
+}
+.filters input,
+.filters select,
+.field input,
+.field select,
+.field textarea {
+  border: 1px solid #c5c3bd;
+  border-radius: 8px;
+  background: #fff;
+  min-height: var(--control-min-height);
+  padding: 9px 12px;
+  color: #151a24;
+  font: inherit;
+  font-size: var(--font-size-control);
+  max-width: 100%;
+}
+.filters input[type='search'] {
+  min-width: 260px;
+}
+.filters button,
+.primary,
+.secondary,
+.danger {
+  min-height: var(--control-min-height);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font:
+    var(--font-weight-semibold) var(--font-size-control) 'Be Vietnam Pro',
+    sans-serif;
+  cursor: pointer;
+}
+.primary {
+  border: 1px solid #14213d;
+  background: #14213d;
+  color: #fff;
+}
+.secondary {
+  border: 1px solid #dddad3;
+  background: #fff;
+  color: #31476f;
+}
+.danger {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #b91c1c;
+}
+.primary:disabled,
+.secondary:disabled,
+.danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.card,
+.tableCard {
+  border: 1px solid #dddad3;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.card {
+  padding: var(--operations-card-padding, 22px);
+}
+.tableScroll {
+  overflow: auto;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-body);
+  text-align: left;
+  white-space: nowrap;
+}
+.table th {
+  background: #f5f4f1;
+  color: #4a5870;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  padding: 12px 18px;
+}
+.table th button {
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  font-size: var(--font-size-label);
+  cursor: pointer;
+  padding: 0;
+}
+.table td {
+  padding: var(--operations-cell-padding, 15px 18px);
+  border-top: 1px solid #eceae5;
+  max-width: 420px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  vertical-align: middle;
+}
+.table tbody tr:hover {
+  background: #fafaf8;
+}
+.table a {
+  color: #31476f;
+  font-weight: var(--font-weight-semibold);
+}
+.table small {
+  display: block;
+  color: #68768e;
+  margin-top: 4px;
+}
+.tableTools {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 18px;
+  font-size: var(--font-size-meta);
+  color: #68768e;
+}
+.tableCard nav {
+  padding: 16px;
+}
+.rowActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.rowActions button {
+  font-size: var(--font-size-control);
+  padding: 5px 9px;
+  min-height: var(--control-min-height);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: #e8edf5;
+  color: #31476f;
+  border-radius: 999px;
+  font-size: var(--font-size-status);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+.badge[data-status='Active'],
+.badge[data-status='Confirmed'],
+.badge[data-status='Paid'],
+.badge[data-status='Succeeded'],
+.badge[data-status='Published'],
+.badge[data-status='Completed'] {
+  background: #dcfce7;
+  color: #166534;
+}
+.badge[data-status='Locked'],
+.badge[data-status='Failed'],
+.badge[data-status='Cancelled'],
+.badge[data-status='High'],
+.badge[data-status='Hidden'] {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.badge[data-status='PendingPayment'],
+.badge[data-status='NeedsReconciliation'],
+.badge[data-status='Medium'],
+.badge[data-status='PendingApproval'] {
+  background: #fef3c7;
+  color: #92400e;
+}
+.tabs {
+  display: flex;
+  gap: 5px;
+  background: #eceae5;
+  padding: 4px;
+  border-radius: 10px;
+  flex-wrap: wrap;
+  width: fit-content;
+}
+.tabs button {
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  padding: 8px 13px;
+  color: #4a5870;
+  font: var(--font-weight-semibold) var(--font-size-label) 'Be Vietnam Pro';
+  cursor: pointer;
+}
+.tabs button[aria-selected='true'] {
+  background: #fff;
+  color: #14213d;
+  box-shadow: 0 1px 3px #14213d12;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  gap: 14px;
+}
+.stat {
+  min-width: 0;
+  background: #fff;
+  border: 1px solid #dddad3;
+  border-radius: 10px;
+  padding: var(--operations-stat-padding, 20px);
+}
+.stat strong {
+  display: block;
+  font-size: var(--font-size-metric);
+  color: #14213d;
+  letter-spacing: -1px;
+  margin: 10px 0;
+}
+.stat small {
+  color: #68768e;
+  font-size: var(--font-size-meta);
+}
+.stat a {
+  color: #31476f;
+  font-size: var(--font-size-meta);
+}
+.alert {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 16px 0;
+  border-top: 1px solid #eceae5;
+}
+.alert:first-of-type {
+  border-top: 0;
+}
+.alert div {
+  flex: 1;
+}
+.alert a {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: #31476f;
+}
+.muted {
+  color: #68768e;
+  font-size: var(--font-size-meta);
+}
+.error {
+  color: #b91c1c;
+  font-size: var(--font-size-body);
+  margin: 4px 0;
+}
+.details {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 12px;
+  font-size: var(--font-size-meta);
+}
+.details dt {
+  color: #68768e;
+}
+.details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: #14213d99;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.dialog {
+  background: #f5f4f1;
+  border: 1px solid #dddad3;
+  border-radius: 16px;
+  width: min(680px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 24px 64px #14213d33;
+  padding: 26px;
+  color: #151a24;
+}
+.dialog h2 {
+  color: #14213d;
+  font-size: var(--font-size-section-title);
+  margin: 0 0 20px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-field);
+}
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: var(--font-size-label);
+  color: #31476f;
+}
+.field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+.field:has(textarea) {
+  grid-column: 1/-1;
+}
+.field small {
+  font-size: var(--font-size-meta);
+  color: #68768e;
+}
+.field input[type='checkbox'] {
+  align-self: start;
+  min-height: 20px;
+  width: 20px;
+}
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid #dddad3;
+}
+.json {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 320px;
+  overflow: auto;
+  font-size: var(--font-size-meta);
+  line-height: 1.7;
+  background: #f5f4f1;
+  padding: 14px;
+  border-radius: 8px;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.editor {
+  min-height: 280px;
+  border: 1px solid #c5c3bd;
+  border-radius: 8px;
+  padding: 18px;
+  background: #fff;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+.preview {
+  width: 100%;
+  min-height: 280px;
+  border: 1px solid #dddad3;
+  border-radius: 8px;
+  background: #fff;
+}
+.chartRow {
+  display: grid;
+  grid-template-columns: 120px 1fr 100px;
+  gap: 12px;
+  align-items: center;
+  font-size: var(--font-size-meta);
+  padding: 12px 0;
+}
+.chartBar {
+  height: 12px;
+  background: #e8edf5;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.chartBar span {
+  display: block;
+  height: 100%;
+  background: #31476f;
+  border-radius: 6px;
+}
+.notice {
+  padding: 14px 18px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: var(--font-size-meta);
+  border-radius: 8px;
+}
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .page h1 {
+    font-size: var(--font-size-page-title);
+  }
+}
+@media (max-width: 520px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stat {
+    padding: 14px;
+  }
+  .stat strong {
+    font-size: var(--font-size-metric);
+  }
+  .filters input[type='search'] {
+    min-width: 0;
+    width: 100%;
+  }
+  .filters label {
+    width: 100%;
+  }
+  .filters select {
+    width: 100%;
+  }
+  .details {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .details dd {
+    margin-bottom: 10px;
+  }
+  .overlay {
+    padding: 10px;
+  }
+  .dialog {
+    padding: 18px;
+  }
+  .chartRow {
+    grid-template-columns: 80px 1fr 65px;
+  }
+  .page {
+    gap: 16px;
+  }
+}

@@ -1,0 +1,262 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 1440px;
+  margin: 0 auto;
+  min-width: 0;
+  color: #243d30;
+}
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  min-height: 24px;
+}
+.sectionHeading h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.sectionHeading a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #557263;
+  font-size: 12px;
+}
+.sectionHeading a:hover {
+  color: #173e30;
+  text-decoration: underline;
+}
+.period {
+  padding: 3px 8px;
+  background: #eaf0ec;
+  border: 1px solid #dfe7e1;
+  border-radius: 5px;
+  color: #65796c;
+  font-size: 11px;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.metric {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #e0e7e2;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.metric > span {
+  color: #65756a;
+  font-size: 12px;
+  min-height: 19px;
+}
+.metric strong {
+  display: block;
+  font-size: clamp(21px, 1.9vw, 28px);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.6px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.metric em {
+  font-style: normal;
+  font-size: 17px;
+  color: #7b8b80;
+  font-weight: 400;
+}
+.metric small {
+  color: #839085;
+  font-size: 11px;
+  margin-top: auto;
+}
+.revenue {
+  background: #edf4ef;
+  border-color: #cedfd3;
+}
+.revenue strong {
+  color: #204b39;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 0.5fr);
+  gap: 22px;
+  align-items: start;
+}
+.workspace > section {
+  min-width: 0;
+}
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.group {
+  background: #fff;
+  border: 1px solid #e0e7e2;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.group h3 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 16px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid #edf1ee;
+}
+.groupIcon {
+  display: flex;
+  color: #6d8b78;
+}
+.counterRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  min-height: 40px;
+  font-size: 12px;
+  color: #56685b;
+  transition: background 0.15s;
+}
+.counterRow + .counterRow {
+  border-top: 1px solid #f1f4f2;
+}
+.counterRow:hover {
+  background: #f6f9f7;
+}
+.counterRow > span {
+  flex: 1;
+}
+.counterRow strong {
+  min-width: 25px;
+  padding: 2px 7px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.count {
+  background: #f0f4f1;
+  color: #5e7868;
+}
+.attention {
+  background: #fcf0e6;
+  color: #a76824;
+}
+.rowArrow {
+  color: #9aa99f;
+  flex-shrink: 0;
+}
+.alertCount {
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: #eaf0ec;
+  color: #65796c;
+  font-size: 11px;
+}
+.alertCard {
+  background: #fff;
+  border: 1px solid #e0e7e2;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.alert {
+  padding: 16px;
+}
+.alert + .alert {
+  border-top: 1px solid #edf1ee;
+}
+.alertMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #b58745;
+  margin-bottom: 10px;
+}
+.alert h3 {
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0 0 6px;
+  font-weight: 500;
+}
+.alert p {
+  margin: 0 0 12px;
+  color: #7a887e;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.alert a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #3c7152;
+}
+.alert a:hover {
+  text-decoration: underline;
+}
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 16px;
+  color: #6e967c;
+}
+.empty strong {
+  font-size: 13px;
+  font-weight: 500;
+}
+.empty p {
+  margin: 0;
+  color: #839085;
+  font-size: 12px;
+}
+@media (max-width: 1100px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 0.6fr);
+    gap: 16px;
+  }
+}
+@media (max-width: 900px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .page {
+    gap: 22px;
+  }
+  .metrics {
+    gap: 10px;
+  }
+  .metric {
+    padding: 14px 12px;
+  }
+  .metric > span {
+    min-height: 36px;
+    font-size: 11px;
+  }
+  .metric strong {
+    font-size: 21px;
+  }
+}

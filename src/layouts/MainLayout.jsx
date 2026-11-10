@@ -67,16 +67,17 @@ export default function MainLayout() {
           </nav>
 
           <div className={styles.authSection}>
-            <Link
-              to={ROUTES.RENTAL_CART}
-              className={styles.cartLink}
-              aria-label={`Giỏ thuê, ${cartQuantity} thiết bị`}
-            >
-              <OutdoorIcon name="bag" size={20} />
-              <span>Giỏ thuê ({cartQuantity})</span>
-            </Link>
             {isAuthenticated ? (
-              <details className={styles.account}>
+              <>
+                <Link
+                  to={ROUTES.RENTAL_CART}
+                  className={styles.cartLink}
+                  aria-label={`Giỏ thuê, ${cartQuantity} thiết bị`}
+                >
+                  <OutdoorIcon name="bag" size={20} />
+                  <span>Giỏ thuê ({cartQuantity})</span>
+                </Link>
+                <details className={styles.account}>
                 <summary aria-label="Tài khoản">
                   <span
                     className={styles.avatar}
@@ -132,7 +133,8 @@ export default function MainLayout() {
                   </button>
                 </div>
               </details>
-            ) : (
+            </>
+          ) : (
               <>
                 <Link to={ROUTES.LOGIN} className={styles.authLink}>
                   Đăng nhập

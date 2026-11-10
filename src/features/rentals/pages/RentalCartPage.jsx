@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import ProductImage from '@/features/products/components/ProductImage';
@@ -22,6 +22,11 @@ export default function RentalCartPage() {
   const quoteQuery = useRentalQuoteQuery(payload, isAuthenticated);
   const availability = useRentalAvailabilityQuery(payload, !isAuthenticated);
   const quote = quoteQuery.data;
+
+  if (!isAuthenticated) {
+    return <Navigate to={ROUTES.LOGIN} replace state={{ from: location }} />;
+  }
+
   if (!cart.items.length)
     return (
       <section className={styles.empty}>

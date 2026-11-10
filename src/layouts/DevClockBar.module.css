@@ -57,3 +57,58 @@
   outline: 2px solid var(--color-primary);
   outline-offset: 1px;
 }
+
+.disclosure {
+  padding: 0 26px;
+  background: #f0f4f1;
+  border-bottom: 1px solid #e3e9e5;
+  color: #6c7f71;
+}
+.disclosure summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  min-height: 30px;
+  font-size: 10px;
+  cursor: pointer;
+  list-style: none;
+}
+.disclosure summary::-webkit-details-marker {
+  display: none;
+}
+.hint {
+  font-size: 10px;
+  color: #7a8d80;
+}
+.disclosure .bar {
+  padding: 10px 0 14px;
+  border: 0;
+  background: transparent;
+  font-size: 11px;
+}
+.disclosure .controls {
+  align-items: center;
+  max-width: 100%;
+}
+.disclosure .controls input,
+.disclosure .controls button {
+  min-height: 30px;
+  padding: 4px 8px;
+  font-size: 11px;
+  max-width: 100%;
+}
+.simulated {
+  background: #fff4d9;
+  color: #805c20;
+  border-color: #eddaa6;
+}
+.simulated .hint {
+  color: #805c20;
+}
+@media (max-width: 768px) {
+  .disclosure {
+    padding-inline: 14px;
+  }
+}

@@ -1,0 +1,222 @@
+.card {
+  min-width: 0;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e0e7e2;
+  border-radius: 10px;
+}
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.header h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #243d30;
+}
+.header p {
+  margin: 5px 0 0;
+  font-size: 11px;
+  color: #839085;
+}
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filters select {
+  max-width: 100%;
+  min-height: 32px;
+  padding: 4px 9px;
+  font: inherit;
+  font-size: 11px;
+  border: 1px solid #dfe7e1;
+  border-radius: 6px;
+  background: #f9fbf9;
+  color: #50695a;
+  cursor: pointer;
+}
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 22px 0 12px;
+}
+.total {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.total > span {
+  font-size: 11px;
+  color: #7a8d80;
+}
+.total strong {
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums;
+  color: #243d30;
+}
+.legend {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.legend > div {
+  display: grid;
+  grid-template-columns: 7px 1fr;
+  gap: 5px 7px;
+  align-items: center;
+  font-size: 11px;
+  color: #6c7f71;
+}
+.legend strong {
+  grid-column: 2;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3f5949;
+  font-variant-numeric: tabular-nums;
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+}
+.plot {
+  overflow-x: auto;
+  margin-inline: -4px;
+}
+.plot svg {
+  display: block;
+  width: 100%;
+  min-width: 560px;
+}
+.plot rect {
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.plot rect:focus-visible {
+  outline: 2px solid #a26921;
+  outline-offset: 2px;
+}
+.axis {
+  font-family: inherit;
+  font-size: 11px;
+  fill: #839085;
+}
+.selection {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  min-height: 34px;
+  padding: 7px 10px;
+  margin-top: 3px;
+  border-radius: 5px;
+  background: #f7faf8;
+  color: #75877b;
+  font-size: 11px;
+}
+.selection strong {
+  font-weight: 500;
+  color: #50695a;
+}
+.dataTable {
+  margin-top: 12px;
+  font-size: 11px;
+  color: #6c7f71;
+}
+.dataTable summary {
+  cursor: pointer;
+  padding-block: 5px;
+  width: fit-content;
+}
+.tableScroll {
+  overflow-x: auto;
+}
+.dataTable table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+.dataTable th,
+.dataTable td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #edf1ee;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.dataTable thead th {
+  font-weight: 500;
+  background: #f7faf8;
+}
+.dataTable th:first-child {
+  text-align: left;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #edf1ee;
+  font-size: 10px;
+  color: #839085;
+}
+.footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #557263;
+  font-size: 11px;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
+.empty {
+  padding: 40px 12px;
+  text-align: center;
+  background: #f7faf8;
+  border-radius: 8px;
+  color: #839085;
+  font-size: 12px;
+}
+@media (max-width: 600px) {
+  .card {
+    padding: 16px 12px;
+  }
+  .filters {
+    width: 100%;
+  }
+  .filters label {
+    flex: 1;
+  }
+  .filters select {
+    width: 100%;
+  }
+  .summary {
+    margin-top: 16px;
+    gap: 12px;
+  }
+  .total {
+    width: 100%;
+  }
+  .total strong {
+    font-size: 23px;
+  }
+  .legend {
+    gap: 20px;
+  }
+}

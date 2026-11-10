@@ -3,6 +3,9 @@ import { render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAdminProducts } from '../hooks/useAdminCatalog';
 import AdminProductsPage from './AdminProductsPage';
+import { useAuth } from '@/hooks/useAuth';
+
+vi.mock('@/hooks/useAuth', () => ({ useAuth: vi.fn() }));
 
 vi.mock('../hooks/useAdminCatalog', () => ({
   useAdminProducts: vi.fn(),
@@ -11,6 +14,7 @@ vi.mock('../hooks/useAdminCatalog', () => ({
 describe('AdminProductsPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    useAuth.mockReturnValue({ currentUser: { role: 'Admin' } });
     useAdminProducts.mockReturnValue({
       data: {
         items: [
@@ -48,12 +52,25 @@ describe('AdminProductsPage', () => {
     );
 
     expect(screen.getByRole('heading', { name: 'Sản phẩm' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Thêm sản phẩm' })).toHaveAttribute('href', '/admin/products/new');
+    expect(screen.getByRole('link', { name: 'Thêm sản phẩm' })).toHaveAttribute(
+      'href',
+      '/admin/products/new',
+    );
     expect(screen.getByText('Lều Naturehike Cloud Up 2')).toBeInTheDocument();
     expect(screen.getByText('3 biến thể')).toBeInTheDocument();
     expect(screen.getByText('8 / 12')).toBeInTheDocument();
     expect(
       within(screen.getByRole('row', { name: /Lều Naturehike Cloud Up 2/ })).getByText('Đang cho thuê'),
     ).toBeInTheDocument();
+  });
+
+  it('hides product creation from staff', () => {
+    useAuth.mockReturnValue({ currentUser: { role: 'Staff' } });
+    render(
+      <MemoryRouter>
+        <AdminProductsPage />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByRole('link', { name: 'Thêm sản phẩm' })).not.toBeInTheDocument();
   });
 });

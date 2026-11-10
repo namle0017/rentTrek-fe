@@ -42,6 +42,7 @@ export const ROUTES = {
   ADMIN_REPORTS: '/admin/reports',
   ADMIN_REVIEWS: '/admin/reviews',
   ADMIN_PRODUCT_CREATE: '/admin/products/new',
+  ADMIN_PRODUCT_EDIT: (productId = ':productId') => `/admin/products/${productId}/edit`,
   ADMIN_RECURRENCE_RULES: (tourId = ':tourId') => `/admin/tours/${tourId}/recurrence-rules`,
   ADMIN_TRIP_CREATE: '/admin/trips/new',
   ADMIN_TRIPS: '/admin/trips',

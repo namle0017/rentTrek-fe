@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import BrandLogo from '@/components/BrandLogo';
 import FormField from '@/components/FormField';
 import SplitText from '@/components/SplitText';
@@ -25,7 +26,14 @@ export default function AuthPage({ defaultMode }) {
   const isRegister = defaultMode ? defaultMode === 'register' : location.pathname === ROUTES.REGISTER;
 
   const from = location.state?.from;
+  const authMessage = location.state?.authMessage;
   const redirectTo = from ? `${from.pathname}${from.search ?? ''}${from.hash ?? ''}` : ROUTES.HOME;
+
+  useEffect(() => {
+    if (authMessage && !isAuthenticated) {
+      toast.info(authMessage, { toastId: 'auth-required-redirect' });
+    }
+  }, [authMessage, isAuthenticated]);
 
   // Mutations
   const loginMutation = useLogin();
@@ -336,6 +344,11 @@ export default function AuthPage({ defaultMode }) {
               {/* ==================== SLIDE 1: LOGIN ==================== */}
               <div className={`${styles.slide} ${!isRegister ? styles.slideActive : styles.slideInactive}`}>
                 <form className={styles.authForm} onSubmit={handleLoginSubmit(handleLogin)} noValidate>
+                  {authMessage && (
+                    <div className={styles.infoBanner} role="status">
+                      {authMessage}
+                    </div>
+                  )}
                   {loginServerError && <div className={styles.errorBanner}>{loginServerError}</div>}
 
                   <FormField

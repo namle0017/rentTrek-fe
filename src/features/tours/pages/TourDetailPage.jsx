@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
@@ -23,19 +24,14 @@ export default function TourDetailPage() {
 
   return (
     <article>
-      <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-        <Link to={ROUTES.HOME}>Trang chủ</Link>
-        <span>/</span>
-        <Link to={ROUTES.TOURS}>Tour Trekking</Link>
-        {tour.locationName && (
-          <>
-            <span>/</span>
-            <span>{tour.locationName}</span>
-          </>
-        )}
-        <span>/</span>
-        <span className={styles.breadcrumbCurrent}>{tour.name}</span>
-      </nav>
+      <Breadcrumb
+        items={[
+          { label: 'Trang chủ', to: ROUTES.HOME },
+          { label: 'Tour Trekking', to: ROUTES.TOURS },
+          tour.locationName ? { label: tour.locationName } : null,
+          { label: tour.name },
+        ]}
+      />
 
       {/* 5-Image Gallery (Figma Node 269:874) */}
       <TourGallery images={tour.images} tourName={tour.name} />

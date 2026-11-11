@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { TRIP_STATUS, TRIP_STATUS_LABEL } from '@/constants/enums';
@@ -114,11 +115,13 @@ export default function AdminTripDetailPage() {
     <div className={styles.page}>
       <div className={styles.headerRow}>
         <div className={styles.titleGroup}>
-          <div className={styles.breadcrumb}>
-            <Link to={ROUTES.ADMIN_TRIPS}>Quản lý Chuyến đi</Link>
-            <span>/</span>
-            <span>Chi tiết & Điều phối Chuyến</span>
-          </div>
+          <Breadcrumb
+            items={[
+              { label: 'Quản lý Chuyến đi', to: ROUTES.ADMIN_TRIPS },
+              trip.tourName ? { label: trip.tourName } : null,
+              { label: 'Chi tiết & Điều phối Chuyến' },
+            ]}
+          />
           <h1 className={styles.pageTitle}>
             {trip.tourName || 'Chuyến đi Tour'}{' '}
             <span className={`${styles.badge} ${styles.badgePositive}`}>

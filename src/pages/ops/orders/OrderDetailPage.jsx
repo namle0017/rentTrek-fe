@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import { API_ENDPOINTS } from '@/api/endpoints';
 import { ROUTES } from '@/constants/routes';
 import { USER_ROLE } from '@/constants/enums';
@@ -27,7 +28,12 @@ export default function OrderDetailPage() {
   const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
   const isOpen = ['PendingPayment', 'Confirmed'].includes(order.status);
   return <div className={styles.page}>
-    <Link className={styles.muted} to={ROUTES.ADMIN_ORDERS}>← Danh sách đơn hàng</Link>
+    <Breadcrumb
+      items={[
+        { label: 'Quản lý đơn hàng', to: ROUTES.ADMIN_ORDERS },
+        { label: order?.orderCode ?? orderCode },
+      ]}
+    />
     <div className={styles.heading}><div><span className={styles.eyebrow}>{OPS_LABELS[order.orderType]}</span><h1>{order.orderCode}</h1><p>{order.serviceSummary}</p></div><div className={styles.toolbar}><StatusBadge value={order.status} /><StatusBadge value={order.paymentStatus} /></div></div>
     {isAdmin && isOpen && <div className={styles.toolbar}><button className={styles.primary} onClick={() => setDialog({ title: 'Ghi nhận thanh toán thủ công', action: 'manual-payment', fields: [{ name: 'amount', label: 'Số tiền (VND)', type: 'number', min: 1, step: 1, required: true }, { name: 'paymentMethod', label: 'Phương thức thực tế', type: 'select', options: options('Cash', 'BankTransfer'), required: true }, { name: 'manualReference', label: 'Mã tham chiếu duy nhất', required: true, maxLength: 100 }, { name: 'reason', label: 'Lý do xác nhận', type: 'textarea', required: true, maxLength: 500 }] })}>Ghi nhận thanh toán</button><button className={styles.danger} onClick={() => setDialog({ title: 'Hủy đơn & tạo yêu cầu hoàn tiền', action: 'cancel-by-admin', fields: [{ name: 'reason', label: 'Lý do hủy', type: 'textarea', required: true, maxLength: 500 }] })}>Hủy đơn khẩn cấp</button></div>}
     <div className={styles.grid}><section className={styles.card}><h2>Thông tin khách hàng</h2><dl className={styles.details}><dt>Họ tên</dt><dd>{order.customer.fullName}</dd><dt>Mã khách hàng</dt><dd>{order.customer.userCode ?? 'Chưa cập nhật'}</dd><dt>Email</dt><dd>{order.customer.email}</dd><dt>Điện thoại</dt><dd>{order.customer.phone ?? 'Chưa cập nhật'}</dd></dl></section><section className={styles.card}><h2>Thông tin đơn hàng</h2><dl className={styles.details}><dt>Tổng thanh toán</dt><dd><strong>{formatCurrency(order.totalAmount)}</strong></dd><dt>Ngày tạo</dt><dd>{formatDateTime(order.createdAt)}</dd><dt>Hạn giữ chỗ</dt><dd>{formatDateTime(order.holdExpiresAt) || '—'}</dd><dt>Hạn đối soát</dt><dd>{formatDateTime(order.reconciliationDeadlineAt) || '—'}</dd>{rentalPeriod && <><dt>Thời gian thuê</dt><dd>{formatDateTime(rentalPeriod.startAt)} → {formatDateTime(rentalPeriod.endAt)}</dd><dt>Phụ trách</dt><dd>{handlerFullName ?? 'Chưa phân công'}</dd></>}</dl></section></div>

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
@@ -9,32 +10,29 @@ import NotFoundPage from '@/pages/NotFoundPage';
 import { formatCurrency } from '@/utils/formatCurrency';
 import RentalConfigurator from '@/features/rentals/components/RentalConfigurator';
 import ProductImage from '../components/ProductImage';
-import ProductOfferingBadges from '../components/ProductOfferingBadges';
 import { useProduct } from '../hooks/useProducts';
 import styles from './ProductDetail.module.css';
-
-const informationTabs = [
-  { id: 'specifications', label: 'Thông số kỹ thuật' },
-  { id: 'description', label: 'Thông tin sản phẩm' },
-];
 
 export default function ProductDetailPage() {
   const { productId } = useParams();
   const { data: product, isLoading, isError, error, refetch } = useProduct(productId);
   const [selection, setSelection] = useState(null);
   const [imageSelection, setImageSelection] = useState(null);
-  const [activeTab, setActiveTab] = useState('specifications');
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [productId]);
 
   if (isLoading) return <DetailSkeleton />;
   if (isError && error.statusCode === 404) return <NotFoundPage />;
   if (isError) return <ErrorState message={error.message} onRetry={refetch} />;
-  if (!product?.variants.length) return <EmptyState message="Sản phẩm chưa có biến thể để hiển thị" />;
+  if (!product?.variants?.length) return <EmptyState message="Sản phẩm chưa có biến thể để hiển thị" />;
 
   const variant =
     product.variants.find(
       (candidate) => selection?.productId === product.id && candidate.id === selection.variantId,
     ) ?? product.variants[0];
-  const images = variant.images;
+  const images = variant.images || [];
   const selectedImageIndex =
     imageSelection?.variantId === variant.id
       ? Math.max(
@@ -43,16 +41,12 @@ export default function ProductDetailPage() {
         )
       : 0;
   const selectedImage = images[selectedImageIndex];
-  const isRentable = variant.rentalPriceTiers.length > 0;
+  const isRentable = (variant.rentalPriceTiers?.length ?? 0) > 0;
   const isForSale = variant.salePrice !== null && variant.salePrice !== undefined;
   const minimumDailyPrice = isRentable
     ? Math.min(...variant.rentalPriceTiers.map((tier) => tier.dailyPrice))
     : null;
-  const specifications = [
-    { label: 'Mã sản phẩm', value: variant.sku },
-    ...(variant.size ? [{ label: 'Kích cỡ', value: variant.size }] : []),
-    ...(variant.color ? [{ label: 'Màu sắc', value: variant.color }] : []),
-  ];
+
   const selectImage = (index) => setImageSelection({ variantId: variant.id, imageId: images[index].id });
   const moveImage = (direction) =>
     selectImage((selectedImageIndex + direction + images.length) % images.length);
@@ -60,28 +54,24 @@ export default function ProductDetailPage() {
     setSelection({ productId: product.id, variantId });
     setImageSelection(null);
   };
-  const selectTabWithKeyboard = (event, index) => {
-    let nextIndex;
-    if (event.key === 'ArrowRight') nextIndex = (index + 1) % informationTabs.length;
-    else if (event.key === 'ArrowLeft')
-      nextIndex = (index + informationTabs.length - 1) % informationTabs.length;
-    else if (event.key === 'Home') nextIndex = 0;
-    else if (event.key === 'End') nextIndex = informationTabs.length - 1;
-    else return;
-    event.preventDefault();
-    setActiveTab(informationTabs[nextIndex].id);
-    document.getElementById(`detail-tab-${informationTabs[nextIndex].id}`)?.focus();
-  };
 
   return (
     <article className={styles.detailPage}>
-      <nav className={styles.breadcrumb} aria-label="Đường dẫn">
-        <Link to={ROUTES.PRODUCTS}>← Dụng cụ thuê</Link>
-        <span>/</span>
-        <span>{product.categoryName}</span>
-      </nav>
+      {/* 1. Breadcrumb Full-width */}
+      <Breadcrumb
+        items={[
+          { label: 'Trang chủ', to: ROUTES.HOME },
+          { label: 'Dụng cụ thuê', to: ROUTES.PRODUCTS },
+          product.categoryName ? { label: product.categoryName } : null,
+          { label: product.name },
+        ]}
+      />
+
+      {/* 2. Main Content: Hai cột 58% / 42% */}
       <div className={styles.detailGrid}>
+        {/* CỘT TRÁI (55–60%): Gallery 4:3, Cho thuê badge, Tên h1, SKU, Divider, Thông tin sản phẩm */}
         <div className={styles.story}>
+          {/* Gallery 4:3 với Thumbnail bên dưới */}
           <section
             className={styles.gallery}
             aria-label="Ảnh sản phẩm"
@@ -99,200 +89,170 @@ export default function ProductDetailPage() {
             }}
             tabIndex={images.length > 1 ? 0 : undefined}
           >
-            {images.length > 1 && (
+            {/* Ảnh chính tỷ lệ chuẩn 4:3 */}
+            <div className={styles.mainImageWrapper}>
               <ProductImage
-                src={images[(selectedImageIndex + 1) % images.length].imageUrl}
-                alt=""
-                className={styles.backdropImage}
+                src={
+                  selectedImage?.imageUrl === '/images/products/tent.svg'
+                    ? '/images/product-detail/tent-forest.jpg'
+                    : selectedImage?.imageUrl
+                }
+                alt={`${product.name} — ${variant.name}`}
+                className={styles.mainImage}
                 loading="eager"
               />
-            )}
-            <ProductImage
-              src={
-                selectedImage?.imageUrl === '/images/products/tent.svg'
-                  ? '/images/product-detail/tent-forest.jpg'
-                  : selectedImage?.imageUrl
-              }
-              alt={`${product.name} — ${variant.name}`}
-              className={styles.mainImage}
-              loading="eager"
-            />
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    className={`${styles.galleryArrow} ${styles.previous}`}
+                    aria-label="Ảnh trước"
+                    onClick={() => moveImage(-1)}
+                  >
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.galleryArrow} ${styles.next}`}
+                    aria-label="Ảnh tiếp theo"
+                    onClick={() => moveImage(1)}
+                  >
+                    ›
+                  </button>
+                  <span className={styles.imageCounter} aria-live="polite" aria-atomic="true">
+                    {images.length > 0 ? `${selectedImageIndex + 1} / ${images.length}` : 'Chưa có ảnh'}
+                  </span>
+                </>
+              )}
+            </div>
+
+            {/* Thumbnail strip bên dưới nếu có nhiều ảnh */}
             {images.length > 1 && (
-              <>
-                <button
-                  type="button"
-                  className={`${styles.galleryArrow} ${styles.previous}`}
-                  aria-label="Ảnh trước"
-                  onClick={() => moveImage(-1)}
-                >
-                  ‹
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.galleryArrow} ${styles.next}`}
-                  aria-label="Ảnh tiếp theo"
-                  onClick={() => moveImage(1)}
-                >
-                  ›
-                </button>
-                <div className={styles.imageDots} aria-label="Chọn ảnh sản phẩm">
-                  {images.map((image, index) => (
-                    <button
-                      key={image.id}
-                      type="button"
-                      aria-label={`Xem ảnh ${index + 1}`}
-                      aria-pressed={selectedImageIndex === index}
-                      onClick={() => selectImage(index)}
+              <div className={styles.thumbnailStrip} role="tablist" aria-label="Danh sách ảnh thu nhỏ">
+                {images.map((image, index) => (
+                  <button
+                    key={image.id}
+                    type="button"
+                    role="tab"
+                    className={`${styles.thumbnailBtn} ${selectedImageIndex === index ? styles.thumbnailActive : ''}`}
+                    aria-label={`Xem ảnh ${index + 1}`}
+                    aria-selected={selectedImageIndex === index}
+                    onClick={() => selectImage(index)}
+                  >
+                    <ProductImage
+                      src={
+                        image.imageUrl === '/images/products/tent.svg'
+                          ? '/images/product-detail/tent-forest.jpg'
+                          : image.imageUrl
+                      }
+                      alt=""
+                      className={styles.thumbnailImage}
                     />
-                  ))}
-                </div>
-              </>
-            )}
-            <span className={styles.imageCounter} aria-live="polite" aria-atomic="true">
-              {images.length > 0 ? `${selectedImageIndex + 1} / ${images.length}` : 'Chưa có ảnh'}
-            </span>
-          </section>
-          <section className={styles.productIntro} aria-labelledby="product-title">
-            <ProductOfferingBadges isRentable={isRentable} isForSale={isForSale} />
-            <h1 id="product-title">{product.name}</h1>
-            <p className={styles.introDescription}>
-              {product.description || 'Thông tin chi tiết đang được cập nhật.'}
-            </p>
-            <dl className={styles.highlights}>
-              {specifications.map((spec) => (
-                <div key={spec.label}>
-                  <dt>{spec.label}</dt>
-                  <dd>{spec.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-          <section className={styles.information} aria-label="Thông tin chi tiết">
-            <div className={styles.tabs} role="tablist" aria-label="Thông tin sản phẩm">
-              {informationTabs.map((tab, index) => (
-                <button
-                  key={tab.id}
-                  id={`detail-tab-${tab.id}`}
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === tab.id}
-                  aria-controls={`detail-panel-${tab.id}`}
-                  tabIndex={activeTab === tab.id ? 0 : -1}
-                  onClick={() => setActiveTab(tab.id)}
-                  onKeyDown={(event) => selectTabWithKeyboard(event, index)}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-            <div
-              id="detail-panel-specifications"
-              role="tabpanel"
-              aria-labelledby="detail-tab-specifications"
-              hidden={activeTab !== 'specifications'}
-              tabIndex={0}
-              className={styles.tabPanel}
-            >
-              <dl className={styles.specifications}>
-                <div>
-                  <dt>Danh mục</dt>
-                  <dd>{product.categoryName}</dd>
-                </div>
-                <div>
-                  <dt>Phiên bản</dt>
-                  <dd>{variant.name}</dd>
-                </div>
-                {specifications.map((spec) => (
-                  <div key={spec.label}>
-                    <dt>{spec.label}</dt>
-                    <dd>{spec.value}</dd>
-                  </div>
+                  </button>
                 ))}
-              </dl>
+              </div>
+            )}
+          </section>
+
+          {/* Badge Cho thuê */}
+          <div className={styles.badgeRow}>
+            {isRentable && <span className={styles.rentalBadge}>Cho thuê</span>}
+            {isForSale && <span className={styles.saleBadge}>Bán đứt</span>}
+          </div>
+
+          {/* Tên sản phẩm h1 */}
+          <h1 className={styles.productName}>{product.name}</h1>
+
+          {/* Mã sản phẩm */}
+          <p className={styles.productSku}>
+            Mã sản phẩm: <span>{variant.sku}</span>
+          </p>
+
+          {/* Đường kẻ phân cách */}
+          <hr className={styles.divider} />
+
+          {/* Bảng Thông tin sản phẩm */}
+          <section className={styles.productInfoSection} aria-labelledby="product-info-heading">
+            <h2 id="product-info-heading" className={styles.productInfoHeading}>
+              Thông tin sản phẩm
+            </h2>
+
+            <div className={styles.infoTable}>
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>Danh mục</span>
+                <span className={styles.infoValue}>{product.categoryName}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>Phiên bản</span>
+                <span className={styles.infoValue}>{variant.name}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>Mã sản phẩm</span>
+                <span className={styles.infoValue}>{variant.sku}</span>
+              </div>
+              {variant.size && (
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Kích cỡ</span>
+                  <span className={styles.infoValue}>{variant.size}</span>
+                </div>
+              )}
+              {variant.color && (
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Màu sắc</span>
+                  <span className={styles.infoValue}>{variant.color}</span>
+                </div>
+              )}
             </div>
-            <div
-              id="detail-panel-description"
-              role="tabpanel"
-              aria-labelledby="detail-tab-description"
-              hidden={activeTab !== 'description'}
-              tabIndex={0}
-              className={styles.tabPanel}
-            >
-              <p>{product.description || 'Thông tin chi tiết đang được cập nhật.'}</p>
+
+            {/* Mô tả chi tiết nếu có */}
+            {product.description && (
+              <div className={styles.descriptionSection}>
+                <h3 className={styles.descriptionHeading}>Mô tả chi tiết</h3>
+                <p className={styles.descriptionText}>{product.description}</p>
+              </div>
+            )}
+          </section>
+
+          {/* Khám phá thêm thiết bị (nằm ngoài form chính theo yêu cầu) */}
+          <section className={styles.exploreSection} aria-label="Khám phá thêm">
+            <div className={styles.exploreCard}>
+              <div className={styles.exploreContent}>
+                <span className={styles.exploreKicker}>TRANG BỊ DÃ NGOẠI</span>
+                <h3>Cần thêm trang bị cho hành trình?</h3>
+                <p>Khám phá đầy đủ lều trại, túi ngủ, balo leo núi và dụng cụ cắm trại chuyên dụng.</p>
+              </div>
+              <Link to={ROUTES.PRODUCTS} className={styles.exploreLink}>
+                <span>Xem tất cả thiết bị</span>
+                <OutdoorIcon name="arrow" size={16} />
+              </Link>
             </div>
           </section>
         </div>
-        <aside className={styles.pricingCard} aria-labelledby="pricing-title">
-          <header className={styles.pricingHeading}>
-            <p>{isRentable ? 'THÔNG TIN GIÁ THUÊ' : 'THÔNG TIN GIÁ BÁN'}</p>
-            <h2 id="pricing-title">{isRentable ? 'Sẵn Sàng Cho Chuyến Đi' : 'Trang Bị Cho Hành Trình'}</h2>
-          </header>
-          <fieldset className={styles.variantPicker}>
-            <legend>Chọn phiên bản</legend>
-            <div className={styles.variantButtons}>
-              {product.variants.map((candidate) => (
-                <button
-                  key={candidate.id}
-                  type="button"
-                  aria-pressed={variant.id === candidate.id}
-                  onClick={() => handleVariantChange(candidate.id)}
-                >
-                  {candidate.name}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-          {isRentable && (
-            <>
-              <div className={styles.featuredPrice}>
-                <span>Giá thuê từ</span>
-                <p>
-                  <strong>{formatCurrency(minimumDailyPrice)}</strong>
-                  <span>/ ngày</span>
-                </p>
-              </div>
-              <section className={styles.rentalPrices} aria-labelledby="rental-prices-title">
-                <h3 id="rental-prices-title">Bảng giá thuê</h3>
-                <table>
-                  <caption>Giá theo ngày cho phiên bản {variant.name}</caption>
-                  <thead>
-                    <tr>
-                      <th scope="col">Thời gian thuê</th>
-                      <th scope="col">Giá / ngày</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {variant.rentalPriceTiers.map((tier) => (
-                      <tr key={tier.id}>
-                        <td>
-                          {tier.maxDays === null
-                            ? `Từ ${tier.minDays} ngày`
-                            : tier.minDays === tier.maxDays
-                              ? `${tier.minDays} ngày`
-                              : `${tier.minDays}–${tier.maxDays} ngày`}
-                        </td>
-                        <td>{formatCurrency(tier.dailyPrice)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </section>
-            </>
-          )}
-          {isForSale && (
-            <div className={isRentable ? styles.salePrice : styles.featuredPrice}>
-              <span>Giá bán</span>
-              <strong>{formatCurrency(variant.salePrice)}</strong>
+
+        {/* CỘT PHẢI (40–45%): Unified Rental Configuration Card */}
+        <aside className={styles.sidebarColumn} aria-label="Cấu hình thuê sản phẩm">
+          {isRentable ? (
+            <RentalConfigurator
+              key={variant.id}
+              product={product}
+              variant={variant}
+              onVariantChange={handleVariantChange}
+              minimumDailyPrice={minimumDailyPrice}
+            />
+          ) : (
+            <div className={styles.saleOnlyCard}>
+              <header className={styles.saleOnlyHeader}>
+                <span className={styles.saleOnlyEyebrow}>SẢN PHẨM MUA ĐỨT</span>
+                <h2>{variant.name}</h2>
+              </header>
+              {isForSale && (
+                <div className={styles.salePriceRow}>
+                  <span>Giá bán:</span>
+                  <strong>{formatCurrency(variant.salePrice)}</strong>
+                </div>
+              )}
             </div>
           )}
-          {isRentable && <RentalConfigurator key={variant.id} product={product} variant={variant} />}
-          <div className={styles.priceNote}>
-            <OutdoorIcon name="shield" size={20} />
-            <p>Giá tính bằng VND. Tình trạng còn hàng và lịch thuê cần được xác nhận khi đặt hàng.</p>
-          </div>
-          <Link to={ROUTES.PRODUCTS} className={styles.catalogLink}>
-            Khám phá thêm thiết bị <OutdoorIcon name="arrow" size={17} />
-          </Link>
         </aside>
       </div>
     </article>

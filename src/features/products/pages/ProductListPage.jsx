@@ -79,7 +79,7 @@ export default function ProductListPage() {
     sortOrder,
   });
 
-  const updateFilters = (changes) => {
+  const updateFilters = (changes, shouldScroll = false) => {
     setSearchParams((previous) => {
       const next = new URLSearchParams(previous);
       Object.entries(changes).forEach(([key, value]) => {
@@ -89,6 +89,9 @@ export default function ProductListPage() {
       next.delete('pageNumber');
       return next;
     });
+    if (shouldScroll) {
+      document.getElementById('equipment')?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
   const handlePageChange = (nextPage) => {
     setSearchParams((previous) => {
@@ -204,7 +207,7 @@ export default function ProductListPage() {
               name="categoryId"
               value={categoryId}
               disabled={categoriesQuery.isLoading}
-              onChange={(event) => updateFilters({ categoryId: event.target.value })}
+              onChange={(event) => updateFilters({ categoryId: event.target.value }, true)}
             >
               <option value="">Tất cả dụng cụ dã ngoại</option>
               {(categoriesQuery.data ?? []).map((category) => (
@@ -219,7 +222,7 @@ export default function ProductListPage() {
             <select
               name="offeringType"
               value={offeringType}
-              onChange={(event) => updateFilters({ offeringType: event.target.value })}
+              onChange={(event) => updateFilters({ offeringType: event.target.value }, true)}
             >
               <option value="">Thuê & mua</option>
               {Object.entries(PRODUCT_OFFERING_LABEL).map(([value, label]) => (

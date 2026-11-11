@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import Breadcrumb from '@/components/Breadcrumb';
 import { API_ENDPOINTS } from '@/api/endpoints';
 import { ROUTES } from '@/constants/routes';
 import { USER_ROLE } from '@/constants/enums';
@@ -26,7 +27,14 @@ export default function PromotionDetailPage() {
   if (query.isPending) return <Spinner />;
   if (query.isError) return <ErrorState message={query.error.message} onRetry={query.refetch} />;
   const { promotion, tiers } = query.data; const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
-  return <div className={styles.page}><Link className={styles.muted} to={ROUTES.ADMIN_PROMOTIONS}>← Danh sách khuyến mãi</Link><div className={styles.heading}><div><span className={styles.eyebrow}>{promotion.promotionCode ?? 'Ưu đãi tự động'}</span><h1>{promotion.name}</h1></div><StatusBadge value={promotion.status} /></div>
+  return <div className={styles.page}>
+    <Breadcrumb
+      items={[
+        { label: 'Quản lý khuyến mãi', to: ROUTES.ADMIN_PROMOTIONS },
+        { label: promotion?.name ?? 'Chi tiết khuyến mãi' },
+      ]}
+    />
+    <div className={styles.heading}><div><span className={styles.eyebrow}>{promotion.promotionCode ?? 'Ưu đãi tự động'}</span><h1>{promotion.name}</h1></div><StatusBadge value={promotion.status} /></div>
     <nav className={styles.tabs} role="tablist" aria-label="Chi tiết khuyến mãi">{[['general', 'Thông tin chương trình'], ['tiers', 'Bậc ưu đãi'], ['usage', 'Lịch sử sử dụng']].map(([key, label]) => <button key={key} role="tab" aria-selected={tab === key} onClick={() => setTab(key)}>{label}</button>)}</nav>
     {tab === 'general' && <div className={styles.grid}><section className={styles.card}><h2>Thông tin khuyến mãi</h2>{isAdmin ? <OperationForm fields={promotionFields} endpoint={root} method="put" key={JSON.stringify(promotion)} values={{ ...promotion, startAt: dayjs(promotion.startAt).format('YYYY-MM-DDTHH:mm'), endAt: dayjs(promotion.endAt).format('YYYY-MM-DDTHH:mm') }} /> : <p>{promotion.description} · {formatDateTime(promotion.startAt)} → {formatDateTime(promotion.endAt)}</p>}</section><section className={styles.card}><h2>Trạng thái & mức sử dụng</h2><p>{promotion.usedCount} / {promotion.maxUses ?? 'Không giới hạn'} lượt</p>{isAdmin && <OperationForm endpoint={API_ENDPOINTS.ADMIN.ACTION(API_ENDPOINTS.ADMIN.PROMOTIONS, promotionId, 'status')} method="patch" fields={[{ name: 'status', label: 'Trạng thái', type: 'select', options: options('Active', 'Paused', 'Expired'), required: true }]} />}</section></div>}
     {tab === 'tiers' && <section className={styles.card}><h2>Cấu hình điều kiện nhận ưu đãi</h2>{isAdmin ? <PromotionTiersForm key={JSON.stringify(tiers)} promotionId={promotionId} tiers={tiers} /> : tiers.map((tier) => <p key={tier.promotionTierId}>{tier.qualificationMetric} ≥ {tier.minThreshold} · {tier.discountValue} <StatusBadge value={tier.discountType} /></p>)}</section>}

@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import Breadcrumb from '@/components/Breadcrumb';
 import DevClockJumps from '@/components/DevClockJumps';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
@@ -208,9 +209,13 @@ export default function AdminRentalOrderDetailPage() {
   return (
     <section className={styles.page} aria-labelledby="rental-order-title">
       <header>
-        <p className={styles.eyebrow}>
-          <Link to={ROUTES.ADMIN_RENTAL_ORDERS}>Đơn thuê</Link> / Chi tiết
-        </p>
+        <Breadcrumb
+          items={[
+            { label: 'Quản lý Đơn thuê', to: ROUTES.ADMIN_RENTAL_ORDERS },
+            order?.orderCode ? { label: `Đơn ${order.orderCode}` } : { label: 'Chi tiết đơn thuê' },
+          ]}
+          isLoading={isLoading}
+        />
         <h1 id="rental-order-title" className={styles.title}>
           {order?.orderCode ?? 'Chi tiết đơn thuê'}
         </h1>

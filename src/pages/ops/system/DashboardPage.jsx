@@ -1,5 +1,15 @@
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, CalendarDays, Package, Wallet, CircleCheck, AlertCircle } from 'lucide-react';
+import {
+  ArrowUpRight,
+  CalendarDays,
+  Package,
+  Wallet,
+  CircleCheck,
+  AlertCircle,
+  TrendingUp,
+  Clock,
+  ShieldAlert,
+} from 'lucide-react';
 import { API_ENDPOINTS } from '@/api/endpoints';
 import { ROUTES } from '@/constants/routes';
 import { USER_ROLE } from '@/constants/enums';
@@ -9,12 +19,12 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import Spinner from '@/components/Spinner';
 import ErrorState from '@/components/ErrorState';
 import StatusBadge from '@/features/operations/components/StatusBadge';
-import styles from './DashboardPage.module.css';
 import RevenueChart from './RevenueChart.jsx';
+import styles from './DashboardPage.module.css';
 
 const groups = [
   {
-    title: 'Tour & chuyến đi',
+    title: 'Tour & Chuyến đi',
     icon: CalendarDays,
     items: [
       ['tripsDepartingIn7DaysCount', 'Khởi hành trong 7 ngày', ROUTES.ADMIN_TRIPS, false],
@@ -24,7 +34,7 @@ const groups = [
     ],
   },
   {
-    title: 'Đơn hàng & thiết bị',
+    title: 'Đơn hàng & Thiết bị',
     icon: Package,
     items: [
       ['pendingPaymentExpiringCount', 'Sắp hết hạn thanh toán', ROUTES.ADMIN_ORDERS, true],
@@ -33,7 +43,7 @@ const groups = [
     ],
   },
   {
-    title: 'Thanh toán & hoàn tiền',
+    title: 'Thanh toán & Hoàn tiền',
     icon: Wallet,
     items: [
       ['pendingApprovalRefundsCount', 'Hoàn tiền chờ duyệt', ROUTES.ADMIN_REFUNDS, true, true],
@@ -50,125 +60,227 @@ export default function DashboardPage() {
   const alerts = useOperations(API_ENDPOINTS.ADMIN.DASHBOARD.ALERTS);
   const kpis = useOperations(API_ENDPOINTS.ADMIN.DASHBOARD.KPIS, undefined, isAdmin);
 
+  const pendingAlerts = alerts.data || [];
+
   return (
     <div className={styles.page}>
+      {/* 1. Dashboard Header */}
+      <header className={styles.header}>
+        <div className={styles.headerInfo}>
+          <h1 className={styles.pageTitle}>Tổng quan hoạt động</h1>
+          <p className={styles.pageSubtitle}>
+            Theo dõi tình hình kinh doanh, tiến độ vận hành tour và xử lý sự vụ theo thời gian thực.
+          </p>
+        </div>
+        <div className={styles.headerActions}>
+          <Link to={ROUTES.ADMIN_ORDERS} className={styles.headerLink}>
+            Quản lý đơn hàng <ArrowUpRight size={14} />
+          </Link>
+          <Link to={ROUTES.ADMIN_TRIPS} className={styles.headerLink}>
+            Quản lý chuyến đi <ArrowUpRight size={14} />
+          </Link>
+          {isAdmin && (
+            <Link to={ROUTES.ADMIN_REPORTS} className={styles.headerLinkPrimary}>
+              Báo cáo chi tiết <ArrowUpRight size={14} />
+            </Link>
+          )}
+        </div>
+      </header>
+
+      {/* 2. KPI Overview (4 Card Grid - Desktop) */}
       {isAdmin && (
-        <section aria-labelledby="performance-title">
+        <section className={styles.section} aria-labelledby="performance-title">
           <div className={styles.sectionHeading}>
-            <h2 id="performance-title">Hiệu quả hoạt động</h2>
-            <span className={styles.period}>7 ngày qua</span>
+            <div className={styles.headingTitleWithBadge}>
+              <h2 id="performance-title" className={styles.sectionTitle}>
+                Hiệu quả hoạt động
+              </h2>
+              <span className={styles.periodBadge}>
+                <Clock size={12} /> 7 ngày qua
+              </span>
+            </div>
           </div>
+
           {kpis.isPending ? (
             <Spinner />
           ) : kpis.isError ? (
             <ErrorState message={kpis.error.message} onRetry={kpis.refetch} />
           ) : (
-            <div className={styles.metrics}>
-              <article className={`${styles.metric} ${styles.revenue}`}>
-                <span>Doanh thu ròng</span>
-                <strong>{formatCurrency(kpis.data.netRevenueVnd)}</strong>
-                <small>Trong 7 ngày qua</small>
-              </article>
-              <article className={styles.metric}>
-                <span>Booking mới</span>
-                <strong>{kpis.data.weeklyBookingsCount}</strong>
-                <small>Trong 7 ngày qua</small>
-              </article>
-              <article className={styles.metric}>
-                <span>Tỷ lệ lấp chỗ</span>
-                <strong>{kpis.data.averageOccupancyRate}%</strong>
-                <small>Trung bình các chuyến</small>
-              </article>
-              <article className={styles.metric}>
-                <span>Thiết bị đang thuê / sẵn sàng</span>
-                <strong>
-                  {kpis.data.activeRentedAssetsCount}
-                  <em> / {kpis.data.totalAvailableAssetsCount}</em>
+            <div className={styles.metricsGrid}>
+              <article className={styles.metricCard}>
+                <div className={styles.metricHeader}>
+                  <span className={styles.metricLabel}>Doanh thu ròng</span>
+                  <span className={styles.metricIconWrap}>
+                    <TrendingUp size={16} />
+                  </span>
+                </div>
+                <strong className={styles.metricValue}>
+                  {formatCurrency(kpis.data.netRevenueVnd)}
                 </strong>
-                <small>Tình trạng kho hiện tại</small>
+                <span className={styles.metricMeta}>Trong 7 ngày qua</span>
+              </article>
+
+              <article className={styles.metricCard}>
+                <div className={styles.metricHeader}>
+                  <span className={styles.metricLabel}>Booking mới</span>
+                  <span className={styles.metricIconWrap}>
+                    <Package size={16} />
+                  </span>
+                </div>
+                <strong className={styles.metricValue}>
+                  {kpis.data.weeklyBookingsCount}
+                </strong>
+                <span className={styles.metricMeta}>Trong 7 ngày qua</span>
+              </article>
+
+              <article className={styles.metricCard}>
+                <div className={styles.metricHeader}>
+                  <span className={styles.metricLabel}>Tỷ lệ lấp chỗ</span>
+                  <span className={styles.metricIconWrap}>
+                    <CalendarDays size={16} />
+                  </span>
+                </div>
+                <strong className={styles.metricValue}>
+                  {kpis.data.averageOccupancyRate}%
+                </strong>
+                <span className={styles.metricMeta}>Trung bình các đoàn</span>
+              </article>
+
+              <article className={styles.metricCard}>
+                <div className={styles.metricHeader}>
+                  <span className={styles.metricLabel}>Thiết bị đang thuê / Sẵn sàng</span>
+                  <span className={styles.metricIconWrap}>
+                    <Package size={16} />
+                  </span>
+                </div>
+                <strong className={styles.metricValue}>
+                  {kpis.data.activeRentedAssetsCount}
+                  <em className={styles.metricSub}> / {kpis.data.totalAvailableAssetsCount}</em>
+                </strong>
+                <span className={styles.metricMeta}>Tình trạng kho vật lý</span>
               </article>
             </div>
           )}
         </section>
       )}
 
-      {isAdmin && <RevenueChart />}
-
-      <div className={styles.workspace}>
-        <section aria-labelledby="operations-title">
-          <div className={styles.sectionHeading}>
-            <h2 id="operations-title">Theo dõi vận hành</h2>
-            <Link to={ROUTES.ADMIN_ORDERS}>
-              Đơn hàng <ArrowUpRight size={13} />
-            </Link>
-          </div>
-          {counters.isPending ? (
-            <Spinner />
-          ) : counters.isError ? (
-            <ErrorState message={counters.error.message} onRetry={counters.refetch} />
-          ) : (
-            <div className={styles.groups}>
-              {groups.map(({ title, icon: Icon, items }) => (
-                <article key={title} className={styles.group}>
-                  <h3>
-                    <span className={styles.groupIcon}>
-                      <Icon size={16} />
-                    </span>
-                    {title}
-                  </h3>
-                  {items
-                    .filter(([, , , , adminOnly]) => !adminOnly || isAdmin)
-                    .map(([key, label, to, needsAction]) => (
-                      <Link className={styles.counterRow} key={key} to={to}>
-                        <span>{label}</span>
-                        <strong
-                          className={needsAction && counters.data[key] > 0 ? styles.attention : styles.count}
-                        >
-                          {counters.data[key] ?? 0}
-                        </strong>
-                        <ArrowUpRight size={13} className={styles.rowArrow} />
-                      </Link>
-                    ))}
-                </article>
-              ))}
-            </div>
-          )}
-        </section>
-
-        <section className={styles.alertSection} aria-labelledby="alerts-title">
-          <div className={styles.sectionHeading}>
-            <h2 id="alerts-title">Cần xử lý</h2>
-            {alerts.data && <span className={styles.alertCount}>{alerts.data.length}</span>}
-          </div>
-          <div className={styles.alertCard}>
-            {alerts.isPending ? (
-              <Spinner />
-            ) : alerts.isError ? (
-              <ErrorState message={alerts.error.message} onRetry={alerts.refetch} />
-            ) : !alerts.data.length ? (
-              <div className={styles.empty}>
-                <CircleCheck size={28} />
-                <strong>Đã xử lý xong</strong>
-                <p>Chưa có cảnh báo mới.</p>
-              </div>
-            ) : (
-              alerts.data.map((alert, index) => (
-                <article key={`${alert.entityId}-${index}`} className={styles.alert}>
-                  <div className={styles.alertMeta}>
-                    <AlertCircle size={14} />
-                    <StatusBadge value={alert.severity} />
-                  </div>
-                  <h3>{alert.title}</h3>
-                  <p>{alert.message}</p>
-                  <Link to={alert.actionUrl}>
-                    Xem chi tiết <ArrowUpRight size={13} />
-                  </Link>
-                </article>
-              ))
+      {/* 3. Priority Action Center ("Cần xử lý ưu tiên" - Operations First) */}
+      <section className={styles.section} aria-labelledby="priority-alerts-title">
+        <div className={styles.sectionHeading}>
+          <div className={styles.headingTitleWithBadge}>
+            <ShieldAlert size={18} className={styles.alertHeadingIcon} />
+            <h2 id="priority-alerts-title" className={styles.sectionTitle}>
+              Cần xử lý ưu tiên
+            </h2>
+            {pendingAlerts.length > 0 && (
+              <span className={styles.alertCounterBadge}>{pendingAlerts.length}</span>
             )}
           </div>
+          {pendingAlerts.length > 0 && (
+            <span className={styles.sectionHint}>
+              Các sự vụ nghẽn cần admin/staff can thiệp xử lý ngay
+            </span>
+          )}
+        </div>
+
+        {alerts.isPending ? (
+          <Spinner />
+        ) : alerts.isError ? (
+          <ErrorState message={alerts.error.message} onRetry={alerts.refetch} />
+        ) : pendingAlerts.length === 0 ? (
+          <div className={styles.positiveEmptyCard}>
+            <div className={styles.positiveEmptyIcon}>
+              <CircleCheck size={26} />
+            </div>
+            <div className={styles.positiveEmptyText}>
+              <strong>Hệ thống hoạt động ổn định</strong>
+              <p>Hiện không có cảnh báo hoặc công việc tồn đọng cần can thiệp khẩn cấp.</p>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.alertsGrid}>
+            {pendingAlerts.map((alert, index) => (
+              <article key={`${alert.entityId}-${index}`} className={styles.alertCard}>
+                <div className={styles.alertHeaderRow}>
+                  <div className={styles.alertSeverityGroup}>
+                    <AlertCircle size={15} />
+                    <StatusBadge value={alert.severity} />
+                  </div>
+                  {alert.actionUrl && (
+                    <Link to={alert.actionUrl} className={styles.alertActionLink}>
+                      Xử lý ngay <ArrowUpRight size={13} />
+                    </Link>
+                  )}
+                </div>
+                <h3 className={styles.alertTitle}>{alert.title}</h3>
+                <p className={styles.alertMessage}>{alert.message}</p>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* 4. Operations Overview (Grid 3 Cột Ngang trên Desktop) */}
+      <section className={styles.section} aria-labelledby="operations-overview-title">
+        <div className={styles.sectionHeading}>
+          <h2 id="operations-overview-title" className={styles.sectionTitle}>
+            Theo dõi vận hành
+          </h2>
+          <span className={styles.sectionHint}>
+            Trạng thái phân nhóm, tồn kho thiết bị và dòng tiền
+          </span>
+        </div>
+
+        {counters.isPending ? (
+          <Spinner />
+        ) : counters.isError ? (
+          <ErrorState message={counters.error.message} onRetry={counters.refetch} />
+        ) : (
+          <div className={styles.operationsGrid}>
+            {groups.map(({ title, icon: Icon, items }) => (
+              <article key={title} className={styles.operationGroupCard}>
+                <div className={styles.groupCardHeader}>
+                  <div className={styles.groupCardHeaderTitle}>
+                    <span className={styles.groupIconWrapper}>
+                      <Icon size={16} />
+                    </span>
+                    <h3>{title}</h3>
+                  </div>
+                </div>
+
+                <div className={styles.counterRowsList}>
+                  {items
+                    .filter(([, , , , adminOnly]) => !adminOnly || isAdmin)
+                    .map(([key, label, to, needsAction]) => {
+                      const countValue = counters.data?.[key] ?? 0;
+                      const hasAttention = needsAction && countValue > 0;
+                      return (
+                        <Link className={styles.counterItemLink} key={key} to={to}>
+                          <span className={styles.counterLabel}>{label}</span>
+                          <span
+                            className={
+                              hasAttention ? styles.attentionBadge : styles.neutralBadge
+                            }
+                          >
+                            {countValue}
+                          </span>
+                          <ArrowUpRight size={13} className={styles.itemArrow} />
+                        </Link>
+                      );
+                    })}
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* 5. Revenue Analytics Card (Full-width, chiều cao tối ưu 320px) */}
+      {isAdmin && (
+        <section className={styles.section} aria-labelledby="revenue-analytics-section">
+          <RevenueChart />
         </section>
-      </div>
+      )}
     </div>
   );
 }

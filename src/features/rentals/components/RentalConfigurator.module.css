@@ -1,0 +1,390 @@
+/* ===== Rental Configurator Wireframe Layout (Compact 2-size down) ===== */
+.rentalCard {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #dde4dd);
+  border-radius: var(--radius-md, 12px);
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 1. Header: GIÁ THUÊ TỪ */
+.priceHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.priceEyebrow {
+  color: var(--color-text-muted, #66706a);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.priceAmount {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-primary-heading, #173d2d);
+  letter-spacing: -0.01em;
+}
+
+.priceUnit {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-muted, #66706a);
+}
+
+/* 2. Variant Selector Pills */
+.variantSelectorGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid #edf1ed;
+}
+
+.variantSelectorLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary, #4b5563);
+}
+
+.variantPillList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.variantPill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border, #c9d5c7);
+  background: #ffffff;
+  color: var(--color-text, #1d2420);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.variantPill:hover {
+  border-color: var(--color-primary, #204b39);
+  background: #f4f8f4;
+}
+
+.variantPillActive {
+  background: var(--color-primary, #204b39);
+  color: #ffffff;
+  border-color: var(--color-primary, #204b39);
+  font-weight: 600;
+}
+
+/* 3. Tier Accordion */
+.tierAccordion {
+  border: 1px solid #e5ebe1;
+  border-radius: var(--radius-sm, 6px);
+  background: #fbfdfa;
+  overflow: hidden;
+}
+
+.tierAccordionSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary, #204b39);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+
+.tierAccordionSummary::-webkit-details-marker {
+  display: none;
+}
+
+.tierAccordionChevron {
+  transition: transform 0.2s ease;
+}
+
+.tierAccordion[open] .tierAccordionChevron {
+  transform: rotate(180deg);
+}
+
+.tierAccordionContent {
+  padding: 6px 12px 10px;
+  border-top: 1px solid #edf1ed;
+  font-size: 12px;
+}
+
+.tierTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tierTable th,
+.tierTable td {
+  padding: 5px 0;
+  text-align: left;
+}
+
+.tierTable th:last-child,
+.tierTable td:last-child {
+  text-align: right;
+  font-weight: 600;
+}
+
+/* 4. Section Block: Chọn lịch thuê */
+.sectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #edf1ed;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary-heading, #173d2d);
+}
+
+.billableBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: #eaf4ec;
+  color: var(--color-primary, #204b39);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+/* 5. Stepper Row: Số lượng */
+.stepperRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-top: 1px solid #edf1ed;
+}
+
+.stepperLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary-heading, #173d2d);
+}
+
+.stepperBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepperBtn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #c9d5c7;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #173d2d;
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.stepperBtn:hover:not(:disabled) {
+  background: #eaf4ec;
+  border-color: #204b39;
+}
+
+.stepperBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.stepperOutput {
+  min-width: 18px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary-heading, #173d2d);
+}
+
+/* 6. Subtotal Row: Tạm tính */
+.subtotalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-top: 1px solid #edf1ed;
+}
+
+.subtotalLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary-heading, #173d2d);
+}
+
+.subtotalValue {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary-heading, #173d2d);
+}
+
+/* 7. Action Buttons */
+.buttonStack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.primaryBtn {
+  width: 100%;
+  height: 38px;
+  background: var(--color-primary, #204b39);
+  color: #ffffff;
+  border: 1px solid var(--color-primary, #204b39);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.primaryBtn:hover:not(:disabled) {
+  background: var(--color-primary-dark, #154d33);
+}
+
+.primaryBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.secondaryBtn {
+  width: 100%;
+  height: 38px;
+  background: #ffffff;
+  color: var(--color-primary, #204b39);
+  border: 1px solid var(--color-primary, #204b39);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.secondaryBtn:hover:not(:disabled) {
+  background: #f0f4f0;
+}
+
+.secondaryBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* 8. Status Box */
+.statusBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  text-align: center;
+}
+
+.statusChecking {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-muted, #66706a);
+  font-size: 12px;
+}
+
+.statusAvailable {
+  margin: 0;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.statusUnavailable {
+  margin: 0;
+  color: var(--color-text-muted, #66706a);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.statusError {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cartNote {
+  margin: 0;
+  color: var(--color-text-secondary, #4b5563);
+  font-size: 11px;
+}
+
+.cartLinkRow {
+  margin-top: 1px;
+}
+
+.cartLink {
+  color: var(--color-primary, #204b39);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.cartLink:hover {
+  color: var(--color-primary-dark, #154d33);
+}
+
+/* 9. Trust Note */
+.trustNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid #edf1ed;
+  color: var(--color-text-muted, #66706a);
+  font-size: 11px;
+  text-align: center;
+}

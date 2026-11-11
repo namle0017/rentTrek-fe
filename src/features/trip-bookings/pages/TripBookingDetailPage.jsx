@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
@@ -60,20 +61,24 @@ function BookingTimeline({ status }) {
   if (current === undefined) return null; // Đơn hủy / hết hạn đã có thông báo riêng
 
   return (
-    <ol className={styles.timeline} aria-label="Tiến trình đơn">
-      {TIMELINE.map((label, index) => (
-        <li
-          key={label}
-          className={
-            index < current ? styles.timelineDone : index === current ? styles.timelineActive : undefined
-          }
-          aria-current={index === current ? 'step' : undefined}
-        >
-          <span>{index < current ? '✓' : index + 1}</span>
-          {label}
-        </li>
-      ))}
-    </ol>
+    <section className={styles.timelineSection} aria-label="Tiến trình đặt chỗ">
+      <ol className={styles.timeline} aria-label="Tiến trình đơn">
+        {TIMELINE.map((label, index) => (
+          <li
+            key={label}
+            className={
+              index < current ? styles.timelineDone : index === current ? styles.timelineActive : undefined
+            }
+            aria-current={index === current ? 'step' : undefined}
+          >
+            <span className={styles.stepIndicator}>
+              {index < current ? '✓' : index + 1}
+            </span>
+            {label}
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 
@@ -94,13 +99,13 @@ function BookingGroupingPanel({ groupingQuery }) {
   }
 
   return (
-    <section className={styles.groupingPanel}>
+    <section className={styles.groupingPanel} aria-label="Thông tin nhóm và hướng dẫn viên">
       <div className={styles.groupingHeader}>
         <div>
           <span className={styles.kicker}>ĐÃ CHỐT</span>
           <h2>Nhóm vận hành</h2>
         </div>
-        <span>{grouping.groups.length} nhóm</span>
+        <span className={styles.countBadge}>{grouping.groups.length} nhóm</span>
       </div>
       <div className={styles.groupingGrid}>
         {grouping.groups.map((group) => (
@@ -110,10 +115,10 @@ function BookingGroupingPanel({ groupingQuery }) {
                 <small>TRIPGROUP</small>
                 <h3>{group.groupName}</h3>
               </div>
-              <span>{group.participants.length} người</span>
+              <span className={styles.groupBadge}>{group.participants.length} người</span>
             </div>
-            <p>Guide: {group.guide?.fullName || 'Đang cập nhật'}</p>
-            <ul>
+            <p className={styles.guideText}>Guide: {group.guide?.fullName || 'Đang cập nhật'}</p>
+            <ul className={styles.groupParticipantList}>
               {group.participants.map((participant) => (
                 <li key={participant.participantId}>{participant.fullName}</li>
               ))}
@@ -130,7 +135,7 @@ function BookingGroupingPanel({ groupingQuery }) {
 
 function Notice({ title, children, tone = 'warning' }) {
   return (
-    <section className={tone === 'danger' ? styles.dangerNotice : styles.paymentNotice}>
+    <section className={tone === 'danger' ? styles.dangerNotice : styles.paymentNotice} role="alert">
       <OutdoorIcon name="shield" size={22} />
       <div>
         <strong>{title}</strong>
@@ -178,17 +183,26 @@ export default function TripBookingDetailPage() {
 
   return (
     <main className={styles.page}>
-      <Link className={styles.backLink} to={ROUTES.MY_ORDERS}>
-        <OutdoorIcon name="arrow" size={15} style={{ transform: 'rotate(180deg)' }} />
-        <span>Đơn của tôi</span>
-      </Link>
+      {/* 1. Breadcrumb Full-width */}
+      <Breadcrumb
+        items={[
+          { label: 'Trang chủ', to: ROUTES.HOME },
+          { label: 'Đơn của tôi', to: ROUTES.MY_ORDERS },
+          orderMatch?.items?.[0]?.title ? { label: orderMatch.items[0].title } : null,
+          { label: `Đơn ${booking.orderCode}` },
+        ]}
+      />
 
+      {/* 2. Header Full-width */}
       <header className={styles.header}>
         <div className={styles.headerInfo}>
           <span className={styles.kicker}>MÃ ĐẶT CHỖ · {booking.orderCode}</span>
           <h1>{orderMatch?.items[0]?.title || 'Chi tiết chuyến đi'}</h1>
-          <p>
-            {formatDateTime(booking.tripStartAt)} — {formatDateTime(booking.tripEndAt)}
+          <p className={styles.tripDates}>
+            <OutdoorIcon name="calendar" size={16} />
+            <span>
+              {formatDateTime(booking.tripStartAt)} — {formatDateTime(booking.tripEndAt)}
+            </span>
           </p>
         </div>
         <div className={styles.badges}>
@@ -205,8 +219,10 @@ export default function TripBookingDetailPage() {
         </div>
       </header>
 
+      {/* 3. Progress Tracker Full-width */}
       <BookingTimeline status={booking.status} />
 
+      {/* 4. Thông báo trạng thái / Cảnh báo */}
       {booking.paymentStatus === PAYMENT_STATUS.NEEDS_RECONCILIATION && (
         <Notice title="Thanh toán đang chờ đối soát">
           Đã nhận tiền nhưng chưa tự xác nhận được (sai số tiền hoặc quá hạn giữ chỗ). Không chuyển lại, vui
@@ -227,80 +243,118 @@ export default function TripBookingDetailPage() {
         </Notice>
       )}
 
+      {/* 5. Khối Thanh toán khi đang chờ thanh toán (Pending Payment) */}
       {isPendingPayment && holdActive && (
-        <>
+        <section className={styles.paymentHighlightSection} aria-label="Thanh toán đặt chỗ">
           <div className={styles.countdown}>
             <HoldCountdown expiresAt={booking.holdExpiresAt} onExpire={handleHoldExpire} />
           </div>
           <TripPaymentPanel orderId={orderId} onSettled={refetch} />
-        </>
+        </section>
       )}
 
-      {isGroupingRelevant && <BookingGroupingPanel groupingQuery={groupingQuery} />}
-
+      {/* 6. Main Content: Chia hai cột 65% / 35% */}
       <div className={styles.layout}>
-        <section className={styles.participants}>
-          <div className={styles.sectionTitle}>
-            <div>
-              <span className={styles.kicker}>ĐOÀN CỦA BẠN</span>
-              <h2>{booking.canManage ? 'Danh sách người tham gia' : 'Thông tin tham gia của bạn'}</h2>
+        {/* CỘT TRÁI (65%): Danh sách thành viên, đoàn & Hướng dẫn viên */}
+        <div className={styles.mainColumn}>
+          <section className={styles.participants} aria-label="Danh sách thành viên đoàn">
+            <div className={styles.sectionTitle}>
+              <div>
+                <span className={styles.kicker}>ĐOÀN CỦA BẠN</span>
+                <h2>{booking.canManage ? 'Danh sách người tham gia' : 'Thông tin tham gia của bạn'}</h2>
+              </div>
+              <span className={styles.countBadge}>{booking.participantCount} người</span>
             </div>
-            <span>{booking.participantCount} người</span>
-          </div>
-          <div className={styles.participantList}>
-            {booking.participants.map((participant, index) => (
-              <ParticipantRow
-                key={participant.participantId}
-                orderId={orderId}
-                participant={participant}
-                index={index}
-                canEdit={canEdit}
-              />
-            ))}
-          </div>
-          {booking.canManage && booking.paymentStatus === PAYMENT_STATUS.PAID && (
-            <p className={styles.lockedParticipants}>
-              Đã thanh toán — không thể thêm hoặc xóa người. Người bổ sung cần tạo booking riêng.
-            </p>
-          )}
-        </section>
-
-        <aside className={styles.summary}>
-          <span className={styles.kicker}>TÓM TẮT</span>
-          <h2>{booking.orderCode}</h2>
-          <dl>
-            <div>
-              <dt>Trạng thái chuyến</dt>
-              <dd>{TRIP_STATUS_LABEL[booking.tripStatus] || booking.tripStatus}</dd>
+            <div className={styles.participantList}>
+              {booking.participants.map((participant, index) => (
+                <ParticipantRow
+                  key={participant.participantId}
+                  orderId={orderId}
+                  participant={participant}
+                  index={index}
+                  canEdit={canEdit}
+                />
+              ))}
             </div>
-            <div>
-              <dt>Số người</dt>
-              <dd>{booking.participantCount}</dd>
-            </div>
-            {booking.canManage && (
-              <>
-                <div>
-                  <dt>Đơn giá</dt>
-                  <dd>{formatCurrency(booking.unitPrice)}</dd>
-                </div>
-                <div>
-                  <dt>Tạm tính</dt>
-                  <dd>{formatCurrency(booking.subtotalAmount)}</dd>
-                </div>
-                <div className={styles.total}>
-                  <dt>Tổng tiền</dt>
-                  <dd>{formatCurrency(booking.totalAmount)}</dd>
-                </div>
-              </>
+            {booking.canManage && booking.paymentStatus === PAYMENT_STATUS.PAID && (
+              <p className={styles.lockedParticipants}>
+                Đã thanh toán — không thể thêm hoặc xóa người. Người bổ sung cần tạo booking riêng.
+              </p>
             )}
-          </dl>
+          </section>
 
-          {canShareTripLink(booking) && (
-            <div className={styles.invitationAction}>
-              <InviteLinkBox orderId={orderId} />
+          {isGroupingRelevant && (
+            <div className={styles.groupingSection}>
+              <BookingGroupingPanel groupingQuery={groupingQuery} />
             </div>
           )}
-          {canCancelBooking(booking) && <CancelBookingPanel orderId={orderId} />}
+        </div>
+
+        {/* CỘT PHẢI (35%): Tóm tắt thanh toán, Chia sẻ chuyến đi, Hủy booking */}
+        <aside className={styles.sideColumn}>
+          {/* Card 1: Tổng kết thanh toán */}
+          <section className={styles.summaryCard} aria-label="Tóm tắt đơn đặt chỗ">
+            <div className={styles.summaryHeader}>
+              <span className={styles.kicker}>TÓM TẮT ĐẶT CHỖ</span>
+              <h2>{booking.orderCode}</h2>
+            </div>
+            <dl className={styles.summaryList}>
+              <div>
+                <dt>Trạng thái chuyến</dt>
+                <dd>{TRIP_STATUS_LABEL[booking.tripStatus] || booking.tripStatus}</dd>
+              </div>
+              <div>
+                <dt>Số người</dt>
+                <dd>{booking.participantCount} người</dd>
+              </div>
+              {booking.canManage && (
+                <>
+                  <div>
+                    <dt>Đơn giá</dt>
+                    <dd>{formatCurrency(booking.unitPrice)}</dd>
+                  </div>
+                  <div>
+                    <dt>Tạm tính</dt>
+                    <dd>{formatCurrency(booking.subtotalAmount)}</dd>
+                  </div>
+                  <div className={styles.totalRow}>
+                    <dt>Tổng tiền</dt>
+                    <dd>{formatCurrency(booking.totalAmount)}</dd>
+                  </div>
+                </>
+              )}
+            </dl>
+
+            <div className={styles.paymentStatusBadgeRow}>
+              <span>Trạng thái:</span>
+              <strong className={booking.paymentStatus === PAYMENT_STATUS.PAID ? styles.paidText : styles.unpaidText}>
+                {ORDER_PAYMENT_STATUS_LABEL[booking.paymentStatus] || booking.paymentStatus}
+              </strong>
+            </div>
+          </section>
+
+          {/* Card 2: Chia sẻ chuyến đi (Tách biệt) */}
+          {canShareTripLink(booking) && (
+            <section className={styles.shareCard} aria-label="Chia sẻ chuyến đi cho nhóm">
+              <div className={styles.shareCardHeader}>
+                <span className={styles.kicker}>CHIA SẺ CHUYẾN ĐI</span>
+              </div>
+              <div className={styles.invitationAction}>
+                <InviteLinkBox orderId={orderId} />
+              </div>
+            </section>
+          )}
+
+          {/* Card 3: Thao tác hủy booking (Tách biệt khỏi card thanh toán và chia sẻ) */}
+          {canCancelBooking(booking) && (
+            <section className={styles.cancelCard} aria-label="Hủy đặt chỗ">
+              <div className={styles.cancelCardHeader}>
+                <span className={styles.cancelKicker}>THAY ĐỔI KẾ HOẠCH?</span>
+                <p>Nếu bạn không thể tham gia, vui lòng xem chính sách hoàn hủy trước khi thực hiện.</p>
+              </div>
+              <CancelBookingPanel orderId={orderId} />
+            </section>
+          )}
         </aside>
       </div>
     </main>

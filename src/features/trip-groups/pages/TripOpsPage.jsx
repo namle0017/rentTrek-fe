@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import Breadcrumb from '@/components/Breadcrumb';
 import DevClockJumps from '@/components/DevClockJumps';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
@@ -47,7 +48,12 @@ export default function TripOpsPage() {
   return (
     <section className={styles.page} aria-labelledby="trip-ops-title">
       <header>
-        <p className={styles.eyebrow}>Vận hành chuyến</p>
+        <Breadcrumb
+          items={[
+            { label: 'Quản lý Chuyến đi', to: ROUTES.ADMIN_TRIPS },
+            { label: trip.tourName ? `Vận hành: ${trip.tourName}` : 'Vận hành chuyến' },
+          ]}
+        />
         <h1 id="trip-ops-title" className={styles.title}>
           {trip.tourName}
         </h1>

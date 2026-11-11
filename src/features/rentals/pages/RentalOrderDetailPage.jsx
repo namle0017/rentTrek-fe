@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
@@ -50,6 +51,13 @@ export default function RentalOrderDetailPage() {
   const amounts = order.amounts;
   return (
     <div className={styles.page}>
+      <Breadcrumb
+        items={[
+          { label: 'Trang chủ', to: ROUTES.HOME },
+          { label: 'Đơn của tôi', to: ROUTES.MY_ORDERS },
+          { label: `Đơn thuê ${order.orderCode}` },
+        ]}
+      />
       <header className={styles.header}>
         <div>
           <span className={styles.eyebrow}>ĐƠN THUÊ · {order.orderCode}</span>

@@ -1,0 +1,101 @@
+/* ===== Shared Breadcrumb Component (RenTrekk Design System) ===== */
+.breadcrumbNav {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.breadcrumbList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-size: var(--font-size-label, 14px);
+  color: var(--color-text-muted, #66706a);
+  line-height: 1.4;
+}
+
+.breadcrumbItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.separator {
+  color: var(--color-text-muted, #8c968f);
+  user-select: none;
+  font-weight: 400;
+}
+
+.link {
+  color: var(--color-text-muted, #66706a);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: var(--color-primary, #204b39);
+  text-decoration: underline;
+}
+
+.label {
+  color: var(--color-text-muted, #66706a);
+  white-space: nowrap;
+}
+
+.current {
+  color: var(--color-text, #1d2420);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.currentLabel {
+  color: var(--color-text, #1d2420);
+  font-weight: var(--font-weight-medium, 500);
+  max-width: 380px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.skeleton {
+  display: inline-block;
+  width: 90px;
+  height: 14px;
+  background: #e2e8e2;
+  border-radius: 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (max-width: 640px) {
+  .breadcrumbList {
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  .breadcrumbItem {
+    gap: 4px;
+  }
+
+  .currentLabel {
+    max-width: 180px;
+  }
+}
+

@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { POST_TYPE_LABEL } from '@/constants/enums';
@@ -33,11 +34,14 @@ export default function PostDetailPage() {
   return (
     <div className={`container ${styles.page}`}>
       <article className={styles.article}>
-        <nav className={styles.breadcrumb} aria-label="Đường dẫn">
-          <Link to={ROUTES.GUIDES}>Cẩm nang</Link>
-          <span aria-hidden="true"> / </span>
-          <Link to={`${ROUTES.GUIDES}?postType=${post.postType}`}>{typeLabel}</Link>
-        </nav>
+        <Breadcrumb
+          items={[
+            { label: 'Trang chủ', to: ROUTES.HOME },
+            { label: 'Cẩm nang', to: ROUTES.GUIDES },
+            typeLabel ? { label: typeLabel, to: `${ROUTES.GUIDES}?postType=${post.postType}` } : null,
+            { label: post.title },
+          ]}
+        />
 
         <header>
           <h1 className={styles.title}>{post.title}</h1>

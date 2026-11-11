@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
@@ -21,9 +22,13 @@ export default function AdminPostEditorPage() {
     <section className={styles.page} aria-labelledby="post-editor-title">
       <header className={styles.header}>
         <div>
-          <p className={styles.eyebrow}>
-            <Link to={ROUTES.ADMIN_POSTS}>Bài viết</Link> / {postId ? 'Sửa bài' : 'Soạn bài'}
-          </p>
+          <Breadcrumb
+            items={[
+              { label: 'Quản lý Bài viết', to: ROUTES.ADMIN_POSTS },
+              { label: postId ? (post?.title ?? 'Sửa bài') : 'Viết bài mới' },
+            ]}
+            isLoading={Boolean(postId && isLoading)}
+          />
           <h1 id="post-editor-title">{postId ? (post?.title ?? 'Sửa bài') : 'Viết bài mới'}</h1>
         </div>
       </header>

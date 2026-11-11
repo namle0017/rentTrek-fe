@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from '@/components/BrandLogo';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
@@ -47,6 +47,7 @@ export default function MainLayout() {
 
   return (
     <div className={styles.layout}>
+      <ScrollRestoration getKey={(location) => location.pathname} />
       <a href="#main-content" className={styles.skipLink}>
         Đến nội dung chính
       </a>

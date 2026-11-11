@@ -109,6 +109,9 @@ export default function AdminToursPage() {
 
   return (
     <section className={styles.page} aria-labelledby="admin-tours-title">
+      <div className={styles.header}>
+        <h1 id="admin-tours-title">Tour</h1>
+      </div>
 
       <form className={styles.filters} onSubmit={handleSubmit}>
         <label className={styles.field}>

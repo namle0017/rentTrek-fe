@@ -24,7 +24,16 @@ export default function RentalCartPage() {
   const quote = quoteQuery.data;
 
   if (!isAuthenticated) {
-    return <Navigate to={ROUTES.LOGIN} replace state={{ from: location }} />;
+    return (
+      <Navigate
+        to={ROUTES.LOGIN}
+        replace
+        state={{
+          from: location,
+          authMessage: 'Bạn cần đăng nhập để truy cập vào giỏ thuê thiết bị.',
+        }}
+      />
+    );
   }
 
   if (!cart.items.length)

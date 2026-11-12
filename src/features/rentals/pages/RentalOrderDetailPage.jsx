@@ -10,6 +10,7 @@ import { useRentalOrder } from '../hooks/useRentals';
 import { rentalDateLabel } from '../utils/rentalCheckout';
 import RentalPaymentPanel from '../components/RentalPaymentPanel';
 import CancelUnpaidRentalPanel from '../components/CancelUnpaidRentalPanel';
+import ExtendRentalPanel from '../components/ExtendRentalPanel';
 import styles from './RentalCustomer.module.css';
 
 const EVENTS = {
@@ -216,6 +217,12 @@ export default function RentalOrderDetailPage() {
           {order.allowedActions?.canCancel && (
             <CancelUnpaidRentalPanel orderId={orderId} onCancelled={query.refetch} />
           )}
+          <ExtendRentalPanel
+            key={order.rentalEndAt}
+            orderId={orderId}
+            rentalEndAt={order.rentalEndAt}
+            status={order.status}
+          />
           <Link to={ROUTES.PRODUCTS} className={styles.secondary}>
             Tiếp tục chọn thiết bị
           </Link>

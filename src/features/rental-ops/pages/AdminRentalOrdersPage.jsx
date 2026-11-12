@@ -8,6 +8,7 @@ import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '@/constants/config';
 import { ORDER_PAYMENT_STATUS_LABEL, ORDER_STATUS_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { formatDateTime } from '@/utils/formatDate';
+import RentalSchedulePanel from '../components/RentalSchedulePanel';
 import { useAdminRentalOrders } from '../hooks/useRentalOps';
 import styles from './RentalOps.module.css';
 
@@ -101,6 +102,7 @@ export default function AdminRentalOrdersPage() {
 
   return (
     <section className={styles.page} aria-labelledby="rental-orders-title">
+      <RentalSchedulePanel />
 
       <form className={styles.filters} onSubmit={handleSubmit}>
         <label className={styles.field}>

@@ -5,6 +5,7 @@ import OutdoorIcon from '@/components/OutdoorIcon';
 import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
+import { useUnreadNotificationCount } from '@/features/notifications/hooks/useNotifications';
 import { useRentalCart } from '@/features/rentals/hooks/useRentalCart';
 import { useAuth } from '@/hooks/useAuth';
 import { getAvatarColor } from '@/utils/avatarColor';
@@ -17,6 +18,7 @@ export default function MainLayout() {
   const { currentUser, isAuthenticated } = useAuth();
   const rentalCart = useRentalCart();
   const cartQuantity = rentalCart.items.reduce((sum, item) => sum + item.quantity, 0);
+  const { data: unreadCount = 0 } = useUnreadNotificationCount(isAuthenticated);
   const logoutMutation = useLogout();
   const location = useLocation();
   const navigate = useNavigate();
@@ -77,64 +79,76 @@ export default function MainLayout() {
                   <OutdoorIcon name="bag" size={20} />
                   <span>Giỏ thuê ({cartQuantity})</span>
                 </Link>
+                <Link
+                  to={ROUTES.NOTIFICATIONS}
+                  className={styles.cartLink}
+                  aria-label={`Thông báo, ${unreadCount} chưa đọc`}
+                >
+                  <OutdoorIcon name="bell" size={20} />
+                  {unreadCount > 0 && <span>{unreadCount > 99 ? '99+' : unreadCount}</span>}
+                </Link>
                 <details className={styles.account}>
-                <summary aria-label="Tài khoản">
-                  <span
-                    className={styles.avatar}
-                    style={
-                      currentUser?.avatarUrl
-                        ? { padding: 0, overflow: 'hidden' }
-                        : { backgroundColor: avatarColor.bg, color: avatarColor.text }
-                    }
-                  >
-                    {currentUser?.avatarUrl ? (
-                      <img
-                        src={currentUser.avatarUrl}
-                        alt={currentUser?.fullName || 'Avatar'}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    ) : (
-                      (currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()
-                    )}
-                  </span>
-                  <OutdoorIcon name="chevron" size={14} />
-                </summary>
-                <div className={styles.accountMenu}>
-                  <div className={styles.accountHeader}>
-                    <Link to={ROUTES.PROFILE} className={styles.accountName} title="Xem hồ sơ cá nhân">
-                      {currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}
+                  <summary aria-label="Tài khoản">
+                    <span
+                      className={styles.avatar}
+                      style={
+                        currentUser?.avatarUrl
+                          ? { padding: 0, overflow: 'hidden' }
+                          : { backgroundColor: avatarColor.bg, color: avatarColor.text }
+                      }
+                    >
+                      {currentUser?.avatarUrl ? (
+                        <img
+                          src={currentUser.avatarUrl}
+                          alt={currentUser?.fullName || 'Avatar'}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        (currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()
+                      )}
+                    </span>
+                    <OutdoorIcon name="chevron" size={14} />
+                  </summary>
+                  <div className={styles.accountMenu}>
+                    <div className={styles.accountHeader}>
+                      <Link to={ROUTES.PROFILE} className={styles.accountName} title="Xem hồ sơ cá nhân">
+                        {currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}
+                      </Link>
+                      {currentUser?.email && currentUser?.fullName && (
+                        <span className={styles.accountEmail}>{currentUser.email}</span>
+                      )}
+                      {currentUser?.role && currentUser.role !== USER_ROLE.CUSTOMER && (
+                        <span className={getRoleBadgeClass(currentUser.role)}>
+                          {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
+                        </span>
+                      )}
+                    </div>
+                    <div className={styles.accountDivider} />
+                    <Link to={ROUTES.PROFILE} className={styles.accountLink}>
+                      <OutdoorIcon name="user" size={16} />
+                      <span>Hồ sơ cá nhân</span>
                     </Link>
-                    {currentUser?.email && currentUser?.fullName && (
-                      <span className={styles.accountEmail}>{currentUser.email}</span>
-                    )}
-                    {currentUser?.role && currentUser.role !== USER_ROLE.CUSTOMER && (
-                      <span className={getRoleBadgeClass(currentUser.role)}>
-                        {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
-                      </span>
-                    )}
+                    <Link to={ROUTES.MY_ORDERS} className={styles.accountLink}>
+                      <OutdoorIcon name="bag" size={16} />
+                      <span>Đơn của tôi</span>
+                    </Link>
+                    <Link to={ROUTES.MY_TRIPS} className={styles.accountLink}>
+                      <OutdoorIcon name="compass" size={16} />
+                      <span>Chuyến của tôi</span>
+                    </Link>
+                    <div className={styles.accountDivider} />
+                    <button
+                      type="button"
+                      className={styles.logoutBtn}
+                      onClick={handleLogoutClick}
+                      disabled={logoutMutation.isPending}
+                    >
+                      {logoutMutation.isPending ? 'Đang thoát...' : 'Đăng xuất'}
+                    </button>
                   </div>
-                  <div className={styles.accountDivider} />
-                  <Link to={ROUTES.PROFILE} className={styles.accountLink}>
-                    <OutdoorIcon name="user" size={16} />
-                    <span>Hồ sơ cá nhân</span>
-                  </Link>
-                  <Link to={ROUTES.MY_ORDERS} className={styles.accountLink}>
-                    <OutdoorIcon name="bag" size={16} />
-                    <span>Đơn của tôi</span>
-                  </Link>
-                  <div className={styles.accountDivider} />
-                  <button
-                    type="button"
-                    className={styles.logoutBtn}
-                    onClick={handleLogoutClick}
-                    disabled={logoutMutation.isPending}
-                  >
-                    {logoutMutation.isPending ? 'Đang thoát...' : 'Đăng xuất'}
-                  </button>
-                </div>
-              </details>
-            </>
-          ) : (
+                </details>
+              </>
+            ) : (
               <>
                 <Link to={ROUTES.LOGIN} className={styles.authLink}>
                   Đăng nhập

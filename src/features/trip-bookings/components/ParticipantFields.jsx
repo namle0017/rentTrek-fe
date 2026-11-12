@@ -72,29 +72,6 @@ export default function ParticipantFields({ index, register, errors = {}, onRemo
         <Field id={`participant-${index}-phone`} label={`Số điện thoại người ${number}`} error={errors.phone}>
           {input('phone', 'tel', 'tel', { maxLength: MAX_LENGTH })}
         </Field>
-        <Field
-          id={`participant-${index}-dateOfBirth`}
-          label={`Ngày sinh người ${number}`}
-          error={errors.dateOfBirth}
-        >
-          {input('dateOfBirth', 'date', 'bday')}
-        </Field>
-        <Field
-          id={`participant-${index}-emergencyContactName`}
-          label="Người liên hệ khẩn cấp"
-          error={errors.emergencyContactName}
-        >
-          {input('emergencyContactName', 'text', 'off', {
-            maxLength: { value: 200, message: 'Tối đa 200 ký tự.' },
-          })}
-        </Field>
-        <Field
-          id={`participant-${index}-emergencyContactPhone`}
-          label="SĐT khẩn cấp"
-          error={errors.emergencyContactPhone}
-        >
-          {input('emergencyContactPhone', 'tel', 'off', { maxLength: MAX_LENGTH })}
-        </Field>
       </div>
       <p className={styles.hint}>
         Email và số điện thoại không bắt buộc. Có email, chuyến sẽ tự xuất hiện trong tài khoản của người tham

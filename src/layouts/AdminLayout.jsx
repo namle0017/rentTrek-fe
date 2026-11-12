@@ -32,6 +32,8 @@ function getPageTitle(pathname) {
   if (pathname.startsWith(`${ROUTES.ADMIN}/tours/`)) return 'Chi tiết Tour';
   if (pathname === ROUTES.ADMIN_PRODUCTS) return 'Quản lý Sản phẩm';
   if (pathname.startsWith(`${ROUTES.ADMIN}/products/`)) return 'Chi tiết Sản phẩm';
+  if (pathname === ROUTES.ADMIN_BUNDLES) return 'Quản lý Combo';
+  if (pathname.startsWith(`${ROUTES.ADMIN_BUNDLES}/`)) return 'Chi tiết Combo';
   if (pathname === ROUTES.ADMIN_PRODUCT_CREATE) return 'Thêm sản phẩm';
   if (pathname === ROUTES.ADMIN_TRIP_CREATE) return 'Tạo chuyến đi mới';
   if (pathname === ROUTES.ADMIN_TRIPS) return 'Quản lý chuyến đi';
@@ -83,6 +85,7 @@ const navigationGroups = [
     expanded: true,
     items: [
       [ROUTES.ADMIN_PRODUCTS, 'Sản phẩm'],
+      [ROUTES.ADMIN_BUNDLES, 'Combo thiết bị'],
       [ROUTES.ADMIN_RENTAL_ORDERS, 'Đơn thuê thiết bị'],
       [ROUTES.ADMIN_ORDERS, 'Tất cả đơn hàng'],
     ],

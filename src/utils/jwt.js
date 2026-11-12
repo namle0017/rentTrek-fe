@@ -41,8 +41,12 @@ export function parseJwt(token) {
  * Hỗ trợ cả chuẩn JWT claim chuẩn (sub, email, role, name) lẫn Microsoft claim schemas
  */
 export function extractUserFromToken(token) {
-  const payload = parseJwt(token);
-  if (!payload) return null;
+  const raw = parseJwt(token);
+  if (!raw) return null;
+  // BE phát trùng claim (vd 2 claim email) → JWT serialize thành mảng; lấy phần tử đầu.
+  const payload = Object.fromEntries(
+    Object.entries(raw).map(([key, value]) => [key, Array.isArray(value) ? value[0] : value]),
+  );
 
   const rawRole =
     payload.role ||

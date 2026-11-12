@@ -57,7 +57,7 @@ export function useBulkCreateAssets() {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Có lỗi xảy ra khi tạo thiết bị';
+      const msg = err.message || 'Có lỗi xảy ra khi tạo thiết bị';
       toast.error(msg);
     },
   });
@@ -75,7 +75,7 @@ export function useUpdateAssetStatus() {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Không thể cập nhật trạng thái';
+      const msg = err.message || 'Không thể cập nhật trạng thái';
       toast.error(msg);
     },
   });

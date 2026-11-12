@@ -79,6 +79,14 @@ export const router = createBrowserRouter([
                 lazy: lazyPage(() => import('@/features/orders/pages/MyOrdersPage')),
               },
               {
+                path: ROUTES.MY_TRIPS,
+                lazy: lazyPage(() => import('@/features/participations/pages/MyTripsPage')),
+              },
+              {
+                path: ROUTES.NOTIFICATIONS,
+                lazy: lazyPage(() => import('@/features/notifications/pages/NotificationsPage')),
+              },
+              {
                 path: ROUTES.RENTAL_CHECKOUT,
                 lazy: lazyPage(() => import('@/features/rentals/pages/RentalCheckoutPage')),
               },
@@ -189,12 +197,28 @@ export const router = createBrowserRouter([
                 lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourDetailPage')),
               },
               {
+                path: ROUTES.ADMIN_TOUR_NEW,
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourEditorPage')),
+              },
+              {
+                path: ROUTES.ADMIN_TOUR_EDIT(),
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourEditorPage')),
+              },
+              {
                 path: ROUTES.ADMIN_PRODUCTS,
                 lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductsPage')),
               },
               {
                 path: ROUTES.ADMIN_PRODUCT_DETAIL(),
                 lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductDetailPage')),
+              },
+              {
+                path: ROUTES.ADMIN_BUNDLES,
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminBundlesPage')),
+              },
+              {
+                path: ROUTES.ADMIN_BUNDLE_DETAIL(),
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminBundleDetailPage')),
               },
               // Phân hệ Quản trị / Governance tối cao (Admin Only)
               {

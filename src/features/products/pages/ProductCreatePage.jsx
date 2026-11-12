@@ -10,7 +10,8 @@ export default function ProductCreatePage() {
 
   const handleCreate = (values, { setError }) => {
     createProduct.mutate(values, {
-      onSuccess: (res) => navigate(ROUTES.PRODUCT_DETAIL(res.data.id)),
+      // BE trả ApiResponse<Guid> → res.data chính là id
+      onSuccess: (res) => navigate(ROUTES.ADMIN_PRODUCT_DETAIL(res.data)),
       onError: (error) => applyServerErrors(error, setError),
     });
   };
@@ -21,7 +22,7 @@ export default function ProductCreatePage() {
         type="button"
         className="btn btn-outline"
         style={{ fontSize: "var(--font-size-control)", padding: '5px 12px', marginBottom: 12 }}
-        onClick={() => navigate(ROUTES.PRODUCTS)}
+        onClick={() => navigate(ROUTES.ADMIN_PRODUCTS)}
       >
         ← Quay lại danh sách sản phẩm
       </button>

@@ -54,7 +54,7 @@ describe('AdminToursPage', () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole('heading', { name: 'Tour' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Tour' })).toBeInTheDocument();
     expect(screen.getByText('Tà Xùa săn mây')).toBeInTheDocument();
     expect(screen.getByText('2N 1Đ')).toBeInTheDocument();
     expect(screen.getByText('2.450.000 ₫')).toBeInTheDocument();

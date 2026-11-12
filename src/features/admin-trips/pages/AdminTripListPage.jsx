@@ -86,137 +86,6 @@ function getTripDayRole(trip, dateStr) {
   };
 }
 
-const MOCK_ADMIN_TRIPS = [
-  {
-    tripId: 'TRIP-2026-BACHMOC',
-    tourId: 'tour-bachmoc-01',
-    tourName: 'Bạch Mộc Lương Tử - Kỳ Quan Mây Trắng (3N2Đ)',
-    tourVersion: 1,
-    source: 'RecurrenceRule',
-    startAt: '2026-11-06T06:00:00Z',
-    endAt: '2026-11-08T18:00:00Z',
-    totalSlots: 15,
-    soldSlots: 15,
-    minParticipants: 8,
-    isUnderCapacity: false,
-    pricePerPerson: 3600000,
-    managerFullName: 'Đặng Tuấn Anh',
-    status: TRIP_STATUS.COMPLETED,
-  },
-  {
-    tripId: 'TRIP-2026-LANHA',
-    tourId: 'tour-lanha-02',
-    tourName: 'Chèo Kayak & Khám Phá Vịnh Lan Hạ (2N1Đ)',
-    tourVersion: 2,
-    source: 'Manual',
-    startAt: '2026-11-13T07:00:00Z',
-    endAt: '2026-11-14T17:00:00Z',
-    totalSlots: 18,
-    soldSlots: 14,
-    minParticipants: 10,
-    isUnderCapacity: false,
-    pricePerPerson: 2450000,
-    managerFullName: 'Lê Nhật Nam',
-    status: TRIP_STATUS.CLOSED_FOR_BOOKING,
-  },
-  {
-    tripId: 'TRIP-2026-FANSIPAN',
-    tourId: 'tour-fansipan-01',
-    tourName: 'Trekking Fansipan - Nóc Nhà Đông Dương (3N2Đ)',
-    tourVersion: 1,
-    source: 'RecurrenceRule',
-    startAt: '2026-11-20T06:00:00Z',
-    endAt: '2026-11-22T18:00:00Z',
-    totalSlots: 20,
-    soldSlots: 15,
-    minParticipants: 10,
-    isUnderCapacity: false,
-    pricePerPerson: 3850000,
-    managerFullName: 'Lê Nhật Nam',
-    status: TRIP_STATUS.OPEN,
-  },
-  {
-    tripId: 'TRIP-2026-FANSIPAN-VIP',
-    tourId: 'tour-fansipan-01',
-    tourName: 'Fansipan Express - Cung Trạm Tôn (2N1Đ)',
-    tourVersion: 2,
-    source: 'Manual',
-    startAt: '2026-11-20T07:30:00Z',
-    endAt: '2026-11-21T18:30:00Z',
-    totalSlots: 10,
-    soldSlots: 8,
-    minParticipants: 5,
-    isUnderCapacity: false,
-    pricePerPerson: 4500000,
-    managerFullName: 'Vũ Đức Thịnh',
-    status: TRIP_STATUS.OPEN,
-  },
-  {
-    tripId: 'TRIP-2026-BIDUP',
-    tourId: 'tour-bidup-04',
-    tourName: 'Trekking Bidoup Núi Bà - Nóc Nhà Lâm Đồng (2N1Đ)',
-    tourVersion: 1,
-    source: 'RecurrenceRule',
-    startAt: '2026-11-25T05:30:00Z',
-    endAt: '2026-11-26T17:00:00Z',
-    totalSlots: 14,
-    soldSlots: 11,
-    minParticipants: 8,
-    isUnderCapacity: false,
-    pricePerPerson: 2900000,
-    managerFullName: 'Nguyễn Văn Minh',
-    status: TRIP_STATUS.IN_PROGRESS,
-  },
-  {
-    tripId: 'TRIP-2026-TAXUA',
-    tourId: 'tour-taxua-02',
-    tourName: 'Săn mây Tà Xùa - Sống Lưng Khủng Long (2N1Đ)',
-    tourVersion: 2,
-    source: 'Manual',
-    startAt: '2026-11-28T05:30:00Z',
-    endAt: '2026-11-29T17:00:00Z',
-    totalSlots: 16,
-    soldSlots: 12,
-    minParticipants: 8,
-    isUnderCapacity: false,
-    pricePerPerson: 2750000,
-    managerFullName: 'Trần Văn Hướng',
-    status: TRIP_STATUS.OPEN,
-  },
-  {
-    tripId: 'TRIP-2026-PUTALENG',
-    tourId: 'tour-putaleng-03',
-    tourName: 'Chinh phục Đỉnh Pú Tà Lèng Hùng Vĩ (4N3Đ)',
-    tourVersion: 1,
-    source: 'RecurrenceRule',
-    startAt: '2026-12-05T06:00:00Z',
-    endAt: '2026-12-08T16:00:00Z',
-    totalSlots: 12,
-    soldSlots: 4,
-    minParticipants: 6,
-    isUnderCapacity: true,
-    pricePerPerson: 4200000,
-    managerFullName: 'Nguyễn Thị Thảo',
-    status: TRIP_STATUS.OPEN,
-  },
-  {
-    tripId: 'TRIP-2026-YTY',
-    tourId: 'tour-yty-05',
-    tourName: 'Săn Mây Y Tý - Cột Mốc Lũng Pô (3N2Đ)',
-    tourVersion: 1,
-    source: 'RecurrenceRule',
-    startAt: '2026-12-12T05:30:00Z',
-    endAt: '2026-12-14T17:00:00Z',
-    totalSlots: 15,
-    soldSlots: 9,
-    minParticipants: 8,
-    isUnderCapacity: false,
-    pricePerPerson: 3200000,
-    managerFullName: 'Lê Nhật Nam',
-    status: TRIP_STATUS.OPEN,
-  },
-];
-
 export default function AdminTripListPage() {
   // 3 chế độ xem: 'month' (Lịch tháng) | 'week' (Lịch tuần) | 'list' (Danh sách bảng)
   const [viewMode, setViewMode] = useState('month');
@@ -228,10 +97,10 @@ export default function AdminTripListPage() {
   const [calendarStatusFilter, setCalendarStatusFilter] = useState('');
 
   // Mốc thời gian xem lịch
-  const [currentDate, setCurrentDate] = useState(() => dayjs('2026-11-20'));
+  const [currentDate, setCurrentDate] = useState(() => dayjs());
 
-  // Ngày được chọn để xem chi tiết bên Daily Detail Panel (mặc định chọn 20/11/2026)
-  const [selectedDate, setSelectedDate] = useState('2026-11-20');
+  // Ngày được chọn để xem chi tiết bên Daily Detail Panel (mặc định hôm nay)
+  const [selectedDate, setSelectedDate] = useState(() => dayjs().format('YYYY-MM-DD'));
 
   const [filters, setFilters] = useState({
     pageNumber: 1,
@@ -244,9 +113,7 @@ export default function AdminTripListPage() {
 
   const { data, isLoading, isError } = useAdminTrips(filters);
 
-  const rawItems = isError ? [] : (data?.items ?? []);
-  const isUsingFallback = !data?.items || data.items.length === 0;
-  const items = isUsingFallback ? MOCK_ADMIN_TRIPS : rawItems;
+  const items = isError ? [] : (data?.items ?? []);
   const totalPages = data?.totalPages ?? 1;
 
   // Lọc danh sách chuyến áp dụng cho lịch (theo bộ lọc trạng thái nhanh nếu có)
@@ -301,7 +168,7 @@ export default function AdminTripListPage() {
   };
 
   const handleToday = () => {
-    const today = dayjs('2026-11-20');
+    const today = dayjs();
     setCurrentDate(today);
     setSelectedDate(today.format('YYYY-MM-DD'));
   };
@@ -319,7 +186,7 @@ export default function AdminTripListPage() {
       const date = startDate.add(i, 'day');
       const dateStr = date.format('YYYY-MM-DD');
       const isCurrentMonth = date.isSame(currentDate, 'month');
-      const isToday = date.isSame(dayjs('2026-11-20'), 'day');
+      const isToday = date.isSame(dayjs(), 'day');
       const isSelected = dateStr === selectedDate;
 
       // Toàn bộ chuyến hoạt động trong ngày này
@@ -359,7 +226,7 @@ export default function AdminTripListPage() {
     for (let i = 0; i < 7; i++) {
       const date = weekStart.add(i, 'day');
       const dateStr = date.format('YYYY-MM-DD');
-      const isToday = date.isSame(dayjs('2026-11-20'), 'day');
+      const isToday = date.isSame(dayjs(), 'day');
 
       const tripsOnDay = calendarFilteredItems.filter((trip) => {
         const tripStart = dayjs(trip.startAt).format('YYYY-MM-DD');

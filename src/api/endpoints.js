@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
     },
     USERS: '/admin/users',
     STAFF: '/admin/users/staff',
+    GUIDES: '/admin/users/guides',
     CATEGORIES: '/admin/categories',
     LOCATIONS: '/admin/locations',
     TAGS: '/admin/tags',
@@ -51,7 +52,6 @@ export const API_ENDPOINTS = {
     RESEND_VERIFICATION_EMAIL: '/auth/resend-verification-email',
   },
   USERS: {
-    ROOT: '/users',
     ME: '/users/me',
     AVATAR: '/users/me/avatar',
     PASSWORD: '/users/me/password',
@@ -60,6 +60,16 @@ export const API_ENDPOINTS = {
     SESSION_BY_ID: (familyId) => `/users/me/sessions/${familyId}`,
     REVOKE_OTHER_SESSIONS: '/users/me/sessions/revoke-others',
     MY_ORDERS: '/users/me/orders',
+    MY_PARTICIPATIONS: '/users/me/participations',
+    NOTIFICATIONS: '/users/me/notifications',
+    NOTIFICATIONS_UNREAD_COUNT: '/users/me/notifications/unread-count',
+    NOTIFICATION_READ: (id) => `/users/me/notifications/${id}/read`,
+    NOTIFICATIONS_READ_ALL: '/users/me/notifications/read-all',
+  },
+  PARTICIPANTS: {
+    POSTS: (participantId) => `/participants/${participantId}/posts`,
+    POST_READ: (participantId, postId) => `/participants/${participantId}/posts/${postId}/read`,
+    REVIEW: (participantId) => `/participants/${participantId}/review`,
   },
   BUNDLES: {
     ROOT: '/bundles',
@@ -70,16 +80,20 @@ export const API_ENDPOINTS = {
     ROOT: '/rental-orders',
     QUOTE: '/rental-orders/quote',
     BY_ID: (orderId) => `/rental-orders/${orderId}`,
+    CANCEL: (orderId) => `/rental-orders/${orderId}/cancel`,
+    EXTENSION_QUOTE: (orderId) => `/rental-orders/${orderId}/extensions/quote`,
+    EXTENSIONS: (orderId) => `/rental-orders/${orderId}/extensions`,
+    ADJUSTMENTS: (orderId) => `/rental-orders/${orderId}/adjustments`,
   },
   PRODUCTS: {
     CATEGORIES: '/products/categories',
     ROOT: '/products',
     BY_ID: (id) => `/products/${id}`,
-    IMAGES: (id) => `/products/${id}/images`,
   },
   TOURS: {
     ROOT: '/tours',
     BY_ID: (id) => `/tours/${id}`,
+    REVIEWS: (id) => `/tours/${id}/reviews`,
   },
   // Phân hệ Bài viết & Cẩm nang
   POSTS: {
@@ -94,8 +108,31 @@ export const API_ENDPOINTS = {
   // Phân hệ Quản trị Catalog (Tour & Sản phẩm)
   ADMIN_CATALOG: {
     TOURS: '/admin/tours',
+    // Soạn tour (§13.x): ghi chỉ Admin
+    TOUR_BY_ID: (tourId) => `/admin/tours/${tourId}`,
+    TOUR_PUBLISH: (tourId) => `/admin/tours/${tourId}/publish`,
+    TOUR_ARCHIVE: (tourId) => `/admin/tours/${tourId}/archive`,
+    TOUR_IMAGES: (tourId) => `/admin/tours/${tourId}/images`,
+    TOUR_IMAGES_REORDER: (tourId) => `/admin/tours/${tourId}/images/reorder`,
+    TOUR_IMAGE_BY_ID: (tourId, imageId) => `/admin/tours/${tourId}/images/${imageId}`,
+    TOUR_ACTIVITIES: (tourId) => `/admin/tours/${tourId}/activities`,
+    TOUR_ACTIVITIES_REORDER: (tourId) => `/admin/tours/${tourId}/activities/reorder`,
+    TOUR_ACTIVITY_BY_ID: (tourId, activityId) => `/admin/tours/${tourId}/activities/${activityId}`,
+    TOUR_PREPARATION_ITEMS: (tourId) => `/admin/tours/${tourId}/preparation-items`,
+    TOUR_PROVIDED_ITEMS: (tourId) => `/admin/tours/${tourId}/provided-items`,
+    TOUR_PROVIDED_ITEM_BY_ID: (tourId, itemId) => `/admin/tours/${tourId}/provided-items/${itemId}`,
+    TOUR_POSTS: (tourId) => `/admin/tours/${tourId}/posts`,
+    TOUR_VERSIONS: (tourId) => `/admin/tours/${tourId}/versions`,
+    TOUR_VERSION_CLONE: (tourId) => `/admin/tours/${tourId}/versions/clone`,
+    TOUR_VERSION_DIFF: (tourId) => `/admin/tours/${tourId}/versions/diff`,
+    // Upload ảnh lên Cloudinary → { imageUrl }; dùng chung cho ảnh tour
+    IMAGE_UPLOAD: '/admin/products/images/upload',
     PRODUCTS: '/admin/products',
     PRODUCT_BY_ID: (productId) => `/admin/products/${productId}`,
+    BUNDLES: '/admin/bundles',
+    BUNDLE_BY_ID: (bundleId) => `/admin/bundles/${bundleId}`,
+    BUNDLE_ITEMS: (bundleId) => `/admin/bundles/${bundleId}/items`,
+    BUNDLE_PRICE_TIERS: (bundleId) => `/admin/bundles/${bundleId}/price-tiers`,
   },
   // Chỉ có ở môi trường Development của BE (đồng hồ giả lập)
   DEV_CLOCK: '/dev/clock',
@@ -103,7 +140,12 @@ export const API_ENDPOINTS = {
   ADMIN_RENTAL_ORDERS: {
     ROOT: '/admin/rental-orders',
     BY_ID: (orderId) => `/admin/rental-orders/${orderId}`,
+    HANDOVER_LIST: '/admin/rental-orders/handover-list',
+    RETURN_LIST: '/admin/rental-orders/return-list',
+    ADJUSTMENTS: (orderId) => `/admin/rental-orders/${orderId}/adjustments`,
+    CLAIM: (orderId) => `/admin/rental-orders/${orderId}/claim`,
     HANDOVER: (orderId) => `/admin/rental-orders/${orderId}/handover`,
+    HANDOVER_SCAN: (orderId) => `/admin/rental-orders/${orderId}/handover/scan`,
     RETURNS: (orderId) => `/admin/rental-orders/${orderId}/returns`,
     CHARGES: (orderId) => `/admin/rental-orders/${orderId}/charges`,
     ASSESS_CHARGE: (orderId, chargeId) => `/admin/rental-orders/${orderId}/charges/${chargeId}/assess`,
@@ -113,7 +155,8 @@ export const API_ENDPOINTS = {
   // Phân hệ Tài chính & Hoàn tiền (Section 17 & 20 trong 03-API-CONTRACT.md)
   PAYMENTS: {
     ROOT: '/admin/payments',
-    MANUAL_PAY: (orderId) => `/admin/orders/${orderId}/payments/manual`,
+    STATS: '/admin/payments/stats',
+    MANUAL_PAY: (orderCode) => `/admin/orders/${orderCode}/manual-payment`,
     BY_ORDER: (orderId) => `/orders/${orderId}/payments`,
     BY_ID: (orderId, paymentId) => `/orders/${orderId}/payments/${paymentId}`,
   },
@@ -215,21 +258,5 @@ export const API_ENDPOINTS = {
     REJECT: (refundCaseId) => `/admin/refund-cases/${refundCaseId}/reject`,
     COMPLETE: (refundCaseId) => `/admin/refund-cases/${refundCaseId}/complete`,
     MARK_FAILED: (refundCaseId) => `/admin/refund-cases/${refundCaseId}/mark-failed`,
-  },
-  RENTAL_HANDOVER: {
-    HANDOVER_CHECKLIST: (orderCode) => `/admin/rental-orders/${orderCode}/handover-checklist`,
-    HANDOVER_SCAN: (orderCode) => `/admin/rental-orders/${orderCode}/handover/scan`,
-    HANDOVER_COMPLETE: (orderCode) => `/admin/rental-orders/${orderCode}/handover/complete`,
-    RETURN_CHECKLIST: (orderCode) => `/admin/rental-orders/${orderCode}/return-checklist`,
-    RETURN_SCAN: (orderCode) => `/admin/rental-orders/${orderCode}/return/scan`,
-    RETURN_REPORT_LOST: (orderCode) => `/admin/rental-orders/${orderCode}/return/report-lost`,
-    RETURN_COMPLETE: (orderCode) => `/admin/rental-orders/${orderCode}/return/complete`,
-  },
-  RENTAL_CHARGES: {
-    BY_ORDER: (orderCode) => `/admin/rental-orders/${orderCode}/charges`,
-    CREATE: (orderCode) => `/admin/rental-orders/${orderCode}/charges`,
-    ASSESS: (id) => `/admin/rental-charges/${id}/assess`,
-    VOID: (id) => `/admin/rental-charges/${id}/void`,
-    COMPLETE_ORDER: (orderCode) => `/admin/rental-orders/${orderCode}/complete`,
   },
 };

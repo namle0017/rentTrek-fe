@@ -12,8 +12,9 @@ export const queryClient = new QueryClient({
   mutationCache: new MutationCache({
     onError: (error, _variables, _context, mutation) => {
       if (mutation.meta?.skipGlobalErrorToast) return;
-      if (error?.errors) return; // lỗi validation để form tự hiển thị theo field
-      toast.error(error.message);
+      // Lỗi validation: form RHF tự hiển thị theo field; form không gắn field thì bật meta.toastFieldErrors
+      if (error?.errors && !mutation.meta?.toastFieldErrors) return;
+      toast.error(error?.errors ? Object.values(error.errors).flat().join(' · ') : error.message);
     },
   }),
 });

@@ -11,8 +11,10 @@ import { formatDateTime } from '@/utils/formatDate';
 import RentalAssetsPanel from '../components/RentalAssetsPanel';
 import RentalChargesPanel from '../components/RentalChargesPanel';
 import {
+  useAdminRentalAdjustments,
   useAdminRentalOrder,
   useAssessRentalCharge,
+  useClaimRental,
   useCompleteRental,
   useCreateRentalCharge,
   useHandoverRental,
@@ -31,8 +33,12 @@ export default function AdminRentalOrderDetailPage() {
   const assessCharge = useAssessRentalCharge();
   const voidCharge = useVoidRentalCharge();
   const complete = useCompleteRental();
+  const claim = useClaimRental();
+  const { data: adjustments } = useAdminRentalAdjustments(orderId);
 
-  const isPending = [handover, returnAssets, createCharge, assessCharge, voidCharge, complete].some((m) => m.isPending);
+  const isPending = [handover, returnAssets, createCharge, assessCharge, voidCharge, complete, claim].some(
+    (m) => m.isPending,
+  );
 
   const renderContent = () => {
     if (isLoading) return <Spinner />;
@@ -100,6 +106,17 @@ export default function AdminRentalOrderDetailPage() {
                 <dd>{order.handledByName ?? 'Chưa có'}</dd>
               </div>
             </dl>
+            <div className={styles.actions}>
+              {/* BE trả 409 nếu đơn đã có người nhận (Admin được nhận lại) */}
+              <button
+                type="button"
+                className="btn btn-secondary"
+                disabled={isPending}
+                onClick={() => claim.mutate({ orderId })}
+              >
+                Nhận phụ trách đơn
+              </button>
+            </div>
           </section>
 
           <section className={styles.panel}>
@@ -155,6 +172,24 @@ export default function AdminRentalOrderDetailPage() {
           onAssess={(chargeId) => assessCharge.mutate({ orderId, chargeId })}
           onVoid={(chargeId, reason, onDone) => voidCharge.mutate({ orderId, chargeId, reason }, { onSuccess: onDone })}
         />
+
+        {adjustments?.length > 0 && (
+          <section className={styles.panel}>
+            <h2 className={styles.panelTitle}>Lịch sử gia hạn</h2>
+            <ul className={styles.lineList}>
+              {adjustments.map((a) => (
+                <li key={a.id}>
+                  <span>
+                    {formatDateTime(a.oldEndAt)} → {formatDateTime(a.newEndAt)}
+                  </span>
+                  <span className={styles.muted}>
+                    +{formatCurrency(a.extraAmount)} · {a.requestedByName} · {formatDateTime(a.createdAt)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <section className={styles.panel} aria-labelledby="rental-settlement-title">
           <h2 id="rental-settlement-title" className={styles.panelTitle}>

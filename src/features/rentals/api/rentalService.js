@@ -20,9 +20,11 @@ export const rentalService = {
     axiosClient.post(API_ENDPOINTS.PAYMENTS.BY_ORDER(orderId), payload),
   getPaymentStatus: (orderId, paymentId) => axiosClient.get(API_ENDPOINTS.PAYMENTS.BY_ID(orderId, paymentId)),
 
-  // Unsupported operations must return the actual API error, never simulated financial outcomes.
-  getCancellationPreview: (orderId) => axiosClient.get(`/rental-orders/${orderId}/cancellation-preview`),
-  cancel: (orderId, payload) => axiosClient.post(`/rental-orders/${orderId}/cancel`, payload),
-  requestChargeReview: (orderId, chargeId, payload) =>
-    axiosClient.post(`/rental-orders/${orderId}/charges/${chargeId}/review-requests`, payload),
+  cancel: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.CANCEL(orderId), payload),
+
+  // Gia hạn: phụ phí ghi thành RentalCharge, thu khi trả thiết bị
+  quoteExtension: (orderId, payload) =>
+    axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.EXTENSION_QUOTE(orderId), payload),
+  extend: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.EXTENSIONS(orderId), payload),
+  getAdjustments: (orderId) => axiosClient.get(API_ENDPOINTS.RENTAL_ORDERS.ADJUSTMENTS(orderId)),
 };

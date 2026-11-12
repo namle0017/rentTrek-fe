@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Spinner from '@/components/Spinner';
-import { ROUTES } from '@/constants/routes';
 import {
   useIssueTripGear,
   useTripProvidedItems,
@@ -20,8 +19,7 @@ export default function TripProvidedItemsPage() {
   const tripList = pagedTrips?.items || [];
 
   const [selectedTripId, setSelectedTripId] = useState(routeTripId || '');
-  const activeTripId = selectedTripId || (tripList.length > 0 ? (tripList[0].tripId || tripList[0].id) : '');
-  const setActiveTripId = setSelectedTripId;
+  const activeTripId = selectedTripId || (tripList.length > 0 ? tripList[0].tripId || tripList[0].id : '');
 
   const [customTripInput, setCustomTripInput] = useState('');
   const [isManualInput, setIsManualInput] = useState(false);
@@ -61,7 +59,7 @@ export default function TripProvidedItemsPage() {
         onSuccess: () => {
           setIsIssueConfirmModalOpen(false);
         },
-      }
+      },
     );
   };
 
@@ -75,7 +73,7 @@ export default function TripProvidedItemsPage() {
         onSuccess: () => {
           setUnassignTarget(null);
         },
-      }
+      },
     );
   };
 
@@ -85,13 +83,13 @@ export default function TripProvidedItemsPage() {
   };
 
   const handleTripChange = (e) => {
-    setActiveTripId(e.target.value);
+    setSelectedTripId(e.target.value);
   };
 
   const handleCustomSubmit = (e) => {
     e.preventDefault();
     if (customTripInput.trim()) {
-      setActiveTripId(customTripInput.trim());
+      setSelectedTripId(customTripInput.trim());
     }
   };
 
@@ -99,8 +97,15 @@ export default function TripProvidedItemsPage() {
     <div className={styles.container}>
       {/* Trip Selector Dropdown & Quick Selection */}
       <div className={styles.selectorCard}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-          <label className={styles.label} style={{ margin: 0, fontWeight: "var(--font-weight-semibold)" }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '0.5rem',
+          }}
+        >
+          <label className={styles.label} style={{ margin: 0, fontWeight: 'var(--font-weight-semibold)' }}>
             Chọn Chuyến đi (Tour thực tế từ Hệ thống):
           </label>
           <button
@@ -110,10 +115,10 @@ export default function TripProvidedItemsPage() {
               background: 'none',
               border: 'none',
               color: '#166534',
-              fontSize: "var(--font-size-control)",
+              fontSize: 'var(--font-size-control)',
               cursor: 'pointer',
               textDecoration: 'underline',
-              fontWeight: "var(--font-weight-medium)",
+              fontWeight: 'var(--font-weight-medium)',
             }}
           >
             {isManualInput ? '« Quay lại chọn theo danh sách tour' : 'Nhập mã Trip ID thủ công (GUID)'}
@@ -126,18 +131,19 @@ export default function TripProvidedItemsPage() {
               className={styles.input}
               value={activeTripId}
               onChange={handleTripChange}
-              style={{ maxWidth: '640px', fontWeight: "var(--font-weight-medium)" }}
+              style={{ maxWidth: '640px', fontWeight: 'var(--font-weight-medium)' }}
             >
               {tripList.map((t) => {
                 const id = t.tripId || t.id;
                 return (
                   <option key={id} value={id}>
-                    {t.tourName || t.name} ({t.totalParticipants || t.currentParticipants || 0} khách — Khởi hành {t.startAt ? dayjs(t.startAt).format('DD/MM/YYYY') : 'N/A'})
+                    {t.tourName || t.name} ({t.totalParticipants || t.currentParticipants || 0} khách — Khởi
+                    hành {t.startAt ? dayjs(t.startAt).format('DD/MM/YYYY') : 'N/A'})
                   </option>
                 );
               })}
             </select>
-            <span style={{ fontSize: "var(--font-size-meta)", color: '#6b7280' }}>
+            <span style={{ fontSize: 'var(--font-size-meta)', color: '#6b7280' }}>
               Mã chuyến: <code>{activeTripId}</code>
             </span>
           </div>
@@ -206,11 +212,7 @@ export default function TripProvidedItemsPage() {
               >
                 {issueMutation.isPending ? 'Đang xuất...' : 'Xuất kho bàn giao đoàn'}
               </button>
-              <button
-                type="button"
-                className={styles.btnReturn}
-                onClick={() => setIsReturnModalOpen(true)}
-              >
+              <button type="button" className={styles.btnReturn} onClick={() => setIsReturnModalOpen(true)}>
                 Thu hồi đồ sau tour
               </button>
             </div>
@@ -276,7 +278,12 @@ export default function TripProvidedItemsPage() {
                               </div>
 
                               <div className={styles.configCell}>
-                                {item.tourConfigQuantity} cái / {item.quantityBasis === 'PerPerson' ? 'khách' : item.quantityBasis === 'PerGroup' ? 'nhóm' : 'chuyến'}
+                                {item.tourConfigQuantity} cái /{' '}
+                                {item.quantityBasis === 'PerPerson'
+                                  ? 'khách'
+                                  : item.quantityBasis === 'PerGroup'
+                                    ? 'nhóm'
+                                    : 'chuyến'}
                               </div>
 
                               <div className={styles.numCell}>
@@ -285,12 +292,16 @@ export default function TripProvidedItemsPage() {
 
                               <div className={styles.numCell}>{item.assignedCount}</div>
 
-                              <div className={`${styles.numCell} ${item.missingCount > 0 ? styles.missingNum : ''}`}>
+                              <div
+                                className={`${styles.numCell} ${item.missingCount > 0 ? styles.missingNum : ''}`}
+                              >
                                 {item.missingCount}
                               </div>
 
                               <div className={styles.prepCell}>
-                                {item.preparedByUserName || <span className={styles.textMuted}>Nguyễn Minh Đức</span>}
+                                {item.preparedByUserName || (
+                                  <span className={styles.textMuted}>Nguyễn Minh Đức</span>
+                                )}
                               </div>
 
                               <div>
@@ -327,7 +338,10 @@ export default function TripProvidedItemsPage() {
                                 </div>
                                 <div className={styles.tagsGrid}>
                                   {item.assignedAssets.map((asset) => (
-                                    <div key={asset.assignmentId || asset.assetCode} className={styles.assetTagCard}>
+                                    <div
+                                      key={asset.assignmentId || asset.assetCode}
+                                      className={styles.assetTagCard}
+                                    >
                                       <span className={styles.assetTagCode}>{asset.assetCode}</span>
                                       <span className={styles.assetTagStatus}>{asset.status}</span>
                                       <button
@@ -374,30 +388,85 @@ export default function TripProvidedItemsPage() {
 
           {/* Modal xác nhận xuất kho bàn giao đoàn (thay thế window.confirm) */}
           {isIssueConfirmModalOpen && (
-            <div className={modalStyles.overlay} onClick={() => setIsIssueConfirmModalOpen(false)} role="dialog" aria-modal="true">
-              <div className={modalStyles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '480px' }}>
+            <div
+              className={modalStyles.overlay}
+              onClick={() => setIsIssueConfirmModalOpen(false)}
+              role="dialog"
+              aria-modal="true"
+            >
+              <div
+                className={modalStyles.modal}
+                onClick={(e) => e.stopPropagation()}
+                style={{ maxWidth: '480px' }}
+              >
                 <div className={modalStyles.header}>
                   <h3 className={modalStyles.title}>Xác nhận xuất kho bàn giao đoàn</h3>
-                  <button type="button" className={modalStyles.closeBtn} onClick={() => setIsIssueConfirmModalOpen(false)}>
+                  <button
+                    type="button"
+                    className={modalStyles.closeBtn}
+                    onClick={() => setIsIssueConfirmModalOpen(false)}
+                  >
                     ✕
                   </button>
                 </div>
-                <div style={{ padding: '20px 24px', fontSize: "var(--font-size-body)", color: '#374151', lineHeight: '1.5' }}>
+                <div
+                  style={{
+                    padding: '20px 24px',
+                    fontSize: 'var(--font-size-body)',
+                    color: '#374151',
+                    lineHeight: '1.5',
+                  }}
+                >
                   <p style={{ marginBottom: '12px' }}>
                     Bạn đang chuẩn bị xuất kho và bàn giao toàn bộ thiết bị đã gán cho đoàn:
                   </p>
-                  <div style={{ background: '#f8fafc', padding: '12px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '12px' }}>
-                    <div>Chuyến đi: <strong>{tripData.tourName}</strong></div>
-                    <div>HDV nhận: <strong>{tripData.leadGuideName || 'Nguyễn Văn Hùng (HDV trưởng)'}</strong></div>
-                    <div>Số lượng thiết bị giao: <strong style={{ color: '#166534' }}>{allAssignedAssets.length} món</strong></div>
+                  <div
+                    style={{
+                      background: '#f8fafc',
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid #e2e8f0',
+                      marginBottom: '12px',
+                    }}
+                  >
+                    <div>
+                      Chuyến đi: <strong>{tripData.tourName}</strong>
+                    </div>
+                    <div>
+                      HDV nhận: <strong>{tripData.leadGuideName || 'Nguyễn Văn Hùng (HDV trưởng)'}</strong>
+                    </div>
+                    <div>
+                      Số lượng thiết bị giao:{' '}
+                      <strong style={{ color: '#166534' }}>{allAssignedAssets.length} món</strong>
+                    </div>
                   </div>
                   {tripData.hasShortage && (
-                    <div style={{ background: '#fffbeb', border: '1px solid #fde68a', color: '#92400e', padding: '10px 14px', borderRadius: '6px', fontSize: "var(--font-size-meta)" }}>
-                      ⚠️ <strong>Lưu ý:</strong> Chuyến đi vẫn còn một số mục chưa đủ định mức đồ cấp. Hệ thống sẽ xuất giao toàn bộ các thiết bị đã gán hiện tại.
+                    <div
+                      style={{
+                        background: '#fffbeb',
+                        border: '1px solid #fde68a',
+                        color: '#92400e',
+                        padding: '10px 14px',
+                        borderRadius: '6px',
+                        fontSize: 'var(--font-size-meta)',
+                      }}
+                    >
+                      ⚠️ <strong>Lưu ý:</strong> Chuyến đi vẫn còn một số mục chưa đủ định mức đồ cấp. Hệ
+                      thống sẽ xuất giao toàn bộ các thiết bị đã gán hiện tại.
                     </div>
                   )}
                 </div>
-                <div className={modalStyles.footer} style={{ padding: '16px 24px', background: '#fafafa', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                <div
+                  className={modalStyles.footer}
+                  style={{
+                    padding: '16px 24px',
+                    background: '#fafafa',
+                    borderTop: '1px solid #e5e7eb',
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    gap: '10px',
+                  }}
+                >
                   <button
                     type="button"
                     className={modalStyles.btnSecondary}
@@ -421,23 +490,57 @@ export default function TripProvidedItemsPage() {
 
           {/* Modal xác nhận hủy gán thiết bị */}
           {unassignTarget && (
-            <div className={modalStyles.overlay} onClick={() => setUnassignTarget(null)} role="dialog" aria-modal="true">
-              <div className={modalStyles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '440px' }}>
+            <div
+              className={modalStyles.overlay}
+              onClick={() => setUnassignTarget(null)}
+              role="dialog"
+              aria-modal="true"
+            >
+              <div
+                className={modalStyles.modal}
+                onClick={(e) => e.stopPropagation()}
+                style={{ maxWidth: '440px' }}
+              >
                 <div className={modalStyles.header}>
-                  <h3 className={modalStyles.title} style={{ color: '#b91c1c' }}>Hủy gán thiết bị</h3>
-                  <button type="button" className={modalStyles.closeBtn} onClick={() => setUnassignTarget(null)}>
+                  <h3 className={modalStyles.title} style={{ color: '#b91c1c' }}>
+                    Hủy gán thiết bị
+                  </h3>
+                  <button
+                    type="button"
+                    className={modalStyles.closeBtn}
+                    onClick={() => setUnassignTarget(null)}
+                  >
                     ✕
                   </button>
                 </div>
-                <div style={{ padding: '20px 24px', fontSize: "var(--font-size-body)", color: '#374151', lineHeight: '1.5' }}>
+                <div
+                  style={{
+                    padding: '20px 24px',
+                    fontSize: 'var(--font-size-body)',
+                    color: '#374151',
+                    lineHeight: '1.5',
+                  }}
+                >
                   <p>
-                    Bạn có chắc chắn muốn hủy gán thiết bị <strong>{unassignTarget.assetCode}</strong> khỏi chuyến đi này không?
+                    Bạn có chắc chắn muốn hủy gán thiết bị <strong>{unassignTarget.assetCode}</strong> khỏi
+                    chuyến đi này không?
                   </p>
-                  <p style={{ fontSize: "var(--font-size-body)", color: '#6b7280', marginTop: '8px' }}>
-                    Sau khi hủy, mã thiết bị này sẽ lập tức trở về danh sách thiết bị khả dụng trong kho để phân bổ cho đơn khác.
+                  <p style={{ fontSize: 'var(--font-size-body)', color: '#6b7280', marginTop: '8px' }}>
+                    Sau khi hủy, mã thiết bị này sẽ lập tức trở về danh sách thiết bị khả dụng trong kho để
+                    phân bổ cho đơn khác.
                   </p>
                 </div>
-                <div className={modalStyles.footer} style={{ padding: '16px 24px', background: '#fafafa', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                <div
+                  className={modalStyles.footer}
+                  style={{
+                    padding: '16px 24px',
+                    background: '#fafafa',
+                    borderTop: '1px solid #e5e7eb',
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    gap: '10px',
+                  }}
+                >
                   <button
                     type="button"
                     className={modalStyles.btnSecondary}

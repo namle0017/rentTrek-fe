@@ -8,6 +8,7 @@ import { ROUTES } from '@/constants/routes';
 import TourBookingCard from '../components/TourBookingCard';
 import TourGallery from '../components/TourGallery';
 import TourGearList from '../components/TourGearList';
+import TourReviews from '../components/TourReviews';
 import TourTimeline from '../components/TourTimeline';
 import { useTour } from '../hooks/useTours';
 import styles from './TourDetailPage.module.css';
@@ -98,11 +99,9 @@ export default function TourDetailPage() {
             </section>
           )}
 
-          <section className={`${styles.section} ${styles.reviewRow}`}>
+          <section className={styles.section}>
             <h2 className={styles.sectionTitle}>Đánh giá từ trekker</h2>
-            <strong>
-              {tour.rating}/5 ★ ({tour.totalReviews} đánh giá)
-            </strong>
+            <TourReviews tourId={tourId} />
           </section>
         </div>
 

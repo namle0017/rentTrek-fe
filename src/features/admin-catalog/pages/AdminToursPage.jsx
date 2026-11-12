@@ -108,7 +108,7 @@ export default function AdminToursPage() {
   };
 
   return (
-    <section className={styles.page} aria-labelledby="admin-tours-title">
+    <section className={styles.page} aria-label="Tour">
 
       <form className={styles.filters} onSubmit={handleSubmit}>
         <label className={styles.field}>
@@ -137,6 +137,9 @@ export default function AdminToursPage() {
         <button type="submit" className={`btn btn-primary ${styles.filterButton}`}>
           Lọc danh sách
         </button>
+        <Link to={ROUTES.ADMIN_TOUR_NEW} className={`btn btn-secondary ${styles.filterButton}`}>
+          + Tạo tour
+        </Link>
       </form>
 
       {renderContent()}

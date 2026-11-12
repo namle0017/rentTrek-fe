@@ -158,6 +158,9 @@ export default function AdminTourDetailPage() {
             )}
           </section>
 
+          <Link to={ROUTES.ADMIN_TOUR_EDIT(tour.id)} className={styles.inlineLink}>
+            Soạn tour (lịch trình, ảnh, phiên bản) →
+          </Link>
           <Link to={ROUTES.TOUR_DETAIL(tour.id)} className={styles.inlineLink} target="_blank" rel="noreferrer">
             Xem trang công khai ↗
           </Link>

@@ -66,7 +66,7 @@ export const fulfillmentService = {
 
   scanHandover: async (orderIdOrCode, payload) => {
     const orderId = await resolveOrderId(orderIdOrCode);
-    return axiosClient.post(`${API_ENDPOINTS.ADMIN_RENTAL_ORDERS.BY_ID(orderId)}/handover/scan`, {
+    return axiosClient.post(API_ENDPOINTS.ADMIN_RENTAL_ORDERS.HANDOVER_SCAN(orderId), {
       assetCode: payload.assetCode,
     });
   },

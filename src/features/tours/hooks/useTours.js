@@ -19,3 +19,13 @@ export function useTour(id) {
     enabled: Boolean(id),
   });
 }
+
+export function useTourReviews(id, params) {
+  return useQuery({
+    queryKey: tourKeys.reviews(id, params),
+    queryFn: () => tourService.getReviews(id, params),
+    select: (res) => res.data, // TourReviewsResponse
+    enabled: Boolean(id),
+    placeholderData: keepPreviousData,
+  });
+}

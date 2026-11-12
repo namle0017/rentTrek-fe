@@ -4,4 +4,5 @@ export const tourKeys = {
   list: (params) => [...tourKeys.lists(), params],
   details: () => [...tourKeys.all, 'detail'],
   detail: (id) => [...tourKeys.details(), id],
+  reviews: (id, params) => [...tourKeys.detail(id), 'reviews', params],
 };

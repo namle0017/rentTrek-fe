@@ -39,7 +39,7 @@ export function useAssignAssetsToTripItem() {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi khi gán thiết bị vào chuyến';
+      const msg = err.message || 'Lỗi khi gán thiết bị vào chuyến';
       toast.error(msg);
     },
   });
@@ -56,7 +56,7 @@ export function useUnassignAssetFromTrip() {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi khi hủy gán thiết bị';
+      const msg = err.message || 'Lỗi khi hủy gán thiết bị';
       toast.error(msg);
     },
   });
@@ -73,7 +73,7 @@ export function useIssueTripGear() {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi xuất kho bàn giao';
+      const msg = err.message || 'Lỗi xuất kho bàn giao';
       toast.error(msg);
     },
   });
@@ -90,7 +90,7 @@ export function useReturnTripGear() {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi khi thu hồi thiết bị';
+      const msg = err.message || 'Lỗi khi thu hồi thiết bị';
       toast.error(msg);
     },
   });

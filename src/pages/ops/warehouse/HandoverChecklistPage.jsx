@@ -63,7 +63,7 @@ function HandoverWorkspace({ activeOrderCode }) {
       playErrorBuzz();
       setScanFeedback({
         message:
-          error.response?.data?.message || error.message || 'Không thể quét thiết bị. Vui lòng thử lại.',
+          error.message || 'Không thể quét thiết bị. Vui lòng thử lại.',
         isError: true,
       });
     } finally {

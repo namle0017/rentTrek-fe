@@ -55,13 +55,33 @@ export function useRentalOrder(orderId, options = {}) {
   });
 }
 
-// Cancellation preview and charge reviews may be unavailable; actual API errors are propagated.
-export function useRentalCancellationPreview(orderId) {
+export function useRentalAdjustments(orderId) {
   return useQuery({
-    queryKey: ['rental', 'cancellationPreview', orderId],
-    queryFn: () => rentalService.getCancellationPreview(orderId),
-    select: (res) => res.data,
+    queryKey: [...rentalKeys.orderDetail(orderId), 'adjustments'],
+    queryFn: () => rentalService.getAdjustments(orderId),
+    select: (res) => res.data, // RentalOrderAdjustmentResponse[]
     enabled: Boolean(orderId),
+  });
+}
+
+export function useRentalExtensionQuote() {
+  return useMutation({
+    mutationFn: ({ orderId, payload }) => rentalService.quoteExtension(orderId, payload),
+    meta: { skipGlobalErrorToast: true }, // ExtendRentalPanel tự hiện lỗi
+  });
+}
+
+export function useExtendRentalOrder() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ orderId, payload }) => rentalService.extend(orderId, payload),
+    meta: { skipGlobalErrorToast: true },
+    onSuccess: (res, { orderId }) => {
+      // invalidate cả adjustments (key con của orderDetail)
+      queryClient.invalidateQueries({ queryKey: rentalKeys.orderDetail(orderId) });
+      queryClient.invalidateQueries({ queryKey: orderKeys.myLists() });
+      toast.success(res.message || 'Đã gia hạn đơn thuê.');
+    },
   });
 }
 
@@ -78,20 +98,7 @@ export function useCancelRentalOrder() {
       toast.success(res.message || 'Đã hủy đơn thuê chưa thanh toán.');
     },
     onError: (err) => {
-      toast.error(err.response?.data?.message || 'Không thể hủy đơn thuê.');
-    },
-  });
-}
-
-export function useRequestRentalChargeReview() {
-  return useMutation({
-    mutationFn: ({ orderId, chargeId, payload }) =>
-      rentalService.requestChargeReview(orderId, chargeId, payload),
-    onSuccess: () => {
-      toast.success('Đã gửi yêu cầu kiểm tra lại phí.');
-    },
-    onError: (err) => {
-      toast.error(err.response?.data?.message || 'Không thể gửi yêu cầu kiểm tra lại phí.');
+      toast.error(err.message || 'Không thể hủy đơn thuê.');
     },
   });
 }

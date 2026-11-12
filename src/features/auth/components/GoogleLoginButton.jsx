@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { useGoogleLogin } from '../hooks/useGoogleLogin';
 import styles from './GoogleLoginButton.module.css';
 
@@ -25,29 +26,11 @@ export default function GoogleLoginButton({ text = 'Tiếp tục với Google', 
       return;
     }
 
-    // Trường hợp demo/chưa điền Client ID: Cho phép đăng nhập demo test tự động
-    const isConfirm = window.confirm(
-      'Hệ thống đang ở chế độ Dev (chưa cấu hình VITE_GOOGLE_CLIENT_ID).\n\nBạn có muốn tự động đăng nhập kiểm thử với tài khoản Google Test [google.trekker@rentrek.com] không?',
+    toast.error(
+      clientId
+        ? 'Chưa tải được Google Sign-In, vui lòng thử lại sau giây lát.'
+        : 'Chưa cấu hình VITE_GOOGLE_CLIENT_ID trong .env.local.',
     );
-
-    if (isConfirm) {
-      const mockToken =
-        'eyJhbGciOiJSUzI1NiIsImtpZCI6IjEyMyJ9.' +
-        btoa(
-          JSON.stringify({
-            iss: 'https://accounts.google.com',
-            sub: 'google_user_demo_123456',
-            email: 'google.trekker@rentrek.com',
-            name: 'Nguyễn Trekker Google',
-            picture: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-            email_verified: true,
-            exp: Math.floor(Date.now() / 1000) + 3600,
-          }),
-        ) +
-        '.mock_signature';
-
-      googleMutation.mutate({ idToken: mockToken });
-    }
   };
 
   return (

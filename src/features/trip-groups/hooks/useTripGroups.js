@@ -63,8 +63,8 @@ export function useSplitTripBooking() {
 export function useTourGuideOptions(enabled = true) {
   return useQuery({
     queryKey: tripGroupKeys.guides(),
-    queryFn: () => userService.getAll({ role: 'TourGuide', pageSize: 100 }),
-    select: (response) => response.data?.items ?? response.data ?? [],
+    queryFn: () => userService.getGuides(),
+    select: (response) => response.data ?? [],
     enabled,
   });
 }

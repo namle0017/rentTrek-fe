@@ -1,8 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Spinner from '@/components/Spinner';
-import { ROUTES } from '@/constants/routes';
 import { useAssetGantt } from './hooks/useAssets';
 import styles from './AssetGanttPage.module.css';
 
@@ -15,11 +13,19 @@ export default function AssetGanttPage() {
 
   const fromDate = useMemo(() => dayjs(startDateStr).startOf('day').toISOString(), [startDateStr]);
   const toDate = useMemo(
-    () => dayjs(startDateStr).add(daysCount - 1, 'day').endOf('day').toISOString(),
-    [startDateStr, daysCount]
+    () =>
+      dayjs(startDateStr)
+        .add(daysCount - 1, 'day')
+        .endOf('day')
+        .toISOString(),
+    [startDateStr, daysCount],
   );
 
-  const { data: serverGanttData, isLoading, isFetching } = useAssetGantt({
+  const {
+    data: serverGanttData,
+    isLoading,
+    isFetching,
+  } = useAssetGantt({
     fromDate,
     toDate,
   });
@@ -82,7 +88,10 @@ export default function AssetGanttPage() {
             onChange={(e) => setStartDateStr(e.target.value)}
           />
           <span className={styles.dateRangeText}>
-            tới {dayjs(startDateStr).add(daysCount - 1, 'day').format('DD/MM/YYYY')}
+            tới{' '}
+            {dayjs(startDateStr)
+              .add(daysCount - 1, 'day')
+              .format('DD/MM/YYYY')}
           </span>
         </div>
 
@@ -109,9 +118,7 @@ export default function AssetGanttPage() {
         </div>
         <div className={styles.metricCard}>
           <span className={styles.metricLabel}>Đang điều phối / Giữ</span>
-          <span className={`${styles.metricValue} ${styles.valInUse}`}>
-            {ganttData?.inUseCount ?? 0}
-          </span>
+          <span className={`${styles.metricValue} ${styles.valInUse}`}>{ganttData?.inUseCount ?? 0}</span>
         </div>
         <div className={styles.metricCard}>
           <span className={styles.metricLabel}>Sẵn sàng trong kho</span>
@@ -276,13 +283,13 @@ export default function AssetGanttPage() {
                                     width: `${widthPercent}%`,
                                   }}
                                   onClick={() => setSelectedAssignment(assign)}
-                                  title={`${assign.sourceType}: ${assign.sourceCode} (${dayjs(assign.reservedFrom).format(
-                                    'DD/MM'
+                                  title={`${assign.sourceType}: ${assign.sourceCode} (${dayjs(
+                                    assign.reservedFrom,
+                                  ).format(
+                                    'DD/MM',
                                   )} - ${dayjs(assign.reservedUntil).format('DD/MM')}) [${assign.status}]`}
                                 >
-                                  <span className={styles.barText}>
-                                    {assign.sourceCode}
-                                  </span>
+                                  <span className={styles.barText}>{assign.sourceCode}</span>
                                 </div>
                               );
                             })}
@@ -323,7 +330,9 @@ export default function AssetGanttPage() {
               </div>
               <div className={styles.infoRow}>
                 <span className={styles.infoLabel}>Trạng thái:</span>
-                <span>{selectedAssignment.status === 'Issued' ? 'Đã giao đồ (Issued)' : 'Đã giữ đồ (Reserved)'}</span>
+                <span>
+                  {selectedAssignment.status === 'Issued' ? 'Đã giao đồ (Issued)' : 'Đã giữ đồ (Reserved)'}
+                </span>
               </div>
               <div className={styles.infoRow}>
                 <span className={styles.infoLabel}>Khoảng ngày:</span>

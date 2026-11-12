@@ -117,7 +117,7 @@ export default function ReturnChecklistPage() {
     } catch (error) {
       playErrorBuzz();
       setScanFeedback({
-        message: error.response?.data?.message || error.message || 'Không thể nhận lại thiết bị.',
+        message: error.message || 'Không thể nhận lại thiết bị.',
         isError: true,
       });
     }
@@ -143,7 +143,7 @@ export default function ReturnChecklistPage() {
     } catch (error) {
       playErrorBuzz();
       setScanFeedback({
-        message: error.response?.data?.message || error.message || 'Không thể ghi nhận báo mất.',
+        message: error.message || 'Không thể ghi nhận báo mất.',
         isError: true,
       });
     }

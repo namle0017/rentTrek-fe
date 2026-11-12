@@ -46,14 +46,6 @@ export default function ActiveSessionsList() {
     });
   };
 
-  const getDeviceIcon = (deviceInfo = '') => {
-    const lower = deviceInfo.toLowerCase();
-    if (lower.includes('iphone') || lower.includes('android') || lower.includes('ipad')) {
-      return '📱';
-    }
-    return '💻';
-  };
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -113,12 +105,15 @@ export default function ActiveSessionsList() {
             className={`${styles.sessionCard} ${session.isCurrent ? styles.sessionCardCurrent : ''}`}
           >
             <div className={styles.deviceIconWrapper}>
-              <span>{getDeviceIcon(session.deviceInfo)}</span>
+              <span>💻</span>
             </div>
 
             <div className={styles.sessionDetails}>
               <div className={styles.deviceHeader}>
-                <span className={styles.deviceName}>{session.deviceInfo}</span>
+                {/* BE không lưu thông tin thiết bị / IP, chỉ có mốc thời gian của phiên */}
+                <span className={styles.deviceName}>
+                  {session.isCurrent ? 'Phiên trên thiết bị này' : 'Phiên đăng nhập khác'}
+                </span>
                 {session.isCurrent && (
                   <span className={styles.currentBadge}>
                     <span className={styles.currentDot} />
@@ -128,16 +123,14 @@ export default function ActiveSessionsList() {
               </div>
 
               <div className={styles.metaRow}>
-                {session.ipAddress && (
-                  <span className={styles.metaText}>
-                    <strong>IP:</strong> {session.ipAddress}
-                  </span>
-                )}
                 <span className={styles.metaText}>
                   <strong>Đăng nhập:</strong> {formatDateTime(session.createdAt)}
                 </span>
                 <span className={styles.metaText}>
                   <strong>Hoạt động gần nhất:</strong> {formatDateTime(session.lastActiveAt)}
+                </span>
+                <span className={styles.metaText}>
+                  <strong>Hết hạn:</strong> {formatDateTime(session.expiresAt)}
                 </span>
               </div>
             </div>

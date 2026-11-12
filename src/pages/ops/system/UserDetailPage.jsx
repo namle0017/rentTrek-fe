@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import { API_ENDPOINTS } from '@/api/endpoints';
 import { ROUTES } from '@/constants/routes';
 import { useOperations } from '@/features/operations/hooks/useOperations';
@@ -64,9 +65,12 @@ export default function UserDetailPage() {
     user.role !== OPS_ENUM.ADMIN;
   return (
     <div className={styles.page}>
-      <Link className={styles.muted} to={ROUTES.ADMIN_USERS}>
-        ← Danh sách người dùng
-      </Link>
+      <Breadcrumb
+        items={[
+          { label: 'Quản lý người dùng', to: ROUTES.ADMIN_USERS },
+          { label: user.fullName || user.userCode },
+        ]}
+      />
       <div className={styles.heading}>
         <div>
           <span className={styles.eyebrow}>{user.userCode}</span>

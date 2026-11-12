@@ -1,22 +1,3 @@
-.breadcrumb {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 16px;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-label);
-}
-
-.breadcrumb a:hover {
-  color: var(--color-primary);
-  text-decoration: underline;
-}
-
-.breadcrumbCurrent {
-  color: var(--color-text);
-}
-
 .contentLayout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 380px;

@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
 import ProductImage from './ProductImage';
@@ -46,14 +46,11 @@ export default function ProductCard({ product }) {
           )}
         </div>
         <div className={styles.actions}>
-          <Link to={detailUrl} className={styles.detailLink}>
-            Xem chi tiết
-          </Link>
           <Link
-            to={product.isRentable ? `${detailUrl}#rental-config` : detailUrl}
-            className={styles.rentLink}
+            to={detailUrl}
+            className={styles.primaryAction}
           >
-            {product.isRentable ? 'Chọn lịch thuê' : 'Xem sản phẩm'}
+            {product.isRentable ? 'Thuê ngay' : 'Xem chi tiết'}
           </Link>
         </div>
       </div>

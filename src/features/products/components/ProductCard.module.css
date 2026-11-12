@@ -1,4 +1,4 @@
-﻿.productCard {
+.productCard {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -46,11 +46,11 @@
   flex: 1;
   flex-direction: column;
   min-width: 0;
-  padding: 14px;
+  padding: 12px;
 }
 .productName {
-  margin: 0 0 10px;
-  font-size: var(--font-size-body);
+  margin: 0 0 8px;
+  font-size: 14px;
   font-weight: var(--font-weight-medium);
   color: #333e4c;
 }
@@ -111,36 +111,26 @@
   font-size: var(--font-size-body);
 }
 .actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  display: flex;
+  margin-top: 4px;
 }
-.detailLink,
-.rentLink {
+.primaryAction {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 42px;
-  border-radius: 7px;
-  padding: 8px 4px;
-  font-size: var(--font-size-meta);
-  font-weight: var(--font-weight-body);
+  width: 100%;
+  min-height: 38px;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--color-primary, #204b39);
+  text-decoration: none;
+  transition: background-color 0.15s ease;
 }
-.detailLink {
-  border: 1px solid #e0e5eb;
-  color: #3c4655;
-  background: white;
-}
-.detailLink:hover {
-  background: #f3f7f3;
-  border-color: #91b49b;
-}
-.rentLink {
-  color: white;
-  background: #1c4534;
-}
-.rentLink:hover {
-  background: #2e604a;
+.primaryAction:hover {
+  background: var(--color-primary-dark, #154d33);
 }
 .badges {
   display: flex;

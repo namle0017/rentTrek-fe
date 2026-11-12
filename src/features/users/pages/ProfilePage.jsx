@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Breadcrumb from '@/components/Breadcrumb';
 import FormField from '@/components/FormField';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { FormSkeleton } from '@/components/skeleton';
@@ -149,31 +150,17 @@ export default function ProfilePage() {
     <div className={styles.pageWrapper}>
       <div className="container">
         {/* Breadcrumb theo vai trò */}
-        <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-          {isAdminOrStaff ? (
-            <>
-              <Link to={ROUTES.ADMIN}>Tổng quan</Link>
-              <span className={styles.breadcrumbSeparator} aria-hidden="true">/</span>
-              <span>Thông tin cá nhân</span>
-            </>
-          ) : isGuide ? (
-            <>
-              <Link to={ROUTES.GUIDE_TRIPS}>Lịch dẫn đoàn</Link>
-              <span className={styles.breadcrumbSeparator} aria-hidden="true">/</span>
-              <span>Thông tin cá nhân</span>
-            </>
-          ) : (
-            <>
-              <Link to={ROUTES.HOME}>Trang chủ</Link>
-              <span className={styles.breadcrumbSeparator} aria-hidden="true">/</span>
-              <span>Tài khoản của tôi</span>
-            </>
-          )}
-          <span className={styles.breadcrumbSeparator} aria-hidden="true">/</span>
-          <span className={styles.breadcrumbCurrent}>
-            {activeTab === 'profile' ? 'Hồ sơ cá nhân' : 'Bảo mật & phiên'}
-          </span>
-        </nav>
+        <Breadcrumb
+          items={[
+            isAdminOrStaff
+              ? { label: 'Tổng quan', to: ROUTES.ADMIN }
+              : isGuide
+                ? { label: 'Lịch dẫn đoàn', to: ROUTES.GUIDE_TRIPS }
+                : { label: 'Trang chủ', to: ROUTES.HOME },
+            { label: isAdminOrStaff || isGuide ? 'Thông tin cá nhân' : 'Tài khoản của tôi', to: ROUTES.PROFILE },
+            { label: activeTab === 'profile' ? 'Hồ sơ cá nhân' : 'Bảo mật & phiên' },
+          ]}
+        />
 
         <div className={styles.layoutGrid}>
           {/* Aside Sidebar: Điều hướng tài khoản */}

@@ -11,17 +11,6 @@
   max-width: 72ch;
 }
 
-.breadcrumb {
-  margin-bottom: 16px;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-label);
-}
-
-.breadcrumb a {
-  color: var(--color-primary);
-  font-weight: var(--font-weight-semibold);
-}
-
 .title {
   margin: 0;
   color: var(--color-primary-heading);

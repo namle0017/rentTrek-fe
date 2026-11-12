@@ -8,6 +8,10 @@ import { useProfile } from '../hooks/useProfile';
 import { useUpdateProfile } from '../hooks/useUpdateProfile';
 import ProfilePage from './ProfilePage';
 
+vi.mock('@/hooks/useAuth', () => ({
+  useAuth: vi.fn(() => ({ currentUser: { role: 'Customer' } })),
+}));
+
 vi.mock('../hooks/useProfile', () => ({
   useProfile: vi.fn(),
 }));
@@ -26,6 +30,10 @@ vi.mock('../components/ActiveSessionsList', () => ({
 
 vi.mock('@/hooks/useAuth', () => ({
   useAuth: () => ({ currentUser: { role: 'Customer' } }),
+}));
+
+vi.mock('../components/AvatarUploadModal', () => ({
+  default: () => null,
 }));
 
 const mockProfile = {

@@ -29,33 +29,6 @@
   min-width: 0;
 }
 
-.breadcrumb {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  font-size: var(--font-size-label);
-  font-weight: var(--font-weight-semibold);
-  color: #64748b;
-}
-
-.breadcrumb a {
-  color: #166534;
-  font-weight: var(--font-weight-semibold);
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.breadcrumb a:hover {
-  color: #14532d;
-  text-decoration: underline;
-}
-
-.breadcrumbSep {
-  color: #cbd5e1;
-  user-select: none;
-}
-
 .pageHeader {
   display: flex;
   flex-direction: column;

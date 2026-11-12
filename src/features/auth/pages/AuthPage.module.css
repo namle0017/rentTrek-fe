@@ -348,6 +348,17 @@
   line-height: 1.4;
 }
 
+.infoBanner {
+  padding: 10px 14px;
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius);
+  color: #92400e;
+  font-size: var(--font-size-body);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
 .submitBtn {
   margin-top: 8px;
   padding: 12px 20px;

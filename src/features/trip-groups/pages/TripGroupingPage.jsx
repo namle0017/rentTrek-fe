@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { USER_ROLE } from '@/constants/enums';
+import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import {
   useAssignTripGroupGuide,
@@ -247,6 +249,12 @@ export default function TripGroupingPage() {
 
   return (
     <main className={styles.page}>
+      <Breadcrumb
+        items={[
+          { label: 'Quản lý Chuyến đi', to: ROUTES.ADMIN_TRIPS },
+          { label: `Phân nhóm chuyến #${snapshot.tripId}` },
+        ]}
+      />
       <header className={styles.pageHeader}>
         <div>
           <span className={styles.eyebrow}>TRIP {snapshot.tripId}</span>

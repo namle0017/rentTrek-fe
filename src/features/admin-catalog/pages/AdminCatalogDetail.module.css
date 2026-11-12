@@ -1,36 +1,102 @@
+/* ==========================================================================
+   ADMIN CATALOG DETAIL (TOUR & PRODUCT DETAIL) DESIGN SYSTEM
+   Clean, Balanced 2-Column Layout (65% / 35%), Operations-First
+   ========================================================================== */
+
 .page {
   display: flex;
   flex-direction: column;
-  gap: var(--space-section);
+  gap: var(--space-section, 24px);
   width: 100%;
-  max-width: 1280px;
+  max-width: 1440px;
   margin-inline: auto;
 }
 
-.eyebrow {
-  margin: 0 0 4px;
-  color: var(--color-accent);
-  font-size: var(--font-size-label);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+/* ===== Header Area ===== */
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
 }
 
-.eyebrow a {
-  color: inherit;
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.titleWithBadge {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .title {
   margin: 0;
-  color: var(--color-primary-heading);
-  font-size: var(--font-size-page-title);
+  color: var(--color-primary-heading, #0f172a);
+  font-size: var(--font-size-page-title, 24px);
+  font-weight: 700;
   line-height: 1.25;
+  letter-spacing: -0.02em;
   overflow-wrap: anywhere;
 }
 
+.headerToolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.headerPrimaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--color-primary, #1b4332);
+  border: 1px solid var(--color-primary, #1b4332);
+  border-radius: var(--radius-md, 8px);
+  color: #ffffff;
+  font-size: var(--font-size-label, 13px);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.headerPrimaryBtn:hover {
+  background: #143527;
+  color: #ffffff;
+}
+
+.headerSecondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #cbd5e1);
+  border-radius: var(--radius-md, 8px);
+  color: #334155;
+  font-size: var(--font-size-label, 13px);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.headerSecondaryBtn:hover {
+  background: #f8fafc;
+  color: var(--color-primary, #1b4332);
+}
+
+/* ===== Balanced 2-Column Grid (65% / 35%) ===== */
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 1fr) 360px;
   gap: 24px;
   align-items: start;
 }
@@ -39,188 +105,690 @@
 .side {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   min-width: 0;
 }
 
+/* ===== Panels / Cards ===== */
 .panel {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.panelHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  padding: 20px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow);
+  flex-wrap: wrap;
 }
 
 .panelTitle {
   margin: 0;
-  color: var(--color-primary-heading);
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-heading, #0f172a);
+  font-size: var(--font-size-section-title, 16px);
+  font-weight: 700;
 }
 
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 8px;
+.panelSubtitle {
+  display: block;
+  font-size: 13px;
+  color: var(--color-text-muted, #64748b);
+  margin-top: 2px;
 }
 
-.gallery img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  background: var(--color-bg-subtle);
-  border-radius: var(--radius);
+.countBadge {
+  padding: 3px 8px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.facts {
+/* ===== Fact Grid (Thông số chính) ===== */
+.factGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px 24px;
-  margin: 0;
+  gap: 14px 20px;
 }
 
-.facts dt {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-label);
+.factItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.facts dd {
-  margin: 2px 0 0;
-  color: var(--color-text);
-  font-weight: var(--font-weight-semibold);
+.factLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-muted, #64748b);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.factValue {
+  color: var(--color-primary-heading, #0f172a);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.factUnit {
+  font-weight: 400;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.descriptionBox {
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.descriptionTitle {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
 }
 
 .description {
   margin: 0;
-  color: var(--color-text);
+  color: var(--color-text, #334155);
   line-height: 1.6;
+  font-size: 14px;
   white-space: pre-line;
 }
 
-.day h3 {
-  margin: 0 0 8px;
-  color: var(--color-primary);
-  font-size: var(--font-size-subheading);
+/* ===== Gallery ===== */
+.galleryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.list {
+.primaryImageWrap {
+  position: relative;
+  width: 100%;
+  max-height: 380px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.primaryImg {
+  width: 100%;
+  height: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  display: block;
+}
+
+.primaryBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.75);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.thumbnailStrip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.thumbnailWrap {
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.thumbImg:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Timeline View (Lịch trình) ===== */
+.timelineList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.timelineDayBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.timelineDayBlock:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.dayHeadingRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dayBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--color-primary, #1b4332);
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.activitiesTimeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.activityTimeNode {
+  flex-shrink: 0;
+  min-width: 65px;
+}
+
+.timeTag {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  width: 100%;
+}
+
+.activityBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.activityName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.activityDesc {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* ===== Equipment (2 Cột Song Song) ===== */
+.equipmentTwoCols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.itemChecklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 0;
-  padding-left: 20px;
 }
 
-.muted {
-  color: var(--color-text-muted);
+.checkItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 8px;
+}
+
+.checkItemContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.checkItemName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.qtyTag {
+  padding: 1px 6px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.mutedNote {
+  font-size: 12px;
+  color: #64748b;
 }
 
 .hint {
   margin: 0;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-meta);
+  font-size: 13px;
+  color: #94a3b8;
 }
 
-.warn {
-  margin: 0;
-  color: var(--color-accent);
-  font-size: var(--font-size-meta);
-}
-
-.twoCols {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-}
-
-.tripRow {
+/* ===== Sidebar: Chuyến mở bán ===== */
+.tripCardsList {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
-.statusNow {
+.tripCardItem {
+  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tripCardHeader {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  margin: 0;
 }
 
-.inlineLink {
-  color: var(--color-primary);
-  font-weight: var(--font-weight-semibold);
+.tripDate {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary-heading, #0f172a);
 }
 
-.variantList {
+.tripPrice {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary, #1b4332);
+}
+
+.tripCardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.slotsInfo {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.slotsInfo strong {
+  color: #0f172a;
+}
+
+.dispatchTripButton {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary, #1b4332);
+  text-decoration: none;
+}
+
+.dispatchTripButton:hover {
+  text-decoration: underline;
+}
+
+.emptyTripsBox {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  text-align: center;
 }
 
-.variant {
-  display: flex;
-  gap: 16px;
-  padding: 12px;
-  background: var(--color-surface-warm);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
+.actionBtnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--color-primary, #1b4332);
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
 }
 
-.variant > img,
-.imageFallback {
-  width: 96px;
-  height: 72px;
-  flex: none;
-  object-fit: cover;
-  border-radius: var(--radius-sm);
+.actionBtnPrimary:hover {
+  background: #143527;
+  color: #ffffff;
 }
 
-.imageFallback {
-  display: grid;
-  place-items: center;
-  color: var(--color-primary);
-  font-weight: var(--font-weight-bold);
-  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
-}
-
-.variantBody {
-  flex: 1;
+/* ===== Sidebar: Quick Ops ===== */
+.quickOpsList {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-
-.variantBody p {
-  margin: 0;
-}
-
-.variantHead {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   gap: 8px;
 }
 
-.tiers {
-  margin: 4px 0 0;
-  padding-left: 18px;
-  font-size: var(--font-size-meta);
+.quickOpLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
 }
 
+.quickOpLink:hover {
+  background: #edf4ef;
+  border-color: #cedfd3;
+  color: var(--color-primary, #1b4332);
+}
+
+/* ===== Product Detail: Variant Cards & Inventory ===== */
+.variantCardsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.variantDetailCard {
+  display: flex;
+  gap: 16px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.variantMediaCol {
+  flex-shrink: 0;
+  width: 100px;
+  height: 80px;
+}
+
+.variantCardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.variantImgFallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: #f1f5f9;
+  display: grid;
+  place-items: center;
+  color: var(--color-primary, #1b4332);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.variantContentCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.variantHeaderLine {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.variantTitleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.variantCardTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary-heading, #0f172a);
+}
+
+.variantSpecTags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.skuTag {
+  padding: 1px 6px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.attrTag {
+  padding: 1px 6px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.inventoryProgressRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inventoryTextLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.inventoryTextLabel strong {
+  color: var(--color-primary-heading, #0f172a);
+  font-variant-numeric: tabular-nums;
+}
+
+.progressBarTrack {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--color-primary, #1b4332);
+  transition: width 0.3s ease;
+}
+
+.priceTiersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.priceTiersLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.tiersPillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tierPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  color: #166534;
+  font-size: 12px;
+}
+
+.tierPill strong {
+  color: #14532d;
+}
+
+.warnPill {
+  margin: 0;
+  font-size: 12px;
+  color: #c2410c;
+  background: #fff7ed;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ffedd5;
+}
+
+.variantActionRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.statusDisplayRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.statusSubtext {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.editProductButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 16px;
+  background: var(--color-primary, #1b4332);
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.editProductButton:hover {
+  background: #143527;
+  color: #ffffff;
+}
+
+/* ===== Responsive Breakpoints ===== */
 @media (max-width: 1024px) {
   .layout {
     grid-template-columns: 1fr;
   }
+
+  .equipmentTwoCols {
+    grid-template-columns: 1fr;
+  }
 }
 
-@media (max-width: 480px) {
-  .variant {
+@media (max-width: 640px) {
+  .titleRow {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerToolbar {
+    width: 100%;
+  }
+
+  .headerPrimaryBtn,
+  .headerSecondaryBtn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .variantDetailCard {
+    flex-direction: column;
+  }
+
+  .variantMediaCol {
+    width: 100%;
+    height: 160px;
   }
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import Breadcrumb from '@/components/Breadcrumb';
 import { FormSkeleton } from '@/components/skeleton';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
@@ -190,11 +191,12 @@ export default function AdminTripCreatePage() {
       <div className={styles.page}>
         <div className={styles.headerRow}>
           <div className={styles.titleGroup}>
-            <div className={styles.breadcrumb}>
-              <Link to={ROUTES.ADMIN_TRIPS}>Quản lý chuyến đi</Link>
-              <span>/</span>
-              <span>Tạo chuyến mới</span>
-            </div>
+            <Breadcrumb
+              items={[
+                { label: 'Quản lý chuyến đi', to: ROUTES.ADMIN_TRIPS },
+                { label: 'Thêm chuyến đi mới' },
+              ]}
+            />
             <h1 className={styles.pageTitle}>Thêm chuyến đi mới</h1>
           </div>
         </div>
@@ -208,11 +210,12 @@ export default function AdminTripCreatePage() {
       {/* Header trang và nút Quay lại danh sách */}
       <div className={styles.headerRow}>
         <div className={styles.titleGroup}>
-          <div className={styles.breadcrumb}>
-            <Link to={ROUTES.ADMIN_TRIPS}>Quản lý chuyến đi</Link>
-            <span>/</span>
-            <span>Thêm chuyến đi mới</span>
-          </div>
+          <Breadcrumb
+            items={[
+              { label: 'Quản lý chuyến đi', to: ROUTES.ADMIN_TRIPS },
+              { label: 'Thêm chuyến đi mới' },
+            ]}
+          />
           <h1 className={styles.pageTitle}>Thêm chuyến đi mới</h1>
           <p className={styles.subtitle}>
             Thiết lập thông tin lịch trình, phân công điều phối và điều kiện khởi hành cho đoàn trekking

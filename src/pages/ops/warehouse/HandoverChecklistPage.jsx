@@ -10,11 +10,9 @@ import FulfillmentProgress from './components/FulfillmentProgress';
 import layoutStyles from '@/layouts/RentalFulfillmentLayout.module.css';
 import styles from './HandoverChecklistPage.module.css';
 
-const DEFAULT_ORDER = 'RT-202611-001';
-
 export default function HandoverChecklistPage() {
-  const { orderCode } = useParams();
-  const activeOrderCode = orderCode || DEFAULT_ORDER;
+  // Layout chỉ render trang này khi URL đã có mã đơn
+  const { orderCode: activeOrderCode } = useParams();
   return <HandoverWorkspace key={activeOrderCode} activeOrderCode={activeOrderCode} />;
 }
 

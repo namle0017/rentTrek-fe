@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ErrorState from '@/components/ErrorState';
 import { REFUND_POLICY_STATUS, REFUND_POLICY_TYPE, REFUND_POLICY_TYPE_LABEL } from '@/constants/enums';
 import { formatDate } from '@/utils/formatDate';
 import {
@@ -13,12 +14,20 @@ import PolicyRuleEditorModal from '../components/PolicyRuleEditorModal';
 import styles from '../components/finance.module.css';
 
 export default function RefundPoliciesPage() {
-  const [selectedPolicyId, setSelectedPolicyId] = useState('pol-001');
+  const [selectedPolicyId, setSelectedPolicyId] = useState(null);
   const [isRuleEditorOpen, setIsRuleEditorOpen] = useState(false);
   const [editingRule, setEditingRule] = useState(null);
 
-  const { data: policies = [], isLoading: isListLoading } = useRefundPolicies();
-  const { data: selectedPolicy } = useRefundPolicy(selectedPolicyId);
+  const {
+    data: policies = [],
+    isLoading: isListLoading,
+    isError: isListError,
+    error: listError,
+    refetch: refetchPolicies,
+  } = useRefundPolicies();
+  // Chưa chọn thì mặc định chính sách đầu tiên trong danh sách từ API
+  const activePolicyId = selectedPolicyId ?? policies[0]?.policyId ?? null;
+  const { data: selectedPolicy } = useRefundPolicy(activePolicyId);
 
   const cloneMutation = useCloneRefundPolicyVersion();
   const updateRulesMutation = useUpdateRefundPolicyRules();
@@ -40,7 +49,7 @@ export default function RefundPoliciesPage() {
   };
 
   const currentPolicy =
-    selectedPolicy || policies.find((p) => p.policyId === selectedPolicyId) || policies[0];
+    selectedPolicy || policies.find((p) => p.policyId === activePolicyId) || policies[0];
   const isPolicyLocked = Boolean(currentPolicy?.isLocked || currentPolicy?.activeTripsCount > 0);
 
   const handleOpenAddRule = () => {
@@ -91,6 +100,17 @@ export default function RefundPoliciesPage() {
       },
     );
   };
+
+  if (isListError) {
+    return (
+      <div className={styles.container}>
+        <ErrorState
+          message={listError?.message || 'Không tải được danh sách chính sách hoàn tiền.'}
+          onRetry={refetchPolicies}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

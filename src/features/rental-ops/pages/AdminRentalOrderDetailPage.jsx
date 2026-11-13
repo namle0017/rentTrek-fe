@@ -185,9 +185,6 @@ export default function AdminRentalOrderDetailPage() {
               </dd>
             </div>
           </dl>
-          <p className={styles.hint}>
-            Số liệu tính theo PRD §8.7 (bù phí từ cọc trước). Hoàn cọc / thu thêm hiện xử lý thủ công ngoài hệ thống.
-          </p>
           <div className={styles.actions}>
             <button
               type="button"

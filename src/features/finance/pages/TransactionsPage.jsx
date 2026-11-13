@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ErrorState from '@/components/ErrorState';
 import Pagination from '@/components/Pagination';
 import { usePayments, usePaymentStats } from '../hooks/usePayments';
 import TransactionFilterBar from '../components/TransactionFilterBar';
@@ -22,7 +23,13 @@ export default function TransactionsPage() {
 
   const [selectedPayment, setSelectedPayment] = useState(null);
 
-  const { data: pagedData, isLoading: isPaymentsLoading } = usePayments(filters);
+  const {
+    data: pagedData,
+    isLoading: isPaymentsLoading,
+    isError: isPaymentsError,
+    error: paymentsError,
+    refetch: refetchPayments,
+  } = usePayments(filters);
   const { data: statsData, isLoading: isStatsLoading } = usePaymentStats();
 
   const handleResetFilters = () => {
@@ -82,11 +89,18 @@ export default function TransactionsPage() {
       />
 
       {/* Bảng dữ liệu giao dịch */}
-      <TransactionTable
-        payments={pagedData?.items}
-        isLoading={isPaymentsLoading}
-        onSelectPayment={setSelectedPayment}
-      />
+      {isPaymentsError ? (
+        <ErrorState
+          message={paymentsError?.message || 'Không tải được danh sách giao dịch.'}
+          onRetry={refetchPayments}
+        />
+      ) : (
+        <TransactionTable
+          payments={pagedData?.items}
+          isLoading={isPaymentsLoading}
+          onSelectPayment={setSelectedPayment}
+        />
+      )}
 
       {/* Phân trang */}
       {pagedData && (

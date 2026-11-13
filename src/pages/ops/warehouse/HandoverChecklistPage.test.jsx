@@ -42,13 +42,13 @@ function CurrentPath() {
   return <output aria-label="Đường dẫn hiện tại">{useLocation().pathname}</output>;
 }
 
-function renderPage() {
+function renderPage(initialPath = '/ops/rentals/RT-202611-001/handover') {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
   });
   return render(
     <QueryClientProvider client={client}>
-      <MemoryRouter initialEntries={['/ops/rentals/handover']}>
+      <MemoryRouter initialEntries={[initialPath]}>
         <CurrentPath />
         <Routes>
           <Route element={<RentalFulfillmentLayout />}>
@@ -66,6 +66,12 @@ describe('HandoverChecklistPage', () => {
     vi.clearAllMocks();
     fulfillmentService.getHandoverChecklist.mockResolvedValue({ data: checklist });
     fulfillmentService.completeHandover.mockResolvedValue({ data: {} });
+  });
+
+  it('asks for an order code instead of loading a demo order when the URL has none', async () => {
+    renderPage('/ops/rentals/handover');
+    expect(await screen.findByText(/Nhập mã đơn thuê/)).toBeInTheDocument();
+    expect(fulfillmentService.getHandoverChecklist).not.toHaveBeenCalled();
   });
 
   it('keeps the current order while entering a different code and looks it up on submit', async () => {

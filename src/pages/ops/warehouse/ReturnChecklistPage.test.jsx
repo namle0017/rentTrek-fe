@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fulfillmentService } from './api/fulfillmentService';
 import ReturnChecklistPage from './ReturnChecklistPage';
@@ -46,8 +46,10 @@ const checklist = {
 function renderPage() {
   return render(
     <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-      <MemoryRouter>
-        <ReturnChecklistPage />
+      <MemoryRouter initialEntries={['/ops/rentals/RT-202611-001/return']}>
+        <Routes>
+          <Route path="/ops/rentals/:orderCode/return" element={<ReturnChecklistPage />} />
+        </Routes>
       </MemoryRouter>
     </QueryClientProvider>,
   );

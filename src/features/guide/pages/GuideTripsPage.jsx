@@ -9,66 +9,6 @@ import { formatDate } from '@/utils/formatDate';
 import { useGuideTrips } from '../hooks/useGuidePortal';
 import styles from './GuideTripsPage.module.css';
 
-const MOCK_GUIDE_TRIPS = {
-  today: [
-    {
-      tripId: 'TRIP-2026-FANSIPAN',
-      groupId: 'grp-01',
-      groupName: 'Đoàn 01 - Chinh phục Fansipan',
-      tripStatus: 'IN_PROGRESS',
-      tourName: 'Trekking Fansipan - Nóc Nhà Đông Dương',
-      startAt: new Date().toISOString(),
-      endAt: new Date(Date.now() + 2 * 24 * 3600 * 1000).toISOString(),
-      participantCount: 8,
-      maxParticipants: 10,
-      meetingLocation: {
-        name: 'Trạm Tôn - Cổng VQG Hoàng Liên',
-        address: 'Xã San Sả Hồ, Sa Pa, Lào Cai',
-        latitude: 22.3503,
-        longitude: 103.7745,
-      },
-    },
-  ],
-  upcoming: [
-    {
-      tripId: 'TRIP-2026-TAXUA',
-      groupId: 'grp-02',
-      groupName: 'Đoàn 02 - Săn mây Tà Xùa',
-      tripStatus: 'OPEN',
-      tourName: 'Săn mây Tà Xùa - Sống Lưng Khủng Long',
-      startAt: new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString(),
-      endAt: new Date(Date.now() + 9 * 24 * 3600 * 1000).toISOString(),
-      participantCount: 12,
-      maxParticipants: 15,
-      meetingLocation: {
-        name: 'Ngã Ba Bản Tà Xùa',
-        address: 'Bắc Yên, Sơn La',
-        latitude: 21.2854,
-        longitude: 104.4628,
-      },
-    },
-  ],
-  completed: [
-    {
-      tripId: 'TRIP-2026-PUTALENG',
-      groupId: 'grp-00',
-      groupName: 'Đoàn 00 - Pú Tả Lèng mùa đỗ quyên',
-      tripStatus: 'COMPLETED',
-      tourName: 'Chinh phục Đỉnh Pú Tả Lèng',
-      startAt: new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString(),
-      endAt: new Date(Date.now() - 7 * 24 * 3600 * 1000).toISOString(),
-      participantCount: 10,
-      maxParticipants: 10,
-      meetingLocation: {
-        name: 'Bản Tả Lèng',
-        address: 'Tam Đường, Lai Châu',
-        latitude: 22.385,
-        longitude: 103.582,
-      },
-    },
-  ],
-};
-
 // Chuẩn hóa trạng thái kỹ thuật sang nhãn tiếng Việt thực địa thân thiện
 function getStatusConfig(status) {
   switch (status) {
@@ -134,7 +74,7 @@ export default function GuideTripsPage() {
   }, []);
 
   const trips = useMemo(() => {
-    const list = rawTrips && rawTrips.length > 0 ? rawTrips : MOCK_GUIDE_TRIPS[tab] || [];
+    const list = rawTrips ?? [];
     if (!search.trim()) return list;
     const q = search.trim().toLowerCase();
     return list.filter(
@@ -143,7 +83,7 @@ export default function GuideTripsPage() {
         t.groupName?.toLowerCase().includes(q) ||
         t.tripId?.toLowerCase().includes(q),
     );
-  }, [rawTrips, tab, search]);
+  }, [rawTrips, search]);
 
   const selectedTrip = useMemo(() => {
     if (!trips.length) return null;
@@ -207,7 +147,7 @@ export default function GuideTripsPage() {
               onClick={() => setTab('today')}
             >
               <span>Hôm nay</span>
-              <span className={styles.tabCount}>{MOCK_GUIDE_TRIPS.today.length}</span>
+              {tab === 'today' && <span className={styles.tabCount}>{rawTrips?.length ?? 0}</span>}
             </button>
             <button
               type="button"
@@ -217,7 +157,7 @@ export default function GuideTripsPage() {
               onClick={() => setTab('upcoming')}
             >
               <span>Sắp tới</span>
-              <span className={styles.tabCount}>{MOCK_GUIDE_TRIPS.upcoming.length}</span>
+              {tab === 'upcoming' && <span className={styles.tabCount}>{rawTrips?.length ?? 0}</span>}
             </button>
             <button
               type="button"
@@ -227,7 +167,7 @@ export default function GuideTripsPage() {
               onClick={() => setTab('completed')}
             >
               <span>Đã xong</span>
-              <span className={styles.tabCount}>{MOCK_GUIDE_TRIPS.completed.length}</span>
+              {tab === 'completed' && <span className={styles.tabCount}>{rawTrips?.length ?? 0}</span>}
             </button>
           </div>
 

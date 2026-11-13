@@ -13,10 +13,8 @@ import Spinner from '@/components/Spinner';
 import styles from './SettlementPage.module.css';
 
 export default function SettlementPage() {
-  const { orderCode: routeOrderCode } = useParams();
-
-  const defaultOrder = 'RT-202611-001';
-  const activeOrderCode = routeOrderCode || defaultOrder;
+  // Layout chỉ render trang này khi URL đã có mã đơn
+  const { orderCode: activeOrderCode } = useParams();
 
   // Create charge modal
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -269,7 +267,7 @@ export default function SettlementPage() {
                             charge.status
                           )}
                         </td>
-                        <td className={styles.td}>{charge.createdByName || 'Hệ thống'}</td>
+                        <td className={styles.td}>{charge.createdByName || '—'}</td>
                         <td className={styles.td}>
                           {new Date(charge.createdAt).toLocaleDateString('vi-VN')}
                         </td>

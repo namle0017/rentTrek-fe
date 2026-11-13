@@ -38,17 +38,19 @@ export default function RentalOrderToolbar({ orderCode, step }) {
           Tìm đơn
         </button>
       </form>
-      <nav className={styles.navigation} aria-label="Thao tác đơn thuê">
-        {steps.map((item) => (
-          <Link
-            key={item.key}
-            to={item.route(encodeURIComponent(orderCode))}
-            aria-current={item.key === step ? 'page' : undefined}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      {orderCode && (
+        <nav className={styles.navigation} aria-label="Thao tác đơn thuê">
+          {steps.map((item) => (
+            <Link
+              key={item.key}
+              to={item.route(encodeURIComponent(orderCode))}
+              aria-current={item.key === step ? 'page' : undefined}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      )}
     </section>
   );
 }

@@ -122,24 +122,16 @@ export default function RefundPolicyCreatePage() {
 
   return (
     <div className={styles.container}>
-      {/* Tiêu đề trang & Quay lại */}
-      <div className={styles.pageHeader}>
-        <div>
-          <button
-            type="button"
-            className="btn btn-outline"
-            style={{ fontSize: "var(--font-size-control)", padding: '5px 12px', marginBottom: 8 }}
-            onClick={() => navigate(ROUTES.OPS_REFUND_POLICIES)}
-          >
-            ← Quay lại danh sách
-          </button>
-          <h2 style={{ margin: 0, fontSize: "var(--font-size-section-title)", fontWeight: "var(--font-weight-bold)", color: 'var(--color-text)' }}>
-            Tạo Mới Chính Sách Hoàn Tiền
-          </h2>
-          <p className={styles.pageSubtitle} style={{ marginTop: 4 }}>
-            Định nghĩa bậc thang hoàn tiền theo mốc thời gian khách hàng gửi yêu cầu hủy tour / hủy thuê
-          </p>
-        </div>
+      {/* Thanh điều hướng Quay lại */}
+      <div style={{ marginBottom: 16 }}>
+        <button
+          type="button"
+          className="btn btn-outline"
+          style={{ fontSize: "var(--font-size-control)", padding: '5px 12px' }}
+          onClick={() => navigate(ROUTES.OPS_REFUND_POLICIES)}
+        >
+          ← Quay lại danh sách
+        </button>
       </div>
 
       {error && <div className={styles.errorAlert}>{error}</div>}

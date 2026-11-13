@@ -94,7 +94,6 @@ export default function RefundPoliciesPage() {
 
   return (
     <div className={styles.container}>
-
       {/* Bố cục Master–Detail */}
       <div className={styles.masterDetailLayout}>
         {/* Cột Trái (Master List): Danh sách chính sách */}

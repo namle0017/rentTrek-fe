@@ -60,7 +60,7 @@ export default function AdminRefundsPage() {
   return (
     <>
       <RefundQueue
-        title="Hoàn tiền"
+        title="Hàng đợi hoàn tiền"
         description="Xuất các hồ sơ đang chờ ra Excel cho kế toán chuyển khoản, sau đó đánh dấu từng hồ sơ đã hoàn tiền."
         statuses={ADMIN_STATUSES}
         renderActions={renderActions}

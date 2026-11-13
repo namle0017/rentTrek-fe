@@ -70,7 +70,6 @@ export default function TransactionsPage() {
 
   return (
     <div className={styles.container}>
-
       {/* Thẻ tổng hợp KPI tài chính */}
       <TransactionSummaryCards stats={statsData} isLoading={isStatsLoading} />
 

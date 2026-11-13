@@ -63,6 +63,14 @@ export default function AssetGanttPage() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.header} style={{ justifyContent: 'flex-end', paddingBottom: 12 }}>
+        <div className={styles.actions}>
+          <Link to={ROUTES.OPS_ASSETS} className={styles.btnSecondary}>
+            ← Danh sách thiết bị
+          </Link>
+        </div>
+      </div>
+
       {/* Control & Date Range Bar */}
       <div className={styles.controlBar}>
         <div className={styles.dateNav}>

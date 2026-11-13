@@ -108,11 +108,7 @@ export default function AdminToursPage() {
   };
 
   return (
-    <section className={styles.page} aria-labelledby="admin-tours-title">
-      <div className={styles.header}>
-        <h1 id="admin-tours-title">Tour</h1>
-      </div>
-
+    <section className={styles.page} aria-label="Danh mục Tour trekking">
       <form className={styles.filters} onSubmit={handleSubmit}>
         <label className={styles.field}>
           <span>Tìm tour</span>

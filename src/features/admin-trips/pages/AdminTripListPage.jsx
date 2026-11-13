@@ -402,12 +402,6 @@ export default function AdminTripListPage() {
   if (isLoading && !items.length) {
     return (
       <div className={styles.page}>
-        <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Quản lý chuyến đi & điều hành khởi hành</h1>
-          <p className={styles.subtitle}>
-            Theo dõi lịch khởi hành, tiến độ bán chỗ, điều phối đoàn và xuất phát
-          </p>
-        </div>
         <TableSkeleton rows={6} cols={7} />
       </div>
     );
@@ -415,6 +409,12 @@ export default function AdminTripListPage() {
 
   return (
     <div className={styles.page}>
+      {/* 1. Page Header Action Toolbar */}
+      <div className={styles.actionRow} style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+        <Link to={ROUTES.ADMIN_TRIP_CREATE} className="btn btn-primary">
+          ＋ Thêm chuyến đi mới
+        </Link>
+      </div>
 
       {/* 2. KPI Overview */}
       <div className={styles.kpiSection}>

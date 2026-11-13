@@ -34,12 +34,12 @@ export default function RevenueChart() {
   const width = 880;
   const left = 65;
   const right = 16;
-  const top = 18;
-  const height = 195;
+  const top = 14;
+  const height = 150;
   const bottom = top + height;
   const y = (value) => top + ((max - value) / (max - min)) * height;
   const slot = (width - left - right) / periods.length;
-  const barWidth = Math.min(24, slot * 0.28);
+  const barWidth = Math.min(22, slot * 0.28);
   const selected = periods.find((period) => period.key === selectedKey);
   const totals = revenueServices.map((service) => ({
     ...service,
@@ -117,7 +117,7 @@ export default function RevenueChart() {
                 aria-label="Biểu đồ doanh thu, cuộn ngang trên màn hình nhỏ"
               >
                 <svg
-                  viewBox={`0 0 ${width} 250`}
+                  viewBox={`0 0 ${width} 195`}
                   role="img"
                   aria-labelledby="revenue-svg-title revenue-svg-desc"
                 >
@@ -169,7 +169,7 @@ export default function RevenueChart() {
                           );
                         })}
                         {(periods.length <= 8 || index % 2 === 0 || index === periods.length - 1) && (
-                          <text x={center} y={bottom + 23} textAnchor="middle" className={styles.axis}>
+                          <text x={center} y={bottom + 18} textAnchor="middle" className={styles.axis}>
                             {period.label}
                           </text>
                         )}
@@ -192,36 +192,6 @@ export default function RevenueChart() {
                   <span>Di chuột hoặc dùng phím Tab trên cột để xem chi tiết.</span>
                 )}
               </div>
-              <details className={styles.dataTable}>
-                <summary>Xem bảng số liệu</summary>
-                <div className={styles.tableScroll}>
-                  <table>
-                    <caption className="sr-only">{metrics[metric]} theo kỳ, đơn vị đồng</caption>
-                    <thead>
-                      <tr>
-                        <th scope="col">{range.groupBy === 'week' ? 'Tuần bắt đầu' : 'Tháng'}</th>
-                        {revenueServices.map(({ key, label }) => (
-                          <th scope="col" key={key}>
-                            {label}
-                          </th>
-                        ))}
-                        <th scope="col">Tổng</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {periods.map((period) => (
-                        <tr key={period.key}>
-                          <th scope="row">{period.title}</th>
-                          {revenueServices.map(({ key }) => (
-                            <td key={key}>{formatCurrency(period[key][metric])}</td>
-                          ))}
-                          <td>{formatCurrency(period.Tour[metric] + period.Rental[metric])}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </details>
             </>
           )}
           <div className={styles.footer}>

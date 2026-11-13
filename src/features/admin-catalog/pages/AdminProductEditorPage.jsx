@@ -52,8 +52,8 @@ export default function AdminProductEditorPage() {
   ];
 
   return (
-    <section className={styles.page} aria-labelledby="product-editor-title">
-      {/* 1. Header & Breadcrumb */}
+    <section className={styles.page} aria-label="Soạn thảo sản phẩm">
+      {/* 1. Breadcrumb */}
       <header className={styles.pageHeader}>
         <Breadcrumb
           items={[
@@ -64,16 +64,6 @@ export default function AdminProductEditorPage() {
             { label: productId ? 'Chỉnh sửa' : 'Thêm sản phẩm mới' },
           ]}
         />
-        <div>
-          <h1 id="product-editor-title" className={styles.title}>
-            {productId ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới'}
-          </h1>
-          <p className={styles.description}>
-            {productId
-              ? 'Cập nhật thông tin cơ bản, danh mục thiết bị và trạng thái hiển thị của sản phẩm.'
-              : 'Lưu thông tin sản phẩm cha trước, sau đó thiết lập biến thể SKU, hình ảnh và bậc giá ngày tại trang chi tiết.'}
-          </p>
-        </div>
       </header>
 
       {/* 2. 2-Column Layout */}

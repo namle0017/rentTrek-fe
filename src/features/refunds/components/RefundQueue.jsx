@@ -52,12 +52,11 @@ export default function RefundQueue({ title, description, statuses, renderAction
 
   return (
     <main className={styles.page}>
-      <header className={styles.pageHeader}>
-        <span className={styles.kicker}>HOÀN TIỀN</span>
-        <h1>{title}</h1>
-        <p>{description}</p>
-        {toolbar && <div className={styles.toolbar}>{toolbar}</div>}
-      </header>
+      {toolbar && (
+        <div className={styles.pageHeader} style={{ justifyContent: 'flex-end', paddingBottom: 12 }}>
+          <div className={styles.toolbar}>{toolbar}</div>
+        </div>
+      )}
 
       <form className={styles.filters} aria-label="Lọc hồ sơ">
         <label>

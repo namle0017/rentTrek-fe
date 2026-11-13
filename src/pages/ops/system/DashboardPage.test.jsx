@@ -85,8 +85,7 @@ describe('DashboardPage - Redesigned UI/UX', () => {
       </MemoryRouter>,
     );
 
-    // 1. Dashboard Header
-    expect(screen.getByRole('heading', { level: 1, name: 'Tổng quan hoạt động' })).toBeInTheDocument();
+    // 1. Dashboard Header Quick Action Links
     expect(screen.getByRole('link', { name: /Quản lý đơn hàng/ })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Quản lý chuyến đi/ })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Báo cáo chi tiết/ })).toBeInTheDocument();

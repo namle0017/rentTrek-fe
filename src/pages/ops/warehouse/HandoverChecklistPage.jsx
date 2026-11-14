@@ -7,6 +7,7 @@ import Spinner from '@/components/Spinner';
 import RentalOrderSummary from './components/RentalOrderSummary';
 import BarcodeScanner from './components/BarcodeScanner';
 import FulfillmentProgress from './components/FulfillmentProgress';
+import StaffRentalEvidencePanel from './components/StaffRentalEvidencePanel';
 import layoutStyles from '@/layouts/RentalFulfillmentLayout.module.css';
 import styles from './HandoverChecklistPage.module.css';
 
@@ -172,6 +173,11 @@ function HandoverWorkspace({ activeOrderCode }) {
                   })}
                 </ul>
               </section>
+              <StaffRentalEvidencePanel
+                orderId={serverChecklist?.orderId}
+                stage="Handover"
+                refreshKey={checklist.scannedCount}
+              />
             </div>
             <aside className={styles.progressSidebar}>
               <FulfillmentProgress

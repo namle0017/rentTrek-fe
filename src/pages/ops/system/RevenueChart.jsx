@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, BarChart2, RefreshCw, Table } from 'lucide-react';
 import { API_ENDPOINTS } from '@/api/endpoints';
 import { ROUTES } from '@/constants/routes';
 import { useDevClock } from '@/hooks/useDevClock';
@@ -19,11 +19,20 @@ export default function RevenueChart() {
   const [days, setDays] = useState(30);
   const [metric, setMetric] = useState('netRevenueVnd');
   const [selectedKey, setSelectedKey] = useState(null);
+  const [viewMode, setViewMode] = useState('chart');
+  const [lastUpdated, setLastUpdated] = useState(() => new Date());
   const [realNow] = useState(() => new Date().toISOString());
   const { data: clock } = useDevClock();
-  const range = revenueRange(clock?.now ?? realNow, days);
+
+  const range = useMemo(() => revenueRange(clock?.now ?? realNow, days), [clock?.now, realNow, days]);
   const report = useOperations(API_ENDPOINTS.ADMIN.REPORTS.REVENUE, range);
-  const periods = buildRevenuePeriods(report.data ?? [], range);
+  const periods = useMemo(() => buildRevenuePeriods(report.data ?? [], range), [report.data, range]);
+
+  const handleRefresh = async () => {
+    await report.refetch();
+    setLastUpdated(new Date());
+  };
+
   const values = periods.flatMap((period) => revenueServices.map(({ key }) => period[key][metric]));
   const low = Math.min(0, ...values);
   const high = Math.max(0, ...values);
@@ -38,7 +47,7 @@ export default function RevenueChart() {
   const height = 150;
   const bottom = top + height;
   const y = (value) => top + ((max - value) / (max - min)) * height;
-  const slot = (width - left - right) / periods.length;
+  const slot = periods.length > 0 ? (width - left - right) / periods.length : 1;
   const barWidth = Math.min(22, slot * 0.28);
   const selected = periods.find((period) => period.key === selectedKey);
   const totals = revenueServices.map((service) => ({
@@ -57,6 +66,29 @@ export default function RevenueChart() {
           <p>Đặt tour và thuê thiết bị · Giao dịch thành công</p>
         </div>
         <div className={styles.filters}>
+          <div className={styles.viewToggle} role="group" aria-label="Chế độ xem">
+            <button
+              type="button"
+              className={`${styles.toggleBtn} ${viewMode === 'chart' ? styles.toggleActive : ''}`}
+              onClick={() => setViewMode('chart')}
+              title="Xem dạng biểu đồ cột"
+              aria-pressed={viewMode === 'chart'}
+            >
+              <BarChart2 size={14} />
+              <span>Biểu đồ</span>
+            </button>
+            <button
+              type="button"
+              className={`${styles.toggleBtn} ${viewMode === 'table' ? styles.toggleActive : ''}`}
+              onClick={() => setViewMode('table')}
+              title="Xem dạng bảng số liệu"
+              aria-pressed={viewMode === 'table'}
+            >
+              <Table size={14} />
+              <span>Bảng số liệu</span>
+            </button>
+          </div>
+
           <label>
             <span className="sr-only">Chỉ số biểu đồ</span>
             <select value={metric} onChange={(event) => setMetric(event.target.value)}>
@@ -83,6 +115,16 @@ export default function RevenueChart() {
               ))}
             </select>
           </label>
+          <button
+            type="button"
+            className={styles.refreshBtn}
+            onClick={handleRefresh}
+            disabled={report.isFetching}
+            title="Làm mới dữ liệu từ máy chủ"
+            aria-label="Làm mới dữ liệu"
+          >
+            <RefreshCw size={14} className={report.isFetching ? styles.spinning : ''} />
+          </button>
         </div>
       </div>
       {report.isPending ? (
@@ -107,7 +149,54 @@ export default function RevenueChart() {
             </div>
           </div>
           {!hasActivity ? (
-            <div className={styles.empty}>Chưa có giao dịch thành công trong khoảng thời gian này.</div>
+            <div className={styles.empty}>
+              <p>Chưa có giao dịch thành công trong khoảng thời gian này.</p>
+              <button
+                type="button"
+                className={styles.emptyRefreshBtn}
+                onClick={handleRefresh}
+                disabled={report.isFetching}
+              >
+                <RefreshCw size={13} className={report.isFetching ? styles.spinning : ''} />
+                <span>Kiểm tra lại dữ liệu</span>
+              </button>
+            </div>
+          ) : viewMode === 'table' ? (
+            <div className={styles.tableWrapper}>
+              <table className={styles.dataTable}>
+                <thead>
+                  <tr>
+                    <th scope="col">Kỳ báo cáo</th>
+                    <th scope="col" className={styles.textRight}>
+                      Đặt tour ({metrics[metric]})
+                    </th>
+                    <th scope="col" className={styles.textRight}>
+                      Thuê thiết bị ({metrics[metric]})
+                    </th>
+                    <th scope="col" className={styles.textRight}>
+                      Tổng cộng
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {periods.map((p) => {
+                    const tourVal = p.Tour[metric];
+                    const rentVal = p.Rental[metric];
+                    const totalVal = tourVal + rentVal;
+                    return (
+                      <tr key={p.key}>
+                        <td className={styles.periodName}>{p.title}</td>
+                        <td className={styles.textRight}>{formatCurrency(tourVal)}</td>
+                        <td className={styles.textRight}>{formatCurrency(rentVal)}</td>
+                        <td className={`${styles.textRight} ${styles.rowTotal}`}>
+                          <strong>{formatCurrency(totalVal)}</strong>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           ) : (
             <>
               <div
@@ -133,7 +222,7 @@ export default function RevenueChart() {
                     return (
                       <g key={index}>
                         <line x1={left} x2={width - right} y1={y(value)} y2={y(value)} stroke="#edf1ee" />
-                        <text x={left - 10} y={y(value) + 4} textAnchor="end" className={styles.axis}>
+                        <text x={left - 10} y={y(value) + 4} textAnchor="end" className={styles.axisLabel}>
                           {compactCurrency.format(value)}
                         </text>
                       </g>
@@ -169,7 +258,7 @@ export default function RevenueChart() {
                           );
                         })}
                         {(periods.length <= 8 || index % 2 === 0 || index === periods.length - 1) && (
-                          <text x={center} y={bottom + 18} textAnchor="middle" className={styles.axis}>
+                          <text x={center} y={bottom + 18} textAnchor="middle" className={styles.axisLabel}>
                             {period.label}
                           </text>
                         )}
@@ -195,8 +284,9 @@ export default function RevenueChart() {
             </>
           )}
           <div className={styles.footer}>
-            <span>
-              Theo {range.groupBy === 'week' ? 'tuần' : 'tháng'} · Giờ Việt Nam · Ròng = tổng thu − hoàn tiền
+            <span className={styles.footerHint}>
+              Theo {range.groupBy === 'week' ? 'tuần' : 'tháng'} · Giờ Việt Nam · Cập nhật{' '}
+              {dayjs(lastUpdated).format('HH:mm:ss')}
             </span>
             <Link
               to={`${ROUTES.ADMIN_REPORTS}?report=revenue&from=${dayjs(range.from).utcOffset(7).format('YYYY-MM-DD')}&to=${dayjs(range.to).utcOffset(7).format('YYYY-MM-DD')}&groupBy=${range.groupBy}`}

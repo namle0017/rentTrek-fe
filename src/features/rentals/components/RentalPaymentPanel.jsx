@@ -4,7 +4,11 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { useCreateRentalPayment, useRentalPaymentStatus } from '../hooks/useRentals';
 import styles from '../pages/RentalCustomer.module.css';
 
-export default function RentalPaymentPanel({ orderId, onSettled }) {
+/**
+ * Thanh toán VietQR. additional = khoản thu sau khi đơn đã trả (gia hạn / phí vượt cọc):
+ * hoàn tất khi chính khoản đó có kết quả, không dựa vào trạng thái thanh toán của đơn.
+ */
+export default function RentalPaymentPanel({ orderId, onSettled, additional = false, title }) {
   const create = useCreateRentalPayment();
   const { mutate: start } = create;
   const notified = useRef('');
@@ -12,18 +16,19 @@ export default function RentalPaymentPanel({ orderId, onSettled }) {
   useEffect(() => {
     start({ orderId });
   }, [start, orderId]);
-  const statusQuery = useRentalPaymentStatus(orderId, payment?.paymentId);
+  const statusQuery = useRentalPaymentStatus(orderId, payment?.paymentId, {}, additional);
   const status = statusQuery.data;
-  const completed = status && (status.status !== 'Pending' || status.orderPaymentStatus !== 'Unpaid');
+  const completed =
+    status && (status.status !== 'Pending' || (!additional && status.orderPaymentStatus !== 'Unpaid'));
   useEffect(() => {
     if (!completed) return;
     const signal = `${status.paymentId}:${status.status}:${status.orderPaymentStatus}`;
     if (notified.current === signal) return;
     notified.current = signal;
-    if (status.status === 'Succeeded' && status.orderPaymentStatus === 'Paid')
-      toast.success('Ngân hàng đã xác nhận thanh toán đơn thuê.');
+    if (status.status === 'Succeeded' && (additional || status.orderPaymentStatus === 'Paid'))
+      toast.success(additional ? 'Ngân hàng đã xác nhận khoản thanh toán.' : 'Ngân hàng đã xác nhận thanh toán đơn thuê.');
     onSettled?.();
-  }, [completed, status, onSettled]);
+  }, [completed, status, onSettled, additional]);
   const copy = async (value) => {
     try {
       await navigator.clipboard.writeText(String(value));
@@ -112,7 +117,11 @@ export default function RentalPaymentPanel({ orderId, onSettled }) {
   if (completed)
     return (
       <section className={styles.card}>
-        <h2>{status.orderPaymentStatus === 'Paid' ? 'Đã thanh toán' : 'Đang cập nhật kết quả giao dịch'}</h2>
+        <h2>
+          {status.status === 'Succeeded' || (!additional && status.orderPaymentStatus === 'Paid')
+            ? 'Đã thanh toán'
+            : 'Đang cập nhật kết quả giao dịch'}
+        </h2>
         <p>Trạng thái do ngân hàng và hệ thống xác nhận. Nếu đã chuyển tiền, không chuyển lại.</p>
         <button type="button" className={styles.secondary} onClick={onSettled}>
           Tải lại đơn thuê
@@ -121,7 +130,7 @@ export default function RentalPaymentPanel({ orderId, onSettled }) {
     );
   return (
     <section className={styles.card} aria-label="Thanh toán đơn thuê bằng VietQR">
-      <h2>Quét mã để thanh toán</h2>
+      <h2>{title || 'Quét mã để thanh toán'}</h2>
       <div className={styles.qrLayout}>
         <img
           className={styles.qr}

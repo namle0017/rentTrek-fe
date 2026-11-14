@@ -42,4 +42,41 @@ describe('RefundProgressCard', () => {
     expect(screen.getByText(/vui lòng liên hệ hỗ trợ/)).toBeInTheDocument();
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
+
+  it('renders bank receipt image and transaction code when providerTransactionId is present', async () => {
+    show({
+      ...refundCase,
+      status: 'Completed',
+      providerTransactionId: 'FT261102001#proof=https://storage.vn/receipt-vcb.png',
+    });
+    render(<RefundProgressCard refundCaseId={refundCase.refundCaseId} />);
+
+    expect(screen.getByText(/Biên lai chuyển khoản hoàn tiền từ RenTrek/i)).toBeInTheDocument();
+    expect(screen.getByText('FT261102001')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Sao chép/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Phóng to biên lai/i })).toBeInTheDocument();
+  });
+
+  it('opens and closes lightbox zoom when clicking receipt thumbnail', async () => {
+    const user = (await import('@testing-library/user-event')).default.setup();
+    show({
+      ...refundCase,
+      status: 'Completed',
+      providerTransactionId: 'FT261102001#proof=https://storage.vn/receipt-vcb.png',
+    });
+    render(<RefundProgressCard refundCaseId={refundCase.refundCaseId} />);
+
+    const zoomBtn = screen.getByRole('button', { name: /Phóng to biên lai/i });
+    await user.click(zoomBtn);
+
+    expect(screen.getByRole('dialog', { name: /Xem biên lai chuyển khoản/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Mở ảnh gốc/i })).toHaveAttribute(
+      'href',
+      'https://storage.vn/receipt-vcb.png',
+    );
+
+    // Close lightbox
+    await user.click(screen.getByRole('button', { name: 'Đóng' }));
+    expect(screen.queryByRole('dialog', { name: /Xem biên lai chuyển khoản/i })).not.toBeInTheDocument();
+  }, 15000);
 });

@@ -39,7 +39,40 @@ export const CHARGE_TYPE_OPTIONS = [
   { value: 'Other', label: 'Khác' },
 ];
 
-export const CHARGE_TYPE_LABEL = Object.fromEntries(CHARGE_TYPE_OPTIONS.map((o) => [o.value, o.label]));
+// Loại phí do hệ thống tạo (không cho lập tay)
+export const SYSTEM_CHARGE_TYPE_LABEL = {
+  LatePickup: 'Trễ nhận đồ (% cọc)',
+  LateReturnPenalty: 'Phạt trả trễ (% cọc)',
+  CancellationFee: 'Phí huỷ',
+  Extension: 'Gia hạn',
+};
+
+export const CHARGE_TYPE_LABEL = {
+  ...Object.fromEntries(CHARGE_TYPE_OPTIONS.map((o) => [o.value, o.label])),
+  ...SYSTEM_CHARGE_TYPE_LABEL,
+};
+
+export const RENTAL_REPORT_TYPE_LABEL = {
+  NoShow: 'Khách không đến nhận',
+  LateCancellation: 'Huỷ khi đã trễ nhận',
+  ReturnInspection: 'Kiểm tra trả đồ',
+  SuspectedLoss: 'Nghi mất (quá hạn trả)',
+  ExtraPayment: 'Thu thêm phí vượt cọc',
+};
+
+export const RENTAL_REPORT_STATUS_LABEL = {
+  Submitted: 'Chờ duyệt',
+  Approved: 'Đã duyệt',
+  Rejected: 'Bị từ chối',
+  Resolved: 'Đã xử lý',
+};
+
+export const EVIDENCE_STAGE_LABEL = {
+  Handover: 'Lúc giao',
+  Return: 'Lúc nhận lại',
+  Damage: 'Hư hỏng',
+  CustomerIssue: 'Khách báo lỗi',
+};
 
 // Hỏng / mất bắt buộc chọn thiết bị (FR-C03)
 export const CHARGE_TYPES_REQUIRE_ASSET = ['Damage', 'Loss'];

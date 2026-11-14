@@ -269,6 +269,14 @@ export const router = createBrowserRouter([
                 lazy: lazyPage(() => import('@/pages/ops/finance/RefundPoliciesPage')),
               },
               {
+                path: ROUTES.ADMIN_RENTAL_REPORTS,
+                lazy: lazyPage(() => import('@/features/rental-ops/pages/AdminRentalReportsPage')),
+              },
+              {
+                path: ROUTES.ADMIN_RENTAL_POLICY,
+                lazy: lazyPage(() => import('@/features/rental-ops/pages/AdminRentalPolicyPage')),
+              },
+              {
                 path: ROUTES.OPS_REFUND_POLICY_CREATE,
                 lazy: lazyPage(() => import('@/pages/ops/finance/RefundPolicyCreatePage')),
               },

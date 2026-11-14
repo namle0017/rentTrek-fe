@@ -55,13 +55,58 @@ export function useRentalOrder(orderId, options = {}) {
   });
 }
 
-// Cancellation preview and charge reviews may be unavailable; actual API errors are propagated.
-export function useRentalCancellationPreview(orderId) {
+// Báo giá huỷ đơn đã thanh toán: phí theo chính sách cọc, chỉ tải khi khách mở hộp huỷ
+export function useRentalCancellationPreview(orderId, options = {}) {
   return useQuery({
     queryKey: ['rental', 'cancellationPreview', orderId],
     queryFn: () => rentalService.getCancellationPreview(orderId),
     select: (res) => res.data,
     enabled: Boolean(orderId),
+    staleTime: 0,
+    ...options,
+  });
+}
+
+function useOrderMutation(mutationFn, successMessage) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn,
+    onSuccess: (res, variables) => {
+      queryClient.invalidateQueries({ queryKey: rentalKeys.orderDetail(variables.orderId) });
+      queryClient.invalidateQueries({ queryKey: orderKeys.myLists() });
+      toast.success(res?.message || successMessage);
+    },
+  });
+}
+
+export function useCancelPaidRentalOrder() {
+  return useOrderMutation(
+    ({ orderId, payload }) => rentalService.cancelPaid(orderId, payload),
+    'Đã huỷ đơn thuê.',
+  );
+}
+
+export function useConfirmRentalReceipt() {
+  return useOrderMutation(({ orderId }) => rentalService.confirmReceipt(orderId), 'Đã xác nhận nhận đồ.');
+}
+
+export function useRentalExtensionQuote() {
+  return useMutation({ mutationFn: ({ orderId, payload }) => rentalService.quoteExtension(orderId, payload) });
+}
+
+export function useExtendRentalOrder() {
+  return useOrderMutation(
+    ({ orderId, payload }) => rentalService.extend(orderId, payload),
+    'Đã tạo yêu cầu gia hạn.',
+  );
+}
+
+export function useActiveRentalPolicy() {
+  return useQuery({
+    queryKey: [...rentalKeys.all, 'policy', 'active'],
+    queryFn: rentalService.getActivePolicy,
+    select: (res) => res.data,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -79,6 +124,20 @@ export function useCancelRentalOrder() {
     },
     onError: (err) => {
       toast.error(err.response?.data?.message || 'Không thể hủy đơn thuê.');
+    },
+  });
+}
+
+export function useReportRentalIssue() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ orderId, payload }) => rentalService.reportItemIssue(orderId, payload),
+    onSuccess: (res, variables) => {
+      queryClient.invalidateQueries({ queryKey: rentalKeys.orderDetail(variables.orderId) });
+      toast.success(res?.message || 'Báo cáo sự cố thiết bị đã được gửi tới Quản lý kho RenTrek.');
+    },
+    onError: (err) => {
+      toast.error(err.response?.data?.message || err.message || 'Không thể gửi báo cáo sự cố.');
     },
   });
 }
@@ -105,7 +164,8 @@ export function useCreateRentalPayment() {
   });
 }
 
-export function useRentalPaymentStatus(orderId, paymentId, options = {}) {
+// additional = khoản thu sau khi đơn đã trả (gia hạn / phí vượt cọc): chỉ dừng khi chính khoản đó có kết quả
+export function useRentalPaymentStatus(orderId, paymentId, options = {}, additional = false) {
   return useQuery({
     queryKey: ['rental', 'paymentStatus', orderId, paymentId],
     queryFn: () => rentalService.getPaymentStatus(orderId, paymentId),
@@ -114,7 +174,7 @@ export function useRentalPaymentStatus(orderId, paymentId, options = {}) {
     refetchInterval: (query) => {
       const status = query.state.data?.data?.status;
       const paymentStatus = query.state.data?.data?.orderPaymentStatus;
-      if (paymentStatus && paymentStatus !== 'Unpaid') return false;
+      if (!additional && paymentStatus && paymentStatus !== 'Unpaid') return false;
       if (status === 'Succeeded' || status === 'Failed' || status === 'Cancelled') {
         return false;
       }

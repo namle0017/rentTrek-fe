@@ -106,6 +106,7 @@ export const ORDER_STATUS_LABEL = {
   PendingPayment: 'Chờ thanh toán',
   Confirmed: 'Đã xác nhận',
   InFulfillment: 'Đang thực hiện',
+  AwaitingSettlement: 'Chờ thanh toán phí phát sinh',
   Completed: 'Hoàn tất',
   Expired: 'Hết hạn',
   Cancelled: 'Đã hủy',
@@ -120,6 +121,7 @@ export const ORDER_PAYMENT_STATUS_LABEL = {
 };
 
 export const REFUND_CASE_STATUS = Object.freeze({
+  AWAITING_BANK_INFO: 'AwaitingBankInfo',
   REQUESTED: 'Requested',
   APPROVED: 'Approved',
   COMPLETED: 'Completed',
@@ -129,6 +131,7 @@ export const REFUND_CASE_STATUS = Object.freeze({
 });
 
 export const REFUND_CASE_STATUS_LABEL = {
+  [REFUND_CASE_STATUS.AWAITING_BANK_INFO]: 'Chờ khách nhập STK',
   [REFUND_CASE_STATUS.REQUESTED]: 'Chờ xử lý',
   [REFUND_CASE_STATUS.APPROVED]: 'Đã gửi kế toán',
   [REFUND_CASE_STATUS.COMPLETED]: 'Hoàn tất',
@@ -136,6 +139,17 @@ export const REFUND_CASE_STATUS_LABEL = {
   [REFUND_CASE_STATUS.FAILED]: 'Chuyển khoản thất bại',
   [REFUND_CASE_STATUS.CANCELLED]: 'Đã hủy',
 };
+
+// Nguồn hồ sơ hoàn tiền (refund_cases.source)
+export const REFUND_CASE_SOURCE_LABEL = {
+  TripCancellation: 'Huỷ tour',
+  RentalCancellation: 'Huỷ đơn thuê',
+  RentalNoShow: 'Không đến nhận đồ',
+  RentalDepositReturn: 'Hoàn cọc sau trả đồ',
+};
+
+// Đồng bộ RefundBankCodes.ConsentVersion ở BE
+export const REFUND_CONSENT_VERSION = 'refund-bank-data-v1';
 
 // Đồng bộ whitelist RefundBankCodes ở BE
 export const REFUND_BANKS = [

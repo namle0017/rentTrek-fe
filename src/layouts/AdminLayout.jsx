@@ -58,6 +58,8 @@ function getPageTitle(pathname) {
   if (pathname === ROUTES.ADMIN_REFUNDS) return 'Hàng đợi hoàn tiền';
   if (pathname === ROUTES.OPS_REFUND_POLICY_CREATE) return 'Tạo chính sách hoàn tiền';
   if (pathname.startsWith(ROUTES.OPS_REFUND_POLICIES)) return 'Chính sách hoàn tiền';
+  if (pathname.startsWith(ROUTES.ADMIN_RENTAL_REPORTS)) return 'Báo cáo đơn thuê';
+  if (pathname.startsWith(ROUTES.ADMIN_RENTAL_POLICY)) return 'Chính sách cọc thuê đồ';
   if (pathname === ROUTES.OPS_ASSETS) return 'Quản lý kho thiết bị';
   if (pathname === ROUTES.OPS_ASSETS_SCHEDULE) return 'Biểu đồ Gantt phân bổ thiết bị';
   if (pathname.includes('/provided-items')) return 'Cấp phát thiết bị cho chuyến đi';
@@ -84,6 +86,7 @@ const navigationGroups = [
     items: [
       [ROUTES.ADMIN_PRODUCTS, 'Sản phẩm'],
       [ROUTES.ADMIN_RENTAL_ORDERS, 'Đơn thuê thiết bị'],
+      [ROUTES.ADMIN_RENTAL_REPORTS, 'Báo cáo đơn thuê'],
       [ROUTES.ADMIN_ORDERS, 'Tất cả đơn hàng'],
     ],
   },
@@ -123,6 +126,7 @@ const navigationGroups = [
       [ROUTES.OPS_TRANSACTIONS, 'Giao dịch'],
       [ROUTES.ADMIN_REFUNDS, 'Hoàn tiền'],
       [ROUTES.OPS_REFUND_POLICIES, 'Chính sách hoàn tiền'],
+      [ROUTES.ADMIN_RENTAL_POLICY, 'Chính sách cọc thuê đồ'],
     ],
   },
   {

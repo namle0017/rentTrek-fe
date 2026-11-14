@@ -162,3 +162,23 @@
   gap: 8px;
   margin-top: 12px;
 }
+
+.proofBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  margin-top: 2px;
+}
+
+.rentalBadge {
+  color: #0284c7;
+  font-weight: 600;
+}
+

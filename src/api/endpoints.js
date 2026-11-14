@@ -70,6 +70,20 @@ export const API_ENDPOINTS = {
     ROOT: '/rental-orders',
     QUOTE: '/rental-orders/quote',
     BY_ID: (orderId) => `/rental-orders/${orderId}`,
+    CANCELLATION_PREVIEW: (orderId) => `/rental-orders/${orderId}/cancellation-preview`,
+    CANCEL_PAID: (orderId) => `/rental-orders/${orderId}/cancel-paid`,
+    CONFIRM_RECEIPT: (orderId) => `/rental-orders/${orderId}/confirm-receipt`,
+    ISSUE_PHOTOS: (orderId) => `/rental-orders/${orderId}/issue-photos`,
+    EXTENSION_QUOTE: (orderId) => `/rental-orders/${orderId}/extensions/quote`,
+    EXTENSIONS: (orderId) => `/rental-orders/${orderId}/extensions`,
+  },
+  RENTAL_POLICY_ACTIVE: '/rental-policies/active',
+  ADMIN_RENTAL_POLICIES: '/admin/rental-policies',
+  ADMIN_RENTAL_REPORTS: {
+    ROOT: '/admin/rental-reports',
+    BY_ID: (reportId) => `/admin/rental-reports/${reportId}`,
+    APPROVE: (reportId) => `/admin/rental-reports/${reportId}/approve`,
+    REJECT: (reportId) => `/admin/rental-reports/${reportId}/reject`,
   },
   PRODUCTS: {
     CATEGORIES: '/products/categories',
@@ -109,6 +123,10 @@ export const API_ENDPOINTS = {
     ASSESS_CHARGE: (orderId, chargeId) => `/admin/rental-orders/${orderId}/charges/${chargeId}/assess`,
     VOID_CHARGE: (orderId, chargeId) => `/admin/rental-orders/${orderId}/charges/${chargeId}/void`,
     COMPLETE: (orderId) => `/admin/rental-orders/${orderId}/complete`,
+    EVIDENCE_PHOTOS: (orderId) => `/admin/rental-orders/${orderId}/evidence-photos`,
+    EVIDENCE_PHOTO: (orderId, photoId) => `/admin/rental-orders/${orderId}/evidence-photos/${photoId}`,
+    NO_SHOW: (orderId) => `/admin/rental-orders/${orderId}/no-show`,
+    REPORTS: (orderId) => `/admin/rental-orders/${orderId}/reports`,
   },
   // Phân hệ Tài chính & Hoàn tiền (Section 17 & 20 trong 03-API-CONTRACT.md)
   PAYMENTS: {
@@ -207,6 +225,7 @@ export const API_ENDPOINTS = {
   },
   REFUND_CASES: {
     BY_ID: (refundCaseId) => `/refund-cases/${refundCaseId}`,
+    BANK_INFO: (refundCaseId) => `/refund-cases/${refundCaseId}/bank-info`,
   },
   ADMIN_REFUND_CASES: {
     ROOT: '/admin/refund-cases',

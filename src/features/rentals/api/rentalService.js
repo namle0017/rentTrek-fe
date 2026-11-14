@@ -21,8 +21,25 @@ export const rentalService = {
   getPaymentStatus: (orderId, paymentId) => axiosClient.get(API_ENDPOINTS.PAYMENTS.BY_ID(orderId, paymentId)),
 
   // Unsupported operations must return the actual API error, never simulated financial outcomes.
-  getCancellationPreview: (orderId) => axiosClient.get(`/rental-orders/${orderId}/cancellation-preview`),
+  getCancellationPreview: (orderId) =>
+    axiosClient.get(API_ENDPOINTS.RENTAL_ORDERS.CANCELLATION_PREVIEW(orderId)),
+  // Huỷ đơn đã thanh toán theo chính sách cọc (phí do server tính, khách xác nhận số tiền đã xem ở preview)
+  cancelPaid: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.CANCEL_PAID(orderId), payload),
+  confirmReceipt: (orderId) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.CONFIRM_RECEIPT(orderId)),
+  uploadIssuePhoto: (orderId, { file, assignmentId, note }) => {
+    const form = new FormData();
+    form.append('file', file);
+    if (assignmentId) form.append('assignmentId', assignmentId);
+    if (note) form.append('note', note);
+    return axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.ISSUE_PHOTOS(orderId), form, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  quoteExtension: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.EXTENSION_QUOTE(orderId), payload),
+  extend: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.EXTENSIONS(orderId), payload),
+  getActivePolicy: () => axiosClient.get(API_ENDPOINTS.RENTAL_POLICY_ACTIVE),
   cancel: (orderId, payload) => axiosClient.post(`/rental-orders/${orderId}/cancel`, payload),
+  reportItemIssue: (orderId, payload) => axiosClient.post(`/rental-orders/${orderId}/issues`, payload),
   requestChargeReview: (orderId, chargeId, payload) =>
     axiosClient.post(`/rental-orders/${orderId}/charges/${chargeId}/review-requests`, payload),
 };

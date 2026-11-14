@@ -172,6 +172,31 @@ describe('CancelBookingPanel', () => {
     expect(await screen.findByText('Ngân hàng không được hỗ trợ')).toBeInTheDocument();
   });
 
+  it('packs reason category and detail when user fills them', async () => {
+    const user = userEvent.setup();
+    cancelAsync.mockResolvedValue({});
+    await openDialog(user);
+    await user.click(screen.getByRole('button', { name: 'Tiếp tục hủy' }));
+    await fillBankForm(user);
+    await user.click(screen.getByRole('checkbox'));
+
+    await user.selectOptions(screen.getByLabelText(/Lý do hủy/i), 'ForceMajeure');
+    await user.type(screen.getByLabelText(/Mô tả chi tiết/i), 'Sạt lở đèo Bảo Lộc');
+
+    await clickDialogButton(user, 'Hủy booking');
+
+    expect(cancelAsync).toHaveBeenCalledWith({
+      orderId: 'order-1',
+      payload: {
+        reason: '[Lý do: ForceMajeure] Sạt lở đèo Bảo Lộc',
+        expectedRefundAmount: 1600000,
+        bankAccount: { bankCode: 'VCB', accountNumber: '0123456789', accountHolder: 'Nguyen Van A' },
+        consentVersion: 'refund-bank-data-v1',
+        consentAccepted: true,
+      },
+    });
+  });
+
   it('shows why a booking cannot be cancelled', async () => {
     showPreview({ ...preview, canCancel: false, blockedReason: 'Chuyến đi đã bắt đầu' });
     await openDialog(userEvent.setup());

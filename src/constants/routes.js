@@ -49,6 +49,8 @@ export const ROUTES = {
   ADMIN_TRIP_DETAIL: (tripId = ':tripId') => `/admin/trips/${tripId}`,
   ADMIN_TRIP_OPS: (tripId = ':tripId') => `/admin/trips/${tripId}/ops`,
   ADMIN_RENTAL_ORDERS: '/admin/rental-orders',
+  ADMIN_RENTAL_REPORTS: '/admin/rental-reports',
+  ADMIN_RENTAL_POLICY: '/admin/rental-policy',
   ADMIN_RENTAL_ORDER_DETAIL: (orderId = ':orderId') => `/admin/rental-orders/${orderId}`,
   ADMIN_POSTS: '/admin/posts',
   ADMIN_POST_CREATE: '/admin/posts/new',

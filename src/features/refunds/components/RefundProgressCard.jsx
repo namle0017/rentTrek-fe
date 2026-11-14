@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import Spinner from '@/components/Spinner';
@@ -6,6 +7,7 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
 import { useRefundCase } from '../hooks/useRefundCases';
 import { formatRefundCode, getBankName } from '../utils/refundDisplay';
+import { parseAdminTransactionWithProof } from '../utils/refundProofHelper';
 import styles from './RefundProgressCard.module.css';
 
 const STEPS = [
@@ -66,6 +68,17 @@ function RefundTimeline({ refundCase }) {
 
 export default function RefundProgressCard({ refundCaseId }) {
   const { data: refundCase, isLoading, isError, error, refetch } = useRefundCase(refundCaseId);
+  const [lightboxUrl, setLightboxUrl] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!lightboxUrl) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setLightboxUrl(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxUrl]);
 
   if (isLoading)
     return (
@@ -78,6 +91,14 @@ export default function RefundProgressCard({ refundCaseId }) {
   if (!refundCase) return null;
 
   const note = STATUS_NOTES[refundCase.status];
+  const parsedTx = parseAdminTransactionWithProof(refundCase.providerTransactionId);
+
+  const handleCopyTx = () => {
+    if (!parsedTx.transactionId) return;
+    navigator.clipboard?.writeText(parsedTx.transactionId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <section className={styles.card} aria-labelledby="refund-progress-title">
@@ -107,7 +128,88 @@ export default function RefundProgressCard({ refundCaseId }) {
 
       <RefundTimeline refundCase={refundCase} />
 
+      {(parsedTx.transactionId || parsedTx.hasProof) && (
+        <div className={styles.receiptSection}>
+          <div className={styles.receiptHeader}>
+            <OutdoorIcon name="receipt" size={16} />
+            <strong>Biên lai chuyển khoản hoàn tiền từ RenTrek</strong>
+          </div>
+          <div className={styles.receiptContent}>
+            {parsedTx.transactionId && (
+              <div className={styles.txCodeRow}>
+                <span className={styles.txLabel}>Mã giao dịch ngân hàng:</span>
+                <code className={styles.txCode}>{parsedTx.transactionId}</code>
+                <button
+                  type="button"
+                  className={styles.copyBtn}
+                  onClick={handleCopyTx}
+                  title="Sao chép mã giao dịch"
+                >
+                  {copied ? '✓ Đã sao chép' : 'Sao chép'}
+                </button>
+              </div>
+            )}
+            {parsedTx.hasProof && (
+              <div className={styles.receiptThumbWrapper}>
+                <span className={styles.receiptThumbLabel}>Ảnh chụp biên lai chuyển khoản:</span>
+                <button
+                  type="button"
+                  className={styles.receiptThumbBtn}
+                  onClick={() => setLightboxUrl(parsedTx.proofUrl)}
+                  title="Bấm để phóng to biên lai"
+                  aria-label="Phóng to biên lai"
+                >
+                  <img
+                    src={parsedTx.proofUrl}
+                    alt="Biên lai chuyển khoản RenTrek"
+                    className={styles.receiptThumbImg}
+                  />
+                  <span className={styles.receiptZoomOverlay}>🔍 Phóng to</span>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {note && <p className={styles.note}>{note}</p>}
+
+      {lightboxUrl && (
+        <div
+          className={styles.lightboxOverlay}
+          onClick={() => setLightboxUrl(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Xem biên lai chuyển khoản"
+        >
+          <div className={styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.lightboxHeader}>
+              <span>Biên lai chuyển khoản hoàn tiền</span>
+              <div className={styles.lightboxActions}>
+                <a
+                  href={lightboxUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.lightboxNewTab}
+                >
+                  Mở ảnh gốc ↗
+                </a>
+                <button
+                  type="button"
+                  className={styles.lightboxCloseBtn}
+                  onClick={() => setLightboxUrl(null)}
+                  aria-label="Đóng"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+            <div className={styles.lightboxBody}>
+              <img src={lightboxUrl} alt="Biên lai ngân hàng đầy đủ" className={styles.lightboxImg} />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

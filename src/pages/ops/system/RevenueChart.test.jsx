@@ -100,4 +100,69 @@ describe('RevenueChart', () => {
     await userEvent.setup().click(screen.getByRole('button', { name: /thử lại/i }));
     expect(refetch).toHaveBeenCalledOnce();
   });
+
+  it('switches between chart view and table view', async () => {
+    const user = userEvent.setup();
+    renderChart();
+
+    // Default is chart view
+    expect(screen.getByRole('button', { name: /Biểu đồ/i })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('img', { name: /Tuần từ 09\/11\/2026, Đặt tour/i })).toBeInTheDocument();
+
+    // Switch to table view
+    await user.click(screen.getByRole('button', { name: /Bảng số liệu/i }));
+    expect(screen.getByRole('button', { name: /Bảng số liệu/i })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('table')).toBeInTheDocument();
+    expect(screen.getByText('Kỳ báo cáo')).toBeInTheDocument();
+    expect(screen.getByText('Đặt tour (Doanh thu ròng)')).toBeInTheDocument();
+    expect(screen.getByText('Thuê thiết bị (Doanh thu ròng)')).toBeInTheDocument();
+  });
+
+  it('triggers refetch when the refresh button is clicked', async () => {
+    const refetch = vi.fn();
+    useOperations.mockReturnValue({
+      data: [],
+      isPending: false,
+      isError: false,
+      isFetching: false,
+      refetch,
+    });
+    const user = userEvent.setup();
+    renderChart();
+
+    const refreshBtn = screen.getByRole('button', { name: 'Làm mới dữ liệu' });
+    await user.click(refreshBtn);
+    expect(refetch).toHaveBeenCalledOnce();
+  });
+
+  it('handles PascalCase API properties and non-Monday dates gracefully', () => {
+    useOperations.mockReturnValue({
+      data: [
+        {
+          Period: '2026-11-09',
+          OrderType: 'TripBooking',
+          Collections: 2000000,
+          Refunds: 0,
+          NetRevenueVnd: 2000000,
+        },
+        {
+          Period: '2026-11-10T08:00:00Z', // Tuesday mid-week date
+          OrderType: 'Rental',
+          Collections: 1500000,
+          Refunds: 300000,
+          NetRevenueVnd: 1200000,
+        },
+      ],
+      isPending: false,
+      isError: false,
+    });
+    renderChart();
+
+    // 2,000,000 + 1,200,000 = 3,200,000
+    expect(
+      screen.getByText(
+        (_, element) => element.tagName === 'STRONG' && element.textContent === formatCurrency(3200000),
+      ),
+    ).toBeInTheDocument();
+  });
 });

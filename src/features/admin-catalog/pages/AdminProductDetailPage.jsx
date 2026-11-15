@@ -35,6 +35,7 @@ export default function AdminProductDetailPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [confirmDeleteProduct, setConfirmDeleteProduct] = useState(false);
+  const [confirmToggleStatus, setConfirmToggleStatus] = useState(false);
   const { data: product, isLoading, isError, error, refetch } = useAdminProduct(productId);
 
   const renderContent = () => {
@@ -231,6 +232,15 @@ export default function AdminProductDetailPage() {
                 <button
                   type="button"
                   className="btn btn-outline"
+                  onClick={() => setConfirmToggleStatus(true)}
+                >
+                  {product.status === PRODUCT_STATUS.ACTIVE
+                    ? 'Tạm ngưng kinh doanh'
+                    : 'Mở bán sản phẩm'}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline"
                   onClick={() => setConfirmDeleteProduct(true)}
                 >
                   Xóa sản phẩm
@@ -265,6 +275,35 @@ export default function AdminProductDetailPage() {
             </div>
           </section>
         </aside>
+        {confirmToggleStatus && (
+          <OperationDialog
+            title={
+              product.status === PRODUCT_STATUS.ACTIVE
+                ? 'Tạm ngưng kinh doanh sản phẩm'
+                : 'Mở bán lại sản phẩm'
+            }
+            fields={[]}
+            endpoint={API_ENDPOINTS.PRODUCT_MANAGEMENT.STATUS(product.productId)}
+            method="patch"
+            transform={() => ({
+              status: product.status === PRODUCT_STATUS.ACTIVE ? 'Inactive' : 'Active',
+            })}
+            submitLabel="Xác nhận đổi trạng thái"
+            onSuccess={() => {
+              queryClient.invalidateQueries();
+              setConfirmToggleStatus(false);
+            }}
+            onClose={() => setConfirmToggleStatus(false)}
+          >
+            <p>
+              Bạn có chắc chắn muốn chuyển trạng thái sản phẩm <strong>{product.name}</strong> sang{' '}
+              <strong>
+                {product.status === PRODUCT_STATUS.ACTIVE ? 'Tạm ngưng (Inactive)' : 'Hoạt động (Active)'}
+              </strong>
+              ?
+            </p>
+          </OperationDialog>
+        )}
         {confirmDeleteProduct && (
           <OperationDialog
             title="Xóa sản phẩm"

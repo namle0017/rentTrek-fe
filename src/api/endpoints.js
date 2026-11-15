@@ -4,6 +4,7 @@ export const API_ENDPOINTS = {
   PRODUCT_MANAGEMENT: {
     ROOT: '/admin/products',
     BY_ID: (id) => `/admin/products/${id}`,
+    STATUS: (id) => `/admin/products/${id}/status`,
     VARIANTS: (id) => `/admin/products/${id}/variants`,
     VARIANT: (id) => `/admin/variants/${id}`,
     IMAGES: (id) => `/admin/variants/${id}/images`,

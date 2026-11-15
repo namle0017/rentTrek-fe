@@ -10,13 +10,15 @@ import NotFoundPage from '@/pages/NotFoundPage';
 import { formatCurrency } from '@/utils/formatCurrency';
 import RentalConfigurator from '@/features/rentals/components/RentalConfigurator';
 import OtherTours from '@/features/tours/components/OtherTours';
+import ProductCard from '../components/ProductCard';
 import ProductImage from '../components/ProductImage';
-import { useProduct } from '../hooks/useProducts';
+import { useProduct, useRelatedProducts } from '../hooks/useProducts';
 import styles from './ProductDetail.module.css';
 
 export default function ProductDetailPage() {
   const { productId } = useParams();
   const { data: product, isLoading, isError, error, refetch } = useProduct(productId);
+  const { data: relatedProducts = [] } = useRelatedProducts(productId, 4);
   const [selection, setSelection] = useState(null);
   const [imageSelection, setImageSelection] = useState(null);
 
@@ -256,6 +258,23 @@ export default function ProductDetailPage() {
           )}
         </aside>
       </div>
+      {relatedProducts.length > 0 && (
+        <section className={styles.relatedSection} aria-labelledby="related-products-heading">
+          <div className={styles.relatedHeader}>
+            <h2 id="related-products-heading" className={styles.relatedHeading}>
+              Thiết bị cùng danh mục
+            </h2>
+            <Link to={`${ROUTES.PRODUCTS}?categoryId=${product.categoryId}`} className={styles.relatedMoreLink}>
+              Xem thêm danh mục {product.categoryName} →
+            </Link>
+          </div>
+          <div className={styles.relatedGrid}>
+            {relatedProducts.map((item) => (
+              <ProductCard key={item.id} product={item} />
+            ))}
+          </div>
+        </section>
+      )}
       <OtherTours />
     </article>
   );

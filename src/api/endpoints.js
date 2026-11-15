@@ -105,6 +105,7 @@ export const API_ENDPOINTS = {
     CATEGORIES: '/products/categories',
     ROOT: '/products',
     BY_ID: (id) => `/products/${id}`,
+    RELATED: (id) => `/products/${id}/related`,
   },
   TOURS: {
     ROOT: '/tours',

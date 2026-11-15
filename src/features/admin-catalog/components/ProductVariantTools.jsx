@@ -94,20 +94,29 @@ export default function ProductVariantTools({ productId, variant }) {
           {variant ? 'Sửa biến thể' : '＋ Thêm biến thể'}
         </button>
         {variant && (
-          <button
-            type="button"
-            className="btn btn-outline"
-            onClick={() => {
-              setTiers(
-                variant.priceTiers.length
-                  ? variant.priceTiers.map((tier) => ({ ...tier }))
-                  : [{ minDays: 1, maxDays: '', dailyPrice: '' }],
-              );
-              setDialog({ type: 'prices' });
-            }}
-          >
-            Bảng giá thuê
-          </button>
+          <>
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={() => {
+                setTiers(
+                  variant.priceTiers.length
+                    ? variant.priceTiers.map((tier) => ({ ...tier }))
+                    : [{ minDays: 1, maxDays: '', dailyPrice: '' }],
+                );
+                setDialog({ type: 'prices' });
+              }}
+            >
+              Bảng giá thuê
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={() => setDialog({ type: 'deleteVariant' })}
+            >
+              Xóa biến thể
+            </button>
+          </>
         )}
       </div>
       {variant && (
@@ -266,6 +275,22 @@ export default function ProductVariantTools({ productId, variant }) {
         >
           <p>Ảnh này sẽ không còn hiển thị trên sản phẩm.</p>
           <img className={styles.preview} src={dialog.image.imageUrl} alt="Ảnh cần xóa" />
+        </OperationDialog>
+      )}
+      {dialog?.type === 'deleteVariant' && (
+        <OperationDialog
+          title="Xóa biến thể sản phẩm"
+          fields={[]}
+          endpoint={api.VARIANT(variant.variantId)}
+          method="delete"
+          submitLabel="Xóa biến thể"
+          onSuccess={refresh}
+          onClose={() => setDialog(null)}
+        >
+          <p>
+            Bạn có chắc chắn muốn xóa biến thể <strong>{variant.name}</strong>
+            {variant.sku ? ` (SKU: ${variant.sku})` : ''}? Biến thể này sẽ bị ẩn khỏi danh mục cho thuê.
+          </p>
         </OperationDialog>
       )}
     </div>

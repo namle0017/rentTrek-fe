@@ -1,17 +1,20 @@
-import { Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   Boxes,
   Calendar,
   ExternalLink,
   Layers,
   Pencil,
-  PlusCircle,
   Warehouse,
 } from 'lucide-react';
+import { API_ENDPOINTS } from '@/api/endpoints';
 import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
+import OperationDialog from '@/features/operations/components/OperationDialog';
 import { useAuth } from '@/hooks/useAuth';
 import { USER_ROLE } from '@/constants/enums';
 import ProductVariantTools from '../components/ProductVariantTools';
@@ -29,6 +32,9 @@ export default function AdminProductDetailPage() {
   const { currentUser } = useAuth();
   const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
   const { productId } = useParams();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [confirmDeleteProduct, setConfirmDeleteProduct] = useState(false);
   const { data: product, isLoading, isError, error, refetch } = useAdminProduct(productId);
 
   const renderContent = () => {
@@ -215,12 +221,21 @@ export default function AdminProductDetailPage() {
             </div>
 
             {isAdmin && (
-              <Link
-                className={styles.editProductButton}
-                to={ROUTES.ADMIN_PRODUCT_EDIT(product.productId)}
-              >
-                <Pencil size={15} /> Chỉnh sửa thông tin cơ bản
-              </Link>
+              <>
+                <Link
+                  className={styles.editProductButton}
+                  to={ROUTES.ADMIN_PRODUCT_EDIT(product.productId)}
+                >
+                  <Pencil size={15} /> Chỉnh sửa thông tin cơ bản
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-outline"
+                  onClick={() => setConfirmDeleteProduct(true)}
+                >
+                  Xóa sản phẩm
+                </button>
+              </>
             )}
           </section>
 
@@ -250,6 +265,24 @@ export default function AdminProductDetailPage() {
             </div>
           </section>
         </aside>
+        {confirmDeleteProduct && (
+          <OperationDialog
+            title="Xóa sản phẩm"
+            fields={[]}
+            endpoint={API_ENDPOINTS.PRODUCT_MANAGEMENT.BY_ID(product.productId)}
+            method="delete"
+            submitLabel="Xác nhận xóa"
+            onSuccess={() => {
+              queryClient.invalidateQueries();
+              navigate(ROUTES.ADMIN_PRODUCTS);
+            }}
+            onClose={() => setConfirmDeleteProduct(false)}
+          >
+            <p>
+              Bạn có chắc chắn muốn xóa sản phẩm <strong>{product.name}</strong>? Sản phẩm và các biến thể sẽ bị ẩn khỏi danh sách vận hành và trang công khai.
+            </p>
+          </OperationDialog>
+        )}
       </div>
     );
   };

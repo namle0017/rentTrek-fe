@@ -58,6 +58,8 @@ function InfoPanel({ bundle, isAdmin }) {
       categoryId: form.get('categoryId'),
       description: form.get('description').trim() || null,
       status: form.get('status'),
+      // BE ghi đè cả giá trị đền bù khi lưu: luôn gửi lại để không bị xoá thành null
+      replacementValue: form.get('replacementValue') === '' ? null : Number(form.get('replacementValue')),
     });
   };
 
@@ -92,6 +94,17 @@ function InfoPanel({ bundle, isAdmin }) {
             </select>
           </label>
         </div>
+        <label className={pageStyles.field}>
+          <span>Giá trị thiết bị (đền bù khi mất, VND)</span>
+          <input
+            name="replacementValue"
+            type="number"
+            min="0"
+            step="1000"
+            placeholder="Để trống nếu chưa xác định"
+            defaultValue={bundle.replacementValue ?? ''}
+          />
+        </label>
         <label className={pageStyles.field}>
           <span>Mô tả</span>
           <textarea name="description" maxLength="4000" defaultValue={bundle.description ?? ''} />

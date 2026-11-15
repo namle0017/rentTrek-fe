@@ -7,6 +7,8 @@ import Spinner from '@/components/Spinner';
 import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '@/constants/config';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { USER_ROLE } from '@/constants/enums';
+import { useAuth } from '@/hooks/useAuth';
 import AdminCatalogStatusBadge from '../components/AdminCatalogStatusBadge';
 import { TOUR_STATUS_OPTIONS } from '../constants/adminCatalogStatus';
 import { useAdminTours } from '../hooks/useAdminCatalog';
@@ -16,6 +18,8 @@ const INITIAL_FILTERS = { search: '', status: '' };
 
 export default function AdminToursPage() {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
   const [draftFilters, setDraftFilters] = useState(INITIAL_FILTERS);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [pageNumber, setPageNumber] = useState(DEFAULT_PAGE_NUMBER);
@@ -50,6 +54,7 @@ export default function AdminToursPage() {
                   <th scope="col">Giá cơ sở</th>
                   <th scope="col">Trạng thái</th>
                   <th scope="col">Sắp tới</th>
+                  {isAdmin && <th scope="col">Thao tác</th>}
                 </tr>
               </thead>
               <tbody>
@@ -90,6 +95,17 @@ export default function AdminToursPage() {
                       <AdminCatalogStatusBadge status={tour.status} />
                     </td>
                     <td className={styles.numeric}>{tour.upcomingTripsCount} chuyến</td>
+                    {isAdmin && (
+                      <td>
+                        <Link
+                          to={ROUTES.ADMIN_TOUR_EDIT(tour.tourId)}
+                          className={styles.entityName}
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          Chỉnh sửa
+                        </Link>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

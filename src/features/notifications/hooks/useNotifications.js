@@ -2,10 +2,11 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tansta
 import { toast } from 'react-toastify';
 import { notificationKeys, notificationService } from '../api/notificationService';
 
-export function useNotifications(params) {
+export function useNotifications(params, enabled = true) {
   return useQuery({
     queryKey: notificationKeys.list(params),
     queryFn: () => notificationService.getList(params),
+    enabled,
     select: (res) => res.data, // PagedResponse<NotificationItemResponse>
     placeholderData: keepPreviousData,
   });

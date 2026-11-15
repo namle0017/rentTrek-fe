@@ -75,8 +75,7 @@ function HandoverWorkspace({ activeOrderCode }) {
     } catch (error) {
       playErrorBuzz();
       setScanFeedback({
-        message:
-          error.message || 'Không thể quét thiết bị. Vui lòng thử lại.',
+        message: error.message || 'Không thể quét thiết bị. Vui lòng thử lại.',
         isError: true,
       });
     } finally {
@@ -224,6 +223,7 @@ function HandoverWorkspace({ activeOrderCode }) {
                 </ul>
               </section>
               <StaffRentalEvidencePanel
+                showPhotos={false}
                 orderId={serverChecklist?.orderId}
                 stage="Handover"
                 refreshKey={checklist.scannedCount}

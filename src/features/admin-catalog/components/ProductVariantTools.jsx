@@ -26,7 +26,12 @@ const variantFields = [
   },
 ];
 
-export default function ProductVariantTools({ productId, variant }) {
+export default function ProductVariantTools({
+  productId,
+  variant,
+  triggerClassName = 'btn btn-outline',
+  align = 'start',
+}) {
   const queryClient = useQueryClient();
   const [dialog, setDialog] = useState(null);
   const [tiers, setTiers] = useState([]);
@@ -88,9 +93,9 @@ export default function ProductVariantTools({ productId, variant }) {
   };
 
   return (
-    <div className={styles.tools}>
+    <div className={`${styles.tools} ${variant ? '' : styles.bare} ${align === 'center' ? styles.centered : ''}`}>
       <div className={styles.actions}>
-        <button type="button" className="btn btn-outline" onClick={() => setDialog({ type: 'variant' })}>
+        <button type="button" className={triggerClassName} onClick={() => setDialog({ type: 'variant' })}>
           {variant ? 'Sửa biến thể' : '＋ Thêm biến thể'}
         </button>
         {variant && (

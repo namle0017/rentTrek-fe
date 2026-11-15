@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   CalendarDays,
@@ -14,23 +15,62 @@ import {
 import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
+import { USER_ROLE } from '@/constants/enums';
+import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
 import AdminCatalogStatusBadge from '../components/AdminCatalogStatusBadge';
-import { normalizeTourStatus } from '../constants/adminCatalogStatus';
+import { TOUR_STATUS, normalizeTourStatus } from '../constants/adminCatalogStatus';
 import { useAdminTour } from '../hooks/useAdminCatalog';
+import { useArchiveTour, usePublishTour, useUpdateTourGroupSettings } from '../hooks/useTourAuthoring';
 import styles from './AdminCatalogDetail.module.css';
+
+function GroupSettingsForm({ tourId, current }) {
+  const [value, setValue] = useState(String(current ?? ''));
+  const update = useUpdateTourGroupSettings();
+  const number = Number(value);
+  const valid = Number.isInteger(number) && number >= 1;
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!valid) return;
+    update.mutate({ tourId, groupMaxParticipants: number });
+  };
+
+  return (
+    <section className={styles.panel} aria-label="Cấu hình nhóm">
+      <h2 className={styles.panelTitle}>Cấu hình nhóm</h2>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="group-max-participants">Số khách tối đa mỗi nhóm</label>
+        <input
+          id="group-max-participants"
+          type="number"
+          min="1"
+          step="1"
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+        />
+        <button type="submit" className="btn btn-primary" disabled={!valid || update.isPending}>
+          Lưu cấu hình nhóm
+        </button>
+      </form>
+    </section>
+  );
+}
 
 export default function AdminTourDetailPage() {
   const { tourId } = useParams();
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
+  const publish = usePublishTour();
+  const archive = useArchiveTour();
   const { data: tour, isLoading, isError, error, refetch } = useAdminTour(tourId);
 
   const renderContent = () => {
     if (isLoading) return <Spinner />;
     if (isError) return <ErrorState message={error?.message} onRetry={refetch} />;
 
-    const status = normalizeTourStatus(tour.status);
     const images = [...tour.images].sort(
       (a, b) => Number(b.isPrimary) - Number(a.isPrimary) || a.displayOrder - b.displayOrder,
     );
@@ -267,6 +307,10 @@ export default function AdminTourDetailPage() {
             )}
           </section>
 
+          {isAdmin && (
+            <GroupSettingsForm key={tour.groupMaxParticipants ?? 'none'} tourId={tourId} current={tour.groupMaxParticipants} />
+          )}
+
           {/* Card Quản trị & Điều phối tour */}
           <section className={styles.panel} aria-label="Thao tác điều phối tour">
             <h2 className={styles.panelTitle}>Thao tác điều phối</h2>
@@ -319,6 +363,31 @@ export default function AdminTourDetailPage() {
           </div>
           {tour && (
             <div className={styles.headerToolbar}>
+              {isAdmin && (
+                <Link to={ROUTES.ADMIN_TOUR_EDIT(tourId)} className={styles.headerSecondaryBtn}>
+                  Chỉnh sửa
+                </Link>
+              )}
+              {isAdmin && normalizeTourStatus(tour.status) !== TOUR_STATUS.PUBLISHED && (
+                <button
+                  type="button"
+                  className={styles.headerPrimaryBtn}
+                  disabled={publish.isPending}
+                  onClick={() => publish.mutate(tourId)}
+                >
+                  Xuất bản
+                </button>
+              )}
+              {isAdmin && normalizeTourStatus(tour.status) === TOUR_STATUS.PUBLISHED && (
+                <button
+                  type="button"
+                  className={styles.headerSecondaryBtn}
+                  disabled={archive.isPending}
+                  onClick={() => archive.mutate(tourId)}
+                >
+                  Lưu trữ
+                </button>
+              )}
               <Link
                 to={ROUTES.TOUR_DETAIL(tour.id)}
                 className={styles.headerSecondaryBtn}

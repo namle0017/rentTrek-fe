@@ -156,6 +156,9 @@ export default function ProductListPage() {
           <Link className="btn btn-primary" to={ROUTES.RENTAL_CART}>
             Xem giỏ thuê & tính giá →
           </Link>
+          <Link className="btn btn-outline" to={ROUTES.BUNDLES} style={{ marginLeft: 12, color: '#fff' }}>
+            Xem combo thiết bị →
+          </Link>
         </div>
       </section>
       <div className="container">

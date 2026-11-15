@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, CheckCircle2, HelpCircle, Layers } from 'lucide-react';
+import { ArrowLeft, Layers } from 'lucide-react';
 import { API_ENDPOINTS } from '@/api/endpoints';
 import { ROUTES } from '@/constants/routes';
 import { useOperations } from '@/features/operations/hooks/useOperations';

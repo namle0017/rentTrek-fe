@@ -222,6 +222,10 @@
   gap: var(--space-section, 24px);
   align-items: stretch;
 }
+/* Staff: không có biểu đồ doanh thu → khối cảnh báo chiếm trọn hàng */
+.analyticsAndActionGrid.singleColumn {
+  grid-template-columns: minmax(0, 1fr);
+}
 
 .analyticsColumn {
   min-width: 0;
@@ -409,34 +413,10 @@
   color: #15803d;
 }
 
-.staffNoticeCard {
-  background: #f8fafc;
-  border: 1px dashed #cbd5e1;
-  border-radius: 12px;
-  padding: 32px 24px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-.staffNoticeCard h3 {
-  margin: 0 0 8px;
-  font-size: 15px;
-  color: #334155;
-}
-.staffNoticeCard p {
-  margin: 0;
-  font-size: 13px;
-  color: #64748b;
-  max-width: 40ch;
-}
-
 /* ===== 4. Operations Overview (3 Cột ngang cân bằng trên Desktop) ===== */
 .operationsGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--ops-columns, 3), minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -448,7 +428,8 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* các dòng đếm nằm ngay dưới tiêu đề, không bị đẩy xuống đáy thẻ */
+  justify-content: flex-start;
 }
 
 .groupCardHeader {

@@ -3,11 +3,9 @@ import { FileText, X, AlertTriangle } from 'lucide-react';
 import { REFUND_BANKS, REFUND_CASE_STATUS, REFUND_CASE_STATUS_LABEL } from '@/constants/enums';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
-import {
-  parseCancelReasonWithProofs,
-  parseAdminTransactionWithProof,
-  OVERRIDE_TYPES,
-} from '../utils/refundProofHelper';
+import { API_ENDPOINTS } from '@/api/endpoints';
+import { parseCancelReasonWithProofs, OVERRIDE_TYPES } from '../utils/refundProofHelper';
+import ProofGallery from './ProofGallery';
 import { formatRefundCode, getBankName } from '../utils/refundDisplay';
 import styles from './RefundDetailModal.module.css';
 
@@ -28,7 +26,6 @@ export default function RefundDetailModal({
   const [overrideReason, setOverrideReason] = useState('');
 
   const parsedReason = parseCancelReasonWithProofs(item?.cancelReason);
-  const parsedAdminTx = parseAdminTransactionWithProof(item?.providerTransactionId);
 
   // Xử lý phím ESC để đóng Lightbox hoặc Modal
   const handleKeyDown = useCallback(
@@ -59,7 +56,7 @@ export default function RefundDetailModal({
   // Tính phần trăm hoàn tiền
   const totalAmount = item.orderTotalAmount || item.paidAmount || item.totalAmount || item.amount;
   const refundPercent =
-    item.refundPercentage != null
+    item.refundPercentage !== null && item.refundPercentage !== undefined
       ? item.refundPercentage
       : totalAmount > 0
         ? Math.round((item.amount / totalAmount) * 100)
@@ -219,35 +216,22 @@ export default function RefundDetailModal({
               )}
             </section>
 
-            {/* Khối Biên lai chuyển khoản ngân hàng của Admin (nếu đã có) */}
-            {parsedAdminTx.hasProof && (
+            {/* Biên lai chuyển khoản: mã giao dịch + chứng từ admin đính kèm khi hoàn tất */}
+            {(item.providerTransactionId || item.proofs?.length > 0) && (
               <section className={styles.section}>
                 <h3 className={styles.sectionTitle}>
                   <FileText size={16} className={styles.sectionIcon} />
                   <span>Biên lai chuyển khoản từ RenTrek</span>
                 </h3>
-                <div className={styles.receiptCard}>
-                  <img
-                    src={parsedAdminTx.proofUrl}
-                    alt="Biên lai chuyển tiền ngân hàng"
-                    className={styles.receiptThumbnail}
-                    onClick={() => setActiveLightboxUrl(parsedAdminTx.proofUrl)}
-                    title="Bấm xem phóng to biên lai"
-                  />
-                  <div className={styles.receiptInfo}>
-                    <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#166534' }}>
-                      Đã tải lên chứng từ ủy nhiệm chi / biên lai chuyển khoản
-                    </span>
-                    {parsedAdminTx.transactionId && (
-                      <span style={{ fontSize: '0.8125rem', color: '#4b5563' }}>
-                        Mã giao dịch ngân hàng: <strong>{parsedAdminTx.transactionId}</strong>
-                      </span>
-                    )}
-                    <span style={{ fontSize: '0.75rem', color: '#15803d' }}>
-                      ✓ Bấm vào ảnh để soi rõ con dấu và thời điểm giao dịch
-                    </span>
-                  </div>
-                </div>
+                {item.providerTransactionId && (
+                  <p>
+                    Mã giao dịch ngân hàng: <strong>{item.providerTransactionId}</strong>
+                  </p>
+                )}
+                <ProofGallery
+                  proofs={item.proofs ?? []}
+                  buildUrl={(proofId) => API_ENDPOINTS.ADMIN_REFUND_CASES.PROOF(item.refundCaseId, proofId)}
+                />
               </section>
             )}
 

@@ -5,7 +5,7 @@
 /* khớp tiêu đề Hồ sơ cá nhân (ProfilePage .paneTitle/.paneMeta) */
 .header h1 {
   margin: 0;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif; /* Playfair Display không được nạp → lỗi dấu tiếng Việt */
   font-size: var(--font-size-page-title);
   line-height: 40px;
   font-weight: var(--font-weight-bold);

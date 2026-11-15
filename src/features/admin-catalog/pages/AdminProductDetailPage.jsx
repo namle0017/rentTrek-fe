@@ -5,7 +5,6 @@ import {
   ExternalLink,
   Layers,
   Pencil,
-  PlusCircle,
   Warehouse,
 } from 'lucide-react';
 import Breadcrumb from '@/components/Breadcrumb';
@@ -13,7 +12,7 @@ import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
-import { USER_ROLE } from '@/constants/enums';
+import { canManageCatalog } from '@/utils/roleRouting';
 import ProductVariantTools from '../components/ProductVariantTools';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
@@ -27,7 +26,7 @@ const formatDayRange = (tier) =>
 
 export default function AdminProductDetailPage() {
   const { currentUser } = useAuth();
-  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
+  const canManage = canManageCatalog(currentUser?.role);
   const { productId } = useParams();
   const { data: product, isLoading, isError, error, refetch } = useAdminProduct(productId);
 
@@ -102,9 +101,9 @@ export default function AdminProductDetailPage() {
                   Quản lý SKU, hình ảnh, tồn kho và bảng giá thuê theo ngày
                 </span>
               </div>
-              {isAdmin && (
+              {canManage && variants.length > 0 && (
                 <div className={styles.panelHeaderAction}>
-                  <ProductVariantTools productId={product.productId} />
+                  <ProductVariantTools productId={product.productId} triggerClassName="btn btn-primary" />
                 </div>
               )}
             </div>
@@ -112,7 +111,9 @@ export default function AdminProductDetailPage() {
             {variants.length === 0 ? (
               <div className={styles.emptyTripsBox}>
                 <p className={styles.hint}>Chưa có biến thể nào được tạo cho sản phẩm này.</p>
-                {isAdmin && <ProductVariantTools productId={product.productId} />}
+                {canManage && (
+                  <ProductVariantTools productId={product.productId} triggerClassName="btn btn-primary" align="center" />
+                )}
               </div>
             ) : (
               <div className={styles.variantCardsGrid}>
@@ -186,7 +187,7 @@ export default function AdminProductDetailPage() {
                           )}
                         </div>
 
-                        {isAdmin && (
+                        {canManage && (
                           <div className={styles.variantActionRow}>
                             <ProductVariantTools productId={product.productId} variant={variant} />
                           </div>
@@ -214,7 +215,7 @@ export default function AdminProductDetailPage() {
               </span>
             </div>
 
-            {isAdmin && (
+            {canManage && (
               <Link
                 className={styles.editProductButton}
                 to={ROUTES.ADMIN_PRODUCT_EDIT(product.productId)}
@@ -228,7 +229,7 @@ export default function AdminProductDetailPage() {
           <section className={styles.panel} aria-label="Phím tắt vận hành">
             <h2 className={styles.panelTitle}>Thao tác kho & phân phối</h2>
             <div className={styles.quickOpsList}>
-              <Link to="/ops/warehouse/assets" className={styles.quickOpLink}>
+              <Link to={ROUTES.OPS_ASSETS} className={styles.quickOpLink}>
                 <Warehouse size={15} />
                 <span>Quản lý tài sản kho (Barcode)</span>
               </Link>
@@ -274,7 +275,7 @@ export default function AdminProductDetailPage() {
           </div>
           {product && (
             <div className={styles.headerToolbar}>
-              {isAdmin && (
+              {canManage && (
                 <Link
                   className={styles.headerPrimaryBtn}
                   to={ROUTES.ADMIN_PRODUCT_EDIT(product.productId)}

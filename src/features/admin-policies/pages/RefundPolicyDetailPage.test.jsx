@@ -150,7 +150,7 @@ describe('RefundPolicyDetailPage', () => {
     ['Tạo phiên bản mới', 'Kích hoạt', 'Ngừng áp dụng', 'Xoá'].forEach((name) =>
       expect(button(new RegExp(name))).not.toBeInTheDocument(),
     );
-    expect(screen.getByText(/chế độ chỉ đọc/)).toBeInTheDocument();
+    expect(screen.queryByText(/chế độ chỉ đọc/)).not.toBeInTheDocument();
   });
 
   it('deletes only after the confirm dialog is accepted', async () => {

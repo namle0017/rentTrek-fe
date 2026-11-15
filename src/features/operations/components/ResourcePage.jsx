@@ -26,6 +26,7 @@ export default function ResourcePage({
   initialValues = {},
   actions,
   children,
+  embedded = false,
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isCreating, setIsCreating] = useState(false);
@@ -52,17 +53,16 @@ export default function ResourcePage({
   const allowed = canWrite || currentUser?.role === USER_ROLE.ADMIN;
 
   return (
-    <div className={styles.page}>
-      {fields && allowed && (
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
-          <button className={styles.primary} onClick={() => setIsCreating(true)}>
-            ＋ {createLabel}
-          </button>
-        </div>
-      )}
-      <div className={styles.filters}><label>Tìm kiếm<input type="search" value={search} placeholder="Nhập từ khóa…" onChange={(event) => update({ search: event.target.value })} /></label>
+    // `embedded`: trang cha (vd. MasterDataPage có tab) đã bọc .page → không lồng thêm một .page nữa
+    <div className={embedded ? styles.resourceBody : styles.page}>
+      <div className={`${styles.filters} ${styles.resourceToolbar}`}><label className={styles.searchField}>Tìm kiếm<input type="search" value={search} placeholder="Nhập từ khóa…" onChange={(event) => update({ search: event.target.value })} /></label>
       {filters.map((filter) => <label key={filter.name}>{filter.label}{filter.type ? <input type={filter.type} value={searchParams.get(filter.name) ? dayjs(searchParams.get(filter.name)).format('YYYY-MM-DDTHH:mm') : ''} onChange={(event) => update({ [filter.name]: event.target.value ? new Date(event.target.value).toISOString() : '' })} /> : <select value={searchParams.get(filter.name) ?? ''} onChange={(event) => update({ [filter.name]: event.target.value })}><option value="">Tất cả</option>{filter.options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>}</label>)}
       <button className={styles.secondary} onClick={() => setSearchParams({})}>Đặt lại</button>
+      {fields && allowed && (
+        <button className={`${styles.primary} ${styles.toolbarCreate}`} onClick={() => setIsCreating(true)}>
+          ＋ {createLabel}
+        </button>
+      )}
     </div>
     {query.isPending ? <Spinner /> : query.isError ? <ErrorState message={query.error.message} onRetry={query.refetch} /> : <DataTable columns={columns} rows={query.data?.items ?? query.data ?? []} rowKey={rowKey} paging={query.data?.items ? query.data : undefined} onPageChange={(pageNumber) => update({ pageNumber })} sortBy={params.sortBy} sortOrder={params.sortOrder} onSort={(sortBy) => update({ sortBy, sortOrder: sortBy === params.sortBy && params.sortOrder === 'asc' ? 'desc' : 'asc' })} filename={`${title}.csv`} actions={actions} />}
     {children}

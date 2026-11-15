@@ -63,8 +63,18 @@ describe('AdminProductsPage', () => {
     ).toBeInTheDocument();
   });
 
-  it('hides product creation from staff', () => {
+  it('lets staff create products (staff manages the warehouse)', () => {
     useAuth.mockReturnValue({ currentUser: { role: 'Staff' } });
+    render(
+      <MemoryRouter>
+        <AdminProductsPage />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole('link', { name: 'Thêm sản phẩm' })).toHaveAttribute('href', '/admin/products/new');
+  });
+
+  it('hides product creation from other roles', () => {
+    useAuth.mockReturnValue({ currentUser: { role: 'Guide' } });
     render(
       <MemoryRouter>
         <AdminProductsPage />

@@ -1,8 +1,9 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
+import PostReadAnalyticsPanel from '../components/PostReadAnalyticsPanel';
 import PostEditorForm from '../components/PostEditorForm';
 import { useAdminPost } from '../hooks/usePosts';
 import styles from './AdminPosts.module.css';
@@ -15,7 +16,12 @@ export default function AdminPostEditorPage() {
     if (postId && isLoading) return <Spinner />;
     if (postId && isError) return <ErrorState message={error?.message} onRetry={refetch} />;
     // key: form khởi tạo lại khi chuyển từ "bài mới" sang bài vừa tạo
-    return <PostEditorForm key={post?.postId ?? 'new'} post={postId ? post : undefined} />;
+    return (
+      <>
+        <PostEditorForm key={post?.postId ?? 'new'} post={postId ? post : undefined} />
+        {postId && post && <PostReadAnalyticsPanel postId={postId} />}
+      </>
+    );
   };
 
   return (

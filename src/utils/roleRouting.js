@@ -16,3 +16,8 @@ export function getRoleHomeRoute(role) {
   }
   return ROUTES.HOME;
 }
+
+/** Admin và Staff (người trực tiếp quản lý kho) được tạo / sửa sản phẩm, biến thể và thiết bị. */
+export function canManageCatalog(role) {
+  return role === USER_ROLE.ADMIN || role === USER_ROLE.STAFF;
+}

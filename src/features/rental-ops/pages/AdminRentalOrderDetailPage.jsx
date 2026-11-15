@@ -1,14 +1,17 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Breadcrumb from '@/components/Breadcrumb';
 import DevClockJumps from '@/components/DevClockJumps';
 import ErrorState from '@/components/ErrorState';
+import Modal from '@/components/Modal';
 import Spinner from '@/components/Spinner';
 import { ORDER_PAYMENT_STATUS_LABEL, ORDER_STATUS_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useDevClockControls } from '@/hooks/useDevClock';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
+import EvidencePhotoGallery from '@/features/rentals/components/EvidencePhotoGallery';
 import RentalAssetsPanel from '../components/RentalAssetsPanel';
 import RentalChargesPanel from '../components/RentalChargesPanel';
 import {
@@ -22,11 +25,13 @@ import {
   useReturnRentalAssets,
   useVoidRentalCharge,
 } from '../hooks/useRentalOps';
+import { RENTAL_REPORT_STATUS_LABEL, RENTAL_REPORT_TYPE_LABEL } from '../constants/rentalOpsLabels';
 import styles from './RentalOps.module.css';
 
 export default function AdminRentalOrderDetailPage() {
   const { orderId } = useParams();
   const { data: order, isLoading, isError, error, refetch } = useAdminRentalOrder(orderId);
+  const [lightboxUrl, setLightboxUrl] = useState(null);
   const devClock = useDevClockControls();
   const handover = useHandoverRental();
   const returnAssets = useReturnRentalAssets();
@@ -156,6 +161,21 @@ export default function AdminRentalOrderDetailPage() {
           </ul>
         </section>
 
+        <section className={styles.panel} aria-label="Các bước xử lý đơn thuê">
+          <h2 className={styles.panelTitle}>Các bước xử lý tại kho</h2>
+          <div className={styles.actions}>
+            <Link to={ROUTES.OPS_HANDOVER(order.orderCode)} className="btn btn-secondary">
+              Giao đồ
+            </Link>
+            <Link to={ROUTES.OPS_RETURN(order.orderCode)} className="btn btn-secondary">
+              Thu hồi
+            </Link>
+            <Link to={ROUTES.OPS_SETTLEMENT(order.orderCode)} className="btn btn-secondary">
+              Quyết toán
+            </Link>
+          </div>
+        </section>
+
         <RentalAssetsPanel
           assignments={order.assignments}
           allowedActions={allowedActions}
@@ -173,6 +193,33 @@ export default function AdminRentalOrderDetailPage() {
           onAssess={(chargeId) => assessCharge.mutate({ orderId, chargeId })}
           onVoid={(chargeId, reason, onDone) => voidCharge.mutate({ orderId, chargeId, reason }, { onSuccess: onDone })}
         />
+
+        {order.evidencePhotos?.length > 0 && (
+          <section className={styles.panel}>
+            <EvidencePhotoGallery photos={order.evidencePhotos} onOpen={setLightboxUrl} />
+          </section>
+        )}
+
+        {order.reports?.length > 0 && (
+          <section className={styles.panel} aria-label="Báo cáo của đơn thuê">
+            <h2 className={styles.panelTitle}>Báo cáo ({order.reports.length})</h2>
+            <ul className={styles.lineList}>
+              {order.reports.map((report) => (
+                <li key={report.rentalReportId}>
+                  <span>
+                    <strong>{RENTAL_REPORT_TYPE_LABEL[report.reportType] ?? report.reportType}</strong> ·{' '}
+                    {RENTAL_REPORT_STATUS_LABEL[report.status] ?? report.status}
+                    {report.note && <span className={styles.muted}> — {report.note}</span>}
+                  </span>
+                  <span className={styles.muted}>
+                    {report.amount > 0 && `${formatCurrency(report.amount)} · `}
+                    {formatDateTime(report.createdAt)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {adjustments?.length > 0 && (
           <section className={styles.panel}>
@@ -253,6 +300,11 @@ export default function AdminRentalOrderDetailPage() {
         </h1>
       </header>
       {renderContent()}
+      {lightboxUrl && (
+        <Modal title="Ảnh bằng chứng" onClose={() => setLightboxUrl(null)}>
+          <img src={lightboxUrl} alt="Ảnh bằng chứng" style={{ maxWidth: '100%' }} />
+        </Modal>
+      )}
     </section>
   );
 }

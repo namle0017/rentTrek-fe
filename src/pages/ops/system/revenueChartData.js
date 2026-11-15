@@ -52,8 +52,8 @@ export function buildRevenuePeriods(rows, range, now) {
     const key = cur.format('YYYY-MM-DD');
     const isToday = cur.isSame(vnNow, 'day');
 
-    let label = cur.format('DD/MM');
-    let title = `Ngày ${cur.format('DD/MM/YYYY')}`;
+    let label;
+    let title;
 
     if (range.groupBy === 'day') {
       label = isToday ? 'Hôm nay' : cur.format('DD/MM');

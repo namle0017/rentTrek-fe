@@ -58,9 +58,6 @@ export default function RentalPolicyDetailPage() {
         )}
       </header>
 
-      {!isAdmin && (
-        <p className={styles.readOnlyHint}>Bạn đang xem ở chế độ chỉ đọc. Chỉ Quản trị viên mới được tạo phiên bản mới.</p>
-      )}
 
       <div className={styles.card}>
         <h3 className={styles.cardTitle}>Cọc & huỷ đơn</h3>

@@ -65,6 +65,9 @@ export const adminTripService = {
   approveBookingSplit: (tripId, bookingId, payload) =>
     axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.SPLIT_APPROVE(tripId, bookingId), payload),
 
+  recalculateProvidedItems: (tripId) =>
+    axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.RECALCULATE_PROVIDED_ITEMS(tripId), {}),
+
   // 11. Activity Attendance Matrix (Màn O14)
   getAttendanceMatrix: (tripId, groupId) =>
     axiosClient.get(API_ENDPOINTS.ADMIN_TRIPS.ATTENDANCE_MATRIX(tripId), {

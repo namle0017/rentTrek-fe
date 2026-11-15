@@ -7,7 +7,7 @@ import Spinner from '@/components/Spinner';
 import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '@/constants/config';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
-import { USER_ROLE } from '@/constants/enums';
+import { canManageCatalog } from '@/utils/roleRouting';
 import AdminCatalogStatusBadge from '../components/AdminCatalogStatusBadge';
 import { PRODUCT_STATUS_OPTIONS } from '../constants/adminCatalogStatus';
 import { useAdminProducts } from '../hooks/useAdminCatalog';
@@ -18,7 +18,7 @@ const dateFormatter = new Intl.DateTimeFormat('vi-VN', { dateStyle: 'short', tim
 
 export default function AdminProductsPage() {
   const { currentUser } = useAuth();
-  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
+  const canManage = canManageCatalog(currentUser?.role);
   const navigate = useNavigate();
   const [draftFilters, setDraftFilters] = useState(INITIAL_FILTERS);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
@@ -130,7 +130,7 @@ export default function AdminProductsPage() {
 
   return (
     <section className={styles.page} aria-label="Danh mục Sản phẩm">
-      {isAdmin && (
+      {canManage && (
         <div className={styles.header} style={{ justifyContent: 'flex-end', paddingBottom: 12 }}>
           <Link className="btn btn-primary" to={ROUTES.ADMIN_PRODUCT_CREATE}>
             <span aria-hidden="true">＋</span> Thêm sản phẩm

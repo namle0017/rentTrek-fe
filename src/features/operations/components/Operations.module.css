@@ -3,8 +3,35 @@
   flex-direction: column;
   gap: var(--space-section);
   color: #151a24;
+  width: 100%;
   max-width: 1440px;
   margin: 0 auto;
+}
+/* ResourcePage nhúng trong trang có tab: giữ nhịp khoảng cách, không tự căn giữa lại */
+.resourceBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-section);
+  min-width: 0;
+}
+/* Thanh tìm kiếm dạng card giống các trang danh sách khác (Tour, Bài viết…) */
+.resourceToolbar {
+  padding: 16px;
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  box-shadow: var(--shadow-card, 0 1px 3px 0 rgba(15, 23, 42, 0.08));
+}
+.resourceToolbar .searchField {
+  flex: 1 1 260px;
+  max-width: 420px;
+}
+.resourceToolbar .searchField input[type='search'] {
+  width: 100%;
+  min-width: 0;
+}
+.toolbarCreate {
+  margin-left: auto;
 }
 .page h1 {
   font-size: var(--font-size-page-title);

@@ -40,8 +40,9 @@ function ParticipantPosts({ participantId }) {
 }
 
 function ReviewForm({ participation }) {
-  const [rating, setRating] = useState(5);
-  const [comment, setComment] = useState('');
+  // Sửa review: điền sẵn số sao + nội dung cũ từ danh sách chuyến
+  const [rating, setRating] = useState(participation.reviewRating ?? 5);
+  const [comment, setComment] = useState(participation.reviewComment ?? '');
   const save = useSaveParticipantReview(participation.participantId, participation.hasReview);
 
   const handleSubmit = (e) => {
@@ -90,6 +91,11 @@ function TripCard({ participation: p }) {
           <small>
             {formatDateTime(p.startAt)} – {formatDateTime(p.endAt)}
           </small>
+          {p.orderId && (
+            <Link to={ROUTES.TRIP_BOOKING_DETAIL(p.orderId)}>
+              <small>Xem đơn đặt tour</small>
+            </Link>
+          )}
         </div>
         <div className={styles.cardSide}>
           <span className={styles.status}>{TRIP_STATUS_LABEL[p.tripStatus] || p.tripStatus}</span>

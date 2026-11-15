@@ -4,24 +4,18 @@ import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
-import {
-  ORDER_STATUS_LABEL,
-  ORDER_PAYMENT_STATUS_LABEL,
-  REFUND_CASE_SOURCE_LABEL,
-  REFUND_CASE_STATUS_LABEL,
-} from '@/constants/enums';
+import { ORDER_STATUS_LABEL, ORDER_PAYMENT_STATUS_LABEL } from '@/constants/enums';
 import { CHARGE_STATUS_LABEL, CHARGE_TYPE_LABEL } from '@/features/rental-ops/constants/rentalOpsLabels';
 import RefundProgressCard from '@/features/refunds/components/RefundProgressCard';
 import HoldCountdown from '@/features/trip-bookings/components/HoldCountdown';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { parseAdminTransactionWithProof } from '@/features/refunds/utils/refundProofHelper';
 import { useConfirmRentalReceipt, useRentalOrder } from '../hooks/useRentals';
 import { rentalDateLabel } from '../utils/rentalCheckout';
 import RentalPaymentPanel from '../components/RentalPaymentPanel';
 import CancelUnpaidRentalPanel from '../components/CancelUnpaidRentalPanel';
 import RentalIssueReportModal from '../components/RentalIssueReportModal';
 import CancelPaidRentalPanel from '../components/CancelPaidRentalPanel';
-import RefundBankInfoPanel from '../components/RefundBankInfoPanel';
+import RentalAdjustmentHistory from '../components/RentalAdjustmentHistory';
 import RentalExtensionPanel from '../components/RentalExtensionPanel';
 import RentalPolicySummary from '../components/RentalPolicySummary';
 import EvidencePhotoGallery from '../components/EvidencePhotoGallery';
@@ -82,7 +76,6 @@ export default function RentalOrderDetailPage() {
   const amounts = order.amounts;
   const actions = order.allowedActions || {};
   const settlement = order.settlement;
-  const refundCase = order.refundCase;
   const customerPhotos = (order.evidencePhotos || []).filter((photo) => photo.stage !== 'Damage');
   return (
     <div className={styles.page}>
@@ -189,21 +182,10 @@ export default function RentalOrderDetailPage() {
               </div>
             </section>
           )}
-          {actions.canSubmitBankInfo && refundCase && <RefundBankInfoPanel orderId={orderId} refundCase={refundCase} />}
-          {refundCase && !actions.canSubmitBankInfo && (
-            <section className={styles.card} aria-label="Hoàn tiền">
-              <h2>Hoàn tiền {formatCurrency(refundCase.amount)}</h2>
-              <p>
-                {REFUND_CASE_SOURCE_LABEL[refundCase.source] || refundCase.source} ·{' '}
-                <strong>{REFUND_CASE_STATUS_LABEL[refundCase.status] || refundCase.status}</strong>
-                {refundCase.bankAccountLast4 && ` · tài khoản ****${refundCase.bankAccountLast4}`}
-              </p>
-              {refundCase.rejectionReason && <p className={styles.error}>{refundCase.rejectionReason}</p>}
-            </section>
-          )}
           {actions.canExtend && (
             <RentalExtensionPanel orderId={orderId} rentalEndAt={order.rentalEndAt} onChanged={query.refetch} />
           )}
+          <RentalAdjustmentHistory orderId={orderId} />
           <section className={styles.card}>
             <h2>Thiết bị đã đặt</h2>
             <p>
@@ -285,24 +267,11 @@ export default function RentalOrderDetailPage() {
             <section className={styles.card}>
               <h2>Lịch sử giao dịch</h2>
               {order.payments.map((payment) => {
-                const parsedProof = payment.providerTransactionId
-                  ? parseAdminTransactionWithProof(payment.providerTransactionId)
-                  : null;
                 return (
                   <div className={styles.reviewLine} key={payment.id}>
                     <span>
                       {payment.paymentType === 'Refund' ? 'Hoàn tiền' : 'Thanh toán'} · {payment.status}
                       <small>{rentalDateLabel(payment.createdAt)}</small>
-                      {parsedProof?.hasProof && (
-                        <button
-                          type="button"
-                          className={styles.viewProofBtn}
-                          onClick={() => setLightboxUrl(parsedProof.proofUrl)}
-                          title="Xem biên lai chuyển khoản từ RenTrek"
-                        >
-                          📷 Xem biên lai hoàn tiền
-                        </button>
-                      )}
                     </span>
                     <strong>{formatCurrency(payment.amount)}</strong>
                   </div>

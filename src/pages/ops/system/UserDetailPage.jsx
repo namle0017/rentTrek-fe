@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Breadcrumb from '@/components/Breadcrumb';
 import { API_ENDPOINTS } from '@/api/endpoints';
 import { ROUTES } from '@/constants/routes';

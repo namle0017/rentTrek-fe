@@ -1,15 +1,18 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
 import styles from '@/features/orders/pages/MyOrdersPage.module.css';
+import { useAuth } from '@/hooks/useAuth';
 import { formatDateTime } from '@/utils/formatDate';
 import {
   useMarkAllNotificationsRead,
   useMarkNotificationRead,
   useNotifications,
 } from '../hooks/useNotifications';
+import { notificationRoute } from '../utils/notificationRoute';
 
 const PAGE_SIZE = 20;
 
@@ -23,6 +26,15 @@ export default function NotificationsPage() {
   });
   const markRead = useMarkNotificationRead();
   const markAllRead = useMarkAllNotificationsRead();
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
+  // Bấm vào thông báo: đánh dấu đã đọc (nếu chưa) rồi mở đúng trang liên quan
+  const openNotification = (n) => {
+    if (!n.isRead) markRead.mutate(n.notificationId);
+    const target = notificationRoute(n, currentUser?.role);
+    if (target) navigate(target);
+  };
 
   const changeFilter = (value) => {
     setUnreadOnly(value);
@@ -63,11 +75,17 @@ export default function NotificationsPage() {
                 className={styles.card}
                 style={n.isRead ? undefined : { borderColor: '#204b39' }}
               >
-                <div className={styles.cardMain}>
+                <button
+                  type="button"
+                  className={styles.cardMain}
+                  style={{ background: 'none', border: 0, padding: 0, font: 'inherit', textAlign: 'left', cursor: 'pointer' }}
+                  onClick={() => openNotification(n)}
+                  aria-label={`Mở thông báo: ${n.title}`}
+                >
                   <span className={styles.type}>{n.type}</span>
                   <strong>{n.title}</strong>
                   <small>{n.content}</small>
-                </div>
+                </button>
                 <div className={styles.cardSide}>
                   <small>{formatDateTime(n.createdAt)}</small>
                   {n.isRead ? (

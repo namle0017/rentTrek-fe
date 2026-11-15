@@ -42,6 +42,5 @@ export const rentalService = {
   getAdjustments: (orderId) => axiosClient.get(API_ENDPOINTS.RENTAL_ORDERS.ADJUSTMENTS(orderId)),
   getActivePolicy: () => axiosClient.get(API_ENDPOINTS.RENTAL_POLICY_ACTIVE),
   reportItemIssue: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.ISSUES(orderId), payload),
-  requestChargeReview: (orderId, chargeId, payload) =>
-    axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.CHARGE_REVIEW_REQUESTS(orderId, chargeId), payload),
+  // Đã bỏ requestChargeReview: BE không có endpoint yêu cầu kiểm tra lại phí.
 };

@@ -194,14 +194,15 @@ describe('TripBookingDetailPage', () => {
     expect(screen.getByLabelText('Link xem chuyến cho nhóm')).toBeInTheDocument();
   });
 
-  it('cancels without asking for a reason when no refund is due', async () => {
+  it('cancels an unpaid booking with a simple confirm (no refund, no bank info)', async () => {
     const user = userEvent.setup();
     cancelAsync.mockResolvedValue({});
     renderPage();
 
     await user.click(screen.getByRole('button', { name: 'Hủy booking' }));
     expect(cancelAsync).not.toHaveBeenCalled();
-    await user.click(screen.getByRole('button', { name: 'Xác nhận hủy' }));
+    expect(screen.getByText(/không phát sinh hoàn tiền/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Huỷ đơn' }));
 
     expect(cancelAsync).toHaveBeenCalledWith({
       orderId: 'order-1',

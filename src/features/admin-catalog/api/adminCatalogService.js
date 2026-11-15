@@ -16,6 +16,9 @@ export const adminCatalogService = {
   updateTour: ({ tourId, ...payload }) => axiosClient.put(ADMIN_CATALOG.TOUR_BY_ID(tourId), payload),
   deleteTour: (tourId) => axiosClient.delete(ADMIN_CATALOG.TOUR_BY_ID(tourId)),
   publishTour: (tourId) => axiosClient.post(ADMIN_CATALOG.TOUR_PUBLISH(tourId)),
+  // PUT /tours/{id}/group-settings body { groupMaxParticipants } — chỉ Admin
+  updateTourGroupSettings: ({ tourId, groupMaxParticipants }) =>
+    axiosClient.put(`${API_ENDPOINTS.TOURS.BY_ID(tourId)}/group-settings`, { groupMaxParticipants }),
   archiveTour: (tourId) => axiosClient.post(ADMIN_CATALOG.TOUR_ARCHIVE(tourId)),
 
   getTourImages: (tourId) => axiosClient.get(ADMIN_CATALOG.TOUR_IMAGES(tourId)),

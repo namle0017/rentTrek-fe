@@ -123,7 +123,6 @@ export const ORDER_PAYMENT_STATUS_LABEL = {
 export const REFUND_CASE_STATUS = Object.freeze({
   AWAITING_BANK_INFO: 'AwaitingBankInfo',
   REQUESTED: 'Requested',
-  AWAITING_BANK_INFO: 'AwaitingBankInfo',
   APPROVED: 'Approved',
   COMPLETED: 'Completed',
   REJECTED: 'Rejected',
@@ -132,9 +131,8 @@ export const REFUND_CASE_STATUS = Object.freeze({
 });
 
 export const REFUND_CASE_STATUS_LABEL = {
-  [REFUND_CASE_STATUS.AWAITING_BANK_INFO]: 'Chờ khách nhập STK',
-  [REFUND_CASE_STATUS.REQUESTED]: 'Chờ xử lý',
   [REFUND_CASE_STATUS.AWAITING_BANK_INFO]: 'Chờ khách cung cấp tài khoản',
+  [REFUND_CASE_STATUS.REQUESTED]: 'Chờ xử lý',
   [REFUND_CASE_STATUS.APPROVED]: 'Đã gửi kế toán',
   [REFUND_CASE_STATUS.COMPLETED]: 'Hoàn tất',
   [REFUND_CASE_STATUS.REJECTED]: 'Bị từ chối',
@@ -281,9 +279,11 @@ export const POST_TYPE_LABEL = {
 export const POST_STATUS = Object.freeze({
   DRAFT: 'Draft',
   PUBLISHED: 'Published',
+  ARCHIVED: 'Archived',
 });
 
 export const POST_STATUS_LABEL = {
   [POST_STATUS.DRAFT]: 'Nháp',
   [POST_STATUS.PUBLISHED]: 'Đã xuất bản',
+  [POST_STATUS.ARCHIVED]: 'Đã lưu trữ',
 };

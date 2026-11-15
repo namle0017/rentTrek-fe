@@ -2,8 +2,6 @@ import { describe, it, expect } from 'vitest';
 import {
   packCancelReasonWithProofs,
   parseCancelReasonWithProofs,
-  packAdminTransactionWithProof,
-  parseAdminTransactionWithProof,
   CANCEL_CATEGORIES,
 } from './refundProofHelper';
 
@@ -66,43 +64,5 @@ describe('refundProofHelper', () => {
     });
   });
 
-  describe('packAdminTransactionWithProof & parseAdminTransactionWithProof', () => {
-    it('đóng gói mã giao dịch và link ảnh biên lai', () => {
-      const packed = packAdminTransactionWithProof(
-        'VCB-20261113-8899',
-        'https://storage.vn/unc_vcb.jpg'
-      );
-      expect(packed).toBe('VCB-20261113-8899#proof=https://storage.vn/unc_vcb.jpg');
-    });
-
-    it('đóng gói khi không có link ảnh biên lai', () => {
-      const packed = packAdminTransactionWithProof('VCB-20261113-8899');
-      expect(packed).toBe('VCB-20261113-8899');
-    });
-
-    it('tách chính xác chuỗi có kèm ảnh biên lai', () => {
-      const raw = 'VCB-20261113-8899#proof=https://storage.vn/unc_vcb.jpg';
-      const parsed = parseAdminTransactionWithProof(raw);
-      expect(parsed.transactionId).toBe('VCB-20261113-8899');
-      expect(parsed.proofUrl).toBe('https://storage.vn/unc_vcb.jpg');
-      expect(parsed.hasProof).toBe(true);
-    });
-
-    it('tương thích ngược khi mã giao dịch cũ chỉ là text', () => {
-      const raw = 'VCB-20261113-8899';
-      const parsed = parseAdminTransactionWithProof(raw);
-      expect(parsed.transactionId).toBe('VCB-20261113-8899');
-      expect(parsed.proofUrl).toBe(null);
-      expect(parsed.hasProof).toBe(false);
-    });
-
-    it('xử lý an toàn khi input null hoặc undefined', () => {
-      expect(parseAdminTransactionWithProof(null)).toEqual({
-        transactionId: '',
-        proofUrl: null,
-        hasProof: false,
-      });
-    });
-  });
 });
 

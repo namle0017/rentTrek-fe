@@ -3,7 +3,9 @@ import { parsePostContent, slugify } from './postContent';
 
 describe('slugify', () => {
   it('strips Vietnamese diacritics like the backend', () => {
-    expect(slugify('  Chuẩn bị gì cho chuyến Fansipan 3 ngày 2 đêm? ')).toBe('chuan-bi-gi-cho-chuyen-fansipan-3-ngay-2-dem');
+    expect(slugify('  Chuẩn bị gì cho chuyến Fansipan 3 ngày 2 đêm? ')).toBe(
+      'chuan-bi-gi-cho-chuyen-fansipan-3-ngay-2-dem',
+    );
     expect(slugify('Đường đèo Đá Đỏ')).toBe('duong-deo-da-do');
     expect(slugify('!!!')).toBe('');
   });

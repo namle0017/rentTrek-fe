@@ -119,6 +119,10 @@ export const API_ENDPOINTS = {
   ADMIN_POSTS: {
     ROOT: '/admin/posts',
     BY_ID: (postId) => `/admin/posts/${postId}`,
+    PUBLISH: (postId) => `/admin/posts/${postId}/publish`,
+    ARCHIVE: (postId) => `/admin/posts/${postId}/archive`,
+    IMAGES: '/admin/posts/images',
+    READ_ANALYTICS: (postId) => `/admin/posts/${postId}/read-analytics`,
   },
   // Phân hệ Quản trị Catalog (Tour & Sản phẩm)
   ADMIN_CATALOG: {
@@ -228,6 +232,7 @@ export const API_ENDPOINTS = {
     ATTENDANCE_MATRIX: (tripId) => `/admin/trips/${tripId}/attendance-matrix`,
     ATTENDANCES: (tripId) => `/admin/trips/${tripId}/attendances`,
     ATTENDANCES_HISTORY: (tripId) => `/admin/trips/${tripId}/attendances/history`,
+    RECALCULATE_PROVIDED_ITEMS: (tripId) => `/trips/${tripId}/grouping/recalculate-provided-items`,
   },
   GUIDE: {
     TRIPS: '/guide/trips',

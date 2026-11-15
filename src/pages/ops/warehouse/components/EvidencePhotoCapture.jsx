@@ -56,9 +56,13 @@ export default function EvidencePhotoCapture({
         <span
           className={styles.count}
           data-enough={enough}
-          aria-label={`Ảnh ${assetCode}: ${photos.length} trên ${minPhotos} tối thiểu`}
+          aria-label={
+            minPhotos > 0
+              ? `Ảnh ${assetCode}: ${photos.length} trên ${minPhotos} tối thiểu`
+              : `Ảnh ${assetCode}: ${photos.length}`
+          }
         >
-          {photos.length}/{minPhotos} ảnh
+          {minPhotos > 0 ? `${photos.length}/${minPhotos} ảnh` : `${photos.length} ảnh`}
         </span>
         {!disabled && (
           <>

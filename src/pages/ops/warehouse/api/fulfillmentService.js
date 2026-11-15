@@ -109,8 +109,10 @@ export const fulfillmentService = {
     if (!order) return null;
 
     const returnPhotos = photosByAssignment(order, 'Return');
+    const damagePhotos = photosByAssignment(order, 'Damage');
     const items = (order.assignments || []).map((a) => ({
       photos: returnPhotos[a.assignmentId] || [],
+      damagePhotos: damagePhotos[a.assignmentId] || [],
       assignmentId: a.assignmentId,
       equipmentAssetId: a.assignmentId,
       assetCode: a.assetCode,

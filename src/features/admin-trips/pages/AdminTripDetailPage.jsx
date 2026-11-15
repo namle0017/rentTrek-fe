@@ -3,7 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
-import { TRIP_STATUS, TRIP_STATUS_LABEL } from '@/constants/enums';
+import { TRIP_STATUS, TRIP_STATUS_LABEL, USER_ROLE } from '@/constants/enums';
+import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
@@ -12,6 +13,7 @@ import TripAttendanceMatrixTab from '../components/TripAttendanceMatrixTab';
 import TripKanbanBoardTab from '../components/TripKanbanBoardTab';
 import {
   useAdminTripDetail,
+  useRecalculateProvidedItems,
   useTripBookings,
   useTripLifecycleActions,
   useTripReadinessChecklist,
@@ -21,6 +23,9 @@ import styles from './AdminTripOps.module.css';
 
 export default function AdminTripDetailPage() {
   const { tripId } = useParams();
+  // Huỷ chuyến chỉ Admin (BE chặn Staff)
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'bookings' | 'kanban' | 'attendance'
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isCancelOpen, setIsCancelOpen] = useState(false);
@@ -31,6 +36,7 @@ export default function AdminTripDetailPage() {
   const { data: readiness } = useTripReadinessChecklist(tripId);
   const { data: bookings = [] } = useTripBookings(tripId);
   const updateTrip = useUpdateAdminTrip(tripId);
+  const recalcProvidedItems = useRecalculateProvidedItems(tripId);
   const { openBooking, closeBooking, startTrip, completeTrip, cancelTrip } = useTripLifecycleActions(tripId);
 
   const [editForm, setEditForm] = useState(null);
@@ -95,6 +101,17 @@ export default function AdminTripDetailPage() {
       });
     } catch (err) {
       setFeedback({ type: 'error', text: err.message || 'Không thể hủy chuyến đi.' });
+    }
+  };
+
+  const handleRecalcProvidedItems = async () => {
+    setFeedback(null);
+    try {
+      const res = await recalcProvidedItems.mutateAsync();
+      const count = res?.data?.providedItems?.length ?? 0;
+      setFeedback({ type: 'success', text: `Đã tính lại đồ cấp chuyến (${count} mục).` });
+    } catch (err) {
+      setFeedback({ type: 'error', text: err.message || 'Không thể tính lại đồ cấp.' });
     }
   };
 
@@ -179,6 +196,19 @@ export default function AdminTripDetailPage() {
             </button>
           )}
 
+          <Link to={ROUTES.OPS_TRIP_PROVIDED_ITEMS(tripId)} className={styles.btnOutline}>
+            Đồ cấp chuyến
+          </Link>
+
+          <button
+            type="button"
+            className={styles.btnOutline}
+            onClick={handleRecalcProvidedItems}
+            disabled={recalcProvidedItems.isPending}
+          >
+            {recalcProvidedItems.isPending ? 'Đang tính…' : 'Tính lại đồ cấp'}
+          </button>
+
           <button type="button" className={styles.btnOutline} onClick={handleExportCsv}>
             Xuất Manifest CSV
           </button>
@@ -187,7 +217,7 @@ export default function AdminTripDetailPage() {
             Sửa thông tin
           </button>
 
-          {trip.status !== TRIP_STATUS.COMPLETED && trip.status !== TRIP_STATUS.CANCELLED && (
+          {isAdmin && trip.status !== TRIP_STATUS.COMPLETED && trip.status !== TRIP_STATUS.CANCELLED && (
             <button type="button" className={styles.btnDanger} onClick={() => setIsCancelOpen(true)}>
               Hủy chuyến khẩn cấp
             </button>
@@ -446,7 +476,7 @@ export default function AdminTripDetailPage() {
       {activeTab === 'kanban' && <TripKanbanBoardTab tripId={tripId} />}
 
       {/* TAB 4: O14 - Ma trận Điểm danh Hoạt động */}
-      {activeTab === 'attendance' && <TripAttendanceMatrixTab tripId={tripId} />}
+      {activeTab === 'attendance' && <TripAttendanceMatrixTab tripId={tripId} tripStatus={trip.status} />}
 
       {/* Modal cập nhật chuyến đi (8.4) */}
       {isEditOpen && editForm && (

@@ -205,6 +205,12 @@ export default function ProductDetailPage() {
                   <span className={styles.infoValue}>{variant.color}</span>
                 </div>
               )}
+              {variant.replacementValue != null && (
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Giá trị thiết bị</span>
+                  <span className={styles.infoValue}>{formatCurrency(variant.replacementValue)}</span>
+                </div>
+              )}
             </div>
 
             {/* Mô tả chi tiết nếu có */}

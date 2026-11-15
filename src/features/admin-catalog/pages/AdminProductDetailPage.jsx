@@ -153,6 +153,11 @@ export default function AdminProductDetailPage() {
                               <span className={styles.skuTag}>SKU: {variant.sku}</span>
                               {variant.size && <span className={styles.attrTag}>Cỡ: {variant.size}</span>}
                               {variant.color && <span className={styles.attrTag}>Màu: {variant.color}</span>}
+                              {variant.replacementValue != null && (
+                                <span className={styles.attrTag}>
+                                  Giá trị đền bù: {formatCurrency(variant.replacementValue)}
+                                </span>
+                              )}
                             </div>
                           </div>
                           <AdminCatalogStatusBadge status={variant.status} />

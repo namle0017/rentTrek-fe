@@ -83,6 +83,64 @@
   border: 0;
 }
 
+/* Bài soạn bằng trình soạn WYSIWYG (HTML đã lọc) */
+.richContent h3 {
+  margin: 24px 0 8px;
+  color: var(--color-primary-heading);
+  font-size: var(--font-size-subheading, 1.25rem);
+}
+
+.richContent ul,
+.richContent ol {
+  margin: 0 0 16px;
+  padding-left: 1.5em;
+}
+
+.richContent blockquote {
+  margin: 24px 0;
+  padding: 4px 20px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  border-left: 4px solid var(--color-accent);
+}
+
+.richContent img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 24px auto;
+  border-radius: var(--radius);
+}
+
+.richContent div[data-youtube-video] {
+  margin: 24px 0;
+}
+
+.richContent div[data-youtube-video] iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: var(--radius);
+}
+
+.richContent a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.richContent hr {
+  margin: 32px 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.richContent mark {
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
 .aside {
   display: flex;
   flex-direction: column;

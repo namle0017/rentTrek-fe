@@ -55,6 +55,7 @@ function getPageTitle(pathname) {
   if (pathname.startsWith(`${ROUTES.ADMIN_RENTAL_POLICIES}/`)) return 'Chi tiết chính sách thuê đồ';
   if (pathname === ROUTES.ADMIN_RENTAL_POLICIES || pathname.startsWith(ROUTES.ADMIN_RENTAL_POLICY)) return 'Chính sách thuê đồ';
   if (pathname.startsWith(ROUTES.ADMIN_RENTAL_REPORTS)) return 'Báo cáo đơn thuê';
+  if (pathname.startsWith(ROUTES.ADMIN_CUSTOMER_REPORTS)) return 'Báo cáo từ khách hàng';
   if (pathname === ROUTES.OPS_ASSETS) return 'Quản lý kho thiết bị';
   if (pathname === ROUTES.OPS_ASSETS_SCHEDULE) return 'Biểu đồ Gantt phân bổ thiết bị';
   if (pathname.includes('/provided-items')) return 'Cấp phát thiết bị cho chuyến đi';

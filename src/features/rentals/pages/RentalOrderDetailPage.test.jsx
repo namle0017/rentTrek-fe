@@ -16,6 +16,10 @@ vi.mock('../hooks/useRentals', async (importOriginal) => {
   };
 });
 
+vi.mock('@/features/customer-reports/hooks/useCustomerReports', () => ({
+  useMyCustomerReports: vi.fn().mockReturnValue({ data: [] }),
+}));
+
 const mockPaidOrder = {
   id: 'rent-ord-001',
   orderCode: 'RT-ORD-202611-001',

@@ -8,6 +8,7 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
 import { usePost, usePosts } from '../hooks/usePosts';
 import { parsePostContent } from '../utils/postContent';
+import { isHtmlContent, sanitizePostHtml } from '../utils/postHtml';
 import styles from './PostDetailPage.module.css';
 
 export default function PostDetailPage() {
@@ -57,41 +58,49 @@ export default function PostDetailPage() {
           </p>
         </header>
 
-        <div className={styles.content}>
-          {parsePostContent(post.content).map((block, index) => {
-            switch (block.type) {
-              case 'heading':
-                return <h2 key={index}>{block.text}</h2>;
-              case 'image':
-                return (
-                  <figure key={index} className={styles.media}>
-                    <img src={block.src} alt={block.alt} loading={index < 3 ? 'eager' : 'lazy'} />
-                    {block.alt && <figcaption>{block.alt}</figcaption>}
-                  </figure>
-                );
-              case 'youtube':
-                return (
-                  <div key={index} className={`${styles.media} ${styles.video}`}>
-                    <iframe
-                      src={`https://www.youtube-nocookie.com/embed/${block.videoId}`}
-                      title={`Video YouTube trong bài ${post.title}`}
-                      loading="lazy"
-                      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                );
-              case 'video':
-                return (
-                  <div key={index} className={`${styles.media} ${styles.video}`}>
-                    <video src={block.src} controls preload="metadata" />
-                  </div>
-                );
-              default:
-                return <p key={index}>{block.text}</p>;
-            }
-          })}
-        </div>
+        {isHtmlContent(post.content) ? (
+          <div
+            className={`${styles.content} ${styles.richContent}`}
+            // Nội dung đã qua DOMPurify: chỉ giữ thẻ định dạng, ảnh và iframe YouTube
+            dangerouslySetInnerHTML={{ __html: sanitizePostHtml(post.content) }}
+          />
+        ) : (
+          <div className={styles.content}>
+            {parsePostContent(post.content).map((block, index) => {
+              switch (block.type) {
+                case 'heading':
+                  return <h2 key={index}>{block.text}</h2>;
+                case 'image':
+                  return (
+                    <figure key={index} className={styles.media}>
+                      <img src={block.src} alt={block.alt} loading={index < 3 ? 'eager' : 'lazy'} />
+                      {block.alt && <figcaption>{block.alt}</figcaption>}
+                    </figure>
+                  );
+                case 'youtube':
+                  return (
+                    <div key={index} className={`${styles.media} ${styles.video}`}>
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${block.videoId}`}
+                        title={`Video YouTube trong bài ${post.title}`}
+                        loading="lazy"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  );
+                case 'video':
+                  return (
+                    <div key={index} className={`${styles.media} ${styles.video}`}>
+                      <video src={block.src} controls preload="metadata" />
+                    </div>
+                  );
+                default:
+                  return <p key={index}>{block.text}</p>;
+              }
+            })}
+          </div>
+        )}
       </article>
 
       <aside className={styles.aside}>

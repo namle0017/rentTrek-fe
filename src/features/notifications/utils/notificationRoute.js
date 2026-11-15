@@ -30,6 +30,8 @@ export function notificationRoute(notification, role) {
       return ROUTES.MY_TRIPS;
     case 'RentalReport':
       return isAdmin ? ROUTES.ADMIN_RENTAL_REPORTS : null;
+    case 'CustomerReport':
+      return isAdmin ? `${ROUTES.ADMIN_CUSTOMER_REPORTS}?id=${id}` : ROUTES.MY_REPORTS;
     default:
       return null;
   }

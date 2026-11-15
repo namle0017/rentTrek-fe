@@ -58,9 +58,14 @@ export function rentalSubmission(userId, payload, storage = sessionStorage) {
   }
   return submission;
 }
+/** Thời điểm server trả về là UTC; chuỗi thiếu offset vẫn coi là UTC. */
+export const parseServerDate = (value) =>
+  value instanceof Date
+    ? value
+    : new Date(value.endsWith('Z') || /[+-]\d\d:\d\d$/.test(value) ? value : `${value}Z`);
 export const rentalDateLabel = (value) =>
   new Intl.DateTimeFormat('vi-VN', {
     timeZone: 'Asia/Ho_Chi_Minh',
     dateStyle: 'medium',
     timeStyle: 'short',
-  }).format(new Date(value.endsWith('Z') || /[+-]\d\d:\d\d$/.test(value) ? value : `${value}Z`));
+  }).format(parseServerDate(value));

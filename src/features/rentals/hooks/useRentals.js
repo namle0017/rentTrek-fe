@@ -1,5 +1,6 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { customerReportKeys, customerReportService } from '@/features/customer-reports/api/customerReportService';
 import { orderKeys } from '@/features/orders/api/orderKeys';
 import { rentalKeys } from '../api/rentalKeys';
 import { rentalService } from '../api/rentalService';
@@ -99,10 +100,16 @@ export function useRentalAdjustments(orderId) {
   });
 }
 
-export function useRentalExtensionQuote() {
-  return useMutation({
-    mutationFn: ({ orderId, payload }) => rentalService.quoteExtension(orderId, payload),
-    meta: { skipGlobalErrorToast: true }, // panel gia hạn tự hiện lỗi
+// Báo giá gia hạn không ghi dữ liệu → query theo (đơn, hạn trả mới); trang gia hạn tự hiện lỗi
+export function useRentalExtensionQuote(orderId, newEndAt, options = {}) {
+  return useQuery({
+    queryKey: [...rentalKeys.all, 'extensionQuote', orderId, newEndAt],
+    queryFn: () => rentalService.quoteExtension(orderId, { newEndAt }),
+    select: (res) => res.data, // RentalExtensionQuoteResponse
+    enabled: Boolean(orderId && newEndAt),
+    staleTime: 0,
+    retry: false,
+    ...options,
   });
 }
 
@@ -112,6 +119,8 @@ export function useExtendRentalOrder() {
     mutationFn: ({ orderId, payload }) => rentalService.extend(orderId, payload),
     meta: { skipGlobalErrorToast: true },
     onSuccess: (res, { orderId }) => {
+      // Đơn sau gia hạn có sẵn trong response → hiện ngay bước thanh toán, không chờ refetch
+      if (res?.data?.order) queryClient.setQueryData(rentalKeys.orderDetail(orderId), { ...res, data: res.data.order });
       // invalidate cả adjustments (key con của orderDetail)
       queryClient.invalidateQueries({ queryKey: rentalKeys.orderDetail(orderId) });
       queryClient.invalidateQueries({ queryKey: orderKeys.myLists() });
@@ -150,14 +159,21 @@ export function useCancelRentalOrder() {
 export function useReportRentalIssue() {
   const queryClient = useQueryClient();
   return useMutation({
-    // BE nhận ảnh báo lỗi từng tấm (multipart) kèm ghi chú: POST /rental-orders/{id}/issue-photos
-    mutationFn: async ({ orderId, files, note }) => {
+    // 1) Ảnh gửi từng tấm qua POST /rental-orders/{id}/issue-photos (lưu làm bằng chứng CustomerIssue cho kho);
+    // 2) tạo báo cáo POST /customer-reports dùng lại link ảnh đó để admin theo dõi và phản hồi.
+    mutationFn: async ({ orderId, files, note, report }) => {
+      const photoUrls = [];
       for (const file of files) {
-        await rentalService.uploadIssuePhoto(orderId, { file, note });
+        const res = await rentalService.uploadIssuePhoto(orderId, { file, note });
+        if (res?.data?.imageUrl) photoUrls.push(res.data.imageUrl);
+      }
+      if (report) {
+        await customerReportService.create({ ...report, sourceType: 'Rental', orderId, photoUrls });
       }
     },
     onSuccess: (_res, variables) => {
       queryClient.invalidateQueries({ queryKey: rentalKeys.orderDetail(variables.orderId) });
+      queryClient.invalidateQueries({ queryKey: customerReportKeys.all });
       toast.success('Báo cáo sự cố thiết bị đã được gửi tới Quản lý kho RenTrek.');
     },
     onError: (err) => {

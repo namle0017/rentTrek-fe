@@ -14,6 +14,7 @@ import {
   TRIP_STATUS_LABEL,
 } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
+import OrderReportsCard from '@/features/customer-reports/components/OrderReportsCard';
 import { useMyOrders } from '@/features/orders/hooks/useOrders';
 import RefundProgressCard from '@/features/refunds/components/RefundProgressCard';
 import { formatCurrency } from '@/utils/formatCurrency';
@@ -376,6 +377,14 @@ export default function TripBookingDetailPage() {
           {booking.paymentStatus === PAYMENT_STATUS.PAID && booking.status === BOOKING_STATUS.CONFIRMED && (
             <TripSuggestedBundles tripId={booking.tripId} partySize={booking.participantCount} />
           )}
+
+          <OrderReportsCard
+            orderId={orderId}
+            tripLabel={`Đơn ${booking.orderCode} · ${orderMatch?.items?.[0]?.title || 'Chuyến đi'} · khởi hành ${formatDateTime(booking.tripStartAt)}`}
+            canReport={[BOOKING_STATUS.CONFIRMED, BOOKING_STATUS.IN_FULFILLMENT, BOOKING_STATUS.COMPLETED].includes(
+              booking.status,
+            )}
+          />
 
           {/* Card 3: Thao tác hủy booking (Tách biệt khỏi card thanh toán và chia sẻ) */}
           {canCancelBooking(booking) && (

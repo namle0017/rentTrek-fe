@@ -104,17 +104,29 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!description.trim()) return;
+    if (description.trim().length < 10) {
+      setPhotoError('Mô tả tối thiểu 10 ký tự để kho nắm rõ tình trạng lỗi.');
+      return;
+    }
     if (photos.length === 0) {
       setPhotoError('Vui lòng đính kèm ít nhất 1 ảnh chụp rõ vết lỗi.');
       return;
     }
 
     try {
+      const line =
+        order.lines?.find((item) => (item.id || item.rentalOrderItemId) === selectedItemId) ?? order.lines?.[0];
       await reportIssueMutation.mutateAsync({
         orderId: order.id,
         files: photos.map((photo) => photo.file),
         note: buildNote(),
+        report: {
+          category: issueCategory,
+          subjectLabel: line?.displayName || undefined,
+          description: description.trim(),
+          preferredAction: preferredAction === 'RefundItem' ? 'Refund' : preferredAction,
+          contactPhone: contactPhone.trim() || undefined,
+        },
       });
       onSuccess?.();
       handleClose();

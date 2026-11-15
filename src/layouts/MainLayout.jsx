@@ -170,6 +170,10 @@ export default function MainLayout() {
                         </span>
                       )}
                     </Link>
+                    <Link to={ROUTES.MY_REPORTS} className={styles.accountLink}>
+                      <OutdoorIcon name="bell" size={16} />
+                      <span>Báo cáo của tôi</span>
+                    </Link>
                     <div className={styles.accountDivider} />
                     <button
                       type="button"

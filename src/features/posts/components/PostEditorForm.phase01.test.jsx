@@ -6,6 +6,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import axiosClient from '@/api/axiosClient';
 import PostEditorForm from './PostEditorForm';
 
+// TipTap (contenteditable) không gõ được ổn định trong jsdom → thay bằng textarea giữ cùng hợp đồng value/onChange
+vi.mock('./RichTextEditor', () => ({
+  default: ({ id, value, onChange }) => (
+    <textarea id={id} value={value} onChange={(event) => onChange(event.target.value)} />
+  ),
+}));
 vi.mock('react-toastify', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 vi.mock('@/api/axiosClient', () => ({
   default: { get: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn(), delete: vi.fn() },

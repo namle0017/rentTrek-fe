@@ -103,6 +103,10 @@ export const router = createBrowserRouter([
                     lazy: lazyPage(() => import('@/features/refunds/pages/MyRefundsPage')),
                   },
                   {
+                    path: ROUTES.MY_REPORTS,
+                    lazy: lazyPage(() => import('@/features/customer-reports/pages/MyReportsPage')),
+                  },
+                  {
                     path: ROUTES.MY_REFUND_DETAIL(),
                     lazy: lazyPage(() => import('@/features/refunds/pages/MyRefundDetailPage')),
                   },
@@ -113,6 +117,10 @@ export const router = createBrowserRouter([
                   {
                     path: ROUTES.RENTAL_ORDER_DETAIL(),
                     lazy: lazyPage(() => import('@/features/rentals/pages/RentalOrderDetailPage')),
+                  },
+                  {
+                    path: ROUTES.RENTAL_ORDER_EXTEND(),
+                    lazy: lazyPage(() => import('@/features/rentals/pages/RentalExtensionPage')),
                   },
                   {
                     path: ROUTES.TRIP_BOOKING_CREATE,
@@ -320,6 +328,10 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.ADMIN_RENTAL_REPORTS,
                 lazy: lazyPage(() => import('@/features/rental-ops/pages/AdminRentalReportsPage')),
+              },
+              {
+                path: ROUTES.ADMIN_CUSTOMER_REPORTS,
+                lazy: lazyPage(() => import('@/features/customer-reports/pages/AdminCustomerReportsPage')),
               },
               {
                 // Trang chính sách thuê cũ: chuyển sang trang quản lý phiên bản mới

@@ -11,6 +11,13 @@ import {
 } from '../hooks/usePosts';
 import PostEditorForm from './PostEditorForm';
 
+// TipTap (contenteditable) không gõ được ổn định trong jsdom → thay bằng textarea giữ cùng hợp đồng value/onChange
+vi.mock('./RichTextEditor', () => ({
+  default: ({ id, value, onChange }) => (
+    <textarea id={id} value={value} onChange={(event) => onChange(event.target.value)} />
+  ),
+}));
+
 vi.mock('../hooks/usePosts', () => ({
   usePostTaxonomy: vi.fn(),
   usePostTourOptions: vi.fn(),

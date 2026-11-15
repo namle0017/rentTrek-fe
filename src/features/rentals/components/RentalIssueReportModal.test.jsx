@@ -74,6 +74,12 @@ describe('RentalIssueReportModal', () => {
       orderId: 'order-rent-123',
       files: [photo],
       note: expect.stringContaining('Bếp giao nhầm loại đầu nối bình gas lớn'),
+      // Báo cáo có cấu trúc để admin theo dõi ở màn "Báo cáo từ khách hàng"
+      report: expect.objectContaining({
+        category: 'WrongVariant',
+        description: 'Bếp giao nhầm loại đầu nối bình gas lớn',
+        preferredAction: 'Refund',
+      }),
     });
     const { note } = mutateAsync.mock.calls[0][0];
     expect(note).toContain('Mong muốn: huỷ & hoàn tiền món này');

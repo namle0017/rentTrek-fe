@@ -22,6 +22,7 @@ vi.mock('../components/ReschedulePanel', () => ({
   default: ({ orderId }) => <div>reschedule-panel-{orderId}</div>,
 }));
 vi.mock('../components/TripSuggestedBundles', () => ({ default: () => null }));
+vi.mock('@/features/customer-reports/components/OrderReportsCard', () => ({ default: () => null }));
 
 vi.mock('@/features/orders/hooks/useOrders', () => ({ useMyOrders: vi.fn() }));
 

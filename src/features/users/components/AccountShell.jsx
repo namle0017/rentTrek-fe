@@ -25,6 +25,7 @@ export default function AccountShell({ active, children }) {
     isCustomer && { key: 'orders', to: ROUTES.MY_ORDERS, icon: 'bag', label: 'Đơn của tôi' },
     isCustomer && { key: 'trips', to: ROUTES.MY_TRIPS, icon: 'compass', label: 'Chuyến của tôi' },
     isCustomer && { key: 'refunds', to: ROUTES.MY_REFUNDS, icon: 'shield', label: 'Hoàn tiền của tôi' },
+    isCustomer && { key: 'reports', to: ROUTES.MY_REPORTS, icon: 'bell', label: 'Báo cáo của tôi' },
     // Guide đã có mục Thông báo ở sidebar và chuông trên header → không lặp lại trong menu tài khoản
     !isGuide && {
       key: 'notifications',

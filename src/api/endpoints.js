@@ -39,8 +39,19 @@ export const API_ENDPOINTS = {
       UTILIZATION: '/admin/reports/asset-utilization',
       REFUNDS: '/admin/reports/refunds-and-charges',
     },
+    CUSTOMER_REPORTS: {
+      ROOT: '/admin/customer-reports',
+      SUMMARY: '/admin/customer-reports/summary',
+      BY_ID: (id) => `/admin/customer-reports/${id}`,
+      STATUS: (id) => `/admin/customer-reports/${id}/status`,
+    },
     DETAIL: (root, id) => `${root}/${encodeURIComponent(id)}`,
     ACTION: (root, id, action) => `${root}/${encodeURIComponent(id)}/${action}`,
+  },
+  CUSTOMER_REPORTS: {
+    ROOT: '/customer-reports',
+    IMAGES: '/customer-reports/images',
+    MINE: '/customer-reports/mine',
   },
   AUTH: {
     LOGIN: '/auth/login',

@@ -54,6 +54,7 @@ const productItems = [
   [ROUTES.ADMIN_BUNDLES, 'Combo thiết bị'],
   [ROUTES.ADMIN_RENTAL_ORDERS, 'Đơn thuê thiết bị'],
   [ROUTES.ADMIN_RENTAL_REPORTS, 'Báo cáo đơn thuê'],
+  [ROUTES.ADMIN_CUSTOMER_REPORTS, 'Báo cáo từ khách hàng'],
   [ROUTES.ADMIN_ORDERS, 'Tất cả đơn hàng'],
 ];
 

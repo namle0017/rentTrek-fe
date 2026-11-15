@@ -8,6 +8,8 @@ import {
   ORDER_STATUS_LABEL,
   ORDER_PAYMENT_STATUS_LABEL,
 } from '@/constants/enums';
+import CustomerReportList from '@/features/customer-reports/components/CustomerReportList';
+import { useMyCustomerReports } from '@/features/customer-reports/hooks/useCustomerReports';
 import { CHARGE_STATUS_LABEL, CHARGE_TYPE_LABEL } from '@/features/rental-ops/constants/rentalOpsLabels';
 import RefundProgressCard from '@/features/refunds/components/RefundProgressCard';
 import HoldCountdown from '@/features/trip-bookings/components/HoldCountdown';
@@ -19,7 +21,6 @@ import CancelUnpaidRentalPanel from '../components/CancelUnpaidRentalPanel';
 import RentalIssueReportModal from '../components/RentalIssueReportModal';
 import CancelPaidRentalPanel from '../components/CancelPaidRentalPanel';
 import RentalAdjustmentHistory from '../components/RentalAdjustmentHistory';
-import RentalExtensionPanel from '../components/RentalExtensionPanel';
 import RentalPolicySummary from '../components/RentalPolicySummary';
 import EvidencePhotoGallery from '../components/EvidencePhotoGallery';
 import styles from './RentalCustomer.module.css';
@@ -38,6 +39,7 @@ const EVENTS = {
 };
 export default function RentalOrderDetailPage() {
   const { orderId } = useParams();
+  const { data: myReports = [] } = useMyCustomerReports(orderId);
   const [holdEnded, setHoldEnded] = useState(false);
   const [isIssueModalOpen, setIsIssueModalOpen] = useState(false);
   const [lightboxUrl, setLightboxUrl] = useState(null);
@@ -186,9 +188,24 @@ export default function RentalOrderDetailPage() {
             </section>
           )}
           {actions.canExtend && (
-            <RentalExtensionPanel orderId={orderId} rentalEndAt={order.rentalEndAt} onChanged={query.refetch} />
+            <section className={styles.card} aria-label="Gia hạn đơn thuê">
+              <h2>Cần dùng thêm?</h2>
+              <p>
+                Hạn trả hiện tại: <strong>{rentalDateLabel(order.rentalEndAt)}</strong>. Gia hạn trước hạn trả để không
+                bị tính phạt trả trễ.
+              </p>
+              <Link className={styles.primary} to={ROUTES.RENTAL_ORDER_EXTEND(orderId)}>
+                Gia hạn thuê
+              </Link>
+            </section>
           )}
           <RentalAdjustmentHistory orderId={orderId} />
+          {myReports.length > 0 && (
+            <section className={styles.card} aria-label="Báo cáo sự cố đã gửi">
+              <h2>Báo cáo sự cố đã gửi</h2>
+              <CustomerReportList reports={myReports} />
+            </section>
+          )}
           <section className={styles.card}>
             <h2>Thiết bị đã đặt</h2>
             <p>

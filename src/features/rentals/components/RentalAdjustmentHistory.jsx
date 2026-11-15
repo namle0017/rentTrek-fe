@@ -3,7 +3,7 @@ import { useRentalAdjustments } from '../hooks/useRentals';
 import { rentalDateLabel } from '../utils/rentalCheckout';
 import styles from '../pages/RentalCustomer.module.css';
 
-/** Lịch sử gia hạn (chỉ đọc) từ GET /rental-orders/{id}/adjustments. Tạo gia hạn mới dùng RentalExtensionPanel. */
+/** Lịch sử gia hạn (chỉ đọc) từ GET /rental-orders/{id}/adjustments. Tạo gia hạn mới ở RentalExtensionPage (/rental-orders/:id/extend). */
 export default function RentalAdjustmentHistory({ orderId }) {
   const { data: adjustments } = useRentalAdjustments(orderId);
   if (!adjustments?.length) return null;

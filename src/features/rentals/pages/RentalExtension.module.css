@@ -1,0 +1,143 @@
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #8a978d;
+  font-size: 14px;
+  font-weight: 600;
+}
+.stepNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #c9d5c7;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 13px;
+}
+.stepActive {
+  color: #173d2d;
+}
+.stepActive .stepNumber {
+  border-color: #245536;
+  background: #245536;
+  color: #fff;
+}
+.stepDone {
+  color: #245536;
+}
+.stepDone .stepNumber {
+  border-color: #b9d4bd;
+  background: #eaf4ec;
+  color: #245536;
+}
+
+.schedule {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+}
+.schedule dt {
+  color: #617064;
+  font-size: 13px;
+}
+.schedule dd {
+  margin: 4px 0 0;
+  color: #173d2d;
+  font-weight: 650;
+}
+.amount {
+  color: #c55742 !important;
+  font-size: 20px;
+}
+
+.warning {
+  margin: 18px 0 0;
+  padding: 10px 12px;
+  border: 1px solid #fcd34d;
+  border-radius: 8px;
+  background: #fffbeb;
+  color: #92400e;
+  line-height: 1.6;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.chip {
+  min-height: 38px;
+  padding: 8px 16px;
+  border: 1px solid #c9d5c7;
+  border-radius: 999px;
+  background: #fff;
+  color: #245536;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.chip:hover:not(:disabled) {
+  border-color: #245536;
+  background: #f3f8f1;
+}
+.chipActive {
+  border-color: #245536;
+  background: #eaf4ec;
+}
+.chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+.chip:focus-visible {
+  outline: 3px solid #ce8b54;
+  outline-offset: 2px;
+}
+.fieldHint {
+  display: block;
+  margin: 8px 0 12px;
+  color: #617064;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.lineAmounts {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+}
+.lineAmounts s {
+  color: #8a978d;
+  font-size: 13px;
+}
+.assetCodes {
+  display: block;
+  margin-top: 6px;
+}
+
+.blocked {
+  max-width: 640px;
+}
+
+@media (max-width: 560px) {
+  .schedule {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .steps {
+    gap: 8px 16px;
+  }
+}

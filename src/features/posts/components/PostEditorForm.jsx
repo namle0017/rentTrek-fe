@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useState } from 'react';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormField from '@/components/FormField';
@@ -7,7 +7,6 @@ import { POST_STATUS, POST_STATUS_LABEL, POST_TYPE, POST_TYPE_LABEL } from '@/co
 import { ROUTES } from '@/constants/routes';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { formatDateTime } from '@/utils/formatDate';
-import { postService } from '../api/postService';
 import {
   useDeletePost,
   usePostStatusAction,
@@ -16,6 +15,8 @@ import {
   useSavePost,
 } from '../hooks/usePosts';
 import { slugify } from '../utils/postContent';
+import { hasPostContent, legacyToHtml } from '../utils/postHtml';
+import RichTextEditor from './RichTextEditor';
 import styles from '../pages/AdminPosts.module.css';
 
 const MAX_TAGS = 10;
@@ -32,8 +33,6 @@ export default function PostEditorForm({ post }) {
   const savePost = useSavePost();
   const deletePost = useDeletePost();
   const statusAction = usePostStatusAction();
-  const imageInputRef = useRef(null);
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   // BE chỉ nhận tagIds của tag đã có (quản lý ở Danh mục & địa điểm)
   const [tagIds, setTagIds] = useState(post?.tagIds ?? []);
@@ -47,8 +46,6 @@ export default function PostEditorForm({ post }) {
     register,
     handleSubmit,
     setError,
-    getValues,
-    setValue,
     control,
     formState: { errors },
   } = useForm({
@@ -56,7 +53,8 @@ export default function PostEditorForm({ post }) {
       title: post?.title ?? '',
       slug: post?.slug ?? '',
       postType: post?.postType ?? POST_TYPE.GUIDE,
-      content: post?.content ?? '',
+      // Bài cũ (Markdown đơn giản) được đổi sang HTML để mở bằng trình soạn mới
+      content: legacyToHtml(post?.content ?? ''),
     },
   });
 
@@ -144,28 +142,6 @@ export default function PostEditorForm({ post }) {
   const handleDelete = () =>
     deletePost.mutate(post.postId, { onSuccess: () => navigate(ROUTES.ADMIN_POSTS, { replace: true }) });
 
-  const insertImage = async (event) => {
-    const file = event.target.files?.[0];
-    event.target.value = '';
-    if (!file) return;
-    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024) {
-      toast.error('Ảnh phải là JPG/PNG/WebP và tối đa 5MB.');
-      return;
-    }
-    setIsUploadingImage(true);
-    try {
-      const res = await postService.uploadImage(file);
-      const current = getValues('content');
-      const separator = !current || current.endsWith('\n') ? '' : '\n\n';
-      setValue('content', `${current}${separator}![${file.name}](${res.data.url})\n`, { shouldDirty: true });
-      toast.success('Đã chèn ảnh vào nội dung.');
-    } catch (error) {
-      toast.error(error?.message || 'Không tải được ảnh.');
-    } finally {
-      setIsUploadingImage(false);
-    }
-  };
-
   const isBusy = savePost.isPending || deletePost.isPending || statusAction.isPending;
   const isArchived = post?.status === POST_STATUS.ARCHIVED;
 
@@ -205,35 +181,25 @@ export default function PostEditorForm({ post }) {
         </FormField>
 
         <FormField label="Nội dung" htmlFor="post-content" error={errors.content}>
-          <textarea
-            id="post-content"
-            className={styles.textarea}
-            rows="18"
-            aria-describedby="post-content-hint"
-            aria-invalid={Boolean(errors.content)}
-            {...register('content', { validate: notBlank('Nội dung không được để trống.') })}
+          <Controller
+            name="content"
+            control={control}
+            rules={{ validate: (value) => hasPostContent(value) || 'Nội dung không được để trống.' }}
+            render={({ field }) => (
+              <RichTextEditor
+                id="post-content"
+                value={field.value}
+                onChange={field.onChange}
+                editable={canEdit && !isBusy}
+                invalid={Boolean(errors.content)}
+                describedBy="post-content-hint"
+              />
+            )}
           />
           <p id="post-content-hint" className={styles.hint}>
-            Dòng bắt đầu bằng “## ” là tiêu đề mục. Để trống một dòng để tách đoạn. Chèn ảnh: một dòng riêng
-            “![chú thích](https://link-anh.jpg)”. Chèn video: một dòng riêng chỉ chứa link YouTube hoặc link
-            .mp4.
+            Dùng thanh công cụ để chọn kiểu tiêu đề, phông, cỡ và màu chữ, căn lề, chèn ảnh (tải từ máy) hoặc
+            video YouTube. Ảnh đầu tiên trong bài được dùng làm ảnh bìa.
           </p>
-          <button
-            type="button"
-            className="btn btn-outline"
-            disabled={isUploadingImage}
-            onClick={() => imageInputRef.current?.click()}
-          >
-            {isUploadingImage ? 'Đang tải ảnh…' : 'Chèn ảnh'}
-          </button>
-          <input
-            ref={imageInputRef}
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            hidden
-            aria-label="Chọn ảnh chèn vào bài"
-            onChange={insertImage}
-          />
         </FormField>
       </fieldset>
 

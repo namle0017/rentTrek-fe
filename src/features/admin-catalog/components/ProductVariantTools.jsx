@@ -86,6 +86,18 @@ export default function ProductVariantTools({ productId, variant }) {
       setBusy(false);
     }
   };
+  const promotePrimaryImage = async (imageId) => {
+    setBusy(true);
+    setError('');
+    try {
+      await axiosClient.patch(api.PRIMARY_IMAGE(variant.variantId, imageId));
+      await refresh();
+    } catch (failure) {
+      setError(failure.message || 'Không thể đặt ảnh đại diện. Vui lòng thử lại.');
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <div className={styles.tools}>
@@ -126,6 +138,17 @@ export default function ProductVariantTools({ productId, variant }) {
               <div key={image.imageId} className={styles.image}>
                 <img src={image.imageUrl} alt={`Ảnh ${variant.name}`} loading="lazy" />
                 <span>{image.isPrimary ? 'Ảnh đại diện' : 'Ảnh sản phẩm'}</span>
+                {!image.isPrimary && (
+                  <button
+                    type="button"
+                    className={styles.primaryAction}
+                    disabled={busy}
+                    onClick={() => promotePrimaryImage(image.imageId)}
+                    aria-label={`Đặt ảnh ${variant.name} làm đại diện`}
+                  >
+                    Đặt đại diện
+                  </button>
+                )}
                 <button
                   type="button"
                   disabled={busy}

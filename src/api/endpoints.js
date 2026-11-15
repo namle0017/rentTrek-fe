@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
     VARIANT: (id) => `/admin/variants/${id}`,
     IMAGES: (id) => `/admin/variants/${id}/images`,
     IMAGE: (variantId, imageId) => `/admin/variants/${variantId}/images/${imageId}`,
+    PRIMARY_IMAGE: (variantId, imageId) => `/admin/variants/${variantId}/images/${imageId}/primary`,
     PRICE_TIERS: (id) => `/admin/variants/${id}/price-tiers`,
     UPLOAD: '/admin/products/images/upload',
   },

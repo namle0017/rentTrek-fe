@@ -121,6 +121,7 @@ export const ORDER_PAYMENT_STATUS_LABEL = {
 
 export const REFUND_CASE_STATUS = Object.freeze({
   REQUESTED: 'Requested',
+  AWAITING_BANK_INFO: 'AwaitingBankInfo',
   APPROVED: 'Approved',
   COMPLETED: 'Completed',
   REJECTED: 'Rejected',
@@ -130,6 +131,7 @@ export const REFUND_CASE_STATUS = Object.freeze({
 
 export const REFUND_CASE_STATUS_LABEL = {
   [REFUND_CASE_STATUS.REQUESTED]: 'Chờ xử lý',
+  [REFUND_CASE_STATUS.AWAITING_BANK_INFO]: 'Chờ khách cung cấp tài khoản',
   [REFUND_CASE_STATUS.APPROVED]: 'Đã gửi kế toán',
   [REFUND_CASE_STATUS.COMPLETED]: 'Hoàn tất',
   [REFUND_CASE_STATUS.REJECTED]: 'Bị từ chối',
@@ -156,6 +158,9 @@ export const REFUND_BANKS = [
   { code: 'OCB', name: 'OCB' },
   { code: 'SSB', name: 'SeABank' },
 ];
+
+/** Phiên bản điều khoản xử lý dữ liệu ngân hàng BE yêu cầu (RefundBankCodes.ConsentVersion). */
+export const REFUND_CONSENT_VERSION = 'refund-bank-data-v1';
 
 export const REFUND_CONSENT_TEXT =
   'Tôi đồng ý cung cấp thông tin tài khoản ngân hàng để RenTrekk xử lý yêu cầu hoàn tiền này. Thông tin chỉ được dùng cho việc hoàn tiền, chỉ nhân sự có thẩm quyền được truy cập và sẽ được xóa theo thời hạn lưu trữ của hệ thống.';
@@ -229,15 +234,19 @@ export const REFUND_POLICY_TYPE_LABEL = {
 };
 
 export const REFUND_POLICY_STATUS = Object.freeze({
+  DRAFT: 'Draft',
+  SCHEDULED: 'Scheduled',
   ACTIVE: 'Active',
-  INACTIVE: 'Inactive',
   EXPIRED: 'Expired',
+  ARCHIVED: 'Archived',
 });
 
 export const REFUND_POLICY_STATUS_LABEL = {
+  [REFUND_POLICY_STATUS.DRAFT]: 'Bản nháp',
+  [REFUND_POLICY_STATUS.SCHEDULED]: 'Sắp hiệu lực',
   [REFUND_POLICY_STATUS.ACTIVE]: 'Đang áp dụng',
-  [REFUND_POLICY_STATUS.INACTIVE]: 'Tạm ngưng',
   [REFUND_POLICY_STATUS.EXPIRED]: 'Hết hiệu lực',
+  [REFUND_POLICY_STATUS.ARCHIVED]: 'Ngừng áp dụng',
 };
 
 export const POST_TYPE = Object.freeze({

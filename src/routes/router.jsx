@@ -79,6 +79,14 @@ export const router = createBrowserRouter([
                 lazy: lazyPage(() => import('@/features/orders/pages/MyOrdersPage')),
               },
               {
+                path: ROUTES.MY_REFUNDS,
+                lazy: lazyPage(() => import('@/features/refunds/pages/MyRefundsPage')),
+              },
+              {
+                path: ROUTES.MY_REFUND_DETAIL(),
+                lazy: lazyPage(() => import('@/features/refunds/pages/MyRefundDetailPage')),
+              },
+              {
                 path: ROUTES.RENTAL_CHECKOUT,
                 lazy: lazyPage(() => import('@/features/rentals/pages/RentalCheckoutPage')),
               },
@@ -266,11 +274,45 @@ export const router = createBrowserRouter([
               },
               {
                 path: ROUTES.OPS_REFUND_POLICIES,
-                lazy: lazyPage(() => import('@/pages/ops/finance/RefundPoliciesPage')),
+                element: <Navigate to={ROUTES.ADMIN_REFUND_POLICIES} replace />,
               },
               {
                 path: ROUTES.OPS_REFUND_POLICY_CREATE,
-                lazy: lazyPage(() => import('@/pages/ops/finance/RefundPolicyCreatePage')),
+                element: <Navigate to={ROUTES.ADMIN_REFUND_POLICY_CREATE} replace />,
+              },
+              // Phân hệ Chính sách (hoàn tiền + thuê đồ)
+              {
+                path: ROUTES.ADMIN_REFUND_POLICIES,
+                lazy: lazyPage(() => import('@/features/admin-policies/pages/RefundPoliciesPage')),
+              },
+              {
+                path: ROUTES.ADMIN_RENTAL_POLICIES,
+                lazy: lazyPage(() => import('@/features/admin-policies/pages/RentalPoliciesPage')),
+              },
+              {
+                element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />,
+                children: [
+                  {
+                    path: ROUTES.ADMIN_REFUND_POLICY_CREATE,
+                    lazy: lazyPage(() => import('@/features/admin-policies/pages/RefundPolicyEditorPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_REFUND_POLICY_EDIT(),
+                    lazy: lazyPage(() => import('@/features/admin-policies/pages/RefundPolicyEditorPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_RENTAL_POLICY_CREATE,
+                    lazy: lazyPage(() => import('@/features/admin-policies/pages/RentalPolicyCreatePage')),
+                  },
+                ],
+              },
+              {
+                path: ROUTES.ADMIN_REFUND_POLICY_DETAIL(),
+                lazy: lazyPage(() => import('@/features/admin-policies/pages/RefundPolicyDetailPage')),
+              },
+              {
+                path: ROUTES.ADMIN_RENTAL_POLICY_DETAIL(),
+                lazy: lazyPage(() => import('@/features/admin-policies/pages/RentalPolicyDetailPage')),
               },
               // Phân hệ Kho & Thiết bị (Ops / Warehouse)
               {

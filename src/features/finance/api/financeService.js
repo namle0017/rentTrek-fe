@@ -45,36 +45,6 @@ export const financeService = {
     return axiosClient.post(API_ENDPOINTS.RECONCILE.REFUND(orderId));
   },
 
-  // 20.1. Danh sách chính sách hoàn tiền (Màn O34)
-  getRefundPolicies: () => {
-    return axiosClient.get(API_ENDPOINTS.REFUND_POLICIES.ROOT);
-  },
-
-  // 20.3. Chi tiết chính sách & bảng quy tắc
-  getRefundPolicyById: (policyId) => {
-    return axiosClient.get(API_ENDPOINTS.REFUND_POLICIES.BY_ID(policyId));
-  },
-
-  // 20.2. Tạo chính sách hoàn tiền mới
-  createRefundPolicy: (payload) => {
-    return axiosClient.post(API_ENDPOINTS.REFUND_POLICIES.ROOT, payload);
-  },
-
-  // 20.4. Sửa chính sách hoàn tiền
-  updateRefundPolicy: (policyId, payload) => {
-    return axiosClient.put(API_ENDPOINTS.REFUND_POLICIES.BY_ID(policyId), payload);
-  },
-
-  // 20.5. Cập nhật bảng quy tắc hoàn tiền
-  updateRefundPolicyRules: (policyId, rules) => {
-    return axiosClient.put(API_ENDPOINTS.REFUND_POLICIES.RULES(policyId), { rules });
-  },
-
-  // 20.6. Nhân bản chính sách sang phiên bản mới
-  cloneRefundPolicyVersion: (policyId) => {
-    return axiosClient.post(API_ENDPOINTS.REFUND_POLICIES.CLONE_VERSION(policyId));
-  },
-
   // Ghi nhận thanh toán thủ công ngoài hệ thống (Màn O15 hỗ trợ Khoa)
   recordManualPayment: (payload) => {
     return axiosClient.post(API_ENDPOINTS.PAYMENTS.MANUAL_PAY(payload.orderId), payload);

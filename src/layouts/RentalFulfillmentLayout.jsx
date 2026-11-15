@@ -1,5 +1,5 @@
 import { Outlet, useLocation, useParams } from 'react-router-dom';
-import EmptyState from '@/components/EmptyState';
+import FulfillmentWorklist from './components/FulfillmentWorklist';
 import RentalOrderToolbar from './components/RentalOrderToolbar';
 import styles from './RentalFulfillmentLayout.module.css';
 
@@ -16,7 +16,8 @@ export default function RentalFulfillmentLayout() {
       {orderCode ? (
         <Outlet key={`${orderCode}/${step}`} />
       ) : (
-        <EmptyState message="Nhập mã đơn thuê ở ô tra cứu phía trên để bắt đầu." />
+        // Chưa chọn đơn: hiện danh sách đơn cần xử lý ở bước này
+        <FulfillmentWorklist step={step} />
       )}
     </div>
   );

@@ -234,3 +234,24 @@
     transform: none;
   }
 }
+
+.bankForm {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--color-surface-muted, #f6f8f5);
+  border: 1px solid var(--color-border, #dde4dd);
+  border-radius: 12px;
+}
+
+.consent {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: var(--font-size-meta);
+}
+
+.resubmit {
+  display: grid;
+  gap: 10px;
+}

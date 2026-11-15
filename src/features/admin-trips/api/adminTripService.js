@@ -87,18 +87,17 @@ export const adminTripService = {
     }));
   },
 
-  // GET /admin/refund-policies — chỉ lấy chính sách Tour đang Active
+  // GET /admin/refund-policies — chỉ lấy chính sách Tour đang áp dụng (mọi phiên bản Active)
   getActiveRefundPolicies: async () => {
-    const res = await axiosClient.get(API_ENDPOINTS.REFUND_POLICIES.ROOT);
-    return toList(res.data)
-      .filter((policy) => (policy.status ?? 'Active') === 'Active')
-      .filter((policy) => !policy.policyType || policy.policyType === 'Tour')
-      .map((policy) => ({
-        ...policy,
-        refundPolicyId: policy.refundPolicyId ?? policy.policyId,
-        policyName: policy.policyName ?? policy.name,
-        policyCode: policy.policyCode ?? (policy.version ? `v${policy.version}` : undefined),
-      }));
+    const res = await axiosClient.get(API_ENDPOINTS.REFUND_POLICIES.ROOT, {
+      params: { policyType: 'Tour', status: 'Active', latestOnly: false, pageSize: 100 },
+    });
+    return toList(res.data).map((policy) => ({
+      ...policy,
+      refundPolicyId: policy.refundPolicyId ?? policy.policyId,
+      policyName: policy.policyName ?? policy.name,
+      policyCode: policy.policyCode ?? (policy.version ? `v${policy.version}` : undefined),
+    }));
   },
 
   // GET /admin/users — nhân sự nội bộ (Staff / Guide / Admin) đang hoạt động

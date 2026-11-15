@@ -1,0 +1,59 @@
+.dropzone {
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+.dropzoneActive {
+  background: var(--color-surface-muted, #f1f5f9);
+  border-color: var(--color-primary, #2563eb);
+}
+.hiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.tableWrap {
+  max-height: 50vh;
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-meta, 12px);
+}
+.table th,
+.table td {
+  padding: 8px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-border);
+}
+.rowError {
+  color: #b91c1c;
+  background: #fef2f2;
+}
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 999px;
+}
+.badgeComplete {
+  color: #166534;
+  background: #dcfce7;
+}
+.badgeFail {
+  color: #991b1b;
+  background: #fee2e2;
+}
+.badgeSkip {
+  color: #475569;
+  background: #e2e8f0;
+}

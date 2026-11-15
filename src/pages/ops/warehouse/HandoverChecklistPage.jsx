@@ -6,6 +6,7 @@ import Modal from '@/components/Modal';
 import Spinner from '@/components/Spinner';
 import RentalOrderSummary from './components/RentalOrderSummary';
 import BarcodeScanner from './components/BarcodeScanner';
+import EvidencePhotoCapture from './components/EvidencePhotoCapture';
 import FulfillmentProgress from './components/FulfillmentProgress';
 import layoutStyles from '@/layouts/RentalFulfillmentLayout.module.css';
 import styles from './HandoverChecklistPage.module.css';
@@ -36,6 +37,8 @@ function HandoverWorkspace({ activeOrderCode }) {
       rentalStartAt: new Date().toISOString(),
       rentalEndAt: new Date().toISOString(),
       items: [],
+      assets: [],
+      minPhotos: 1,
       scannedCount: 0,
       totalRequiredCount: 0,
     };
@@ -52,6 +55,17 @@ function HandoverWorkspace({ activeOrderCode }) {
     event?.preventDefault();
     const code = (directCode || barcodeInput).trim();
     if (!code || isBusy || isHandedOver) return;
+    // BE chặn giao nếu thiết bị chưa đủ ảnh tình trạng → báo ngay, không gọi API
+    const asset = checklist.assets?.find((item) => item.assetCode.toLowerCase() === code.toLowerCase());
+    if (asset && asset.status === 'Reserved' && asset.photos.length < checklist.minPhotos) {
+      playErrorBuzz();
+      setScanFeedback({
+        message: `Cần chụp ít nhất ${checklist.minPhotos} ảnh tình trạng cho ${asset.assetCode} trước khi giao.`,
+        isError: true,
+      });
+      setBarcodeInput('');
+      return;
+    }
     try {
       await scanMutation.mutateAsync({ assetCode: code });
       playSuccessBeep();
@@ -124,6 +138,42 @@ function HandoverWorkspace({ activeOrderCode }) {
                 submitLabel="Xác nhận quét"
                 feedback={scanFeedback}
               />
+              {checklist.assets?.length > 0 && (
+                <section className={styles.checklistCard} aria-labelledby="handover-photos-title">
+                  <div className={styles.listHeading}>
+                    <h2 id="handover-photos-title" className={styles.sectionTitle}>
+                      Ảnh tình trạng trước khi giao
+                    </h2>
+                    <span className={styles.hint}>
+                      Mỗi thiết bị cần ít nhất {checklist.minPhotos} ảnh trước khi quét giao
+                    </span>
+                  </div>
+                  <ul className={styles.itemList}>
+                    {checklist.assets.map((asset) => (
+                      <li key={asset.assignmentId} className={styles.itemRow}>
+                        <div className={styles.itemRowHeader}>
+                          <div className={styles.itemDescription}>
+                            <h3 className={styles.itemName}>{asset.assetCode}</h3>
+                            <p className={styles.itemVariant}>{asset.displayName}</p>
+                          </div>
+                          <span className={styles.itemStatus} data-ready={asset.status !== 'Reserved'}>
+                            {asset.status === 'Reserved' ? 'Chờ giao' : 'Đã giao'}
+                          </span>
+                        </div>
+                        <EvidencePhotoCapture
+                          orderCode={activeOrderCode}
+                          assignmentId={asset.assignmentId}
+                          assetCode={asset.assetCode}
+                          stage="Handover"
+                          photos={asset.photos}
+                          minPhotos={checklist.minPhotos}
+                          disabled={asset.status !== 'Reserved'}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
               <section className={styles.checklistCard} aria-labelledby="handover-items-title">
                 <div className={styles.listHeading}>
                   <h2 id="handover-items-title" className={styles.sectionTitle}>

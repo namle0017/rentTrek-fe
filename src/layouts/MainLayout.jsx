@@ -6,6 +6,8 @@ import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { useRentalCart } from '@/features/rentals/hooks/useRentalCart';
+import { useMyRefunds } from '@/features/refunds/hooks/useRefundCases';
+import { REFUND_ACTION_STATUSES } from '@/features/refunds/utils/refundDisplay';
 import { useAuth } from '@/hooks/useAuth';
 import { getAvatarColor } from '@/utils/avatarColor';
 import DevClockBar from './DevClockBar';
@@ -17,6 +19,12 @@ export default function MainLayout() {
   const { currentUser, isAuthenticated } = useAuth();
   const rentalCart = useRentalCart();
   const cartQuantity = rentalCart.items.reduce((sum, item) => sum + item.quantity, 0);
+  // Số hồ sơ hoàn tiền đang chờ khách nhập STK / gửi lại yêu cầu
+  const refundActions = useMyRefunds(
+    { status: REFUND_ACTION_STATUSES.join(','), pageSize: 1 },
+    { enabled: isAuthenticated && currentUser?.role === USER_ROLE.CUSTOMER, staleTime: 60_000 },
+  );
+  const refundActionCount = refundActions.data?.totalItems ?? 0;
   const logoutMutation = useLogout();
   const location = useLocation();
   const navigate = useNavigate();
@@ -122,6 +130,15 @@ export default function MainLayout() {
                   <Link to={ROUTES.MY_ORDERS} className={styles.accountLink}>
                     <OutdoorIcon name="bag" size={16} />
                     <span>Đơn của tôi</span>
+                  </Link>
+                  <Link to={ROUTES.MY_REFUNDS} className={styles.accountLink}>
+                    <OutdoorIcon name="shield" size={16} />
+                    <span>Hoàn tiền của tôi</span>
+                    {refundActionCount > 0 && (
+                      <span className={styles.accountBadge} aria-label={`${refundActionCount} hồ sơ cần bạn xử lý`}>
+                        {refundActionCount}
+                      </span>
+                    )}
                   </Link>
                   <div className={styles.accountDivider} />
                   <button

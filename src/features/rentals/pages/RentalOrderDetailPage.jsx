@@ -5,6 +5,7 @@ import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
 import { ORDER_STATUS_LABEL, ORDER_PAYMENT_STATUS_LABEL } from '@/constants/enums';
+import RefundProgressCard from '@/features/refunds/components/RefundProgressCard';
 import HoldCountdown from '@/features/trip-bookings/components/HoldCountdown';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useRentalOrder } from '../hooks/useRentals';
@@ -104,6 +105,9 @@ export default function RentalOrderDetailPage() {
       )}
       <div className={styles.layout}>
         <div className={styles.stack}>
+          {order.refundCase?.refundCaseId && (
+            <RefundProgressCard refundCaseId={order.refundCase.refundCaseId} />
+          )}
           {canPay && <RentalPaymentPanel orderId={orderId} onSettled={query.refetch} />}
           <section className={styles.card}>
             <h2>Thiết bị đã đặt</h2>

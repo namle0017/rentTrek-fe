@@ -7,6 +7,7 @@ import {
   FileText,
   Tags,
   Wallet,
+  ScrollText,
   Settings,
   ChevronDown,
   Menu,
@@ -56,8 +57,14 @@ function getPageTitle(pathname) {
   if (pathname === ROUTES.OPS_TRANSACTIONS) return 'Quản lý giao dịch';
   if (pathname === ROUTES.OPS_REFUNDS) return 'Hoàn tiền & Đối soát';
   if (pathname === ROUTES.ADMIN_REFUNDS) return 'Hàng đợi hoàn tiền';
-  if (pathname === ROUTES.OPS_REFUND_POLICY_CREATE) return 'Tạo chính sách hoàn tiền';
-  if (pathname.startsWith(ROUTES.OPS_REFUND_POLICIES)) return 'Chính sách hoàn tiền';
+  if (pathname === ROUTES.ADMIN_REFUND_POLICY_CREATE) return 'Tạo chính sách hoàn tiền';
+  if (pathname.startsWith(`${ROUTES.ADMIN_REFUND_POLICIES}/`)) {
+    return pathname.endsWith('/edit') ? 'Sửa chính sách hoàn tiền' : 'Chi tiết chính sách hoàn tiền';
+  }
+  if (pathname === ROUTES.ADMIN_REFUND_POLICIES) return 'Chính sách hoàn tiền';
+  if (pathname === ROUTES.ADMIN_RENTAL_POLICY_CREATE) return 'Tạo phiên bản chính sách thuê đồ';
+  if (pathname.startsWith(`${ROUTES.ADMIN_RENTAL_POLICIES}/`)) return 'Chi tiết chính sách thuê đồ';
+  if (pathname === ROUTES.ADMIN_RENTAL_POLICIES) return 'Chính sách thuê đồ';
   if (pathname === ROUTES.OPS_ASSETS) return 'Quản lý kho thiết bị';
   if (pathname === ROUTES.OPS_ASSETS_SCHEDULE) return 'Biểu đồ Gantt phân bổ thiết bị';
   if (pathname.includes('/provided-items')) return 'Cấp phát thiết bị cho chuyến đi';
@@ -122,7 +129,14 @@ const navigationGroups = [
     items: [
       [ROUTES.OPS_TRANSACTIONS, 'Giao dịch'],
       [ROUTES.ADMIN_REFUNDS, 'Hoàn tiền'],
-      [ROUTES.OPS_REFUND_POLICIES, 'Chính sách hoàn tiền'],
+    ],
+  },
+  {
+    title: 'Chính sách',
+    icon: ScrollText,
+    items: [
+      [ROUTES.ADMIN_REFUND_POLICIES, 'Chính sách hoàn tiền'],
+      [ROUTES.ADMIN_RENTAL_POLICIES, 'Chính sách thuê đồ'],
     ],
   },
   {

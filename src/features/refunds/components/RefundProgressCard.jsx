@@ -90,24 +90,38 @@ function RefundTimeline({ refundCase }) {
   );
 }
 
+/** Biên lai chuyển khoản: mã giao dịch ngân hàng + ảnh chứng từ admin đính kèm khi hoàn tất. */
 function ReceiptSection({ refundCase }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const transactionId = refundCase.providerTransactionId;
+  const copy = () => {
+    navigator.clipboard?.writeText(transactionId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
   return (
-    <div>
-      <button
-        type="button"
-        className="btn btn-outline"
-        aria-expanded={isOpen}
-        onClick={() => setIsOpen((v) => !v)}
-      >
-        Xem biên lai chuyển khoản
-      </button>
-      {isOpen && (
-        <ProofGallery
-          proofs={refundCase.proofs}
-          buildUrl={(proofId) => API_ENDPOINTS.REFUND_CASES.PROOF(refundCase.refundCaseId, proofId)}
-        />
-      )}
+    <div className={styles.receiptSection}>
+      <div className={styles.receiptHeader}>
+        <OutdoorIcon name="receipt" size={16} />
+        <strong>Biên lai chuyển khoản hoàn tiền từ RenTrek</strong>
+      </div>
+      <div className={styles.receiptContent}>
+        {transactionId && (
+          <div className={styles.txCodeRow}>
+            <span className={styles.txLabel}>Mã giao dịch ngân hàng:</span>
+            <code className={styles.txCode}>{transactionId}</code>
+            <button type="button" className={styles.copyBtn} onClick={copy} title="Sao chép mã giao dịch">
+              {copied ? '✓ Đã sao chép' : 'Sao chép'}
+            </button>
+          </div>
+        )}
+        {refundCase.proofs?.length > 0 && (
+          <ProofGallery
+            proofs={refundCase.proofs}
+            buildUrl={(proofId) => API_ENDPOINTS.REFUND_CASES.PROOF(refundCase.refundCaseId, proofId)}
+          />
+        )}
+      </div>
     </div>
   );
 }
@@ -179,9 +193,9 @@ export default function RefundProgressCard({ refundCaseId }) {
           <RefundBankInfoForm refundCaseId={refundCase.refundCaseId} />
         </>
       )}
-      {refundCase.status === REFUND_CASE_STATUS.COMPLETED && refundCase.proofs?.length > 0 && (
-        <ReceiptSection refundCase={refundCase} />
-      )}
+      {refundCase.status === REFUND_CASE_STATUS.COMPLETED &&
+        (refundCase.providerTransactionId || refundCase.proofs?.length > 0) && <ReceiptSection refundCase={refundCase} />}
+
     </section>
   );
 }

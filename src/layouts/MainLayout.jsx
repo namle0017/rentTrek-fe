@@ -74,6 +74,7 @@ export default function MainLayout() {
             </NavLink>
             <NavLink to={ROUTES.TOURS}>Tour trekking</NavLink>
             <NavLink to={ROUTES.PRODUCTS}>Dụng cụ thuê</NavLink>
+            <NavLink to={ROUTES.BUNDLES}>Combo</NavLink>
             {/* Dropdown mở bằng hover hoặc focus (Tab) — không cần JS */}
             <div className={styles.navDropdown}>
               <NavLink to={ROUTES.GUIDES} aria-haspopup="true">

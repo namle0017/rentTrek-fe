@@ -73,9 +73,14 @@ export default function RefundCompleteDialog({ item, onClose }) {
             {errorMessage}
           </p>
         )}
-        <button type="submit" className="btn btn-primary btn-block" disabled={complete.isPending}>
-          {complete.isPending ? 'Đang ghi nhận...' : 'Hoàn tất hồ sơ'}
-        </button>
+        <div className="btn-group">
+          <button type="button" className="btn btn-outline" onClick={onClose} disabled={complete.isPending}>
+            Hủy
+          </button>
+          <button type="submit" className="btn btn-primary" disabled={complete.isPending}>
+            {complete.isPending ? 'Đang cập nhật...' : 'Hoàn tất hồ sơ'}
+          </button>
+        </div>
       </form>
     </Modal>
   );

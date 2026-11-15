@@ -150,10 +150,15 @@ export function useCancelRentalOrder() {
 export function useReportRentalIssue() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ orderId, payload }) => rentalService.reportItemIssue(orderId, payload),
-    onSuccess: (res, variables) => {
+    // BE nhận ảnh báo lỗi từng tấm (multipart) kèm ghi chú: POST /rental-orders/{id}/issue-photos
+    mutationFn: async ({ orderId, files, note }) => {
+      for (const file of files) {
+        await rentalService.uploadIssuePhoto(orderId, { file, note });
+      }
+    },
+    onSuccess: (_res, variables) => {
       queryClient.invalidateQueries({ queryKey: rentalKeys.orderDetail(variables.orderId) });
-      toast.success(res?.message || 'Báo cáo sự cố thiết bị đã được gửi tới Quản lý kho RenTrek.');
+      toast.success('Báo cáo sự cố thiết bị đã được gửi tới Quản lý kho RenTrek.');
     },
     onError: (err) => {
       toast.error(err.message || 'Không thể gửi báo cáo sự cố.');
@@ -161,18 +166,7 @@ export function useReportRentalIssue() {
   });
 }
 
-export function useRequestRentalChargeReview() {
-  return useMutation({
-    mutationFn: ({ orderId, chargeId, payload }) =>
-      rentalService.requestChargeReview(orderId, chargeId, payload),
-    onSuccess: () => {
-      toast.success('Đã gửi yêu cầu kiểm tra lại phí.');
-    },
-    onError: (err) => {
-      toast.error(err.message || 'Không thể gửi yêu cầu kiểm tra lại phí.');
-    },
-  });
-}
+// Đã bỏ useRequestRentalChargeReview: BE không có endpoint yêu cầu kiểm tra lại phí.
 
 export function useCreateRentalPayment() {
   return useMutation({

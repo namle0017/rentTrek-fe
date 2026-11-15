@@ -9,7 +9,7 @@ import styles from '../pages/ProfilePage.module.css';
 /**
  * Khung chung cho "Tài khoản của tôi": breadcrumb + sidebar + nội dung.
  * Sidebar là link thật (URL đổi theo mục) nên Đơn của tôi / Hồ sơ / Bảo mật đi lại đúng trang.
- * `active`: 'orders' | 'profile' | 'security'.
+ * `active`: 'orders' | 'trips' | 'refunds' | 'notifications' | 'profile' | 'security'.
  */
 export default function AccountShell({ active, children }) {
   const { currentUser } = useAuth();
@@ -23,6 +23,15 @@ export default function AccountShell({ active, children }) {
   const profilePath = pathname === ROUTES.MY_ORDERS ? ROUTES.PROFILE : pathname;
   const items = [
     isCustomer && { key: 'orders', to: ROUTES.MY_ORDERS, icon: 'bag', label: 'Đơn của tôi' },
+    isCustomer && { key: 'trips', to: ROUTES.MY_TRIPS, icon: 'compass', label: 'Chuyến của tôi' },
+    isCustomer && { key: 'refunds', to: ROUTES.MY_REFUNDS, icon: 'shield', label: 'Hoàn tiền của tôi' },
+    // Guide đã có mục Thông báo ở sidebar và chuông trên header → không lặp lại trong menu tài khoản
+    !isGuide && {
+      key: 'notifications',
+      to: isAdminOrStaff ? ROUTES.ADMIN_NOTIFICATIONS : ROUTES.NOTIFICATIONS,
+      icon: 'bell',
+      label: 'Thông báo',
+    },
     { key: 'profile', to: profilePath, icon: 'user', label: 'Hồ sơ cá nhân' },
     { key: 'security', to: `${profilePath}?tab=security`, icon: 'shield', label: 'Bảo mật & phiên' },
   ].filter(Boolean);

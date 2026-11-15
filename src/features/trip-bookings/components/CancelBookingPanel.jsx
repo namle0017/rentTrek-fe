@@ -156,30 +156,12 @@ function CancellationForm({
   const cancelSome = useCancelTripParticipants();
   const cancelBooking = participantIds ? cancelSome : cancelWhole;
   const [submitError, setSubmitError] = useState('');
-  const needsBankAccount = preview.estimatedRefundAmount > 0;
+  // Đơn chưa thanh toán: huỷ không phát sinh hoàn tiền, không cần STK / chính sách
+  const isPaid = preview.isPaid ?? preview.paidAmount > 0;
+  const needsBankAccount = isPaid && preview.estimatedRefundAmount > 0;
   const lostAmount = Math.max(0, preview.paidAmount - preview.estimatedRefundAmount);
   const [reasonCategory, setReasonCategory] = useState('');
   const [reasonDetail, setReasonDetail] = useState('');
-  const [proofUrls, setProofUrls] = useState([]);
-
-  const handleProofFiles = (event) => {
-    const files = Array.from(event.target.files || []);
-    if (!files.length) return;
-
-    files.slice(0, 3 - proofUrls.length).forEach((file) => {
-      if (!file.type.startsWith('image/')) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        setProofUrls((prev) => (prev.length < 3 ? [...prev, reader.result] : prev));
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const removeProof = (idx) => {
-    setProofUrls((prev) => prev.filter((_, i) => i !== idx));
-  };
-
   const {
     register,
     handleSubmit,
@@ -194,13 +176,14 @@ function CancellationForm({
 
   const submitCancellation = handleSubmit(async (values) => {
     setSubmitError('');
-    const hasUserReason = Boolean(reasonCategory || reasonDetail.trim() || proofUrls.length > 0);
+    // Lý do chỉ là chữ (BE giới hạn 500 ký tự), không đính ảnh
+    const hasUserReason = Boolean(reasonCategory || reasonDetail.trim());
     const packedReason = hasUserReason
-      ? packCancelReasonWithProofs(reasonCategory || 'Other', reasonDetail, proofUrls)
+      ? packCancelReasonWithProofs(reasonCategory || 'Other', reasonDetail, [])
       : undefined;
     const payload = {
       reason: packedReason,
-      expectedRefundAmount: preview.estimatedRefundAmount,
+      expectedRefundAmount: isPaid ? preview.estimatedRefundAmount : 0,
     };
     if (participantIds) payload.participantIds = participantIds;
 
@@ -270,56 +253,49 @@ function CancellationForm({
           onChange={(e) => setReasonDetail(e.target.value)}
         />
       </label>
-
-      <div>
-        <span
-          style={{
-            fontSize: '0.8125rem',
-            fontWeight: 600,
-            color: '#334155',
-            display: 'block',
-            marginBottom: '4px',
-          }}
-        >
-          Đính kèm ảnh minh chứng (tối đa 3 ảnh: giấy khám, vé xe hủy, sạt lở...)
-        </span>
-        <input
-          id="cancel-proof-files"
-          type="file"
-          multiple
-          accept="image/jpeg,image/png,image/webp"
-          style={{ display: 'none' }}
-          onChange={handleProofFiles}
-          disabled={proofUrls.length >= 3}
-        />
-        {proofUrls.length < 3 && (
-          <label htmlFor="cancel-proof-files" className={styles.proofUploadArea}>
-            <span style={{ color: '#0284c7', fontWeight: 600 }}>
-              📷 Bấm để chọn ảnh minh chứng ({proofUrls.length}/3)
-            </span>
-          </label>
-        )}
-
-        {proofUrls.length > 0 && (
-          <div className={styles.proofThumbGrid}>
-            {proofUrls.map((url, idx) => (
-              <div key={`${url}-${idx}`} className={styles.proofThumbItem}>
-                <img src={url} alt={`Minh chứng ${idx + 1}`} className={styles.proofThumbImg} />
-                <button
-                  type="button"
-                  className={styles.removeThumbBtn}
-                  onClick={() => removeProof(idx)}
-                  title="Xóa ảnh"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
     </div>
   );
+
+  if (!isPaid) {
+    return (
+      <form className={styles.form} onSubmit={submitCancellation} noValidate>
+        <section className={styles.appliedCase}>
+          <span>Huỷ đơn chưa thanh toán</span>
+          <p>Đơn chưa thanh toán nên huỷ không phát sinh hoàn tiền. Chỗ giữ sẽ được nhả ngay.</p>
+        </section>
+        <div className={styles.reasonFields}>
+          <label htmlFor="cancel-unpaid-reason">
+            <span>Lý do huỷ (không bắt buộc)</span>
+            <textarea
+              id="cancel-unpaid-reason"
+              rows="2"
+              maxLength="300"
+              value={reasonDetail}
+              onChange={(e) => setReasonDetail(e.target.value)}
+            />
+          </label>
+        </div>
+        {submitError && (
+          <p className={styles.fieldError} role="alert">
+            {submitError}
+          </p>
+        )}
+        <div className={styles.actions}>
+          <button
+            type="button"
+            className={styles.secondary}
+            onClick={onClose}
+            disabled={cancelBooking.isPending}
+          >
+            Giữ booking
+          </button>
+          <button type="submit" className={styles.danger} disabled={cancelBooking.isPending}>
+            {cancelBooking.isPending ? 'Đang huỷ...' : 'Huỷ đơn'}
+          </button>
+        </div>
+      </form>
+    );
+  }
 
   return (
     <form className={styles.form} onSubmit={submitCancellation} noValidate>

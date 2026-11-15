@@ -188,7 +188,7 @@ export default function AdminTripCreatePage() {
 
   if (loadingTours || loadingPolicies || loadingCoordinators) {
     return (
-      <div className={styles.page}>
+      <div className={`${styles.page} ${styles.narrowPage}`}>
         <div className={styles.headerRow}>
           <div className={styles.titleGroup}>
             <Breadcrumb
@@ -205,8 +205,8 @@ export default function AdminTripCreatePage() {
   }
 
   return (
-    <div className={styles.page}>
-      {/* Header trang và nút Quay lại danh sách */}
+    <div className={`${styles.page} ${styles.narrowPage}`}>
+      {/* Header trang và nút Quay lại danh sách — cùng chiều rộng với card form */}
       <div className={styles.headerRow}>
         <div className={styles.titleGroup}>
           <Breadcrumb
@@ -247,8 +247,8 @@ export default function AdminTripCreatePage() {
             </p>
           </div>
 
-          <div className={styles.filterBar}>
-            <div className={styles.field} style={{ flex: 2 }}>
+          <div className={styles.formGrid2}>
+            <div className={styles.field}>
               <label htmlFor="tourSelect">Tour Trekking (Đã phát hành) *</label>
               <select
                 id="tourSelect"
@@ -267,7 +267,7 @@ export default function AdminTripCreatePage() {
               {errors.tourId && <span className={styles.fieldError}>{errors.tourId}</span>}
             </div>
 
-            <div className={styles.field} style={{ flex: 1 }}>
+            <div className={styles.field}>
               <label htmlFor="pricePerPerson">Giá mỗi khách (VNĐ)</label>
               <input
                 id="pricePerPerson"
@@ -277,7 +277,7 @@ export default function AdminTripCreatePage() {
                 readOnly
                 disabled
               />
-              <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b', marginTop: '4px' }}>
+              <span className={styles.fieldHint}>
                 Giá vé cố định từ Tour đã chọn (không chỉnh sửa thủ công)
               </span>
             </div>
@@ -309,8 +309,8 @@ export default function AdminTripCreatePage() {
             </div>
           )}
 
-          <div className={styles.filterBar}>
-            <div className={styles.field} style={{ flex: 1 }}>
+          <div className={styles.formGrid1}>
+            <div className={styles.field}>
               <label htmlFor="policySelect">Chính sách hoàn tiền (Đang hoạt động) *</label>
               <select
                 id="policySelect"
@@ -344,7 +344,7 @@ export default function AdminTripCreatePage() {
             </p>
           </div>
 
-          <div className={styles.filterBar}>
+          <div className={styles.formGrid2}>
             <div className={styles.field}>
               <label htmlFor="startAt">Thời điểm khởi hành *</label>
               <input
@@ -384,8 +384,8 @@ export default function AdminTripCreatePage() {
             </div>
           </div>
 
-          <div className={styles.filterBar}>
-            <div className={styles.field} style={{ flex: 1 }}>
+          <div className={styles.formGrid1}>
+            <div className={styles.field}>
               <label htmlFor="coordinatorSelect">Người điều phối chuyến đi</label>
               <select
                 id="coordinatorSelect"
@@ -400,7 +400,7 @@ export default function AdminTripCreatePage() {
                   </option>
                 ))}
               </select>
-              <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b', marginTop: '4px' }}>
+              <span className={styles.fieldHint}>
                 Có thể phân công sau trong giao diện Quản lý chi tiết & Chia nhóm Hướng dẫn viên
               </span>
             </div>
@@ -418,7 +418,7 @@ export default function AdminTripCreatePage() {
             </p>
           </div>
 
-          <div className={styles.filterBar}>
+          <div className={styles.formGrid2}>
             <div className={styles.field}>
               <label htmlFor="totalSlots">Tổng sức chứa tối đa (Slots) *</label>
               <input
@@ -433,7 +433,7 @@ export default function AdminTripCreatePage() {
                 }}
               />
               {errors.totalSlots && <span className={styles.fieldError}>{errors.totalSlots}</span>}
-              <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b', marginTop: '4px' }}>
+              <span className={styles.fieldHint}>
                 Tự động điền theo sức chứa tối đa thiết kế của Tour
               </span>
             </div>
@@ -453,7 +453,7 @@ export default function AdminTripCreatePage() {
                 }}
               />
               {errors.minParticipants && <span className={styles.fieldError}>{errors.minParticipants}</span>}
-              <span style={{ fontSize: "var(--font-size-meta)", color: '#64748b', marginTop: '4px' }}>
+              <span className={styles.fieldHint}>
                 Nếu không đạt sĩ số tối thiểu trước ngày chốt đoàn, hệ thống sẽ cảnh báo sĩ số
               </span>
             </div>

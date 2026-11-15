@@ -43,11 +43,13 @@ const groups = [
     ],
   },
   {
+    // Tài chính không thuộc phạm vi Staff → ẩn cả nhóm
     title: 'Thanh toán & Hoàn tiền',
     icon: Wallet,
+    adminOnly: true,
     items: [
-      { key: 'pendingApprovalRefundsCount', label: 'Hoàn tiền chờ duyệt', to: ROUTES.ADMIN_REFUNDS, level: 'urgent', adminOnly: true },
-      { key: 'failedRefundsCount', label: 'Hoàn tiền thất bại', to: ROUTES.ADMIN_REFUNDS, level: 'urgent', adminOnly: true },
+      { key: 'pendingApprovalRefundsCount', label: 'Hoàn tiền chờ duyệt', to: ROUTES.ADMIN_REFUNDS, level: 'urgent' },
+      { key: 'failedRefundsCount', label: 'Hoàn tiền thất bại', to: ROUTES.ADMIN_REFUNDS, level: 'urgent' },
       { key: 'needsReconciliationOrdersCount', label: 'Đơn cần đối soát', to: ROUTES.ADMIN_ORDERS, level: 'warning' },
     ],
   },
@@ -61,6 +63,7 @@ export default function DashboardPage() {
   const kpis = useOperations(API_ENDPOINTS.ADMIN.DASHBOARD.KPIS, undefined, isAdmin);
 
   const pendingAlerts = alerts.data || [];
+  const visibleGroups = groups.filter((group) => !group.adminOnly || isAdmin);
 
   return (
     <div className={styles.page}>
@@ -166,16 +169,18 @@ export default function DashboardPage() {
         <div className={styles.sectionHeading}>
           <div className={styles.headingTitleWithBadge}>
             <h2 id="analytics-action-heading" className={styles.sectionTitle}>
-              Phân tích kinh doanh &amp; Hành động trọng tâm
+              {isAdmin ? 'Phân tích kinh doanh & Hành động trọng tâm' : 'Hành động trọng tâm'}
             </h2>
           </div>
           <span className={styles.sectionHint}>
-            Đối chiếu số liệu doanh thu dịch vụ và xử lý tức thời các sự vụ nghẽn
+            {isAdmin
+              ? 'Đối chiếu số liệu doanh thu dịch vụ và xử lý tức thời các sự vụ nghẽn'
+              : 'Xử lý tức thời các sự vụ nghẽn trong vận hành'}
           </span>
         </div>
 
-        <div className={`${styles.analyticsAndActionGrid} ${!isAdmin ? styles.staffActionOnly : ''}`}>
-          {/* Cột Trái 60%: Biểu đồ Doanh thu (nếu isAdmin) */}
+        <div className={`${styles.analyticsAndActionGrid} ${isAdmin ? '' : styles.singleColumn}`}>
+          {/* Cột Trái 60%: Biểu đồ Doanh thu — chỉ Admin (Staff không có phân hệ này) */}
           {isAdmin && (
             <div className={styles.analyticsColumn}>
               <RevenueChart />
@@ -247,7 +252,7 @@ export default function DashboardPage() {
             Theo dõi vận hành
           </h2>
           <span className={styles.sectionHint}>
-            Trạng thái phân nhóm, tồn kho thiết bị và dòng tiền
+            {isAdmin ? 'Trạng thái phân nhóm, tồn kho thiết bị và dòng tiền' : 'Trạng thái phân nhóm và tồn kho thiết bị'}
           </span>
         </div>
 
@@ -256,8 +261,8 @@ export default function DashboardPage() {
         ) : counters.isError ? (
           <ErrorState message={counters.error.message} onRetry={counters.refetch} />
         ) : (
-          <div className={styles.operationsGrid}>
-            {groups.map(({ title, icon: Icon, items }) => (
+          <div className={styles.operationsGrid} style={{ '--ops-columns': visibleGroups.length }}>
+            {visibleGroups.map(({ title, icon: Icon, items }) => (
               <article key={title} className={styles.operationGroupCard}>
                 <div className={styles.groupCardHeader}>
                   <div className={styles.groupCardHeaderTitle}>
@@ -269,9 +274,7 @@ export default function DashboardPage() {
                 </div>
 
                 <div className={styles.counterRowsList}>
-                  {items
-                    .filter((item) => !item.adminOnly || isAdmin)
-                    .map(({ key, label, to, level }) => {
+                  {items.map(({ key, label, to, level }) => {
                       const countValue = counters.data?.[key] ?? 0;
                       let badgeClass = styles.badgeNeutral;
                       if (countValue > 0) {

@@ -6,6 +6,8 @@ export const productService = {
   getCategories: () => axiosClient.get(API_ENDPOINTS.PRODUCTS.CATEGORIES),
   getAll: (params) => axiosClient.get(API_ENDPOINTS.PRODUCTS.ROOT, { params: cleanParams(params) }),
   getById: (id) => axiosClient.get(API_ENDPOINTS.PRODUCTS.BY_ID(id)),
+  getRelated: (id, limit = 4) =>
+    axiosClient.get(API_ENDPOINTS.PRODUCTS.RELATED(id), { params: { limit } }),
   create: (payload) => axiosClient.post(API_ENDPOINTS.ADMIN_CATALOG.PRODUCTS, payload),
   update: (id, payload) => axiosClient.put(API_ENDPOINTS.ADMIN_CATALOG.PRODUCT_BY_ID(id), payload),
   remove: (id) => axiosClient.delete(API_ENDPOINTS.ADMIN_CATALOG.PRODUCT_BY_ID(id)),

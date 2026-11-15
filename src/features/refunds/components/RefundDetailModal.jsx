@@ -3,7 +3,9 @@ import { FileText, X, AlertTriangle } from 'lucide-react';
 import { REFUND_BANKS, REFUND_CASE_STATUS, REFUND_CASE_STATUS_LABEL } from '@/constants/enums';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
-import { parseCancelReasonWithProofs, parseAdminTransactionWithProof } from '../utils/refundProofHelper';
+import { API_ENDPOINTS } from '@/api/endpoints';
+import { parseCancelReasonWithProofs } from '../utils/refundProofHelper';
+import ProofGallery from './ProofGallery';
 import { formatRefundCode, getBankName } from '../utils/refundDisplay';
 import styles from './RefundDetailModal.module.css';
 
@@ -19,7 +21,6 @@ export default function RefundDetailModal({
   const [activeLightboxUrl, setActiveLightboxUrl] = useState(null);
 
   const parsedReason = parseCancelReasonWithProofs(item?.cancelReason);
-  const parsedAdminTx = parseAdminTransactionWithProof(item?.providerTransactionId);
 
   // Xử lý phím ESC để đóng Lightbox hoặc Modal
   const handleKeyDown = useCallback(
@@ -32,7 +33,7 @@ export default function RefundDetailModal({
         }
       }
     },
-    [activeLightboxUrl, onClose]
+    [activeLightboxUrl, onClose],
   );
 
   useEffect(() => {
@@ -57,11 +58,8 @@ export default function RefundDetailModal({
         : 100;
 
   // Dữ liệu ngày khởi hành & mức áp dụng chính sách nếu có
-  const departureDate =
-    item.departureDate || item.startDate || item.tripStartDate || item.rentalStartAt;
-  const appliedPolicyRule =
-    item.appliedRule || item.appliedCase || item.policyRule || item.appliedPolicyRule;
-
+  const departureDate = item.departureDate || item.startDate || item.tripStartDate || item.rentalStartAt;
+  const appliedPolicyRule = item.appliedRule || item.appliedCase || item.policyRule || item.appliedPolicyRule;
 
   return (
     <>
@@ -72,21 +70,14 @@ export default function RefundDetailModal({
             <div className={styles.headerTitleGroup}>
               <div className={styles.headerTitleRow}>
                 <h2 className={styles.headerTitle}>Hồ sơ {formatRefundCode(item.refundCaseId)}</h2>
-                <span className={styles.badgeOrderType}>
-                  {isTour ? 'Tour Trekking' : 'Thuê Thiết Bị'}
-                </span>
+                <span className={styles.badgeOrderType}>{isTour ? 'Tour Trekking' : 'Thuê Thiết Bị'}</span>
                 <span className={styles.badgeStatus}>{REFUND_CASE_STATUS_LABEL[item.status]}</span>
               </div>
               <span className={styles.headerSubtitle}>
                 Mã đơn: {item.orderCode} · Khởi tạo lúc: {formatDateTime(item.createdAt)}
               </span>
             </div>
-            <button
-              type="button"
-              className={styles.closeButton}
-              onClick={onClose}
-              aria-label="Đóng cửa sổ"
-            >
+            <button type="button" className={styles.closeButton} onClick={onClose} aria-label="Đóng cửa sổ">
               <X size={14} />
             </button>
           </div>
@@ -216,38 +207,24 @@ export default function RefundDetailModal({
               </section>
             )}
 
-            {/* Khối Biên lai chuyển khoản ngân hàng của Admin (nếu đã có) */}
-            {parsedAdminTx.hasProof && (
+            {/* Biên lai chuyển khoản: mã giao dịch + chứng từ admin đính kèm khi hoàn tất */}
+            {(item.providerTransactionId || item.proofs?.length > 0) && (
               <section className={styles.section}>
                 <h3 className={styles.sectionTitle}>
                   <FileText size={16} className={styles.sectionIcon} />
                   <span>Biên lai chuyển khoản từ RenTrek</span>
                 </h3>
-                <div className={styles.receiptCard}>
-                  <img
-                    src={parsedAdminTx.proofUrl}
-                    alt="Biên lai chuyển tiền ngân hàng"
-                    className={styles.receiptThumbnail}
-                    onClick={() => setActiveLightboxUrl(parsedAdminTx.proofUrl)}
-                    title="Bấm xem phóng to biên lai"
-                  />
-                  <div className={styles.receiptInfo}>
-                    <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#166534' }}>
-                      Đã tải lên chứng từ ủy nhiệm chi / biên lai chuyển khoản
-                    </span>
-                    {parsedAdminTx.transactionId && (
-                      <span style={{ fontSize: '0.8125rem', color: '#4b5563' }}>
-                        Mã giao dịch ngân hàng: <strong>{parsedAdminTx.transactionId}</strong>
-                      </span>
-                    )}
-                    <span style={{ fontSize: '0.75rem', color: '#15803d' }}>
-                      ✓ Bấm vào ảnh để soi rõ con dấu và thời điểm giao dịch
-                    </span>
-                  </div>
-                </div>
+                {item.providerTransactionId && (
+                  <p>
+                    Mã giao dịch ngân hàng: <strong>{item.providerTransactionId}</strong>
+                  </p>
+                )}
+                <ProofGallery
+                  proofs={item.proofs ?? []}
+                  buildUrl={(proofId) => API_ENDPOINTS.ADMIN_REFUND_CASES.PROOF(item.refundCaseId, proofId)}
+                />
               </section>
             )}
-
           </div>
 
           {/* Modal Footer Actions */}
@@ -259,18 +236,10 @@ export default function RefundDetailModal({
             <div className={styles.actionGroup}>
               {isRequested && (
                 <>
-                  <button
-                    type="button"
-                    className={styles.btnReject}
-                    onClick={() => onReject?.(item)}
-                  >
+                  <button type="button" className={styles.btnReject} onClick={() => onReject?.(item)}>
                     Từ chối
                   </button>
-                  <button
-                    type="button"
-                    className={styles.btnApprove}
-                    onClick={() => onApprove?.(item)}
-                  >
+                  <button type="button" className={styles.btnApprove} onClick={() => onApprove?.(item)}>
                     Duyệt hoàn {formatCurrency(item.amount)}
                   </button>
                 </>
@@ -278,18 +247,10 @@ export default function RefundDetailModal({
 
               {isApproved && canSettle && (
                 <>
-                  <button
-                    type="button"
-                    className={styles.btnReject}
-                    onClick={() => onMarkFailed?.(item)}
-                  >
+                  <button type="button" className={styles.btnReject} onClick={() => onMarkFailed?.(item)}>
                     Báo chuyển thất bại
                   </button>
-                  <button
-                    type="button"
-                    className={styles.btnApprove}
-                    onClick={() => onComplete?.(item)}
-                  >
+                  <button type="button" className={styles.btnApprove} onClick={() => onComplete?.(item)}>
                     Đã hoàn tiền & Tải biên lai
                   </button>
                 </>
@@ -334,15 +295,8 @@ export default function RefundDetailModal({
             </button>
           </div>
 
-          <div
-            className={styles.lightboxImageWrapper}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img
-              src={activeLightboxUrl}
-              alt="Ảnh phóng to"
-              className={styles.lightboxFullImage}
-            />
+          <div className={styles.lightboxImageWrapper} onClick={(e) => e.stopPropagation()}>
+            <img src={activeLightboxUrl} alt="Ảnh phóng to" className={styles.lightboxFullImage} />
           </div>
         </div>
       )}

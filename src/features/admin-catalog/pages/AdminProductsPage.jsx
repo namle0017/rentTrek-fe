@@ -1,35 +1,60 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '@/api/endpoints';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
 import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '@/constants/config';
 import { ROUTES } from '@/constants/routes';
+import { useOperations } from '@/features/operations/hooks/useOperations';
 import { useAuth } from '@/hooks/useAuth';
-import { USER_ROLE } from '@/constants/enums';
+import { canManageCatalog } from '@/utils/roleRouting';
 import AdminCatalogStatusBadge from '../components/AdminCatalogStatusBadge';
 import { PRODUCT_STATUS_OPTIONS } from '../constants/adminCatalogStatus';
 import { useAdminProducts } from '../hooks/useAdminCatalog';
 import styles from './AdminCatalogPage.module.css';
 
-const INITIAL_FILTERS = { search: '', status: '' };
+const INITIAL_FILTERS = { search: '', categoryId: '', status: '' };
 const dateFormatter = new Intl.DateTimeFormat('vi-VN', { dateStyle: 'short', timeZone: 'Asia/Ho_Chi_Minh' });
 
 export default function AdminProductsPage() {
   const { currentUser } = useAuth();
-  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
+  const canManage = canManageCatalog(currentUser?.role);
   const navigate = useNavigate();
   const [draftFilters, setDraftFilters] = useState(INITIAL_FILTERS);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [pageNumber, setPageNumber] = useState(DEFAULT_PAGE_NUMBER);
+  const categoriesQuery = useOperations(API_ENDPOINTS.ADMIN.CATEGORIES);
+  const equipmentCategories = (categoriesQuery.data ?? []).filter(
+    (category) => category.categoryType !== 'Tour',
+  );
   const params = { pageNumber, pageSize: DEFAULT_PAGE_SIZE, ...filters };
   const { data: pagedProducts, isLoading, isError, error, refetch, isFetching } = useAdminProducts(params);
+
+  const hasActiveFilters = Boolean(
+    draftFilters.search ||
+      draftFilters.categoryId ||
+      draftFilters.status ||
+      filters.search ||
+      filters.categoryId ||
+      filters.status,
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setPageNumber(DEFAULT_PAGE_NUMBER);
-    setFilters({ search: draftFilters.search.trim(), status: draftFilters.status });
+    setFilters({
+      search: draftFilters.search.trim(),
+      categoryId: draftFilters.categoryId,
+      status: draftFilters.status,
+    });
+  };
+
+  const handleResetFilters = () => {
+    setDraftFilters(INITIAL_FILTERS);
+    setFilters(INITIAL_FILTERS);
+    setPageNumber(DEFAULT_PAGE_NUMBER);
   };
 
   const renderContent = () => {
@@ -130,7 +155,7 @@ export default function AdminProductsPage() {
 
   return (
     <section className={styles.page} aria-label="Danh mục Sản phẩm">
-      {isAdmin && (
+      {canManage && (
         <div className={styles.header} style={{ justifyContent: 'flex-end', paddingBottom: 12 }}>
           <Link className="btn btn-primary" to={ROUTES.ADMIN_PRODUCT_CREATE}>
             <span aria-hidden="true">＋</span> Thêm sản phẩm
@@ -143,10 +168,27 @@ export default function AdminProductsPage() {
           <input
             type="search"
             value={draftFilters.search}
-            placeholder="Tên sản phẩm"
+            placeholder="Tên sản phẩm hoặc SKU"
             maxLength="200"
             onChange={(event) => setDraftFilters((current) => ({ ...current, search: event.target.value }))}
           />
+        </label>
+        <label className={styles.field}>
+          <span>Danh mục thiết bị</span>
+          <select
+            value={draftFilters.categoryId}
+            disabled={categoriesQuery.isPending}
+            onChange={(event) =>
+              setDraftFilters((current) => ({ ...current, categoryId: event.target.value }))
+            }
+          >
+            <option value="">Tất cả danh mục</option>
+            {equipmentCategories.map((category) => (
+              <option key={category.categoryId} value={category.categoryId}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </label>
         <label className={styles.field}>
           <span>Trạng thái sản phẩm</span>
@@ -161,9 +203,20 @@ export default function AdminProductsPage() {
             ))}
           </select>
         </label>
-        <button type="submit" className={`btn btn-primary ${styles.filterButton}`}>
-          Lọc danh sách
-        </button>
+        <div className={styles.filterActions}>
+          <button type="submit" className={`btn btn-primary ${styles.filterButton}`}>
+            Lọc danh sách
+          </button>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              className={`btn btn-outline ${styles.filterButton}`}
+              onClick={handleResetFilters}
+            >
+              Đặt lại
+            </button>
+          )}
+        </div>
       </form>
 
       {renderContent()}

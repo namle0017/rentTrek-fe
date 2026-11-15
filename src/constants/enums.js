@@ -146,9 +146,6 @@ export const REFUND_CASE_SOURCE_LABEL = {
   RentalDepositReturn: 'Hoàn cọc sau trả đồ',
 };
 
-// Đồng bộ RefundBankCodes.ConsentVersion ở BE
-export const REFUND_CONSENT_VERSION = 'refund-bank-data-v1';
-
 // Đồng bộ whitelist RefundBankCodes ở BE
 export const REFUND_BANKS = [
   { code: 'VCB', name: 'Vietcombank' },
@@ -168,6 +165,8 @@ export const REFUND_BANKS = [
   { code: 'OCB', name: 'OCB' },
   { code: 'SSB', name: 'SeABank' },
 ];
+
+export const REFUND_CONSENT_VERSION = 'refund-bank-data-v1';
 
 export const REFUND_CONSENT_TEXT =
   'Tôi đồng ý cung cấp thông tin tài khoản ngân hàng để RenTrekk xử lý yêu cầu hoàn tiền này. Thông tin chỉ được dùng cho việc hoàn tiền, chỉ nhân sự có thẩm quyền được truy cập và sẽ được xóa theo thời hạn lưu trữ của hệ thống.';
@@ -277,9 +276,11 @@ export const POST_TYPE_LABEL = {
 export const POST_STATUS = Object.freeze({
   DRAFT: 'Draft',
   PUBLISHED: 'Published',
+  ARCHIVED: 'Archived',
 });
 
 export const POST_STATUS_LABEL = {
   [POST_STATUS.DRAFT]: 'Nháp',
   [POST_STATUS.PUBLISHED]: 'Đã xuất bản',
+  [POST_STATUS.ARCHIVED]: 'Đã lưu trữ',
 };

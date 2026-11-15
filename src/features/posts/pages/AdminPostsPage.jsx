@@ -17,7 +17,14 @@ export default function AdminPostsPage() {
   const [draftFilters, setDraftFilters] = useState(INITIAL_FILTERS);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [pageNumber, setPageNumber] = useState(DEFAULT_PAGE_NUMBER);
-  const { data: pagedPosts, isLoading, isError, error, refetch, isFetching } = useAdminPosts({
+  const {
+    data: pagedPosts,
+    isLoading,
+    isError,
+    error,
+    refetch,
+    isFetching,
+  } = useAdminPosts({
     pageNumber,
     pageSize: DEFAULT_PAGE_SIZE,
     ...filters,
@@ -43,7 +50,11 @@ export default function AdminPostsPage() {
           {isFetching ? 'Đang cập nhật danh sách…' : `${pagedPosts.totalItems} bài viết`}
         </p>
         <div className={styles.card} aria-busy={isFetching}>
-          <div className={styles.tableScroll} tabIndex="0" aria-label="Bảng bài viết, cuộn ngang trên màn hình nhỏ">
+          <div
+            className={styles.tableScroll}
+            tabIndex="0"
+            aria-label="Bảng bài viết, cuộn ngang trên màn hình nhỏ"
+          >
             <table className={styles.table}>
               <thead>
                 <tr>
@@ -71,12 +82,18 @@ export default function AdminPostsPage() {
                     <td>{POST_TYPE_LABEL[post.postType] ?? post.postType}</td>
                     <td>{post.authorName}</td>
                     <td>
-                      <span className={post.status === POST_STATUS.PUBLISHED ? styles.badgePublished : styles.badgeDraft}>
+                      <span
+                        className={
+                          post.status === POST_STATUS.PUBLISHED ? styles.badgePublished : styles.badgeDraft
+                        }
+                      >
                         {post.status === POST_STATUS.PUBLISHED ? '● ' : '○ '}
                         {POST_STATUS_LABEL[post.status] ?? post.status}
                       </span>
                     </td>
-                    <td className={styles.numeric}>{post.publishedAt ? formatDate(post.publishedAt) : 'Chưa đăng'}</td>
+                    <td className={styles.numeric}>
+                      {post.publishedAt ? formatDate(post.publishedAt) : 'Chưa đăng'}
+                    </td>
                     <td className={styles.numeric}>{post.tourCount}</td>
                     <td className={styles.numeric}>{post.readCount}</td>
                     <td>

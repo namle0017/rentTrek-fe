@@ -7,12 +7,10 @@ import { useAuth } from '@/hooks/useAuth';
 import { useAdminTours } from '../hooks/useAdminCatalog';
 import AdminToursPage from './AdminToursPage';
 
+vi.mock('@/hooks/useAuth', () => ({ useAuth: vi.fn() }));
+
 vi.mock('../hooks/useAdminCatalog', () => ({
   useAdminTours: vi.fn(),
-}));
-
-vi.mock('@/hooks/useAuth', () => ({
-  useAuth: vi.fn(),
 }));
 
 const pagedTours = {
@@ -105,5 +103,24 @@ describe('AdminToursPage', () => {
       search: 'Fansipan',
       status: 'Draft',
     });
+  });
+
+  it('links each row to the tour editor for Admin only', () => {
+    render(
+      <MemoryRouter>
+        <AdminToursPage />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole('link', { name: 'Chỉnh sửa' })).toHaveAttribute('href', '/admin/tours/tour-1/edit');
+  });
+
+  it('hides the edit link from Staff', () => {
+    useAuth.mockReturnValue({ currentUser: { role: 'Staff' } });
+    render(
+      <MemoryRouter>
+        <AdminToursPage />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByRole('link', { name: 'Chỉnh sửa' })).not.toBeInTheDocument();
   });
 });

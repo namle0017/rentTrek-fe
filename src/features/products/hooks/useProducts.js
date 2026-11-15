@@ -29,6 +29,15 @@ export function useProduct(id) {
   });
 }
 
+export function useRelatedProducts(id, limit = 4) {
+  return useQuery({
+    queryKey: productKeys.related(id, limit),
+    queryFn: () => productService.getRelated(id, limit),
+    select: (res) => res.data ?? [],
+    enabled: Boolean(id),
+  });
+}
+
 export function useCreateProduct() {
   const queryClient = useQueryClient();
   return useMutation({

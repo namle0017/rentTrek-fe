@@ -4,7 +4,7 @@ import { USER_ROLE } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import LoginPage from '@/features/auth/pages/LoginPage';
 import RegisterPage from '@/features/auth/pages/RegisterPage';
-import AdminLayout from '@/layouts/AdminLayout';
+import BackofficeLayout from '@/layouts/BackofficeLayout';
 import RentalFulfillmentLayout from '@/layouts/RentalFulfillmentLayout';
 import GuideLayout from '@/layouts/GuideLayout';
 import MainLayout from '@/layouts/MainLayout';
@@ -12,6 +12,7 @@ import ForbiddenPage from '@/pages/ForbiddenPage';
 import HomePage from '@/pages/HomePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import RouteErrorPage from '@/pages/RouteErrorPage';
+import LegacyTripRedirect from './LegacyTripRedirect';
 import ProtectedRoute from './ProtectedRoute';
 
 // Page lớn → lazy load để giảm bundle ban đầu (React Router tự chờ tải xong mới chuyển trang).
@@ -38,6 +39,14 @@ export const router = createBrowserRouter([
           {
             path: ROUTES.PRODUCT_DETAIL(),
             lazy: lazyPage(() => import('@/features/products/pages/ProductDetailPage')),
+          },
+          {
+            path: ROUTES.BUNDLES,
+            lazy: lazyPage(() => import('@/features/rentals/pages/BundleListPage')),
+          },
+          {
+            path: ROUTES.BUNDLE_DETAIL(),
+            lazy: lazyPage(() => import('@/features/rentals/pages/BundleDetailPage')),
           },
           {
             path: ROUTES.TOURS,
@@ -115,15 +124,6 @@ export const router = createBrowserRouter([
                   },
                 ],
               },
-              {
-                element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF, USER_ROLE.GUIDE]} />,
-                children: [
-                  {
-                    path: ROUTES.TRIP_GROUPING(),
-                    lazy: lazyPage(() => import('@/features/trip-groups/pages/TripGroupingPage')),
-                  },
-                ],
-              },
             ],
           },
         ],
@@ -140,7 +140,7 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF]} />,
         children: [
           {
-            element: <AdminLayout />,
+            element: <BackofficeLayout />,
             children: [
               {
                 path: ROUTES.ADMIN,
@@ -149,6 +149,10 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.ADMIN_PROFILE,
                 lazy: lazyPage(() => import('@/features/users/pages/ProfilePage')),
+              },
+              {
+                path: ROUTES.ADMIN_NOTIFICATIONS,
+                lazy: lazyPage(() => import('@/features/notifications/pages/NotificationsPage')),
               },
               // Đơn hàng & Đơn thuê
               {
@@ -178,10 +182,6 @@ export const router = createBrowserRouter([
               },
               {
                 path: ROUTES.ADMIN_POST_EDIT(),
-                lazy: lazyPage(() => import('@/features/posts/pages/AdminPostEditorPage')),
-              },
-              {
-                path: ROUTES.ADMIN_POST(),
                 lazy: lazyPage(() => import('@/features/posts/pages/AdminPostEditorPage')),
               },
               {
@@ -225,6 +225,15 @@ export const router = createBrowserRouter([
                 path: ROUTES.ADMIN_BUNDLE_DETAIL(),
                 lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminBundleDetailPage')),
               },
+              // Tạo / sửa sản phẩm: Admin và Staff (Staff trực tiếp quản lý kho)
+              {
+                path: ROUTES.ADMIN_PRODUCT_CREATE,
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductEditorPage')),
+              },
+              {
+                path: ROUTES.ADMIN_PRODUCT_EDIT(),
+                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductEditorPage')),
+              },
               // Phân hệ Quản trị / Governance tối cao (Admin Only)
               {
                 element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />,
@@ -236,14 +245,6 @@ export const router = createBrowserRouter([
                   {
                     path: ROUTES.ADMIN_TOUR_EDIT(),
                     lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourEditorPage')),
-                  },
-                  {
-                    path: ROUTES.ADMIN_PRODUCT_CREATE,
-                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductEditorPage')),
-                  },
-                  {
-                    path: ROUTES.ADMIN_PRODUCT_EDIT(),
-                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductEditorPage')),
                   },
                   {
                     path: ROUTES.ADMIN_USERS,
@@ -284,22 +285,33 @@ export const router = createBrowserRouter([
                 path: ROUTES.ADMIN_TRIP_DETAIL(),
                 lazy: lazyPage(() => import('@/features/admin-trips/pages/AdminTripDetailPage')),
               },
+              // Trang điều phối / chia nhóm cũ đã gộp vào tab Kanban của chi tiết chuyến
               {
                 path: ROUTES.ADMIN_TRIP_OPS(),
-                lazy: lazyPage(() => import('@/features/trip-groups/pages/TripOpsPage')),
+                element: <LegacyTripRedirect />,
+              },
+              {
+                path: ROUTES.TRIP_GROUPING(),
+                element: <LegacyTripRedirect />,
               },
               // Phân hệ Tài chính & Hoàn tiền (Namle)
               {
                 path: ROUTES.OPS_TRANSACTIONS,
                 lazy: lazyPage(() => import('@/pages/ops/finance/TransactionsPage')),
               },
+              // Hàng đợi hoàn tiền: Staff duyệt / từ chối; xuất, nhập, hoàn tất chỉ Admin (trang tự ẩn nút)
               {
-                path: ROUTES.OPS_REFUNDS,
-                element: <Navigate to={ROUTES.ADMIN_REFUNDS} replace />,
-              },
-              {
-                path: ROUTES.ADMIN_REFUNDS,
-                lazy: lazyPage(() => import('@/features/refunds/pages/AdminRefundsPage')),
+                element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF]} />,
+                children: [
+                  {
+                    path: ROUTES.OPS_REFUNDS,
+                    element: <Navigate to={ROUTES.ADMIN_REFUNDS} replace />,
+                  },
+                  {
+                    path: ROUTES.ADMIN_REFUNDS,
+                    lazy: lazyPage(() => import('@/features/refunds/pages/AdminRefundsPage')),
+                  },
+                ],
               },
               {
                 path: ROUTES.OPS_REFUND_POLICIES,
@@ -310,6 +322,7 @@ export const router = createBrowserRouter([
                 lazy: lazyPage(() => import('@/features/rental-ops/pages/AdminRentalReportsPage')),
               },
               {
+                // Trang chính sách thuê cũ: chuyển sang trang quản lý phiên bản mới
                 path: ROUTES.ADMIN_RENTAL_POLICY,
                 element: <Navigate to={ROUTES.ADMIN_RENTAL_POLICIES} replace />,
               },
@@ -405,7 +418,7 @@ export const router = createBrowserRouter([
       // Khu vực Hướng dẫn viên Thực địa (Guide Portal — Mobile-First G01–G06)
       {
         element: (
-          <ProtectedRoute roles={[USER_ROLE.GUIDE]} />
+          <ProtectedRoute roles={[USER_ROLE.GUIDE, USER_ROLE.ADMIN]} />
         ),
         children: [
           {
@@ -422,6 +435,10 @@ export const router = createBrowserRouter([
               {
                 path: ROUTES.GUIDE_PROFILE,
                 lazy: lazyPage(() => import('@/features/users/pages/ProfilePage')),
+              },
+              {
+                path: ROUTES.GUIDE_NOTIFICATIONS,
+                lazy: lazyPage(() => import('@/features/notifications/pages/NotificationsPage')),
               },
               {
                 path: ROUTES.GUIDE_TRIP_GROUP(),

@@ -49,53 +49,35 @@ describe('RentalIssueReportModal', () => {
     expect(submitBtn).toBeDisabled();
   });
 
-  it('fills form and calls mutation with contract RFP-12 payload', async () => {
+  it('requires a photo, then sends each photo with a note describing the issue', async () => {
     const user = userEvent.setup();
-    mutateAsync.mockResolvedValue({
-      success: true,
-      data: { issueReportId: 'issue-1', status: 'UnderReview' },
-    });
+    mutateAsync.mockResolvedValue(undefined);
+    globalThis.URL.createObjectURL = vi.fn(() => 'blob:preview');
+    globalThis.URL.revokeObjectURL = vi.fn();
 
-    render(
-      <RentalIssueReportModal
-        order={mockOrder}
-        isOpen={true}
-        onClose={onClose}
-        onSuccess={onSuccess}
-      />
-    );
+    render(<RentalIssueReportModal order={mockOrder} isOpen={true} onClose={onClose} onSuccess={onSuccess} />);
 
-    // Select second item
     await user.selectOptions(screen.getByLabelText(/Chọn món đồ bị sự cố/i), 'line-2');
-
-    // Select category 'WrongVariant'
     await user.selectOptions(screen.getByLabelText(/Vấn đề gặp phải/i), 'WrongVariant');
-
-    // Type description
-    await user.type(
-      screen.getByLabelText(/Mô tả chi tiết tình trạng lỗi/i),
-      'Bếp giao nhầm loại đầu nối bình gas lớn'
-    );
-
-    // Choose RefundItem
+    await user.type(screen.getByLabelText(/Mô tả chi tiết tình trạng lỗi/i), 'Bếp giao nhầm loại đầu nối bình gas lớn');
     await user.click(screen.getByLabelText(/Hủy & Hoàn tiền món này/i));
 
-    // Submit
     const submitBtn = screen.getByRole('button', { name: 'Gửi báo cáo sự cố' });
+    expect(submitBtn).toBeDisabled();
+
+    const photo = new File(['img'], 'loi.jpg', { type: 'image/jpeg' });
+    await user.upload(document.querySelector('input[type="file"]'), photo);
     expect(submitBtn).not.toBeDisabled();
     await user.click(submitBtn);
 
     expect(mutateAsync).toHaveBeenCalledWith({
       orderId: 'order-rent-123',
-      payload: {
-        rentalOrderItemId: 'line-2',
-        issueCategory: 'WrongVariant',
-        description: 'Bếp giao nhầm loại đầu nối bình gas lớn',
-        proofUrls: [],
-        preferredAction: 'RefundItem',
-        contactPhone: undefined,
-      },
+      files: [photo],
+      note: expect.stringContaining('Bếp giao nhầm loại đầu nối bình gas lớn'),
     });
+    const { note } = mutateAsync.mock.calls[0][0];
+    expect(note).toContain('Mong muốn: huỷ & hoàn tiền món này');
+    expect(note.length).toBeLessThanOrEqual(500);
     expect(onSuccess).toHaveBeenCalled();
     expect(onClose).toHaveBeenCalled();
   }, 15000);

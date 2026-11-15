@@ -54,6 +54,7 @@ export default function AdminToursPage() {
                   <th scope="col">Giá cơ sở</th>
                   <th scope="col">Trạng thái</th>
                   <th scope="col">Sắp tới</th>
+                  {isAdmin && <th scope="col">Thao tác</th>}
                 </tr>
               </thead>
               <tbody>
@@ -94,6 +95,17 @@ export default function AdminToursPage() {
                       <AdminCatalogStatusBadge status={tour.status} />
                     </td>
                     <td className={styles.numeric}>{tour.upcomingTripsCount} chuyến</td>
+                    {isAdmin && (
+                      <td>
+                        <Link
+                          to={ROUTES.ADMIN_TOUR_EDIT(tour.tourId)}
+                          className={styles.entityName}
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          Chỉnh sửa
+                        </Link>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

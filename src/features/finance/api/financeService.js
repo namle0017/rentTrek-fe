@@ -29,7 +29,9 @@ export const financeService = {
   // 17.7. Hoàn toàn bộ & Hủy đơn đối soát (Reconcile Refund Full)
   reconcileRefund: (orderId) => axiosClient.post(API_ENDPOINTS.RECONCILE.REFUND(orderId)),
 
-  // Ghi nhận thanh toán thủ công: body { amount, paymentMethod, manualReference, reason }
-  recordManualPayment: ({ orderCode, ...body }) =>
-    axiosClient.post(API_ENDPOINTS.PAYMENTS.MANUAL_PAY(orderCode), body),
+  // Ghi nhận thanh toán thủ công: { orderCode, orderId, amount, paymentMethod, manualReference, reason }
+  recordManualPayment: ({ orderCode, orderId, ...body } = {}) => {
+    const code = orderCode || orderId;
+    return axiosClient.post(API_ENDPOINTS.PAYMENTS.MANUAL_PAY(code), { orderCode: code, ...body });
+  },
 };

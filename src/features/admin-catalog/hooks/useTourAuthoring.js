@@ -50,6 +50,7 @@ export const useUpdateTour = () => useTourMutation(service.updateTour);
 export const useDeleteTour = () => useTourMutation(service.deleteTour);
 export const usePublishTour = () => useTourMutation(service.publishTour);
 export const useArchiveTour = () => useTourMutation(service.archiveTour);
+export const useUpdateTourGroupSettings = () => useTourMutation(service.updateTourGroupSettings);
 export const useCloneTourVersion = () => useTourMutation(service.cloneTourVersion);
 
 export const useAddTourImage = () => useTourMutation(service.addTourImage);

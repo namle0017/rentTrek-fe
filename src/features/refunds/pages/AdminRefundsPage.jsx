@@ -85,7 +85,11 @@ export default function AdminRefundsPage() {
           >
             Duyệt
           </button>
-          <button type="button" className="btn btn-outline" onClick={() => setDialog({ type: 'reject', item })}>
+          <button
+            type="button"
+            className="btn btn-outline"
+            onClick={() => setDialog({ type: 'reject', item })}
+          >
             Từ chối
           </button>
         </div>
@@ -134,14 +138,29 @@ export default function AdminRefundsPage() {
           renderActions={renderActions}
           toolbar={
             isAdmin && (
-            <>
-              <button type="button" className="btn btn-primary" onClick={() => setDialog({ type: 'export' })}>
-                Xuất Excel cho kế toán
-              </button>
-              <button type="button" className="btn btn-primary" onClick={() => setDialog({ type: 'import' })}>
-                Nhập kết quả chuyển khoản
-              </button>
-            </>
+              <>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => setDialog({ type: 'export' })}
+                >
+                  Xuất Excel cho kế toán
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => setDialog({ type: 'import' })}
+                >
+                  Nhập kết quả chuyển khoản
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline"
+                  onClick={() => setDialog({ type: 'reexport' })}
+                >
+                  Xuất lại file
+                </button>
+              </>
             )
           }
         />
@@ -157,8 +176,9 @@ export default function AdminRefundsPage() {
           onMarkFailed={(item) => setDialog({ type: 'failed', item })}
         />
       )}
-      {dialog?.type === 'export' && (
+      {(dialog?.type === 'export' || dialog?.type === 'reexport') && (
         <RefundExportDialog
+          reExport={dialog.type === 'reexport'}
           fromDate={fromDate ? toIsoString(fromDate) : null}
           toDate={toDate ? toIsoString(`${toDate}T23:59:59`) : null}
           onClose={closeDialog}

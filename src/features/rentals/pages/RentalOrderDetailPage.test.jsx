@@ -3,13 +3,14 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import RentalOrderDetailPage from './RentalOrderDetailPage';
-import { useRentalOrder } from '../hooks/useRentals';
+import { useRentalAdjustments, useRentalOrder } from '../hooks/useRentals';
 
 vi.mock('../hooks/useRentals', async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,
     useRentalOrder: vi.fn(),
+    useRentalAdjustments: vi.fn(),
     useReportRentalIssue: vi.fn().mockReturnValue({ mutateAsync: vi.fn(), isPending: false }),
     useConfirmRentalReceipt: vi.fn().mockReturnValue({ mutate: vi.fn(), isPending: false }),
   };
@@ -60,6 +61,7 @@ describe('RentalOrderDetailPage', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    useRentalAdjustments.mockReturnValue({ data: [] });
     useRentalOrder.mockReturnValue({
       data: mockPaidOrder,
       isLoading: false,
@@ -99,19 +101,30 @@ describe('RentalOrderDetailPage', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders refund receipt button and opens lightbox zoom on click', async () => {
-    const user = userEvent.setup();
+  it('no longer parses receipts out of the transaction id (proofs live in the refund progress card)', () => {
     renderComponent();
+    expect(screen.queryByRole('button', { name: /Xem biên lai hoàn tiền/i })).not.toBeInTheDocument();
+  });
 
-    const proofBtn = screen.getByRole('button', { name: /Xem biên lai hoàn tiền/i });
-    expect(proofBtn).toBeInTheDocument();
+  it('hides the extension history when there are no adjustments', () => {
+    renderComponent();
+    expect(screen.queryByText('Lịch sử gia hạn')).not.toBeInTheDocument();
+  });
 
-    await user.click(proofBtn);
-
-    expect(screen.getByRole('dialog', { name: /Xem biên lai hoàn tiền/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Mở ảnh gốc/i })).toHaveAttribute(
-      'href',
-      'https://storage.vn/receipt-rent.jpg'
-    );
+  it('shows a read-only extension history when adjustments exist', () => {
+    useRentalAdjustments.mockReturnValue({
+      data: [
+        {
+          id: 'adj-1',
+          oldEndAt: '2026-11-10T02:00:00Z',
+          newEndAt: '2026-11-12T02:00:00Z',
+          extraAmount: 150000,
+          requestedByName: 'Nguyễn Văn A',
+        },
+      ],
+    });
+    renderComponent();
+    expect(screen.getByRole('heading', { name: 'Lịch sử gia hạn' })).toBeInTheDocument();
+    expect(screen.getByText(/Nguyễn Văn A/)).toBeInTheDocument();
   });
 });

@@ -1,8 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ISSUE_CATEGORIES } from '@/features/refunds/utils/refundProofHelper';
 import { useReportRentalIssue } from '../hooks/useRentals';
 import styles from './RentalIssueReportModal.module.css';
 
+const MAX_PHOTOS = 3;
+const MAX_BYTES = 5 * 1024 * 1024;
+const ACCEPT = ['image/jpeg', 'image/png', 'image/webp'];
+const MAX_NOTE = 500;
+
+/**
+ * Khách báo lỗi thiết bị khi đang thuê: mỗi ảnh gửi một lần qua POST /rental-orders/{id}/issue-photos (multipart),
+ * mô tả / mong muốn / SĐT được ghép vào ghi chú (tối đa 500 ký tự) để staff đọc cùng ảnh.
+ */
 export default function RentalIssueReportModal({ order, isOpen, onClose, onSuccess }) {
   if (!isOpen || !order) return null;
 
@@ -22,11 +31,28 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
   );
   const [issueCategory, setIssueCategory] = useState('Damaged');
   const [description, setDescription] = useState('');
-  const [proofUrls, setProofUrls] = useState([]);
+  const [photos, setPhotos] = useState([]); // [{ file, url }]
+  const [photoError, setPhotoError] = useState('');
   const [preferredAction, setPreferredAction] = useState('Exchange');
   const [contactPhone, setContactPhone] = useState('');
 
   const reportIssueMutation = useReportRentalIssue();
+
+  const reset = () => {
+    setSelectedItemId('');
+    setIssueCategory('Damaged');
+    setDescription('');
+    photos.forEach((photo) => URL.revokeObjectURL(photo.url));
+    setPhotos([]);
+    setPhotoError('');
+    setPreferredAction('Exchange');
+    setContactPhone('');
+  };
+
+  const handleClose = () => {
+    reset();
+    onClose();
+  };
 
   // Handle ESC key
   useEffect(() => {
@@ -37,41 +63,61 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
+  const proofUrls = photos.map((photo) => photo.url);
+
   const handleProofFiles = (event) => {
     const files = Array.from(event.target.files || []);
+    event.target.value = '';
     if (!files.length) return;
-
-    files.slice(0, 3 - proofUrls.length).forEach((file) => {
-      if (!file.type.startsWith('image/')) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        setProofUrls((prev) => (prev.length < 3 ? [...prev, reader.result] : prev));
-      };
-      reader.readAsDataURL(file);
-    });
+    const invalid = files.find((file) => !ACCEPT.includes(file.type) || file.size > MAX_BYTES);
+    if (invalid) {
+      setPhotoError(`Ảnh "${invalid.name}" phải là JPG/PNG/WebP và tối đa 5MB.`);
+      return;
+    }
+    setPhotoError('');
+    const room = MAX_PHOTOS - photos.length;
+    setPhotos((prev) => [
+      ...prev,
+      ...files.slice(0, room).map((file) => ({ file, url: URL.createObjectURL(file) })),
+    ]);
   };
 
   const removeProof = (idx) => {
-    setProofUrls((prev) => prev.filter((_, i) => i !== idx));
+    setPhotos((prev) => {
+      URL.revokeObjectURL(prev[idx]?.url);
+      return prev.filter((_, i) => i !== idx);
+    });
+  };
+
+  const buildNote = () => {
+    const line =
+      order.lines?.find((item) => (item.id || item.rentalOrderItemId) === selectedItemId) ?? order.lines?.[0];
+    const parts = [
+      `[${ISSUE_CATEGORIES[issueCategory] || issueCategory}]`,
+      line?.displayName ? `Món: ${line.displayName}.` : '',
+      description.trim(),
+      `Mong muốn: ${preferredAction === 'Exchange' ? 'đổi thiết bị khác' : 'huỷ & hoàn tiền món này'}.`,
+      contactPhone.trim() ? `SĐT liên hệ: ${contactPhone.trim()}.` : '',
+    ];
+    return parts.filter(Boolean).join(' ').slice(0, MAX_NOTE);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!description.trim()) return;
-
-    const payload = {
-      rentalOrderItemId: selectedItemId || undefined,
-      issueCategory,
-      description: description.trim(),
-      proofUrls,
-      preferredAction,
-      contactPhone: contactPhone.trim() || undefined,
-    };
+    if (photos.length === 0) {
+      setPhotoError('Vui lòng đính kèm ít nhất 1 ảnh chụp rõ vết lỗi.');
+      return;
+    }
 
     try {
-      await reportIssueMutation.mutateAsync({ orderId: order.id, payload });
+      await reportIssueMutation.mutateAsync({
+        orderId: order.id,
+        files: photos.map((photo) => photo.file),
+        note: buildNote(),
+      });
       onSuccess?.();
-      onClose();
+      handleClose();
     } catch {
       // Handled in mutation onError
     }
@@ -80,7 +126,7 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
   return (
     <div
       className={styles.overlay}
-      onClick={onClose}
+      onClick={handleClose}
       role="dialog"
       aria-modal="true"
       aria-labelledby="issue-modal-title"
@@ -91,12 +137,7 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
             <span className={styles.kicker}>BẢO HÀNH & HỖ TRỢ THIẾT BỊ</span>
             <h2 id="issue-modal-title">Báo cáo đồ thuê bị lỗi / hư hại</h2>
           </div>
-          <button
-            type="button"
-            className={styles.closeBtn}
-            onClick={onClose}
-            aria-label="Đóng"
-          >
+          <button type="button" className={styles.closeBtn} onClick={handleClose} aria-label="Đóng">
             ✕
           </button>
         </div>
@@ -105,9 +146,9 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
           <div className={styles.tipBox}>
             <span>ℹ️</span>
             <div>
-              <strong>Chính sách đổi trả hỏa tốc:</strong> Nếu thiết bị rách bạt, gãy cọc, kẹt khóa
-              hoặc sai kích cỡ, quý khách vui lòng gửi ảnh trước giờ bắt đầu kỳ thuê để RenTrek đổi đồ
-              mới ngay hoặc hoàn tiền 100% món đó.
+              <strong>Chính sách đổi trả hỏa tốc:</strong> Nếu thiết bị rách bạt, gãy cọc, kẹt khóa hoặc sai
+              kích cỡ, quý khách vui lòng gửi ảnh trước giờ bắt đầu kỳ thuê để RenTrek đổi đồ mới ngay hoặc
+              hoàn tiền 100% món đó.
             </div>
           </div>
 
@@ -210,7 +251,7 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
           </div>
 
           <div className={styles.field}>
-            <label>Đính kèm ảnh minh chứng sự cố (tối đa 3 ảnh chụp rõ vết lỗi)</label>
+            <label>Đính kèm ảnh minh chứng sự cố * (1–3 ảnh chụp rõ vết lỗi)</label>
             <input
               id="issue-proof-file"
               type="file"
@@ -228,6 +269,11 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
               </label>
             )}
 
+            {photoError && (
+              <p className={styles.charCount} role="alert">
+                {photoError}
+              </p>
+            )}
             {proofUrls.length > 0 && (
               <div className={styles.thumbGrid}>
                 {proofUrls.map((url, idx) => (
@@ -252,7 +298,7 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
             <button
               type="button"
               className={styles.cancelBtn}
-              onClick={onClose}
+              onClick={handleClose}
               disabled={reportIssueMutation.isPending}
             >
               Hủy bỏ
@@ -260,9 +306,9 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
             <button
               type="submit"
               className={styles.submitBtn}
-              disabled={reportIssueMutation.isPending || !description.trim()}
+              disabled={reportIssueMutation.isPending || !description.trim() || photos.length === 0}
             >
-              {reportIssueMutation.isPending ? 'Đang gửi...' : 'Gửi báo cáo sự cố'}
+              {reportIssueMutation.isPending ? `Đang gửi ${photos.length} ảnh...` : 'Gửi báo cáo sự cố'}
             </button>
           </div>
         </form>
@@ -270,4 +316,3 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
     </div>
   );
 }
-

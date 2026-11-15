@@ -1,6 +1,6 @@
 /**
- * Helper đóng gói và phân tích minh chứng hoàn tiền hai chiều (User & Admin).
- * Đảm bảo tương thích ngược 100% với dữ liệu cũ.
+ * Nhãn lý do huỷ / sự cố và đọc lại lý do huỷ cũ (có thể còn link ảnh trong dữ liệu trước đây).
+ * Chứng từ chuyển khoản của admin dùng proofs[] + ProofGallery, không còn nhét vào mã giao dịch.
  */
 
 export const CANCEL_CATEGORIES = {
@@ -96,45 +96,5 @@ export function parseCancelReasonWithProofs(rawReason) {
     detail: remainingText,
     proofUrls,
     hasProofs: proofUrls.length > 0,
-  };
-}
-
-/**
- * Đóng gói mã giao dịch ngân hàng và link ảnh biên lai chuyển tiền từ Admin.
- */
-export function packAdminTransactionWithProof(transactionId, proofUrl) {
-  const cleanTxId = (transactionId || '').trim();
-  const cleanProof = (proofUrl || '').trim();
-  if (!cleanProof) return cleanTxId;
-  return `${cleanTxId}#proof=${cleanProof}`;
-}
-
-/**
- * Phân tích chuỗi ProviderTransactionId lấy ra mã giao dịch và link ảnh biên lai ngân hàng.
- */
-export function parseAdminTransactionWithProof(rawTransaction) {
-  if (!rawTransaction || typeof rawTransaction !== 'string') {
-    return {
-      transactionId: '',
-      proofUrl: null,
-      hasProof: false,
-    };
-  }
-
-  const trimmed = rawTransaction.trim();
-  if (trimmed.includes('#proof=')) {
-    const [txId, proofUrl] = trimmed.split('#proof=');
-    const validProof = (proofUrl || '').trim();
-    return {
-      transactionId: (txId || '').trim(),
-      proofUrl: validProof || null,
-      hasProof: Boolean(validProof),
-    };
-  }
-
-  return {
-    transactionId: trimmed,
-    proofUrl: null,
-    hasProof: false,
   };
 }

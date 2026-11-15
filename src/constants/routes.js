@@ -21,6 +21,8 @@ export const ROUTES = {
   MY_ORDERS: '/orders',
   MY_TRIPS: '/my-trips',
   NOTIFICATIONS: '/notifications',
+  ADMIN_NOTIFICATIONS: '/admin/notifications',
+  GUIDE_NOTIFICATIONS: '/guide/notifications',
   MY_REFUNDS: '/refunds',
   MY_REFUND_DETAIL: (refundCaseId = ':refundCaseId') => `/refunds/${refundCaseId}`,
   RENTAL_ORDER_DETAIL: (orderId = ':orderId') => `/rental-orders/${orderId}`,

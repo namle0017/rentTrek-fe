@@ -26,7 +26,13 @@ const variantFields = [
   },
 ];
 
-export default function ProductVariantTools({ productId, variant }) {
+export default function ProductVariantTools({
+  productId,
+  variant,
+  canDelete = true,
+  triggerClassName = 'btn btn-outline',
+  align = 'start',
+}) {
   const queryClient = useQueryClient();
   const [dialog, setDialog] = useState(null);
   const [tiers, setTiers] = useState([]);
@@ -86,28 +92,51 @@ export default function ProductVariantTools({ productId, variant }) {
       setBusy(false);
     }
   };
+  const promotePrimaryImage = async (imageId) => {
+    setBusy(true);
+    setError('');
+    try {
+      await axiosClient.patch(api.PRIMARY_IMAGE(variant.variantId, imageId));
+      await refresh();
+    } catch (failure) {
+      setError(failure.message || 'Không thể đặt ảnh đại diện. Vui lòng thử lại.');
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
-    <div className={styles.tools}>
+    <div className={`${styles.tools} ${variant ? '' : styles.bare} ${align === 'center' ? styles.centered : ''}`}>
       <div className={styles.actions}>
-        <button type="button" className="btn btn-outline" onClick={() => setDialog({ type: 'variant' })}>
+        <button type="button" className={triggerClassName} onClick={() => setDialog({ type: 'variant' })}>
           {variant ? 'Sửa biến thể' : '＋ Thêm biến thể'}
         </button>
         {variant && (
-          <button
-            type="button"
-            className="btn btn-outline"
-            onClick={() => {
-              setTiers(
-                variant.priceTiers.length
-                  ? variant.priceTiers.map((tier) => ({ ...tier }))
-                  : [{ minDays: 1, maxDays: '', dailyPrice: '' }],
-              );
-              setDialog({ type: 'prices' });
-            }}
-          >
-            Bảng giá thuê
-          </button>
+          <>
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={() => {
+                setTiers(
+                  variant.priceTiers.length
+                    ? variant.priceTiers.map((tier) => ({ ...tier }))
+                    : [{ minDays: 1, maxDays: '', dailyPrice: '' }],
+                );
+                setDialog({ type: 'prices' });
+              }}
+            >
+              Bảng giá thuê
+            </button>
+            {canDelete && (
+              <button
+                type="button"
+                className="btn btn-outline"
+                onClick={() => setDialog({ type: 'deleteVariant' })}
+              >
+                Xóa biến thể
+              </button>
+            )}
+          </>
         )}
       </div>
       {variant && (
@@ -117,6 +146,17 @@ export default function ProductVariantTools({ productId, variant }) {
               <div key={image.imageId} className={styles.image}>
                 <img src={image.imageUrl} alt={`Ảnh ${variant.name}`} loading="lazy" />
                 <span>{image.isPrimary ? 'Ảnh đại diện' : 'Ảnh sản phẩm'}</span>
+                {!image.isPrimary && (
+                  <button
+                    type="button"
+                    className={styles.primaryAction}
+                    disabled={busy}
+                    onClick={() => promotePrimaryImage(image.imageId)}
+                    aria-label={`Đặt ảnh ${variant.name} làm đại diện`}
+                  >
+                    Đặt đại diện
+                  </button>
+                )}
                 <button
                   type="button"
                   disabled={busy}
@@ -266,6 +306,22 @@ export default function ProductVariantTools({ productId, variant }) {
         >
           <p>Ảnh này sẽ không còn hiển thị trên sản phẩm.</p>
           <img className={styles.preview} src={dialog.image.imageUrl} alt="Ảnh cần xóa" />
+        </OperationDialog>
+      )}
+      {dialog?.type === 'deleteVariant' && (
+        <OperationDialog
+          title="Xóa biến thể sản phẩm"
+          fields={[]}
+          endpoint={api.VARIANT(variant.variantId)}
+          method="delete"
+          submitLabel="Xóa biến thể"
+          onSuccess={refresh}
+          onClose={() => setDialog(null)}
+        >
+          <p>
+            Bạn có chắc chắn muốn xóa biến thể <strong>{variant.name}</strong>
+            {variant.sku ? ` (SKU: ${variant.sku})` : ''}? Biến thể này sẽ bị ẩn khỏi danh mục cho thuê.
+          </p>
         </OperationDialog>
       )}
     </div>

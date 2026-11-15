@@ -10,6 +10,17 @@
   gap: 8px;
   flex-wrap: wrap;
 }
+/* Chỉ có nút thêm biến thể (header panel / ô trống): không cần khoảng đệm phía trên */
+.bare {
+  margin-top: 0;
+}
+.centered {
+  align-items: center;
+  margin-top: 12px;
+}
+.centered .actions {
+  justify-content: center;
+}
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -37,6 +48,10 @@
   color: var(--color-error);
   font: inherit;
   cursor: pointer;
+}
+.image button.primaryAction {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
 }
 .upload {
   display: flex;

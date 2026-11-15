@@ -16,7 +16,11 @@ const TARGET_STATUS = { Handover: 'Reserved', Return: 'Issued' };
  * Bằng chứng giao / nhận của staff: mỗi thiết bị phải đủ ảnh trước khi bấm giao / nhận (BE chặn nếu thiếu).
  * Kèm thao tác báo khách không đến (màn giao) và gửi báo cáo kiểm tra trả đồ cho admin (màn nhận).
  */
-export default function StaffRentalEvidencePanel({ orderId, stage, refreshKey }) {
+/**
+ * showPhotos=false: trang giao / nhận đã chụp ảnh theo từng thiết bị (EvidencePhotoCapture),
+ * panel chỉ còn thao tác báo no-show, gửi báo cáo kiểm tra và danh sách báo cáo.
+ */
+export default function StaffRentalEvidencePanel({ orderId, stage, refreshKey, showPhotos = true }) {
   const queryClient = useQueryClient();
   const [lightboxUrl, setLightboxUrl] = useState(null);
   const [dialog, setDialog] = useState(null); // 'noShow' | 'report'
@@ -75,72 +79,76 @@ export default function StaffRentalEvidencePanel({ orderId, stage, refreshKey })
   };
 
   return (
-    <section className={styles.panel} aria-label="Ảnh bằng chứng">
-      <div className={styles.heading}>
-        <h2>{stage === 'Handover' ? 'Ảnh tình trạng lúc giao' : 'Ảnh tình trạng lúc nhận lại'}</h2>
-        <span className={missing > 0 ? styles.warn : styles.ok}>
-          {targets.length === 0
-            ? 'Không còn thiết bị ở bước này'
-            : missing > 0
-              ? `${missing} thiết bị chưa đủ ${minPhotos} ảnh`
-              : 'Đã đủ ảnh'}
-        </span>
-      </div>
-      {targets.length > 0 && (
-        <ul className={styles.list}>
-          {targets.map((a) => (
-            <li key={a.assignmentId} className={styles.row}>
-              <span>
-                <strong>{a.assetCode}</strong>
-                <small>{a.displayName}</small>
-              </span>
-              <span className={countFor(a.assignmentId) >= minPhotos ? styles.ok : styles.warn}>
-                {countFor(a.assignmentId)}/{minPhotos} ảnh
-              </span>
-              <label className={styles.upload}>
-                Chụp / chọn ảnh
-                <input
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  capture="environment"
-                  multiple
-                  disabled={upload.isPending}
-                  onChange={(event) => {
-                    void uploadFiles(a.assignmentId, event.target.files);
-                    event.target.value = '';
-                  }}
-                />
-              </label>
-              {stage === 'Return' && (
-                <label className={styles.upload}>
-                  Ảnh hư hỏng
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    multiple
-                    disabled={upload.isPending}
-                    onChange={(event) => {
-                      void uploadFiles(a.assignmentId, event.target.files, 'Damage');
-                      event.target.value = '';
-                    }}
-                  />
-                </label>
-              )}
-            </li>
-          ))}
-        </ul>
+    <section className={styles.panel} aria-label={showPhotos ? 'Ảnh bằng chứng' : 'Thao tác đơn thuê'}>
+      {showPhotos && (
+        <>
+          <div className={styles.heading}>
+            <h2>{stage === 'Handover' ? 'Ảnh tình trạng lúc giao' : 'Ảnh tình trạng lúc nhận lại'}</h2>
+            <span className={missing > 0 ? styles.warn : styles.ok}>
+              {targets.length === 0
+                ? 'Không còn thiết bị ở bước này'
+                : missing > 0
+                  ? `${missing} thiết bị chưa đủ ${minPhotos} ảnh`
+                  : 'Đã đủ ảnh'}
+            </span>
+          </div>
+          {targets.length > 0 && (
+            <ul className={styles.list}>
+              {targets.map((a) => (
+                <li key={a.assignmentId} className={styles.row}>
+                  <span>
+                    <strong>{a.assetCode}</strong>
+                    <small>{a.displayName}</small>
+                  </span>
+                  <span className={countFor(a.assignmentId) >= minPhotos ? styles.ok : styles.warn}>
+                    {countFor(a.assignmentId)}/{minPhotos} ảnh
+                  </span>
+                  <label className={styles.upload}>
+                    Chụp / chọn ảnh
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      capture="environment"
+                      multiple
+                      disabled={upload.isPending}
+                      onChange={(event) => {
+                        void uploadFiles(a.assignmentId, event.target.files);
+                        event.target.value = '';
+                      }}
+                    />
+                  </label>
+                  {stage === 'Return' && (
+                    <label className={styles.upload}>
+                      Ảnh hư hỏng
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        multiple
+                        disabled={upload.isPending}
+                        onChange={(event) => {
+                          void uploadFiles(a.assignmentId, event.target.files, 'Damage');
+                          event.target.value = '';
+                        }}
+                      />
+                    </label>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+          {upload.isPending && <p role="status">Đang tải ảnh...</p>}
+          <EvidencePhotoGallery
+            photos={photos}
+            title="Ảnh đã lưu"
+            onOpen={setLightboxUrl}
+            onDelete={(photo) => remove.mutate({ orderId, photoId: photo.id })}
+            canDelete={(photo) =>
+              targets.some((a) => a.assignmentId === photo.assetAssignmentId) &&
+              (photo.stage === stage || photo.stage === 'Damage')
+            }
+          />
+        </>
       )}
-      {upload.isPending && <p role="status">Đang tải ảnh...</p>}
-      <EvidencePhotoGallery
-        photos={photos}
-        title="Ảnh đã lưu"
-        onOpen={setLightboxUrl}
-        onDelete={(photo) => remove.mutate({ orderId, photoId: photo.id })}
-        canDelete={(photo) =>
-          targets.some((a) => a.assignmentId === photo.assetAssignmentId) &&
-          (photo.stage === stage || photo.stage === 'Damage')
-        }
-      />
 
       <div className={styles.actions}>
         {stage === 'Handover' && order.allowedActions?.canReportNoShow && (
@@ -186,7 +194,12 @@ export default function StaffRentalEvidencePanel({ orderId, stage, refreshKey })
             </p>
             <label>
               Ghi chú
-              <textarea rows={3} maxLength={2000} value={note} onChange={(event) => setNote(event.target.value)} />
+              <textarea
+                rows={3}
+                maxLength={2000}
+                value={note}
+                onChange={(event) => setNote(event.target.value)}
+              />
             </label>
             {(noShow.isError || report.isError) && (
               <p role="alert" className={styles.warn}>

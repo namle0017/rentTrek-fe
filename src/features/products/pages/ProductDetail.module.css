@@ -379,6 +379,45 @@
   color: var(--color-primary-heading, #173d2d);
 }
 
+/* ===== Related Products Section ===== */
+.relatedSection {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border, #dde4dd);
+}
+
+.relatedHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.relatedHeading {
+  margin: 0;
+  font-size: 20px;
+  color: var(--color-primary-heading, #173d2d);
+}
+
+.relatedMoreLink {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary, #204b39);
+  text-decoration: none;
+}
+
+.relatedMoreLink:hover {
+  text-decoration: underline;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
 /* ===== Responsive: Mobile & Tablet ===== */
 @media (max-width: 960px) {
   .detailGrid {

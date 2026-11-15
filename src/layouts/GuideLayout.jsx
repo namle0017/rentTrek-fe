@@ -5,6 +5,9 @@ import OutdoorIcon from '@/components/OutdoorIcon';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import { useLogout } from '@/features/auth/hooks/useLogout';
+import NotificationBell from '@/features/notifications/components/NotificationBell';
+import PortalSidebar from './components/PortalSidebar';
+import { GUIDE_NAV } from './navigation';
 import styles from './GuideLayout.module.css';
 
 function getGuidePageTitle(pathname) {
@@ -15,6 +18,7 @@ function getGuidePageTitle(pathname) {
   if (pathname.includes('/provided-items')) return 'Đồ cấp cho đoàn';
   if (pathname.startsWith('/guide/participants/')) return 'Thông tin thành viên';
   if (pathname === ROUTES.GUIDE_PROFILE) return 'Hồ sơ cá nhân';
+  if (pathname === ROUTES.GUIDE_NOTIFICATIONS) return 'Thông báo';
   return 'Cổng Hướng dẫn viên';
 }
 
@@ -64,45 +68,8 @@ export default function GuideLayout() {
 
   return (
     <div className={styles.layout}>
-      {/* ===== Desktop Sidebar (Tương tự RenTrekk Admin) ===== */}
-      <aside className={styles.sidebar}>
-        <div className={styles.sidebarHeader}>
-          <BrandLogo size="md" theme="light" suffix="Field Guide" to={ROUTES.GUIDE_TRIPS} />
-        </div>
-
-        <nav className={styles.nav} aria-label="Điều hướng chính Guide">
-          <div className={styles.sectionHeader}>Thực địa & Dẫn đoàn</div>
-          <NavLink to={ROUTES.GUIDE_TRIPS} end>
-            <OutdoorIcon name="mapPin" size={16} />
-            <span>Lịch dẫn đoàn</span>
-          </NavLink>
-
-          <div className={styles.sectionHeader}>Cá nhân</div>
-          <NavLink to={ROUTES.GUIDE_PROFILE}>
-            <OutdoorIcon name="user" size={16} />
-            <span>Hồ sơ cá nhân</span>
-          </NavLink>
-        </nav>
-
-        <div className={styles.sidebarFooter}>
-          <Link to={ROUTES.GUIDE_PROFILE} className={styles.guideProfileBrief} title="Xem hồ sơ cá nhân">
-            <div className={styles.guideAvatar}>{initial}</div>
-            <div className={styles.guideMeta}>
-              <span className={styles.guideName}>{displayName}</span>
-              <span className={styles.guideRole}>Hướng dẫn viên thực địa</span>
-            </div>
-          </Link>
-
-          <button
-            type="button"
-            className={styles.sidebarLogoutBtn}
-            onClick={handleLogout}
-            disabled={logoutMutation.isPending}
-          >
-            Đăng xuất
-          </button>
-        </div>
-      </aside>
+      {/* Sidebar dùng chung kiểu với Admin/Staff (ẩn dưới 1024px, thay bằng thanh điều hướng đáy) */}
+      <PortalSidebar nav={GUIDE_NAV} className={styles.guideSidebar} ariaLabel="Điều hướng chính Guide" />
 
       {/* ===== Vùng Content ===== */}
       <div className={styles.content}>
@@ -130,6 +97,8 @@ export default function GuideLayout() {
               />
               <span>{isOnline ? 'Online' : 'Offline'}</span>
             </span>
+
+            <NotificationBell />
 
             {/* Mobile User Pill */}
             <Link to={ROUTES.GUIDE_PROFILE} className={styles.mobileUserPill}>

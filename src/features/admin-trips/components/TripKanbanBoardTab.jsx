@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { useKanbanGroupMutations, useKanbanGroupsBoard } from '../hooks/useAdminTrips';
+import { useGuideOptions } from '@/features/trip-groups/hooks/useTripGroups';
 import styles from '../pages/AdminTripOps.module.css';
 
 export default function TripKanbanBoardTab({ tripId }) {
@@ -9,6 +10,7 @@ export default function TripKanbanBoardTab({ tripId }) {
   const { createGroup, updateGroup, deleteGroup, assignParticipantGroup, autoGroup, approveSplit } =
     useKanbanGroupMutations(tripId);
 
+  const { data: guides = [] } = useGuideOptions();
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
   const [editingGroup, setEditingGroup] = useState(null);
   const [groupForm, setGroupForm] = useState({
@@ -45,7 +47,7 @@ export default function TripKanbanBoardTab({ tripId }) {
     const payload = {
       groupName: groupForm.groupName.trim(),
       maxParticipants: Number(groupForm.maxParticipants),
-      guideUserId: groupForm.guideUserId.trim() || null,
+      guideUserId: groupForm.guideUserId || null,
     };
 
     try {
@@ -351,15 +353,20 @@ export default function TripKanbanBoardTab({ tripId }) {
             </div>
 
             <div className={styles.field}>
-              <label htmlFor="guideId">Mã Hướng dẫn viên phụ trách (Guide UserId)</label>
-              <input
+              <label htmlFor="guideId">Hướng dẫn viên phụ trách</label>
+              <select
                 id="guideId"
-                type="text"
-                placeholder="Nhập GUID tài khoản Guide..."
                 className={styles.input}
                 value={groupForm.guideUserId}
                 onChange={(e) => setGroupForm({ ...groupForm, guideUserId: e.target.value })}
-              />
+              >
+                <option value="">-- Chưa phân công --</option>
+                {guides.map((guide) => (
+                  <option key={guide.userId} value={guide.userId}>
+                    {guide.fullName} ({guide.email})
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className={styles.actionRow} style={{ justifyContent: 'flex-end' }}>

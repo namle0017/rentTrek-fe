@@ -255,3 +255,9 @@ export function useTripCoordinators() {
     queryFn: adminTripService.getCoordinators,
   });
 }
+
+export function useRecalculateProvidedItems(tripId) {
+  return useMutation({
+    mutationFn: () => adminTripService.recalculateProvidedItems(tripId),
+  });
+}

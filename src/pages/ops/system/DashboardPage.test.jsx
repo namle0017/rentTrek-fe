@@ -142,4 +142,28 @@ describe('DashboardPage - Redesigned UI/UX', () => {
     ).toBeInTheDocument();
     expect(screen.queryByText('Phân hệ thống kê doanh thu')).not.toBeInTheDocument();
   });
+
+  it('hides admin-only sections from staff entirely instead of showing placeholders', () => {
+    useAuth.mockReturnValue({ currentUser: { role: USER_ROLE.STAFF } });
+    useOperations.mockImplementation((endpoint) =>
+      endpoint === API_ENDPOINTS.ADMIN.DASHBOARD.ALERTS
+        ? { data: [], isPending: false, isError: false }
+        : { data: {}, isPending: false, isError: false },
+    );
+
+    render(
+      <MemoryRouter>
+        <DashboardPage />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole('heading', { level: 2, name: 'Hành động trọng tâm' })).toBeInTheDocument();
+    expect(screen.queryByText('Phân hệ thống kê doanh thu')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('mock-revenue-chart')).not.toBeInTheDocument();
+    expect(screen.queryByText('Doanh thu ròng')).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /Báo cáo chi tiết/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 3, name: 'Thanh toán & Hoàn tiền' })).not.toBeInTheDocument();
+    expect(screen.queryByText('Đơn cần đối soát')).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: 'Đơn hàng & Thiết bị' })).toBeInTheDocument();
+  });
 });

@@ -49,6 +49,15 @@ export function useAdminPost(postId) {
   });
 }
 
+export function usePostReadAnalytics(postId) {
+  return useQuery({
+    queryKey: postKeys.readAnalytics(postId),
+    queryFn: () => postService.getReadAnalytics(postId),
+    select: (res) => res.data,
+    enabled: Boolean(postId),
+  });
+}
+
 export function usePostTourOptions() {
   return useQuery({
     queryKey: postKeys.tourOptions(),
@@ -73,6 +82,20 @@ export function useSavePost() {
       toast.success(res.message);
       invalidatePosts();
     },
+  });
+}
+
+/** Đổi trạng thái bài: action = 'publish' | 'archive'. */
+export function usePostStatusAction() {
+  const invalidatePosts = useInvalidatePosts();
+  return useMutation({
+    mutationFn: ({ postId, action }) =>
+      action === 'publish' ? postService.publish(postId) : postService.archive(postId),
+    onSuccess: (res) => {
+      toast.success(res.message);
+      invalidatePosts();
+    },
+    onError: (error) => toast.error(error?.message || 'Không đổi được trạng thái bài viết.'),
   });
 }
 

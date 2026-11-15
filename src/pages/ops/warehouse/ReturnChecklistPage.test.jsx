@@ -14,6 +14,7 @@ vi.mock('./api/fulfillmentService', () => ({
     completeReturn: vi.fn(),
   },
 }));
+vi.mock('@/hooks/useAuth', () => ({ useAuth: () => ({ currentUser: { role: 'Admin' } }) }));
 vi.mock('./utils/soundHelper', () => ({ playSuccessBeep: vi.fn(), playErrorBuzz: vi.fn() }));
 
 const checklist = {

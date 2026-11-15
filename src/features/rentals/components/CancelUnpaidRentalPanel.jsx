@@ -21,6 +21,7 @@ export default function CancelUnpaidRentalPanel({ orderId, onCancelled }) {
         >
           <form
             className={styles.stack}
+            aria-describedby="cancel-unpaid-rental-note"
             onSubmit={async (event) => {
               event.preventDefault();
               try {
@@ -32,6 +33,9 @@ export default function CancelUnpaidRentalPanel({ orderId, onCancelled }) {
               }
             }}
           >
+            <p id="cancel-unpaid-rental-note">
+              Đơn chưa thanh toán nên huỷ không phát sinh hoàn tiền.
+            </p>
             <p>
               Thiết bị đang giữ sẽ được giải phóng. Nếu bạn đã chuyển tiền nhưng trạng thái chưa cập nhật, hãy
               đóng cửa sổ này và liên hệ cửa hàng để đối soát.

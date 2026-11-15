@@ -144,9 +144,6 @@ export default function RefundPolicyDetailPage() {
         )}
       </header>
 
-      {!isAdmin && (
-        <p className={styles.readOnlyHint}>Bạn đang xem ở chế độ chỉ đọc. Chỉ Quản trị viên mới được thay đổi chính sách.</p>
-      )}
 
       {policy.isLocked && (
         <div className={`${styles.banner} ${styles.bannerWarn}`} role="status">

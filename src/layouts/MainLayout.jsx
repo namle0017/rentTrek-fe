@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from '@/components/BrandLogo';
 import OutdoorIcon from '@/components/OutdoorIcon';
-import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
+import { POST_TYPE, POST_TYPE_LABEL, USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { useUnreadNotificationCount } from '@/features/notifications/hooks/useNotifications';
@@ -66,7 +66,22 @@ export default function MainLayout() {
             </NavLink>
             <NavLink to={ROUTES.TOURS}>Tour trekking</NavLink>
             <NavLink to={ROUTES.PRODUCTS}>Dụng cụ thuê</NavLink>
-            <NavLink to={ROUTES.GUIDES}>Cẩm nang</NavLink>
+            {/* Dropdown mở bằng hover hoặc focus (Tab) — không cần JS */}
+            <div className={styles.navDropdown}>
+              <NavLink to={ROUTES.GUIDES} aria-haspopup="true">
+                Bài viết <span aria-hidden="true">▾</span>
+              </NavLink>
+              <ul className={styles.navMenu}>
+                {Object.values(POST_TYPE).map((type) => (
+                  <li key={type}>
+                    <Link to={`${ROUTES.GUIDES}?postType=${type}`}>{POST_TYPE_LABEL[type]}</Link>
+                  </li>
+                ))}
+                <li>
+                  <Link to={ROUTES.GUIDES}>Tất cả bài viết</Link>
+                </li>
+              </ul>
+            </div>
           </nav>
 
           <div className={styles.authSection}>

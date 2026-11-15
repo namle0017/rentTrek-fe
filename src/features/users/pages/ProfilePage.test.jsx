@@ -185,14 +185,14 @@ describe('ProfilePage', () => {
     expect(screen.queryByTestId('mock-change-password-form')).not.toBeInTheDocument();
 
     // Click Security Nav Item
-    const securityNavBtn = screen.getByRole('button', { name: /Bảo mật & phiên/ });
+    const securityNavBtn = screen.getByRole('link', { name: /Bảo mật & phiên/ });
     await user.click(securityNavBtn);
 
     expect(screen.getByRole('heading', { level: 1, name: 'Bảo mật & phiên đăng nhập' })).toBeInTheDocument();
     expect(screen.getByTestId('mock-change-password-form')).toBeInTheDocument();
 
     // Switch back
-    const profileNavBtn = screen.getByRole('button', { name: /Hồ sơ cá nhân/ });
+    const profileNavBtn = screen.getByRole('link', { name: /Hồ sơ cá nhân/ });
     await user.click(profileNavBtn);
     expect(screen.getByRole('heading', { level: 1, name: 'Hồ sơ cá nhân' })).toBeInTheDocument();
   });

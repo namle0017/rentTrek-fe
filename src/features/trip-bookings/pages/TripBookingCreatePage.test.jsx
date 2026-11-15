@@ -163,19 +163,18 @@ describe('TripBookingCreatePage', () => {
     expect(mutateAsync).not.toHaveBeenCalled();
   });
 
-  it('adds and removes participants but caps the list at 20', async () => {
+  it('locks the participant list to the chosen party size (max 20 companions)', async () => {
     const user = userEvent.setup();
     useTour.mockReturnValue({ data: undefined });
     renderPage('?tripId=trip-1&partySize=21');
 
     await next(user);
-    const addButton = await screen.findByRole('button', { name: /Thêm người tham gia/ });
-    expect(screen.getByRole('heading', { name: 'Người tham gia 20' })).toBeInTheDocument();
-    expect(addButton).toBeDisabled();
+    expect(await screen.findByRole('heading', { name: 'Người tham gia 20' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Thêm người tham gia/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Xóa người tham gia 20' })).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Xóa người tham gia 20' }));
-    expect(screen.queryByRole('heading', { name: 'Người tham gia 20' })).not.toBeInTheDocument();
-    expect(addButton).toBeEnabled();
+    await user.click(screen.getByRole('button', { name: /Đổi số người/ }));
+    expect(screen.getByRole('button', { name: 'Thêm một người' })).toBeDisabled();
   });
 
   it('returns to the failing step with values kept on a server validation error', async () => {

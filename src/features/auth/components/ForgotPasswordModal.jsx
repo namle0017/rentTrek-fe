@@ -48,6 +48,15 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
   });
 
   const newPasswordValue = useWatch({ control: controlReset, name: 'newPassword', defaultValue: '' });
+  const otpValue = useWatch({ control: controlReset, name: 'otp', defaultValue: '' }) ?? '';
+  const [otpFocused, setOtpFocused] = useState(false);
+  const otpField = registerReset('otp', {
+    required: 'Vui lòng nhập mã OTP 6 chữ số',
+    pattern: {
+      value: /^\d{6}$/,
+      message: 'Mã OTP phải là 6 chữ số',
+    },
+  });
 
   // Countdown timer cho OTP
   useEffect(() => {
@@ -160,9 +169,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
     >
       <div className={styles.modalCard}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>
-            {step === 1 ? 'Khôi phục mật khẩu' : 'Xác thực OTP & Đổi mật khẩu'}
-          </h2>
+          <h2 className={styles.modalTitle}>{step === 1 ? 'Quên mật khẩu' : 'Đặt lại mật khẩu'}</h2>
           <button type="button" className={styles.closeButton} onClick={handleClose} aria-label="Đóng">
             ✕
           </button>
@@ -209,10 +216,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
                 />
               </FormField>
 
-              <div
-                className={styles.modalFooter}
-                style={{ padding: '1.25rem 0 0', background: 'transparent' }}
-              >
+              <div className={styles.formActions}>
                 <button type="button" className="btn btn-outline" onClick={handleClose}>
                   Hủy bỏ
                 </button>
@@ -226,29 +230,59 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
           {/* STEP 2: NHẬP OTP & ĐẶT LẠI MẬT KHẨU */}
           {step === 2 && (
             <form onSubmit={handleResetSubmit(onResetPassword)} noValidate>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span className={styles.helperText} style={{ margin: 0 }}>
-                  Mã đã được gửi tới <strong>{getEmailValues('email')}</strong>
+              <div className={styles.sentRow}>
+                <p className={styles.sentText}>
+                  Nhập mã 6 số đã gửi tới <strong>{getEmailValues('email')}</strong>
+                </p>
+                <span
+                  className={`${styles.timerBadge} ${timeLeft === 0 ? styles.timerExpired : ''}`}
+                  aria-live="polite"
+                >
+                  {timeLeft === 0 ? 'Mã đã hết hạn' : `Hết hạn sau ${formatTimer(timeLeft)}`}
                 </span>
-                <span className={styles.timerBadge}>⏱️ {formatTimer(timeLeft)}</span>
               </div>
 
-              <FormField label="Mã xác thực OTP (6 số)" htmlFor="reset-otp" error={resetErrors.otp}>
-                <input
-                  id="reset-otp"
-                  type="text"
-                  maxLength={6}
-                  className={`input ${styles.otpInput}`}
-                  placeholder="000000"
-                  autoFocus
-                  {...registerReset('otp', {
-                    required: 'Vui lòng nhập mã OTP 6 chữ số',
-                    pattern: {
-                      value: /^\d{6}$/,
-                      message: 'Mã OTP phải là 6 chữ số',
-                    },
-                  })}
-                />
+              <FormField label="Mã xác thực" htmlFor="reset-otp" error={resetErrors.otp}>
+                <div className={styles.otpBox}>
+                  {/* Input thật trong suốt phủ lên 6 ô — giữ paste, autofill SMS, validate */}
+                  <input
+                    id="reset-otp"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    maxLength={6}
+                    className={styles.otpInput}
+                    aria-invalid={Boolean(resetErrors.otp)}
+                    autoFocus
+                    {...otpField}
+                    onChange={(e) => {
+                      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                      otpField.onChange(e);
+                    }}
+                    onFocus={() => setOtpFocused(true)}
+                    onBlur={(e) => {
+                      setOtpFocused(false);
+                      otpField.onBlur(e);
+                    }}
+                  />
+                  <div
+                    className={`${styles.otpSlots} ${resetErrors.otp ? styles.otpSlotsError : ''}`}
+                    aria-hidden="true"
+                  >
+                    {Array.from({ length: 6 }, (_, i) => (
+                      <span
+                        key={i}
+                        className={[
+                          styles.otpSlot,
+                          otpValue[i] ? styles.otpSlotFilled : '',
+                          otpFocused && i === Math.min(otpValue.length, 5) ? styles.otpSlotActive : '',
+                        ].join(' ')}
+                      >
+                        {otpValue[i] ?? null}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </FormField>
 
               <FormField label="Mật khẩu mới" htmlFor="reset-newpassword" error={resetErrors.newPassword}>
@@ -274,6 +308,7 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
                     type="button"
                     className={styles.toggleBtn}
                     onClick={() => setShowNewPassword((prev) => !prev)}
+                    aria-pressed={showNewPassword}
                     aria-label={showNewPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
                   >
                     {showNewPassword ? 'Ẩn' : 'Hiện'}
@@ -281,7 +316,9 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
                 </div>
               </FormField>
 
-              <PasswordStrengthMeter password={newPasswordValue} />
+              <div className={styles.meterSlot}>
+                <PasswordStrengthMeter password={newPasswordValue} />
+              </div>
 
               <FormField
                 label="Xác nhận mật khẩu mới"
@@ -322,18 +359,14 @@ export default function ForgotPasswordModal({ isOpen, onClose, defaultEmail = ''
                 </button>
                 <button
                   type="button"
-                  className={styles.resendBtn}
+                  className={`${styles.resendBtn} ${styles.resendBtnMuted}`}
                   onClick={() => setStep(1)}
-                  style={{ color: '#64748b' }}
                 >
                   Đổi email khác
                 </button>
               </div>
 
-              <div
-                className={styles.modalFooter}
-                style={{ padding: '1.25rem 0 0', background: 'transparent' }}
-              >
+              <div className={styles.formActions}>
                 <button type="button" className="btn btn-outline" onClick={handleClose}>
                   Hủy bỏ
                 </button>

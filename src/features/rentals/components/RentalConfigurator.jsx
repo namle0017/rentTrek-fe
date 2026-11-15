@@ -11,12 +11,7 @@ import { rentalPeriodError, rentalQuotePayload } from '../utils/rentalCheckout';
 import RentalPeriodFields from './RentalPeriodFields';
 import styles from './RentalConfigurator.module.css';
 
-export default function RentalConfigurator({
-  product,
-  variant,
-  onVariantChange,
-  minimumDailyPrice,
-}) {
+export default function RentalConfigurator({ product, variant, onVariantChange, minimumDailyPrice }) {
   const cart = useRentalCart();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
@@ -51,11 +46,7 @@ export default function RentalConfigurator({
         quantity,
       });
       setAdded(true);
-      toast.success(
-        checkout
-          ? 'Đang chuyển đến giỏ thuê...'
-          : 'Đã thêm thiết bị vào giỏ thuê thành công!',
-      );
+      toast.success(checkout ? 'Đang chuyển đến giỏ thuê...' : 'Đã thêm thiết bị vào giỏ thuê thành công!');
       if (checkout) navigate(ROUTES.RENTAL_CART);
     } catch (error) {
       toast.error(error.message);
@@ -76,9 +67,7 @@ export default function RentalConfigurator({
       <div className={styles.priceHeader}>
         <span className={styles.priceEyebrow}>GIÁ THUÊ TỪ</span>
         <div className={styles.priceRow}>
-          <span className={styles.priceAmount}>
-            {formatCurrency(basePrice)}
-          </span>
+          <span className={styles.priceAmount}>{formatCurrency(basePrice)}</span>
           <span className={styles.priceUnit}>/ngày</span>
         </div>
       </div>
@@ -187,27 +176,7 @@ export default function RentalConfigurator({
         <strong className={styles.subtotalValue}>{formatCurrency(subtotal)}</strong>
       </div>
 
-      {/* 7. Action buttons: Thuê ngay (Primary) + Thêm vào giỏ (Secondary) */}
-      <div className={styles.buttonStack}>
-        <button
-          type="button"
-          className={styles.primaryBtn}
-          disabled={!canAdd}
-          onClick={() => add(true)}
-        >
-          Thuê ngay
-        </button>
-        <button
-          type="button"
-          className={styles.secondaryBtn}
-          disabled={!canAdd}
-          onClick={() => add(false)}
-        >
-          Thêm vào giỏ
-        </button>
-      </div>
-
-      {/* 8. Status message dưới nút (Khả dụng / Không khả dụng) */}
+      {/* 7. Trạng thái kho — đặt trên nút để thấy ngay khi chọn lịch */}
       <div className={styles.statusBox}>
         {availability.isFetching ? (
           <div className={styles.statusChecking}>
@@ -233,15 +202,23 @@ export default function RentalConfigurator({
             </p>
           )
         ) : (
-          <p className={styles.statusUnavailable}>
-            Không khả dụng trong thời gian đã chọn
-          </p>
+          <p className={styles.statusUnavailable}>Không khả dụng trong thời gian đã chọn</p>
         )}
+      </div>
 
+      {/* 8. Action buttons: Thuê ngay (Primary) + Thêm vào giỏ (Secondary) */}
+      <div className={styles.buttonStack}>
+        <button type="button" className={styles.primaryBtn} disabled={!canAdd} onClick={() => add(true)}>
+          Thuê ngay
+        </button>
+        <button type="button" className={styles.secondaryBtn} disabled={!canAdd} onClick={() => add(false)}>
+          Thêm vào giỏ
+        </button>
+      </div>
+
+      <div className={styles.statusBox}>
         {existingQuantity > 0 && (
-          <p className={styles.cartNote}>
-            ℹ Đã có {existingQuantity} thiết bị này trong giỏ của bạn.
-          </p>
+          <p className={styles.cartNote}>ℹ Đã có {existingQuantity} thiết bị này trong giỏ của bạn.</p>
         )}
 
         {(added || cart.items.length > 0) && (

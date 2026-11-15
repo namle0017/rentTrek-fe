@@ -11,7 +11,10 @@ import { usePosts, usePostTaxonomy } from '../hooks/usePosts';
 import styles from './PostListPage.module.css';
 
 const PAGE_SIZE = 9;
-const TYPE_TABS = [{ value: '', label: 'Tất cả' }, ...Object.values(POST_TYPE).map((value) => ({ value, label: POST_TYPE_LABEL[value] }))];
+const TYPE_TABS = [
+  { value: '', label: 'Tất cả' },
+  ...Object.values(POST_TYPE).map((value) => ({ value, label: POST_TYPE_LABEL[value] })),
+];
 
 export default function PostListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,7 +23,14 @@ export default function PostListPage() {
   const tag = searchParams.get('tag') ?? '';
   const softSkillId = searchParams.get('softSkillId') ?? '';
 
-  const { data: pagedPosts, isLoading, isError, error, refetch, isFetching } = usePosts({
+  const {
+    data: pagedPosts,
+    isLoading,
+    isError,
+    error,
+    refetch,
+    isFetching,
+  } = usePosts({
     pageNumber,
     pageSize: PAGE_SIZE,
     postType,
@@ -59,22 +69,39 @@ export default function PostListPage() {
         <ul className={styles.grid} aria-busy={isFetching}>
           {pagedPosts.items.map((post) => (
             <li key={post.postId} className={styles.card}>
-              <p className={styles.meta}>
-                <span className={styles.type}>{POST_TYPE_LABEL[post.postType] ?? post.postType}</span>
-                {post.publishedAt && <span> · {formatDate(post.publishedAt)}</span>}
-                <span> · {post.authorName}</span>
-              </p>
-              <h2 className={styles.cardTitle}>
-                <Link to={ROUTES.GUIDE_DETAIL(post.slug)}>{post.title}</Link>
-              </h2>
-              {post.excerpt && <p className={styles.excerpt}>{post.excerpt}</p>}
-              {post.tags.length > 0 && (
-                <p className={styles.tags}>
-                  {post.tags.map((postTag) => (
-                    <span key={postTag.slug}>#{postTag.name}</span>
-                  ))}
-                </p>
-              )}
+              {/* coverImageUrl = ảnh đầu tiên trong nội dung; bài không có ảnh giữ dải màu theo loại */}
+              <div className={styles.cover} data-type={post.postType}>
+                {post.coverImageUrl && (
+                  <img className={styles.coverImage} src={post.coverImageUrl} alt="" loading="lazy" />
+                )}
+                <span className={styles.coverBadge}>{POST_TYPE_LABEL[post.postType] ?? post.postType}</span>
+              </div>
+              <div className={styles.cardBody}>
+                <h2 className={styles.cardTitle}>
+                  <Link to={ROUTES.GUIDE_DETAIL(post.slug)}>{post.title}</Link>
+                </h2>
+                {post.excerpt && <p className={styles.excerpt}>{post.excerpt}</p>}
+                {post.tags.length > 0 && (
+                  <p className={styles.tags}>
+                    {post.tags.map((postTag) => (
+                      <span key={postTag.slug}>#{postTag.name}</span>
+                    ))}
+                  </p>
+                )}
+                <div className={styles.cardFooter}>
+                  <span className={styles.meta}>
+                    {post.publishedAt ? formatDate(post.publishedAt) : post.authorName}
+                  </span>
+                  <Link
+                    to={ROUTES.GUIDE_DETAIL(post.slug)}
+                    className={styles.readMore}
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  >
+                    Đọc tiếp
+                  </Link>
+                </div>
+              </div>
             </li>
           ))}
         </ul>
@@ -92,8 +119,8 @@ export default function PostListPage() {
   return (
     <div className={`container ${styles.page}`}>
       <header className={styles.header}>
-        <h1>Cẩm nang trekking</h1>
-        <p>Hướng dẫn chuẩn bị, kỹ năng và kinh nghiệm từ đội guide RenTrekk.</p>
+        <h1>{POST_TYPE_LABEL[postType] ?? 'Bài viết'}</h1>
+        <p>Tin tức, hướng dẫn chuẩn bị và kỹ năng trekking từ đội guide RenTrekk.</p>
       </header>
 
       <div className={styles.filters}>
@@ -114,7 +141,10 @@ export default function PostListPage() {
         {taxonomy?.softSkills.length > 0 && (
           <label className={styles.select}>
             <span>Kỹ năng</span>
-            <select value={softSkillId} onChange={(event) => updateParams({ softSkillId: event.target.value })}>
+            <select
+              value={softSkillId}
+              onChange={(event) => updateParams({ softSkillId: event.target.value })}
+            >
               <option value="">Tất cả</option>
               {taxonomy.softSkills.map((skill) => (
                 <option key={skill.softSkillId} value={skill.softSkillId}>

@@ -313,13 +313,9 @@ export default function TripBookingCreatePage() {
                   <span className={styles.kicker}>DANH SÁCH ĐOÀN</span>
                   <h2>{buyerParticipates ? 'Người đi cùng' : 'Người tham gia'}</h2>
                 </div>
-                <button
-                  type="button"
-                  className={styles.addButton}
-                  onClick={addOne}
-                  disabled={seats >= maxSeats}
-                >
-                  + Thêm người tham gia
+                {/* Số người đã chốt ở bước 1 — muốn đổi thì quay lại, không thêm/bớt tại đây */}
+                <button type="button" className={styles.addButton} onClick={() => setStep(0)}>
+                  Đổi số người ({seats})
                 </button>
               </div>
 
@@ -338,7 +334,6 @@ export default function TripBookingCreatePage() {
                   index={index}
                   register={register}
                   errors={errors.additionalParticipants?.[index]}
-                  onRemove={() => remove(index)}
                 />
               ))}
             </>

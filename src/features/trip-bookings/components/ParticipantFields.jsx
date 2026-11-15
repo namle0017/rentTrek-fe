@@ -42,14 +42,16 @@ export default function ParticipantFields({ index, register, errors = {}, onRemo
           <span className={styles.kicker}>THÀNH VIÊN {String(number).padStart(2, '0')}</span>
           <h2 id={`participant-${index}-title`}>Người tham gia {number}</h2>
         </div>
-        <button
-          type="button"
-          className={styles.removeButton}
-          onClick={onRemove}
-          aria-label={`Xóa người tham gia ${number}`}
-        >
-          Xóa
-        </button>
+        {onRemove && (
+          <button
+            type="button"
+            className={styles.removeButton}
+            onClick={onRemove}
+            aria-label={`Xóa người tham gia ${number}`}
+          >
+            Xóa
+          </button>
+        )}
       </div>
 
       <div className={styles.grid}>

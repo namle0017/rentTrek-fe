@@ -3,12 +3,13 @@ import { toast } from 'react-toastify';
 import { postKeys } from '../api/postKeys';
 import { postService } from '../api/postService';
 
-export function usePosts(params) {
+export function usePosts(params, enabled = true) {
   return useQuery({
     queryKey: postKeys.list(params),
     queryFn: () => postService.getAll(params),
     select: (res) => res.data,
     placeholderData: keepPreviousData,
+    enabled,
   });
 }
 
@@ -66,7 +67,8 @@ function useInvalidatePosts() {
 export function useSavePost() {
   const invalidatePosts = useInvalidatePosts();
   return useMutation({
-    mutationFn: ({ postId, payload }) => (postId ? postService.update(postId, payload) : postService.create(payload)),
+    mutationFn: ({ postId, payload }) =>
+      postId ? postService.update(postId, payload) : postService.create(payload),
     onSuccess: (res) => {
       toast.success(res.message);
       invalidatePosts();

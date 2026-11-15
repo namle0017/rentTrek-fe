@@ -6,7 +6,9 @@ import ProductImage from '@/features/products/components/ProductImage';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { rentalCartActions, useRentalCart } from '../hooks/useRentalCart';
 import { useRentalAvailabilityQuery, useRentalQuoteQuery } from '../hooks/useRentalQuoteQuery';
-import { rentalPeriodError, rentalQuotePayload } from '../utils/rentalCheckout';
+import { useAvailablePromotions } from '../hooks/useAvailablePromotions';
+import { describePromotionTier } from '../utils/describePromotionTier';
+import { rentalPeriodError, rentalQuotePayload, selectedCartItems } from '../utils/rentalCheckout';
 import RentalPeriodFields from '../components/RentalPeriodFields';
 import RentalPriceSummary from '../components/RentalPriceSummary';
 import styles from './RentalCustomer.module.css';
@@ -17,8 +19,10 @@ export default function RentalCartPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [promotionInput, setPromotionInput] = useState(cart.promotionCode);
+  const { data: promotions = [] } = useAvailablePromotions();
   const periodError = rentalPeriodError(cart.period);
-  const payload = cart.items.length && !periodError ? rentalQuotePayload(cart) : null;
+  const selectedItems = selectedCartItems(cart);
+  const payload = selectedItems.length && !periodError ? rentalQuotePayload(cart) : null;
   const quoteQuery = useRentalQuoteQuery(payload, isAuthenticated);
   const availability = useRentalAvailabilityQuery(payload, !isAuthenticated);
   const quote = quoteQuery.data;
@@ -70,12 +74,40 @@ export default function RentalCartPage() {
             )}
           </section>
           <section className={styles.card} aria-label="Danh sách thiết bị trong giỏ">
-            <h2>{cart.items.length} dòng sản phẩm</h2>
-            {cart.items.map((item, index) => {
-              const line = quote?.lines.find((value) => value.index === index);
-              const stock = availability.data?.items.find((value) => value.index === index);
+            <div className={styles.cartListHead}>
+              <h2>{cart.items.length} dòng sản phẩm</h2>
+              <label className={styles.selectToggle}>
+                <input
+                  type="checkbox"
+                  checked={selectedItems.length === cart.items.length}
+                  onChange={(event) => rentalCartActions.setAllSelected(event.target.checked)}
+                />
+                Chọn tất cả ({selectedItems.length}/{cart.items.length})
+              </label>
+            </div>
+            {!selectedItems.length && (
+              <p role="alert" className={styles.error}>
+                Chọn ít nhất một thiết bị để tính giá và đặt thuê.
+              </p>
+            )}
+            {cart.items.map((item) => {
+              // Báo giá chỉ gồm món được chọn → index trong báo giá là vị trí trong danh sách đã chọn
+              const index = selectedItems.indexOf(item);
+              const line = index >= 0 ? quote?.lines.find((value) => value.index === index) : null;
+              const stock =
+                index >= 0 ? availability.data?.items.find((value) => value.index === index) : null;
               return (
-                <article className={styles.cartLine} key={item.key}>
+                <article
+                  className={`${styles.cartLine} ${item.unselected ? styles.cartLineMuted : ''}`}
+                  key={item.key}
+                >
+                  <input
+                    type="checkbox"
+                    className={styles.lineCheck}
+                    checked={!item.unselected}
+                    onChange={() => rentalCartActions.toggleSelected(item.key)}
+                    aria-label={`Chọn ${item.name} để thuê`}
+                  />
                   <ProductImage src={item.imageUrl} alt={item.name} className={styles.itemImage} />
                   <div className={styles.lineInfo}>
                     <Link
@@ -146,6 +178,26 @@ export default function RentalCartPage() {
                 placeholder="Nhập mã nếu có"
               />
             </label>
+            {promotions.length > 0 && (
+              <ul className={styles.promoList} aria-label="Mã khuyến mãi đang áp dụng">
+                {promotions.map((promotion) => (
+                  <li key={promotion.code}>
+                    <button
+                      type="button"
+                      className={styles.promoChip}
+                      aria-pressed={cart.promotionCode === promotion.code}
+                      onClick={() => {
+                        setPromotionInput(promotion.code);
+                        rentalCartActions.setPromotionCode(promotion.code);
+                      }}
+                    >
+                      <strong>{promotion.code}</strong>
+                      <span>{describePromotionTier(promotion.tiers[0])}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className={styles.actions}>
               <button type="submit" className={styles.secondary}>
                 Áp dụng mã

@@ -1,4 +1,5 @@
 import { formatCurrency } from '@/utils/formatCurrency';
+import { rentalDateLabel } from '../utils/rentalCheckout';
 import RentalPolicySummary from './RentalPolicySummary';
 import styles from '../pages/RentalCustomer.module.css';
 
@@ -17,6 +18,14 @@ export default function RentalPriceSummary({ quote, loading, error, onRetry }) {
       )}
       {quote && !loading && (
         <>
+          <p className={styles.rentalPeriod}>
+            <span>
+              <strong>Nhận:</strong> {rentalDateLabel(quote.rentalStartAt)}
+            </span>
+            <span>
+              <strong>Trả:</strong> {rentalDateLabel(quote.rentalEndAt)}
+            </span>
+          </p>
           <p>
             {quote.billableDays} ngày thuê · {quote.lines.reduce((sum, line) => sum + line.quantity, 0)} thiết
             bị / combo

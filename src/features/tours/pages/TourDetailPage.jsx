@@ -6,6 +6,7 @@ import OutdoorIcon from '@/components/OutdoorIcon';
 import { DetailSkeleton } from '@/components/skeleton';
 import { POST_TYPE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
+import OtherTours from '../components/OtherTours';
 import TourBookingCard from '../components/TourBookingCard';
 import TourGallery from '../components/TourGallery';
 import TourGearList from '../components/TourGearList';
@@ -105,6 +106,7 @@ export default function TourDetailPage() {
           <TourBookingCard tour={tour} />
         </div>
       </div>
+      <OtherTours excludeId={tour.id} />
     </article>
   );
 }

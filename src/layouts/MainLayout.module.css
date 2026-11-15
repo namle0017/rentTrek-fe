@@ -45,6 +45,48 @@
 .nav :global(a.active) {
   color: #e4b74f;
 }
+.navDropdown {
+  position: relative;
+}
+.navDropdown > a {
+  white-space: nowrap;
+  color: #dbe7e0;
+}
+.navMenu {
+  position: absolute;
+  top: 100%;
+  left: -16px;
+  z-index: 30;
+  display: none;
+  min-width: 190px;
+  margin: 10px 0 0;
+  padding: 8px 0;
+  list-style: none;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgb(16 40 28 / 0.18);
+}
+/* Cầu nối vô hình để rê chuột từ link xuống menu không bị mất hover */
+.navMenu::before {
+  content: '';
+  position: absolute;
+  inset: -12px 0 auto;
+  height: 12px;
+}
+.navDropdown:hover .navMenu,
+.navDropdown:focus-within .navMenu {
+  display: block;
+}
+.navMenu a {
+  display: block;
+  padding: 9px 18px;
+  color: var(--color-primary-heading);
+  font-weight: var(--font-weight-semibold);
+}
+.navMenu a:hover,
+.navMenu a:focus-visible {
+  background: #eef5f0;
+}
 .headerActions {
   display: flex;
   align-items: center;
@@ -496,8 +538,8 @@
   gap: 7px;
   min-height: 40px;
   padding: 6px 10px;
-  color: #245536;
-  border: 1px solid #d4dfce;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 9px;
   font-size: 13px;
   font-weight: 600;
@@ -505,7 +547,7 @@
   white-space: nowrap;
 }
 .cartLink:hover {
-  background: #eff5e9;
+  background: rgba(255, 255, 255, 0.12);
 }
 .cartLink:focus-visible {
   outline: 3px solid #ce8b54;

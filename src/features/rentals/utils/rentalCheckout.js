@@ -19,14 +19,17 @@ export function rentalPeriodError(period, now = Date.now()) {
   if (Math.ceil((end - start) / DAY) > 60) return 'Thời gian thuê tối đa 60 ngày.';
   return '';
 }
+/** Món được tick trong giỏ — chỉ những món này được báo giá và đặt. */
+export const selectedCartItems = (cart) => cart.items.filter((item) => !item.unselected);
 export function rentalQuotePayload(cart) {
-  if (!cart.items.length) throw new Error('Giỏ thuê đang trống.');
+  const items = selectedCartItems(cart);
+  if (!items.length) throw new Error('Giỏ thuê đang trống.');
   const error = rentalPeriodError(cart.period);
   if (error) throw new Error(error);
   return {
     rentalStartAt: new Date(`${cart.period.start}:00+07:00`).toISOString(),
     rentalEndAt: new Date(`${cart.period.end}:00+07:00`).toISOString(),
-    items: cart.items.map((item) => ({
+    items: items.map((item) => ({
       ...(item.bundleId ? { bundleId: item.bundleId } : { productVariantId: item.productVariantId }),
       quantity: item.quantity,
     })),

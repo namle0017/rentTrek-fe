@@ -36,7 +36,7 @@ export default function PasswordStrengthMeter({ password = '' }) {
   // Tính điểm độ mạnh từ 0 -> 4
   const passedCount = criteria.filter((c) => c.passed).length;
   let level = 0;
-  let label = 'Chưa nhập';
+  let label = '';
 
   if (password.length > 0) {
     if (passedCount <= 2) {
@@ -57,8 +57,10 @@ export default function PasswordStrengthMeter({ password = '' }) {
   return (
     <div className={`${styles.meterContainer} ${styles[`level${level}`]}`}>
       <div className={styles.scoreHeader}>
-        <span className={styles.scoreTitle}>Độ an toàn mật khẩu:</span>
-        <span className={styles.scoreBadge}>{label}</span>
+        <span className={styles.scoreTitle}>Độ mạnh mật khẩu</span>
+        <span className={styles.scoreBadge} aria-live="polite">
+          {label}
+        </span>
       </div>
 
       <div className={styles.barsWrapper} aria-hidden="true">

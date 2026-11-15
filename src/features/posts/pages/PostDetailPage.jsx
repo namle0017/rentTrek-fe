@@ -2,17 +2,22 @@ import { Link, useParams } from 'react-router-dom';
 import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
-import { POST_TYPE_LABEL } from '@/constants/enums';
+import { POST_TYPE, POST_TYPE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
-import { usePost } from '../hooks/usePosts';
+import { usePost, usePosts } from '../hooks/usePosts';
 import { parsePostContent } from '../utils/postContent';
 import styles from './PostDetailPage.module.css';
 
 export default function PostDetailPage() {
   const { slug } = useParams();
   const { data: post, isLoading, isError, error, refetch } = usePost(slug);
+  const { data: sameType } = usePosts(
+    { pageNumber: 1, pageSize: 6, postType: post?.postType },
+    Boolean(post?.postType),
+  );
+  const latestPosts = (sameType?.items ?? []).filter((item) => item.slug !== slug).slice(0, 5);
 
   if (isLoading) return <Spinner />;
   if (isError && error?.statusCode === 404) {
@@ -21,7 +26,7 @@ export default function PostDetailPage() {
         <div className="state-box">
           <p>Bài viết không tồn tại hoặc chưa được xuất bản.</p>
           <Link to={ROUTES.GUIDES} className="btn btn-outline">
-            Về cẩm nang
+            Về trang bài viết
           </Link>
         </div>
       </div>
@@ -37,7 +42,7 @@ export default function PostDetailPage() {
         <Breadcrumb
           items={[
             { label: 'Trang chủ', to: ROUTES.HOME },
-            { label: 'Cẩm nang', to: ROUTES.GUIDES },
+            { label: 'Bài viết', to: ROUTES.GUIDES },
             typeLabel ? { label: typeLabel, to: `${ROUTES.GUIDES}?postType=${post.postType}` } : null,
             { label: post.title },
           ]}
@@ -60,6 +65,38 @@ export default function PostDetailPage() {
       </article>
 
       <aside className={styles.aside}>
+        <section>
+          <h2 className={styles.asideTitle}>Danh mục</h2>
+          <ul className={styles.categoryList}>
+            {Object.values(POST_TYPE).map((type) => (
+              <li key={type}>
+                <Link
+                  to={`${ROUTES.GUIDES}?postType=${type}`}
+                  aria-current={type === post.postType ? 'true' : undefined}
+                >
+                  {POST_TYPE_LABEL[type]}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {latestPosts.length > 0 && (
+          <section>
+            <h2 className={styles.asideTitle}>Bài mới cùng danh mục</h2>
+            <ul className={styles.list}>
+              {latestPosts.map((related) => (
+                <li key={related.postId} className={styles.relatedPost}>
+                  <Link to={ROUTES.GUIDE_DETAIL(related.slug)}>{related.title}</Link>
+                  {related.publishedAt && (
+                    <span className={styles.relatedDate}>{formatDate(related.publishedAt)}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {post.tags.length > 0 && (
           <section>
             <h2 className={styles.asideTitle}>Tag</h2>
@@ -94,7 +131,8 @@ export default function PostDetailPage() {
                 <li key={tour.tourId} className={styles.tourCard}>
                   <Link to={ROUTES.TOUR_DETAIL(tour.tourId)}>{tour.name}</Link>
                   <span>
-                    {tour.durationDays} ngày {tour.durationNights} đêm · Từ {formatCurrency(tour.basePrice)}/người
+                    {tour.durationDays} ngày {tour.durationNights} đêm · Từ {formatCurrency(tour.basePrice)}
+                    /người
                   </span>
                 </li>
               ))}

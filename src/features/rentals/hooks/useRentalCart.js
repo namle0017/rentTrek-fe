@@ -74,6 +74,16 @@ export const rentalCartActions = {
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > 20) return;
     publish({ ...cart, items: cart.items.map((line) => (line.key === key ? { ...line, quantity } : line)) });
   },
+  // `unselected: true` = khách bỏ tick, món vẫn nằm trong giỏ nhưng không tính giá / đặt lần này
+  toggleSelected(key) {
+    publish({
+      ...cart,
+      items: cart.items.map((line) => (line.key === key ? { ...line, unselected: !line.unselected } : line)),
+    });
+  },
+  setAllSelected(selected) {
+    publish({ ...cart, items: cart.items.map((line) => ({ ...line, unselected: !selected })) });
+  },
   remove(key) {
     publish({ ...cart, items: cart.items.filter((line) => line.key !== key) });
   },

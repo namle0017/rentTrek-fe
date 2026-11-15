@@ -18,6 +18,14 @@ import { useLogin } from '../hooks/useLogin';
 import { useRegister } from '../hooks/useRegister';
 import styles from './AuthPage.module.css';
 
+// Ô nhập có sẵn +84: chấp nhận "912345678", "0912345678", "+84912345678" → BE cần "0912345678"
+function normalizeVnPhone(value = '') {
+  let digits = value.replace(/\D/g, '');
+  if (digits.startsWith('84') && digits.length === 11) digits = digits.slice(2);
+  if (digits.length === 9) digits = `0${digits}`;
+  return digits;
+}
+
 export default function AuthPage({ defaultMode }) {
   const { currentUser, isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -27,7 +35,10 @@ export default function AuthPage({ defaultMode }) {
 
   const from = location.state?.from;
   const authMessage = location.state?.authMessage;
-  const redirectTo = from ? `${from.pathname}${from.search ?? ''}${from.hash ?? ''}` : ROUTES.HOME;
+  // `from` có thể là trang Admin/Ops/Guide của phiên trước (vd admin đăng xuất) → khách hàng vào sẽ 403
+  const isStaffOnlyPath = /^\/(admin|ops|guide)(\/|$)/.test(from?.pathname ?? '');
+  const redirectTo =
+    from && !isStaffOnlyPath ? `${from.pathname}${from.search ?? ''}${from.hash ?? ''}` : ROUTES.HOME;
 
   useEffect(() => {
     if (authMessage && !isAuthenticated) {
@@ -150,7 +161,7 @@ export default function AuthPage({ defaultMode }) {
       {
         fullName: values.fullName.trim(),
         email: targetEmail,
-        phone: values.phone?.trim() || null,
+        phone: values.phone?.trim() ? normalizeVnPhone(values.phone) : null,
         password: values.password,
         confirmPassword: values.confirmPassword,
       },
@@ -557,19 +568,29 @@ export default function AuthPage({ defaultMode }) {
                     htmlFor="register-phone"
                     error={registerErrors.phone}
                   >
-                    <input
-                      id="register-phone"
-                      type="tel"
-                      className="input"
-                      placeholder="0912345678 (tùy chọn)"
-                      autoComplete="tel"
-                      {...registerRegister('phone', {
-                        pattern: {
-                          value: /^(03|05|07|08|09)\d{8}$/,
-                          message: 'Số điện thoại phải đúng 10 số đầu số Việt Nam (03, 05, 07, 08, 09)',
-                        },
-                      })}
-                    />
+                    <div className={styles.phoneInputWrapper}>
+                      <span className={styles.phonePrefix} aria-hidden="true">
+                        +84
+                      </span>
+                      <input
+                        id="register-phone"
+                        type="tel"
+                        inputMode="tel"
+                        className="input"
+                        placeholder="912 345 678 (tùy chọn)"
+                        autoComplete="tel-national"
+                        aria-describedby="register-phone-prefix"
+                        {...registerRegister('phone', {
+                          validate: (v) =>
+                            !v?.trim() ||
+                            /^0[35789]\d{8}$/.test(normalizeVnPhone(v)) ||
+                            'Số điện thoại không hợp lệ',
+                        })}
+                      />
+                      <span id="register-phone-prefix" className="sr-only">
+                        Mã quốc gia Việt Nam +84
+                      </span>
+                    </div>
                   </FormField>
 
                   <div className={styles.formRow}>
@@ -655,7 +676,8 @@ export default function AuthPage({ defaultMode }) {
                     </FormField>
                   </div>
 
-                  <PasswordStrengthMeter password={registerPassword} />
+                  {/* Chỉ hiện khi bắt đầu gõ để form vừa 1 màn hình */}
+                  {registerPassword && <PasswordStrengthMeter password={registerPassword} />}
 
                   <SplitText
                     tag="p"

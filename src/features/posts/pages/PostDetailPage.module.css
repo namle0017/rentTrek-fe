@@ -143,3 +143,29 @@
     gap: 32px;
   }
 }
+
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.categoryList a {
+  display: block;
+  padding: 8px 0;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.categoryList a:hover,
+.categoryList a[aria-current='true'] {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.relatedDate {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta);
+}

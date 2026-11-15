@@ -9,6 +9,7 @@ import { ROUTES } from '@/constants/routes';
 import NotFoundPage from '@/pages/NotFoundPage';
 import { formatCurrency } from '@/utils/formatCurrency';
 import RentalConfigurator from '@/features/rentals/components/RentalConfigurator';
+import OtherTours from '@/features/tours/components/OtherTours';
 import ProductImage from '../components/ProductImage';
 import { useProduct } from '../hooks/useProducts';
 import styles from './ProductDetail.module.css';
@@ -255,6 +256,7 @@ export default function ProductDetailPage() {
           )}
         </aside>
       </div>
+      <OtherTours />
     </article>
   );
 }

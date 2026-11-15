@@ -69,6 +69,7 @@ export const ROUTES = {
   OPS_REFUND_POLICY_CREATE: '/ops/refund-policies/create',
   GUIDE: '/guide',
   GUIDE_TRIPS: '/guide/trips',
+  GUIDE_PROFILE: '/guide/profile',
   GUIDE_TRIP_GROUP: (tripId = ':tripId') => `/guide/trips/${tripId}/group`,
   GUIDE_PARTICIPANT_DETAIL: (participantId = ':participantId') => `/guide/participants/${participantId}`,
   GUIDE_ATTENDANCE: (tripId = ':tripId') => `/guide/trips/${tripId}/attendance`,

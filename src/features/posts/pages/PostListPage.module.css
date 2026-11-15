@@ -107,8 +107,7 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 24px;
+  overflow: hidden;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -161,4 +160,94 @@
   color: var(--color-primary);
   font-size: var(--font-size-meta);
   font-weight: var(--font-weight-body);
+}
+
+/* Dải màu theo loại bài, nằm dưới ảnh bìa (bài không có ảnh thì chỉ thấy dải màu) */
+.cover {
+  position: relative;
+  aspect-ratio: 16 / 7;
+  background: linear-gradient(135deg, #1f4d3a, #3f7a5c);
+}
+
+.cover[data-type='News'] {
+  background: linear-gradient(135deg, #22436b, #4f7fb0);
+}
+
+.cover[data-type='Skill'] {
+  background: linear-gradient(135deg, #7a4a12, #c98a35);
+}
+
+.cover[data-type='Location'] {
+  background: linear-gradient(135deg, #2d5a5a, #4f9a92);
+}
+
+.cover[data-type='Blog'] {
+  background: linear-gradient(135deg, #5a3a6b, #9467a8);
+}
+
+.cover[data-type='Recruitment'] {
+  background: linear-gradient(135deg, #6b2f2f, #b0574f);
+}
+
+.coverImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coverBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  color: var(--color-primary-heading);
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-bold);
+  background: rgb(255 255 255 / 0.92);
+  border-radius: 999px;
+}
+
+.cardBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px 20px;
+}
+
+.cardBody .excerpt {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.cardBody .tags {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}
+
+.readMore {
+  padding: 6px 14px;
+  color: #fff;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-bold);
+  background: var(--color-primary);
+  border-radius: 8px;
+}
+
+.readMore:hover {
+  background: var(--color-primary-dark);
 }

@@ -257,13 +257,19 @@ export const REFUND_POLICY_STATUS_LABEL = {
 export const POST_TYPE = Object.freeze({
   GUIDE: 'Guide',
   SKILL: 'Skill',
+  LOCATION: 'Location',
   NEWS: 'News',
+  BLOG: 'Blog',
+  RECRUITMENT: 'Recruitment',
 });
 
 export const POST_TYPE_LABEL = {
   [POST_TYPE.GUIDE]: 'Hướng dẫn',
   [POST_TYPE.SKILL]: 'Kỹ năng',
+  [POST_TYPE.LOCATION]: 'Địa điểm',
   [POST_TYPE.NEWS]: 'Tin tức',
+  [POST_TYPE.BLOG]: 'Blog',
+  [POST_TYPE.RECRUITMENT]: 'Tuyển dụng',
 };
 
 export const POST_STATUS = Object.freeze({

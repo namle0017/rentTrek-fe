@@ -13,6 +13,7 @@ import {
   rentalPeriodError,
   rentalQuotePayload,
   rentalSubmission,
+  selectedCartItems,
 } from '../utils/rentalCheckout';
 import RentalPriceSummary from '../components/RentalPriceSummary';
 import styles from './RentalCustomer.module.css';
@@ -27,7 +28,8 @@ export default function RentalCheckoutPage() {
   const [acceptedSignature, setAcceptedSignature] = useState('');
   const [message, setMessage] = useState('');
   const periodError = rentalPeriodError(cart.period);
-  const payload = cart.items.length && !periodError ? rentalQuotePayload(cart) : null;
+  const selectedItems = selectedCartItems(cart);
+  const payload = selectedItems.length && !periodError ? rentalQuotePayload(cart) : null;
   const quoteQuery = useRentalQuoteQuery(payload, true);
   const quote = quoteQuery.data;
   const signature = quoteConsentSignature(payload, quote);
@@ -70,7 +72,7 @@ export default function RentalCheckoutPage() {
         ? attempt.current
         : rentalSubmission(currentUser.userId || currentUser.id || currentUser.email, request);
     attempt.current = submission;
-    const ordered = cart.items.map((item) => ({ ...item }));
+    const ordered = selectedItems.map((item) => ({ ...item }));
     try {
       const response = await createOrder.mutateAsync({
         payload: request,
@@ -96,10 +98,15 @@ export default function RentalCheckoutPage() {
       sending.current = false;
     }
   };
-  if (!cart.items.length)
+  if (!selectedItems.length)
     return (
       <section className={styles.empty}>
-        <h1>Giỏ thuê đang trống</h1>
+        <h1>{cart.items.length ? 'Chưa chọn thiết bị nào' : 'Giỏ thuê đang trống'}</h1>
+        {cart.items.length > 0 && (
+          <Link className={styles.primary} to={ROUTES.RENTAL_CART}>
+            Quay lại giỏ để chọn thiết bị
+          </Link>
+        )}
         <Link className={styles.primary} to={ROUTES.PRODUCTS}>
           Chọn thiết bị
         </Link>
@@ -120,7 +127,13 @@ export default function RentalCheckoutPage() {
           ← Sửa giỏ thuê
         </Link>
       </header>
-      <form className={styles.layout} onSubmit={event => { void handleSubmit(submit)(event); }} noValidate>
+      <form
+        className={styles.layout}
+        onSubmit={(event) => {
+          void handleSubmit(submit)(event);
+        }}
+        noValidate
+      >
         <div className={styles.stack}>
           <section className={styles.card}>
             <h2>Thiết bị &amp; lịch nhận trả</h2>

@@ -373,6 +373,10 @@ export const router = createBrowserRouter([
                 lazy: lazyPage(() => import('@/features/guide/pages/GuideTripsPage')),
               },
               {
+                path: ROUTES.GUIDE_PROFILE,
+                lazy: lazyPage(() => import('@/features/users/pages/ProfilePage')),
+              },
+              {
                 path: ROUTES.GUIDE_TRIP_GROUP(),
                 lazy: lazyPage(() => import('@/features/guide/pages/GuideGroupRosterPage')),
               },

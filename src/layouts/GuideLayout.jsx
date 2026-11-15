@@ -14,7 +14,7 @@ function getGuidePageTitle(pathname) {
   if (pathname.includes('/itinerary')) return 'Lịch trình đoàn';
   if (pathname.includes('/provided-items')) return 'Đồ cấp cho đoàn';
   if (pathname.startsWith('/guide/participants/')) return 'Thông tin thành viên';
-  if (pathname === ROUTES.PROFILE) return 'Hồ sơ cá nhân';
+  if (pathname === ROUTES.GUIDE_PROFILE) return 'Hồ sơ cá nhân';
   return 'Cổng Hướng dẫn viên';
 }
 
@@ -78,20 +78,20 @@ export default function GuideLayout() {
           </NavLink>
 
           <div className={styles.sectionHeader}>Cá nhân</div>
-          <NavLink to={ROUTES.PROFILE}>
+          <NavLink to={ROUTES.GUIDE_PROFILE}>
             <OutdoorIcon name="user" size={16} />
             <span>Hồ sơ cá nhân</span>
           </NavLink>
         </nav>
 
         <div className={styles.sidebarFooter}>
-          <div className={styles.guideProfileBrief}>
+          <Link to={ROUTES.GUIDE_PROFILE} className={styles.guideProfileBrief} title="Xem hồ sơ cá nhân">
             <div className={styles.guideAvatar}>{initial}</div>
             <div className={styles.guideMeta}>
               <span className={styles.guideName}>{displayName}</span>
               <span className={styles.guideRole}>Hướng dẫn viên thực địa</span>
             </div>
-          </div>
+          </Link>
 
           <button
             type="button"
@@ -132,9 +132,9 @@ export default function GuideLayout() {
             </span>
 
             {/* Mobile User Pill */}
-            <div className={styles.mobileUserPill}>
+            <Link to={ROUTES.GUIDE_PROFILE} className={styles.mobileUserPill}>
               <span>{displayName.split(' ').slice(-1)[0]}</span>
-            </div>
+            </Link>
 
             {/* Desktop User Dropdown */}
             <div className={styles.userDropdownWrapper} ref={dropdownRef}>
@@ -144,14 +144,17 @@ export default function GuideLayout() {
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
                 aria-expanded={isDropdownOpen}
               >
-                <span>{displayName}</span>
+                <span className={styles.triggerAvatar} aria-hidden="true">
+                  {initial}
+                </span>
+                <span className={styles.displayName}>{displayName}</span>
                 <OutdoorIcon name={isDropdownOpen ? 'chevronUp' : 'chevron'} size={12} />
               </button>
 
               {isDropdownOpen && (
                 <div className={styles.dropdownMenu}>
                   <Link
-                    to={ROUTES.PROFILE}
+                    to={ROUTES.GUIDE_PROFILE}
                     className={styles.dropdownItem}
                     onClick={() => setIsDropdownOpen(false)}
                   >
@@ -192,7 +195,7 @@ export default function GuideLayout() {
           </NavLink>
 
           <NavLink
-            to={ROUTES.PROFILE}
+            to={ROUTES.GUIDE_PROFILE}
             className={({ isActive }) =>
               `${styles.bottomNavItem} ${isActive ? styles.bottomNavItemActive : ''}`
             }

@@ -12,10 +12,4 @@ export const financeKeys = {
   refundQueues: () => [...financeKeys.refunds(), 'queue'],
   refundQueue: (tab, params) => [...financeKeys.refundQueues(), tab, params],
   refundDetail: (id) => [...financeKeys.refunds(), 'detail', id],
-
-  // Refund Policies (Màn O34)
-  policies: () => [...financeKeys.all, 'policies'],
-  policyLists: () => [...financeKeys.policies(), 'list'],
-  policyList: (params) => [...financeKeys.policyLists(), params],
-  policyDetail: (id) => [...financeKeys.policies(), 'detail', id],
 };

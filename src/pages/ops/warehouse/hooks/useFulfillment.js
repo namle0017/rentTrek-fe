@@ -10,6 +10,26 @@ export const fulfillmentKeys = {
   charges: (orderCode) => [...fulfillmentKeys.all, 'charges', orderCode],
 };
 
+// Ảnh bằng chứng giao / nhận: tải lại cả checklist giao và nhận để đếm ảnh mới
+export function useEvidencePhotos(orderCode) {
+  const queryClient = useQueryClient();
+  const refresh = () => {
+    queryClient.invalidateQueries({ queryKey: fulfillmentKeys.handover(orderCode) });
+    queryClient.invalidateQueries({ queryKey: fulfillmentKeys.return(orderCode) });
+  };
+  const upload = useMutation({
+    mutationFn: (payload) => fulfillmentService.uploadEvidence(orderCode, payload),
+    onSettled: refresh,
+  });
+  const remove = useMutation({
+    mutationFn: (photoId) => fulfillmentService.deleteEvidence(orderCode, photoId),
+    onSuccess: () => toast.success('Đã xoá ảnh'),
+    onError: (err) => toast.error(err?.message || 'Không xoá được ảnh'),
+    onSettled: refresh,
+  });
+  return { upload, remove };
+}
+
 // Handover (O24)
 export function useHandoverChecklist(orderCode) {
   return useQuery({

@@ -11,6 +11,7 @@ import {
   REFUND_CASE_STATUS_LABEL,
 } from '@/constants/enums';
 import { CHARGE_STATUS_LABEL, CHARGE_TYPE_LABEL } from '@/features/rental-ops/constants/rentalOpsLabels';
+import RefundProgressCard from '@/features/refunds/components/RefundProgressCard';
 import HoldCountdown from '@/features/trip-bookings/components/HoldCountdown';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { parseAdminTransactionWithProof } from '@/features/refunds/utils/refundProofHelper';
@@ -148,6 +149,9 @@ export default function RentalOrderDetailPage() {
       )}
       <div className={styles.layout}>
         <div className={styles.stack}>
+          {order.refundCase?.refundCaseId && (
+            <RefundProgressCard refundCaseId={order.refundCase.refundCaseId} />
+          )}
           {canPay && <RentalPaymentPanel orderId={orderId} onSettled={query.refetch} />}
           {actions.canPayAdditional && order.pendingAdditionalPayment && (
             <RentalPaymentPanel

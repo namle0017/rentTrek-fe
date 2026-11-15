@@ -51,16 +51,16 @@ describe('RevenueChart', () => {
       ),
     ).toBeInTheDocument();
     const negativeBar = screen.getByRole('img', {
-      name: /Tuần từ 09\/11\/2026, Thuê thiết bị: -200\.000/,
+      name: /Ngày 09\/11\/2026, Thuê thiết bị: -200\.000/,
     });
     expect(Number(negativeBar.getAttribute('height'))).toBeGreaterThan(2);
     const positiveBar = screen.getByRole('img', {
-      name: /Tuần từ 09\/11\/2026, Đặt tour: 1\.000\.000/,
+      name: /Ngày 09\/11\/2026, Đặt tour: 1\.000\.000/,
     });
     expect(Number(negativeBar.getAttribute('y'))).toBeGreaterThan(Number(positiveBar.getAttribute('y')));
     expect(screen.getByRole('link', { name: 'Báo cáo chi tiết' })).toHaveAttribute(
       'href',
-      '/admin/reports?report=revenue&from=2026-10-12&to=2026-11-10&groupBy=week',
+      '/admin/reports?report=revenue&from=2026-11-04&to=2026-11-10&groupBy=day',
     );
   });
 
@@ -107,7 +107,7 @@ describe('RevenueChart', () => {
 
     // Default is chart view
     expect(screen.getByRole('button', { name: /Biểu đồ/i })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByRole('img', { name: /Tuần từ 09\/11\/2026, Đặt tour/i })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /Ngày 09\/11\/2026, Đặt tour/i })).toBeInTheDocument();
 
     // Switch to table view
     await user.click(screen.getByRole('button', { name: /Bảng số liệu/i }));
@@ -135,7 +135,19 @@ describe('RevenueChart', () => {
     expect(refetch).toHaveBeenCalledOnce();
   });
 
-  it('handles PascalCase API properties and non-Monday dates gracefully', () => {
+  it('renders daily columns including Hôm nay when 7 days is selected', async () => {
+    const user = userEvent.setup();
+    renderChart();
+
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Khoảng thời gian biểu đồ' }), '7');
+    expect(useOperations).toHaveBeenLastCalledWith(
+      API_ENDPOINTS.ADMIN.REPORTS.REVENUE,
+      expect.objectContaining({ groupBy: 'day' }),
+    );
+    expect(screen.getByText('Hôm nay')).toBeInTheDocument();
+  });
+
+  it('handles PascalCase API properties gracefully', () => {
     useOperations.mockReturnValue({
       data: [
         {
@@ -146,7 +158,7 @@ describe('RevenueChart', () => {
           NetRevenueVnd: 2000000,
         },
         {
-          Period: '2026-11-10T08:00:00Z', // Tuesday mid-week date
+          Period: '2026-11-10T08:00:00Z',
           OrderType: 'Rental',
           Collections: 1500000,
           Refunds: 300000,
@@ -158,7 +170,6 @@ describe('RevenueChart', () => {
     });
     renderChart();
 
-    // 2,000,000 + 1,200,000 = 3,200,000
     expect(
       screen.getByText(
         (_, element) => element.tagName === 'STRONG' && element.textContent === formatCurrency(3200000),

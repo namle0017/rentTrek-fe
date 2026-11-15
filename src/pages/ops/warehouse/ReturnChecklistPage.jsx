@@ -12,6 +12,7 @@ import DataTable from '@/components/DataTable';
 import Spinner from '@/components/Spinner';
 import RentalOrderSummary from './components/RentalOrderSummary';
 import BarcodeScanner from './components/BarcodeScanner';
+import EvidencePhotoCapture from './components/EvidencePhotoCapture';
 import FulfillmentProgress from './components/FulfillmentProgress';
 import StaffRentalEvidencePanel from './components/StaffRentalEvidencePanel';
 import layoutStyles from '@/layouts/RentalFulfillmentLayout.module.css';
@@ -64,6 +65,12 @@ export default function ReturnChecklistPage() {
   const pendingCount = Math.max(0, checklist.totalIssuedCount - resolvedCount);
   const isFinished = ['Returned', 'Completed'].includes(checklist.orderStatus);
   const isBusy = scanMutation.isPending || lostMutation.isPending || completeMutation.isPending;
+  const minPhotos = checklist.minPhotos ?? 1;
+  // Ảnh lấy từ checklist mới nhất (tải lại sau mỗi lần upload), không dùng bản chụp lúc mở hộp thoại
+  const modalPhotos = returnModalAsset
+    ? (checklist.items.find((item) => item.assignmentId === returnModalAsset.assignmentId)?.photos ?? [])
+    : [];
+  const missingReturnPhotos = Math.max(0, minPhotos - modalPhotos.length);
 
   useEffect(() => {
     if (!isLoading && !returnModalAsset && !lostModalAsset && !isFinished) barcodeInputRef.current?.focus();
@@ -100,6 +107,7 @@ export default function ReturnChecklistPage() {
     if (
       !returnModalAsset ||
       isBusy ||
+      missingReturnPhotos > 0 ||
       (createDamageFee && (!(Number(damageFeeAmount) > 0) || !damageFeeReason.trim()))
     )
       return;
@@ -322,6 +330,18 @@ export default function ReturnChecklistPage() {
                 {returnModalAsset.productName} · {returnModalAsset.variantName}
               </span>
             </div>
+            <div className={styles.field}>
+              Ảnh tình trạng khi nhận lại (bắt buộc ít nhất {minPhotos} ảnh)
+              <EvidencePhotoCapture
+                orderCode={orderCode}
+                assignmentId={returnModalAsset.assignmentId}
+                assetCode={returnModalAsset.assetCode}
+                stage="Return"
+                photos={modalPhotos}
+                minPhotos={minPhotos}
+                disabled={scanMutation.isPending}
+              />
+            </div>
             <label className={styles.field} htmlFor="return-condition">
               Tình trạng thiết bị
               <select
@@ -396,10 +416,16 @@ export default function ReturnChecklistPage() {
                 type="submit"
                 className={styles.primaryBtn}
                 disabled={
-                  isBusy || (createDamageFee && (!(Number(damageFeeAmount) > 0) || !damageFeeReason.trim()))
+                  isBusy ||
+                  missingReturnPhotos > 0 ||
+                  (createDamageFee && (!(Number(damageFeeAmount) > 0) || !damageFeeReason.trim()))
                 }
               >
-                {scanMutation.isPending ? 'Đang lưu…' : 'Xác nhận nhận đồ'}
+                {scanMutation.isPending
+                  ? 'Đang lưu…'
+                  : missingReturnPhotos > 0
+                    ? `Cần thêm ${missingReturnPhotos} ảnh`
+                    : 'Xác nhận nhận đồ'}
               </button>
             </div>
           </form>

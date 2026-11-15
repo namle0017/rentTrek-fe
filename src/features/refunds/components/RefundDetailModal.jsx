@@ -59,7 +59,7 @@ export default function RefundDetailModal({
   // Tính phần trăm hoàn tiền
   const totalAmount = item.orderTotalAmount || item.paidAmount || item.totalAmount || item.amount;
   const refundPercent =
-    item.refundPercentage != null
+    item.refundPercentage !== null && item.refundPercentage !== undefined
       ? item.refundPercentage
       : totalAmount > 0
         ? Math.round((item.amount / totalAmount) * 100)

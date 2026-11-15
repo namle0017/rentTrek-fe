@@ -30,7 +30,6 @@ export default function AdminTourDetailPage() {
     if (isLoading) return <Spinner />;
     if (isError) return <ErrorState message={error?.message} onRetry={refetch} />;
 
-    const status = normalizeTourStatus(tour.status);
     const images = [...tour.images].sort(
       (a, b) => Number(b.isPrimary) - Number(a.isPrimary) || a.displayOrder - b.displayOrder,
     );

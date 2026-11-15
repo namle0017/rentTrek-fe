@@ -16,17 +16,25 @@ const metrics = { netRevenueVnd: 'Doanh thu ròng', collections: 'Tổng thu', r
 const compactCurrency = new Intl.NumberFormat('vi-VN', { notation: 'compact', maximumFractionDigits: 1 });
 
 export default function RevenueChart() {
-  const [days, setDays] = useState(30);
+  const [days, setDays] = useState(7);
   const [metric, setMetric] = useState('netRevenueVnd');
   const [selectedKey, setSelectedKey] = useState(null);
   const [viewMode, setViewMode] = useState('chart');
+  const [groupBy, setGroupBy] = useState('day');
   const [lastUpdated, setLastUpdated] = useState(() => new Date());
   const [realNow] = useState(() => new Date().toISOString());
   const { data: clock } = useDevClock();
 
-  const range = useMemo(() => revenueRange(clock?.now ?? realNow, days), [clock?.now, realNow, days]);
+  const activeGroupBy = groupBy || (days <= 30 ? 'day' : days <= 90 ? 'week' : 'month');
+  const range = useMemo(
+    () => revenueRange(clock?.now ?? realNow, days, activeGroupBy),
+    [clock?.now, realNow, days, activeGroupBy],
+  );
   const report = useOperations(API_ENDPOINTS.ADMIN.REPORTS.REVENUE, range);
-  const periods = useMemo(() => buildRevenuePeriods(report.data ?? [], range), [report.data, range]);
+  const periods = useMemo(
+    () => buildRevenuePeriods(report.data ?? [], range, clock?.now ?? realNow),
+    [report.data, range, clock?.now, realNow],
+  );
 
   const handleRefresh = async () => {
     await report.refetch();
@@ -99,22 +107,44 @@ export default function RevenueChart() {
               ))}
             </select>
           </label>
+
           <label>
             <span className="sr-only">Khoảng thời gian biểu đồ</span>
             <select
               value={days}
               onChange={(event) => {
-                setDays(Number(event.target.value));
+                const nextDays = Number(event.target.value);
+                setDays(nextDays);
                 setSelectedKey(null);
+                if (nextDays <= 30) setGroupBy('day');
+                else if (nextDays <= 90) setGroupBy('week');
+                else setGroupBy('month');
               }}
             >
-              {[30, 90, 180].map((value) => (
-                <option key={value} value={value}>
-                  {value} ngày qua
-                </option>
-              ))}
+              <option value={7}>7 ngày qua</option>
+              <option value={14}>14 ngày qua</option>
+              <option value={30}>30 ngày qua</option>
+              <option value={90}>90 ngày qua</option>
+              <option value={180}>180 ngày qua</option>
             </select>
           </label>
+
+          <label>
+            <span className="sr-only">Gom nhóm thời gian</span>
+            <select
+              value={activeGroupBy}
+              onChange={(event) => {
+                setGroupBy(event.target.value);
+                setSelectedKey(null);
+              }}
+              title="Nhóm số liệu theo ngày / tuần / tháng"
+            >
+              <option value="day">Theo ngày</option>
+              <option value="week">Theo tuần</option>
+              <option value="month">Theo tháng</option>
+            </select>
+          </label>
+
           <button
             type="button"
             className={styles.refreshBtn}
@@ -150,7 +180,7 @@ export default function RevenueChart() {
           </div>
           {!hasActivity ? (
             <div className={styles.empty}>
-              <p>Chưa có giao dịch thành công trong khoảng thời gian này.</p>
+              <div>Chưa có giao dịch thành công trong khoảng thời gian này.</div>
               <button
                 type="button"
                 className={styles.emptyRefreshBtn}
@@ -184,8 +214,13 @@ export default function RevenueChart() {
                     const rentVal = p.Rental[metric];
                     const totalVal = tourVal + rentVal;
                     return (
-                      <tr key={p.key}>
-                        <td className={styles.periodName}>{p.title}</td>
+                      <tr key={p.key} className={p.isToday ? styles.highlightRow : undefined}>
+                        <td className={styles.periodName}>
+                          {p.title}
+                          {p.isToday && (
+                            <span className={styles.todayBadge}>Hôm nay</span>
+                          )}
+                        </td>
                         <td className={styles.textRight}>{formatCurrency(tourVal)}</td>
                         <td className={styles.textRight}>{formatCurrency(rentVal)}</td>
                         <td className={`${styles.textRight} ${styles.rowTotal}`}>
@@ -257,8 +292,15 @@ export default function RevenueChart() {
                             </rect>
                           );
                         })}
-                        {(periods.length <= 8 || index % 2 === 0 || index === periods.length - 1) && (
-                          <text x={center} y={bottom + 18} textAnchor="middle" className={styles.axisLabel}>
+                        {(periods.length <= 14 || index % 2 === 0 || index === periods.length - 1) && (
+                          <text
+                            x={center}
+                            y={bottom + 18}
+                            textAnchor="middle"
+                            className={styles.axisLabel}
+                            fill={period.isToday ? '#15803d' : undefined}
+                            fontWeight={period.isToday ? 700 : undefined}
+                          >
                             {period.label}
                           </text>
                         )}
@@ -285,8 +327,8 @@ export default function RevenueChart() {
           )}
           <div className={styles.footer}>
             <span className={styles.footerHint}>
-              Theo {range.groupBy === 'week' ? 'tuần' : 'tháng'} · Giờ Việt Nam · Cập nhật{' '}
-              {dayjs(lastUpdated).format('HH:mm:ss')}
+              Theo {range.groupBy === 'day' ? 'ngày' : range.groupBy === 'week' ? 'tuần' : 'tháng'} · Giờ
+              Việt Nam · Cập nhật {dayjs(lastUpdated).format('HH:mm:ss')}
             </span>
             <Link
               to={`${ROUTES.ADMIN_REPORTS}?report=revenue&from=${dayjs(range.from).utcOffset(7).format('YYYY-MM-DD')}&to=${dayjs(range.to).utcOffset(7).format('YYYY-MM-DD')}&groupBy=${range.groupBy}`}

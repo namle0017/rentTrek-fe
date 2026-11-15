@@ -5,7 +5,6 @@ import {
   ExternalLink,
   Layers,
   Pencil,
-  PlusCircle,
   Warehouse,
 } from 'lucide-react';
 import Breadcrumb from '@/components/Breadcrumb';

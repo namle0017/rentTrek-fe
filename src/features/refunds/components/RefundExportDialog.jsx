@@ -12,7 +12,7 @@ function saveFile(blob) {
 }
 
 /** Mỗi lần xuất cần một OTP mới; file chứa số tài khoản đầy đủ nên chỉ lưu thẳng xuống máy Admin. */
-export default function RefundExportDialog({ reExport, fromDate, toDate, onClose }) {
+export default function RefundExportDialog({ fromDate, toDate, onClose }) {
   const requestCode = useRequestExportCode();
   const exportRefunds = useExportRefunds();
   const [challenge, setChallenge] = useState(null);
@@ -37,7 +37,6 @@ export default function RefundExportDialog({ reExport, fromDate, toDate, onClose
       const blob = await exportRefunds.mutateAsync({
         challengeId: challenge.challengeId,
         verificationCode: code.trim(),
-        reExport,
         fromDate,
         toDate,
       });
@@ -55,18 +54,19 @@ export default function RefundExportDialog({ reExport, fromDate, toDate, onClose
   );
 
   return (
-    <Modal title={reExport ? 'Xuất lại file cho kế toán' : 'Xuất Excel cho kế toán'} onClose={onClose}>
+    <Modal title="Xuất Excel cho kế toán" onClose={onClose}>
       <div className="form-field">
         <p className="text-error" role="note">
           File chứa số tài khoản đầy đủ của khách. Chỉ gửi cho kế toán qua kênh nội bộ và xóa khi xử lý xong.
         </p>
-        {reExport ? (
-          <p>
-            File gồm các hồ sơ đã gửi kế toán nhưng chưa hoàn tất. Kiểm tra kỹ để tránh chuyển tiền hai lần.
-          </p>
-        ) : (
-          <p>Các hồ sơ trong file sẽ chuyển sang trạng thái chờ kế toán và không xuất lại ở lần sau.</p>
-        )}
+        <p role="note">
+          Kế toán điền 4 cột cuối (Đã chuyển, Mã giao dịch, Lý do chưa chuyển, Hình ảnh minh chứng) rồi gửi
+          lại file để nhập kết quả.
+        </p>
+        <p>
+          File gồm mọi hồ sơ đã có số tài khoản và chưa có kết quả (cả hồ sơ đã gửi kế toán trước đó). Hồ sơ
+          đang chờ khách nhập số tài khoản không có trong file. Kế toán kiểm tra kỹ để tránh chuyển tiền hai lần.
+        </p>
         {challenge ? (
           <form className="form-field" onSubmit={handleExport}>
             <label htmlFor="refund-export-otp">Mã xác thực gửi tới email của bạn</label>

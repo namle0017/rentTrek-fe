@@ -9,7 +9,11 @@ import { DEFAULT_PAGE_NUMBER } from '@/constants/config';
 import { ROUTES } from '@/constants/routes';
 import { useDebounce } from '@/hooks/useDebounce';
 import ProductCard from '../components/ProductCard';
-import { PRODUCT_OFFERING_LABEL, PRODUCT_SORT_OPTIONS } from '../constants/productCatalog';
+import {
+  PRODUCT_OFFERING_LABEL,
+  PRODUCT_PRICE_RANGE_OPTIONS,
+  PRODUCT_SORT_OPTIONS,
+} from '../constants/productCatalog';
 import { useProductCategories, useProducts } from '../hooks/useProducts';
 import styles from './ProductDiscovery.module.css';
 
@@ -41,6 +45,10 @@ export default function ProductListPage() {
   const search = searchParams.get('search') ?? '';
   const categoryId = searchParams.get('categoryId') ?? '';
   const offeringType = searchParams.get('offeringType') ?? '';
+  const minPrice = searchParams.get('minPrice') ?? '';
+  const maxPrice = searchParams.get('maxPrice') ?? '';
+  const inStockOnly = searchParams.get('inStockOnly') === 'true';
+  const priceRangeValue = minPrice || maxPrice ? `${minPrice}:${maxPrice}` : '';
   const sortBy = searchParams.get('sortBy') ?? 'createdAt';
   const sortOrder = searchParams.get('sortOrder') ?? 'desc';
   const [draft, setDraft] = useState(null);
@@ -75,6 +83,9 @@ export default function ProductListPage() {
     search,
     categoryId,
     offeringType,
+    minPrice: minPrice ? Number(minPrice) : undefined,
+    maxPrice: maxPrice ? Number(maxPrice) : undefined,
+    inStockOnly: inStockOnly || undefined,
     sortBy,
     sortOrder,
   });
@@ -232,6 +243,26 @@ export default function ProductListPage() {
               ))}
             </select>
           </label>
+          <label className={styles.searchField}>
+            <span>Mức giá thuê</span>
+            <select
+              name="priceRange"
+              aria-label="Mức giá thuê"
+              value={priceRangeValue}
+              onChange={(event) => {
+                const [nextMin = '', nextMax = ''] = event.target.value
+                  ? event.target.value.split(':')
+                  : ['', ''];
+                updateFilters({ minPrice: nextMin, maxPrice: nextMax }, true);
+              }}
+            >
+              {PRODUCT_PRICE_RANGE_OPTIONS.map((option) => (
+                <option key={option.value || 'all-prices'} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
           <button type="submit" className={styles.findButton}>
             <OutdoorIcon name="search" size={17} />
             Tìm kiếm thiết bị
@@ -266,6 +297,13 @@ export default function ProductListPage() {
               >
                 Giá thuê tốt
               </button>
+              <button
+                type="button"
+                aria-pressed={inStockOnly}
+                onClick={() => updateFilters({ inStockOnly: inStockOnly ? '' : 'true' })}
+              >
+                Còn thiết bị
+              </button>
               <select
                 aria-label="Sắp xếp"
                 value={sortValue}
@@ -279,7 +317,7 @@ export default function ProductListPage() {
               </select>
             </div>
           </header>
-          {(search || categoryId || offeringType) && (
+          {(search || categoryId || offeringType || minPrice || maxPrice || inStockOnly) && (
             <div className={styles.activeFilters}>
               <span>{search ? `Kết quả cho “${search}”` : 'Đang áp dụng bộ lọc'}</span>
               <button type="button" onClick={handleReset}>

@@ -19,7 +19,7 @@ describe('validateRefundRules', () => {
   });
 
   it('accepts equal percentages and unordered input', () => {
-    expect(validateRefundRules([rule(24, 50), rule(72, 50)]).isValid).toBe(true);
+    expect(validateRefundRules([rule(24, 50), rule(72, 50), rule(0, 50)]).isValid).toBe(true);
     expect(validateRefundRules([rule(0, 0), rule(168, 100), rule(24, 50)]).isValid).toBe(true);
   });
 
@@ -30,7 +30,7 @@ describe('validateRefundRules', () => {
   });
 
   it('allows 20 rules and rejects 21', () => {
-    const make = (n) => Array.from({ length: n }, (_, i) => rule((n - i) * 10, 100 - i));
+    const make = (n) => Array.from({ length: n }, (_, i) => rule((n - 1 - i) * 10, 100 - i));
     expect(validateRefundRules(make(20)).isValid).toBe(true);
     const tooMany = validateRefundRules(make(21));
     expect(tooMany.isValid).toBe(false);
@@ -50,7 +50,7 @@ describe('validateRefundRules', () => {
   });
 
   it.each([[0], [8760]])('accepts boundary hours %s', (hours) => {
-    expect(validateRefundRules([rule(hours, 50)]).isValid).toBe(true);
+    expect(validateRefundRules(hours === 0 ? [rule(0, 50)] : [rule(hours, 50), rule(0, 0)]).isValid).toBe(true);
   });
 
   it.each([[-1], [100.01], [101], ['abc'], ['']])('rejects invalid percentage %s', (percent) => {
@@ -60,7 +60,13 @@ describe('validateRefundRules', () => {
   });
 
   it.each([[0], [100], [33.5]])('accepts percentage %s', (percent) => {
-    expect(validateRefundRules([rule(24, percent)]).isValid).toBe(true);
+    expect(validateRefundRules([rule(24, percent), rule(0, 0)]).isValid).toBe(true);
+  });
+
+  it('requires a 0-hour tier', () => {
+    const result = validateRefundRules([rule(168, 100), rule(24, 50)]);
+    expect(result.isValid).toBe(false);
+    expect(result.rootError).toMatch('0 giờ');
   });
 
   it('rejects percentage that increases as the departure gets closer', () => {

@@ -4924,7 +4924,7 @@ Trước khi chốt, API trả `200` với `groupingStatus = "Pending"` và `gro
 
 **API bổ sung cho màn danh sách của Guide (`8.6b`):**
 
-- `GET /guide/trip-groups` · **Auth:** Guide (`TourGuide` / `Guide`) → danh sách tất cả group (cả `Draft` và `Published`) đang được gán cho guide đăng nhập.
+- `GET /guide/trip-groups` · **Auth:** Guide → danh sách tất cả group (cả `Draft` và `Published`) đang được gán cho guide đăng nhập.
 - `GET /guide/trip-groups/{groupId}` · **Auth:** Guide → chi tiết 1 group được giao kèm danh sách participant hợp lệ (bị đổi guide trả `404`).
 
 ```json

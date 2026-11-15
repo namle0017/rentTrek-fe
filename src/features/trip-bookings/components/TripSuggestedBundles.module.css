@@ -1,0 +1,56 @@
+.card {
+  display: grid;
+  gap: 12px;
+  padding: 18px 20px;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #dde4dd);
+  border-radius: var(--radius-lg, 16px);
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.hint,
+.note,
+.unavailable {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #5b6b5f);
+}
+
+.bundle {
+  display: grid;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border, #dde4dd);
+}
+
+.bundleHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.components {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.85rem;
+}
+
+.provided {
+  color: var(--color-warning, #a15c07);
+}
+
+.addButton {
+  justify-self: start;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-primary, #2f6b3f);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}

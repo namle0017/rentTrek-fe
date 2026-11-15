@@ -16,7 +16,7 @@ export default function AccountShell({ active, children }) {
   const { pathname } = useLocation();
   const role = currentUser?.role;
   const isAdminOrStaff = role === USER_ROLE.ADMIN || role === USER_ROLE.STAFF;
-  const isGuide = role === USER_ROLE.GUIDE || role === USER_ROLE.TOUR_GUIDE;
+  const isGuide = role === USER_ROLE.GUIDE;
   const isCustomer = !isAdminOrStaff && !isGuide;
 
   // Admin dùng /admin/profile → giữ nguyên path hiện tại khi đổi tab hồ sơ/bảo mật

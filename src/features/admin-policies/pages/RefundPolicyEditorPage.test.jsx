@@ -36,6 +36,11 @@ function renderEditor(path = '/admin/refund-policies/new') {
 
 const hoursInputs = () => screen.getAllByLabelText(/Huỷ trước khởi hành tối thiểu/);
 const percentInputs = () => screen.getAllByLabelText('% hoàn tiền');
+const expectDetailPage = () =>
+  waitFor(
+    () => expect(screen.getByRole('heading', { name: 'Trang chi tiết chính sách' })).toBeInTheDocument(),
+    { timeout: 5000 },
+  );
 
 async function setValue(user, input, value) {
   await user.clear(input);
@@ -88,7 +93,7 @@ describe('RefundPolicyEditorPage (create)', () => {
       expect(typeof rule.minHoursBefore).toBe('number');
       expect(typeof rule.refundPercentage).toBe('number');
     });
-    expect(await screen.findByRole('heading', { name: 'Trang chi tiết chính sách' })).toBeInTheDocument();
+    await expectDetailPage();
   });
 
   it('saves as draft with saveAsDraft=true', async () => {
@@ -98,6 +103,33 @@ describe('RefundPolicyEditorPage (create)', () => {
     await user.click(screen.getByRole('button', { name: 'Lưu nháp' }));
     await waitFor(() => expect(policyService.createRefundPolicy).toHaveBeenCalledTimes(1));
     expect(policyService.createRefundPolicy.mock.calls[0][0]).toMatchObject({ saveAsDraft: true });
+  });
+
+  it('shows rescheduling and no-show terms only for Tour policies', async () => {
+    const user = userEvent.setup();
+    renderEditor();
+    const tourTermLabels = [
+      /Đổi lịch trước khởi hành/,
+      /Số lần đổi tối đa/,
+      /Phí đổi lịch/,
+      /Chờ khách vắng mặt/,
+    ];
+    tourTermLabels.forEach((label) => expect(screen.getByLabelText(label)).toBeInTheDocument());
+
+    await user.selectOptions(screen.getByLabelText(/Loại chính sách/), 'Rental');
+
+    tourTermLabels.forEach((label) => expect(screen.queryByLabelText(label)).not.toBeInTheDocument());
+  });
+
+  it('requires a zero-hour rule', async () => {
+    const user = userEvent.setup();
+    renderEditor();
+    await user.type(screen.getByLabelText(/Tên chính sách/), 'Chính sách tour');
+    await user.click(screen.getByRole('button', { name: 'Xoá mốc 4' }));
+    await user.click(screen.getByRole('button', { name: 'Lưu nháp' }));
+
+    expect(await screen.findByText('Cần có mốc 0 giờ (huỷ sát giờ khởi hành)')).toBeInTheDocument();
+    expect(policyService.createRefundPolicy).not.toHaveBeenCalled();
   });
 
   it('sends effectiveUntil when provided and allows the rental type', async () => {
@@ -193,7 +225,7 @@ describe('RefundPolicyEditorPage (edit)', () => {
   it('redirects to the detail page when the policy cannot be edited', async () => {
     policyService.getRefundPolicy.mockResolvedValue({ data: existing({ canEdit: false, isLocked: true }) });
     renderEditor('/admin/refund-policies/policy-1/edit');
-    expect(await screen.findByRole('heading', { name: 'Trang chi tiết chính sách' })).toBeInTheDocument();
+    await expectDetailPage();
   });
 
   it('updates with the description and rules in the payload', async () => {
@@ -214,7 +246,7 @@ describe('RefundPolicyEditorPage (edit)', () => {
       { minHoursBefore: 48, refundPercentage: 60 },
       { minHoursBefore: 0, refundPercentage: 0 },
     ]);
-    expect(await screen.findByRole('heading', { name: 'Trang chi tiết chính sách' })).toBeInTheDocument();
+    await expectDetailPage();
   });
 
   it('rejects an end date that is not after the start date', async () => {

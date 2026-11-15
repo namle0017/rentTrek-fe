@@ -29,7 +29,7 @@ describe('RefundProgressCard', () => {
 
     expect(screen.getByText('HỒ SƠ HT-A1B2C3D4')).toBeInTheDocument();
     expect(screen.getByText('Vietcombank · ******6789')).toBeInTheDocument();
-    expect(screen.getByText('Kế toán đang xử lý', { selector: 'strong' }).closest('li')).toHaveAttribute(
+    expect(screen.getByText('Đã duyệt, chờ chuyển khoản', { selector: 'strong' }).closest('li')).toHaveAttribute(
       'aria-current',
       'step',
     );

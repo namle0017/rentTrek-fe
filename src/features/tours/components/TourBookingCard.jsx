@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Modal from '@/components/Modal';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { TRIP_STATUS } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
+import TripPolicyPanel from '@/features/trip-bookings/components/TripPolicyPanel';
 import { formatCurrency } from '@/utils/formatCurrency';
 import styles from './TourBookingCard.module.css';
 
@@ -14,6 +16,7 @@ export default function TourBookingCard({ tour }) {
   const firstBookableTrip = trips.find(isBookableTrip);
   const [memberCount, setMemberCount] = useState(1);
   const [selectedTripId, setSelectedTripId] = useState(firstBookableTrip?.id || '');
+  const [policyOpen, setPolicyOpen] = useState(false);
   const selectedTrip = trips.find((trip) => trip.id === selectedTripId) || firstBookableTrip;
   const maxSlots = Math.min(21, selectedTrip?.availableSlots || 1);
   const canBook = Boolean(selectedTrip && isBookableTrip(selectedTrip));
@@ -125,6 +128,17 @@ export default function TourBookingCard({ tour }) {
       </button>
 
       {!canBook && <p className={styles.unavailable}>Chuyến đi chưa có lịch mở hoặc đã hết chỗ.</p>}
+
+      {selectedTrip && (
+        <button type="button" className={styles.policyLink} onClick={() => setPolicyOpen(true)}>
+          Chính sách huỷ &amp; hoàn tiền
+        </button>
+      )}
+      {policyOpen && selectedTrip && (
+        <Modal title={`Chính sách huỷ & hoàn tiền · Đợt ${selectedTrip.dateRangeFormatted}`} onClose={() => setPolicyOpen(false)}>
+          <TripPolicyPanel tripId={selectedTrip.id} />
+        </Modal>
+      )}
     </aside>
   );
 }

@@ -130,9 +130,8 @@ const navigationGroups = [
   {
     title: 'Tài chính',
     icon: Wallet,
-    adminOnly: true,
     items: [
-      [ROUTES.OPS_TRANSACTIONS, 'Giao dịch'],
+      [ROUTES.OPS_TRANSACTIONS, 'Giao dịch', true],
       [ROUTES.ADMIN_REFUNDS, 'Hoàn tiền'],
     ],
   },
@@ -232,7 +231,9 @@ export default function AdminLayout() {
           <span className={styles.navCaption}>QUẢN LÝ</span>
           {navigationGroups
             .filter((group) => !group.adminOnly || isAdmin)
-            .map(({ title, icon: Icon, items, expanded }) => {
+            .map(({ title, icon: Icon, items: allItems, expanded }) => {
+              // phần tử thứ 3 = chỉ Admin
+              const items = allItems.filter(([, , adminOnly]) => !adminOnly || isAdmin);
               const isCurrentGroup = items.some(
                 ([to]) => location.pathname === to || location.pathname.startsWith(`${to}/`),
               );

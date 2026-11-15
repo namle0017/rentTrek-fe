@@ -6,7 +6,7 @@ import { useSubmitRefundBankInfo } from '../hooks/useRefundCases';
 import styles from './RefundProgressCard.module.css';
 
 /** Khách nhập (lại) tài khoản nhận hoàn khi hồ sơ đang chờ STK, kể cả khi admin báo chuyển khoản thất bại. */
-export default function RefundBankInfoForm({ refundCaseId, mode = 'submit' }) {
+export default function RefundBankInfoForm({ refundCaseId, mode = 'submit', requireReason = false }) {
   const submit = useSubmitRefundBankInfo(refundCaseId, mode);
   const {
     register,
@@ -14,7 +14,11 @@ export default function RefundBankInfoForm({ refundCaseId, mode = 'submit' }) {
     setError,
     formState: { errors },
   } = useForm({
-    defaultValues: { bankAccount: { bankCode: '', accountNumber: '', accountHolder: '' }, consentAccepted: false },
+    defaultValues: {
+      bankAccount: { bankCode: '', accountNumber: '', accountHolder: '' },
+      consentAccepted: false,
+      reason: '',
+    },
   });
 
   const onSubmit = handleSubmit((values) =>
@@ -27,6 +31,7 @@ export default function RefundBankInfoForm({ refundCaseId, mode = 'submit' }) {
         },
         consentAccepted: values.consentAccepted,
         consentVersion: REFUND_CONSENT_VERSION,
+        ...(requireReason && { reason: values.reason.trim() }),
       },
       {
         onError: (error) => {
@@ -74,6 +79,18 @@ export default function RefundBankInfoForm({ refundCaseId, mode = 'submit' }) {
           })}
         />
       </FormField>
+      {requireReason && (
+        <FormField label="Lý do khiếu nại" htmlFor="refund-bank-info-reason" error={errors.reason}>
+          <textarea
+            id="refund-bank-info-reason"
+            rows={3}
+            {...register('reason', {
+              validate: (value) => value.trim().length > 0 || 'Vui lòng nhập lý do khiếu nại',
+              maxLength: { value: 1000, message: 'Lý do tối đa 1000 ký tự' },
+            })}
+          />
+        </FormField>
+      )}
       <label className={styles.consent}>
         <input type="checkbox" {...register('consentAccepted', { required: 'Bạn cần đồng ý để tiếp tục' })} />
         <span>{REFUND_CONSENT_TEXT}</span>

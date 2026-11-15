@@ -46,6 +46,43 @@
   margin: 0 0 16px;
 }
 
+/* Ảnh / video trong bài: tràn hết cột nội dung như trang tin tức */
+.media {
+  margin: 24px 0;
+}
+
+.media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+.media figcaption {
+  margin-top: 8px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta);
+  font-style: italic;
+  text-align: center;
+}
+
+.video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+  border-radius: var(--radius);
+}
+
+.video iframe,
+.video video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .aside {
   display: flex;
   flex-direction: column;

@@ -4,12 +4,12 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useTour } from '@/features/tours/hooks/useTours';
 import { useAuth } from '@/hooks/useAuth';
-import { useCreateTripBooking } from '../hooks/useTripBookings';
+import { useCreateTripBooking, useTripRefundPolicy } from '../hooks/useTripBookings';
 import TripBookingCreatePage from './TripBookingCreatePage';
 
 vi.mock('@/hooks/useAuth', () => ({ useAuth: vi.fn() }));
 vi.mock('@/features/tours/hooks/useTours', () => ({ useTour: vi.fn() }));
-vi.mock('../hooks/useTripBookings', () => ({ useCreateTripBooking: vi.fn() }));
+vi.mock('../hooks/useTripBookings', () => ({ useCreateTripBooking: vi.fn(), useTripRefundPolicy: vi.fn() }));
 
 function LocationProbe() {
   const location = useLocation();
@@ -34,9 +34,23 @@ const renderPage = (search = '?tripId=trip-1&tourId=tour-1&partySize=1') =>
   );
 
 const next = (user) => user.click(screen.getByRole('button', { name: 'Tiếp tục' }));
+const agree = async (user) => user.click(await screen.findByRole('checkbox', { name: 'Tôi đã đọc và đồng ý' }));
+const policy = {
+  refundPolicyId: 'policy-1',
+  name: 'Chính sách tour',
+  version: 3,
+  description: 'Nội dung chính sách',
+  rules: [
+    { minHoursBefore: 168, refundPercentage: 100 },
+    { minHoursBefore: 0, refundPercentage: 0 },
+  ],
+  reschedule: null,
+  noShowGraceMinutes: 30,
+};
 
 describe('TripBookingCreatePage', () => {
   const mutateAsync = vi.fn();
+  const refetchPolicy = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -44,6 +58,7 @@ describe('TripBookingCreatePage', () => {
       currentUser: { email: 'buyer@example.com', fullName: 'Buyer', phone: '0901234567' },
     });
     useCreateTripBooking.mockReturnValue({ mutateAsync, isPending: false });
+    useTripRefundPolicy.mockReturnValue({ data: policy, isLoading: false, isError: false, refetch: refetchPolicy });
     useTour.mockReturnValue({
       data: {
         name: 'Tà Năng 2N1Đ',
@@ -78,6 +93,7 @@ describe('TripBookingCreatePage', () => {
     expect(await screen.findByText(/Không có người đi cùng/)).toBeInTheDocument();
     await next(user);
     await user.type(await screen.findByLabelText('Ghi chú cho ban tổ chức'), '  Ăn chay  ');
+    await agree(user);
     await user.click(screen.getByRole('button', { name: 'Xác nhận giữ chỗ' }));
 
     await waitFor(() => expect(mutateAsync).toHaveBeenCalled());
@@ -87,8 +103,11 @@ describe('TripBookingCreatePage', () => {
       buyerParticipates: true,
       note: 'Ăn chay',
       additionalParticipants: [],
+      acceptedRefundPolicyVersion: 3,
     });
-    expect(screen.getByLabelText('current location')).toHaveTextContent('/trip-bookings/order-1');
+    await waitFor(() =>
+      expect(screen.getByLabelText('current location')).toHaveTextContent('/trip-bookings/order-1'),
+    );
   });
 
   it('requires the contact phone before leaving the first step', async () => {
@@ -114,6 +133,7 @@ describe('TripBookingCreatePage', () => {
     await user.type(screen.getByLabelText(/Email người 1/), 'BUYER@example.com');
     await next(user);
     expect(await screen.findByText(/đặt giùm, không đi cùng/)).toBeInTheDocument();
+    await agree(user);
     await user.click(screen.getByRole('button', { name: 'Xác nhận giữ chỗ' }));
 
     await waitFor(() => expect(mutateAsync).toHaveBeenCalled());
@@ -190,6 +210,7 @@ describe('TripBookingCreatePage', () => {
     await user.type(await screen.findByLabelText(/Họ và tên người 1/), 'Nguyễn An');
     await user.type(screen.getByLabelText(/Email người 1/), 'an@example.com');
     await next(user);
+    await agree(user);
     await user.click(await screen.findByRole('button', { name: 'Xác nhận giữ chỗ' }));
 
     expect(await screen.findByText('Dữ liệu chưa hợp lệ')).toBeInTheDocument();
@@ -206,5 +227,72 @@ describe('TripBookingCreatePage', () => {
     await next(user);
 
     expect(await screen.findByRole('button', { name: 'Đang giữ chỗ...' })).toBeDisabled();
+  });
+
+  it('keeps submit disabled until the refund policy is accepted', async () => {
+    const user = userEvent.setup();
+    renderPage();
+
+    await next(user);
+    await next(user);
+
+    expect(await screen.findByText('Nội dung chính sách')).toBeInTheDocument();
+    const submit = screen.getByRole('button', { name: 'Xác nhận giữ chỗ' });
+    expect(submit).toBeDisabled();
+    await agree(user);
+    expect(submit).toBeEnabled();
+  });
+
+  it('asks to accept again when the policy version changed (409)', async () => {
+    const user = userEvent.setup();
+    mutateAsync.mockRejectedValue({
+      message: 'Chính sách hoàn tiền đã được cập nhật',
+      statusCode: 409,
+      errors: { code: ['REFUND_POLICY_CHANGED'], acceptedRefundPolicyVersion: ['Phiên bản hiện hành là 4'] },
+    });
+    renderPage();
+
+    await next(user);
+    await next(user);
+    await agree(user);
+    await user.click(screen.getByRole('button', { name: 'Xác nhận giữ chỗ' }));
+
+    expect(await screen.findByText('Chính sách hoàn tiền đã được cập nhật')).toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: 'Tôi đã đọc và đồng ý' })).not.toBeChecked();
+    expect(screen.getByRole('button', { name: 'Xác nhận giữ chỗ' })).toBeDisabled();
+    expect(refetchPolicy).toHaveBeenCalled();
+  });
+
+  it('keeps consent on a conflict unrelated to the policy', async () => {
+    const user = userEvent.setup();
+    mutateAsync.mockRejectedValue({ statusCode: 409, message: 'Chuyến đi không còn đủ chỗ' });
+    renderPage();
+
+    await next(user);
+    await next(user);
+    await agree(user);
+    await user.click(screen.getByRole('button', { name: 'Xác nhận giữ chỗ' }));
+
+    expect(await screen.findByText('Chuyến đi không còn đủ chỗ')).toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: /tôi đã đọc và đồng ý/i })).toBeChecked();
+    expect(refetchPolicy).not.toHaveBeenCalled();
+  });
+
+  it('cannot accept the cached policy after a refresh fails', async () => {
+    const user = userEvent.setup();
+    useTripRefundPolicy.mockReturnValue({
+      data: policy,
+      isError: true,
+      error: { message: 'Không tải được chính sách hoàn tiền.' },
+      refetch: refetchPolicy,
+    });
+    renderPage();
+
+    await next(user);
+    await next(user);
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('Không tải được chính sách hoàn tiền.');
+    expect(screen.getByRole('checkbox', { name: /tôi đã đọc và đồng ý/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Xác nhận giữ chỗ' })).toBeDisabled();
   });
 });

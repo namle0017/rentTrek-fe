@@ -1,12 +1,17 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useCancellationPreview, useCancelTripBooking } from '../hooks/useTripBookings';
+import {
+  useCancellationPreview,
+  useCancelTripBooking,
+  useCancelTripParticipants,
+} from '../hooks/useTripBookings';
 import CancelBookingPanel from './CancelBookingPanel';
 
 vi.mock('../hooks/useTripBookings', () => ({
   useCancellationPreview: vi.fn(),
   useCancelTripBooking: vi.fn(),
+  useCancelTripParticipants: vi.fn(),
 }));
 
 const preview = {
@@ -29,6 +34,7 @@ const preview = {
 
 describe('CancelBookingPanel', () => {
   const cancelAsync = vi.fn();
+  const cancelSomeAsync = vi.fn();
   const refetch = vi.fn();
   const showPreview = (data) =>
     useCancellationPreview.mockReturnValue({ data, isLoading: false, isError: false, refetch });
@@ -52,6 +58,35 @@ describe('CancelBookingPanel', () => {
     vi.clearAllMocks();
     showPreview(preview);
     useCancelTripBooking.mockReturnValue({ mutateAsync: cancelAsync, isPending: false });
+    useCancelTripParticipants.mockReturnValue({ mutateAsync: cancelSomeAsync, isPending: false });
+  });
+
+  it('cancels only the selected participants', async () => {
+    const user = userEvent.setup();
+    cancelSomeAsync.mockResolvedValue({});
+    showPreview({ ...preview, estimatedRefundAmount: 0 });
+    render(
+      <CancelBookingPanel
+        orderId="order-1"
+        participants={[
+          { participantId: 'p1', fullName: 'Chủ đơn' },
+          { participantId: 'p2', fullName: 'Bạn đi cùng' },
+        ]}
+      />,
+    );
+    await user.click(screen.getByRole('button', { name: 'Hủy bớt hành khách' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Bạn đi cùng' }));
+    expect(useCancellationPreview).toHaveBeenLastCalledWith('order-1', {
+      enabled: true,
+      participantIds: ['p2'],
+    });
+    await clickDialogButton(user, 'Xác nhận hủy');
+
+    expect(cancelAsync).not.toHaveBeenCalled();
+    expect(cancelSomeAsync).toHaveBeenCalledWith({
+      orderId: 'order-1',
+      payload: expect.objectContaining({ participantIds: ['p2'], expectedRefundAmount: 0 }),
+    });
   });
 
   it('shows only the cancellation impact before asking for refund bank details', async () => {

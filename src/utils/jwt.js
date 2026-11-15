@@ -1,7 +1,7 @@
 import { USER_ROLE } from '@/constants/enums';
 
 /**
- * Chuẩn hóa giá trị vai trò (role) về enum chuẩn: Admin, Staff, Customer, TourGuide.
+ * Chuẩn hóa giá trị vai trò (role) về enum chuẩn: Admin, Staff, Customer, Guide.
  * Xử lý mọi biến thể hoa/thường (admin, ADMIN, Administrator, staff, ...)
  */
 export function normalizeRole(rawRole) {
@@ -9,7 +9,8 @@ export function normalizeRole(rawRole) {
   const lower = rawRole.trim().toLowerCase();
   if (lower === 'admin' || lower === 'administrator') return USER_ROLE.ADMIN;
   if (lower === 'staff' || lower === 'employee') return USER_ROLE.STAFF;
-  if (lower === 'tourguide' || lower === 'tour_guide' || lower === 'guide') return USER_ROLE.TOUR_GUIDE;
+  // Token cũ từng dùng TourGuide; gom về role nghiệp vụ duy nhất là Guide.
+  if (lower === 'tourguide' || lower === 'tour_guide' || lower === 'guide') return USER_ROLE.GUIDE;
   return USER_ROLE.CUSTOMER;
 }
 

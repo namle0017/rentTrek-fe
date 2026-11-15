@@ -183,7 +183,7 @@ Release plan (PRD §15): R0 business sign-off → R1 platform & catalog → R2 t
 | X-2 | **Cancellation approval** | "Authorized person approves by cancellation type" (§5.4); no cancel-request model (§13.1 #8) | C12 modal | Customer cancel is **immediate**; only the refund is queued (`RefundCase Requested`) | Decides whether Staff/Admin approve cancellations or only refunds |
 | X-3 | **Deposit for rentals** | Deposit is a core P0 concept (FR-C01, C05) | **Deposit deferred**, `deposit_amount = 0` | Implemented as 0 | Affects settlement, fees, staff handover |
 | X-4 | **Payment method** | Provider not chosen (Q-12); manual recording "if enabled" (FR-F04) | VietQR bank transfer via SePay only; manual record button in O15 | SePay webhook implemented | Who may verify payments manually? |
-| X-5 | **Guide role name** | `Guide` | `Guide` | FE has both `Guide` and `TourGuide`; BE uses `Guide` | Technical inconsistency; confirm one role |
+| X-5 | **Guide role name** | `Guide` | `Guide` | FE và BE dùng duy nhất `Guide` | Đã thống nhất |
 | X-6 | **Offline attendance** | Out of scope (§2.5) | G04 queue-and-resend on network loss | Work plan says "offline sync" | Scope creep risk |
 | X-7 | **Booking split / group preference** | Not in PRD | `grouping_preference`, `is_split` + approval (O12) | Implemented | Who approves splitting a booking across groups? |
 | X-8 | **Participant invitation** | Q-16 open | C19 invitation claim screen | Implemented (invite code/link) | Partially answers Q-16 — needs owner confirmation |

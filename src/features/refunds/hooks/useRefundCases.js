@@ -61,6 +61,10 @@ function useQueueMutation(mutationFn, options = {}) {
   });
 }
 
+export function useApproveRefund() {
+  return useQueueMutation(refundService.approve);
+}
+
 export function useRejectRefund() {
   return useQueueMutation(refundService.reject);
 }

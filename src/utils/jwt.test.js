@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { USER_ROLE } from '@/constants/enums';
-import { extractUserFromToken } from './jwt';
+import { extractUserFromToken, normalizeRole } from './jwt';
 
 const makeToken = (payload) => `x.${btoa(JSON.stringify(payload)).replace(/=+$/, '')}.y`;
 
@@ -11,4 +11,13 @@ describe('extractUserFromToken', () => {
     );
     expect(user).toEqual({ userId: 'u1', email: 'a@b.vn', fullName: 'a@b.vn', role: USER_ROLE.CUSTOMER });
   });
+});
+
+describe('normalizeRole', () => {
+  it.each(['Guide', 'guide', 'tourguide', 'tour_guide'])(
+    'normalizes the legacy value %s to the single Guide role',
+    (role) => {
+      expect(normalizeRole(role)).toBe(USER_ROLE.GUIDE);
+    },
+  );
 });

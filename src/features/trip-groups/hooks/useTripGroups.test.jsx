@@ -9,7 +9,7 @@ import {
   useMoveBookingToGroup,
   usePublishTripGrouping,
   useSplitTripBooking,
-  useTourGuideOptions,
+  useGuideOptions,
   useTripGrouping,
 } from './useTripGroups';
 
@@ -78,7 +78,7 @@ describe('trip group hooks', () => {
     });
     const { wrapper } = createHarness();
 
-    const { result } = renderHook(() => useTourGuideOptions(true), { wrapper });
+    const { result } = renderHook(() => useGuideOptions(true), { wrapper });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(userService.getGuides).toHaveBeenCalled();

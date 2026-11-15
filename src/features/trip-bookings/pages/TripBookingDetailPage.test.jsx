@@ -18,6 +18,11 @@ vi.mock('../components/TripPaymentPanel', () => ({
   default: ({ orderId }) => <div>payment-panel-{orderId}</div>,
 }));
 
+vi.mock('../components/ReschedulePanel', () => ({
+  default: ({ orderId }) => <div>reschedule-panel-{orderId}</div>,
+}));
+vi.mock('../components/TripSuggestedBundles', () => ({ default: () => null }));
+
 vi.mock('@/features/orders/hooks/useOrders', () => ({ useMyOrders: vi.fn() }));
 
 vi.mock('../hooks/useTripBookings', () => ({
@@ -27,6 +32,7 @@ vi.mock('../hooks/useTripBookings', () => ({
   useCustomerTripGrouping: vi.fn(),
   useUpdateParticipant: vi.fn(),
   useCancelTripBooking: vi.fn(),
+  useCancelTripParticipants: vi.fn(() => ({ mutateAsync: vi.fn(), isPending: false })),
   useCancellationPreview: vi.fn(),
 }));
 

@@ -32,11 +32,11 @@ export default function MainLayout() {
   const navigate = useNavigate();
 
   // Phân quyền cách ly: Nếu Admin/Staff vào giao diện khách hàng, tự động chuyển về /admin.
-  // Nếu Guide/TourGuide vào, tự động chuyển về /guide/trips.
+  // Nếu Guide vào, tự động chuyển về /guide/trips.
   useEffect(() => {
     if (currentUser?.role === USER_ROLE.ADMIN || currentUser?.role === USER_ROLE.STAFF) {
       navigate(ROUTES.ADMIN, { replace: true });
-    } else if (currentUser?.role === USER_ROLE.GUIDE || currentUser?.role === USER_ROLE.TOUR_GUIDE) {
+    } else if (currentUser?.role === USER_ROLE.GUIDE) {
       navigate(ROUTES.GUIDE_TRIPS, { replace: true });
     }
   }, [currentUser?.role, navigate]);
@@ -49,7 +49,7 @@ export default function MainLayout() {
   const getRoleBadgeClass = (role) => {
     if (role === USER_ROLE.ADMIN) return `${styles.roleBadge} ${styles.roleBadgeAdmin}`;
     if (role === USER_ROLE.STAFF) return `${styles.roleBadge} ${styles.roleBadgeStaff}`;
-    if (role === USER_ROLE.TOUR_GUIDE) return `${styles.roleBadge} ${styles.roleBadgeTourGuide}`;
+    if (role === USER_ROLE.GUIDE) return `${styles.roleBadge} ${styles.roleBadgeGuide}`;
     return styles.roleBadge;
   };
 

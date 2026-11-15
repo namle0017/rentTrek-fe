@@ -86,4 +86,8 @@ export const adminCatalogService = {
   // tiers: [{ minDays, maxDays, dailyPrice }] — thay toàn bộ
   setBundlePriceTiers: ({ bundleId, tiers }) =>
     axiosClient.put(ADMIN_CATALOG.BUNDLE_PRICE_TIERS(bundleId), { tiers }),
+  // Combo gợi ý cho tour. items: [{ bundleId, sortOrder, note? }] — thay toàn bộ
+  getTourSuggestedBundles: (tourId) => axiosClient.get(ADMIN_CATALOG.TOUR_SUGGESTED_BUNDLES(tourId)),
+  setTourSuggestedBundles: ({ tourId, items }) =>
+    axiosClient.put(ADMIN_CATALOG.TOUR_SUGGESTED_BUNDLES(tourId), { items }),
 };

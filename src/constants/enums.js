@@ -4,7 +4,6 @@ export const USER_ROLE = Object.freeze({
   STAFF: 'Staff',
   CUSTOMER: 'Customer',
   GUIDE: 'Guide',
-  TOUR_GUIDE: 'TourGuide',
 });
 
 export const USER_ROLE_LABEL = {
@@ -12,7 +11,6 @@ export const USER_ROLE_LABEL = {
   [USER_ROLE.STAFF]: 'Nhân viên điều phối',
   [USER_ROLE.CUSTOMER]: 'Khách hàng',
   [USER_ROLE.GUIDE]: 'Hướng dẫn viên',
-  [USER_ROLE.TOUR_GUIDE]: 'Hướng dẫn viên',
 };
 
 export const TRIP_STATUS = Object.freeze({
@@ -131,9 +129,9 @@ export const REFUND_CASE_STATUS = Object.freeze({
 });
 
 export const REFUND_CASE_STATUS_LABEL = {
-  [REFUND_CASE_STATUS.REQUESTED]: 'Chờ xử lý',
+  [REFUND_CASE_STATUS.REQUESTED]: 'Chờ duyệt',
   [REFUND_CASE_STATUS.AWAITING_BANK_INFO]: 'Chờ khách cung cấp tài khoản',
-  [REFUND_CASE_STATUS.APPROVED]: 'Đã gửi kế toán',
+  [REFUND_CASE_STATUS.APPROVED]: 'Đã duyệt, chờ chuyển khoản',
   [REFUND_CASE_STATUS.COMPLETED]: 'Hoàn tất',
   [REFUND_CASE_STATUS.REJECTED]: 'Bị từ chối',
   [REFUND_CASE_STATUS.FAILED]: 'Chuyển khoản thất bại',

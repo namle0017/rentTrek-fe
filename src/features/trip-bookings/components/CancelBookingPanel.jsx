@@ -9,7 +9,11 @@ import { API_ERROR_CODE, REFUND_BANKS, REFUND_CONSENT_TEXT } from '@/constants/e
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { CANCEL_CATEGORIES, packCancelReasonWithProofs } from '@/features/refunds/utils/refundProofHelper';
-import { useCancellationPreview, useCancelTripBooking } from '../hooks/useTripBookings';
+import {
+  useCancellationPreview,
+  useCancelTripBooking,
+  useCancelTripParticipants,
+} from '../hooks/useTripBookings';
 import styles from './CancelBookingPanel.module.css';
 
 const CANCELLATION_SCREEN = Object.freeze({
@@ -101,8 +105,8 @@ function CancellationPolicyScreen({ preview, onBack }) {
         </button>
         <h1 id="cancellation-policy-title">Chính sách hủy booking</h1>
         <p className={styles.policyIntro}>
-          Chính sách chung áp dụng cho mọi booking tour của RenTrekk. Thời điểm hủy được tính theo giờ
-          khởi hành ghi trên đơn.
+          Chính sách chung áp dụng cho mọi booking tour của RenTrekk. Thời điểm hủy được tính theo giờ khởi
+          hành ghi trên đơn.
         </p>
         <div className={styles.policyMeta}>
           <span>{preview.refundPolicy.name}</span>
@@ -130,8 +134,8 @@ function CancellationPolicyScreen({ preview, onBack }) {
         </ol>
 
         <p className={styles.policyNote}>
-          Nếu RenTrekk chủ động hủy chuyến, khách được hoàn toàn bộ số tiền đã thanh toán. Đơn cũ luôn
-          dùng phiên bản chính sách đã chấp nhận lúc đặt.
+          Nếu RenTrekk chủ động hủy chuyến, khách được hoàn toàn bộ số tiền đã thanh toán. Đơn cũ luôn dùng
+          phiên bản chính sách đã chấp nhận lúc đặt.
         </p>
       </main>
     </section>,
@@ -139,8 +143,18 @@ function CancellationPolicyScreen({ preview, onBack }) {
   );
 }
 
-function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, refetchPreview }) {
-  const cancelBooking = useCancelTripBooking();
+function CancellationForm({
+  orderId,
+  preview,
+  screen,
+  onScreenChange,
+  onClose,
+  refetchPreview,
+  participantIds,
+}) {
+  const cancelWhole = useCancelTripBooking();
+  const cancelSome = useCancelTripParticipants();
+  const cancelBooking = participantIds ? cancelSome : cancelWhole;
   const [submitError, setSubmitError] = useState('');
   const needsBankAccount = preview.estimatedRefundAmount > 0;
   const lostAmount = Math.max(0, preview.paidAmount - preview.estimatedRefundAmount);
@@ -188,6 +202,7 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
       reason: packedReason,
       expectedRefundAmount: preview.estimatedRefundAmount,
     };
+    if (participantIds) payload.participantIds = participantIds;
 
     if (needsBankAccount) {
       payload.bankAccount = {
@@ -257,7 +272,15 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
       </label>
 
       <div>
-        <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#334155', display: 'block', marginBottom: '4px' }}>
+        <span
+          style={{
+            fontSize: '0.8125rem',
+            fontWeight: 600,
+            color: '#334155',
+            display: 'block',
+            marginBottom: '4px',
+          }}
+        >
           Đính kèm ảnh minh chứng (tối đa 3 ảnh: giấy khám, vé xe hủy, sạt lở...)
         </span>
         <input
@@ -306,8 +329,8 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
             <span>Trường hợp áp dụng</span>
             <strong>{preview.appliedCase}</strong>
             <p>
-              Đơn này được hoàn {formatCurrency(preview.estimatedRefundAmount)} theo chính sách đã chấp
-              nhận lúc đặt.
+              Đơn này được hoàn {formatCurrency(preview.estimatedRefundAmount)} theo chính sách đã chấp nhận
+              lúc đặt.
             </p>
           </section>
 
@@ -353,11 +376,7 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
               onClick={handleContinue}
               disabled={cancelBooking.isPending}
             >
-              {cancelBooking.isPending
-                ? 'Đang hủy...'
-                : needsBankAccount
-                  ? 'Tiếp tục hủy'
-                  : 'Xác nhận hủy'}
+              {cancelBooking.isPending ? 'Đang hủy...' : needsBankAccount ? 'Tiếp tục hủy' : 'Xác nhận hủy'}
             </button>
           </div>
         </>
@@ -439,8 +458,8 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
           </fieldset>
 
           <p className={styles.bankNote}>
-            Booking chỉ bị hủy sau khi bạn hoàn tất bước này. Nhân viên sẽ cập nhật tiến độ xử lý trong
-            chi tiết đơn.
+            Booking chỉ bị hủy sau khi bạn hoàn tất bước này. Nhân viên sẽ cập nhật tiến độ xử lý trong chi
+            tiết đơn.
           </p>
 
           <div className={styles.actions}>
@@ -453,7 +472,7 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
               Quay lại
             </button>
             <button type="submit" className={styles.danger} disabled={cancelBooking.isPending}>
-              {cancelBooking.isPending ? 'Đang hủy...' : 'Hủy booking'}
+              {cancelBooking.isPending ? 'Đang hủy...' : participantIds ? 'Hủy hành khách' : 'Hủy booking'}
             </button>
           </div>
         </>
@@ -468,20 +487,40 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
   );
 }
 
-export default function CancelBookingPanel({ orderId }) {
+/** participants: hành khách còn hiệu lực; ≥2 người thì cho hủy bớt (BE chặn chủ đơn/người cuối). */
+export default function CancelBookingPanel({ orderId, participants = [] }) {
   const [screen, setScreen] = useState(null);
-  const previewQuery = useCancellationPreview(orderId, { enabled: screen !== null });
-  const closeFlow = () => setScreen(null);
+  // null = hủy toàn bộ; mảng = hủy bớt các hành khách được chọn
+  const [selectedIds, setSelectedIds] = useState(null);
+  const previewQuery = useCancellationPreview(orderId, {
+    enabled: screen !== null,
+    participantIds: selectedIds ?? undefined,
+  });
+  const closeFlow = () => {
+    setScreen(null);
+    setSelectedIds(null);
+  };
+  const toggleParticipant = (id) =>
+    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+  const isPartial = selectedIds !== null;
 
   return (
     <>
-      <button
-        type="button"
-        className={styles.trigger}
-        onClick={() => setScreen(CANCELLATION_SCREEN.CONFIRM)}
-      >
+      <button type="button" className={styles.trigger} onClick={() => setScreen(CANCELLATION_SCREEN.CONFIRM)}>
         Hủy booking
       </button>
+      {participants.length > 1 && (
+        <button
+          type="button"
+          className={styles.trigger}
+          onClick={() => {
+            setSelectedIds([]);
+            setScreen(CANCELLATION_SCREEN.CONFIRM);
+          }}
+        >
+          Hủy bớt hành khách
+        </button>
+      )}
 
       {screen === CANCELLATION_SCREEN.POLICY && previewQuery.data?.canCancel && (
         <CancellationPolicyScreen
@@ -495,10 +534,27 @@ export default function CancelBookingPanel({ orderId }) {
           title={
             screen === CANCELLATION_SCREEN.BANK
               ? 'Thông tin nhận hoàn tiền'
-              : 'Xác nhận hủy booking'
+              : isPartial
+                ? 'Hủy bớt hành khách'
+                : 'Xác nhận hủy booking'
           }
           onClose={closeFlow}
         >
+          {isPartial && screen === CANCELLATION_SCREEN.CONFIRM && (
+            <fieldset className={styles.reasonFields}>
+              <legend>Chọn hành khách cần hủy</legend>
+              {participants.map((p) => (
+                <label key={p.participantId}>
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(p.participantId)}
+                    onChange={() => toggleParticipant(p.participantId)}
+                  />{' '}
+                  {p.fullName}
+                </label>
+              ))}
+            </fieldset>
+          )}
           {previewQuery.isLoading && <Spinner />}
           {previewQuery.isError && (
             <ErrorState
@@ -509,10 +565,7 @@ export default function CancelBookingPanel({ orderId }) {
           {previewQuery.data?.canCancel === false && (
             <section className={styles.blocked} role="alert">
               <strong>Không thể hủy booking</strong>
-              <p>
-                {previewQuery.data.blockedReason ||
-                  'Trạng thái booking hiện tại không cho phép hủy.'}
-              </p>
+              <p>{previewQuery.data.blockedReason || 'Trạng thái booking hiện tại không cho phép hủy.'}</p>
             </section>
           )}
           {previewQuery.data?.canCancel && (
@@ -523,6 +576,7 @@ export default function CancelBookingPanel({ orderId }) {
               onScreenChange={setScreen}
               onClose={closeFlow}
               refetchPreview={previewQuery.refetch}
+              participantIds={selectedIds ?? undefined}
             />
           )}
         </Modal>

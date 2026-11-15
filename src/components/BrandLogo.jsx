@@ -28,7 +28,7 @@ export default function BrandLogo({
   if (!destination) {
     if (currentUser?.role === USER_ROLE.ADMIN || currentUser?.role === USER_ROLE.STAFF) {
       destination = ROUTES.ADMIN;
-    } else if (currentUser?.role === USER_ROLE.GUIDE || currentUser?.role === USER_ROLE.TOUR_GUIDE) {
+    } else if (currentUser?.role === USER_ROLE.GUIDE) {
       destination = ROUTES.GUIDE_TRIPS;
     } else {
       destination = ROUTES.HOME;

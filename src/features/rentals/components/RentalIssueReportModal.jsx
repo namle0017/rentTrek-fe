@@ -4,7 +4,22 @@ import { useReportRentalIssue } from '../hooks/useRentals';
 import styles from './RentalIssueReportModal.module.css';
 
 export default function RentalIssueReportModal({ order, isOpen, onClose, onSuccess }) {
-  const [selectedItemId, setSelectedItemId] = useState('');
+  if (!isOpen || !order) return null;
+
+  return (
+    <RentalIssueReportDialog
+      key={order.id}
+      order={order}
+      onClose={onClose}
+      onSuccess={onSuccess}
+    />
+  );
+}
+
+function RentalIssueReportDialog({ order, onClose, onSuccess }) {
+  const [selectedItemId, setSelectedItemId] = useState(
+    () => order.lines?.[0]?.id || order.lines?.[0]?.rentalOrderItemId || '',
+  );
   const [issueCategory, setIssueCategory] = useState('Damaged');
   const [description, setDescription] = useState('');
   const [proofUrls, setProofUrls] = useState([]);
@@ -13,31 +28,14 @@ export default function RentalIssueReportModal({ order, isOpen, onClose, onSucce
 
   const reportIssueMutation = useReportRentalIssue();
 
-  // Reset or initialize when opened
-  useEffect(() => {
-    if (isOpen) {
-      if (order?.lines?.length > 0) {
-        setSelectedItemId(order.lines[0].id || order.lines[0].rentalOrderItemId || '');
-      }
-      setIssueCategory('Damaged');
-      setDescription('');
-      setProofUrls([]);
-      setPreferredAction('Exchange');
-      setContactPhone('');
-    }
-  }, [isOpen, order]);
-
   // Handle ESC key
   useEffect(() => {
-    if (!isOpen) return;
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
-  if (!isOpen || !order) return null;
+  }, [onClose]);
 
   const handleProofFiles = (event) => {
     const files = Array.from(event.target.files || []);

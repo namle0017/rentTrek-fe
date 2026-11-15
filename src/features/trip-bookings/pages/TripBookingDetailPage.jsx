@@ -22,7 +22,9 @@ import CancelBookingPanel from '../components/CancelBookingPanel';
 import HoldCountdown from '../components/HoldCountdown';
 import { InviteLinkBox } from '../components/InvitationTokensPanel';
 import ParticipantRow from '../components/ParticipantRow';
+import ReschedulePanel from '../components/ReschedulePanel';
 import TripPaymentPanel from '../components/TripPaymentPanel';
+import TripSuggestedBundles from '../components/TripSuggestedBundles';
 import { useCustomerTripGrouping, useTripBooking } from '../hooks/useTripBookings';
 import {
   canCancelBooking,
@@ -71,9 +73,7 @@ function BookingTimeline({ status }) {
             }
             aria-current={index === current ? 'step' : undefined}
           >
-            <span className={styles.stepIndicator}>
-              {index < current ? '✓' : index + 1}
-            </span>
+            <span className={styles.stepIndicator}>{index < current ? '✓' : index + 1}</span>
             {label}
           </li>
         ))}
@@ -239,7 +239,18 @@ export default function TripBookingDetailPage() {
       {booking.refundCase && <RefundProgressCard refundCaseId={booking.refundCase.refundCaseId} />}
       {(booking.status === BOOKING_STATUS.EXPIRED || (isPendingPayment && !holdActive)) && (
         <Notice title="Đã hết thời gian giữ chỗ" tone="danger">
-          Vui lòng không chuyển khoản cho đơn này. <Link to={ROUTES.TOURS}>Đặt lại chuyến khác</Link>
+          Vui lòng không chuyển khoản cho đơn này.{' '}
+          {booking.tripStatus === 'Open' && (
+            <>
+              <Link
+                to={`${ROUTES.TRIP_BOOKING_CREATE}?tripId=${booking.tripId}&partySize=${booking.participantCount}`}
+              >
+                Đặt lại
+              </Link>{' '}
+              hoặc{' '}
+            </>
+          )}
+          <Link to={ROUTES.TOURS}>Đặt lại chuyến khác</Link>
         </Notice>
       )}
 
@@ -327,7 +338,11 @@ export default function TripBookingDetailPage() {
 
             <div className={styles.paymentStatusBadgeRow}>
               <span>Trạng thái:</span>
-              <strong className={booking.paymentStatus === PAYMENT_STATUS.PAID ? styles.paidText : styles.unpaidText}>
+              <strong
+                className={
+                  booking.paymentStatus === PAYMENT_STATUS.PAID ? styles.paidText : styles.unpaidText
+                }
+              >
                 {ORDER_PAYMENT_STATUS_LABEL[booking.paymentStatus] || booking.paymentStatus}
               </strong>
             </div>
@@ -345,6 +360,23 @@ export default function TripBookingDetailPage() {
             </section>
           )}
 
+          {booking.canManage &&
+            booking.paymentStatus === PAYMENT_STATUS.PAID &&
+            (booking.status === BOOKING_STATUS.CONFIRMED ||
+              // Công ty huỷ chuyến: được chuyển miễn phí sang chuyến khác thay vì nhận hoàn
+              (booking.status === BOOKING_STATUS.CANCELLED && booking.tripStatus === 'Cancelled')) && (
+              <section className={styles.shareCard} aria-label="Đổi lịch chuyến đi">
+                <div className={styles.shareCardHeader}>
+                  <span className={styles.kicker}>ĐỔI LỊCH</span>
+                </div>
+                <ReschedulePanel orderId={orderId} onChanged={refetch} />
+              </section>
+            )}
+
+          {booking.paymentStatus === PAYMENT_STATUS.PAID && booking.status === BOOKING_STATUS.CONFIRMED && (
+            <TripSuggestedBundles tripId={booking.tripId} partySize={booking.participantCount} />
+          )}
+
           {/* Card 3: Thao tác hủy booking (Tách biệt khỏi card thanh toán và chia sẻ) */}
           {canCancelBooking(booking) && (
             <section className={styles.cancelCard} aria-label="Hủy đặt chỗ">
@@ -352,7 +384,10 @@ export default function TripBookingDetailPage() {
                 <span className={styles.cancelKicker}>THAY ĐỔI KẾ HOẠCH?</span>
                 <p>Nếu bạn không thể tham gia, vui lòng xem chính sách hoàn hủy trước khi thực hiện.</p>
               </div>
-              <CancelBookingPanel orderId={orderId} />
+              <CancelBookingPanel
+                orderId={orderId}
+                participants={booking.participants.filter((p) => p.status !== 'Cancelled')}
+              />
             </section>
           )}
         </aside>

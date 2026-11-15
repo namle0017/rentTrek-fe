@@ -1,7 +1,9 @@
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import axiosClient from '@/api/axiosClient';
 import TourBookingCard from './TourBookingCard';
 
 const tour = {
@@ -34,19 +36,21 @@ function LocationProbe() {
 
 const renderCard = (value = tour) =>
   render(
-    <MemoryRouter initialEntries={['/tours/tour-1']}>
-      <Routes>
-        <Route
-          path="*"
-          element={
-            <>
-              <TourBookingCard tour={value} />
-              <LocationProbe />
-            </>
-          }
-        />
-      </Routes>
-    </MemoryRouter>,
+    <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
+      <MemoryRouter initialEntries={['/tours/tour-1']}>
+        <Routes>
+          <Route
+            path="*"
+            element={
+              <>
+                <TourBookingCard tour={value} />
+                <LocationProbe />
+              </>
+            }
+          />
+        </Routes>
+      </MemoryRouter>
+    </QueryClientProvider>,
   );
 
 describe('TourBookingCard', () => {
@@ -95,5 +99,34 @@ describe('TourBookingCard', () => {
 
     expect(screen.getByRole('button', { name: 'Đặt Tour & Giữ Chỗ Ngay' })).toBeDisabled();
     expect(screen.getByText(/chưa có lịch mở/)).toBeInTheDocument();
+  });
+
+  it('opens the refund policy for the selected departure', async () => {
+    const user = userEvent.setup();
+    const get = vi.spyOn(axiosClient, 'get').mockResolvedValue({
+      data: {
+        refundPolicyId: 'policy-2',
+        name: 'Chính sách cuối năm',
+        version: 2,
+        description: 'Điều khoản đợt tháng 12',
+        rules: [{ minHoursBefore: 0, refundPercentage: 0 }],
+        reschedule: { minHoursBefore: 24, fee: 50000, maxTimes: 1 },
+        noShowGraceMinutes: 25,
+      },
+    });
+    renderCard();
+
+    try {
+      await user.click(screen.getByRole('radio', { name: /05\/12 - 07\/12\/2026/ }));
+      await user.click(screen.getByRole('button', { name: 'Chính sách huỷ & hoàn tiền' }));
+
+      expect(await screen.findByRole('dialog', { name: /05\/12 - 07\/12\/2026/ })).toBeInTheDocument();
+      expect(await screen.findByText('Điều khoản đợt tháng 12')).toBeInTheDocument();
+      expect(screen.getByText(/tối đa 1 lần/)).toBeInTheDocument();
+      expect(screen.getByText(/25 phút/)).toBeInTheDocument();
+      expect(get).toHaveBeenCalledWith('/trips/trip-2/refund-policy');
+    } finally {
+      get.mockRestore();
+    }
   });
 });

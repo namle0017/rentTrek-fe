@@ -150,7 +150,7 @@ export default function GuideBatchAttendancePage() {
       <div className={styles.tripCard}>
         <h1 className={styles.cardTitle}>Điểm danh Thực địa Nhanh</h1>
         <p className={styles.metaText}>
-          Nhóm: <strong>{roster.groupName}</strong> · Tự động đồng bộ Offline khi có mạng
+          Nhóm: <strong>{roster.groupName}</strong> · Đồng bộ thủ công khi có mạng
         </p>
 
         <label htmlFor="activitySelect" className={styles.metaText}>
@@ -229,7 +229,8 @@ export default function GuideBatchAttendancePage() {
               }`}
               onClick={() => handleSingleStatus(p, 'Absent')}
             >
-              Vắng mặt
+              {/* BE: vắng ở hoạt động đầu tiên ⇒ hành khách NoShow */}
+              {activeActivityId === allActivities[0]?.activityId ? 'Vắng (NoShow)' : 'Vắng mặt'}
             </button>
           </div>
 

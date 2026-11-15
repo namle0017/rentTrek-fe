@@ -169,7 +169,9 @@ export default function PostEditorForm({ post }) {
             {...register('content', { validate: notBlank('Nội dung không được để trống.') })}
           />
           <p id="post-content-hint" className={styles.hint}>
-            Dòng bắt đầu bằng “## ” là tiêu đề mục. Để trống một dòng để tách đoạn.
+            Dòng bắt đầu bằng “## ” là tiêu đề mục. Để trống một dòng để tách đoạn. Chèn ảnh: một dòng riêng
+            “![chú thích](https://link-anh.jpg)”. Chèn video: một dòng riêng chỉ chứa link YouTube hoặc link
+            .mp4.
           </p>
         </FormField>
       </fieldset>

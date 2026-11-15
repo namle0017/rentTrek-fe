@@ -174,18 +174,13 @@ export default function DashboardPage() {
           </span>
         </div>
 
-        <div className={styles.analyticsAndActionGrid}>
+        <div className={`${styles.analyticsAndActionGrid} ${!isAdmin ? styles.staffActionOnly : ''}`}>
           {/* Cột Trái 60%: Biểu đồ Doanh thu (nếu isAdmin) */}
-          <div className={styles.analyticsColumn}>
-            {isAdmin ? (
+          {isAdmin && (
+            <div className={styles.analyticsColumn}>
               <RevenueChart />
-            ) : (
-              <div className={styles.staffNoticeCard}>
-                <h3>Phân hệ thống kê doanh thu</h3>
-                <p>Số liệu dòng tiền và doanh thu dịch vụ dành riêng cho tài khoản Quản trị viên (Admin).</p>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Cột Phải 40%: Action Center (Cần xử lý ưu tiên) */}
           <div className={styles.actionCenterColumn}>

@@ -214,3 +214,17 @@
     position: static;
   }
 }
+
+.policyLink {
+  align-self: center;
+  min-height: 44px;
+  padding: 8px;
+  color: var(--color-primary);
+  font: inherit;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}

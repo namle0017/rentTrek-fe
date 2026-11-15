@@ -8,4 +8,5 @@ export const adminCatalogKeys = {
   productDetail: (productId) => [...adminCatalogKeys.all, 'product-detail', productId],
   bundles: (params) => [...adminCatalogKeys.all, 'bundles', params],
   bundleDetail: (bundleId) => [...adminCatalogKeys.all, 'bundle-detail', bundleId],
+  tourSuggestedBundles: (tourId) => [...adminCatalogKeys.all, 'tour-suggested-bundles', tourId],
 };

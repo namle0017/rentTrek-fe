@@ -164,6 +164,10 @@ export default function RefundQueue({ statuses, renderActions, toolbar }) {
                     </td>
                     <td data-label="Trạng thái">
                       <span className={styles.status}>{REFUND_CASE_STATUS_LABEL[item.status]}</span>
+                      {item.status === REFUND_CASE_STATUS.APPROVED && (
+                        <small>{item.exportedAt ? 'Đã gửi kế toán' : 'Chờ xuất'}</small>
+                      )}
+                      {item.appealReason && <small>Khiếu nại: {item.appealReason}</small>}
                     </td>
                     <td data-label="Chứng từ">
                       {item.status === REFUND_CASE_STATUS.COMPLETED && (

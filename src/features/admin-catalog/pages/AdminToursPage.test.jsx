@@ -2,11 +2,17 @@ import { MemoryRouter } from 'react-router-dom';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { USER_ROLE } from '@/constants/enums';
+import { useAuth } from '@/hooks/useAuth';
 import { useAdminTours } from '../hooks/useAdminCatalog';
 import AdminToursPage from './AdminToursPage';
 
 vi.mock('../hooks/useAdminCatalog', () => ({
   useAdminTours: vi.fn(),
+}));
+
+vi.mock('@/hooks/useAuth', () => ({
+  useAuth: vi.fn(),
 }));
 
 const pagedTours = {
@@ -38,6 +44,7 @@ const pagedTours = {
 describe('AdminToursPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    useAuth.mockReturnValue({ currentUser: { role: USER_ROLE.ADMIN } });
     useAdminTours.mockReturnValue({
       data: pagedTours,
       isLoading: false,
@@ -45,6 +52,18 @@ describe('AdminToursPage', () => {
       isFetching: false,
       refetch: vi.fn(),
     });
+  });
+
+  it('does not offer tour creation to Staff', () => {
+    useAuth.mockReturnValue({ currentUser: { role: USER_ROLE.STAFF } });
+
+    render(
+      <MemoryRouter>
+        <AdminToursPage />
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByRole('link', { name: '+ Tạo tour' })).not.toBeInTheDocument();
   });
 
   it('renders the tour operations fields from the API contract', () => {

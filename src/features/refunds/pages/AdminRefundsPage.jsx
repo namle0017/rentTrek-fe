@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { REFUND_CASE_STATUS } from '@/constants/enums';
+import { REFUND_CASE_STATUS, USER_ROLE } from '@/constants/enums';
+import { useAuth } from '@/hooks/useAuth';
 import { toIsoString } from '@/utils/formatDate';
 import RefundCompleteDialog from '../components/RefundCompleteDialog';
 import ManualRefundList from '../components/ManualRefundList';
@@ -9,7 +10,7 @@ import RefundDetailModal from '../components/RefundDetailModal';
 import RefundImportDialog from '../components/RefundImportDialog';
 import RefundQueue from '../components/RefundQueue';
 import RefundReasonDialog from '../components/RefundReasonDialog';
-import { useMarkRefundFailed, useRejectRefund } from '../hooks/useRefundCases';
+import { useApproveRefund, useMarkRefundFailed, useRejectRefund } from '../hooks/useRefundCases';
 
 const ADMIN_STATUSES = [
   REFUND_CASE_STATUS.AWAITING_BANK_INFO,
@@ -27,6 +28,10 @@ const TABS = [
 
 export default function AdminRefundsPage() {
   const [searchParams] = useSearchParams();
+  const { currentUser } = useAuth();
+  // Staff duyệt / từ chối; xuất, nhập kết quả, hoàn tất, báo thất bại chỉ Admin (BE chặn 403)
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
+  const approve = useApproveRefund();
   const reject = useRejectRefund();
   const markFailed = useMarkRefundFailed();
   const [dialog, setDialog] = useState(null);
@@ -36,11 +41,18 @@ export default function AdminRefundsPage() {
   const fromDate = searchParams.get('fromDate');
   const toDate = searchParams.get('toDate');
 
-  const failButton = (item) => (
-    <button type="button" className="btn btn-outline" onClick={() => setDialog({ type: 'failed', item })}>
-      Báo thất bại
-    </button>
-  );
+  const failButton = (item) =>
+    isAdmin && (
+      <button type="button" className="btn btn-outline" onClick={() => setDialog({ type: 'failed', item })}>
+        Báo thất bại
+      </button>
+    );
+
+  const approveItem = (item) =>
+    approve.mutate(
+      { refundCaseId: item.refundCaseId, payload: { expectedRowVersion: item.rowVersion } },
+      { onSuccess: closeDialog },
+    );
 
   const renderActions = (item) => {
     const detailButton = (
@@ -65,14 +77,21 @@ export default function AdminRefundsPage() {
       return (
         <div>
           {detailButton}
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={approve.isPending}
+            onClick={() => approveItem(item)}
+          >
+            Duyệt
+          </button>
           <button type="button" className="btn btn-outline" onClick={() => setDialog({ type: 'reject', item })}>
             Từ chối
           </button>
-          {failButton(item)}
         </div>
       );
     }
-    if (item.status === REFUND_CASE_STATUS.APPROVED) {
+    if (item.status === REFUND_CASE_STATUS.APPROVED && isAdmin) {
       return (
         <div>
           {detailButton}
@@ -110,10 +129,11 @@ export default function AdminRefundsPage() {
       {tab === 'cases' && (
         <RefundQueue
           title="Hàng đợi hoàn tiền"
-          description="Xuất các hồ sơ đang chờ ra Excel cho kế toán chuyển khoản, sau đó nhập lại file kết quả của kế toán hoặc đánh dấu từng hồ sơ đã hoàn tiền."
+          description="Duyệt hoặc từ chối hồ sơ chờ duyệt. Admin xuất hồ sơ đã duyệt ra Excel cho kế toán, sau đó nhập lại file kết quả hoặc đánh dấu từng hồ sơ đã hoàn tiền."
           statuses={ADMIN_STATUSES}
           renderActions={renderActions}
           toolbar={
+            isAdmin && (
             <>
               <button type="button" className="btn btn-primary" onClick={() => setDialog({ type: 'export' })}>
                 Xuất Excel cho kế toán
@@ -122,6 +142,7 @@ export default function AdminRefundsPage() {
                 Nhập kết quả chuyển khoản
               </button>
             </>
+            )
           }
         />
       )}
@@ -129,7 +150,8 @@ export default function AdminRefundsPage() {
         <RefundDetailModal
           item={dialog.item}
           onClose={closeDialog}
-          onApprove={() => setDialog({ type: 'export' })}
+          canSettle={isAdmin}
+          onApprove={approveItem}
           onReject={(item) => setDialog({ type: 'reject', item })}
           onComplete={(item) => setDialog({ type: 'complete', item })}
           onMarkFailed={(item) => setDialog({ type: 'failed', item })}

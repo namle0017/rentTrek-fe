@@ -60,7 +60,7 @@ export function useSplitTripBooking() {
   return useSnapshotMutation(tripGroupService.splitBooking);
 }
 
-export function useTourGuideOptions(enabled = true) {
+export function useGuideOptions(enabled = true) {
   return useQuery({
     queryKey: tripGroupKeys.guides(),
     queryFn: () => userService.getGuides(),

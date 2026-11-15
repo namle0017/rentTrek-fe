@@ -111,7 +111,7 @@ export default function GuideLayout() {
           <div className={styles.headerLeft}>
             {/* Mobile Brand (Ẩn trên Desktop) */}
             <Link to={ROUTES.GUIDE_TRIPS} className={styles.mobileBrand}>
-              <BrandLogo size="sm" theme="light" suffix="Guide" to={ROUTES.GUIDE_TRIPS} />
+              <BrandLogo size="sm" theme="light" suffix="Guide" asLink={false} />
             </Link>
 
             {/* Desktop Page Title (Ẩn trên Mobile) */}

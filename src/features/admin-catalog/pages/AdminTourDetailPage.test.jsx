@@ -7,6 +7,8 @@ import AdminTourDetailPage from './AdminTourDetailPage';
 vi.mock('../hooks/useAdminCatalog', () => ({
   useAdminTour: vi.fn(),
 }));
+vi.mock('../components/TourSuggestedBundlesEditor', () => ({ default: () => null }));
+vi.mock('@/hooks/useAuth', () => ({ useAuth: () => ({ currentUser: { role: 'Admin' } }) }));
 
 const tour = {
   id: 'tour-1',

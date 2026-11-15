@@ -212,7 +212,7 @@ export default function GuideTripsPage() {
                 const statusConfig = getStatusConfig(item.tripStatus);
                 const isSelected = selectedTrip?.tripId === item.tripId;
                 const isExpanded = expandedCardIds.has(item.tripId);
-                const isOngoing = item.tripStatus === 'IN_PROGRESS';
+                const isOngoing = item.tripStatus === TRIP_STATUS.IN_PROGRESS;
 
                 const mapsUrl =
                   item.meetingLocation?.latitude && item.meetingLocation?.longitude
@@ -451,7 +451,7 @@ export default function GuideTripsPage() {
                   </div>
 
                   {/* Primary CTA nổi bật theo trạng thái */}
-                  {selectedTrip.tripStatus === 'IN_PROGRESS' ? (
+                  {selectedTrip.tripStatus === TRIP_STATUS.IN_PROGRESS ? (
                     <Link
                       to={ROUTES.GUIDE_ATTENDANCE(selectedTrip.tripId)}
                       className={`${styles.primaryCtaBtn} ${styles.primaryCtaInProgress}`}

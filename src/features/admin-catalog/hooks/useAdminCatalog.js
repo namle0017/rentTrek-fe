@@ -57,6 +57,15 @@ export function useAdminBundle(bundleId) {
   });
 }
 
+export function useTourSuggestedBundles(tourId) {
+  return useQuery({
+    queryKey: adminCatalogKeys.tourSuggestedBundles(tourId),
+    queryFn: () => adminCatalogService.getTourSuggestedBundles(tourId),
+    select: (response) => response.data,
+    enabled: Boolean(tourId),
+  });
+}
+
 // Mọi thao tác ghi catalog: toast thông điệp (BE hoặc truyền vào) rồi làm mới toàn bộ cache danh mục.
 // Form ở đây không gắn lỗi theo field → bật toast lỗi validation.
 export function useCatalogMutation(mutationFn, successMessage) {
@@ -79,3 +88,5 @@ export const useSetBundleItems = () =>
   useCatalogMutation(adminCatalogService.setBundleItems, 'Đã lưu thành phần combo');
 export const useSetBundlePriceTiers = () =>
   useCatalogMutation(adminCatalogService.setBundlePriceTiers, 'Đã lưu bảng giá combo');
+export const useSetTourSuggestedBundles = () =>
+  useCatalogMutation(adminCatalogService.setTourSuggestedBundles, 'Đã lưu combo gợi ý');

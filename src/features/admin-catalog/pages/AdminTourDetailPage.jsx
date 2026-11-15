@@ -17,7 +17,10 @@ import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
+import { USER_ROLE } from '@/constants/enums';
+import { useAuth } from '@/hooks/useAuth';
 import AdminCatalogStatusBadge from '../components/AdminCatalogStatusBadge';
+import TourSuggestedBundlesEditor from '../components/TourSuggestedBundlesEditor';
 import { normalizeTourStatus } from '../constants/adminCatalogStatus';
 import { useAdminTour } from '../hooks/useAdminCatalog';
 import styles from './AdminCatalogDetail.module.css';
@@ -25,6 +28,7 @@ import styles from './AdminCatalogDetail.module.css';
 export default function AdminTourDetailPage() {
   const { tourId } = useParams();
   const { data: tour, isLoading, isError, error, refetch } = useAdminTour(tourId);
+  const { currentUser } = useAuth();
 
   const renderContent = () => {
     if (isLoading) return <Spinner />;
@@ -221,6 +225,12 @@ export default function AdminTourDetailPage() {
               )}
             </section>
           </div>
+
+          <TourSuggestedBundlesEditor
+            tourId={tour.id}
+            canEdit={currentUser?.role === USER_ROLE.ADMIN}
+            styles={styles}
+          />
         </div>
 
         {/* CỘT PHỤ (35%): Chuyến đang mở bán & Phím tắt Quản trị */}
@@ -238,18 +248,13 @@ export default function AdminTourDetailPage() {
                   <article key={trip.id} className={styles.tripCardItem}>
                     <div className={styles.tripCardHeader}>
                       <span className={styles.tripDate}>{formatDate(trip.startAt)}</span>
-                      <strong className={styles.tripPrice}>
-                        {formatCurrency(trip.pricePerPerson)}
-                      </strong>
+                      <strong className={styles.tripPrice}>{formatCurrency(trip.pricePerPerson)}</strong>
                     </div>
                     <div className={styles.tripCardMeta}>
                       <span className={styles.slotsInfo}>
                         Còn <strong>{trip.availableSlots}</strong>/{trip.totalSlots} chỗ
                       </span>
-                      <Link
-                        to={ROUTES.ADMIN_TRIP_DETAIL(trip.id)}
-                        className={styles.dispatchTripButton}
-                      >
+                      <Link to={ROUTES.ADMIN_TRIP_DETAIL(trip.id)} className={styles.dispatchTripButton}>
                         Vận hành chuyến →
                       </Link>
                     </div>
@@ -270,10 +275,7 @@ export default function AdminTourDetailPage() {
           <section className={styles.panel} aria-label="Thao tác điều phối tour">
             <h2 className={styles.panelTitle}>Thao tác điều phối</h2>
             <div className={styles.quickOpsList}>
-              <Link
-                to={ROUTES.ADMIN_RECURRENCE_RULES(tour.id)}
-                className={styles.quickOpLink}
-              >
+              <Link to={ROUTES.ADMIN_RECURRENCE_RULES(tour.id)} className={styles.quickOpLink}>
                 <Repeat size={15} />
                 <span>Quy tắc lịch lặp sinh chuyến</span>
               </Link>
@@ -312,9 +314,7 @@ export default function AdminTourDetailPage() {
             <h1 id="admin-tour-detail-title" className={styles.title}>
               {tour?.name ?? 'Chi tiết tour'}
             </h1>
-            {tour?.status && (
-              <AdminCatalogStatusBadge status={normalizeTourStatus(tour.status)} />
-            )}
+            {tour?.status && <AdminCatalogStatusBadge status={normalizeTourStatus(tour.status)} />}
           </div>
           {tour && (
             <div className={styles.headerToolbar}>
@@ -326,10 +326,7 @@ export default function AdminTourDetailPage() {
               >
                 <ExternalLink size={14} /> Xem trang công khai
               </Link>
-              <Link
-                to={ROUTES.ADMIN_RECURRENCE_RULES(tour.id)}
-                className={styles.headerPrimaryBtn}
-              >
+              <Link to={ROUTES.ADMIN_RECURRENCE_RULES(tour.id)} className={styles.headerPrimaryBtn}>
                 <Repeat size={14} /> Lịch lặp Tour
               </Link>
             </div>

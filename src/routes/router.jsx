@@ -66,7 +66,7 @@ export const router = createBrowserRouter([
             lazy: lazyPage(() => import('@/features/trip-bookings/pages/ParticipantInvitationClaimPage')),
           },
 
-          // Yêu cầu đăng nhập (Customer, Staff, Admin, TourGuide)
+          // Hồ sơ và thông báo dùng chung cho mọi tài khoản đã đăng nhập.
           {
             element: <ProtectedRoute />,
             children: [
@@ -75,43 +75,48 @@ export const router = createBrowserRouter([
                 lazy: lazyPage(() => import('@/features/users/pages/ProfilePage')),
               },
               {
-                path: ROUTES.MY_ORDERS,
-                lazy: lazyPage(() => import('@/features/orders/pages/MyOrdersPage')),
-              },
-              {
-                path: ROUTES.MY_TRIPS,
-                lazy: lazyPage(() => import('@/features/participations/pages/MyTripsPage')),
-              },
-              {
                 path: ROUTES.NOTIFICATIONS,
                 lazy: lazyPage(() => import('@/features/notifications/pages/NotificationsPage')),
               },
               {
-                path: ROUTES.MY_REFUNDS,
-                lazy: lazyPage(() => import('@/features/refunds/pages/MyRefundsPage')),
+                element: <ProtectedRoute roles={[USER_ROLE.CUSTOMER]} />,
+                children: [
+                  {
+                    path: ROUTES.MY_ORDERS,
+                    lazy: lazyPage(() => import('@/features/orders/pages/MyOrdersPage')),
+                  },
+                  {
+                    path: ROUTES.MY_TRIPS,
+                    lazy: lazyPage(() => import('@/features/participations/pages/MyTripsPage')),
+                  },
+                  {
+                    path: ROUTES.MY_REFUNDS,
+                    lazy: lazyPage(() => import('@/features/refunds/pages/MyRefundsPage')),
+                  },
+                  {
+                    path: ROUTES.MY_REFUND_DETAIL(),
+                    lazy: lazyPage(() => import('@/features/refunds/pages/MyRefundDetailPage')),
+                  },
+                  {
+                    path: ROUTES.RENTAL_CHECKOUT,
+                    lazy: lazyPage(() => import('@/features/rentals/pages/RentalCheckoutPage')),
+                  },
+                  {
+                    path: ROUTES.RENTAL_ORDER_DETAIL(),
+                    lazy: lazyPage(() => import('@/features/rentals/pages/RentalOrderDetailPage')),
+                  },
+                  {
+                    path: ROUTES.TRIP_BOOKING_CREATE,
+                    lazy: lazyPage(() => import('@/features/trip-bookings/pages/TripBookingCreatePage')),
+                  },
+                  {
+                    path: ROUTES.TRIP_BOOKING_DETAIL(),
+                    lazy: lazyPage(() => import('@/features/trip-bookings/pages/TripBookingDetailPage')),
+                  },
+                ],
               },
               {
-                path: ROUTES.MY_REFUND_DETAIL(),
-                lazy: lazyPage(() => import('@/features/refunds/pages/MyRefundDetailPage')),
-              },
-              {
-                path: ROUTES.RENTAL_CHECKOUT,
-                lazy: lazyPage(() => import('@/features/rentals/pages/RentalCheckoutPage')),
-              },
-              {
-                path: ROUTES.RENTAL_ORDER_DETAIL(),
-                lazy: lazyPage(() => import('@/features/rentals/pages/RentalOrderDetailPage')),
-              },
-              {
-                path: ROUTES.TRIP_BOOKING_CREATE,
-                lazy: lazyPage(() => import('@/features/trip-bookings/pages/TripBookingCreatePage')),
-              },
-              {
-                path: ROUTES.TRIP_BOOKING_DETAIL(),
-                lazy: lazyPage(() => import('@/features/trip-bookings/pages/TripBookingDetailPage')),
-              },
-              {
-                element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF, USER_ROLE.TOUR_GUIDE]} />,
+                element: <ProtectedRoute roles={[USER_ROLE.ADMIN, USER_ROLE.STAFF, USER_ROLE.GUIDE]} />,
                 children: [
                   {
                     path: ROUTES.TRIP_GROUPING(),
@@ -205,14 +210,6 @@ export const router = createBrowserRouter([
                 lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourDetailPage')),
               },
               {
-                path: ROUTES.ADMIN_TOUR_NEW,
-                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourEditorPage')),
-              },
-              {
-                path: ROUTES.ADMIN_TOUR_EDIT(),
-                lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourEditorPage')),
-              },
-              {
                 path: ROUTES.ADMIN_PRODUCTS,
                 lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductsPage')),
               },
@@ -232,6 +229,14 @@ export const router = createBrowserRouter([
               {
                 element: <ProtectedRoute roles={[USER_ROLE.ADMIN]} />,
                 children: [
+                  {
+                    path: ROUTES.ADMIN_TOUR_NEW,
+                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourEditorPage')),
+                  },
+                  {
+                    path: ROUTES.ADMIN_TOUR_EDIT(),
+                    lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminTourEditorPage')),
+                  },
                   {
                     path: ROUTES.ADMIN_PRODUCT_CREATE,
                     lazy: lazyPage(() => import('@/features/admin-catalog/pages/AdminProductEditorPage')),
@@ -400,7 +405,7 @@ export const router = createBrowserRouter([
       // Khu vực Hướng dẫn viên Thực địa (Guide Portal — Mobile-First G01–G06)
       {
         element: (
-          <ProtectedRoute roles={[USER_ROLE.GUIDE, USER_ROLE.TOUR_GUIDE, USER_ROLE.ADMIN, USER_ROLE.STAFF]} />
+          <ProtectedRoute roles={[USER_ROLE.GUIDE]} />
         ),
         children: [
           {

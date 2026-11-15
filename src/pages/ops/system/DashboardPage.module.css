@@ -223,6 +223,10 @@
   align-items: stretch;
 }
 
+.staffActionOnly {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .analyticsColumn {
   min-width: 0;
   display: flex;

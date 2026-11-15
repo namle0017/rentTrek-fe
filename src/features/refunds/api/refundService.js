@@ -20,6 +20,8 @@ export const refundService = {
   getAdminQueue: (params) => axiosClient.get(ADMIN_REFUND_CASES.ROOT, { params: cleanParams(params) }),
   requestExportCode: () => axiosClient.post(ADMIN_REFUND_CASES.EXPORT_CODES),
   exportExcel: (payload) => axiosClient.post(ADMIN_REFUND_CASES.EXPORT, payload, { responseType: 'blob' }),
+  /** payload: { expectedRowVersion, note? } — Requested → Approved (Admin/Staff). */
+  approve: ({ refundCaseId, payload }) => axiosClient.post(ADMIN_REFUND_CASES.APPROVE(refundCaseId), payload),
   reject: ({ refundCaseId, payload }) => axiosClient.post(ADMIN_REFUND_CASES.REJECT(refundCaseId), payload),
   /** formData: providerTransactionId, expectedRowVersion, files (1..3 ảnh chứng từ). */
   complete: ({ refundCaseId, formData }) =>

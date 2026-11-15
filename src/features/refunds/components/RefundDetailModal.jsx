@@ -3,11 +3,7 @@ import { FileText, X, AlertTriangle } from 'lucide-react';
 import { REFUND_BANKS, REFUND_CASE_STATUS, REFUND_CASE_STATUS_LABEL } from '@/constants/enums';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
-import {
-  parseCancelReasonWithProofs,
-  parseAdminTransactionWithProof,
-  OVERRIDE_TYPES,
-} from '../utils/refundProofHelper';
+import { parseCancelReasonWithProofs, parseAdminTransactionWithProof } from '../utils/refundProofHelper';
 import { formatRefundCode, getBankName } from '../utils/refundDisplay';
 import styles from './RefundDetailModal.module.css';
 
@@ -18,14 +14,9 @@ export default function RefundDetailModal({
   onReject,
   onComplete,
   onMarkFailed,
+  canSettle = true,
 }) {
   const [activeLightboxUrl, setActiveLightboxUrl] = useState(null);
-  const [showOverrideForm, setShowOverrideForm] = useState(false);
-  const [overrideType, setOverrideType] = useState('ForceMajeureException');
-  const [customAmount, setCustomAmount] = useState(
-    item?.orderTotalAmount ? String(item.orderTotalAmount) : String(item?.amount || '')
-  );
-  const [overrideReason, setOverrideReason] = useState('');
 
   const parsedReason = parseCancelReasonWithProofs(item?.cancelReason);
   const parsedAdminTx = parseAdminTransactionWithProof(item?.providerTransactionId);
@@ -71,20 +62,6 @@ export default function RefundDetailModal({
   const appliedPolicyRule =
     item.appliedRule || item.appliedCase || item.policyRule || item.appliedPolicyRule;
 
-  const handleStandardApprove = () => {
-    onApprove?.(item, { overrideType: 'PolicyStandard', approvedAmount: item.amount });
-  };
-
-  const handleCustomOverrideSubmit = (e) => {
-    e.preventDefault();
-    const amountNum = Number(customAmount);
-    if (isNaN(amountNum) || amountNum <= 0) return;
-    onApprove?.(item, {
-      overrideType,
-      approvedAmount: amountNum,
-      adminApprovalReason: overrideReason.trim(),
-    });
-  };
 
   return (
     <>
@@ -219,6 +196,26 @@ export default function RefundDetailModal({
               )}
             </section>
 
+            {item.appealReason && (
+              <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>
+                  <FileText size={16} className={styles.sectionIcon} />
+                  <span>Lý do khiếu nại của khách</span>
+                </h3>
+                <p className={styles.reasonDetailText}>{item.appealReason}</p>
+              </section>
+            )}
+
+            {item.rejectionReason && (
+              <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>
+                  <AlertTriangle size={16} className={styles.sectionIcon} />
+                  <span>Lý do từ chối trước đó</span>
+                </h3>
+                <p className={styles.reasonDetailText}>{item.rejectionReason}</p>
+              </section>
+            )}
+
             {/* Khối Biên lai chuyển khoản ngân hàng của Admin (nếu đã có) */}
             {parsedAdminTx.hasProof && (
               <section className={styles.section}>
@@ -251,70 +248,6 @@ export default function RefundDetailModal({
               </section>
             )}
 
-            {/* Form Ghi đè số tiền hoàn (khi mở chế độ Miễn trừ đặc biệt) */}
-            {showOverrideForm && isRequested && (
-              <form className={styles.overrideForm} onSubmit={handleCustomOverrideSubmit}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <h4 style={{ margin: 0, fontSize: '0.875rem', fontWeight: 700, color: '#b45309' }}>
-                    ⚡ Phê duyệt Miễn trừ Đặc biệt (Ghi đè số tiền hoàn)
-                  </h4>
-                  <button
-                    type="button"
-                    onClick={() => setShowOverrideForm(false)}
-                    style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer' }}
-                  >
-                    Hủy
-                  </button>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <label className="form-field">
-                    <span>Loại miễn trừ</span>
-                    <select
-                      value={overrideType}
-                      onChange={(e) => setOverrideType(e.target.value)}
-                    >
-                      {Object.entries(OVERRIDE_TYPES).map(([val, label]) => (
-                        <option key={val} value={val}>
-                          {label}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="form-field">
-                    <span>Số tiền duyệt hoàn (VNĐ)</span>
-                    <input
-                      type="number"
-                      min="1000"
-                      value={customAmount}
-                      onChange={(e) => setCustomAmount(e.target.value)}
-                      required
-                    />
-                  </label>
-                </div>
-                <label className="form-field">
-                  <span>Lý do phê duyệt miễn trừ đặc biệt (Ghi chú đối soát)</span>
-                  <input
-                    type="text"
-                    value={overrideReason}
-                    placeholder="Ví dụ: Đường đèo sạt lở theo thông báo kiểm lâm, chấp thuận hoàn 100%"
-                    onChange={(e) => setOverrideReason(e.target.value)}
-                    required
-                  />
-                </label>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                  <button
-                    type="button"
-                    className={styles.btnSecondary}
-                    onClick={() => setShowOverrideForm(false)}
-                  >
-                    Quay lại
-                  </button>
-                  <button type="submit" className={styles.btnApprove} style={{ backgroundColor: '#b45309', borderColor: '#b45309' }}>
-                    Xác nhận duyệt ghi đè {formatCurrency(Number(customAmount) || 0)}
-                  </button>
-                </div>
-              </form>
-            )}
           </div>
 
           {/* Modal Footer Actions */}
@@ -333,27 +266,17 @@ export default function RefundDetailModal({
                   >
                     Từ chối
                   </button>
-                  {!showOverrideForm && (
-                    <button
-                      type="button"
-                      className={styles.btnOverride}
-                      title="Miễn trừ do thiên tai / sạt lở hoặc lỗi thiết bị từ RenTrek"
-                      onClick={() => setShowOverrideForm(true)}
-                    >
-                      Duyệt miễn trừ
-                    </button>
-                  )}
                   <button
                     type="button"
                     className={styles.btnApprove}
-                    onClick={handleStandardApprove}
+                    onClick={() => onApprove?.(item)}
                   >
-                    Duyệt chuẩn ({formatCurrency(item.amount)})
+                    Duyệt hoàn {formatCurrency(item.amount)}
                   </button>
                 </>
               )}
 
-              {isApproved && (
+              {isApproved && canSettle && (
                 <>
                   <button
                     type="button"

@@ -8,7 +8,7 @@ import {
   useMoveBookingToGroup,
   usePublishTripGrouping,
   useSplitTripBooking,
-  useTourGuideOptions,
+  useGuideOptions,
   useTripGrouping,
 } from '../hooks/useTripGroups';
 import TripGroupingPage from './TripGroupingPage';
@@ -20,7 +20,7 @@ vi.mock('../hooks/useTripGroups', () => ({
   useMoveBookingToGroup: vi.fn(),
   usePublishTripGrouping: vi.fn(),
   useSplitTripBooking: vi.fn(),
-  useTourGuideOptions: vi.fn(),
+  useGuideOptions: vi.fn(),
 }));
 
 const snapshot = {
@@ -117,7 +117,7 @@ describe('TripGroupingPage', () => {
     useAssignTripGroupGuide.mockReturnValue({ mutateAsync: guideAsync, isPending: false });
     usePublishTripGrouping.mockReturnValue({ mutateAsync: publishAsync, isPending: false });
     useSplitTripBooking.mockReturnValue({ mutateAsync: splitAsync, isPending: false });
-    useTourGuideOptions.mockReturnValue({
+    useGuideOptions.mockReturnValue({
       data: [
         { userId: 'guide-1', fullName: 'Đinh Văn Toàn' },
         { userId: 'guide-2', fullName: 'Nguyễn Minh Khoa' },
@@ -175,7 +175,7 @@ describe('TripGroupingPage', () => {
 
   it('shows assigned draft groups read-only for a guide', () => {
     useAuth.mockReturnValue({
-      currentUser: { role: 'TourGuide', fullName: 'Đinh Văn Toàn' },
+      currentUser: { role: 'Guide', fullName: 'Đinh Văn Toàn' },
     });
 
     renderPage();

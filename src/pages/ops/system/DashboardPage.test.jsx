@@ -140,5 +140,6 @@ describe('DashboardPage - Redesigned UI/UX', () => {
     expect(
       screen.getByText('Hiện không có cảnh báo hoặc công việc tồn đọng cần can thiệp khẩn cấp.'),
     ).toBeInTheDocument();
+    expect(screen.queryByText('Phân hệ thống kê doanh thu')).not.toBeInTheDocument();
   });
 });

@@ -14,7 +14,7 @@ import styles from './RefundProgressCard.module.css';
 
 const STEPS = [
   { status: REFUND_CASE_STATUS.REQUESTED, label: 'Đã tạo hồ sơ' },
-  { status: REFUND_CASE_STATUS.APPROVED, label: 'Kế toán đang xử lý' },
+  { status: REFUND_CASE_STATUS.APPROVED, label: 'Đã duyệt, chờ chuyển khoản' },
   { status: REFUND_CASE_STATUS.COMPLETED, label: 'Hoàn tất' },
 ];
 
@@ -28,14 +28,18 @@ const STEP_OF_SIDE_STATUS = {
 
 function ResubmitSection({ refundCase }) {
   const [isOpen, setIsOpen] = useState(false);
+  const isAppeal = refundCase.status === REFUND_CASE_STATUS.REJECTED;
   return (
     <div className={styles.resubmit}>
+      {isAppeal && refundCase.resubmitDeadline && (
+        <p>Bạn được khiếu nại 1 lần, hạn chót {formatDateTime(refundCase.resubmitDeadline)}.</p>
+      )}
       {!isOpen ? (
         <button type="button" className="btn btn-primary" onClick={() => setIsOpen(true)}>
-          Nhập STK và gửi lại yêu cầu hoàn tiền
+          {isAppeal ? 'Khiếu nại và gửi lại yêu cầu hoàn tiền' : 'Nhập STK và gửi lại yêu cầu hoàn tiền'}
         </button>
       ) : (
-        <RefundBankInfoForm refundCaseId={refundCase.refundCaseId} mode="resubmit" />
+        <RefundBankInfoForm refundCaseId={refundCase.refundCaseId} mode="resubmit" requireReason={isAppeal} />
       )}
     </div>
   );
@@ -45,7 +49,7 @@ const STATUS_NOTES = {
   [REFUND_CASE_STATUS.AWAITING_BANK_INFO]:
     'Vui lòng nhập số tài khoản nhận hoàn tiền để RenTrekk chuyển khoản cho bạn.',
   [REFUND_CASE_STATUS.COMPLETED]: 'Tiền hoàn đã được chuyển. Nếu chưa nhận được, vui lòng liên hệ hỗ trợ.',
-  [REFUND_CASE_STATUS.REJECTED]: 'Hồ sơ bị từ chối. Nếu lý do là thiếu hoặc sai số tài khoản, bạn có thể nhập lại và gửi lại yêu cầu.',
+  [REFUND_CASE_STATUS.REJECTED]: 'Hồ sơ bị từ chối. Nếu không đồng ý, bạn có thể khiếu nại 1 lần trong 7 ngày kèm lý do.',
   [REFUND_CASE_STATUS.FAILED]: 'Chuyển khoản không thành công. Bạn có thể kiểm tra lại số tài khoản và gửi lại yêu cầu.',
 };
 

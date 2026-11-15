@@ -63,17 +63,21 @@ describe('RefundDetailModal', () => {
     expect(onRejectMock).toHaveBeenCalledWith(mockItem);
   });
 
-  it('calls onApprove with standard policy when standard approve button is clicked', () => {
+  it('calls onApprove with the item when approve button is clicked', () => {
     const onApproveMock = vi.fn();
     render(<RefundDetailModal item={mockItem} onClose={vi.fn()} onApprove={onApproveMock} />);
 
-    const approveBtn = screen.getByText(/Duyệt chuẩn/i);
-    fireEvent.click(approveBtn);
+    fireEvent.click(screen.getByText(/Duyệt hoàn/i));
 
-    expect(onApproveMock).toHaveBeenCalledWith(mockItem, {
-      overrideType: 'PolicyStandard',
-      approvedAmount: 2400000,
-    });
+    expect(onApproveMock).toHaveBeenCalledWith(mockItem);
+  });
+
+  it('shows appeal reason and hides settle buttons when canSettle is false', () => {
+    const approved = { ...mockItem, status: 'Approved', appealReason: 'Tôi có giấy viện' };
+    render(<RefundDetailModal item={approved} onClose={vi.fn()} canSettle={false} />);
+
+    expect(screen.getByText('Tôi có giấy viện')).toBeInTheDocument();
+    expect(screen.queryByText(/Đã hoàn tiền/i)).not.toBeInTheDocument();
   });
 
   it('renders rental order correctly when tourName is null', () => {
@@ -106,16 +110,9 @@ describe('RefundDetailModal', () => {
     expect(screen.getByText('Hủy trước 7 ngày → Hoàn 80%')).toBeInTheDocument();
 
     // Check warning alert box for no proof
-    expect(
-      screen.getByRole('alert')
-    ).toHaveTextContent('Khách hàng không đính kèm tệp ảnh minh chứng');
+    expect(screen.getByRole('alert')).toHaveTextContent('Khách hàng không đính kèm tệp ảnh minh chứng');
 
-    // Check footer buttons order and tooltip
-    const overrideBtn = screen.getByRole('button', { name: 'Duyệt miễn trừ' });
-    expect(overrideBtn).toHaveAttribute(
-      'title',
-      'Miễn trừ do thiên tai / sạt lở hoặc lỗi thiết bị từ RenTrek'
-    );
+    // BE không hỗ trợ ghi đè số tiền nên không có nút miễn trừ
+    expect(screen.queryByRole('button', { name: 'Duyệt miễn trừ' })).not.toBeInTheDocument();
   });
 });
-

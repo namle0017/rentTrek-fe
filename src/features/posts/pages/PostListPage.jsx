@@ -1,5 +1,6 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import EmptyState from '@/components/EmptyState';
+import OutdoorIcon from '@/components/OutdoorIcon';
 import ErrorState from '@/components/ErrorState';
 import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
@@ -70,26 +71,26 @@ export default function PostListPage() {
           {pagedPosts.items.map((post) => (
             <li key={post.postId} className={styles.card}>
               {/* coverImageUrl = ảnh đầu tiên trong nội dung; bài không có ảnh giữ dải màu theo loại */}
-              <div className={styles.cover} data-type={post.postType}>
+              <Link
+                to={ROUTES.GUIDE_DETAIL(post.slug)}
+                className={styles.cover}
+                data-type={post.postType}
+                tabIndex={-1}
+                aria-hidden="true"
+              >
                 {post.coverImageUrl && (
                   <img className={styles.coverImage} src={post.coverImageUrl} alt="" loading="lazy" />
                 )}
                 <span className={styles.coverBadge}>{POST_TYPE_LABEL[post.postType] ?? post.postType}</span>
-              </div>
+              </Link>
               <div className={styles.cardBody}>
                 <h2 className={styles.cardTitle}>
                   <Link to={ROUTES.GUIDE_DETAIL(post.slug)}>{post.title}</Link>
                 </h2>
                 {post.excerpt && <p className={styles.excerpt}>{post.excerpt}</p>}
-                {post.tags.length > 0 && (
-                  <p className={styles.tags}>
-                    {post.tags.map((postTag) => (
-                      <span key={postTag.slug}>#{postTag.name}</span>
-                    ))}
-                  </p>
-                )}
                 <div className={styles.cardFooter}>
                   <span className={styles.meta}>
+                    <OutdoorIcon name="calendar" size={14} />
                     {post.publishedAt ? formatDate(post.publishedAt) : post.authorName}
                   </span>
                   <Link
@@ -98,7 +99,7 @@ export default function PostListPage() {
                     tabIndex={-1}
                     aria-hidden="true"
                   >
-                    Đọc tiếp
+                    Đọc ngay ›
                   </Link>
                 </div>
               </div>

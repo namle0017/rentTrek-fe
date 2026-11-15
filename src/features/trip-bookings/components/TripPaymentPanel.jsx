@@ -26,11 +26,12 @@ export default function TripPaymentPanel({ orderId, onSettled }) {
   }, [startPayment, orderId]);
   const { data: status } = usePaymentStatus(orderId, payment?.paymentId);
 
-  // Thanh toán xong hoặc đơn chuyển sang cần đối soát: tải lại booking để trang tự đổi trạng thái
+  // Thanh toán xong hoặc đơn chuyển sang cần đối soát: tải lại booking để trang tự đổi trạng thái.
+  // Đơn đã Paid (thu thêm khi đổi lịch) chỉ xong khi chính giao dịch này hết Pending.
   const settled =
     status &&
     (status.status !== PAYMENT_TRANSACTION_STATUS.PENDING ||
-      status.orderPaymentStatus !== PAYMENT_STATUS.UNPAID);
+      ![PAYMENT_STATUS.UNPAID, PAYMENT_STATUS.PAID].includes(status.orderPaymentStatus));
 
   useEffect(() => {
     if (!settled) return;

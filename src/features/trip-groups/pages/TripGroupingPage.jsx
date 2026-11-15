@@ -12,7 +12,7 @@ import {
   useMoveBookingToGroup,
   usePublishTripGrouping,
   useSplitTripBooking,
-  useTourGuideOptions,
+  useGuideOptions,
   useTripGrouping,
 } from '../hooks/useTripGroups';
 import styles from './TripGroupingPage.module.css';
@@ -149,7 +149,7 @@ export default function TripGroupingPage() {
   const publishMutation = usePublishTripGrouping();
   const splitMutation = useSplitTripBooking();
   const canEdit = [USER_ROLE.ADMIN, USER_ROLE.STAFF].includes(currentUser?.role);
-  const guideQuery = useTourGuideOptions(canEdit);
+  const guideQuery = useGuideOptions(canEdit);
   const [splitBooking, setSplitBooking] = useState(null);
   const [splitReason, setSplitReason] = useState('');
   const [splitAssignments, setSplitAssignments] = useState({});

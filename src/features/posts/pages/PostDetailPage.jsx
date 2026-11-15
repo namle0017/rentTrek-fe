@@ -58,9 +58,39 @@ export default function PostDetailPage() {
         </header>
 
         <div className={styles.content}>
-          {parsePostContent(post.content).map((block, index) =>
-            block.type === 'heading' ? <h2 key={index}>{block.text}</h2> : <p key={index}>{block.text}</p>,
-          )}
+          {parsePostContent(post.content).map((block, index) => {
+            switch (block.type) {
+              case 'heading':
+                return <h2 key={index}>{block.text}</h2>;
+              case 'image':
+                return (
+                  <figure key={index} className={styles.media}>
+                    <img src={block.src} alt={block.alt} loading={index < 3 ? 'eager' : 'lazy'} />
+                    {block.alt && <figcaption>{block.alt}</figcaption>}
+                  </figure>
+                );
+              case 'youtube':
+                return (
+                  <div key={index} className={`${styles.media} ${styles.video}`}>
+                    <iframe
+                      src={`https://www.youtube-nocookie.com/embed/${block.videoId}`}
+                      title={`Video YouTube trong bài ${post.title}`}
+                      loading="lazy"
+                      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                );
+              case 'video':
+                return (
+                  <div key={index} className={`${styles.media} ${styles.video}`}>
+                    <video src={block.src} controls preload="metadata" />
+                  </div>
+                );
+              default:
+                return <p key={index}>{block.text}</p>;
+            }
+          })}
         </div>
       </article>
 

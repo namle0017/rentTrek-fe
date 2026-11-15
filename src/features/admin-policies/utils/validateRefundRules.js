@@ -53,6 +53,11 @@ export function validateRefundRules(rules) {
     }
   });
 
+  // BE bắt buộc mốc 0 giờ để huỷ sát giờ luôn khớp một mức hoàn
+  if (!rootError && list.length > 0 && !hasZeroHourRule(list)) {
+    rootError = 'Cần có mốc 0 giờ (huỷ sát giờ khởi hành)';
+  }
+
   // Càng gần ngày đi (giờ càng nhỏ) thì % hoàn không được tăng
   const sorted = [...validForOrder].sort((a, b) => b.hours - a.hours);
   for (let i = 1; i < sorted.length; i += 1) {
@@ -67,7 +72,7 @@ export function validateRefundRules(rules) {
   return { isValid: !rootError && Object.keys(fieldErrors).length === 0, fieldErrors, rootError };
 }
 
-/** Cảnh báo mềm: chưa có mốc "0 giờ" nên sát giờ đi không rõ mức hoàn. */
+/** Có mốc "0 giờ" — bắt buộc để huỷ sát giờ luôn khớp một mức hoàn. */
 export function hasZeroHourRule(rules) {
   return (rules ?? []).some((rule) => !isBlank(rule?.minHoursBefore) && Number(rule.minHoursBefore) === 0);
 }

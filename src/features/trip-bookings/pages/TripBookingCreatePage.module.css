@@ -651,3 +651,18 @@
     flex: 1;
   }
 }
+.policyConsent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+
+.policyConsent input {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--color-primary);
+}

@@ -8,7 +8,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { formatCurrency } from '@/utils/formatCurrency';
 import ParticipantFields from '../components/ParticipantFields';
-import { useCreateTripBooking } from '../hooks/useTripBookings';
+import TripPolicyPanel from '../components/TripPolicyPanel';
+import { useCreateTripBooking, useTripRefundPolicy } from '../hooks/useTripBookings';
 import {
   BookingValidationError,
   normalizeBookingPayload,
@@ -46,11 +47,21 @@ export default function TripBookingCreatePage() {
   const submissionRef = useRef(null);
   const [step, setStep] = useState(0);
   const [serverMessage, setServerMessage] = useState('');
+  const [acceptedPolicy, setAcceptedPolicy] = useState(null);
   const tripId = searchParams.get('tripId') || '';
   const tourId = searchParams.get('tourId') || '';
   const initialPartySize = parsePartySize(searchParams.get('partySize'));
   const { data: tour } = useTour(tourId);
   const trip = tour?.availableTrips?.find((item) => item.id === tripId);
+  const policyQuery = useTripRefundPolicy(tripId);
+  const policyId = policyQuery.data?.refundPolicyId;
+  const policyVersion = policyQuery.data?.version;
+  const canAcceptPolicy = Boolean(policyId && policyVersion > 0 && !policyQuery.isFetching && !policyQuery.isError);
+  const policyAccepted =
+    canAcceptPolicy &&
+    acceptedPolicy?.tripId === tripId &&
+    acceptedPolicy.policyId === policyId &&
+    acceptedPolicy.version === policyVersion;
 
   const {
     register,
@@ -138,6 +149,11 @@ export default function TripBookingCreatePage() {
       if (error instanceof BookingValidationError) showClientErrors(error);
       return;
     }
+    if (!policyAccepted) {
+      setServerMessage('Vui lòng đọc và đồng ý chính sách huỷ & hoàn tiền.');
+      return;
+    }
+    payload = { ...payload, acceptedRefundPolicyVersion: policyVersion };
 
     const submission = resolveBookingSubmission(submissionRef.current, payload);
     submissionRef.current = submission;
@@ -154,6 +170,11 @@ export default function TripBookingCreatePage() {
         submissionRef.current = null;
       }
       setServerMessage(error?.message || 'Không thể giữ chỗ. Vui lòng thử lại.');
+      // Chính sách vừa đổi phiên bản: tải lại và bắt khách đồng ý lại
+      if (error?.statusCode === 409 && error.errors?.code?.includes('REFUND_POLICY_CHANGED')) {
+        setAcceptedPolicy(null);
+        void policyQuery.refetch();
+      }
       applyServerErrors(error, setError);
       const fieldSteps = Object.keys(error?.errors ?? {}).map(stepOfField);
       if (fieldSteps.length) setStep(Math.min(...fieldSteps));
@@ -385,6 +406,22 @@ export default function TripBookingCreatePage() {
                   </p>
                 )}
               </section>
+
+              <section className={styles.card} aria-labelledby="trip-policy-title">
+                <h2 id="trip-policy-title">Chính sách huỷ &amp; hoàn tiền</h2>
+                <TripPolicyPanel tripId={tripId} />
+                <label className={styles.policyConsent}>
+                  <input
+                    type="checkbox"
+                    checked={policyAccepted}
+                    disabled={!canAcceptPolicy}
+                    onChange={(event) =>
+                      setAcceptedPolicy(event.target.checked ? { tripId, policyId, version: policyVersion } : null)
+                    }
+                  />
+                  <span>Tôi đã đọc và đồng ý</span>
+                </label>
+              </section>
             </>
           )}
 
@@ -401,7 +438,11 @@ export default function TripBookingCreatePage() {
                 Tiếp tục
               </button>
             ) : (
-              <button type="submit" className={styles.submitButton} disabled={createBooking.isPending}>
+              <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={createBooking.isPending || !policyAccepted}
+              >
                 {createBooking.isPending ? 'Đang giữ chỗ...' : 'Xác nhận giữ chỗ'}
               </button>
             )}

@@ -23,6 +23,7 @@ const checklist = {
   rentalEndAt: '2026-11-10T10:00:00Z',
   totalIssuedCount: 2,
   returnedCount: 1,
+  minPhotos: 1,
   items: [
     {
       assignmentId: 'a-1',
@@ -40,6 +41,7 @@ const checklist = {
       productName: 'Lều cắm trại',
       variantName: '2 người',
       status: 'Issued',
+      photos: [{ id: 'p-1', stage: 'Return', imageUrl: 'https://cdn.test/p-1.jpg', assetAssignmentId: 'a-2' }],
     },
   ],
 };

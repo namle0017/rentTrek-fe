@@ -561,3 +561,15 @@
     font-size: 11px;
   }
 }
+
+.accountBadge {
+  min-width: 20px;
+  margin-left: auto;
+  padding: 1px 6px;
+  color: #fff;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  background: #c55742;
+  border-radius: 999px;
+}

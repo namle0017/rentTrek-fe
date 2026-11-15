@@ -322,6 +322,24 @@
 .dataTable tbody tr:hover {
   background: #f8fafc;
 }
+.highlightRow {
+  background: #f0fdf4 !important;
+}
+.highlightRow td {
+  color: #166534;
+  font-weight: 500;
+}
+.todayBadge {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #15803d;
+  background: #dcfce7;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
 .periodName {
   font-weight: 500;
   color: #0f172a;

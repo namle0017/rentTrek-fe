@@ -50,7 +50,9 @@ export const financeService = {
   cloneRefundPolicyVersion: (policyId) =>
     axiosClient.post(API_ENDPOINTS.REFUND_POLICIES.CLONE_VERSION(policyId)),
 
-  // Ghi nhận thanh toán thủ công: body { amount, paymentMethod, manualReference, reason }
-  recordManualPayment: ({ orderCode, ...body }) =>
-    axiosClient.post(API_ENDPOINTS.PAYMENTS.MANUAL_PAY(orderCode), body),
+  // Ghi nhận thanh toán thủ công: { orderCode, orderId, amount, paymentMethod, manualReference, reason }
+  recordManualPayment: ({ orderCode, orderId, ...body } = {}) => {
+    const code = orderCode || orderId;
+    return axiosClient.post(API_ENDPOINTS.PAYMENTS.MANUAL_PAY(code), { orderCode: code, ...body });
+  },
 };

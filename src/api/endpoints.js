@@ -184,6 +184,7 @@ export const API_ENDPOINTS = {
     APPROVE: (paymentId) => `/admin/refunds/${paymentId}/approve`,
     RETRY: (paymentId) => `/admin/refunds/${paymentId}/retry`,
     MARK_MANUAL: (paymentId) => `/admin/refunds/${paymentId}/mark-manual`,
+    PROOF: (paymentId, proofId) => `/admin/refunds/${paymentId}/proofs/${proofId}`,
   },
   RECONCILE: {
     ACCEPT: (orderId) => `/admin/orders/${orderId}/reconcile-accept`,
@@ -192,8 +193,14 @@ export const API_ENDPOINTS = {
   REFUND_POLICIES: {
     ROOT: '/admin/refund-policies',
     BY_ID: (policyId) => `/admin/refund-policies/${policyId}`,
-    RULES: (policyId) => `/admin/refund-policies/${policyId}/rules`,
     CLONE_VERSION: (policyId) => `/admin/refund-policies/${policyId}/clone-version`,
+    ACTIVATE: (policyId) => `/admin/refund-policies/${policyId}/activate`,
+    ARCHIVE: (policyId) => `/admin/refund-policies/${policyId}/archive`,
+  },
+  RENTAL_POLICIES: {
+    ROOT: '/admin/rental-policies',
+    BY_ID: (policyId) => `/admin/rental-policies/${policyId}`,
+    ACTIVE: '/rental-policies/active',
   },
   ADMIN_RECURRENCE: {
     BY_TOUR: (tourId) => `/admin/tours/${tourId}/recurrence-rules`,
@@ -268,13 +275,18 @@ export const API_ENDPOINTS = {
     RETURN: (tripId) => `/admin/trips/${tripId}/provided-items/return`,
   },
   REFUND_CASES: {
+    ROOT: '/refund-cases',
     BY_ID: (refundCaseId) => `/refund-cases/${refundCaseId}`,
+    RESUBMIT: (refundCaseId) => `/refund-cases/${refundCaseId}/resubmit`,
     BANK_INFO: (refundCaseId) => `/refund-cases/${refundCaseId}/bank-info`,
+    PROOF: (refundCaseId, proofId) => `/refund-cases/${refundCaseId}/proofs/${proofId}`,
   },
   ADMIN_REFUND_CASES: {
     ROOT: '/admin/refund-cases',
     EXPORT: '/admin/refund-cases/export',
     EXPORT_CODES: '/admin/refund-cases/export/verification-codes',
+    IMPORT_RESULT: '/admin/refund-cases/import-result',
+    PROOF: (refundCaseId, proofId) => `/admin/refund-cases/${refundCaseId}/proofs/${proofId}`,
     REJECT: (refundCaseId) => `/admin/refund-cases/${refundCaseId}/reject`,
     COMPLETE: (refundCaseId) => `/admin/refund-cases/${refundCaseId}/complete`,
     MARK_FAILED: (refundCaseId) => `/admin/refund-cases/${refundCaseId}/mark-failed`,

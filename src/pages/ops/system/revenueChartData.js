@@ -8,7 +8,7 @@ export const revenueServices = [
   { key: 'Rental', label: 'Thuê thiết bị', color: '#d39b54' },
 ];
 
-// The report API groups periods by Monday/month at midnight in Vietnam (UTC+7).
+// The report API groups periods at midnight in Vietnam (UTC+7).
 export const vietnamDate = (value) => {
   if (!value) return dayjs().utcOffset(7);
   const str = String(value);
@@ -21,35 +21,60 @@ export const vietnamDate = (value) => {
   return dayjs(str).utcOffset(7);
 };
 
-export const periodStart = (date, groupBy) =>
-  groupBy === 'month' ? date.startOf('month') : date.startOf('day').subtract((date.day() + 6) % 7, 'day');
+export const periodStart = (date, groupBy) => {
+  if (groupBy === 'month') return date.startOf('month');
+  if (groupBy === 'week') return date.startOf('day').subtract((date.day() + 6) % 7, 'day');
+  return date.startOf('day');
+};
 
-export function revenueRange(now, days) {
+export function revenueRange(now, days, customGroupBy) {
   const to = vietnamDate(now).endOf('day');
+  const defaultGroupBy = days <= 14 ? 'day' : days <= 90 ? 'week' : 'month';
+  const groupBy = customGroupBy || defaultGroupBy;
   return {
     from: to
       .subtract(days - 1, 'day')
       .startOf('day')
       .toISOString(),
     to: to.toISOString(),
-    groupBy: days <= 90 ? 'week' : 'month',
+    groupBy,
   };
 }
 
-export function buildRevenuePeriods(rows, range) {
+export function buildRevenuePeriods(rows, range, now) {
   const buckets = [];
   let cur = periodStart(vietnamDate(range.from), range.groupBy);
   const last = vietnamDate(range.to);
+  const vnNow = vietnamDate(now ?? range.to);
 
   while (cur.valueOf() <= last.valueOf()) {
     const next = cur.add(1, range.groupBy);
     const key = cur.format('YYYY-MM-DD');
+    const isToday = cur.isSame(vnNow, 'day');
+
+    let label = cur.format('DD/MM');
+    let title = `Ngày ${cur.format('DD/MM/YYYY')}`;
+
+    if (range.groupBy === 'day') {
+      label = isToday ? 'Hôm nay' : cur.format('DD/MM');
+      title = isToday
+        ? `Hôm nay (${cur.format('DD/MM/YYYY')})`
+        : `Ngày ${cur.format('DD/MM/YYYY')}`;
+    } else if (range.groupBy === 'week') {
+      label = cur.format('DD/MM');
+      title = `Tuần từ ${cur.format('DD/MM/YYYY')}`;
+    } else {
+      label = cur.format('MM/YYYY');
+      title = `Tháng ${cur.format('MM/YYYY')}`;
+    }
+
     buckets.push({
       key,
       startDate: cur,
       endDate: next,
-      label: cur.format(range.groupBy === 'month' ? 'MM/YYYY' : 'DD/MM'),
-      title: `${range.groupBy === 'month' ? 'Tháng' : 'Tuần từ'} ${cur.format(range.groupBy === 'month' ? 'MM/YYYY' : 'DD/MM/YYYY')}`,
+      label,
+      title,
+      isToday: range.groupBy === 'day' && isToday,
       Tour: { collections: 0, refunds: 0, netRevenueVnd: 0 },
       Rental: { collections: 0, refunds: 0, netRevenueVnd: 0 },
     });

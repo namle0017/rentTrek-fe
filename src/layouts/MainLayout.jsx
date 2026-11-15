@@ -7,6 +7,8 @@ import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { useUnreadNotificationCount } from '@/features/notifications/hooks/useNotifications';
 import { useRentalCart } from '@/features/rentals/hooks/useRentalCart';
+import { useMyRefunds } from '@/features/refunds/hooks/useRefundCases';
+import { REFUND_ACTION_STATUSES } from '@/features/refunds/utils/refundDisplay';
 import { useAuth } from '@/hooks/useAuth';
 import { getAvatarColor } from '@/utils/avatarColor';
 import DevClockBar from './DevClockBar';
@@ -19,6 +21,12 @@ export default function MainLayout() {
   const rentalCart = useRentalCart();
   const cartQuantity = rentalCart.items.reduce((sum, item) => sum + item.quantity, 0);
   const { data: unreadCount = 0 } = useUnreadNotificationCount(isAuthenticated);
+  // Số hồ sơ hoàn tiền đang chờ khách nhập STK / gửi lại yêu cầu
+  const refundActions = useMyRefunds(
+    { status: REFUND_ACTION_STATUSES.join(','), pageSize: 1 },
+    { enabled: isAuthenticated && currentUser?.role === USER_ROLE.CUSTOMER, staleTime: 60_000 },
+  );
+  const refundActionCount = refundActions.data?.totalItems ?? 0;
   const logoutMutation = useLogout();
   const location = useLocation();
   const navigate = useNavigate();
@@ -151,6 +159,15 @@ export default function MainLayout() {
                     <Link to={ROUTES.MY_TRIPS} className={styles.accountLink}>
                       <OutdoorIcon name="compass" size={16} />
                       <span>Chuyến của tôi</span>
+                    </Link>
+                    <Link to={ROUTES.MY_REFUNDS} className={styles.accountLink}>
+                      <OutdoorIcon name="shield" size={16} />
+                      <span>Hoàn tiền của tôi</span>
+                      {refundActionCount > 0 && (
+                        <span className={styles.accountBadge} aria-label={`${refundActionCount} hồ sơ cần bạn xử lý`}>
+                          {refundActionCount}
+                        </span>
+                      )}
                     </Link>
                     <div className={styles.accountDivider} />
                     <button

@@ -31,7 +31,7 @@ describe('RefundExportDialog', () => {
   it('downloads the file after the OTP is verified', async () => {
     const user = userEvent.setup();
     exportRefunds.mockResolvedValue(new Blob(['xlsx']));
-    render(<RefundExportDialog reExport={false} fromDate={null} toDate={null} onClose={onClose} />);
+    render(<RefundExportDialog fromDate={null} toDate={null} onClose={onClose} />);
 
     await enterCode(user);
     await user.click(screen.getByRole('button', { name: 'Xác thực và tải file' }));
@@ -39,7 +39,6 @@ describe('RefundExportDialog', () => {
     expect(exportRefunds).toHaveBeenCalledWith({
       challengeId: 'challenge-1',
       verificationCode: '123456',
-      reExport: false,
       fromDate: null,
       toDate: null,
     });
@@ -51,7 +50,7 @@ describe('RefundExportDialog', () => {
   it('keeps the dialog open and shows the error when the code is wrong', async () => {
     const user = userEvent.setup();
     exportRefunds.mockRejectedValue(new Error('Mã xác thực không đúng'));
-    render(<RefundExportDialog reExport={false} fromDate={null} toDate={null} onClose={onClose} />);
+    render(<RefundExportDialog fromDate={null} toDate={null} onClose={onClose} />);
 
     await enterCode(user);
     await user.click(screen.getByRole('button', { name: 'Xác thực và tải file' }));

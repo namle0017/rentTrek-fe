@@ -8,6 +8,7 @@ import { API_ENDPOINTS } from '@/api/endpoints';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import NotificationBell from '@/features/notifications/components/NotificationBell';
 import { useAuth } from '@/hooks/useAuth';
+import { toAdminPath } from '@/utils/roleRouting';
 import DevClockBar from './DevClockBar';
 import PortalSidebar from './components/PortalSidebar';
 import styles from './BackofficeShell.module.css';
@@ -46,14 +47,17 @@ function getPageTitle(pathname) {
   if (pathname === ROUTES.OPS_TRANSACTIONS) return 'Quản lý giao dịch';
   if (pathname === ROUTES.OPS_REFUNDS) return 'Hoàn tiền & Đối soát';
   if (pathname === ROUTES.ADMIN_REFUNDS) return 'Hàng đợi hoàn tiền';
-  if (pathname === ROUTES.ADMIN_REFUND_POLICY_CREATE || pathname === ROUTES.OPS_REFUND_POLICY_CREATE) return 'Tạo chính sách hoàn tiền';
+  if (pathname === ROUTES.ADMIN_REFUND_POLICY_CREATE || pathname === ROUTES.OPS_REFUND_POLICY_CREATE)
+    return 'Tạo chính sách hoàn tiền';
   if (pathname.startsWith(`${ROUTES.ADMIN_REFUND_POLICIES}/`)) {
     return pathname.endsWith('/edit') ? 'Sửa chính sách hoàn tiền' : 'Chi tiết chính sách hoàn tiền';
   }
-  if (pathname === ROUTES.ADMIN_REFUND_POLICIES || pathname.startsWith(ROUTES.OPS_REFUND_POLICIES)) return 'Chính sách hoàn tiền';
+  if (pathname === ROUTES.ADMIN_REFUND_POLICIES || pathname.startsWith(ROUTES.OPS_REFUND_POLICIES))
+    return 'Chính sách hoàn tiền';
   if (pathname === ROUTES.ADMIN_RENTAL_POLICY_CREATE) return 'Tạo phiên bản chính sách thuê đồ';
   if (pathname.startsWith(`${ROUTES.ADMIN_RENTAL_POLICIES}/`)) return 'Chi tiết chính sách thuê đồ';
-  if (pathname === ROUTES.ADMIN_RENTAL_POLICIES || pathname.startsWith(ROUTES.ADMIN_RENTAL_POLICY)) return 'Chính sách thuê đồ';
+  if (pathname === ROUTES.ADMIN_RENTAL_POLICIES || pathname.startsWith(ROUTES.ADMIN_RENTAL_POLICY))
+    return 'Chính sách thuê đồ';
   if (pathname.startsWith(ROUTES.ADMIN_RENTAL_REPORTS)) return 'Báo cáo đơn thuê';
   if (pathname.startsWith(ROUTES.ADMIN_CUSTOMER_REPORTS)) return 'Báo cáo từ khách hàng';
   if (pathname === ROUTES.OPS_ASSETS) return 'Quản lý kho thiết bị';
@@ -61,7 +65,7 @@ function getPageTitle(pathname) {
   if (pathname.includes('/provided-items')) return 'Cấp phát thiết bị cho chuyến đi';
   if (pathname.includes('/handover')) return 'Giao thiết bị';
   if (pathname.includes('/return')) return 'Thu hồi thiết bị';
-  if (pathname.includes('/settlement')) return 'Quyết toán & Phí phát sinh';
+  if (pathname.includes('/settlement')) return 'Phí phát sinh & hoàn cọc';
   return 'Quản trị hệ thống';
 }
 
@@ -79,7 +83,7 @@ export default function BackofficeShell({ nav, fallbackName }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const pageTitle = getPageTitle(location.pathname);
+  const pageTitle = getPageTitle(toAdminPath(location.pathname));
   const displayName = currentUser?.fullName || currentUser?.email || fallbackName;
 
   useEffect(() => {

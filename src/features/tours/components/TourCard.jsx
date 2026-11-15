@@ -8,30 +8,43 @@ const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1464822759023-fed622ff
 export default function TourCard({ tour }) {
   // BE trả badgeStatus "Đang mở" | "Hết hạn" đã tính sẵn
   const isOpen = tour.badgeStatus === 'Đang mở';
-  const durationText = tour.durationFormatted || `${tour.durationDays} ngày ${tour.durationNights} đêm`;
+  const durationText = `${tour.durationDays} Ngày ${tour.durationNights} Đêm`;
+  const eyebrow = tour.categoryName || tour.locationName;
+  const meta = [tour.departureDateRange && `Khởi hành ${tour.departureDateRange}`, tour.slotStatusText]
+    .filter(Boolean)
+    .join(' · ');
 
   const content = (
     <>
       <div className={styles.imageWrapper}>
         <img src={tour.thumbnailUrl || FALLBACK_IMAGE} alt="" className={styles.image} loading="lazy" />
-        {!isOpen && <span className={styles.badge}>{tour.badgeStatus || 'Hết hạn'}</span>}
+        <span className={styles.duration}>{durationText}</span>
       </div>
       <div className={styles.body}>
+        {eyebrow && (
+          <p className={styles.eyebrow}>
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+              <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" />
+              <circle cx="12" cy="10" r="2.5" />
+            </svg>
+            {eyebrow}
+          </p>
+        )}
         <h3 className={styles.title} title={tour.name}>
           {tour.name}
         </h3>
-        <p className={styles.meta}>
-          {durationText}
-          {tour.locationName && <> · {tour.locationName}</>}
-        </p>
-        {tour.departureDateRange && <p className={styles.meta}>Khởi hành {tour.departureDateRange}</p>}
+        {meta && <p className={styles.meta}>{meta}</p>}
         <div className={styles.footer}>
-          {tour.basePrice > 0 && (
+          <div className={styles.priceBlock}>
+            <small>Giá từ</small>
             <span className={styles.price}>
-              <small>Từ</small> {formatCurrency(tour.basePrice)}
+              {tour.basePrice > 0 ? formatCurrency(tour.basePrice) : 'Liên hệ'}
             </span>
-          )}
-          {tour.slotStatusText && <span className={styles.slot}>{tour.slotStatusText}</span>}
+          </div>
+          {/* span, không phải button: cả card đã là Link */}
+          <span className={isOpen ? styles.cta : styles.ctaClosed}>
+            {isOpen ? 'Xem lịch trình' : tour.badgeStatus || 'Hết hạn'}
+          </span>
         </div>
       </div>
     </>

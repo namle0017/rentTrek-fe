@@ -12,11 +12,26 @@ import ForbiddenPage from '@/pages/ForbiddenPage';
 import HomePage from '@/pages/HomePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import RouteErrorPage from '@/pages/RouteErrorPage';
+import { toStaffPath } from '@/utils/roleRouting';
 import LegacyTripRedirect from './LegacyTripRedirect';
 import ProtectedRoute from './ProtectedRoute';
 
 // Page lớn → lazy load để giảm bundle ban đầu (React Router tự chờ tải xong mới chuyển trang).
 const lazyPage = (importPage) => async () => ({ Component: (await importPage()).default });
+
+// Staff dùng cùng các trang /admin/... nhưng dưới /staff/... (route /ops/... dùng chung, không nhân đôi)
+const withStaffMirror = (routes) => {
+  const mirror = (list) =>
+    list.flatMap((route) => {
+      if (route.children) {
+        const children = mirror(route.children);
+        return children.length ? [{ ...route, children }] : [];
+      }
+      const staffPath = route.path && toStaffPath(route.path);
+      return staffPath && staffPath !== route.path ? [{ ...route, path: staffPath }] : [];
+    });
+  return [...routes, ...mirror(routes)];
+};
 
 export const router = createBrowserRouter([
   {
@@ -149,7 +164,7 @@ export const router = createBrowserRouter([
         children: [
           {
             element: <BackofficeLayout />,
-            children: [
+            children: withStaffMirror([
               {
                 path: ROUTES.ADMIN,
                 lazy: lazyPage(() => import('@/pages/ops/system/DashboardPage')),
@@ -422,16 +437,14 @@ export const router = createBrowserRouter([
                   },
                 ],
               },
-            ],
+            ]),
           },
         ],
       },
 
       // Khu vực Hướng dẫn viên Thực địa (Guide Portal — Mobile-First G01–G06)
       {
-        element: (
-          <ProtectedRoute roles={[USER_ROLE.GUIDE, USER_ROLE.ADMIN]} />
-        ),
+        element: <ProtectedRoute roles={[USER_ROLE.GUIDE, USER_ROLE.ADMIN]} />,
         children: [
           {
             element: <GuideLayout />,

@@ -11,14 +11,14 @@
 }
 
 .summary {
-  display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) auto auto;
-  gap: 14px;
+  display: flex;
   align-items: center;
+  gap: 14px;
 }
 
 .summary>div {
   display: grid;
+  flex: 1;
   min-width: 0;
 }
 

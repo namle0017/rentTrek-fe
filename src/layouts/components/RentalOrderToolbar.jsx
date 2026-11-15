@@ -6,7 +6,7 @@ import styles from './RentalOrderToolbar.module.css';
 const steps = [
   { key: 'handover', label: 'Giao thiết bị', route: ROUTES.OPS_HANDOVER },
   { key: 'return', label: 'Nhận lại thiết bị', route: ROUTES.OPS_RETURN },
-  { key: 'settlement', label: 'Quyết toán & Phí', route: ROUTES.OPS_SETTLEMENT },
+  { key: 'settlement', label: 'Phí & hoàn cọc', route: ROUTES.OPS_SETTLEMENT },
 ];
 
 export default function RentalOrderToolbar({ orderCode, step }) {

@@ -1,9 +1,10 @@
+import { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Breadcrumb from '@/components/Breadcrumb';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { USER_ROLE } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
-import { useAuth } from '@/hooks/useAuth';
+import { AuthContext } from '@/contexts/AuthContext';
 import styles from '../pages/ProfilePage.module.css';
 
 /**
@@ -12,7 +13,8 @@ import styles from '../pages/ProfilePage.module.css';
  * `active`: 'orders' | 'trips' | 'refunds' | 'notifications' | 'profile' | 'security'.
  */
 export default function AccountShell({ active, children }) {
-  const { currentUser } = useAuth();
+  const authContext = useContext(AuthContext);
+  const currentUser = authContext?.currentUser;
   const { pathname } = useLocation();
   const role = currentUser?.role;
   const isAdminOrStaff = role === USER_ROLE.ADMIN || role === USER_ROLE.STAFF;

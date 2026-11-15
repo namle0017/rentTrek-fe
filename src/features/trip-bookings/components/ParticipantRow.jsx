@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import OutdoorIcon from '@/components/OutdoorIcon';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { useUpdateParticipant } from '../hooks/useTripBookings';
 import { EMAIL_PATTERN } from '../utils/bookingSubmission';
@@ -7,7 +8,7 @@ import styles from './ParticipantRow.module.css';
 
 const linkLabel = (participant) => {
   if (participant.linkedUserId) return 'Đã liên kết tài khoản';
-  return participant.email ? 'Chờ tài khoản xác thực email' : 'Không dùng tài khoản';
+  return null;
 };
 
 function ParticipantEditForm({ orderId, participant, onClose }) {
@@ -111,21 +112,26 @@ function ParticipantEditForm({ orderId, participant, onClose }) {
   );
 }
 
-export default function ParticipantRow({ orderId, participant, index, canEdit }) {
+export default function ParticipantRow({ orderId, participant, index, canEdit, isSolo }) {
   const [editing, setEditing] = useState(false);
   const contact = [participant.email, participant.phone].filter(Boolean).join(' · ');
+  const label = linkLabel(participant);
 
   return (
     <article className={styles.row}>
       <div className={styles.summary}>
-        <span className={styles.avatar}>{String(index + 1).padStart(2, '0')}</span>
+        <span className={styles.avatar}>
+          {isSolo ? <OutdoorIcon name="user" size={15} /> : String(index + 1).padStart(2, '0')}
+        </span>
         <div>
           <strong>{participant.fullName}</strong>
           <small>{contact || 'Không khai liên hệ'}</small>
         </div>
-        <span className={participant.linkedUserId ? styles.linked : styles.status}>
-          {linkLabel(participant)}
-        </span>
+        {label && (
+          <span className={participant.linkedUserId ? styles.linked : styles.status}>
+            {label}
+          </span>
+        )}
         {canEdit && !editing && (
           <button
             type="button"

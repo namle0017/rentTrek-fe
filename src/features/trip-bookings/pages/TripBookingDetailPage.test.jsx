@@ -316,4 +316,35 @@ describe('TripBookingDetailPage', () => {
       'step',
     );
   });
+
+  it('customizes participant section and bill summary when booking for 1 person (solo)', () => {
+    const soloBooking = {
+      ...paidBooking,
+      participantCount: 1,
+      participants: [paidBooking.participants[0]],
+      subtotalAmount: 1500000,
+      totalAmount: 1500000,
+    };
+    showBooking(soloBooking);
+
+    renderPage();
+
+    expect(screen.getByText('THÔNG TIN THAM GIA')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Người tham gia' })).toBeInTheDocument();
+    expect(screen.queryByText('ĐOÀN CỦA BẠN')).not.toBeInTheDocument();
+    expect(screen.queryByText('Danh sách người tham gia')).not.toBeInTheDocument();
+    expect(screen.queryByText('1 người')).not.toBeInTheDocument();
+
+    expect(screen.getByText('Số lượng')).toBeInTheDocument();
+    expect(screen.getByText('1 khách')).toBeInTheDocument();
+    expect(screen.getByText('Giá tour')).toBeInTheDocument();
+    expect(screen.getByText('Tổng tiền')).toBeInTheDocument();
+    expect(screen.queryByText('Đơn giá')).not.toBeInTheDocument();
+    expect(screen.queryByText('Tạm tính')).not.toBeInTheDocument();
+
+    expect(screen.queryByLabelText('Chia sẻ chuyến đi cho nhóm')).not.toBeInTheDocument();
+    expect(
+      screen.getByText('Đã thanh toán — thông tin chuyến đi đã được chốt và bảo lưu.'),
+    ).toBeInTheDocument();
+  });
 });

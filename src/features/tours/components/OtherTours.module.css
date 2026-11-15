@@ -5,9 +5,8 @@
 .head {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
 .head h2 {
@@ -18,13 +17,23 @@
 }
 
 .head a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   color: var(--color-primary);
   font-size: var(--font-size-meta);
   font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.head a:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }

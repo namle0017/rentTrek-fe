@@ -54,7 +54,7 @@ export default function DevClockBar({ compact = false }) {
           </button>
           {clock.isSimulated && (
             <button type="button" disabled={isPending} onClick={reset}>
-              Về giờ thật
+              Tắt giả lập
             </button>
           )}
         </form>
@@ -68,7 +68,22 @@ export default function DevClockBar({ compact = false }) {
     <details className={`${styles.disclosure} ${clock.isSimulated ? styles.simulated : ''}`}>
       <summary>
         <span>{clock.isSimulated ? `Giờ giả lập: ${formatDateTime(clock.now)}` : 'Đồng hồ thử nghiệm'}</span>
-        <span className={styles.hint}>{clock.isSimulated ? 'Đang bật' : 'Giờ thực'} · Điều chỉnh</span>
+        <span className={styles.hint}>
+          {clock.isSimulated ? 'Đang bật' : 'Giờ thực'} · Điều chỉnh
+          {clock.isSimulated && canControl && (
+            <button
+              type="button"
+              className={styles.offButton}
+              disabled={isPending}
+              onClick={(event) => {
+                event.preventDefault(); // không mở/đóng <details>
+                reset();
+              }}
+            >
+              Tắt giả lập
+            </button>
+          )}
+        </span>
       </summary>
       {bar}
     </details>

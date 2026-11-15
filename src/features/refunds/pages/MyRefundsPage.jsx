@@ -6,6 +6,7 @@ import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
 import { ORDER_TYPE, REFUND_CASE_STATUS, REFUND_CASE_STATUS_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
+import AccountShell from '@/features/users/components/AccountShell';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
 import { useMyRefunds } from '../hooks/useRefundCases';
@@ -68,39 +69,40 @@ export default function MyRefundsPage() {
   };
 
   return (
-    <main className={styles.page}>
-      <header className={styles.header}>
-        <span className={styles.kicker}>TÀI KHOẢN</span>
-        <h1>Hoàn tiền của tôi</h1>
-        <p>Theo dõi các khoản hoàn tiền, nhập số tài khoản nhận tiền và xem biên lai chuyển khoản.</p>
-      </header>
+    <AccountShell active="refunds">
+      <div className={styles.page}>
+        <header className={styles.header}>
+          <h1>Hoàn tiền của tôi</h1>
+          <p>Theo dõi các khoản hoàn tiền, nhập số tài khoản nhận tiền và xem biên lai chuyển khoản.</p>
+        </header>
 
-      <div className={styles.tabs} role="group" aria-label="Lọc trạng thái hoàn tiền">
-        {TABS.map((tab) => (
-          <button
-            key={tab.label}
-            type="button"
-            aria-pressed={status === tab.status}
-            onClick={() => selectTab(tab.status)}
-          >
-            {tab.label}
-          </button>
-        ))}
+        <div className={styles.tabs} role="group" aria-label="Lọc trạng thái hoàn tiền">
+          {TABS.map((tab) => (
+            <button
+              key={tab.label}
+              type="button"
+              aria-pressed={status === tab.status}
+              onClick={() => selectTab(tab.status)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {isLoading && <Spinner />}
+        {isError && <ErrorState message={error?.message || 'Không thể tải danh sách hoàn tiền.'} onRetry={refetch} />}
+        {data?.items.length === 0 && <EmptyState message="Chưa có hồ sơ hoàn tiền nào." />}
+        {data?.items.length > 0 && (
+          <>
+            <div className={styles.list}>
+              {data.items.map((refund) => (
+                <RefundCard key={refund.refundCaseId} refund={refund} />
+              ))}
+            </div>
+            <Pagination {...data} onPageChange={setPageNumber} />
+          </>
+        )}
       </div>
-
-      {isLoading && <Spinner />}
-      {isError && <ErrorState message={error?.message || 'Không thể tải danh sách hoàn tiền.'} onRetry={refetch} />}
-      {data?.items.length === 0 && <EmptyState message="Chưa có hồ sơ hoàn tiền nào." />}
-      {data?.items.length > 0 && (
-        <>
-          <div className={styles.list}>
-            {data.items.map((refund) => (
-              <RefundCard key={refund.refundCaseId} refund={refund} />
-            ))}
-          </div>
-          <Pagination {...data} onPageChange={setPageNumber} />
-        </>
-      )}
-    </main>
+    </AccountShell>
   );
 }

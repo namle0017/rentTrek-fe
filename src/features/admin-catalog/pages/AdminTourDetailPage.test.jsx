@@ -24,7 +24,6 @@ const tour = {
   durationDays: 2,
   durationNights: 1,
   basePrice: 2450000,
-  equipmentDeposit: 500000,
   groupMaxParticipants: 12,
   status: 'Active', // giá trị cũ từ API chi tiết = Đang mở
   categoryName: 'Săn mây',

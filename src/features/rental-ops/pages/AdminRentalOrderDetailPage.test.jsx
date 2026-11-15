@@ -71,7 +71,7 @@ describe('AdminRentalOrderDetailPage', () => {
     renderPage();
     expect(screen.getByRole('link', { name: 'Giao đồ' })).toHaveAttribute('href', '/ops/rentals/RT-100/handover');
     expect(screen.getByRole('link', { name: 'Thu hồi' })).toHaveAttribute('href', '/ops/rentals/RT-100/return');
-    expect(screen.getByRole('link', { name: 'Quyết toán' })).toHaveAttribute('href', '/ops/rentals/RT-100/settlement');
+    expect(screen.getByRole('link', { name: 'Hoàn cọc' })).toHaveAttribute('href', '/ops/rentals/RT-100/settlement');
   });
 
   it('shows evidence photos and reports read-only', () => {

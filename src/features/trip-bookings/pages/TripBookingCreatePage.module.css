@@ -653,16 +653,39 @@
 }
 .policyConsent {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
   margin-top: 16px;
-  font-weight: var(--font-weight-semibold);
+  padding: 14px 18px;
+  background: #f9fbf9;
+  border: 1.5px solid #d4dfd6;
+  border-radius: 12px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.policyConsent:hover {
+  background: #f3f8f4;
+  border-color: #245c3e;
+}
+
+.policyConsent:has(input:checked) {
+  background: #edf6f0;
+  border-color: #245c3e;
 }
 
 .policyConsent input {
   width: 20px;
   height: 20px;
-  margin-top: 2px;
-  accent-color: var(--color-primary);
+  margin: 0;
+  accent-color: #1c4333;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.policyConsent span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #173d2d;
+  user-select: none;
 }

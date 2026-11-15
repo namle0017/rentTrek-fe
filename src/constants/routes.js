@@ -29,6 +29,8 @@ export const ROUTES = {
   RENTAL_ORDER_DETAIL: (orderId = ':orderId') => `/rental-orders/${orderId}`,
   RENTAL_ORDER_EXTEND: (orderId = ':orderId') => `/rental-orders/${orderId}/extend`,
   ADMIN: '/admin',
+  // Staff dùng cùng các trang back-office nhưng dưới prefix riêng (xem utils/roleRouting.js)
+  STAFF: '/staff',
   ADMIN_TOURS: '/admin/tours',
   ADMIN_TOUR_DETAIL: (tourId = ':tourId') => `/admin/tours/${tourId}`,
   ADMIN_TOUR_NEW: '/admin/tours/new',

@@ -50,17 +50,16 @@ export default function TourDetailPage() {
               {tour.coordinatesFormatted || tour.locationName}
             </p>
             <div className={styles.chips}>
-              <span className={styles.chipVerified}>
-                <OutdoorIcon name="check" size={14} /> Đã kiểm định {tour.inspectionRate}%
-              </span>
-              <span className={styles.chipLevel}>Cấp độ: {tour.difficultyLevel}</span>
-              <span className={styles.chip}>{tour.durationFormatted}</span>
+              {tour.difficultyLevel && (
+                <span className={styles.chipLevel}>Cấp độ: {tour.difficultyLevel}</span>
+              )}
+              {tour.durationFormatted && <span className={styles.chip}>{tour.durationFormatted}</span>}
             </div>
             {tour.description && <p className={styles.description}>{tour.description}</p>}
           </header>
 
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Lịch trình tour</h2>
+            <h2 className={styles.sectionTitle}>Lịch trình chi tiết</h2>
             <TourTimeline activities={tour.activities} />
           </section>
 

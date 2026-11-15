@@ -70,6 +70,8 @@ function getPolicyCases(preview) {
       id: rule.minHoursBefore,
       title,
       description: describePolicyOutcome(rule, preview.paidAmount),
+      percentage: rule.refundPercentage,
+      tone: rule.refundPercentage === 100 ? 'full' : rule.refundPercentage === 0 ? 'none' : 'partial',
       isApplied: rule.minHoursBefore === appliedMinHours,
     };
   });
@@ -96,13 +98,13 @@ function CancellationPolicyScreen({ preview, onBack }) {
     <section className={styles.policyScreen} aria-labelledby="cancellation-policy-title">
       <header className={styles.policyTopbar}>
         <div className={styles.policyTopbarInner}>
+          <button type="button" className={styles.policyBack} onClick={onBack}>
+            <span aria-hidden="true">←</span> Quay lại xác nhận hủy
+          </button>
           <span className={styles.policyBrand}>RenTrekk</span>
         </div>
       </header>
       <main className={styles.policyContent}>
-        <button type="button" className={styles.policyBack} onClick={onBack}>
-          <span aria-hidden="true">←</span> Quay lại xác nhận hủy
-        </button>
         <h1 id="cancellation-policy-title">Chính sách hủy booking</h1>
         <p className={styles.policyIntro}>
           Chính sách chung áp dụng cho mọi booking tour của RenTrekk. Thời điểm hủy được tính theo giờ khởi
@@ -111,6 +113,7 @@ function CancellationPolicyScreen({ preview, onBack }) {
         <div className={styles.policyMeta}>
           <span>{preview.refundPolicy.name}</span>
           <span>Phiên bản {preview.refundPolicy.version}</span>
+          <span>Đã thanh toán {formatCurrency(preview.paidAmount)}</span>
         </div>
 
         <ol className={styles.policyList}>
@@ -126,9 +129,12 @@ function CancellationPolicyScreen({ preview, onBack }) {
                 <h2>{policyCase.title}</h2>
                 <p>{policyCase.description}</p>
                 {policyCase.isApplied && (
-                  <span className={styles.appliedTag}>Đơn của bạn đang áp dụng trường hợp này</span>
+                  <span className={styles.appliedTag}>✓ Đơn của bạn đang áp dụng trường hợp này</span>
                 )}
               </div>
+              <span className={`${styles.policyPercent} ${styles[`tone_${policyCase.tone}`]}`}>
+                Hoàn {policyCase.percentage}%
+              </span>
             </li>
           ))}
         </ol>
@@ -137,6 +143,10 @@ function CancellationPolicyScreen({ preview, onBack }) {
           Nếu RenTrekk chủ động hủy chuyến, khách được hoàn toàn bộ số tiền đã thanh toán. Đơn cũ luôn dùng
           phiên bản chính sách đã chấp nhận lúc đặt.
         </p>
+
+        <button type="button" className={styles.policyDone} onClick={onBack}>
+          Đã hiểu
+        </button>
       </main>
     </section>,
     document.body,

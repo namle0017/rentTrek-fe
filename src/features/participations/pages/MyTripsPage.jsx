@@ -6,6 +6,7 @@ import Spinner from '@/components/Spinner';
 import { TRIP_STATUS_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import styles from '@/features/orders/pages/MyOrdersPage.module.css';
+import AccountShell from '@/features/users/components/AccountShell';
 import { formatDateTime } from '@/utils/formatDate';
 import {
   useMarkParticipantPostRead,
@@ -125,24 +126,26 @@ export default function MyTripsPage() {
   const { data, isLoading, isError, error, refetch } = useMyParticipations();
 
   return (
-    <section className={`container ${styles.page}`}>
-      <header className={styles.header}>
-        <span className={styles.kicker}>TÀI KHOẢN</span>
-        <h1>Chuyến của tôi</h1>
-      </header>
-      {isLoading ? (
-        <Spinner />
-      ) : isError ? (
-        <ErrorState message={error.message || 'Không tải được chuyến đi'} onRetry={refetch} />
-      ) : !data?.length ? (
-        <EmptyState message="Bạn chưa tham gia chuyến trekking nào." />
-      ) : (
-        <div className={styles.list}>
-          {data.map((p) => (
-            <TripCard key={p.participantId} participation={p} />
-          ))}
-        </div>
-      )}
-    </section>
+    <AccountShell active="trips">
+      <div className={styles.page}>
+        <header className={styles.header}>
+          <h1>Chuyến của tôi</h1>
+          <p>Các chuyến trekking bạn đã tham gia hoặc sắp khởi hành.</p>
+        </header>
+        {isLoading ? (
+          <Spinner />
+        ) : isError ? (
+          <ErrorState message={error.message || 'Không tải được chuyến đi'} onRetry={refetch} />
+        ) : !data?.length ? (
+          <EmptyState message="Bạn chưa tham gia chuyến trekking nào." />
+        ) : (
+          <div className={styles.list}>
+            {data.map((p) => (
+              <TripCard key={p.participantId} participation={p} />
+            ))}
+          </div>
+        )}
+      </div>
+    </AccountShell>
   );
 }

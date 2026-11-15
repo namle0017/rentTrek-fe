@@ -8,10 +8,11 @@ import TourBookingCard from './TourBookingCard';
 
 const tour = {
   id: 'tour-1',
-  inspectionRate: 96,
   availableTrips: [
     {
       id: 'trip-1',
+      startAt: '2026-11-02T01:00:00Z',
+      endAt: '2026-11-04T10:00:00Z',
       tripOptionTitle: 'Cuối tuần tháng 11',
       dateRangeFormatted: '02/11 - 04/11/2026',
       availableSlots: 2,
@@ -20,6 +21,8 @@ const tour = {
     },
     {
       id: 'trip-2',
+      startAt: '2026-12-05T01:00:00Z',
+      endAt: '2026-12-07T10:00:00Z',
       tripOptionTitle: 'Đầu tháng 12',
       dateRangeFormatted: '05/12 - 07/12/2026',
       availableSlots: 4,
@@ -58,13 +61,17 @@ describe('TourBookingCard', () => {
     const user = userEvent.setup();
     renderCard();
 
+    expect(screen.queryByRole('radio')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /Ngày khởi hành/ }));
     expect(screen.getByRole('radio', { name: /02\/11 - 04\/11\/2026/ })).toBeChecked();
+    expect(screen.getByText('Tháng 11 2026')).toBeInTheDocument();
     expect(
       screen.getByText(
         (_, element) => element.id === 'booking-card-title' && element.textContent.includes('1.500.000'),
       ),
     ).toBeInTheDocument();
 
+    await user.click(screen.getByRole('button', { name: 'Tháng sau' }));
     await user.click(screen.getByRole('radio', { name: /05\/12 - 07\/12\/2026/ }));
 
     expect(
@@ -117,6 +124,8 @@ describe('TourBookingCard', () => {
     renderCard();
 
     try {
+      await user.click(screen.getByRole('button', { name: /Ngày khởi hành/ }));
+      await user.click(screen.getByRole('button', { name: 'Tháng sau' }));
       await user.click(screen.getByRole('radio', { name: /05\/12 - 07\/12\/2026/ }));
       await user.click(screen.getByRole('button', { name: 'Chính sách huỷ & hoàn tiền' }));
 

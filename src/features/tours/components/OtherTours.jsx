@@ -14,7 +14,9 @@ export default function OtherTours({ excludeId, title = 'Chuyến đi khác' }) 
     <section className={styles.section} aria-label={title}>
       <div className={styles.head}>
         <h2>{title}</h2>
-        <Link to={ROUTES.TOURS}>Xem tất cả tour</Link>
+        <Link to={ROUTES.TOURS}>
+          Xem tất cả tour <span aria-hidden="true">→</span>
+        </Link>
       </div>
       <div className={styles.grid}>
         {tours.map((tour) => (

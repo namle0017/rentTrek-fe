@@ -77,18 +77,38 @@
 
 .tipBox {
   display: flex;
-  gap: 10px;
-  padding: 12px 14px;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 16px;
+  background: #f4f8f5;
+  border: 1px solid #cfe1d1;
+  border-left: 3.5px solid #1c4333;
   border-radius: 10px;
   font-size: 0.8125rem;
-  color: #166534;
-  line-height: 1.5;
+  color: #2e4336;
+  line-height: 1.55;
 }
 
-.tipBox strong {
-  color: #14532d;
+.tipIconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #e3ede5;
+  color: #1c4333;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.tipContent {
+  flex: 1;
+}
+
+.tipTitle {
+  color: #173d2d;
+  font-weight: 700;
 }
 
 .field {
@@ -104,7 +124,7 @@
 }
 
 .field select,
-.field input,
+.field input:not([type='radio']):not([type='checkbox']):not([type='file']),
 .field textarea {
   width: 100%;
   padding: 9px 12px;
@@ -118,11 +138,11 @@
 }
 
 .field select:focus,
-.field input:focus,
+.field input:not([type='radio']):not([type='checkbox']):not([type='file']):focus,
 .field textarea:focus {
   outline: none;
-  border-color: #059669;
-  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+  border-color: #1c4333;
+  box-shadow: 0 0 0 3px rgba(28, 67, 51, 0.15);
 }
 
 .charCount {
@@ -135,69 +155,106 @@
 .actionGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .actionOption {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  padding: 12px 14px;
+  gap: 12px;
+  padding: 14px 16px;
   border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  background: #f8fafc;
-  transition: all 0.15s ease;
+  background: #fbfdfc;
+  transition: all 0.2s ease;
 }
 
 .actionOption:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+  background: #f4f8f5;
+  border-color: #9cb8a6;
 }
 
 .actionOptionSelected {
-  background: #eff6ff;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 1px #3b82f6;
+  background: #f0f7f2;
+  border-color: #1c4333;
+  box-shadow: 0 0 0 1px #1c4333, 0 2px 8px rgba(28, 67, 51, 0.08);
 }
 
 .actionOption input[type='radio'] {
-  margin-top: 3px;
-  accent-color: #2563eb;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px;
+  min-height: 18px;
+  margin: 2px 0 0 0;
+  padding: 0 !important;
+  border: 2px solid #cbd5e1;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.actionOption input[type='radio']::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.15s ease-in-out;
+  background-color: #1c4333;
+}
+
+.actionOption input[type='radio']:checked {
+  border-color: #1c4333;
+  background-color: #ffffff;
+}
+
+.actionOption input[type='radio']:checked::before {
+  transform: scale(1);
 }
 
 .actionLabel {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: #1e293b;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #173d2d;
   display: block;
+  line-height: 1.35;
 }
 
 .actionDesc {
   font-size: 0.75rem;
-  color: #64748b;
+  color: #55685a;
   display: block;
-  margin-top: 2px;
+  margin-top: 4px;
+  line-height: 1.45;
 }
 
 .uploadBox {
-  border: 1.5px dashed #94a3b8;
+  border: 1.5px dashed #b0c2b5;
   border-radius: 10px;
   padding: 14px;
   text-align: center;
-  background: #f8fafc;
+  background: #fbfdfb;
   cursor: pointer;
-  transition: background-color 0.15s;
+  transition: all 0.15s ease;
 }
 
 .uploadBox:hover {
-  background: #f1f5f9;
+  background: #f4f8f5;
+  border-color: #245c3e;
 }
 
 .uploadText {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #0284c7;
+  color: #1c4333;
 }
 
 .thumbGrid {
@@ -268,19 +325,19 @@
 }
 
 .submitBtn {
-  padding: 9px 20px;
+  padding: 10px 22px;
   font-size: 0.875rem;
   font-weight: 600;
   color: #ffffff;
-  background: #059669;
-  border: 1px solid #047857;
+  background: #1c4333;
+  border: 1px solid #133125;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.15s;
+  transition: all 0.15s ease;
 }
 
 .submitBtn:hover:not(:disabled) {
-  background: #047857;
+  background: #133125;
 }
 
 .submitBtn:disabled {

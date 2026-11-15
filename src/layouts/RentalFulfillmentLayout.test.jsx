@@ -100,7 +100,7 @@ describe('RentalFulfillmentLayout', () => {
     await user.click(screen.getByRole('link', { name: 'Nhận lại thiết bị' }));
     expect(screen.getByRole('heading', { name: 'Nhận: ORDER-42' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Nhận lại thiết bị' })).toHaveAttribute('aria-current', 'page');
-    await user.click(screen.getByRole('link', { name: 'Quyết toán & Phí' }));
+    await user.click(screen.getByRole('link', { name: 'Phí & hoàn cọc' }));
     expect(screen.getByRole('heading', { name: 'Quyết toán: ORDER-42' })).toBeInTheDocument();
     expect(screen.getAllByRole('button', { name: 'Tìm đơn' })).toHaveLength(1);
   });

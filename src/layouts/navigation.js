@@ -12,6 +12,7 @@ import {
   Warehouse,
 } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
+import { toStaffPath } from '@/utils/roleRouting';
 
 /**
  * Cấu hình menu cho từng khu vực (Admin / Staff / Guide), render bằng PortalSidebar.
@@ -36,7 +37,7 @@ const warehouseGroup = {
     ['/ops/trips/provided-items', 'Đồ cấp chuyến'],
     ['/ops/rentals/handover', 'Giao thiết bị'],
     ['/ops/rentals/return', 'Thu hồi thiết bị'],
-    ['/ops/rentals/settlement', 'Quyết toán & phí'],
+    ['/ops/rentals/settlement', 'Phí & hoàn cọc'],
   ],
 };
 
@@ -107,11 +108,11 @@ export const ADMIN_NAV = {
   ],
 };
 
-/** Staff trực tiếp quản lý kho → nhóm Kho lên đầu, không có Nội dung / Tài chính / Hệ thống. */
+/** Staff trực tiếp quản lý kho → nhóm Kho lên đầu, không có Nội dung / Tài chính / Hệ thống. Link dưới `/staff`. */
 export const STAFF_NAV = {
   brandSuffix: 'Vận hành',
-  brandTo: ROUTES.ADMIN,
-  overview: backofficeOverview,
+  brandTo: ROUTES.STAFF,
+  overview: { ...backofficeOverview, to: ROUTES.STAFF },
   caption: 'VẬN HÀNH',
   groups: [
     { ...warehouseGroup, expanded: true },
@@ -119,7 +120,7 @@ export const STAFF_NAV = {
     tourGroup,
     { title: 'Tài chính', icon: Wallet, items: [[ROUTES.ADMIN_REFUNDS, 'Hoàn tiền']] },
     policyGroup,
-  ],
+  ].map((group) => ({ ...group, items: group.items.map(([to, ...rest]) => [toStaffPath(to), ...rest]) })),
 };
 
 export const GUIDE_NAV = {

@@ -24,7 +24,8 @@ export const rentalService = {
   getCancellationPreview: (orderId) =>
     axiosClient.get(API_ENDPOINTS.RENTAL_ORDERS.CANCELLATION_PREVIEW(orderId)),
   // Huỷ đơn đã thanh toán theo chính sách cọc (phí do server tính, khách xác nhận số tiền đã xem ở preview)
-  cancelPaid: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.CANCEL_PAID(orderId), payload),
+  cancelPaid: (orderId, payload) =>
+    axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.CANCEL_PAID(orderId), payload),
   confirmReceipt: (orderId) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.CONFIRM_RECEIPT(orderId)),
   uploadIssuePhoto: (orderId, { file, assignmentId, note }) => {
     const form = new FormData();
@@ -41,6 +42,7 @@ export const rentalService = {
   extend: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.EXTENSIONS(orderId), payload),
   getAdjustments: (orderId) => axiosClient.get(API_ENDPOINTS.RENTAL_ORDERS.ADJUSTMENTS(orderId)),
   getActivePolicy: () => axiosClient.get(API_ENDPOINTS.RENTAL_POLICY_ACTIVE),
-  reportItemIssue: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.ISSUES(orderId), payload),
+  reportItemIssue: (orderId, payload) =>
+    axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.ISSUES(orderId), payload),
   // Đã bỏ requestChargeReview: BE không có endpoint yêu cầu kiểm tra lại phí.
 };

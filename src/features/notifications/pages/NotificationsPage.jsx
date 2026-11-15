@@ -5,6 +5,7 @@ import ErrorState from '@/components/ErrorState';
 import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
 import styles from '@/features/orders/pages/MyOrdersPage.module.css';
+import AccountShell from '@/features/users/components/AccountShell';
 import { useAuth } from '@/hooks/useAuth';
 import { formatDateTime } from '@/utils/formatDate';
 import {
@@ -42,11 +43,12 @@ export default function NotificationsPage() {
   };
 
   return (
-    <section className={`container ${styles.page}`}>
-      <header className={styles.header}>
-        <span className={styles.kicker}>TÀI KHOẢN</span>
-        <h1>Thông báo</h1>
-      </header>
+    <AccountShell active="notifications">
+      <div className={styles.page}>
+        <header className={styles.header}>
+          <h1>Thông báo</h1>
+          <p>Cập nhật trạng thái đơn hàng, chuyến đi và thông báo hệ thống.</p>
+        </header>
 
       <div className={styles.tabs}>
         <button type="button" aria-pressed={!unreadOnly} onClick={() => changeFilter(false)}>
@@ -107,6 +109,7 @@ export default function NotificationsPage() {
           <Pagination {...data} onPageChange={setPage} />
         </>
       )}
-    </section>
-  );
+    </div>
+  </AccountShell>
+);
 }

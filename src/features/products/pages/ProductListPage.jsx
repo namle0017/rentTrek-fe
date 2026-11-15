@@ -164,32 +164,17 @@ export default function ProductListPage() {
             Chọn lều trại, balô và dụng cụ trekking. Thêm vào giỏ, chọn lịch thuê, xem tổng tiền và thanh toán
             VietQR trong một luồng.
           </p>
-          <Link className="btn btn-primary" to={ROUTES.RENTAL_CART}>
-            Xem giỏ thuê & tính giá →
-          </Link>
-          <Link className="btn btn-outline" to={ROUTES.BUNDLES} style={{ marginLeft: 12, color: '#fff' }}>
-            Xem combo thiết bị →
-          </Link>
+          <div className={styles.heroActions}>
+            <Link className={styles.heroChip} to={ROUTES.RENTAL_CART}>
+              Xem giỏ thuê & tính giá
+            </Link>
+            <Link className={styles.heroChip} to={ROUTES.BUNDLES}>
+              Xem combo thiết bị
+            </Link>
+          </div>
         </div>
       </section>
       <div className="container">
-        <section className={styles.benefits} id="travel-benefits" aria-labelledby="benefits-title">
-          <header className={styles.benefitsHeading}>
-            <p>KHÁC BIỆT CỦA RENTREKK</p>
-            <h2 id="benefits-title">3 Lớp Bảo Vệ Cho Trải Nghiệm Trekking An Tâm</h2>
-          </header>
-          <div className={styles.benefitGrid}>
-            {benefits.map((benefit) => (
-              <article className={styles.benefitCard} key={benefit.icon}>
-                <span className={styles.benefitIcon}>
-                  <OutdoorIcon name={benefit.icon} />
-                </span>
-                <h3>{benefit.title}</h3>
-                <p>{benefit.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
         <form
           className={styles.discoveryFilters}
           role="search"
@@ -279,6 +264,23 @@ export default function ProductListPage() {
             </button>
           </p>
         )}
+        <section className={styles.benefits} id="travel-benefits" aria-labelledby="benefits-title">
+          <header className={styles.benefitsHeading}>
+            <p>KHÁC BIỆT CỦA RENTREKK</p>
+            <h2 id="benefits-title">3 Lớp Bảo Vệ Cho Trải Nghiệm Trekking An Tâm</h2>
+          </header>
+          <div className={styles.benefitGrid}>
+            {benefits.map((benefit) => (
+              <article className={styles.benefitCard} key={benefit.icon}>
+                <span className={styles.benefitIcon}>
+                  <OutdoorIcon name={benefit.icon} />
+                </span>
+                <h3>{benefit.title}</h3>
+                <p>{benefit.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
         <section className={styles.equipment} id="equipment" aria-labelledby="equipment-title">
           <header className={styles.equipmentHeading}>
             <div>

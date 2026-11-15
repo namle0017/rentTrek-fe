@@ -171,7 +171,7 @@ export default function AdminRentalOrderDetailPage() {
               Thu hồi
             </Link>
             <Link to={ROUTES.OPS_SETTLEMENT(order.orderCode)} className="btn btn-secondary">
-              Quyết toán
+              Hoàn cọc
             </Link>
           </div>
         </section>
@@ -241,7 +241,7 @@ export default function AdminRentalOrderDetailPage() {
 
         <section className={styles.panel} aria-labelledby="rental-settlement-title">
           <h2 id="rental-settlement-title" className={styles.panelTitle}>
-            Quyết toán cọc
+            Phí & hoàn cọc
           </h2>
           <dl className={styles.settlement}>
             <div>

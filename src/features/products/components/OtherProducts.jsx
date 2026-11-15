@@ -14,7 +14,9 @@ export default function OtherProducts({ excludeId }) {
     <section className={styles.section} aria-label="Sản phẩm khác">
       <div className={styles.head}>
         <h2>Sản phẩm khác</h2>
-        <Link to={ROUTES.PRODUCTS}>Xem tất cả thiết bị</Link>
+        <Link to={ROUTES.PRODUCTS}>
+          Xem tất cả thiết bị <span aria-hidden="true">→</span>
+        </Link>
       </div>
       <div className={styles.grid}>
         {products.map((product) => (

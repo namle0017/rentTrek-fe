@@ -23,7 +23,6 @@ import CancelBookingPanel from '../components/CancelBookingPanel';
 import HoldCountdown from '../components/HoldCountdown';
 import { InviteLinkBox } from '../components/InvitationTokensPanel';
 import ParticipantRow from '../components/ParticipantRow';
-import ReschedulePanel from '../components/ReschedulePanel';
 import TripPaymentPanel from '../components/TripPaymentPanel';
 import TripSuggestedBundles from '../components/TripSuggestedBundles';
 import { useCustomerTripGrouping, useTripBooking } from '../hooks/useTripBookings';
@@ -176,6 +175,7 @@ export default function TripBookingDetailPage() {
     BOOKING_STATUS.COMPLETED,
   ].includes(booking.status);
   const canEdit = canEditParticipants(booking);
+  const isSolo = booking.participantCount === 1;
 
   const handleHoldExpire = () => {
     setHoldEnded(true);
@@ -269,13 +269,22 @@ export default function TripBookingDetailPage() {
       <div className={styles.layout}>
         {/* CỘT TRÁI (65%): Danh sách thành viên, đoàn & Hướng dẫn viên */}
         <div className={styles.mainColumn}>
-          <section className={styles.participants} aria-label="Danh sách thành viên đoàn">
+          <section
+            className={styles.participants}
+            aria-label={isSolo ? 'Thông tin người tham gia' : 'Danh sách thành viên đoàn'}
+          >
             <div className={styles.sectionTitle}>
               <div>
-                <span className={styles.kicker}>ĐOÀN CỦA BẠN</span>
-                <h2>{booking.canManage ? 'Danh sách người tham gia' : 'Thông tin tham gia của bạn'}</h2>
+                <span className={styles.kicker}>{isSolo ? 'THÔNG TIN THAM GIA' : 'ĐOÀN CỦA BẠN'}</span>
+                <h2>
+                  {isSolo
+                    ? 'Người tham gia'
+                    : booking.canManage
+                      ? 'Danh sách người tham gia'
+                      : 'Thông tin tham gia của bạn'}
+                </h2>
               </div>
-              <span className={styles.countBadge}>{booking.participantCount} người</span>
+              {!isSolo && <span className={styles.countBadge}>{booking.participantCount} người</span>}
             </div>
             <div className={styles.participantList}>
               {booking.participants.map((participant, index) => (
@@ -285,12 +294,15 @@ export default function TripBookingDetailPage() {
                   participant={participant}
                   index={index}
                   canEdit={canEdit}
+                  isSolo={isSolo}
                 />
               ))}
             </div>
             {booking.canManage && booking.paymentStatus === PAYMENT_STATUS.PAID && (
               <p className={styles.lockedParticipants}>
-                Đã thanh toán — không thể thêm hoặc xóa người. Người bổ sung cần tạo booking riêng.
+                {isSolo
+                  ? 'Đã thanh toán — thông tin chuyến đi đã được chốt và bảo lưu.'
+                  : 'Đã thanh toán — không thể thêm hoặc xóa người. Người bổ sung cần tạo booking riêng.'}
               </p>
             )}
           </section>
@@ -298,6 +310,12 @@ export default function TripBookingDetailPage() {
           {isGroupingRelevant && (
             <div className={styles.groupingSection}>
               <BookingGroupingPanel groupingQuery={groupingQuery} />
+            </div>
+          )}
+
+          {booking.paymentStatus === PAYMENT_STATUS.PAID && booking.status === BOOKING_STATUS.CONFIRMED && (
+            <div className={styles.suggestedBundlesSection}>
+              <TripSuggestedBundles tripId={booking.tripId} partySize={booking.participantCount} />
             </div>
           )}
         </div>
@@ -316,19 +334,28 @@ export default function TripBookingDetailPage() {
                 <dd>{TRIP_STATUS_LABEL[booking.tripStatus] || booking.tripStatus}</dd>
               </div>
               <div>
-                <dt>Số người</dt>
-                <dd>{booking.participantCount} người</dd>
+                <dt>{isSolo ? 'Số lượng' : 'Số người'}</dt>
+                <dd>{isSolo ? '1 khách' : `${booking.participantCount} người`}</dd>
               </div>
               {booking.canManage && (
                 <>
-                  <div>
-                    <dt>Đơn giá</dt>
-                    <dd>{formatCurrency(booking.unitPrice)}</dd>
-                  </div>
-                  <div>
-                    <dt>Tạm tính</dt>
-                    <dd>{formatCurrency(booking.subtotalAmount)}</dd>
-                  </div>
+                  {isSolo ? (
+                    <div>
+                      <dt>Giá tour</dt>
+                      <dd>{formatCurrency(booking.unitPrice || booking.totalAmount)}</dd>
+                    </div>
+                  ) : (
+                    <>
+                      <div>
+                        <dt>Đơn giá</dt>
+                        <dd>{formatCurrency(booking.unitPrice)}</dd>
+                      </div>
+                      <div>
+                        <dt>Tạm tính</dt>
+                        <dd>{formatCurrency(booking.subtotalAmount)}</dd>
+                      </div>
+                    </>
+                  )}
                   <div className={styles.totalRow}>
                     <dt>Tổng tiền</dt>
                     <dd>{formatCurrency(booking.totalAmount)}</dd>
@@ -350,7 +377,7 @@ export default function TripBookingDetailPage() {
           </section>
 
           {/* Card 2: Chia sẻ chuyến đi (Tách biệt) */}
-          {canShareTripLink(booking) && (
+          {canShareTripLink(booking) && !isSolo && (
             <section className={styles.shareCard} aria-label="Chia sẻ chuyến đi cho nhóm">
               <div className={styles.shareCardHeader}>
                 <span className={styles.kicker}>CHIA SẺ CHUYẾN ĐI</span>
@@ -361,29 +388,14 @@ export default function TripBookingDetailPage() {
             </section>
           )}
 
-          {booking.canManage &&
-            booking.paymentStatus === PAYMENT_STATUS.PAID &&
-            (booking.status === BOOKING_STATUS.CONFIRMED ||
-              // Công ty huỷ chuyến: được chuyển miễn phí sang chuyến khác thay vì nhận hoàn
-              (booking.status === BOOKING_STATUS.CANCELLED && booking.tripStatus === 'Cancelled')) && (
-              <section className={styles.shareCard} aria-label="Đổi lịch chuyến đi">
-                <div className={styles.shareCardHeader}>
-                  <span className={styles.kicker}>ĐỔI LỊCH</span>
-                </div>
-                <ReschedulePanel orderId={orderId} onChanged={refetch} />
-              </section>
-            )}
-
-          {booking.paymentStatus === PAYMENT_STATUS.PAID && booking.status === BOOKING_STATUS.CONFIRMED && (
-            <TripSuggestedBundles tripId={booking.tripId} partySize={booking.participantCount} />
-          )}
-
           <OrderReportsCard
             orderId={orderId}
             tripLabel={`Đơn ${booking.orderCode} · ${orderMatch?.items?.[0]?.title || 'Chuyến đi'} · khởi hành ${formatDateTime(booking.tripStartAt)}`}
-            canReport={[BOOKING_STATUS.CONFIRMED, BOOKING_STATUS.IN_FULFILLMENT, BOOKING_STATUS.COMPLETED].includes(
-              booking.status,
-            )}
+            canReport={[
+              BOOKING_STATUS.CONFIRMED,
+              BOOKING_STATUS.IN_FULFILLMENT,
+              BOOKING_STATUS.COMPLETED,
+            ].includes(booking.status)}
           />
 
           {/* Card 3: Thao tác hủy booking (Tách biệt khỏi card thanh toán và chia sẻ) */}

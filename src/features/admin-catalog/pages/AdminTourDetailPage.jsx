@@ -9,7 +9,6 @@ import {
   ExternalLink,
   PlusCircle,
   Repeat,
-  Shield,
   Users,
 } from 'lucide-react';
 import Breadcrumb from '@/components/Breadcrumb';
@@ -126,12 +125,6 @@ export default function AdminTourDetailPage() {
                 </strong>
               </div>
 
-              <div className={styles.factItem}>
-                <span className={styles.factLabel}>
-                  <Shield size={14} /> Cọc thiết bị
-                </span>
-                <strong className={styles.factValue}>{formatCurrency(tour.equipmentDeposit)}</strong>
-              </div>
 
               {tour.groupMaxParticipants && (
                 <div className={styles.factItem}>

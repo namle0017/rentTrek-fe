@@ -40,7 +40,6 @@
 }
 
 .chip,
-.chipVerified,
 .chipLevel {
   display: inline-flex;
   align-items: center;
@@ -51,11 +50,6 @@
   font-weight: var(--font-weight-semibold);
   background: #f1f1ed;
   color: var(--color-text);
-}
-
-.chipVerified {
-  background: #e3f4e6;
-  color: #1f6a43;
 }
 
 .chipLevel {
@@ -127,7 +121,10 @@
   background: var(--color-surface, #ffffff);
   border: 1px solid var(--color-border, #dde4dd);
   border-radius: 12px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .relatedPostCard:hover {
@@ -173,7 +170,9 @@
   font-size: var(--font-size-meta);
   font-weight: var(--font-weight-body);
   text-decoration: none;
-  transition: color 0.15s ease, gap 0.15s ease;
+  transition:
+    color 0.15s ease,
+    gap 0.15s ease;
 }
 
 .readMoreLink:hover {

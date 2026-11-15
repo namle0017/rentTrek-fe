@@ -34,7 +34,8 @@ const renderPage = (search = '?tripId=trip-1&tourId=tour-1&partySize=1') =>
   );
 
 const next = (user) => user.click(screen.getByRole('button', { name: 'Tiếp tục' }));
-const agree = async (user) => user.click(await screen.findByRole('checkbox', { name: 'Tôi đã đọc và đồng ý' }));
+const agree = async (user) =>
+  user.click(await screen.findByRole('checkbox', { name: 'Tôi đã đọc và đồng ý' }));
 const policy = {
   refundPolicyId: 'policy-1',
   name: 'Chính sách tour',
@@ -58,7 +59,12 @@ describe('TripBookingCreatePage', () => {
       currentUser: { email: 'buyer@example.com', fullName: 'Buyer', phone: '0901234567' },
     });
     useCreateTripBooking.mockReturnValue({ mutateAsync, isPending: false });
-    useTripRefundPolicy.mockReturnValue({ data: policy, isLoading: false, isError: false, refetch: refetchPolicy });
+    useTripRefundPolicy.mockReturnValue({
+      data: policy,
+      isLoading: false,
+      isError: false,
+      refetch: refetchPolicy,
+    });
     useTour.mockReturnValue({
       data: {
         name: 'Tà Năng 2N1Đ',
@@ -90,9 +96,13 @@ describe('TripBookingCreatePage', () => {
     expect(screen.getByRole('heading', { name: 'Bạn đang đặt 1 chỗ' })).toBeInTheDocument();
     expect(screen.getByLabelText(/Số điện thoại liên hệ/)).toHaveValue('0901234567');
     await next(user);
-    expect(await screen.findByText(/Không có người đi cùng/)).toBeInTheDocument();
+    expect(await screen.findByLabelText('Ghi chú cho ban tổ chức')).toBeInTheDocument();
+    expect(screen.queryByText(/Không có người đi cùng/)).not.toBeInTheDocument();
+    // Đặt 1 chỗ: ô ghi chú nằm ở bước người tham gia, bước xác nhận chỉ hiển thị lại
+    await user.type(screen.getByLabelText('Ghi chú cho ban tổ chức'), '  Ăn chay  ');
     await next(user);
-    await user.type(await screen.findByLabelText('Ghi chú cho ban tổ chức'), '  Ăn chay  ');
+    expect(await screen.findByText('Ghi chú')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Ghi chú cho ban tổ chức')).not.toBeInTheDocument();
     await agree(user);
     await user.click(screen.getByRole('button', { name: 'Xác nhận giữ chỗ' }));
 

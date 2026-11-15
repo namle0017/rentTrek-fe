@@ -107,6 +107,25 @@
 .simulated .hint {
   color: #805c20;
 }
+.offButton {
+  margin-left: 10px;
+  padding: 3px 10px;
+  font: inherit;
+  font-weight: var(--font-weight-semibold);
+  color: #fff;
+  background: #a5541c;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.offButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.offButton:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
 @media (max-width: 768px) {
   .disclosure {
     padding-inline: 14px;

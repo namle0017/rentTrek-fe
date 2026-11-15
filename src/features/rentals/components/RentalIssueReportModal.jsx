@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import OutdoorIcon from '@/components/OutdoorIcon';
 import { ISSUE_CATEGORIES } from '@/features/refunds/utils/refundProofHelper';
 import { useReportRentalIssue } from '../hooks/useRentals';
 import styles from './RentalIssueReportModal.module.css';
@@ -156,11 +157,14 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
 
         <form onSubmit={handleSubmit} className={styles.body}>
           <div className={styles.tipBox}>
-            <span>ℹ️</span>
-            <div>
-              <strong>Chính sách đổi trả hỏa tốc:</strong> Nếu thiết bị rách bạt, gãy cọc, kẹt khóa hoặc sai
-              kích cỡ, quý khách vui lòng gửi ảnh trước giờ bắt đầu kỳ thuê để RenTrek đổi đồ mới ngay hoặc
-              hoàn tiền 100% món đó.
+            <div className={styles.tipIconWrapper}>
+              <OutdoorIcon name="shield" size={16} />
+            </div>
+            <div className={styles.tipContent}>
+              <strong className={styles.tipTitle}>Chính sách đổi trả hỏa tốc:</strong>
+              <span>
+                {' '}Nếu thiết bị rách bạt, gãy cọc, kẹt khóa hoặc sai kích cỡ, quý khách vui lòng gửi ảnh trước giờ bắt đầu kỳ thuê để RenTrekk đổi đồ mới ngay hoặc hoàn tiền 100% món đó.
+              </span>
             </div>
           </div>
 
@@ -276,7 +280,7 @@ function RentalIssueReportDialog({ order, onClose, onSuccess }) {
             {proofUrls.length < 3 && (
               <label htmlFor="issue-proof-file" className={styles.uploadBox}>
                 <span className={styles.uploadText}>
-                  📷 Bấm vào đây để tải ảnh chụp lỗi ({proofUrls.length}/3)
+                  Bấm vào đây để tải ảnh chụp lỗi ({proofUrls.length}/3)
                 </span>
               </label>
             )}

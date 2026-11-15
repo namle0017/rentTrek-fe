@@ -1,23 +1,29 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import axiosClient from '@/api/axiosClient';
+import { useWriteOperation } from '@/features/operations/hooks/useOperations';
 import ProductVariantTools from './ProductVariantTools';
 
-vi.mock('@/api/axiosClient', () => ({ default: { post: vi.fn() } }));
-const variant = { variantId: 'variant-1', name: 'Lều 2 người', images: [], priceTiers: [] };
+vi.mock('@/api/axiosClient', () => ({ default: { post: vi.fn(), patch: vi.fn() } }));
+vi.mock('@/features/operations/hooks/useOperations', () => ({
+  useWriteOperation: vi.fn(),
+}));
+const mutate = vi.fn();
+const variant = { variantId: 'variant-1', sku: 'TENT-2P', name: 'Lều 2 người', images: [], priceTiers: [] };
 const url = 'https://res.cloudinary.com/test/image/upload/photo.png';
-function renderTools() {
+function renderTools(customVariant = variant) {
   render(
     <QueryClientProvider client={new QueryClient()}>
-      <ProductVariantTools productId="product-1" variant={variant} />
+      <ProductVariantTools productId="product-1" variant={customVariant} />
     </QueryClientProvider>,
   );
 }
-describe('product image uploads', () => {
+describe('product image uploads and variant tools', () => {
   beforeEach(() => {
     vi.resetAllMocks();
+    useWriteOperation.mockReturnValue({ mutate, isPending: false });
   });
   it('uploads multipart to the backend then attaches the secure URL to the variant', async () => {
     axiosClient.post.mockResolvedValueOnce({ data: { imageUrl: url } }).mockResolvedValueOnce({});
@@ -58,5 +64,41 @@ describe('product image uploads', () => {
     await waitFor(() => expect(axiosClient.post).toHaveBeenCalledTimes(3));
     expect(axiosClient.post.mock.calls[2][0]).toBe('/admin/variants/variant-1/images');
     expect(axiosClient.post.mock.calls.filter(([path]) => path.includes('/upload'))).toHaveLength(1);
+  });
+  it('opens confirmation dialog and soft-deletes the variant', async () => {
+    mutate.mockImplementation((_, callbacks) => callbacks.onSuccess({ data: null }));
+    const user = userEvent.setup();
+    renderTools();
+    await user.click(screen.getByRole('button', { name: 'Xóa biến thể' }));
+    const dialog = screen.getByRole('dialog', { name: 'Xóa biến thể sản phẩm' });
+    expect(dialog).toHaveTextContent('Lều 2 người');
+    expect(dialog).toHaveTextContent('SKU: TENT-2P');
+    await user.click(within(dialog).getByRole('button', { name: 'Xóa biến thể' }));
+    await waitFor(() =>
+      expect(mutate).toHaveBeenCalledWith(
+        {
+          endpoint: '/admin/variants/variant-1',
+          method: 'delete',
+          body: {},
+        },
+        expect.any(Object),
+      ),
+    );
+    expect(screen.queryByRole('dialog', { name: 'Xóa biến thể sản phẩm' })).not.toBeInTheDocument();
+  });
+  it('promotes a non-primary variant image to primary via PATCH endpoint', async () => {
+    axiosClient.patch.mockResolvedValueOnce({});
+    const user = userEvent.setup();
+    renderTools({
+      ...variant,
+      images: [
+        { imageId: 'img-1', imageUrl: 'https://img/1.png', isPrimary: true, displayOrder: 0 },
+        { imageId: 'img-2', imageUrl: 'https://img/2.png', isPrimary: false, displayOrder: 1 },
+      ],
+    });
+    await user.click(screen.getByRole('button', { name: 'Đặt ảnh Lều 2 người làm đại diện' }));
+    await waitFor(() =>
+      expect(axiosClient.patch).toHaveBeenCalledWith('/admin/variants/variant-1/images/img-2/primary'),
+    );
   });
 });

@@ -49,6 +49,10 @@
   font: inherit;
   cursor: pointer;
 }
+.image button.primaryAction {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
 .upload {
   display: flex;
   flex-direction: column;

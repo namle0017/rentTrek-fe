@@ -4,10 +4,12 @@ export const API_ENDPOINTS = {
   PRODUCT_MANAGEMENT: {
     ROOT: '/admin/products',
     BY_ID: (id) => `/admin/products/${id}`,
+    STATUS: (id) => `/admin/products/${id}/status`,
     VARIANTS: (id) => `/admin/products/${id}/variants`,
     VARIANT: (id) => `/admin/variants/${id}`,
     IMAGES: (id) => `/admin/variants/${id}/images`,
     IMAGE: (variantId, imageId) => `/admin/variants/${variantId}/images/${imageId}`,
+    PRIMARY_IMAGE: (variantId, imageId) => `/admin/variants/${variantId}/images/${imageId}/primary`,
     PRICE_TIERS: (id) => `/admin/variants/${id}/price-tiers`,
     UPLOAD: '/admin/products/images/upload',
   },
@@ -104,6 +106,7 @@ export const API_ENDPOINTS = {
     CATEGORIES: '/products/categories',
     ROOT: '/products',
     BY_ID: (id) => `/products/${id}`,
+    RELATED: (id) => `/products/${id}/related`,
   },
   TOURS: {
     ROOT: '/tours',

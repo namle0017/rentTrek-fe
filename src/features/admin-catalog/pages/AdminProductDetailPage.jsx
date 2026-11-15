@@ -1,4 +1,6 @@
-import { Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   Boxes,
   Calendar,
@@ -7,10 +9,13 @@ import {
   Pencil,
   Warehouse,
 } from 'lucide-react';
+import { API_ENDPOINTS } from '@/api/endpoints';
 import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
+import OperationDialog from '@/features/operations/components/OperationDialog';
+import { USER_ROLE } from '@/constants/enums';
 import { useAuth } from '@/hooks/useAuth';
 import { canManageCatalog } from '@/utils/roleRouting';
 import ProductVariantTools from '../components/ProductVariantTools';
@@ -27,7 +32,12 @@ const formatDayRange = (tier) =>
 export default function AdminProductDetailPage() {
   const { currentUser } = useAuth();
   const canManage = canManageCatalog(currentUser?.role);
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
   const { productId } = useParams();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [confirmDeleteProduct, setConfirmDeleteProduct] = useState(false);
+  const [confirmToggleStatus, setConfirmToggleStatus] = useState(false);
   const { data: product, isLoading, isError, error, refetch } = useAdminProduct(productId);
 
   const renderContent = () => {
@@ -147,6 +157,11 @@ export default function AdminProductDetailPage() {
                               <span className={styles.skuTag}>SKU: {variant.sku}</span>
                               {variant.size && <span className={styles.attrTag}>Cỡ: {variant.size}</span>}
                               {variant.color && <span className={styles.attrTag}>Màu: {variant.color}</span>}
+                              {variant.replacementValue !== null && variant.replacementValue !== undefined && (
+                                <span className={styles.attrTag}>
+                                  Giá trị đền bù: {formatCurrency(variant.replacementValue)}
+                                </span>
+                              )}
                             </div>
                           </div>
                           <AdminCatalogStatusBadge status={variant.status} />
@@ -189,7 +204,7 @@ export default function AdminProductDetailPage() {
 
                         {canManage && (
                           <div className={styles.variantActionRow}>
-                            <ProductVariantTools productId={product.productId} variant={variant} />
+                            <ProductVariantTools productId={product.productId} variant={variant} canDelete={isAdmin} />
                           </div>
                         )}
                       </div>
@@ -216,12 +231,32 @@ export default function AdminProductDetailPage() {
             </div>
 
             {canManage && (
-              <Link
-                className={styles.editProductButton}
-                to={ROUTES.ADMIN_PRODUCT_EDIT(product.productId)}
-              >
-                <Pencil size={15} /> Chỉnh sửa thông tin cơ bản
-              </Link>
+              <>
+                <Link
+                  className={styles.editProductButton}
+                  to={ROUTES.ADMIN_PRODUCT_EDIT(product.productId)}
+                >
+                  <Pencil size={15} /> Chỉnh sửa thông tin cơ bản
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-outline"
+                  onClick={() => setConfirmToggleStatus(true)}
+                >
+                  {product.status === PRODUCT_STATUS.ACTIVE
+                    ? 'Tạm ngưng kinh doanh'
+                    : 'Mở bán sản phẩm'}
+                </button>
+                {isAdmin && (
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    onClick={() => setConfirmDeleteProduct(true)}
+                  >
+                    Xóa sản phẩm
+                  </button>
+                )}
+              </>
             )}
           </section>
 
@@ -251,6 +286,53 @@ export default function AdminProductDetailPage() {
             </div>
           </section>
         </aside>
+        {confirmToggleStatus && (
+          <OperationDialog
+            title={
+              product.status === PRODUCT_STATUS.ACTIVE
+                ? 'Tạm ngưng kinh doanh sản phẩm'
+                : 'Mở bán lại sản phẩm'
+            }
+            fields={[]}
+            endpoint={API_ENDPOINTS.PRODUCT_MANAGEMENT.STATUS(product.productId)}
+            method="patch"
+            transform={() => ({
+              status: product.status === PRODUCT_STATUS.ACTIVE ? 'Inactive' : 'Active',
+            })}
+            submitLabel="Xác nhận đổi trạng thái"
+            onSuccess={() => {
+              queryClient.invalidateQueries();
+              setConfirmToggleStatus(false);
+            }}
+            onClose={() => setConfirmToggleStatus(false)}
+          >
+            <p>
+              Bạn có chắc chắn muốn chuyển trạng thái sản phẩm <strong>{product.name}</strong> sang{' '}
+              <strong>
+                {product.status === PRODUCT_STATUS.ACTIVE ? 'Tạm ngưng (Inactive)' : 'Hoạt động (Active)'}
+              </strong>
+              ?
+            </p>
+          </OperationDialog>
+        )}
+        {confirmDeleteProduct && (
+          <OperationDialog
+            title="Xóa sản phẩm"
+            fields={[]}
+            endpoint={API_ENDPOINTS.PRODUCT_MANAGEMENT.BY_ID(product.productId)}
+            method="delete"
+            submitLabel="Xác nhận xóa"
+            onSuccess={() => {
+              queryClient.invalidateQueries();
+              navigate(ROUTES.ADMIN_PRODUCTS);
+            }}
+            onClose={() => setConfirmDeleteProduct(false)}
+          >
+            <p>
+              Bạn có chắc chắn muốn xóa sản phẩm <strong>{product.name}</strong>? Sản phẩm và các biến thể sẽ bị ẩn khỏi danh sách vận hành và trang công khai.
+            </p>
+          </OperationDialog>
+        )}
       </div>
     );
   };

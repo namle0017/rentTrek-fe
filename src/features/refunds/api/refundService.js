@@ -6,6 +6,8 @@ const { REFUND_CASES, ADMIN_REFUND_CASES } = API_ENDPOINTS;
 
 export const refundService = {
   getById: (refundCaseId) => axiosClient.get(REFUND_CASES.BY_ID(refundCaseId)),
+  // Khách nhập STK cho hồ sơ đang chờ (no-show, hoàn cọc sau khi trả đồ)
+  submitBankInfo: ({ refundCaseId, payload }) => axiosClient.post(REFUND_CASES.BANK_INFO(refundCaseId), payload),
 
   getAdminQueue: (params) => axiosClient.get(ADMIN_REFUND_CASES.ROOT, { params: cleanParams(params) }),
   requestExportCode: () => axiosClient.post(ADMIN_REFUND_CASES.EXPORT_CODES),

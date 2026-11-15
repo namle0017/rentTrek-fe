@@ -4,6 +4,9 @@ import { API_BASE_URL } from '@/constants/config';
 import { cleanParams } from '@/utils/cleanParams';
 import { tokenStorage } from '@/utils/tokenStorage';
 
+// BE có lúc trả mảng, có lúc trả Paged data { items } — chuẩn hoá về mảng
+const toList = (data) => (Array.isArray(data) ? data : (data?.items ?? []));
+
 export const adminTripService = {
   // 7. Recurrence Rules (Màn O08)
   getRecurrenceRules: (tourId) => axiosClient.get(API_ENDPOINTS.ADMIN_RECURRENCE.BY_TOUR(tourId)),
@@ -22,7 +25,8 @@ export const adminTripService = {
   createTrip: (payload) => axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.ROOT, payload),
   getTripById: (tripId) => axiosClient.get(API_ENDPOINTS.ADMIN_TRIPS.BY_ID(tripId)),
   updateTrip: (tripId, payload) => axiosClient.put(API_ENDPOINTS.ADMIN_TRIPS.BY_ID(tripId), payload),
-  getReadinessChecklist: (tripId) => axiosClient.get(API_ENDPOINTS.ADMIN_TRIPS.READINESS_CHECKLIST(tripId)),
+  getReadinessChecklist: (tripId) =>
+    axiosClient.get(API_ENDPOINTS.ADMIN_TRIPS.READINESS_CHECKLIST(tripId)),
   openBooking: (tripId) => axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.OPEN_BOOKING(tripId)),
   closeBooking: (tripId) => axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.CLOSE_BOOKING(tripId)),
   startTrip: (tripId) => axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.START(tripId)),
@@ -37,7 +41,8 @@ export const adminTripService = {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     });
     if (!res.ok) throw new Error('Không thể tải file CSV Manifest');
-    const url = URL.createObjectURL(await res.blob());
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.download = `manifest-${tripId}.csv`;
@@ -52,7 +57,8 @@ export const adminTripService = {
   createGroup: (tripId, payload) => axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.GROUPS(tripId), payload),
   updateGroup: (tripId, groupId, payload) =>
     axiosClient.put(API_ENDPOINTS.ADMIN_TRIPS.GROUP_BY_ID(tripId, groupId), payload),
-  deleteGroup: (tripId, groupId) => axiosClient.delete(API_ENDPOINTS.ADMIN_TRIPS.GROUP_BY_ID(tripId, groupId)),
+  deleteGroup: (tripId, groupId) =>
+    axiosClient.delete(API_ENDPOINTS.ADMIN_TRIPS.GROUP_BY_ID(tripId, groupId)),
   assignParticipantGroup: (tripId, payload) =>
     axiosClient.patch(API_ENDPOINTS.ADMIN_TRIPS.ASSIGN_PARTICIPANT_GROUP(tripId), payload),
   autoGroup: (tripId) => axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.AUTO_GROUP(tripId)),
@@ -61,32 +67,45 @@ export const adminTripService = {
 
   // 11. Activity Attendance Matrix (Màn O14)
   getAttendanceMatrix: (tripId, groupId) =>
-    axiosClient.get(API_ENDPOINTS.ADMIN_TRIPS.ATTENDANCE_MATRIX(tripId), { params: cleanParams({ groupId }) }),
-  updateAttendances: (tripId, payload) => axiosClient.put(API_ENDPOINTS.ADMIN_TRIPS.ATTENDANCES(tripId), payload),
+    axiosClient.get(API_ENDPOINTS.ADMIN_TRIPS.ATTENDANCE_MATRIX(tripId), {
+      params: cleanParams({ groupId }),
+    }),
+  updateAttendances: (tripId, payload) =>
+    axiosClient.put(API_ENDPOINTS.ADMIN_TRIPS.ATTENDANCES(tripId), payload),
   getAttendanceHistory: (tripId) => axiosClient.get(API_ENDPOINTS.ADMIN_TRIPS.ATTENDANCES_HISTORY(tripId)),
 
-  // 12. Dữ liệu chọn khi tạo chuyến thủ công — map field BE sang tên form đang dùng
+  // 12. Dữ liệu tra cứu phục vụ Tạo Chuyến Đi Thủ Công (Màn O09)
+  // GET /admin/tours?status=Published — map về shape mà form tạo chuyến dùng
   getPublishedTours: async () => {
     const res = await axiosClient.get(API_ENDPOINTS.ADMIN_CATALOG.TOURS, {
       params: { status: 'Published', pageSize: 100 },
     });
-    return (res.data?.items ?? []).map((t) => ({
-      ...t,
-      title: t.name,
-      location: t.mainLocationName,
+    return toList(res.data).map((tour) => ({
+      ...tour,
+      title: tour.title ?? tour.name,
+      location: tour.location ?? tour.mainLocationName,
     }));
   },
 
+  // GET /admin/refund-policies — chỉ lấy chính sách Tour đang Active
   getActiveRefundPolicies: async () => {
     const res = await axiosClient.get(API_ENDPOINTS.REFUND_POLICIES.ROOT);
-    return (res.data ?? [])
-      .filter((p) => p.status === 'Active')
-      .map((p) => ({ ...p, refundPolicyId: p.policyId, policyName: p.name }));
+    return toList(res.data)
+      .filter((policy) => (policy.status ?? 'Active') === 'Active')
+      .filter((policy) => !policy.policyType || policy.policyType === 'Tour')
+      .map((policy) => ({
+        ...policy,
+        refundPolicyId: policy.refundPolicyId ?? policy.policyId,
+        policyName: policy.policyName ?? policy.name,
+        policyCode: policy.policyCode ?? (policy.version ? `v${policy.version}` : undefined),
+      }));
   },
 
   // BE lọc role khớp tuyệt đối 1 giá trị, nên lấy hết rồi bỏ Customer
   getCoordinators: async () => {
-    const res = await axiosClient.get(API_ENDPOINTS.ADMIN.USERS, { params: { pageSize: 100 } });
-    return (res.data?.items ?? []).filter((u) => u.role !== 'Customer');
+    const res = await axiosClient.get(API_ENDPOINTS.ADMIN.USERS, {
+      params: { status: 'Active', pageSize: 100 },
+    });
+    return toList(res.data).filter((user) => user.role && user.role !== 'Customer');
   },
 };

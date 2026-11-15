@@ -6,7 +6,7 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: var(--space-section, 24px);
   max-width: 1440px;
   margin: 0 auto;
   min-width: 0;
@@ -18,10 +18,10 @@
 .header {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
   gap: 16px;
-  padding-bottom: 20px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--color-border, #e2e8f0);
 }
 
@@ -33,15 +33,15 @@
 
 .pageTitle {
   margin: 0;
-  font-size: var(--font-size-page-title, 24px);
-  font-weight: 700;
+  font-size: var(--font-size-page-title, 20px);
+  font-weight: 600;
   color: var(--color-primary-heading, #0f172a);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
 }
 
 .pageSubtitle {
   margin: 0;
-  font-size: var(--font-size-body, 14px);
+  font-size: var(--font-size-body, 13px);
   color: var(--color-text-muted, #64748b);
   max-width: 65ch;
   line-height: 1.5;
@@ -58,12 +58,12 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 7px 13px;
   background: var(--color-surface, #ffffff);
   border: 1px solid var(--color-border, #e2e8f0);
   border-radius: var(--radius-md, 8px);
   font-size: var(--font-size-label, 13px);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-text, #334155);
   text-decoration: none;
   transition: all 0.15s ease;
@@ -79,7 +79,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 7px 16px;
   background: var(--color-primary, #1b4332);
   border: 1px solid var(--color-primary, #1b4332);
   border-radius: var(--radius-md, 8px);
@@ -119,7 +119,7 @@
 .sectionTitle {
   margin: 0;
   font-size: var(--font-size-section-title, 16px);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-primary-heading, #0f172a);
 }
 
@@ -141,7 +141,7 @@
   font-size: 12px;
 }
 
-/* ===== 2. KPI Metrics Grid (4 Cột đồng đều) ===== */
+/* ===== 2. KPI Metrics Grid (4 Cột đồng đều trên Desktop) ===== */
 .metricsGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -150,14 +150,16 @@
 
 .metricCard {
   min-width: 0;
-  padding: 18px 20px;
+  min-height: 110px;
+  padding: 16px 18px;
   background: var(--color-surface, #ffffff);
   border: 1px solid var(--color-border, #e2e8f0);
   border-radius: var(--radius-md, 12px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 6px;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -192,9 +194,9 @@
 
 .metricValue {
   display: block;
-  font-size: clamp(22px, 2vw, 28px);
+  font-size: 26px;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.2;
   color: var(--color-primary-heading, #0f172a);
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
@@ -203,20 +205,73 @@
 
 .metricSub {
   font-style: normal;
-  font-size: 18px;
+  font-size: 16px;
   color: #94a3b8;
   font-weight: 400;
 }
 
 .metricMeta {
   color: #94a3b8;
-  font-size: 12px;
-  margin-top: auto;
+  font-size: 11px;
 }
 
-/* ===== 3. Priority Action Center (Alerts) ===== */
+/* ===== 3. Section 3: Revenue Analytics & Action Center (Grid 60% / 40%) ===== */
+.analyticsAndActionGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: var(--space-section, 24px);
+  align-items: stretch;
+}
+
+.analyticsColumn {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.actionCenterColumn {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.actionCenterCard {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.actionCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.actionCardTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .alertHeadingIcon {
   color: #e11d48;
+}
+
+.actionCardTitle {
+  margin: 0;
+  font-size: var(--font-size-section-title, 16px);
+  font-weight: 700;
+  color: var(--color-primary-heading, #0f172a);
 }
 
 .alertCounterBadge {
@@ -233,58 +288,45 @@
   font-weight: 700;
 }
 
-.positiveEmptyCard {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: var(--radius-md, 12px);
-  color: #166534;
+.actionCardMeta {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
 }
 
-.positiveEmptyIcon {
+.actionCardLoading {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #dcfce7;
-  color: #15803d;
-  flex-shrink: 0;
+  min-height: 200px;
 }
 
-.positiveEmptyText strong {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.positiveEmptyText p {
-  margin: 0;
-  font-size: 13px;
-  color: #15803d;
-}
-
-.alertsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 14px;
-}
-
-.alertCard {
-  padding: 16px;
-  background: var(--color-surface, #ffffff);
-  border: 1px solid #fecdd3;
-  border-left: 4px solid #e11d48;
-  border-radius: var(--radius-md, 10px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+.alertsScrollList {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.alertItemCard {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid #e11d48;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.alertItemCard:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  border-left-color: #dc2626;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .alertHeaderRow {
@@ -317,7 +359,7 @@
 
 .alertTitle {
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: #0f172a;
   line-height: 1.4;
@@ -327,14 +369,75 @@
   margin: 0;
   font-size: 12px;
   color: #64748b;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
-/* ===== 4. Operations Overview (3 Cột ngang trên Desktop) ===== */
+.positiveEmptyCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-md, 10px);
+  color: #166534;
+  margin: auto 0;
+}
+
+.positiveEmptyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #15803d;
+  flex-shrink: 0;
+}
+
+.positiveEmptyText strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.positiveEmptyText p {
+  margin: 0;
+  font-size: 12px;
+  color: #15803d;
+}
+
+.staffNoticeCard {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.staffNoticeCard h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: #334155;
+}
+.staffNoticeCard p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+  max-width: 40ch;
+}
+
+/* ===== 4. Operations Overview (3 Cột ngang cân bằng trên Desktop) ===== */
 .operationsGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 20px;
 }
 
 .operationGroupCard {
@@ -345,6 +448,7 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .groupCardHeader {
@@ -381,7 +485,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 18px;
+  padding: 11px 18px;
   font-size: 13px;
   color: #334155;
   text-decoration: none;
@@ -406,27 +510,55 @@
   white-space: nowrap;
 }
 
-.neutralBadge {
+.badgeNeutral {
   min-width: 28px;
   padding: 2px 8px;
   border-radius: 6px;
   background: #f1f5f9;
   color: #64748b;
+  border: 1px solid #e2e8f0;
   text-align: center;
   font-size: 12px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
-.attentionBadge {
+.badgeUrgent {
   min-width: 28px;
   padding: 2px 8px;
   border-radius: 6px;
-  background: #ffedd5;
-  color: #c2410c;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
   text-align: center;
   font-size: 12px;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.badgeWarning {
+  min-width: 28px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.badgeNormal {
+  min-width: 28px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
@@ -445,6 +577,10 @@
 @media (max-width: 1024px) {
   .metricsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analyticsAndActionGrid {
+    grid-template-columns: 1fr;
   }
 
   .operationsGrid {

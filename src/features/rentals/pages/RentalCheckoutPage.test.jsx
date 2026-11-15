@@ -9,7 +9,7 @@ import RentalCheckoutPage from './RentalCheckoutPage';
 
 vi.mock('@/hooks/useAuth', () => ({ useAuth: () => ({ isAuthenticated: true, currentUser: { userId: 'user-1', fullName: 'Nguyễn An', phone: '0901234567' } }) }));
 vi.mock('../api/rentalService', () => ({ rentalService: { quote: vi.fn(), create: vi.fn() } }));
-const quote = { billableDays: 2, lines: [{ index: 0, displayName: 'Lều 2 người', quantity: 1, dailyPrice: 100000, lineAmount: 200000, isAvailable: true }], subtotalAmount: 200000, discountAmount: 0, depositAmount: 0, totalPayable: 200000, totalAmount: 200000, isAllAvailable: true, holdMinutes: 15, refundPolicy: { name: 'Chính sách thuê', version: 2, rules: [{ minHoursBefore: 24, refundPercentage: 100 }] } };
+const quote = { rentalStartAt: '2099-01-01T02:00:00Z', rentalEndAt: '2099-01-03T02:00:00Z', billableDays: 2, lines: [{ index: 0, displayName: 'Lều 2 người', quantity: 1, dailyPrice: 100000, lineAmount: 200000, isAvailable: true }], subtotalAmount: 200000, discountAmount: 0, depositAmount: 0, totalPayable: 200000, totalAmount: 200000, isAllAvailable: true, holdMinutes: 15, refundPolicy: { name: 'Chính sách thuê', version: 2, rules: [{ minHoursBefore: 24, refundPercentage: 100 }] } };
 const renderPage = () => render(<QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false }, mutations: { retry: false } } })}><MemoryRouter initialEntries={['/rental-checkout']}><Routes><Route path="/rental-checkout" element={<RentalCheckoutPage />} /><Route path="/rental-orders/:orderId" element={<output>Đã đến trang thanh toán</output>} /></Routes></MemoryRouter></QueryClientProvider>);
 describe('rental checkout', () => {
   beforeEach(() => {

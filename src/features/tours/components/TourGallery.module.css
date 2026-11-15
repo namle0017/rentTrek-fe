@@ -18,6 +18,23 @@
   background-color: #e2e8f0;
 }
 
+.single {
+  grid-template-columns: 1fr;
+}
+
+.single .mainImageWrapper {
+  grid-column: 1 / -1;
+}
+
+.noImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-weight: var(--font-weight-semibold);
+  cursor: default;
+}
+
 .subImageWrapper {
   position: relative;
   overflow: hidden;

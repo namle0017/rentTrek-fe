@@ -20,7 +20,8 @@
   color: #4a5870;
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-semibold);
-  padding: 12px 18px;
+  padding: 10px 16px;
+  height: var(--table-header-height, 38px);
 }
 .table th button {
   display: inline-flex;
@@ -36,12 +37,21 @@
 }
 .table td,
 .table tbody th {
-  padding: 15px 18px;
+  padding: 11px 16px;
   border-top: 1px solid #eceae5;
   max-width: 420px;
   white-space: normal;
   overflow-wrap: anywhere;
   vertical-align: middle;
+  height: var(--table-row-height, 44px);
+}
+.table code,
+.table :global(.monospace) {
+  font-family: var(--font-family-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-size: 12px;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 .table tbody th {
   font-weight: var(--font-weight-semibold);

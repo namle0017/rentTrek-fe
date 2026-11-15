@@ -197,7 +197,6 @@ export default function AdminTripCreatePage() {
                 { label: 'Thêm chuyến đi mới' },
               ]}
             />
-            <h1 className={styles.pageTitle}>Thêm chuyến đi mới</h1>
           </div>
         </div>
         <FormSkeleton fields={6} />
@@ -216,10 +215,6 @@ export default function AdminTripCreatePage() {
               { label: 'Thêm chuyến đi mới' },
             ]}
           />
-          <h1 className={styles.pageTitle}>Thêm chuyến đi mới</h1>
-          <p className={styles.subtitle}>
-            Thiết lập thông tin lịch trình, phân công điều phối và điều kiện khởi hành cho đoàn trekking
-          </p>
         </div>
 
         <div className={styles.actionRow}>
@@ -240,12 +235,12 @@ export default function AdminTripCreatePage() {
         </div>
       )}
 
-      <form onSubmit={handleOpenReview}>
+      <form onSubmit={handleOpenReview} className={styles.unifiedFormContainer}>
         {/* ====================================================================
             NHÓM 1: THÔNG TIN CHUYẾN ĐI & TOUR
            ==================================================================== */}
-        <div className={styles.formSectionCard}>
-          <div className={styles.sectionHeader}>
+        <div className={styles.unifiedSection}>
+          <div className={styles.unifiedSectionHeader}>
             <h2 className={styles.sectionTitle}>1. Thông tin chuyến đi & Tour Trekking</h2>
             <p className={styles.sectionSubtitle}>
               Chọn Tour đã phát hành để kế thừa giá vé cơ sở, chính sách hoàn tiền và thông số kỹ thuật.
@@ -341,8 +336,8 @@ export default function AdminTripCreatePage() {
         {/* ====================================================================
             NHÓM 2: LỊCH TRÌNH & ĐIỀU PHỐI
            ==================================================================== */}
-        <div className={styles.formSectionCard}>
-          <div className={styles.sectionHeader}>
+        <div className={styles.unifiedSection}>
+          <div className={styles.unifiedSectionHeader}>
             <h2 className={styles.sectionTitle}>2. Lịch trình & Điều phối đoàn</h2>
             <p className={styles.sectionSubtitle}>
               Xác định mốc khởi hành, thời điểm kết thúc và gán nhân sự phụ trách điều hành đoàn.
@@ -415,8 +410,8 @@ export default function AdminTripCreatePage() {
         {/* ====================================================================
             NHÓM 3: SỨC CHỨA & ĐIỀU KIỆN KHỞI HÀNH
            ==================================================================== */}
-        <div className={styles.formSectionCard}>
-          <div className={styles.sectionHeader}>
+        <div className={styles.unifiedSection}>
+          <div className={styles.unifiedSectionHeader}>
             <h2 className={styles.sectionTitle}>3. Sức chứa & Điều kiện khởi hành</h2>
             <p className={styles.sectionSubtitle}>
               Thiết lập ngưỡng sĩ số tối thiểu để kích hoạt chuyến đi và giới hạn số chỗ tối đa nhận khách.

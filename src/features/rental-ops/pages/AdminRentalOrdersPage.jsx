@@ -101,7 +101,7 @@ export default function AdminRentalOrdersPage() {
   };
 
   return (
-    <section className={styles.page} aria-labelledby="rental-orders-title">
+    <section className={styles.page} aria-label="Quản lý đơn thuê thiết bị">
       <RentalSchedulePanel />
 
       <form className={styles.filters} onSubmit={handleSubmit}>

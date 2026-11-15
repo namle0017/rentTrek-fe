@@ -2,9 +2,11 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Pagination from '@/components/Pagination';
+import ErrorState from '@/components/ErrorState';
 import { TableSkeleton } from '@/components/skeleton';
 import { TRIP_STATUS, TRIP_STATUS_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
+import { useDevClock } from '@/hooks/useDevClock';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate, formatDateTime } from '@/utils/formatDate';
 import { useAdminTrips } from '../hooks/useAdminTrips';
@@ -96,10 +98,15 @@ export default function AdminTripListPage() {
   // Bộ lọc trạng thái trực tiếp trên thanh lịch
   const [calendarStatusFilter, setCalendarStatusFilter] = useState('');
 
+  // "Hôm nay" theo giờ server (đồng hồ giả lập ở Development), không có thì dùng giờ máy
+  const { data: clock } = useDevClock();
+  const today = clock?.now ? dayjs(clock.now) : dayjs();
+  const todayStr = today.format('YYYY-MM-DD');
+
   // Mốc thời gian xem lịch
   const [currentDate, setCurrentDate] = useState(() => dayjs());
 
-  // Ngày được chọn để xem chi tiết bên Daily Detail Panel (mặc định hôm nay)
+  // Ngày được chọn để xem chi tiết bên Daily Detail Panel (mặc định chọn hôm nay)
   const [selectedDate, setSelectedDate] = useState(() => dayjs().format('YYYY-MM-DD'));
 
   const [filters, setFilters] = useState({
@@ -111,9 +118,9 @@ export default function AdminTripListPage() {
     toStartAt: '',
   });
 
-  const { data, isLoading, isError } = useAdminTrips(filters);
+  const { data, isLoading, isError, refetch } = useAdminTrips(filters);
 
-  const items = isError ? [] : (data?.items ?? []);
+  const items = useMemo(() => data?.items ?? [], [data]);
   const totalPages = data?.totalPages ?? 1;
 
   // Lọc danh sách chuyến áp dụng cho lịch (theo bộ lọc trạng thái nhanh nếu có)
@@ -168,7 +175,6 @@ export default function AdminTripListPage() {
   };
 
   const handleToday = () => {
-    const today = dayjs();
     setCurrentDate(today);
     setSelectedDate(today.format('YYYY-MM-DD'));
   };
@@ -186,7 +192,7 @@ export default function AdminTripListPage() {
       const date = startDate.add(i, 'day');
       const dateStr = date.format('YYYY-MM-DD');
       const isCurrentMonth = date.isSame(currentDate, 'month');
-      const isToday = date.isSame(dayjs(), 'day');
+      const isToday = dateStr === todayStr;
       const isSelected = dateStr === selectedDate;
 
       // Toàn bộ chuyến hoạt động trong ngày này
@@ -217,7 +223,7 @@ export default function AdminTripListPage() {
       });
     }
     return days;
-  }, [currentDate, calendarFilteredItems, selectedDate, calendarScope]);
+  }, [currentDate, calendarFilteredItems, selectedDate, calendarScope, todayStr]);
 
   // Tạo dữ liệu cho Lịch Tuần (Weekly View)
   const weeklyGridDays = useMemo(() => {
@@ -226,7 +232,7 @@ export default function AdminTripListPage() {
     for (let i = 0; i < 7; i++) {
       const date = weekStart.add(i, 'day');
       const dateStr = date.format('YYYY-MM-DD');
-      const isToday = date.isSame(dayjs(), 'day');
+      const isToday = dateStr === todayStr;
 
       const tripsOnDay = calendarFilteredItems.filter((trip) => {
         const tripStart = dayjs(trip.startAt).format('YYYY-MM-DD');
@@ -249,7 +255,7 @@ export default function AdminTripListPage() {
       });
     }
     return { weekStart, days };
-  }, [currentDate, calendarFilteredItems, calendarScope]);
+  }, [currentDate, calendarFilteredItems, calendarScope, todayStr]);
 
   // Danh sách chuyến cho Daily Detail Panel (bảng chi tiết ngày được chọn)
   const selectedDayTrips = useMemo(() => {
@@ -269,19 +275,27 @@ export default function AdminTripListPage() {
   if (isLoading && !items.length) {
     return (
       <div className={styles.page}>
-        <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Quản lý chuyến đi & điều hành khởi hành</h1>
-          <p className={styles.subtitle}>
-            Theo dõi lịch khởi hành, tiến độ bán chỗ, điều phối đoàn và xuất phát
-          </p>
-        </div>
         <TableSkeleton rows={6} cols={7} />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className={styles.page}>
+        <ErrorState message="Không tải được danh sách chuyến đi." onRetry={refetch} />
       </div>
     );
   }
 
   return (
     <div className={styles.page}>
+      {/* 1. Page Header Action Toolbar */}
+      <div className={styles.actionRow} style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+        <Link to={ROUTES.ADMIN_TRIP_CREATE} className="btn btn-primary">
+          ＋ Thêm chuyến đi mới
+        </Link>
+      </div>
 
       {/* 2. KPI Overview */}
       <div className={styles.kpiSection}>

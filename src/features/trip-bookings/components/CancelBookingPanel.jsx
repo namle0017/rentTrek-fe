@@ -8,6 +8,7 @@ import Spinner from '@/components/Spinner';
 import { API_ERROR_CODE, REFUND_BANKS, REFUND_CONSENT_TEXT } from '@/constants/enums';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { CANCEL_CATEGORIES, packCancelReasonWithProofs } from '@/features/refunds/utils/refundProofHelper';
 import { useCancellationPreview, useCancelTripBooking } from '../hooks/useTripBookings';
 import styles from './CancelBookingPanel.module.css';
 
@@ -143,6 +144,28 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
   const [submitError, setSubmitError] = useState('');
   const needsBankAccount = preview.estimatedRefundAmount > 0;
   const lostAmount = Math.max(0, preview.paidAmount - preview.estimatedRefundAmount);
+  const [reasonCategory, setReasonCategory] = useState('');
+  const [reasonDetail, setReasonDetail] = useState('');
+  const [proofUrls, setProofUrls] = useState([]);
+
+  const handleProofFiles = (event) => {
+    const files = Array.from(event.target.files || []);
+    if (!files.length) return;
+
+    files.slice(0, 3 - proofUrls.length).forEach((file) => {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        setProofUrls((prev) => (prev.length < 3 ? [...prev, reader.result] : prev));
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeProof = (idx) => {
+    setProofUrls((prev) => prev.filter((_, i) => i !== idx));
+  };
+
   const {
     register,
     handleSubmit,
@@ -157,8 +180,12 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
 
   const submitCancellation = handleSubmit(async (values) => {
     setSubmitError('');
+    const hasUserReason = Boolean(reasonCategory || reasonDetail.trim() || proofUrls.length > 0);
+    const packedReason = hasUserReason
+      ? packCancelReasonWithProofs(reasonCategory || 'Other', reasonDetail, proofUrls)
+      : undefined;
     const payload = {
-      reason: undefined,
+      reason: packedReason,
       expectedRefundAmount: preview.estimatedRefundAmount,
     };
 
@@ -199,6 +226,78 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
     submitCancellation();
   };
 
+  const renderReasonFields = () => (
+    <div className={styles.reasonFields}>
+      <label htmlFor="cancel-category-select">
+        <span>Lý do hủy</span>
+        <select
+          id="cancel-category-select"
+          value={reasonCategory}
+          onChange={(e) => setReasonCategory(e.target.value)}
+        >
+          <option value="">-- Chọn lý do (tùy chọn) --</option>
+          {Object.entries(CANCEL_CATEGORIES).map(([catKey, catLabel]) => (
+            <option key={catKey} value={catKey}>
+              {catLabel}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label htmlFor="cancel-detail-textarea">
+        <span>Mô tả chi tiết lý do (không bắt buộc)</span>
+        <textarea
+          id="cancel-detail-textarea"
+          rows="2"
+          maxLength="300"
+          placeholder="Ví dụ: Bị sốt cao, đường sạt lở, có giấy khám sức khỏe..."
+          value={reasonDetail}
+          onChange={(e) => setReasonDetail(e.target.value)}
+        />
+      </label>
+
+      <div>
+        <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#334155', display: 'block', marginBottom: '4px' }}>
+          Đính kèm ảnh minh chứng (tối đa 3 ảnh: giấy khám, vé xe hủy, sạt lở...)
+        </span>
+        <input
+          id="cancel-proof-files"
+          type="file"
+          multiple
+          accept="image/jpeg,image/png,image/webp"
+          style={{ display: 'none' }}
+          onChange={handleProofFiles}
+          disabled={proofUrls.length >= 3}
+        />
+        {proofUrls.length < 3 && (
+          <label htmlFor="cancel-proof-files" className={styles.proofUploadArea}>
+            <span style={{ color: '#0284c7', fontWeight: 600 }}>
+              📷 Bấm để chọn ảnh minh chứng ({proofUrls.length}/3)
+            </span>
+          </label>
+        )}
+
+        {proofUrls.length > 0 && (
+          <div className={styles.proofThumbGrid}>
+            {proofUrls.map((url, idx) => (
+              <div key={`${url}-${idx}`} className={styles.proofThumbItem}>
+                <img src={url} alt={`Minh chứng ${idx + 1}`} className={styles.proofThumbImg} />
+                <button
+                  type="button"
+                  className={styles.removeThumbBtn}
+                  onClick={() => removeProof(idx)}
+                  title="Xóa ảnh"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <form className={styles.form} onSubmit={submitCancellation} noValidate>
       {screen === CANCELLATION_SCREEN.CONFIRM && (
@@ -236,6 +335,8 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
               Xem chi tiết chính sách hoàn tiền <span aria-hidden="true">›</span>
             </button>
           )}
+
+          {!needsBankAccount && renderReasonFields()}
 
           <div className={styles.actions}>
             <button
@@ -318,6 +419,8 @@ function CancellationForm({ orderId, preview, screen, onScreenChange, onClose, r
                 })}
               />
             </FormField>
+
+            {renderReasonFields()}
 
             <div className={styles.consent}>
               <label>

@@ -19,7 +19,7 @@ export default function AdminPostEditorPage() {
   };
 
   return (
-    <section className={styles.page} aria-labelledby="post-editor-title">
+    <section className={styles.page} aria-label="Soạn thảo bài viết">
       <header className={styles.header}>
         <div>
           <Breadcrumb
@@ -29,7 +29,6 @@ export default function AdminPostEditorPage() {
             ]}
             isLoading={Boolean(postId && isLoading)}
           />
-          <h1 id="post-editor-title">{postId ? (post?.title ?? 'Sửa bài') : 'Viết bài mới'}</h1>
         </div>
       </header>
       {renderContent()}

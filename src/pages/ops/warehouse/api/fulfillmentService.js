@@ -94,7 +94,8 @@ export const fulfillmentService = {
       status: a.status,
       returnCondition: a.returnCondition || 'Normal',
       conditionNote: null,
-      variantPriceTier: 500000,
+      // BE chưa trả giá trị đền bù theo thiết bị → để null, nhân viên tự nhập phí mất đồ
+      variantPriceTier: a.variantPriceTier ?? a.replacementValue ?? null,
     }));
 
     return {
@@ -194,7 +195,7 @@ export const fulfillmentService = {
       reason: c.reason,
       equipmentAssetCode: c.assetCode || '—',
       status: c.status,
-      createdByName: 'Nhân viên vận hành',
+      createdByName: c.createdByName ?? null,
       createdAt: c.createdAt,
     }));
     return { data: charges };

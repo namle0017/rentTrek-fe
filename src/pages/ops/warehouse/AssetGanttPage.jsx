@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import dayjs from 'dayjs';
+import { Link } from 'react-router-dom';
+import { ROUTES } from '@/constants/routes';
 import Spinner from '@/components/Spinner';
 import { useAssetGantt } from './hooks/useAssets';
 import styles from './AssetGanttPage.module.css';
@@ -69,6 +71,14 @@ export default function AssetGanttPage() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.header} style={{ justifyContent: 'flex-end', paddingBottom: 12 }}>
+        <div className={styles.actions}>
+          <Link to={ROUTES.OPS_ASSETS} className={styles.btnSecondary}>
+            ← Danh sách thiết bị
+          </Link>
+        </div>
+      </div>
+
       {/* Control & Date Range Bar */}
       <div className={styles.controlBar}>
         <div className={styles.dateNav}>

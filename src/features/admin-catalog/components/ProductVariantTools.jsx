@@ -12,6 +12,8 @@ const variantFields = [
   { name: 'variantName', label: 'Tên biến thể', required: true, maxLength: 255 },
   { name: 'size', label: 'Kích cỡ', maxLength: 50 },
   { name: 'color', label: 'Màu sắc', maxLength: 50 },
+  // Giá trị đền bù khi khách làm mất / hư không dùng lại được (đơn thuê chụp lại lúc đặt)
+  { name: 'replacementValue', label: 'Giá trị thiết bị (VND, để đền bù)', type: 'number', min: 0 },
   {
     name: 'status',
     label: 'Trạng thái',

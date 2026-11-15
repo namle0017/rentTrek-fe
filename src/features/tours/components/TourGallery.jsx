@@ -4,30 +4,22 @@ import styles from './TourGallery.module.css';
 export default function TourGallery({ images = [], tourName = 'Tour trekking' }) {
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const fallbackImages = [
-    {
-      imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b',
-      caption: 'Khung cảnh Fansipan',
-    },
-    {
-      imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-      caption: 'Bình minh trên mây',
-    },
-    { imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba', caption: 'Đường leo núi' },
-    { imageUrl: 'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99', caption: 'Cắm trại đêm' },
-    {
-      imageUrl: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800',
-      caption: 'Chóp đỉnh Fansipan',
-    },
-  ];
+  const primaryImage = images[0];
+  const subImages = images.slice(1, 5);
+  // Giữ khung lưới 5 ô; ô trống hiện nền xám thay vì ảnh minh hoạ không thuộc tour
+  const emptySlots = subImages.length > 0 ? 4 - subImages.length : 0;
 
-  const displayImages = images.length >= 5 ? images : [...images, ...fallbackImages.slice(images.length)];
-  const primaryImage = displayImages[0];
-  const subImages = displayImages.slice(1, 5);
+  if (!primaryImage) {
+    return (
+      <div className={`${styles.galleryContainer} ${styles.single}`}>
+        <div className={`${styles.mainImageWrapper} ${styles.noImage}`}>Tour chưa có ảnh</div>
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className={styles.galleryContainer}>
+      <div className={`${styles.galleryContainer} ${subImages.length === 0 ? styles.single : ''}`}>
         <div className={styles.mainImageWrapper} onClick={() => setSelectedImage(primaryImage.imageUrl)}>
           <img src={primaryImage.imageUrl} alt={primaryImage.caption || tourName} className={styles.image} />
         </div>
@@ -42,13 +34,19 @@ export default function TourGallery({ images = [], tourName = 'Tour trekking' })
           </div>
         ))}
 
-        <button
-          type="button"
-          className={styles.btnViewAll}
-          onClick={() => setSelectedImage(primaryImage.imageUrl)}
-        >
-          <span>📷</span> Xem tất cả 5 ảnh
-        </button>
+        {Array.from({ length: emptySlots }, (_, idx) => (
+          <div key={`empty-${idx}`} className={styles.subImageWrapper} aria-hidden="true" />
+        ))}
+
+        {images.length > 1 && (
+          <button
+            type="button"
+            className={styles.btnViewAll}
+            onClick={() => setSelectedImage(primaryImage.imageUrl)}
+          >
+            <span>📷</span> Xem tất cả {images.length} ảnh
+          </button>
+        )}
       </div>
 
       {selectedImage && (

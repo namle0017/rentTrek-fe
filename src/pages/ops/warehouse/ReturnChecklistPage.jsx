@@ -13,6 +13,7 @@ import Spinner from '@/components/Spinner';
 import RentalOrderSummary from './components/RentalOrderSummary';
 import BarcodeScanner from './components/BarcodeScanner';
 import FulfillmentProgress from './components/FulfillmentProgress';
+import StaffRentalEvidencePanel from './components/StaffRentalEvidencePanel';
 import layoutStyles from '@/layouts/RentalFulfillmentLayout.module.css';
 import styles from './ReturnChecklistPage.module.css';
 
@@ -27,7 +28,7 @@ const conditions = {
 const isResolved = (item) => ['Returned', 'LostOrException'].includes(item.status);
 
 export default function ReturnChecklistPage() {
-  const { orderCode = 'RT-202611-001' } = useParams();
+  const { orderCode } = useParams();
   const [barcodeInput, setBarcodeInput] = useState('');
   const [scanFeedback, setScanFeedback] = useState(null);
   const barcodeInputRef = useRef(null);
@@ -126,7 +127,7 @@ export default function ReturnChecklistPage() {
     if (isResolved(item) || isBusy || isFinished) return;
     setLostModalAsset(item);
     setLostReason('');
-    setLossFeeAmount(String(item.variantPriceTier || 500000));
+    setLossFeeAmount(item.variantPriceTier ? String(item.variantPriceTier) : '');
   };
   const handleConfirmLost = async (event) => {
     event.preventDefault();
@@ -236,6 +237,7 @@ export default function ReturnChecklistPage() {
               total={checklist.totalIssuedCount}
             />
           </div>
+          <StaffRentalEvidencePanel orderId={serverChecklist?.orderId} stage="Return" refreshKey={resolvedCount} />
           <DataTable
             title="Thiết bị cần thu hồi"
             description="Mỗi hàng là một thiết bị đã giao. Đối chiếu mã, kiểm tra tình trạng và chọn thao tác ở cuối hàng."

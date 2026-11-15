@@ -51,8 +51,7 @@ describe('AdminProductsPage', () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole('heading', { name: 'Sản phẩm' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Thêm sản phẩm' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Thêm sản phẩm/ })).toHaveAttribute(
       'href',
       '/admin/products/new',
     );

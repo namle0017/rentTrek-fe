@@ -103,9 +103,9 @@ export default function AdminPostsPage() {
 
   return (
     <section className={styles.page}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
+      <div className={styles.header} style={{ justifyContent: 'flex-end', paddingBottom: 12 }}>
         <Link to={ROUTES.ADMIN_POST_CREATE} className="btn btn-primary">
-          Viết bài
+          ＋ Viết bài mới
         </Link>
       </div>
 

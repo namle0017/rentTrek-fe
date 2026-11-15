@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: var(--space-section);
   color: #151a24;
-  max-width: 1500px;
+  max-width: 1440px;
   margin: 0 auto;
 }
 .page h1 {
@@ -26,10 +26,16 @@
   color: #4a5870;
 }
 .eyebrow {
-  font-size: var(--font-size-label);
-  letter-spacing: 1.7px;
-  color: #68768e;
-  font-weight: var(--font-weight-semibold);
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 .heading {

@@ -84,7 +84,7 @@ export default function GuideTripsPage() {
         t.groupName?.toLowerCase().includes(q) ||
         t.tripId?.toLowerCase().includes(q),
     );
-  }, [rawTrips, tab, search]);
+  }, [rawTrips, search]);
 
   const selectedTrip = useMemo(() => {
     if (!trips.length) return null;

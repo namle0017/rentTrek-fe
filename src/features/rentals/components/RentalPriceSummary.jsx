@@ -1,4 +1,5 @@
 import { formatCurrency } from '@/utils/formatCurrency';
+import RentalPolicySummary from './RentalPolicySummary';
 import styles from '../pages/RentalCustomer.module.css';
 
 export default function RentalPriceSummary({ quote, loading, error, onRetry }) {
@@ -30,11 +31,11 @@ export default function RentalPriceSummary({ quote, loading, error, onRetry }) {
               <dd>−{formatCurrency(quote.discountAmount)}</dd>
             </div>
             <div>
-              <dt>Tiền cọc</dt>
+              <dt>Tiền cọc{quote.depositPercent ? ` (${quote.depositPercent}% tiền thuê)` : ''}</dt>
               <dd>{formatCurrency(quote.depositAmount)}</dd>
             </div>
             <div className={styles.total}>
-              <dt>Cần thanh toán</dt>
+              <dt>Cần thanh toán (thuê + cọc)</dt>
               <dd>{formatCurrency(quote.totalPayable)}</dd>
             </div>
           </dl>
@@ -51,6 +52,7 @@ export default function RentalPriceSummary({ quote, loading, error, onRetry }) {
               Có thiết bị không đủ số lượng trong lịch đã chọn. Vui lòng sửa giỏ hoặc thời gian thuê.
             </p>
           )}
+          <RentalPolicySummary policy={quote.rentalPolicy} compact />
           <p className={styles.hint}>
             Giá do hệ thống tính theo bậc giá và thời gian thuê. Thiết bị chỉ được giữ khi xác nhận đơn, trong{' '}
             {quote.holdMinutes} phút chờ thanh toán.

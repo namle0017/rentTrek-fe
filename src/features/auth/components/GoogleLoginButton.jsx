@@ -9,28 +9,26 @@ import styles from './GoogleLoginButton.module.css';
 export default function GoogleLoginButton({ text = 'Tiếp tục với Google', showDivider = true }) {
   const googleMutation = useGoogleLogin();
 
-  const handleGoogleClick = () => {
-    // Nếu ứng dụng có cấu hình Google Client ID trên môi trường
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-    if (window.google?.accounts?.id && clientId) {
-      window.google.accounts.id.initialize({
-        client_id: clientId,
-        callback: (response) => {
-          if (response?.credential) {
-            googleMutation.mutate({ idToken: response.credential });
-          }
-        },
-      });
-      window.google.accounts.id.prompt();
+  // Chưa cấu hình Google Client ID thì không hiển thị nút (không có đăng nhập giả lập)
+  if (!clientId) return null;
+
+  const handleGoogleClick = () => {
+    if (!window.google?.accounts?.id) {
+      toast.error('Không tải được dịch vụ đăng nhập Google. Vui lòng thử lại sau.');
       return;
     }
 
-    toast.error(
-      clientId
-        ? 'Chưa tải được Google Sign-In, vui lòng thử lại sau giây lát.'
-        : 'Chưa cấu hình VITE_GOOGLE_CLIENT_ID trong .env.local.',
-    );
+    window.google.accounts.id.initialize({
+      client_id: clientId,
+      callback: (response) => {
+        if (response?.credential) {
+          googleMutation.mutate({ idToken: response.credential });
+        }
+      },
+    });
+    window.google.accounts.id.prompt();
   };
 
   return (

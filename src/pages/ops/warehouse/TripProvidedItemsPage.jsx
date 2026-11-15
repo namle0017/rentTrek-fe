@@ -299,9 +299,7 @@ export default function TripProvidedItemsPage() {
                               </div>
 
                               <div className={styles.prepCell}>
-                                {item.preparedByUserName || (
-                                  <span className={styles.textMuted}>Nguyễn Minh Đức</span>
-                                )}
+                                {item.preparedByUserName || <span className={styles.textMuted}>—</span>}
                               </div>
 
                               <div>
@@ -420,25 +418,10 @@ export default function TripProvidedItemsPage() {
                   <p style={{ marginBottom: '12px' }}>
                     Bạn đang chuẩn bị xuất kho và bàn giao toàn bộ thiết bị đã gán cho đoàn:
                   </p>
-                  <div
-                    style={{
-                      background: '#f8fafc',
-                      padding: '12px 16px',
-                      borderRadius: '8px',
-                      border: '1px solid #e2e8f0',
-                      marginBottom: '12px',
-                    }}
-                  >
-                    <div>
-                      Chuyến đi: <strong>{tripData.tourName}</strong>
-                    </div>
-                    <div>
-                      HDV nhận: <strong>{tripData.leadGuideName || 'Nguyễn Văn Hùng (HDV trưởng)'}</strong>
-                    </div>
-                    <div>
-                      Số lượng thiết bị giao:{' '}
-                      <strong style={{ color: '#166534' }}>{allAssignedAssets.length} món</strong>
-                    </div>
+                  <div style={{ background: '#f8fafc', padding: '12px 16px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '12px' }}>
+                    <div>Chuyến đi: <strong>{tripData.tourName}</strong></div>
+                    <div>HDV nhận: <strong>{tripData.leadGuideName || 'Chưa phân công'}</strong></div>
+                    <div>Số lượng thiết bị giao: <strong style={{ color: '#166534' }}>{allAssignedAssets.length} món</strong></div>
                   </div>
                   {tripData.hasShortage && (
                     <div

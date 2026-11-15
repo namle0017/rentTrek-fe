@@ -92,7 +92,7 @@ export default function BulkCreateAssetModal({ isOpen, onClose }) {
           onClose();
         },
         onError: (err) => {
-          const msg = err.response?.data?.message || 'Không thể tạo thiết bị hàng loạt';
+          const msg = err.message || 'Không thể tạo thiết bị hàng loạt';
           setValidationError(msg);
         },
       }

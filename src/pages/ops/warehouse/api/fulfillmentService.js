@@ -18,6 +18,19 @@ const resolveOrderId = async (orderIdOrCode) => {
   }
 };
 
+const MULTIPART = { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 60000 };
+
+/** Ảnh bằng chứng của đơn theo thiết bị (assignmentId) cho một giai đoạn Handover / Return. */
+const photosByAssignment = (order, stage) => {
+  const map = {};
+  (order.evidencePhotos || [])
+    .filter((photo) => photo.stage === stage && photo.assetAssignmentId)
+    .forEach((photo) => {
+      (map[photo.assetAssignmentId] ||= []).push(photo);
+    });
+  return map;
+};
+
 export const fulfillmentService = {
   // Handover (O24)
   getHandoverChecklist: async (orderIdOrCode) => {
@@ -30,7 +43,7 @@ export const fulfillmentService = {
     const items = (order.lines || []).map((line, idx) => {
       const lineAssignments = order.assignments || [];
       const scannedAssets = lineAssignments.filter(
-        (a) => a.status === 'Issued' || a.status === 'Returned' || a.status === 'LostOrException'
+        (a) => a.status === 'Issued' || a.status === 'Returned' || a.status === 'LostOrException',
       );
       return {
         rentalOrderItemId: line.lineId || `line-${idx}`,
@@ -45,9 +58,10 @@ export const fulfillmentService = {
 
     const totalRequiredCount = (order.assignments || []).length;
     const scannedCount = (order.assignments || []).filter(
-      (a) => a.status === 'Issued' || a.status === 'Returned' || a.status === 'LostOrException'
+      (a) => a.status === 'Issued' || a.status === 'Returned' || a.status === 'LostOrException',
     ).length;
 
+    const handoverPhotos = photosByAssignment(order, 'Handover');
     return {
       data: {
         orderId: order.orderId,
@@ -60,13 +74,22 @@ export const fulfillmentService = {
         items,
         totalRequiredCount,
         scannedCount,
+        minPhotos: order.allowedActions?.minPhotosPerAsset ?? 1,
+        // Từng thiết bị của đơn kèm ảnh tình trạng lúc giao (BE bắt buộc đủ ảnh trước khi quét giao)
+        assets: (order.assignments || []).map((a) => ({
+          assignmentId: a.assignmentId,
+          assetCode: a.assetCode,
+          displayName: a.displayName,
+          status: a.status,
+          photos: handoverPhotos[a.assignmentId] || [],
+        })),
       },
     };
   },
 
   scanHandover: async (orderIdOrCode, payload) => {
     const orderId = await resolveOrderId(orderIdOrCode);
-    return axiosClient.post(`${API_ENDPOINTS.ADMIN_RENTAL_ORDERS.BY_ID(orderId)}/handover/scan`, {
+    return axiosClient.post(API_ENDPOINTS.ADMIN_RENTAL_ORDERS.HANDOVER_SCAN(orderId), {
       assetCode: payload.assetCode,
     });
   },
@@ -85,7 +108,11 @@ export const fulfillmentService = {
     const order = res.data;
     if (!order) return null;
 
+    const returnPhotos = photosByAssignment(order, 'Return');
+    const damagePhotos = photosByAssignment(order, 'Damage');
     const items = (order.assignments || []).map((a) => ({
+      photos: returnPhotos[a.assignmentId] || [],
+      damagePhotos: damagePhotos[a.assignmentId] || [],
       assignmentId: a.assignmentId,
       equipmentAssetId: a.assignmentId,
       assetCode: a.assetCode,
@@ -94,7 +121,8 @@ export const fulfillmentService = {
       status: a.status,
       returnCondition: a.returnCondition || 'Normal',
       conditionNote: null,
-      variantPriceTier: 500000,
+      // BE chưa trả giá trị đền bù theo thiết bị → để null, nhân viên tự nhập phí mất đồ
+      variantPriceTier: a.variantPriceTier ?? a.replacementValue ?? null,
     }));
 
     return {
@@ -108,6 +136,7 @@ export const fulfillmentService = {
         rentalEndAt: order.rentalEndAt,
         totalIssuedCount: items.length,
         items,
+        minPhotos: order.allowedActions?.minPhotosPerAsset ?? 1,
       },
     };
   },
@@ -118,7 +147,7 @@ export const fulfillmentService = {
     if (!assignmentId && payload.assetCode) {
       const orderRes = await axiosClient.get(API_ENDPOINTS.ADMIN_RENTAL_ORDERS.BY_ID(orderId));
       const match = (orderRes.data?.assignments || []).find(
-        (a) => a.assetCode.toLowerCase() === payload.assetCode.toLowerCase()
+        (a) => a.assetCode.toLowerCase() === payload.assetCode.toLowerCase(),
       );
       assignmentId = match?.assignmentId;
     }
@@ -151,7 +180,7 @@ export const fulfillmentService = {
     if (!assignmentId && payload.assetCode) {
       const orderRes = await axiosClient.get(API_ENDPOINTS.ADMIN_RENTAL_ORDERS.BY_ID(orderId));
       const match = (orderRes.data?.assignments || []).find(
-        (a) => a.assetCode.toLowerCase() === payload.assetCode.toLowerCase()
+        (a) => a.assetCode.toLowerCase() === payload.assetCode.toLowerCase(),
       );
       assignmentId = match?.assignmentId;
     }
@@ -194,7 +223,7 @@ export const fulfillmentService = {
       reason: c.reason,
       equipmentAssetCode: c.assetCode || '—',
       status: c.status,
-      createdByName: 'Nhân viên vận hành',
+      createdByName: c.createdByName ?? null,
       createdAt: c.createdAt,
     }));
     return { data: charges };
@@ -220,6 +249,28 @@ export const fulfillmentService = {
     return axiosClient.post(API_ENDPOINTS.ADMIN_RENTAL_ORDERS.VOID_CHARGE(orderId, chargeId), {
       reason: payload?.voidReason || payload?.reason || 'Hủy phí',
     });
+  },
+
+  /** Ảnh bằng chứng: stage Handover (trước khi giao) / Return (khi nhận lại) / Damage; ảnh giao/nhận phải gắn assignmentId. */
+  uploadEvidence: async (orderIdOrCode, { file, stage, assignmentId, note }) => {
+    const orderId = await resolveOrderId(orderIdOrCode);
+    const form = new FormData();
+    form.append('file', file);
+    form.append('stage', stage);
+    if (assignmentId) form.append('assignmentId', assignmentId);
+    if (note) form.append('note', note);
+    return axiosClient.post(
+      `${API_ENDPOINTS.ADMIN_RENTAL_ORDERS.BY_ID(orderId)}/evidence-photos`,
+      form,
+      MULTIPART,
+    );
+  },
+
+  deleteEvidence: async (orderIdOrCode, photoId) => {
+    const orderId = await resolveOrderId(orderIdOrCode);
+    return axiosClient.delete(
+      `${API_ENDPOINTS.ADMIN_RENTAL_ORDERS.BY_ID(orderId)}/evidence-photos/${photoId}`,
+    );
   },
 
   completeOrder: async (orderIdOrCode) => {

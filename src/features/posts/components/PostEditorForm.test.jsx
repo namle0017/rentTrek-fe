@@ -2,14 +2,28 @@ import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useDeletePost, usePostTaxonomy, usePostTourOptions, useSavePost } from '../hooks/usePosts';
+import {
+  useDeletePost,
+  usePostStatusAction,
+  usePostTaxonomy,
+  usePostTourOptions,
+  useSavePost,
+} from '../hooks/usePosts';
 import PostEditorForm from './PostEditorForm';
+
+// TipTap (contenteditable) không gõ được ổn định trong jsdom → thay bằng textarea giữ cùng hợp đồng value/onChange
+vi.mock('./RichTextEditor', () => ({
+  default: ({ id, value, onChange }) => (
+    <textarea id={id} value={value} onChange={(event) => onChange(event.target.value)} />
+  ),
+}));
 
 vi.mock('../hooks/usePosts', () => ({
   usePostTaxonomy: vi.fn(),
   usePostTourOptions: vi.fn(),
   useSavePost: vi.fn(),
   useDeletePost: vi.fn(),
+  usePostStatusAction: vi.fn(),
 }));
 
 const mutate = vi.fn();
@@ -25,13 +39,19 @@ function renderForm(post) {
 describe('PostEditorForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    usePostTaxonomy.mockReturnValue({ data: { tags: [], softSkills: [{ softSkillId: 'skill-1', name: 'Giữ ấm cơ thể' }] } });
+    usePostTaxonomy.mockReturnValue({
+      data: {
+        tags: [{ tagId: 'tag-1', name: 'Trời lạnh', slug: 'troi-lanh' }],
+        softSkills: [{ softSkillId: 'skill-1', name: 'Giữ ấm cơ thể' }],
+      },
+    });
     usePostTourOptions.mockReturnValue({ data: [{ tourId: 'tour-1', name: 'Fansipan Trạm Tôn' }] });
     useSavePost.mockReturnValue({ mutate, isPending: false });
     useDeletePost.mockReturnValue({ mutate: vi.fn(), isPending: false });
+    usePostStatusAction.mockReturnValue({ mutate: vi.fn(), isPending: false });
   });
 
-  it('publishes a new post with tags, skills and tours in the API contract shape', async () => {
+  it('saves a new post with tagIds, skills and tours (publish happens after save)', async () => {
     const user = userEvent.setup();
     renderForm();
 
@@ -52,8 +72,7 @@ describe('PostEditorForm', () => {
           slug: null,
           postType: 'Guide',
           content: '## Quần áo\nMặc ba lớp.',
-          status: 'Published',
-          tagNames: ['Trời lạnh'],
+          tagIds: ['tag-1'],
           softSkillIds: ['skill-1'],
           tourIds: ['tour-1'],
         },

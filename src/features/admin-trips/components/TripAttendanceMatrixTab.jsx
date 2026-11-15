@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
-import { ATTENDANCE_STATUS, ATTENDANCE_STATUS_LABEL } from '@/constants/enums';
+import { ATTENDANCE_STATUS, ATTENDANCE_STATUS_LABEL, TRIP_STATUS, USER_ROLE } from '@/constants/enums';
+import { useAuth } from '@/hooks/useAuth';
 import { formatDate } from '@/utils/formatDate';
 import {
   useTripAttendanceHistory,
@@ -10,7 +11,13 @@ import {
 } from '../hooks/useAdminTrips';
 import styles from '../pages/AdminTripOps.module.css';
 
-export default function TripAttendanceMatrixTab({ tripId }) {
+// Admin chỉ điều chỉnh ngoại lệ khi chuyến đang diễn ra hoặc đã hoàn tất (BE cũng chặn)
+const EDITABLE_TRIP_STATUSES = [TRIP_STATUS.IN_PROGRESS, TRIP_STATUS.COMPLETED];
+
+export default function TripAttendanceMatrixTab({ tripId, tripStatus }) {
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
+  const canEdit = isAdmin && EDITABLE_TRIP_STATUSES.includes(tripStatus);
   const [groupFilter, setGroupFilter] = useState('');
   const {
     data: matrix,
@@ -29,42 +36,19 @@ export default function TripAttendanceMatrixTab({ tripId }) {
   const activities = matrix?.activities ?? [];
   const participants = matrix?.participants ?? [];
 
-  const handleCellChange = async (participant, activity, nextStatus, existingCell) => {
-    if (!nextStatus) return;
+  // Mọi thay đổi của Admin đều là xử lý ngoại lệ -> luôn bắt buộc lý do và ghi Audit Log
+  const handleCellChange = (participant, activity, nextStatus, existingCell) => {
+    if (!nextStatus || !canEdit) return;
     setFeedback(null);
-
-    // Nếu ô điểm danh đã có trạng thái trước đó và người dùng sửa sang trạng thái khác -> Bắt buộc nhập lý do (11.2)
-    if (existingCell?.status && existingCell.status !== nextStatus) {
-      setPendingEdit({
-        participantId: participant.participantId,
-        participantName: participant.fullName,
-        activityId: activity.activityId,
-        activityName: activity.name,
-        oldStatus: existingCell.status,
-        newStatus: nextStatus,
-      });
-      setReason('');
-      return;
-    }
-
-    try {
-      await updateAttendances.mutateAsync({
-        activityId: activity.activityId,
-        records: [
-          {
-            participantId: participant.participantId,
-            status: nextStatus,
-            reason: null,
-          },
-        ],
-      });
-      setFeedback({
-        type: 'success',
-        text: `Đã ghi nhận điểm danh "${ATTENDANCE_STATUS_LABEL[nextStatus]}" cho ${participant.fullName}.`,
-      });
-    } catch (err) {
-      setFeedback({ type: 'error', text: err.message || 'Không thể lưu điểm danh.' });
-    }
+    setPendingEdit({
+      participantId: participant.participantId,
+      participantName: participant.fullName,
+      activityId: activity.activityId,
+      activityName: activity.name,
+      oldStatus: existingCell?.status ?? null,
+      newStatus: nextStatus,
+    });
+    setReason('');
   };
 
   const handleConfirmReasonEdit = async (e) => {
@@ -103,8 +87,12 @@ export default function TripAttendanceMatrixTab({ tripId }) {
           <div>
             <h2 className={styles.cardTitle}>Ma trận Điểm danh Hoạt động Tour (Màn O14)</h2>
             <p className={styles.subtitle}>
-              Chọn trạng thái điểm danh cho từng khách theo từng chặng hoạt động. Khi sửa trạng thái đã lưu,
-              hệ thống yêu cầu lý do và ghi Audit Log.
+              Hướng dẫn viên điểm danh tại hiện trường.{' '}
+              {canEdit
+                ? 'Admin chỉ điều chỉnh khi có ngoại lệ; mọi thay đổi bắt buộc nhập lý do và được ghi Audit Log.'
+                : isAdmin
+                  ? 'Chỉ điều chỉnh được khi chuyến đang diễn ra hoặc đã hoàn tất.'
+                  : 'Bạn chỉ có quyền xem ma trận và lịch sử điểm danh.'}
             </p>
           </div>
 
@@ -162,20 +150,31 @@ export default function TripAttendanceMatrixTab({ tripId }) {
                       const cell = p.attendances?.[act.activityId];
                       return (
                         <td key={act.activityId}>
-                          <select
-                            className={styles.select}
-                            value={cell?.status ?? ''}
-                            onChange={(e) => handleCellChange(p, act, e.target.value, cell)}
-                          >
-                            <option value="">-- Chưa điểm danh --</option>
-                            {Object.values(ATTENDANCE_STATUS).map((st) => (
-                              <option key={st} value={st}>
-                                {ATTENDANCE_STATUS_LABEL[st]}
-                              </option>
-                            ))}
-                          </select>
+                          {canEdit ? (
+                            <select
+                              className={styles.select}
+                              value={cell?.status ?? ''}
+                              onChange={(e) => handleCellChange(p, act, e.target.value, cell)}
+                            >
+                              <option value="">-- Chưa điểm danh --</option>
+                              {Object.values(ATTENDANCE_STATUS).map((st) => (
+                                <option key={st} value={st}>
+                                  {ATTENDANCE_STATUS_LABEL[st]}
+                                </option>
+                              ))}
+                            </select>
+                          ) : (
+                            <span>
+                              {cell?.status
+                                ? (ATTENDANCE_STATUS_LABEL[cell.status] ?? cell.status)
+                                : 'Chưa điểm danh'}
+                            </span>
+                          )}
                           {cell?.checkedBy && (
-                            <div className={styles.subtitle} style={{ fontSize: "var(--font-size-section-title)" }}>
+                            <div
+                              className={styles.subtitle}
+                              style={{ fontSize: 'var(--font-size-section-title)' }}
+                            >
                               Bởi: {cell.checkedBy}
                             </div>
                           )}
@@ -236,8 +235,10 @@ export default function TripAttendanceMatrixTab({ tripId }) {
             <p className={styles.subtitle}>
               Bạn đang thay đổi trạng thái điểm danh của khách <strong>{pendingEdit.participantName}</strong>{' '}
               tại hoạt động <strong>{pendingEdit.activityName}</strong> từ{' '}
-              <strong>{ATTENDANCE_STATUS_LABEL[pendingEdit.oldStatus]}</strong> sang{' '}
-              <strong>{ATTENDANCE_STATUS_LABEL[pendingEdit.newStatus]}</strong>.
+              <strong>
+                {pendingEdit.oldStatus ? ATTENDANCE_STATUS_LABEL[pendingEdit.oldStatus] : 'Chưa điểm danh'}
+              </strong>{' '}
+              sang <strong>{ATTENDANCE_STATUS_LABEL[pendingEdit.newStatus]}</strong>.
             </p>
             <div className={styles.field}>
               <label htmlFor="editReason">Lý do điều chỉnh (bắt buộc) *</label>

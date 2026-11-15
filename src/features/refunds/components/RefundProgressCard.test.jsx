@@ -3,6 +3,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useRefundCase } from '../hooks/useRefundCases';
 import RefundProgressCard from './RefundProgressCard';
 
+vi.mock('./ProofGallery', () => ({
+  default: ({ proofs }) => <ul aria-label="Ảnh chứng từ">{proofs.map((p) => <li key={p.proofId}>{p.fileName}</li>)}</ul>,
+}));
+
 vi.mock('../hooks/useRefundCases', () => ({
   useRefundCase: vi.fn(),
 }));
@@ -29,7 +33,7 @@ describe('RefundProgressCard', () => {
 
     expect(screen.getByText('HỒ SƠ HT-A1B2C3D4')).toBeInTheDocument();
     expect(screen.getByText('Vietcombank · ******6789')).toBeInTheDocument();
-    expect(screen.getByText('Kế toán đang xử lý', { selector: 'strong' }).closest('li')).toHaveAttribute(
+    expect(screen.getByText('Đã duyệt, chờ chuyển khoản', { selector: 'strong' }).closest('li')).toHaveAttribute(
       'aria-current',
       'step',
     );
@@ -41,5 +45,26 @@ describe('RefundProgressCard', () => {
 
     expect(screen.getByText(/vui lòng liên hệ hỗ trợ/)).toBeInTheDocument();
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
+  });
+
+  it('shows the bank transaction code and the admin transfer proofs when completed', () => {
+    show({
+      ...refundCase,
+      status: 'Completed',
+      providerTransactionId: 'FT261102001',
+      proofs: [{ proofId: 'p-1', fileName: 'bien-lai.jpg', contentType: 'image/jpeg' }],
+    });
+    render(<RefundProgressCard refundCaseId={refundCase.refundCaseId} />);
+
+    expect(screen.getByText(/Biên lai chuyển khoản hoàn tiền từ RenTrek/i)).toBeInTheDocument();
+    expect(screen.getByText('FT261102001')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Sao chép/i })).toBeInTheDocument();
+    expect(screen.getByText('bien-lai.jpg')).toBeInTheDocument();
+  });
+
+  it('hides the receipt section until the refund is completed', () => {
+    show({ ...refundCase, status: 'Approved', providerTransactionId: null, proofs: [] });
+    render(<RefundProgressCard refundCaseId={refundCase.refundCaseId} />);
+    expect(screen.queryByText(/Biên lai chuyển khoản hoàn tiền từ RenTrek/i)).not.toBeInTheDocument();
   });
 });

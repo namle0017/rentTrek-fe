@@ -21,6 +21,23 @@ export function useAdminRentalOrder(orderId) {
   });
 }
 
+export function useRentalSchedule(kind, date) {
+  return useQuery({
+    queryKey: [...rentalOpsKeys.all, 'schedule', kind, date],
+    queryFn: () => rentalOpsService.getSchedule(kind, date),
+    select: (res) => res.data, // AdminRentalScheduleResponse
+  });
+}
+
+export function useAdminRentalAdjustments(orderId) {
+  return useQuery({
+    queryKey: [...rentalOpsKeys.detail(orderId), 'adjustments'],
+    queryFn: () => rentalOpsService.getAdjustments(orderId),
+    select: (res) => res.data,
+    enabled: Boolean(orderId),
+  });
+}
+
 // Mọi thao tác trả về chi tiết đơn mới → ghi thẳng vào cache, làm mới danh sách
 function useDetailMutation(mutationFn) {
   const queryClient = useQueryClient();
@@ -40,3 +57,4 @@ export const useCreateRentalCharge = () => useDetailMutation(rentalOpsService.cr
 export const useAssessRentalCharge = () => useDetailMutation(rentalOpsService.assessCharge);
 export const useVoidRentalCharge = () => useDetailMutation(rentalOpsService.voidCharge);
 export const useCompleteRental = () => useDetailMutation(rentalOpsService.complete);
+export const useClaimRental = () => useDetailMutation(rentalOpsService.claim);

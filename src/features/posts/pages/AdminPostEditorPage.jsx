@@ -1,7 +1,9 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
+import PostReadAnalyticsPanel from '../components/PostReadAnalyticsPanel';
 import PostEditorForm from '../components/PostEditorForm';
 import { useAdminPost } from '../hooks/usePosts';
 import styles from './AdminPosts.module.css';
@@ -14,17 +16,25 @@ export default function AdminPostEditorPage() {
     if (postId && isLoading) return <Spinner />;
     if (postId && isError) return <ErrorState message={error?.message} onRetry={refetch} />;
     // key: form khởi tạo lại khi chuyển từ "bài mới" sang bài vừa tạo
-    return <PostEditorForm key={post?.postId ?? 'new'} post={postId ? post : undefined} />;
+    return (
+      <>
+        <PostEditorForm key={post?.postId ?? 'new'} post={postId ? post : undefined} />
+        {postId && post && <PostReadAnalyticsPanel postId={postId} />}
+      </>
+    );
   };
 
   return (
-    <section className={styles.page} aria-labelledby="post-editor-title">
+    <section className={styles.page} aria-label="Soạn thảo bài viết">
       <header className={styles.header}>
         <div>
-          <p className={styles.eyebrow}>
-            <Link to={ROUTES.ADMIN_POSTS}>Bài viết</Link> / {postId ? 'Sửa bài' : 'Soạn bài'}
-          </p>
-          <h1 id="post-editor-title">{postId ? (post?.title ?? 'Sửa bài') : 'Viết bài mới'}</h1>
+          <Breadcrumb
+            items={[
+              { label: 'Quản lý Bài viết', to: ROUTES.ADMIN_POSTS },
+              { label: postId ? (post?.title ?? 'Sửa bài') : 'Viết bài mới' },
+            ]}
+            isLoading={Boolean(postId && isLoading)}
+          />
         </div>
       </header>
       {renderContent()}

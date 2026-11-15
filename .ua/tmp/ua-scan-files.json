@@ -1,0 +1,2380 @@
+{
+  "scriptCompleted": true,
+  "contentDigest": "2e74e6a4f009c21495b404e86d9c9466c3e935182538cb9639a44abd1f5880a6",
+  "files": [
+    {
+      "path": ".env.example",
+      "language": "config",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".gitattributes",
+      "language": "unknown",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".prettierignore",
+      "language": "unknown",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": "ADMIN-WORK-PLAN.md",
+      "language": "markdown",
+      "sizeLines": 333,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 58,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "RenTrekk Design System/uploads/Claude_Design_Prompt.md",
+      "language": "markdown",
+      "sizeLines": 295,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "RenTrekk Design System/uploads/PRD_RenTrekk.md",
+      "language": "markdown",
+      "sizeLines": 1018,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "RenTrekk Design System/uploads/Screen_Spec.md",
+      "language": "markdown",
+      "sizeLines": 1106,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "design.md",
+      "language": "markdown",
+      "sizeLines": 742,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/01-CONVENTIONS.md",
+      "language": "markdown",
+      "sizeLines": 834,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/02-UI-UX-IMPLEMENTATION-GUIDE.md",
+      "language": "markdown",
+      "sizeLines": 179,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/03-API-CONTRACT.md",
+      "language": "markdown",
+      "sizeLines": 5003,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/03.1-API-CONTRACT-RENTAL-CUSTOMER.md",
+      "language": "markdown",
+      "sizeLines": 1000,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/DESIGN.md",
+      "language": "markdown",
+      "sizeLines": 741,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/PRD-CHECK-2026-10-22.md",
+      "language": "markdown",
+      "sizeLines": 223,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/REDESIGN-2026-10-23.md",
+      "language": "markdown",
+      "sizeLines": 81,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/SQL-COVERAGE-2026-10-22.md",
+      "language": "markdown",
+      "sizeLines": 358,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/UIUX-REVIEW-2026-10-06.md",
+      "language": "markdown",
+      "sizeLines": 468,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/screenshots/README.md",
+      "language": "markdown",
+      "sizeLines": 11,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "eslint.config.js",
+      "language": "javascript",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "index.html",
+      "language": "html",
+      "sizeLines": 19,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "jsconfig.json",
+      "language": "json",
+      "sizeLines": 12,
+      "fileCategory": "config"
+    },
+    {
+      "path": "package.json",
+      "language": "json",
+      "sizeLines": 46,
+      "fileCategory": "config"
+    },
+    {
+      "path": "public/images/discovery/README.md",
+      "language": "markdown",
+      "sizeLines": 9,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "public/images/product-detail/README.md",
+      "language": "markdown",
+      "sizeLines": 1,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/App.jsx",
+      "language": "javascript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/api/apiError.js",
+      "language": "javascript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/api/axiosClient.js",
+      "language": "javascript",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/api/endpoints.js",
+      "language": "javascript",
+      "sizeLines": 204,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/assets/.gitkeep",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/BrandLogo.jsx",
+      "language": "javascript",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/BrandLogo.module.css",
+      "language": "css",
+      "sizeLines": 118,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/components/BrandLogo.test.jsx",
+      "language": "javascript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/DataTable.jsx",
+      "language": "javascript",
+      "sizeLines": 110,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/DataTable.module.css",
+      "language": "css",
+      "sizeLines": 158,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/components/DevClockJumps.jsx",
+      "language": "javascript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/EmptyState.jsx",
+      "language": "javascript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ErrorState.jsx",
+      "language": "javascript",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/FormField.jsx",
+      "language": "javascript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/Modal.jsx",
+      "language": "javascript",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/Modal.module.css",
+      "language": "css",
+      "sizeLines": 75,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/components/OutdoorIcon.jsx",
+      "language": "javascript",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/Pagination.jsx",
+      "language": "javascript",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/Spinner.jsx",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/SplitText.jsx",
+      "language": "javascript",
+      "sizeLines": 437,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/skeleton/CardSkeleton.jsx",
+      "language": "javascript",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/skeleton/DetailSkeleton.jsx",
+      "language": "javascript",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/skeleton/FormSkeleton.jsx",
+      "language": "javascript",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/skeleton/Skeleton.jsx",
+      "language": "javascript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/skeleton/Skeleton.module.css",
+      "language": "css",
+      "sizeLines": 163,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/components/skeleton/TableSkeleton.jsx",
+      "language": "javascript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/skeleton/index.js",
+      "language": "javascript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/constants/config.js",
+      "language": "javascript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/constants/enums.js",
+      "language": "javascript",
+      "sizeLines": 263,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/constants/routes.js",
+      "language": "javascript",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/contexts/AuthContext.js",
+      "language": "javascript",
+      "sizeLines": 4,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/contexts/AuthProvider.jsx",
+      "language": "javascript",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/api/adminCatalogKeys.js",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/api/adminCatalogService.js",
+      "language": "javascript",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/api/adminCatalogService.test.js",
+      "language": "javascript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/components/AdminCatalogStatusBadge.jsx",
+      "language": "javascript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/components/AdminCatalogStatusBadge.module.css",
+      "language": "css",
+      "sizeLines": 35,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/admin-catalog/constants/adminCatalogStatus.js",
+      "language": "javascript",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/hooks/useAdminCatalog.js",
+      "language": "javascript",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/pages/AdminCatalogDetail.module.css",
+      "language": "css",
+      "sizeLines": 226,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/admin-catalog/pages/AdminCatalogPage.module.css",
+      "language": "css",
+      "sizeLines": 240,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/admin-catalog/pages/AdminProductDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 130,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/pages/AdminProductsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 155,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/pages/AdminProductsPage.test.jsx",
+      "language": "javascript",
+      "sizeLines": 59,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/pages/AdminTourDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 182,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/pages/AdminTourDetailPage.test.jsx",
+      "language": "javascript",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/pages/AdminToursPage.jsx",
+      "language": "javascript",
+      "sizeLines": 145,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-catalog/pages/AdminToursPage.test.jsx",
+      "language": "javascript",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/api/adminTripKeys.js",
+      "language": "javascript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/api/adminTripService.js",
+      "language": "javascript",
+      "sizeLines": 274,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/api/mockTripCreateData.js",
+      "language": "javascript",
+      "sizeLines": 137,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/api/mockTripDetailData.js",
+      "language": "javascript",
+      "sizeLines": 547,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/components/TripAttendanceMatrixTab.jsx",
+      "language": "javascript",
+      "sizeLines": 266,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/components/TripKanbanBoardTab.jsx",
+      "language": "javascript",
+      "sizeLines": 411,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/hooks/useAdminTrips.js",
+      "language": "javascript",
+      "sizeLines": 257,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/pages/AdminRecurrenceRulesPage.jsx",
+      "language": "javascript",
+      "sizeLines": 490,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/pages/AdminTripCreatePage.jsx",
+      "language": "javascript",
+      "sizeLines": 562,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/pages/AdminTripDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 570,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/pages/AdminTripListPage.jsx",
+      "language": "javascript",
+      "sizeLines": 1103,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/admin-trips/pages/AdminTripOps.module.css",
+      "language": "css",
+      "sizeLines": 2336,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/auth/api/authService.js",
+      "language": "javascript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/components/AuthLayout.jsx",
+      "language": "javascript",
+      "sizeLines": 133,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/components/AuthLayout.module.css",
+      "language": "css",
+      "sizeLines": 225,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/auth/components/ForgotPasswordModal.jsx",
+      "language": "javascript",
+      "sizeLines": 354,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/components/ForgotPasswordModal.module.css",
+      "language": "css",
+      "sizeLines": 233,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/auth/components/GoogleLoginButton.jsx",
+      "language": "javascript",
+      "sizeLines": 92,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/components/GoogleLoginButton.module.css",
+      "language": "css",
+      "sizeLines": 61,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/auth/components/PasswordStrengthMeter.jsx",
+      "language": "javascript",
+      "sizeLines": 86,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/components/PasswordStrengthMeter.module.css",
+      "language": "css",
+      "sizeLines": 113,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/auth/hooks/useForgotPassword.js",
+      "language": "javascript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/hooks/useGoogleLogin.js",
+      "language": "javascript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/hooks/useLogin.js",
+      "language": "javascript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/hooks/useLogout.js",
+      "language": "javascript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/hooks/useRegister.js",
+      "language": "javascript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/hooks/useResetPassword.js",
+      "language": "javascript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/pages/AuthForm.module.css",
+      "language": "css",
+      "sizeLines": 54,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/auth/pages/AuthPage.jsx",
+      "language": "javascript",
+      "sizeLines": 712,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/pages/AuthPage.module.css",
+      "language": "css",
+      "sizeLines": 465,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/auth/pages/LoginPage.jsx",
+      "language": "javascript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/pages/RegisterPage.jsx",
+      "language": "javascript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/pages/VerifyEmailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 63,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/auth/pages/VerifyEmailPage.module.css",
+      "language": "css",
+      "sizeLines": 36,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/finance/api/financeKeys.js",
+      "language": "javascript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/api/financeService.js",
+      "language": "javascript",
+      "sizeLines": 137,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/api/mockFinanceData.js",
+      "language": "javascript",
+      "sizeLines": 427,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/api/mockFinanceService.js",
+      "language": "javascript",
+      "sizeLines": 618,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/DynamicRuleBuilder.jsx",
+      "language": "javascript",
+      "sizeLines": 163,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/ManualPaymentRecordModal.jsx",
+      "language": "javascript",
+      "sizeLines": 157,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/PolicyCompactTimeline.jsx",
+      "language": "javascript",
+      "sizeLines": 60,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/PolicyFormModal.jsx",
+      "language": "javascript",
+      "sizeLines": 107,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/PolicyMasterList.jsx",
+      "language": "javascript",
+      "sizeLines": 145,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/PolicyRuleEditorModal.jsx",
+      "language": "javascript",
+      "sizeLines": 149,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/PolicyRuleStepChart.jsx",
+      "language": "javascript",
+      "sizeLines": 115,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/PolicyTable.jsx",
+      "language": "javascript",
+      "sizeLines": 145,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/ReconcileActionModal.jsx",
+      "language": "javascript",
+      "sizeLines": 135,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/RefundApproveDrawer.jsx",
+      "language": "javascript",
+      "sizeLines": 128,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/RefundManualModal.jsx",
+      "language": "javascript",
+      "sizeLines": 98,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/RefundQueueTable.jsx",
+      "language": "javascript",
+      "sizeLines": 343,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/TransactionDetailDrawer.jsx",
+      "language": "javascript",
+      "sizeLines": 271,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/TransactionFilterBar.jsx",
+      "language": "javascript",
+      "sizeLines": 153,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/TransactionSummaryCards.jsx",
+      "language": "javascript",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/TransactionTable.jsx",
+      "language": "javascript",
+      "sizeLines": 193,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/VietQrPaymentModal.jsx",
+      "language": "javascript",
+      "sizeLines": 121,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/components/finance.module.css",
+      "language": "css",
+      "sizeLines": 1248,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/finance/hooks/usePayments.js",
+      "language": "javascript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/hooks/useRefundPolicies.js",
+      "language": "javascript",
+      "sizeLines": 79,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/hooks/useRefunds.js",
+      "language": "javascript",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/pages/RefundPoliciesPage.jsx",
+      "language": "javascript",
+      "sizeLines": 381,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/pages/RefundPolicyCreatePage.jsx",
+      "language": "javascript",
+      "sizeLines": 360,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/pages/RefundsReconcilePage.jsx",
+      "language": "javascript",
+      "sizeLines": 162,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/finance/pages/TransactionsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 111,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/guide/api/guideKeys.js",
+      "language": "javascript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/guide/api/guideService.js",
+      "language": "javascript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/guide/hooks/useGuidePortal.js",
+      "language": "javascript",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/guide/pages/GuideBatchAttendancePage.jsx",
+      "language": "javascript",
+      "sizeLines": 252,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/guide/pages/GuideGroupRosterPage.jsx",
+      "language": "javascript",
+      "sizeLines": 100,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/guide/pages/GuideItineraryPage.jsx",
+      "language": "javascript",
+      "sizeLines": 76,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/guide/pages/GuideParticipantDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 116,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/guide/pages/GuidePortal.module.css",
+      "language": "css",
+      "sizeLines": 479,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/guide/pages/GuideProvidedItemsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/guide/pages/GuideTripsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 588,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/guide/pages/GuideTripsPage.module.css",
+      "language": "css",
+      "sizeLines": 688,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/operations/api/opsKeys.js",
+      "language": "javascript",
+      "sizeLines": 4,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/api/opsService.js",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/components/OperationDialog.jsx",
+      "language": "javascript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/components/OperationForm.jsx",
+      "language": "javascript",
+      "sizeLines": 53,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/components/Operations.module.css",
+      "language": "css",
+      "sizeLines": 4,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/operations/components/PromotionTiersForm.jsx",
+      "language": "javascript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/components/ResourcePage.jsx",
+      "language": "javascript",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/components/RichTextEditor.jsx",
+      "language": "javascript",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/components/StatusBadge.jsx",
+      "language": "javascript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/constants/opsNavigation.js",
+      "language": "javascript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/constants/opsOptions.js",
+      "language": "javascript",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/constants/promotionFields.js",
+      "language": "javascript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/operations/hooks/useOperations.js",
+      "language": "javascript",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/orders/api/orderKeys.js",
+      "language": "javascript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/orders/api/orderService.js",
+      "language": "javascript",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/orders/hooks/useOrders.js",
+      "language": "javascript",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/orders/pages/MyOrdersPage.jsx",
+      "language": "javascript",
+      "sizeLines": 101,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/orders/pages/MyOrdersPage.module.css",
+      "language": "css",
+      "sizeLines": 109,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/posts/api/postKeys.js",
+      "language": "javascript",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/posts/api/postService.js",
+      "language": "javascript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/posts/components/PostEditorForm.jsx",
+      "language": "javascript",
+      "sizeLines": 381,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/posts/components/PostEditorForm.test.jsx",
+      "language": "javascript",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/posts/hooks/usePosts.js",
+      "language": "javascript",
+      "sizeLines": 86,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/posts/pages/AdminPostEditorPage.jsx",
+      "language": "javascript",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/posts/pages/AdminPosts.module.css",
+      "language": "css",
+      "sizeLines": 426,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/posts/pages/AdminPostsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 153,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/posts/pages/PostDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 117,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/posts/pages/PostDetailPage.module.css",
+      "language": "css",
+      "sizeLines": 156,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/posts/pages/PostListPage.jsx",
+      "language": "javascript",
+      "sizeLines": 148,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/posts/pages/PostListPage.module.css",
+      "language": "css",
+      "sizeLines": 164,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/posts/utils/postContent.js",
+      "language": "javascript",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/posts/utils/postContent.test.js",
+      "language": "javascript",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/api/productKeys.js",
+      "language": "javascript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/api/productService.js",
+      "language": "javascript",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/components/ProductCard.jsx",
+      "language": "javascript",
+      "sizeLines": 59,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/components/ProductCard.module.css",
+      "language": "css",
+      "sizeLines": 198,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/products/components/ProductForm.jsx",
+      "language": "javascript",
+      "sizeLines": 75,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/components/ProductImage.jsx",
+      "language": "javascript",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/components/ProductOfferingBadges.jsx",
+      "language": "javascript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/constants/productCatalog.js",
+      "language": "javascript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/hooks/useProducts.js",
+      "language": "javascript",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/pages/ProductCatalog.module.css",
+      "language": "css",
+      "sizeLines": 223,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/products/pages/ProductCreatePage.jsx",
+      "language": "javascript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/pages/ProductDetail.module.css",
+      "language": "css",
+      "sizeLines": 509,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/products/pages/ProductDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 298,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/products/pages/ProductDiscovery.module.css",
+      "language": "css",
+      "sizeLines": 343,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/products/pages/ProductListPage.jsx",
+      "language": "javascript",
+      "sizeLines": 290,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/api/refundKeys.js",
+      "language": "javascript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/api/refundService.js",
+      "language": "javascript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/components/RefundCompleteDialog.jsx",
+      "language": "javascript",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/components/RefundExportDialog.jsx",
+      "language": "javascript",
+      "sizeLines": 116,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/components/RefundExportDialog.test.jsx",
+      "language": "javascript",
+      "sizeLines": 63,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/components/RefundProgressCard.jsx",
+      "language": "javascript",
+      "sizeLines": 113,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/components/RefundProgressCard.module.css",
+      "language": "css",
+      "sizeLines": 236,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/refunds/components/RefundProgressCard.test.jsx",
+      "language": "javascript",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/components/RefundQueue.jsx",
+      "language": "javascript",
+      "sizeLines": 162,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/components/RefundQueue.module.css",
+      "language": "css",
+      "sizeLines": 154,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/refunds/components/RefundReasonDialog.jsx",
+      "language": "javascript",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/hooks/useRefundCases.js",
+      "language": "javascript",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/pages/AdminRefundsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 107,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/refunds/utils/refundDisplay.js",
+      "language": "javascript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rental-ops/api/rentalOpsKeys.js",
+      "language": "javascript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rental-ops/api/rentalOpsService.js",
+      "language": "javascript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rental-ops/components/RentalAssetsPanel.jsx",
+      "language": "javascript",
+      "sizeLines": 152,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rental-ops/components/RentalChargesPanel.jsx",
+      "language": "javascript",
+      "sizeLines": 184,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rental-ops/components/RentalPanels.test.jsx",
+      "language": "javascript",
+      "sizeLines": 119,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rental-ops/constants/rentalOpsLabels.js",
+      "language": "javascript",
+      "sizeLines": 59,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rental-ops/hooks/useRentalOps.js",
+      "language": "javascript",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rental-ops/pages/AdminRentalOrderDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 221,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rental-ops/pages/AdminRentalOrdersPage.jsx",
+      "language": "javascript",
+      "sizeLines": 146,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rental-ops/pages/RentalOps.module.css",
+      "language": "css",
+      "sizeLines": 334,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/rentals/api/rentalKeys.js",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rentals/api/rentalService.js",
+      "language": "javascript",
+      "sizeLines": 84,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/rentals/hooks/useRentals.js",
+      "language": "javascript",
+      "sizeLines": 117,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/api/tourKeys.js",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/api/tourService.js",
+      "language": "javascript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/components/TourBookingCard.jsx",
+      "language": "javascript",
+      "sizeLines": 130,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/components/TourBookingCard.module.css",
+      "language": "css",
+      "sizeLines": 216,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/tours/components/TourBookingCard.test.jsx",
+      "language": "javascript",
+      "sizeLines": 99,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/components/TourCard.jsx",
+      "language": "javascript",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/components/TourCard.module.css",
+      "language": "css",
+      "sizeLines": 171,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/tours/components/TourGallery.jsx",
+      "language": "javascript",
+      "sizeLines": 77,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/components/TourGallery.module.css",
+      "language": "css",
+      "sizeLines": 72,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/tours/components/TourGearList.jsx",
+      "language": "javascript",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/components/TourGearList.module.css",
+      "language": "css",
+      "sizeLines": 84,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/tours/components/TourTimeline.jsx",
+      "language": "javascript",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/components/TourTimeline.module.css",
+      "language": "css",
+      "sizeLines": 89,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/tours/hooks/useTours.js",
+      "language": "javascript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/pages/TourDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 115,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/pages/TourDetailPage.module.css",
+      "language": "css",
+      "sizeLines": 207,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/tours/pages/TourListPage.jsx",
+      "language": "javascript",
+      "sizeLines": 180,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/tours/pages/TourListPage.module.css",
+      "language": "css",
+      "sizeLines": 228,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/trip-bookings/api/tripBookingKeys.js",
+      "language": "javascript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/api/tripBookingService.js",
+      "language": "javascript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/api/tripBookingService.test.js",
+      "language": "javascript",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/components/CancelBookingPanel.jsx",
+      "language": "javascript",
+      "sizeLines": 429,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/components/CancelBookingPanel.module.css",
+      "language": "css",
+      "sizeLines": 425,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/trip-bookings/components/CancelBookingPanel.test.jsx",
+      "language": "javascript",
+      "sizeLines": 182,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/components/HoldCountdown.jsx",
+      "language": "javascript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/components/InvitationTokensPanel.jsx",
+      "language": "javascript",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/components/InvitationTokensPanel.module.css",
+      "language": "css",
+      "sizeLines": 42,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/trip-bookings/components/ParticipantFields.jsx",
+      "language": "javascript",
+      "sizeLines": 105,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/components/ParticipantFields.module.css",
+      "language": "css",
+      "sizeLines": 90,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/trip-bookings/components/ParticipantRow.jsx",
+      "language": "javascript",
+      "sizeLines": 145,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/components/ParticipantRow.module.css",
+      "language": "css",
+      "sizeLines": 225,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/trip-bookings/components/TripPaymentPanel.jsx",
+      "language": "javascript",
+      "sizeLines": 129,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/components/TripPaymentPanel.module.css",
+      "language": "css",
+      "sizeLines": 102,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/trip-bookings/components/TripPaymentPanel.test.jsx",
+      "language": "javascript",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/hooks/useTripBookings.js",
+      "language": "javascript",
+      "sizeLines": 105,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/hooks/useTripBookings.test.jsx",
+      "language": "javascript",
+      "sizeLines": 128,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/pages/ParticipantInvitationClaimPage.jsx",
+      "language": "javascript",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/pages/ParticipantInvitationClaimPage.module.css",
+      "language": "css",
+      "sizeLines": 148,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/trip-bookings/pages/ParticipantInvitationClaimPage.test.jsx",
+      "language": "javascript",
+      "sizeLines": 84,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/pages/TripBookingCreatePage.jsx",
+      "language": "javascript",
+      "sizeLines": 453,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/pages/TripBookingCreatePage.module.css",
+      "language": "css",
+      "sizeLines": 652,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/trip-bookings/pages/TripBookingCreatePage.test.jsx",
+      "language": "javascript",
+      "sizeLines": 211,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/pages/TripBookingDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 308,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/pages/TripBookingDetailPage.module.css",
+      "language": "css",
+      "sizeLines": 588,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/trip-bookings/pages/TripBookingDetailPage.test.jsx",
+      "language": "javascript",
+      "sizeLines": 311,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/utils/bookingStatus.js",
+      "language": "javascript",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/utils/bookingStatus.test.js",
+      "language": "javascript",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/utils/bookingSubmission.js",
+      "language": "javascript",
+      "sizeLines": 92,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-bookings/utils/bookingSubmission.test.js",
+      "language": "javascript",
+      "sizeLines": 175,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-groups/api/tripGroupKeys.js",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-groups/api/tripGroupService.js",
+      "language": "javascript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-groups/api/tripGroupService.test.js",
+      "language": "javascript",
+      "sizeLines": 63,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-groups/hooks/useTripGroups.js",
+      "language": "javascript",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-groups/hooks/useTripGroups.test.jsx",
+      "language": "javascript",
+      "sizeLines": 87,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-groups/pages/TripGroupingPage.jsx",
+      "language": "javascript",
+      "sizeLines": 437,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-groups/pages/TripGroupingPage.module.css",
+      "language": "css",
+      "sizeLines": 429,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/trip-groups/pages/TripGroupingPage.test.jsx",
+      "language": "javascript",
+      "sizeLines": 224,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-groups/pages/TripOpsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 142,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/trip-groups/pages/TripOpsPage.module.css",
+      "language": "css",
+      "sizeLines": 107,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/users/api/userKeys.js",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/api/userService.js",
+      "language": "javascript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/components/ActiveSessionsList.jsx",
+      "language": "javascript",
+      "sizeLines": 165,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/components/ActiveSessionsList.module.css",
+      "language": "css",
+      "sizeLines": 238,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/users/components/AvatarUploadModal.jsx",
+      "language": "javascript",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/components/AvatarUploadModal.module.css",
+      "language": "css",
+      "sizeLines": 170,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/users/components/ChangePasswordForm.jsx",
+      "language": "javascript",
+      "sizeLines": 187,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/components/ChangePasswordForm.module.css",
+      "language": "css",
+      "sizeLines": 105,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/users/hooks/useChangePassword.js",
+      "language": "javascript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/hooks/useProfile.js",
+      "language": "javascript",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/hooks/useRevokeOtherSessions.js",
+      "language": "javascript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/hooks/useRevokeSession.js",
+      "language": "javascript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/hooks/useSessions.js",
+      "language": "javascript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/hooks/useUpdateProfile.js",
+      "language": "javascript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/hooks/useUploadAvatar.js",
+      "language": "javascript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/pages/ProfilePage.jsx",
+      "language": "javascript",
+      "sizeLines": 456,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/features/users/pages/ProfilePage.module.css",
+      "language": "css",
+      "sizeLines": 494,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/features/users/pages/ProfilePage.test.jsx",
+      "language": "javascript",
+      "sizeLines": 187,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/hooks/useAuth.js",
+      "language": "javascript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/hooks/useDebounce.js",
+      "language": "javascript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/hooks/useDevClock.js",
+      "language": "javascript",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/index.css",
+      "language": "css",
+      "sizeLines": 406,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/layouts/AdminLayout.jsx",
+      "language": "javascript",
+      "sizeLines": 235,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/layouts/AdminLayout.module.css",
+      "language": "css",
+      "sizeLines": 323,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/layouts/AppLayout.css",
+      "language": "css",
+      "sizeLines": 135,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/layouts/AppLayout.jsx",
+      "language": "javascript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/layouts/DevClockBar.jsx",
+      "language": "javascript",
+      "sizeLines": 64,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/layouts/DevClockBar.module.css",
+      "language": "css",
+      "sizeLines": 59,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/layouts/GuideLayout.jsx",
+      "language": "javascript",
+      "sizeLines": 207,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/layouts/GuideLayout.module.css",
+      "language": "css",
+      "sizeLines": 405,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/layouts/MainLayout.jsx",
+      "language": "javascript",
+      "sizeLines": 181,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/layouts/MainLayout.module.css",
+      "language": "css",
+      "sizeLines": 490,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/layouts/RentalFulfillmentLayout.jsx",
+      "language": "javascript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/layouts/RentalFulfillmentLayout.module.css",
+      "language": "css",
+      "sizeLines": 29,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/layouts/RentalFulfillmentLayout.test.jsx",
+      "language": "javascript",
+      "sizeLines": 54,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/layouts/components/RentalOrderToolbar.jsx",
+      "language": "javascript",
+      "sizeLines": 54,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/layouts/components/RentalOrderToolbar.module.css",
+      "language": "css",
+      "sizeLines": 106,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/lib/queryClient.js",
+      "language": "javascript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/main.jsx",
+      "language": "javascript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/AdminDashboardPage.jsx",
+      "language": "javascript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/AdminDashboardPage.module.css",
+      "language": "css",
+      "sizeLines": 226,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/ForbiddenPage.jsx",
+      "language": "javascript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/HomePage.jsx",
+      "language": "javascript",
+      "sizeLines": 208,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/HomePage.module.css",
+      "language": "css",
+      "sizeLines": 821,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/NotFoundPage.jsx",
+      "language": "javascript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/RouteErrorPage.jsx",
+      "language": "javascript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/finance/RefundPoliciesPage.jsx",
+      "language": "javascript",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/finance/RefundPolicyCreatePage.jsx",
+      "language": "javascript",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/finance/RefundsReconcilePage.jsx",
+      "language": "javascript",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/finance/TransactionsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/orders/OrderDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/orders/OrdersPage.jsx",
+      "language": "javascript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/orders/RentalsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/AuditPage.jsx",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/DashboardPage.jsx",
+      "language": "javascript",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/MasterDataPage.jsx",
+      "language": "javascript",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/PostEditorPage.jsx",
+      "language": "javascript",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/PostsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/PromotionDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/PromotionsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/ReportsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/ReviewsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/SettingsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/UserDetailPage.jsx",
+      "language": "javascript",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/system/UsersPage.jsx",
+      "language": "javascript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/AssetGanttPage.jsx",
+      "language": "javascript",
+      "sizeLines": 350,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/AssetGanttPage.module.css",
+      "language": "css",
+      "sizeLines": 622,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/ops/warehouse/AssetListPage.jsx",
+      "language": "javascript",
+      "sizeLines": 446,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/AssetListPage.module.css",
+      "language": "css",
+      "sizeLines": 663,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/ops/warehouse/HandoverChecklistPage.jsx",
+      "language": "javascript",
+      "sizeLines": 280,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/HandoverChecklistPage.module.css",
+      "language": "css",
+      "sizeLines": 268,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/ops/warehouse/HandoverChecklistPage.test.jsx",
+      "language": "javascript",
+      "sizeLines": 137,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/ReturnChecklistPage.jsx",
+      "language": "javascript",
+      "sizeLines": 462,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/ReturnChecklistPage.module.css",
+      "language": "css",
+      "sizeLines": 223,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/ops/warehouse/ReturnChecklistPage.test.jsx",
+      "language": "javascript",
+      "sizeLines": 118,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/SettlementPage.jsx",
+      "language": "javascript",
+      "sizeLines": 437,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/SettlementPage.module.css",
+      "language": "css",
+      "sizeLines": 297,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/ops/warehouse/TripProvidedItemsPage.jsx",
+      "language": "javascript",
+      "sizeLines": 481,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/TripProvidedItemsPage.module.css",
+      "language": "css",
+      "sizeLines": 423,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/ops/warehouse/api/assetKeys.js",
+      "language": "javascript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/api/assetService.js",
+      "language": "javascript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/api/fulfillmentService.js",
+      "language": "javascript",
+      "sizeLines": 229,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/api/tripProvidedItemService.js",
+      "language": "javascript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/components/AssetDetailDrawer.jsx",
+      "language": "javascript",
+      "sizeLines": 240,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/components/AssignGearDrawer.jsx",
+      "language": "javascript",
+      "sizeLines": 216,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/components/BarcodeScanner.jsx",
+      "language": "javascript",
+      "sizeLines": 48,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/components/BulkCreateAssetModal.jsx",
+      "language": "javascript",
+      "sizeLines": 234,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/components/FulfillmentControls.module.css",
+      "language": "css",
+      "sizeLines": 135,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/ops/warehouse/components/FulfillmentProgress.jsx",
+      "language": "javascript",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/components/RentalOrderSummary.jsx",
+      "language": "javascript",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/components/RentalOrderSummary.module.css",
+      "language": "css",
+      "sizeLines": 65,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/ops/warehouse/components/ReturnGearModal.jsx",
+      "language": "javascript",
+      "sizeLines": 207,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/components/WarehouseModals.module.css",
+      "language": "css",
+      "sizeLines": 346,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/pages/ops/warehouse/constants/assetConstants.js",
+      "language": "javascript",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/hooks/useAssets.js",
+      "language": "javascript",
+      "sizeLines": 82,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/hooks/useFulfillment.js",
+      "language": "javascript",
+      "sizeLines": 186,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/hooks/useTripProvidedItems.js",
+      "language": "javascript",
+      "sizeLines": 97,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ops/warehouse/utils/soundHelper.js",
+      "language": "javascript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/routes/ProtectedRoute.jsx",
+      "language": "javascript",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/routes/router.jsx",
+      "language": "javascript",
+      "sizeLines": 355,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/test/setup.js",
+      "language": "javascript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/applyServerErrors.js",
+      "language": "javascript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/avatarColor.js",
+      "language": "javascript",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/cleanParams.js",
+      "language": "javascript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/exportCsv.js",
+      "language": "javascript",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/formatCurrency.js",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/formatDate.js",
+      "language": "javascript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/jwt.js",
+      "language": "javascript",
+      "sizeLines": 79,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/roleRouting.js",
+      "language": "javascript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/tokenStorage.js",
+      "language": "javascript",
+      "sizeLines": 60,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/product-catalog.render.test.mjs",
+      "language": "javascript",
+      "sizeLines": 137,
+      "fileCategory": "code"
+    },
+    {
+      "path": "vite.config.js",
+      "language": "javascript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    }
+  ],
+  "totalFiles": 392,
+  "filteredByIgnore": 25,
+  "estimatedComplexity": "large",
+  "failures": [],
+  "stats": {
+    "filesScanned": 392,
+    "byCategory": {
+      "config": 3,
+      "code": 300,
+      "docs": 18,
+      "markup": 71
+    },
+    "byLanguage": {
+      "config": 1,
+      "unknown": 3,
+      "markdown": 18,
+      "javascript": 297,
+      "html": 1,
+      "json": 2,
+      "css": 70
+    }
+  }
+}

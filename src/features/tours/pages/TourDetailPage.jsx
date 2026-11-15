@@ -1,13 +1,16 @@
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import { DetailSkeleton } from '@/components/skeleton';
 import { POST_TYPE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
+import OtherTours from '../components/OtherTours';
 import TourBookingCard from '../components/TourBookingCard';
 import TourGallery from '../components/TourGallery';
 import TourGearList from '../components/TourGearList';
+import TourReviews from '../components/TourReviews';
 import TourTimeline from '../components/TourTimeline';
 import { useTour } from '../hooks/useTours';
 import styles from './TourDetailPage.module.css';
@@ -23,19 +26,14 @@ export default function TourDetailPage() {
 
   return (
     <article>
-      <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-        <Link to={ROUTES.HOME}>Trang chủ</Link>
-        <span>/</span>
-        <Link to={ROUTES.TOURS}>Tour Trekking</Link>
-        {tour.locationName && (
-          <>
-            <span>/</span>
-            <span>{tour.locationName}</span>
-          </>
-        )}
-        <span>/</span>
-        <span className={styles.breadcrumbCurrent}>{tour.name}</span>
-      </nav>
+      <Breadcrumb
+        items={[
+          { label: 'Trang chủ', to: ROUTES.HOME },
+          { label: 'Tour Trekking', to: ROUTES.TOURS },
+          tour.locationName ? { label: tour.locationName } : null,
+          { label: tour.name },
+        ]}
+      />
 
       {/* 5-Image Gallery (Figma Node 269:874) */}
       <TourGallery images={tour.images} tourName={tour.name} />
@@ -52,17 +50,16 @@ export default function TourDetailPage() {
               {tour.coordinatesFormatted || tour.locationName}
             </p>
             <div className={styles.chips}>
-              <span className={styles.chipVerified}>
-                <OutdoorIcon name="check" size={14} /> Đã kiểm định {tour.inspectionRate}%
-              </span>
-              <span className={styles.chipLevel}>Cấp độ: {tour.difficultyLevel}</span>
-              <span className={styles.chip}>{tour.durationFormatted}</span>
+              {tour.difficultyLevel && (
+                <span className={styles.chipLevel}>Cấp độ: {tour.difficultyLevel}</span>
+              )}
+              {tour.durationFormatted && <span className={styles.chip}>{tour.durationFormatted}</span>}
             </div>
             {tour.description && <p className={styles.description}>{tour.description}</p>}
           </header>
 
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Lịch trình tour</h2>
+            <h2 className={styles.sectionTitle}>Lịch trình chi tiết</h2>
             <TourTimeline activities={tour.activities} />
           </section>
 
@@ -98,11 +95,9 @@ export default function TourDetailPage() {
             </section>
           )}
 
-          <section className={`${styles.section} ${styles.reviewRow}`}>
+          <section className={styles.section}>
             <h2 className={styles.sectionTitle}>Đánh giá từ trekker</h2>
-            <strong>
-              {tour.rating}/5 ★ ({tour.totalReviews} đánh giá)
-            </strong>
+            <TourReviews tourId={tourId} />
           </section>
         </div>
 
@@ -110,6 +105,7 @@ export default function TourDetailPage() {
           <TourBookingCard tour={tour} />
         </div>
       </div>
+      <OtherTours excludeId={tour.id} />
     </article>
   );
 }

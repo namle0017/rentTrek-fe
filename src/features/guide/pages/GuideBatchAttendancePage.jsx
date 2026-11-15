@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
+import { TRIP_STATUS, TRIP_STATUS_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useGuideBatchAttendance, useGuideGroupRoster, useGuideItinerary } from '../hooks/useGuidePortal';
 import styles from './GuidePortal.module.css';
@@ -50,6 +51,9 @@ export default function GuideBatchAttendancePage() {
   );
   const activeActivityId =
     selectedActivityId || roster.currentActivity?.activityId || allActivities[0]?.activityId || '';
+  // Chỉ điểm danh khi chuyến đang diễn ra (BE cũng chặn bằng 409 TRIP_NOT_IN_PROGRESS)
+  const tripStatus = roster.tripStatus ?? TRIP_STATUS.IN_PROGRESS;
+  const canTakeAttendance = tripStatus === TRIP_STATUS.IN_PROGRESS;
 
   const submitPayload = async (payload) => {
     setFeedback(null);
@@ -80,7 +84,7 @@ export default function GuideBatchAttendancePage() {
   };
 
   const handleMarkAllPresent = () => {
-    if (!activeActivityId) return;
+    if (!activeActivityId || !canTakeAttendance) return;
     submitPayload({
       activityId: activeActivityId,
       markAllPresent: true,
@@ -89,7 +93,7 @@ export default function GuideBatchAttendancePage() {
   };
 
   const handleSingleStatus = (participant, nextStatus) => {
-    if (!activeActivityId) return;
+    if (!activeActivityId || !canTakeAttendance) return;
     const isChangingSaved =
       participant.currentAttendanceStatus && participant.currentAttendanceStatus !== nextStatus;
     const reason = (reasonsByParticipant[participant.participantId] || '').trim();
@@ -150,8 +154,15 @@ export default function GuideBatchAttendancePage() {
       <div className={styles.tripCard}>
         <h1 className={styles.cardTitle}>Điểm danh Thực địa Nhanh</h1>
         <p className={styles.metaText}>
-          Nhóm: <strong>{roster.groupName}</strong> · Tự động đồng bộ Offline khi có mạng
+          Nhóm: <strong>{roster.groupName}</strong> · Đồng bộ thủ công khi có mạng
         </p>
+
+        {!canTakeAttendance && (
+          <p className={styles.metaText} role="status">
+            Chuyến đang ở trạng thái <strong>{TRIP_STATUS_LABEL[tripStatus] ?? tripStatus}</strong>. Chỉ điểm
+            danh được khi chuyến đang diễn ra.
+          </p>
+        )}
 
         <label htmlFor="activitySelect" className={styles.metaText}>
           Chọn chặng hoạt động điểm danh:
@@ -173,7 +184,7 @@ export default function GuideBatchAttendancePage() {
           type="button"
           className={styles.btnAccent}
           onClick={handleMarkAllPresent}
-          disabled={batchMutation.isPending || !activeActivityId}
+          disabled={batchMutation.isPending || !activeActivityId || !canTakeAttendance}
         >
           Đánh dấu tất cả Có Mặt (1 chạm)
         </button>
@@ -210,6 +221,7 @@ export default function GuideBatchAttendancePage() {
                 p.currentAttendanceStatus === 'Present' ? styles.statusBtnPresent : ''
               }`}
               onClick={() => handleSingleStatus(p, 'Present')}
+              disabled={!canTakeAttendance}
             >
               Có mặt
             </button>
@@ -219,6 +231,7 @@ export default function GuideBatchAttendancePage() {
                 p.currentAttendanceStatus === 'Late' ? styles.statusBtnLate : ''
               }`}
               onClick={() => handleSingleStatus(p, 'Late')}
+              disabled={!canTakeAttendance}
             >
               Đến muộn
             </button>
@@ -228,8 +241,10 @@ export default function GuideBatchAttendancePage() {
                 p.currentAttendanceStatus === 'Absent' ? styles.statusBtnAbsent : ''
               }`}
               onClick={() => handleSingleStatus(p, 'Absent')}
+              disabled={!canTakeAttendance}
             >
-              Vắng mặt
+              {/* BE: vắng ở hoạt động đầu tiên ⇒ hành khách NoShow */}
+              {activeActivityId === allActivities[0]?.activityId ? 'Vắng (NoShow)' : 'Vắng mặt'}
             </button>
           </div>
 
@@ -237,6 +252,7 @@ export default function GuideBatchAttendancePage() {
             type="text"
             placeholder="Nhập lý do (bắt buộc nếu sửa trạng thái đã lưu)..."
             className={styles.input}
+            disabled={!canTakeAttendance}
             value={reasonsByParticipant[p.participantId] ?? ''}
             onChange={(e) =>
               setReasonsByParticipant((prev) => ({

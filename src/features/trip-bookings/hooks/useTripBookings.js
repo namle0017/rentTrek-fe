@@ -13,6 +13,24 @@ export function useTripBooking(orderId) {
   });
 }
 
+export function useTripRefundPolicy(tripId) {
+  return useQuery({
+    queryKey: tripBookingKeys.tripRefundPolicy(tripId),
+    queryFn: () => tripBookingService.getTripRefundPolicy(tripId),
+    select: (response) => response.data,
+    enabled: Boolean(tripId),
+  });
+}
+
+export function useTripSuggestedBundles(tripId) {
+  return useQuery({
+    queryKey: tripBookingKeys.tripSuggestedBundles(tripId),
+    queryFn: () => tripBookingService.getTripSuggestedBundles(tripId),
+    select: (response) => response.data,
+    enabled: Boolean(tripId),
+  });
+}
+
 export function useCustomerTripGrouping(orderId) {
   return useQuery({
     queryKey: tripBookingKeys.grouping(orderId),
@@ -23,12 +41,16 @@ export function useCustomerTripGrouping(orderId) {
 }
 
 // Số tiền phụ thuộc giờ hiện tại nên luôn tải mới khi mở popup
-export function useCancellationPreview(orderId, { enabled = true } = {}) {
+// participantIds: hủy bớt hành khách; bỏ trống = hủy toàn bộ
+export function useCancellationPreview(orderId, { enabled = true, participantIds } = {}) {
   return useQuery({
-    queryKey: tripBookingKeys.cancellationPreview(orderId),
-    queryFn: () => tripBookingService.getCancellationPreview(orderId),
+    queryKey: tripBookingKeys.cancellationPreview(orderId, participantIds),
+    queryFn: () =>
+      participantIds
+        ? tripBookingService.getParticipantCancellationPreview(orderId, participantIds)
+        : tripBookingService.getCancellationPreview(orderId),
     select: (response) => response.data,
-    enabled: Boolean(orderId) && enabled,
+    enabled: Boolean(orderId) && enabled && (!participantIds || participantIds.length > 0),
     staleTime: 0,
     gcTime: 0,
   });
@@ -71,6 +93,37 @@ export function useUpdateParticipant() {
 export function useCancelTripBooking() {
   // gcTime 0: variables chứa số tài khoản, không giữ lại trong mutation cache
   return useBookingMutation(tripBookingService.cancel, 'Đã hủy booking.', { gcTime: 0 });
+}
+
+export function useCancelTripParticipants() {
+  return useBookingMutation(tripBookingService.cancelParticipants, 'Đã hủy bởi hành khách.', { gcTime: 0 });
+}
+
+// Ghế trống và phí phụ thuộc giờ hiện tại nên luôn tải mới
+export function useRescheduleOptions(orderId, { enabled = true } = {}) {
+  return useQuery({
+    queryKey: tripBookingKeys.rescheduleOptions(orderId),
+    queryFn: () => tripBookingService.getRescheduleOptions(orderId),
+    select: (response) => response.data,
+    enabled: Boolean(orderId) && enabled,
+    staleTime: 0,
+  });
+}
+
+/** BE trả RescheduleResultResponse (không phải booking) nên tải lại chi tiết. */
+export function useRescheduleTripBooking() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: tripBookingService.reschedule,
+    onSuccess: (response, { orderId }) => {
+      queryClient.invalidateQueries({ queryKey: tripBookingKeys.detail(orderId) });
+      queryClient.invalidateQueries({ queryKey: tripBookingKeys.rescheduleOptions(orderId) });
+      queryClient.invalidateQueries({ queryKey: tripBookingKeys.grouping(orderId) });
+      queryClient.invalidateQueries({ queryKey: orderKeys.myLists() });
+      toast.success(response.message || 'Đã gửi yêu cầu đổi lịch.');
+    },
+  });
 }
 
 export function useInviteLink(orderId) {

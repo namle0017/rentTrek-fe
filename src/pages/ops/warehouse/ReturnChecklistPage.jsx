@@ -7,12 +7,16 @@ import {
   useCompleteReturn,
 } from './hooks/useFulfillment';
 import { playSuccessBeep, playErrorBuzz } from './utils/soundHelper';
+import { useAuth } from '@/hooks/useAuth';
+import { USER_ROLE } from '@/constants/enums';
 import Modal from '@/components/Modal';
 import DataTable from '@/components/DataTable';
 import Spinner from '@/components/Spinner';
 import RentalOrderSummary from './components/RentalOrderSummary';
 import BarcodeScanner from './components/BarcodeScanner';
+import EvidencePhotoCapture from './components/EvidencePhotoCapture';
 import FulfillmentProgress from './components/FulfillmentProgress';
+import StaffRentalEvidencePanel from './components/StaffRentalEvidencePanel';
 import layoutStyles from '@/layouts/RentalFulfillmentLayout.module.css';
 import styles from './ReturnChecklistPage.module.css';
 
@@ -27,7 +31,10 @@ const conditions = {
 const isResolved = (item) => ['Returned', 'LostOrException'].includes(item.status);
 
 export default function ReturnChecklistPage() {
-  const { orderCode = 'RT-202611-001' } = useParams();
+  const { orderCode } = useParams();
+  // Hoàn tất (quyết toán) đơn chỉ Admin; Staff gửi báo cáo kiểm tra trả đồ cho admin duyệt
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
   const [barcodeInput, setBarcodeInput] = useState('');
   const [scanFeedback, setScanFeedback] = useState(null);
   const barcodeInputRef = useRef(null);
@@ -63,6 +70,14 @@ export default function ReturnChecklistPage() {
   const pendingCount = Math.max(0, checklist.totalIssuedCount - resolvedCount);
   const isFinished = ['Returned', 'Completed'].includes(checklist.orderStatus);
   const isBusy = scanMutation.isPending || lostMutation.isPending || completeMutation.isPending;
+  const minPhotos = checklist.minPhotos ?? 1;
+  // Ảnh lấy từ checklist mới nhất (tải lại sau mỗi lần upload), không dùng bản chụp lúc mở hộp thoại
+  const modalItem = returnModalAsset
+    ? checklist.items.find((item) => item.assignmentId === returnModalAsset.assignmentId)
+    : null;
+  const modalPhotos = modalItem?.photos ?? [];
+  const modalDamagePhotos = modalItem?.damagePhotos ?? [];
+  const missingReturnPhotos = Math.max(0, minPhotos - modalPhotos.length);
 
   useEffect(() => {
     if (!isLoading && !returnModalAsset && !lostModalAsset && !isFinished) barcodeInputRef.current?.focus();
@@ -99,6 +114,7 @@ export default function ReturnChecklistPage() {
     if (
       !returnModalAsset ||
       isBusy ||
+      missingReturnPhotos > 0 ||
       (createDamageFee && (!(Number(damageFeeAmount) > 0) || !damageFeeReason.trim()))
     )
       return;
@@ -117,7 +133,7 @@ export default function ReturnChecklistPage() {
     } catch (error) {
       playErrorBuzz();
       setScanFeedback({
-        message: error.response?.data?.message || error.message || 'Không thể nhận lại thiết bị.',
+        message: error.message || 'Không thể nhận lại thiết bị.',
         isError: true,
       });
     }
@@ -126,7 +142,7 @@ export default function ReturnChecklistPage() {
     if (isResolved(item) || isBusy || isFinished) return;
     setLostModalAsset(item);
     setLostReason('');
-    setLossFeeAmount(String(item.variantPriceTier || 500000));
+    setLossFeeAmount(item.variantPriceTier ? String(item.variantPriceTier) : '');
   };
   const handleConfirmLost = async (event) => {
     event.preventDefault();
@@ -143,7 +159,7 @@ export default function ReturnChecklistPage() {
     } catch (error) {
       playErrorBuzz();
       setScanFeedback({
-        message: error.response?.data?.message || error.message || 'Không thể ghi nhận báo mất.',
+        message: error.message || 'Không thể ghi nhận báo mất.',
         isError: true,
       });
     }
@@ -236,6 +252,12 @@ export default function ReturnChecklistPage() {
               total={checklist.totalIssuedCount}
             />
           </div>
+          <StaffRentalEvidencePanel
+            showPhotos={false}
+            orderId={serverChecklist?.orderId}
+            stage="Return"
+            refreshKey={resolvedCount}
+          />
           <DataTable
             title="Thiết bị cần thu hồi"
             description="Mỗi hàng là một thiết bị đã giao. Đối chiếu mã, kiểm tra tình trạng và chọn thao tác ở cuối hàng."
@@ -291,18 +313,26 @@ export default function ReturnChecklistPage() {
                 />
               </label>
             </div>
-            <button
-              type="button"
-              className={styles.primaryBtn}
-              onClick={handleCompleteReturn}
-              disabled={isFinished || isBusy || pendingCount > 0 || !checklist.totalIssuedCount}
-            >
-              {completeMutation.isPending
-                ? 'Đang hoàn tất…'
-                : isFinished
-                  ? 'Đơn đã hoàn tất thu hồi'
-                  : 'Hoàn tất thu hồi'}
-            </button>
+            {!isAdmin && !isFinished && (
+              <p className={styles.hint}>
+                Nhận lại xong, hãy bấm "Gửi báo cáo kiểm tra cho admin" bên dưới để admin duyệt phí và quyết
+                toán cọc.
+              </p>
+            )}
+            {isAdmin && (
+              <button
+                type="button"
+                className={styles.primaryBtn}
+                onClick={handleCompleteReturn}
+                disabled={isFinished || isBusy || pendingCount > 0 || !checklist.totalIssuedCount}
+              >
+                {completeMutation.isPending
+                  ? 'Đang hoàn tất…'
+                  : isFinished
+                    ? 'Đơn đã hoàn tất thu hồi'
+                    : 'Hoàn tất thu hồi'}
+              </button>
+            )}
           </section>
         </>
       )}
@@ -320,6 +350,18 @@ export default function ReturnChecklistPage() {
                 {returnModalAsset.productName} · {returnModalAsset.variantName}
               </span>
             </div>
+            <div className={styles.field}>
+              Ảnh tình trạng khi nhận lại (bắt buộc ít nhất {minPhotos} ảnh)
+              <EvidencePhotoCapture
+                orderCode={orderCode}
+                assignmentId={returnModalAsset.assignmentId}
+                assetCode={returnModalAsset.assetCode}
+                stage="Return"
+                photos={modalPhotos}
+                minPhotos={minPhotos}
+                disabled={scanMutation.isPending}
+              />
+            </div>
             <label className={styles.field} htmlFor="return-condition">
               Tình trạng thiết bị
               <select
@@ -334,6 +376,20 @@ export default function ReturnChecklistPage() {
                 <option value="Damaged">Hư hỏng, rách, gãy</option>
               </select>
             </label>
+            {returnCondition !== 'Normal' && (
+              <div className={styles.field}>
+                Ảnh hư hỏng / cần xử lý (tuỳ chọn, làm bằng chứng khi lập phí)
+                <EvidencePhotoCapture
+                  orderCode={orderCode}
+                  assignmentId={returnModalAsset.assignmentId}
+                  assetCode={returnModalAsset.assetCode}
+                  stage="Damage"
+                  photos={modalDamagePhotos}
+                  minPhotos={0}
+                  disabled={scanMutation.isPending}
+                />
+              </div>
+            )}
             <label className={styles.field} htmlFor="return-condition-note">
               Ghi chú kiểm tra
               <input
@@ -394,10 +450,16 @@ export default function ReturnChecklistPage() {
                 type="submit"
                 className={styles.primaryBtn}
                 disabled={
-                  isBusy || (createDamageFee && (!(Number(damageFeeAmount) > 0) || !damageFeeReason.trim()))
+                  isBusy ||
+                  missingReturnPhotos > 0 ||
+                  (createDamageFee && (!(Number(damageFeeAmount) > 0) || !damageFeeReason.trim()))
                 }
               >
-                {scanMutation.isPending ? 'Đang lưu…' : 'Xác nhận nhận đồ'}
+                {scanMutation.isPending
+                  ? 'Đang lưu…'
+                  : missingReturnPhotos > 0
+                    ? `Cần thêm ${missingReturnPhotos} ảnh`
+                    : 'Xác nhận nhận đồ'}
               </button>
             </div>
           </form>

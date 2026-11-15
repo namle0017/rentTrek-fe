@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
-import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from '@/components/BrandLogo';
 import OutdoorIcon from '@/components/OutdoorIcon';
-import { USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
+import { POST_TYPE, POST_TYPE_LABEL, USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
+import { useUnreadNotificationCount } from '@/features/notifications/hooks/useNotifications';
+import { useRentalCart } from '@/features/rentals/hooks/useRentalCart';
+import { useMyRefunds } from '@/features/refunds/hooks/useRefundCases';
+import { REFUND_ACTION_STATUSES } from '@/features/refunds/utils/refundDisplay';
 import { useAuth } from '@/hooks/useAuth';
 import { getAvatarColor } from '@/utils/avatarColor';
 import DevClockBar from './DevClockBar';
@@ -14,16 +18,25 @@ const exploration = ['Lều cắm trại', 'Balô', 'Đèn', 'Túi ngủ'];
 
 export default function MainLayout() {
   const { currentUser, isAuthenticated } = useAuth();
+  const rentalCart = useRentalCart();
+  const cartQuantity = rentalCart.items.reduce((sum, item) => sum + item.quantity, 0);
+  const { data: unreadCount = 0 } = useUnreadNotificationCount(isAuthenticated);
+  // Số hồ sơ hoàn tiền đang chờ khách nhập STK / gửi lại yêu cầu
+  const refundActions = useMyRefunds(
+    { status: REFUND_ACTION_STATUSES.join(','), pageSize: 1 },
+    { enabled: isAuthenticated && currentUser?.role === USER_ROLE.CUSTOMER, staleTime: 60_000 },
+  );
+  const refundActionCount = refundActions.data?.totalItems ?? 0;
   const logoutMutation = useLogout();
   const location = useLocation();
   const navigate = useNavigate();
 
   // Phân quyền cách ly: Nếu Admin/Staff vào giao diện khách hàng, tự động chuyển về /admin.
-  // Nếu Guide/TourGuide vào, tự động chuyển về /guide/trips.
+  // Nếu Guide vào, tự động chuyển về /guide/trips.
   useEffect(() => {
     if (currentUser?.role === USER_ROLE.ADMIN || currentUser?.role === USER_ROLE.STAFF) {
       navigate(ROUTES.ADMIN, { replace: true });
-    } else if (currentUser?.role === USER_ROLE.GUIDE || currentUser?.role === USER_ROLE.TOUR_GUIDE) {
+    } else if (currentUser?.role === USER_ROLE.GUIDE) {
       navigate(ROUTES.GUIDE_TRIPS, { replace: true });
     }
   }, [currentUser?.role, navigate]);
@@ -36,7 +49,7 @@ export default function MainLayout() {
   const getRoleBadgeClass = (role) => {
     if (role === USER_ROLE.ADMIN) return `${styles.roleBadge} ${styles.roleBadgeAdmin}`;
     if (role === USER_ROLE.STAFF) return `${styles.roleBadge} ${styles.roleBadgeStaff}`;
-    if (role === USER_ROLE.TOUR_GUIDE) return `${styles.roleBadge} ${styles.roleBadgeTourGuide}`;
+    if (role === USER_ROLE.GUIDE) return `${styles.roleBadge} ${styles.roleBadgeGuide}`;
     return styles.roleBadge;
   };
 
@@ -44,15 +57,16 @@ export default function MainLayout() {
 
   return (
     <div className={styles.layout}>
+      <ScrollRestoration getKey={(location) => location.pathname} />
       <a href="#main-content" className={styles.skipLink}>
         Đến nội dung chính
       </a>
       <DevClockBar />
       <header className={styles.header}>
         <div className={`container ${styles.headerInner}`}>
-          <Link to={ROUTES.HOME} className={styles.logo}>
+          <div className={styles.logo}>
             <BrandLogo size="md" theme="light" to={ROUTES.HOME} />
-          </Link>
+          </div>
 
           <nav className={styles.nav} aria-label="Điều hướng chính">
             <NavLink to={ROUTES.HOME} end>
@@ -60,67 +74,118 @@ export default function MainLayout() {
             </NavLink>
             <NavLink to={ROUTES.TOURS}>Tour trekking</NavLink>
             <NavLink to={ROUTES.PRODUCTS}>Dụng cụ thuê</NavLink>
-            <NavLink to={ROUTES.GUIDES}>Cẩm nang</NavLink>
+            <NavLink to={ROUTES.BUNDLES}>Combo</NavLink>
+            {/* Dropdown mở bằng hover hoặc focus (Tab) — không cần JS */}
+            <div className={styles.navDropdown}>
+              <NavLink to={ROUTES.GUIDES} aria-haspopup="true">
+                Bài viết <span aria-hidden="true">▾</span>
+              </NavLink>
+              <ul className={styles.navMenu}>
+                {Object.values(POST_TYPE).map((type) => (
+                  <li key={type}>
+                    <Link to={`${ROUTES.GUIDES}?postType=${type}`}>{POST_TYPE_LABEL[type]}</Link>
+                  </li>
+                ))}
+                <li>
+                  <Link to={ROUTES.GUIDES}>Tất cả bài viết</Link>
+                </li>
+              </ul>
+            </div>
           </nav>
 
           <div className={styles.authSection}>
             {isAuthenticated ? (
-              <details className={styles.account}>
-                <summary aria-label="Tài khoản">
-                  <span
-                    className={styles.avatar}
-                    style={
-                      currentUser?.avatarUrl
-                        ? { padding: 0, overflow: 'hidden' }
-                        : { backgroundColor: avatarColor.bg, color: avatarColor.text }
-                    }
-                  >
-                    {currentUser?.avatarUrl ? (
-                      <img
-                        src={currentUser.avatarUrl}
-                        alt={currentUser?.fullName || 'Avatar'}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    ) : (
-                      (currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()
-                    )}
-                  </span>
-                  <OutdoorIcon name="chevron" size={14} />
-                </summary>
-                <div className={styles.accountMenu}>
-                  <div className={styles.accountHeader}>
-                    <Link to={ROUTES.PROFILE} className={styles.accountName} title="Xem hồ sơ cá nhân">
-                      {currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}
+              <>
+                <Link
+                  to={ROUTES.RENTAL_CART}
+                  className={styles.cartLink}
+                  aria-label={`Giỏ thuê, ${cartQuantity} thiết bị`}
+                >
+                  <OutdoorIcon name="bag" size={20} />
+                  <span>Giỏ thuê ({cartQuantity})</span>
+                </Link>
+                <Link
+                  to={ROUTES.NOTIFICATIONS}
+                  className={styles.cartLink}
+                  aria-label={`Thông báo, ${unreadCount} chưa đọc`}
+                >
+                  <OutdoorIcon name="bell" size={20} />
+                  {unreadCount > 0 && <span>{unreadCount > 99 ? '99+' : unreadCount}</span>}
+                </Link>
+                <details className={styles.account}>
+                  <summary aria-label="Tài khoản">
+                    <span
+                      className={styles.avatar}
+                      style={
+                        currentUser?.avatarUrl
+                          ? { padding: 0, overflow: 'hidden' }
+                          : { backgroundColor: avatarColor.bg, color: avatarColor.text }
+                      }
+                    >
+                      {currentUser?.avatarUrl ? (
+                        <img
+                          src={currentUser.avatarUrl}
+                          alt={currentUser?.fullName || 'Avatar'}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        (currentUser?.fullName || currentUser?.email || 'U')[0].toUpperCase()
+                      )}
+                    </span>
+                    <OutdoorIcon name="chevron" size={14} />
+                  </summary>
+                  <div className={styles.accountMenu}>
+                    <div className={styles.accountHeader}>
+                      <Link to={ROUTES.PROFILE} className={styles.accountName} title="Xem hồ sơ cá nhân">
+                        {currentUser?.fullName || currentUser?.email || 'Tài khoản của bạn'}
+                      </Link>
+                      {currentUser?.email && currentUser?.fullName && (
+                        <span className={styles.accountEmail}>{currentUser.email}</span>
+                      )}
+                      {currentUser?.role && currentUser.role !== USER_ROLE.CUSTOMER && (
+                        <span className={getRoleBadgeClass(currentUser.role)}>
+                          {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
+                        </span>
+                      )}
+                    </div>
+                    <div className={styles.accountDivider} />
+                    <Link to={ROUTES.PROFILE} className={styles.accountLink}>
+                      <OutdoorIcon name="user" size={16} />
+                      <span>Hồ sơ cá nhân</span>
                     </Link>
-                    {currentUser?.email && currentUser?.fullName && (
-                      <span className={styles.accountEmail}>{currentUser.email}</span>
-                    )}
-                    {currentUser?.role && currentUser.role !== USER_ROLE.CUSTOMER && (
-                      <span className={getRoleBadgeClass(currentUser.role)}>
-                        {USER_ROLE_LABEL[currentUser.role] || currentUser.role}
-                      </span>
-                    )}
+                    <Link to={ROUTES.MY_ORDERS} className={styles.accountLink}>
+                      <OutdoorIcon name="bag" size={16} />
+                      <span>Đơn của tôi</span>
+                    </Link>
+                    <Link to={ROUTES.MY_TRIPS} className={styles.accountLink}>
+                      <OutdoorIcon name="compass" size={16} />
+                      <span>Chuyến của tôi</span>
+                    </Link>
+                    <Link to={ROUTES.MY_REFUNDS} className={styles.accountLink}>
+                      <OutdoorIcon name="shield" size={16} />
+                      <span>Hoàn tiền của tôi</span>
+                      {refundActionCount > 0 && (
+                        <span className={styles.accountBadge} aria-label={`${refundActionCount} hồ sơ cần bạn xử lý`}>
+                          {refundActionCount}
+                        </span>
+                      )}
+                    </Link>
+                    <Link to={ROUTES.MY_REPORTS} className={styles.accountLink}>
+                      <OutdoorIcon name="bell" size={16} />
+                      <span>Báo cáo của tôi</span>
+                    </Link>
+                    <div className={styles.accountDivider} />
+                    <button
+                      type="button"
+                      className={styles.logoutBtn}
+                      onClick={handleLogoutClick}
+                      disabled={logoutMutation.isPending}
+                    >
+                      {logoutMutation.isPending ? 'Đang thoát...' : 'Đăng xuất'}
+                    </button>
                   </div>
-                  <div className={styles.accountDivider} />
-                  <Link to={ROUTES.PROFILE} className={styles.accountLink}>
-                    <OutdoorIcon name="user" size={16} />
-                    <span>Hồ sơ cá nhân</span>
-                  </Link>
-                  <Link to={ROUTES.MY_ORDERS} className={styles.accountLink}>
-                    <OutdoorIcon name="bag" size={16} />
-                    <span>Đơn của tôi</span>
-                  </Link>
-                  <div className={styles.accountDivider} />
-                  <button
-                    type="button"
-                    className={styles.logoutBtn}
-                    onClick={handleLogoutClick}
-                    disabled={logoutMutation.isPending}
-                  >
-                    {logoutMutation.isPending ? 'Đang thoát...' : 'Đăng xuất'}
-                  </button>
-                </div>
-              </details>
+                </details>
+              </>
             ) : (
               <>
                 <Link to={ROUTES.LOGIN} className={styles.authLink}>

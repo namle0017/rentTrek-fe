@@ -9,7 +9,7 @@ import {
   useMoveBookingToGroup,
   usePublishTripGrouping,
   useSplitTripBooking,
-  useTourGuideOptions,
+  useGuideOptions,
   useTripGrouping,
 } from './useTripGroups';
 
@@ -24,7 +24,7 @@ vi.mock('../api/tripGroupService', () => ({
 }));
 
 vi.mock('@/features/users/api/userService', () => ({
-  userService: { getAll: vi.fn() },
+  userService: { getGuides: vi.fn() },
 }));
 
 const createHarness = () => {
@@ -72,16 +72,16 @@ describe('trip group hooks', () => {
     expect(queryClient.getQueryData(tripGroupKeys.detail('trip-1'))).toEqual(response);
   });
 
-  it('loads only TourGuide accounts for the guide selector', async () => {
-    userService.getAll.mockResolvedValue({
-      data: { items: [{ userId: 'guide-1', fullName: 'Đinh Văn Toàn' }] },
+  it('loads guide accounts from the guides endpoint', async () => {
+    userService.getGuides.mockResolvedValue({
+      data: [{ userId: 'guide-1', fullName: 'Đinh Văn Toàn', role: 'Guide' }],
     });
     const { wrapper } = createHarness();
 
-    const { result } = renderHook(() => useTourGuideOptions(true), { wrapper });
+    const { result } = renderHook(() => useGuideOptions(true), { wrapper });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
-    expect(userService.getAll).toHaveBeenCalledWith({ role: 'TourGuide', pageSize: 100 });
-    expect(result.current.data).toEqual([{ userId: 'guide-1', fullName: 'Đinh Văn Toàn' }]);
+    expect(userService.getGuides).toHaveBeenCalled();
+    expect(result.current.data).toEqual([{ userId: 'guide-1', fullName: 'Đinh Văn Toàn', role: 'Guide' }]);
   });
 });

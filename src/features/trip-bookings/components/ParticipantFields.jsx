@@ -42,14 +42,16 @@ export default function ParticipantFields({ index, register, errors = {}, onRemo
           <span className={styles.kicker}>THÀNH VIÊN {String(number).padStart(2, '0')}</span>
           <h2 id={`participant-${index}-title`}>Người tham gia {number}</h2>
         </div>
-        <button
-          type="button"
-          className={styles.removeButton}
-          onClick={onRemove}
-          aria-label={`Xóa người tham gia ${number}`}
-        >
-          Xóa
-        </button>
+        {onRemove && (
+          <button
+            type="button"
+            className={styles.removeButton}
+            onClick={onRemove}
+            aria-label={`Xóa người tham gia ${number}`}
+          >
+            Xóa
+          </button>
+        )}
       </div>
 
       <div className={styles.grid}>
@@ -71,29 +73,6 @@ export default function ParticipantFields({ index, register, errors = {}, onRemo
         </Field>
         <Field id={`participant-${index}-phone`} label={`Số điện thoại người ${number}`} error={errors.phone}>
           {input('phone', 'tel', 'tel', { maxLength: MAX_LENGTH })}
-        </Field>
-        <Field
-          id={`participant-${index}-dateOfBirth`}
-          label={`Ngày sinh người ${number}`}
-          error={errors.dateOfBirth}
-        >
-          {input('dateOfBirth', 'date', 'bday')}
-        </Field>
-        <Field
-          id={`participant-${index}-emergencyContactName`}
-          label="Người liên hệ khẩn cấp"
-          error={errors.emergencyContactName}
-        >
-          {input('emergencyContactName', 'text', 'off', {
-            maxLength: { value: 200, message: 'Tối đa 200 ký tự.' },
-          })}
-        </Field>
-        <Field
-          id={`participant-${index}-emergencyContactPhone`}
-          label="SĐT khẩn cấp"
-          error={errors.emergencyContactPhone}
-        >
-          {input('emergencyContactPhone', 'tel', 'off', { maxLength: MAX_LENGTH })}
         </Field>
       </div>
       <p className={styles.hint}>

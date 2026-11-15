@@ -12,6 +12,32 @@ export function useRefundCase(refundCaseId) {
   });
 }
 
+export function useMyRefunds(params, options = {}) {
+  return useQuery({
+    queryKey: refundKeys.mineList(params),
+    queryFn: () => refundService.getMine(params),
+    select: (response) => response.data,
+    placeholderData: keepPreviousData,
+    ...options,
+  });
+}
+
+/** mode 'submit': hồ sơ đang chờ STK; 'resubmit': gửi lại hồ sơ bị từ chối / thất bại. */
+export function useSubmitRefundBankInfo(refundCaseId, mode = 'submit') {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload) =>
+      mode === 'resubmit'
+        ? refundService.resubmit({ refundCaseId, payload })
+        : refundService.submitBankInfo({ refundCaseId, payload }),
+    onSuccess: () => {
+      toast.success(mode === 'resubmit' ? 'Đã gửi lại yêu cầu hoàn tiền' : 'Đã gửi tài khoản nhận hoàn tiền');
+      queryClient.invalidateQueries({ queryKey: refundKeys.detail(refundCaseId) });
+      queryClient.invalidateQueries({ queryKey: refundKeys.mine() });
+    },
+  });
+}
+
 export function useRefundQueue(params) {
   return useQuery({
     queryKey: refundKeys.queue(params),
@@ -33,6 +59,10 @@ function useQueueMutation(mutationFn, options = {}) {
     onSettled: () => queryClient.invalidateQueries({ queryKey: refundKeys.queues() }),
     ...options,
   });
+}
+
+export function useApproveRefund() {
+  return useQueueMutation(refundService.approve);
 }
 
 export function useRejectRefund() {

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import BrandLogo from '@/components/BrandLogo';
 import FormField from '@/components/FormField';
 import SplitText from '@/components/SplitText';
@@ -10,11 +11,20 @@ import { applyServerErrors } from '@/utils/applyServerErrors';
 import { extractUserFromToken } from '@/utils/jwt';
 import { tokenStorage } from '@/utils/tokenStorage';
 import ForgotPasswordModal from '../components/ForgotPasswordModal';
+import EmailVerificationModal from '../components/EmailVerificationModal';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
 import { useLogin } from '../hooks/useLogin';
 import { useRegister } from '../hooks/useRegister';
 import styles from './AuthPage.module.css';
+
+// Ô nhập có sẵn +84: chấp nhận "912345678", "0912345678", "+84912345678" → BE cần "0912345678"
+function normalizeVnPhone(value = '') {
+  let digits = value.replace(/\D/g, '');
+  if (digits.startsWith('84') && digits.length === 11) digits = digits.slice(2);
+  if (digits.length === 9) digits = `0${digits}`;
+  return digits;
+}
 
 export default function AuthPage({ defaultMode }) {
   const { currentUser, isAuthenticated } = useAuth();
@@ -24,7 +34,17 @@ export default function AuthPage({ defaultMode }) {
   const isRegister = defaultMode ? defaultMode === 'register' : location.pathname === ROUTES.REGISTER;
 
   const from = location.state?.from;
-  const redirectTo = from ? `${from.pathname}${from.search ?? ''}${from.hash ?? ''}` : ROUTES.HOME;
+  const authMessage = location.state?.authMessage;
+  // `from` có thể là trang Admin/Ops/Guide của phiên trước (vd admin đăng xuất) → khách hàng vào sẽ 403
+  const isStaffOnlyPath = /^\/(admin|ops|guide)(\/|$)/.test(from?.pathname ?? '');
+  const redirectTo =
+    from && !isStaffOnlyPath ? `${from.pathname}${from.search ?? ''}${from.hash ?? ''}` : ROUTES.HOME;
+
+  useEffect(() => {
+    if (authMessage && !isAuthenticated) {
+      toast.info(authMessage, { toastId: 'auth-required-redirect' });
+    }
+  }, [authMessage, isAuthenticated]);
 
   // Mutations
   const loginMutation = useLogin();
@@ -37,6 +57,8 @@ export default function AuthPage({ defaultMode }) {
   const [loginServerError, setLoginServerError] = useState('');
   const [registerServerError, setRegisterServerError] = useState('');
   const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
+  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
+  const [pendingVerifyEmail, setPendingVerifyEmail] = useState('');
   const [rememberMe, setRememberMe] = useState(() => {
     return Boolean(localStorage.getItem('rentrek_remembered_email'));
   });
@@ -134,16 +156,20 @@ export default function AuthPage({ defaultMode }) {
 
   const handleRegister = (values) => {
     setRegisterServerError('');
+    const targetEmail = values.email.trim();
     registerMutation.mutate(
       {
         fullName: values.fullName.trim(),
-        email: values.email.trim(),
-        phone: values.phone?.trim() || null,
+        email: targetEmail,
+        phone: values.phone?.trim() ? normalizeVnPhone(values.phone) : null,
         password: values.password,
         confirmPassword: values.confirmPassword,
       },
       {
-        onSuccess: () => navigate(redirectTo, { replace: true }),
+        onSuccess: () => {
+          setPendingVerifyEmail(targetEmail);
+          setIsVerifyModalOpen(true);
+        },
         onError: (error) => {
           if (error.statusCode === 409) {
             setRegisterError('email', { type: 'server', message: error.message });
@@ -329,6 +355,11 @@ export default function AuthPage({ defaultMode }) {
               {/* ==================== SLIDE 1: LOGIN ==================== */}
               <div className={`${styles.slide} ${!isRegister ? styles.slideActive : styles.slideInactive}`}>
                 <form className={styles.authForm} onSubmit={handleLoginSubmit(handleLogin)} noValidate>
+                  {authMessage && (
+                    <div className={styles.infoBanner} role="status">
+                      {authMessage}
+                    </div>
+                  )}
                   {loginServerError && <div className={styles.errorBanner}>{loginServerError}</div>}
 
                   <FormField
@@ -537,19 +568,29 @@ export default function AuthPage({ defaultMode }) {
                     htmlFor="register-phone"
                     error={registerErrors.phone}
                   >
-                    <input
-                      id="register-phone"
-                      type="tel"
-                      className="input"
-                      placeholder="0912345678 (tùy chọn)"
-                      autoComplete="tel"
-                      {...registerRegister('phone', {
-                        pattern: {
-                          value: /^(03|05|07|08|09)\d{8}$/,
-                          message: 'Số điện thoại phải đúng 10 số đầu số Việt Nam (03, 05, 07, 08, 09)',
-                        },
-                      })}
-                    />
+                    <div className={styles.phoneInputWrapper}>
+                      <span className={styles.phonePrefix} aria-hidden="true">
+                        +84
+                      </span>
+                      <input
+                        id="register-phone"
+                        type="tel"
+                        inputMode="tel"
+                        className="input"
+                        placeholder="912 345 678 (tùy chọn)"
+                        autoComplete="tel-national"
+                        aria-describedby="register-phone-prefix"
+                        {...registerRegister('phone', {
+                          validate: (v) =>
+                            !v?.trim() ||
+                            /^0[35789]\d{8}$/.test(normalizeVnPhone(v)) ||
+                            'Số điện thoại không hợp lệ',
+                        })}
+                      />
+                      <span id="register-phone-prefix" className="sr-only">
+                        Mã quốc gia Việt Nam +84
+                      </span>
+                    </div>
                   </FormField>
 
                   <div className={styles.formRow}>
@@ -635,7 +676,8 @@ export default function AuthPage({ defaultMode }) {
                     </FormField>
                   </div>
 
-                  <PasswordStrengthMeter password={registerPassword} />
+                  {/* Chỉ hiện khi bắt đầu gõ để form vừa 1 màn hình */}
+                  {registerPassword && <PasswordStrengthMeter password={registerPassword} />}
 
                   <SplitText
                     tag="p"
@@ -703,6 +745,20 @@ export default function AuthPage({ defaultMode }) {
         onSuccessReset={(email) => {
           if (setValueLogin) {
             setValueLogin('email', email);
+          }
+          switchTo('login');
+        }}
+      />
+
+      {/* Modal Xác thực Email Đăng ký & OTP (Phương án A) */}
+      <EmailVerificationModal
+        isOpen={isVerifyModalOpen}
+        onClose={() => setIsVerifyModalOpen(false)}
+        email={pendingVerifyEmail}
+        onSuccessVerified={(verifiedEmail) => {
+          setIsVerifyModalOpen(false);
+          if (setValueLogin) {
+            setValueLogin('email', verifiedEmail);
           }
           switchTo('login');
         }}

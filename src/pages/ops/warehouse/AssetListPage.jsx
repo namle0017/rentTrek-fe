@@ -12,6 +12,7 @@ import {
 } from './constants/assetConstants';
 import BulkCreateAssetModal from './components/BulkCreateAssetModal';
 import AssetDetailDrawer from './components/AssetDetailDrawer';
+import AdminStatSummary from '@/components/AdminStatSummary';
 import styles from './AssetListPage.module.css';
 
 export default function AssetListPage() {
@@ -79,14 +80,28 @@ export default function AssetListPage() {
   }, [pagedData, selectedStatus, searchTerm, localUpdatedTimestamps]);
 
   // CRM Pagination data slicing
-  const totalItems = displayItems.length;
-  const totalPages = Math.ceil(totalItems / pageSize) || 1;
+  const allRawItems = pagedData?.items || [];
+
+  const metrics = useMemo(() => {
+    const total = allRawItems.length;
+    const available = allRawItems.filter((i) => i.assetStatus === 'Available').length;
+    const inUse = allRawItems.filter((i) => ['Rented', 'InUse'].includes(i.assetStatus)).length;
+    const actionNeeded = allRawItems.filter((i) => ['Maintenance', 'Damaged', 'Lost'].includes(i.assetStatus)).length;
+    return { total, available, inUse, actionNeeded };
+  }, [allRawItems]);
+
+  const isServerPaged = typeof pagedData?.totalItems === 'number';
+  const totalItems = isServerPaged ? pagedData.totalItems : displayItems.length;
+  const totalPages = pagedData?.totalPages || Math.ceil(totalItems / pageSize) || 1;
   const safePage = Math.min(Math.max(1, pageNumber), totalPages);
 
   const paginatedItems = useMemo(() => {
+    if (isServerPaged) {
+      return displayItems;
+    }
     const startIndex = (safePage - 1) * pageSize;
     return displayItems.slice(startIndex, startIndex + pageSize);
-  }, [displayItems, safePage, pageSize]);
+  }, [displayItems, isServerPaged, safePage, pageSize]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -110,28 +125,31 @@ export default function AssetListPage() {
 
   return (
     <div className={styles.container}>
-      {/* Top Action Toolbar */}
-      <div className={styles.topToolbar}>
-        <div className={styles.pageMeta}>
-          <span className={styles.itemCountBadge}>
-            Tổng cộng <strong>{displayItems.length}</strong> thiết bị
-          </span>
-        </div>
-        <div className={styles.actions}>
+      {/* Direction G: Compact Inventory Header Action Toolbar */}
+      <div className={styles.pageHeader} style={{ justifyContent: 'flex-end', paddingBottom: 12 }}>
+        <div className={styles.headerActions}>
           <Link to={ROUTES.OPS_ASSETS_SCHEDULE} className={styles.btnSecondary}>
-            <OutdoorIcon name="calendar" size={15} />
-            <span>Lịch phân bổ (Gantt)</span>
+            Lịch phân bổ (Gantt)
           </Link>
           <button
             type="button"
             className={styles.btnPrimary}
             onClick={() => setIsBulkModalOpen(true)}
           >
-            <OutdoorIcon name="plus" size={15} />
-            <span>Thêm hàng loạt</span>
+            ＋ Thêm hàng loạt
           </button>
         </div>
       </div>
+
+      <AdminStatSummary
+        metrics={[
+          { label: 'Tổng số thiết bị', value: metrics.total, unit: 'món', subtext: 'Hiện có trong kho dữ liệu' },
+          { label: 'Sẵn sàng cấp', value: metrics.available, unit: 'món', status: 'Available', subtext: 'Có thể gán đơn mới' },
+          { label: 'Đang cho thuê / cấp chuyến', value: metrics.inUse, unit: 'món', status: 'InUse', subtext: 'Đang lưu thông thực tế' },
+          { label: 'Cần can thiệp xử lý', value: metrics.actionNeeded, unit: 'món', status: 'Cần xử lý', subtext: 'Bảo trì, hư hỏng, mất' },
+        ]}
+        columns={4}
+      />
 
       {/* Filter and Search Bar */}
       <div className={styles.filterCard}>
@@ -180,17 +198,26 @@ export default function AssetListPage() {
         </div>
 
         <div className={styles.statusTabs}>
-          {ASSET_STATUS_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              type="button"
-              className={`${styles.tabBtn} ${selectedStatus === opt.value ? styles.tabActive : ''}`}
-              aria-pressed={selectedStatus === opt.value}
-              onClick={() => handleStatusChange(opt.value)}
-            >
-              {opt.label}
-            </button>
-          ))}
+          {ASSET_STATUS_OPTIONS.map((opt) => {
+            const count =
+              opt.value === ''
+                ? allRawItems.length
+                : allRawItems.filter(
+                  (i) => (i.assetStatus || '').toLowerCase() === opt.value.toLowerCase(),
+                ).length;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                className={`${styles.tabBtn} ${selectedStatus === opt.value ? styles.tabActive : ''}`}
+                aria-pressed={selectedStatus === opt.value}
+                onClick={() => handleStatusChange(opt.value)}
+              >
+                <span>{opt.label}</span>
+                <span className={styles.statusCountBadge}>{count}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 

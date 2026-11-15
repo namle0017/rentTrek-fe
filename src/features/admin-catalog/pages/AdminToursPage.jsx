@@ -5,7 +5,9 @@ import ErrorState from '@/components/ErrorState';
 import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
 import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '@/constants/config';
+import { USER_ROLE } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
+import { useAuth } from '@/hooks/useAuth';
 import { formatCurrency } from '@/utils/formatCurrency';
 import AdminCatalogStatusBadge from '../components/AdminCatalogStatusBadge';
 import { TOUR_STATUS_OPTIONS } from '../constants/adminCatalogStatus';
@@ -15,6 +17,8 @@ import styles from './AdminCatalogPage.module.css';
 const INITIAL_FILTERS = { search: '', status: '' };
 
 export default function AdminToursPage() {
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
   const navigate = useNavigate();
   const [draftFilters, setDraftFilters] = useState(INITIAL_FILTERS);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
@@ -50,6 +54,7 @@ export default function AdminToursPage() {
                   <th scope="col">Giá cơ sở</th>
                   <th scope="col">Trạng thái</th>
                   <th scope="col">Sắp tới</th>
+                  {isAdmin && <th scope="col">Thao tác</th>}
                 </tr>
               </thead>
               <tbody>
@@ -90,6 +95,17 @@ export default function AdminToursPage() {
                       <AdminCatalogStatusBadge status={tour.status} />
                     </td>
                     <td className={styles.numeric}>{tour.upcomingTripsCount} chuyến</td>
+                    {isAdmin && (
+                      <td>
+                        <Link
+                          to={ROUTES.ADMIN_TOUR_EDIT(tour.tourId)}
+                          className={styles.entityName}
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          Chỉnh sửa
+                        </Link>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -108,8 +124,7 @@ export default function AdminToursPage() {
   };
 
   return (
-    <section className={styles.page} aria-labelledby="admin-tours-title">
-
+    <section className={styles.page} aria-label="Danh mục Tour trekking">
       <form className={styles.filters} onSubmit={handleSubmit}>
         <label className={styles.field}>
           <span>Tìm tour</span>
@@ -137,6 +152,11 @@ export default function AdminToursPage() {
         <button type="submit" className={`btn btn-primary ${styles.filterButton}`}>
           Lọc danh sách
         </button>
+        {isAdmin && (
+          <Link to={ROUTES.ADMIN_TOUR_NEW} className={`btn btn-secondary ${styles.filterButton}`}>
+            + Tạo tour
+          </Link>
+        )}
       </form>
 
       {renderContent()}

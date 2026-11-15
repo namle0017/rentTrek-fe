@@ -45,6 +45,48 @@
 .nav :global(a.active) {
   color: #e4b74f;
 }
+.navDropdown {
+  position: relative;
+}
+.navDropdown > a {
+  white-space: nowrap;
+  color: #dbe7e0;
+}
+.navMenu {
+  position: absolute;
+  top: 100%;
+  left: -16px;
+  z-index: 30;
+  display: none;
+  min-width: 190px;
+  margin: 10px 0 0;
+  padding: 8px 0;
+  list-style: none;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgb(16 40 28 / 0.18);
+}
+/* Cầu nối vô hình để rê chuột từ link xuống menu không bị mất hover */
+.navMenu::before {
+  content: '';
+  position: absolute;
+  inset: -12px 0 auto;
+  height: 12px;
+}
+.navDropdown:hover .navMenu,
+.navDropdown:focus-within .navMenu {
+  display: block;
+}
+.navMenu a {
+  display: block;
+  padding: 9px 18px;
+  color: var(--color-primary-heading);
+  font-weight: var(--font-weight-semibold);
+}
+.navMenu a:hover,
+.navMenu a:focus-visible {
+  background: #eef5f0;
+}
 .headerActions {
   display: flex;
   align-items: center;
@@ -178,7 +220,9 @@
   text-decoration: none;
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-label);
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .accountLink:hover {
@@ -191,21 +235,22 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-top: 2px;
-  padding: 9px 10px;
+  margin-top: 4px;
+  padding: 9px 12px;
   cursor: pointer;
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #c62828;
+  color: #dc2626;
   font: inherit;
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-label);
-  transition: background-color 0.15s ease;
+  transition: all 0.15s ease;
 }
 
 .logoutBtn:hover {
-  background: #fdf2f2;
+  color: #b91c1c;
+  background: #fef2f2;
 }
 
 .logoutBtn:disabled {
@@ -262,51 +307,39 @@
   white-space: nowrap;
 }
 
-.logoutBtn {
-  background: #ffffff;
-  color: #1c4333;
-  border: 1px solid #ffffff;
-  border-radius: 8px;
-  padding: 6px 14px;
-  font-size: var(--font-size-label);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-.logoutBtn:hover {
-  background: #f1f5f9;
-  color: #123326;
-}
 
 .authLink {
-  color: #ffffff;
+  color: #e5ede8;
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: all 0.2s;
+  padding: 7px 14px;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
 }
 
 .authLink:hover {
-  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .authBtnPrimary {
-  background: #22c55e;
-  color: #ffffff;
-  font-size: var(--font-size-control);
+  background: #ffffff;
+  color: #1c4333;
+  font-size: var(--font-size-label);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
-  padding: 6px 14px;
-  border-radius: 8px;
-  transition: all 0.2s;
+  padding: 7px 18px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
 }
 
 .authBtnPrimary:hover {
-  background: #16a34a;
+  background: #f0fdf4;
+  color: #123326;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transform: translateY(-1px);
 }
 
 .roleBadge {
@@ -332,7 +365,7 @@
   border-color: #bfdbfe;
 }
 
-.roleBadgeTourGuide {
+.roleBadgeGuide {
   background-color: #f5f3ff;
   color: #5b21b6;
   border-color: #ddd6fe;
@@ -487,4 +520,45 @@
   .footerGrid > div:last-child {
     grid-column: 1 / -1;
   }
+}
+.cartLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 6px 10px;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.cartLink:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.cartLink:focus-visible {
+  outline: 3px solid #ce8b54;
+  outline-offset: 3px;
+}
+@media (max-width: 560px) {
+  .cartLink {
+    padding: 6px;
+  }
+  .cartLink span {
+    font-size: 11px;
+  }
+}
+
+.accountBadge {
+  min-width: 20px;
+  margin-left: auto;
+  padding: 1px 6px;
+  color: #fff;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  background: #c55742;
+  border-radius: 999px;
 }

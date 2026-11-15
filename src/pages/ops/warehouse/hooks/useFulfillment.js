@@ -10,6 +10,26 @@ export const fulfillmentKeys = {
   charges: (orderCode) => [...fulfillmentKeys.all, 'charges', orderCode],
 };
 
+// Ảnh bằng chứng giao / nhận: tải lại cả checklist giao và nhận để đếm ảnh mới
+export function useEvidencePhotos(orderCode) {
+  const queryClient = useQueryClient();
+  const refresh = () => {
+    queryClient.invalidateQueries({ queryKey: fulfillmentKeys.handover(orderCode) });
+    queryClient.invalidateQueries({ queryKey: fulfillmentKeys.return(orderCode) });
+  };
+  const upload = useMutation({
+    mutationFn: (payload) => fulfillmentService.uploadEvidence(orderCode, payload),
+    onSettled: refresh,
+  });
+  const remove = useMutation({
+    mutationFn: (photoId) => fulfillmentService.deleteEvidence(orderCode, photoId),
+    onSuccess: () => toast.success('Đã xoá ảnh'),
+    onError: (err) => toast.error(err?.message || 'Không xoá được ảnh'),
+    onSettled: refresh,
+  });
+  return { upload, remove };
+}
+
 // Handover (O24)
 export function useHandoverChecklist(orderCode) {
   return useQuery({
@@ -30,7 +50,7 @@ export function useHandoverScan(orderCode) {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi quét thiết bị';
+      const msg = err.message || 'Lỗi quét thiết bị';
       toast.error(msg);
     },
   });
@@ -46,7 +66,7 @@ export function useCompleteHandover(orderCode) {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi hoàn tất bàn giao';
+      const msg = err.message || 'Lỗi hoàn tất bàn giao';
       toast.error(msg);
     },
   });
@@ -73,7 +93,7 @@ export function useReturnScan(orderCode) {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi nhận lại thiết bị';
+      const msg = err.message || 'Lỗi nhận lại thiết bị';
       toast.error(msg);
     },
   });
@@ -90,7 +110,7 @@ export function useReportLostAsset(orderCode) {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi ghi nhận báo mất';
+      const msg = err.message || 'Lỗi ghi nhận báo mất';
       toast.error(msg);
     },
   });
@@ -107,7 +127,7 @@ export function useCompleteReturn(orderCode) {
       queryClient.invalidateQueries({ queryKey: assetKeys.all });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi hoàn tất thu hồi';
+      const msg = err.message || 'Lỗi hoàn tất thu hồi';
       toast.error(msg);
     },
   });
@@ -132,7 +152,7 @@ export function useCreateRentalCharge(orderCode) {
       queryClient.invalidateQueries({ queryKey: fulfillmentKeys.charges(orderCode) });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi tạo phí phát sinh';
+      const msg = err.message || 'Lỗi tạo phí phát sinh';
       toast.error(msg);
     },
   });
@@ -147,7 +167,7 @@ export function useAssessRentalCharge(orderCode) {
       queryClient.invalidateQueries({ queryKey: fulfillmentKeys.charges(orderCode) });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi chốt phí phát sinh';
+      const msg = err.message || 'Lỗi chốt phí phát sinh';
       toast.error(msg);
     },
   });
@@ -162,7 +182,7 @@ export function useVoidRentalCharge(orderCode) {
       queryClient.invalidateQueries({ queryKey: fulfillmentKeys.charges(orderCode) });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi hủy phí';
+      const msg = err.message || 'Lỗi hủy phí';
       toast.error(msg);
     },
   });
@@ -179,7 +199,7 @@ export function useCompleteOrder(orderCode) {
       queryClient.invalidateQueries({ queryKey: fulfillmentKeys.return(orderCode) });
     },
     onError: (err) => {
-      const msg = err.response?.data?.message || 'Lỗi đóng đơn thuê';
+      const msg = err.message || 'Lỗi đóng đơn thuê';
       toast.error(msg);
     },
   });

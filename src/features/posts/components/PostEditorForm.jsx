@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormField from '@/components/FormField';
@@ -7,8 +7,16 @@ import { POST_STATUS, POST_STATUS_LABEL, POST_TYPE, POST_TYPE_LABEL } from '@/co
 import { ROUTES } from '@/constants/routes';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { formatDateTime } from '@/utils/formatDate';
-import { useDeletePost, usePostTaxonomy, usePostTourOptions, useSavePost } from '../hooks/usePosts';
+import {
+  useDeletePost,
+  usePostStatusAction,
+  usePostTaxonomy,
+  usePostTourOptions,
+  useSavePost,
+} from '../hooks/usePosts';
 import { slugify } from '../utils/postContent';
+import { hasPostContent, legacyToHtml } from '../utils/postHtml';
+import RichTextEditor from './RichTextEditor';
 import styles from '../pages/AdminPosts.module.css';
 
 const MAX_TAGS = 10;
@@ -24,8 +32,10 @@ export default function PostEditorForm({ post }) {
   const { data: tourOptions = [] } = usePostTourOptions();
   const savePost = useSavePost();
   const deletePost = useDeletePost();
+  const statusAction = usePostStatusAction();
 
-  const [tagNames, setTagNames] = useState(post?.tagNames ?? []);
+  // BE chỉ nhận tagIds của tag đã có (quản lý ở Danh mục & địa điểm)
+  const [tagIds, setTagIds] = useState(post?.tagIds ?? []);
   const [tagInput, setTagInput] = useState('');
   const [softSkillIds, setSoftSkillIds] = useState(post?.softSkillIds ?? []);
   const [tours, setTours] = useState(post?.tours ?? []);
@@ -43,23 +53,31 @@ export default function PostEditorForm({ post }) {
       title: post?.title ?? '',
       slug: post?.slug ?? '',
       postType: post?.postType ?? POST_TYPE.GUIDE,
-      content: post?.content ?? '',
+      // Bài cũ (Markdown đơn giản) được đổi sang HTML để mở bằng trình soạn mới
+      content: legacyToHtml(post?.content ?? ''),
     },
   });
 
   const [slugValue, titleValue] = useWatch({ control, name: ['slug', 'title'] });
   const slugPreview = slugify(slugValue || titleValue) || '…';
   const isPublished = post?.status === POST_STATUS.PUBLISHED;
+  const allTags = taxonomy?.tags ?? [];
+  const tagName = (tagId) => allTags.find((tag) => tag.tagId === tagId)?.name ?? 'Tag';
   const availableTours = tourOptions.filter((tour) => !tours.some((linked) => linked.tourId === tour.tourId));
 
   const addTag = () => {
     const name = tagInput.trim();
     if (!name) return;
-    if (tagNames.length >= MAX_TAGS) {
+    if (tagIds.length >= MAX_TAGS) {
       toast.error(`Tối đa ${MAX_TAGS} tag cho một bài.`);
       return;
     }
-    if (!tagNames.some((existing) => slugify(existing) === slugify(name))) setTagNames([...tagNames, name]);
+    const tag = allTags.find((item) => slugify(item.name) === slugify(name) || item.slug === slugify(name));
+    if (!tag?.tagId) {
+      toast.error(`Tag "${name}" chưa có trong hệ thống. Thêm tag ở trang Danh mục & địa điểm trước.`);
+      return;
+    }
+    if (!tagIds.includes(tag.tagId)) setTagIds([...tagIds, tag.tagId]);
     setTagInput('');
   };
 
@@ -89,14 +107,14 @@ export default function PostEditorForm({ post }) {
       return next;
     });
 
-  const save = (status) => (values) => {
+  // afterSave: 'publish' → lưu rồi gọi /publish; null → chỉ lưu (bài mới luôn là nháp)
+  const save = (afterSave) => (values) => {
     const payload = {
       title: values.title.trim(),
       slug: values.slug.trim() || null,
       postType: values.postType,
       content: values.content,
-      status,
-      tagNames,
+      tagIds,
       softSkillIds,
       tourIds: tours.map((tour) => tour.tourId),
     };
@@ -105,7 +123,9 @@ export default function PostEditorForm({ post }) {
       { postId: post?.postId, payload },
       {
         onSuccess: (res) => {
-          if (isNew) navigate(ROUTES.ADMIN_POST_EDIT(res.data.postId), { replace: true });
+          const savedId = res?.data?.postId ?? post?.postId;
+          if (afterSave === 'publish' && savedId) statusAction.mutate({ postId: savedId, action: 'publish' });
+          if (isNew && savedId) navigate(ROUTES.ADMIN_POST_EDIT(savedId), { replace: true });
         },
         onError: (error) => {
           applyServerErrors(error, setError);
@@ -122,10 +142,11 @@ export default function PostEditorForm({ post }) {
   const handleDelete = () =>
     deletePost.mutate(post.postId, { onSuccess: () => navigate(ROUTES.ADMIN_POSTS, { replace: true }) });
 
-  const isBusy = savePost.isPending || deletePost.isPending;
+  const isBusy = savePost.isPending || deletePost.isPending || statusAction.isPending;
+  const isArchived = post?.status === POST_STATUS.ARCHIVED;
 
   return (
-    <form className={styles.editor} onSubmit={handleSubmit(save(POST_STATUS.PUBLISHED))} noValidate>
+    <form className={styles.editor} onSubmit={handleSubmit(save(isPublished ? null : 'publish'))} noValidate>
       {!canEdit && (
         <p className={styles.notice} role="note">
           Bạn chỉ xem được bài này. Chỉ tác giả hoặc Admin được sửa.
@@ -160,16 +181,24 @@ export default function PostEditorForm({ post }) {
         </FormField>
 
         <FormField label="Nội dung" htmlFor="post-content" error={errors.content}>
-          <textarea
-            id="post-content"
-            className={styles.textarea}
-            rows="18"
-            aria-describedby="post-content-hint"
-            aria-invalid={Boolean(errors.content)}
-            {...register('content', { validate: notBlank('Nội dung không được để trống.') })}
+          <Controller
+            name="content"
+            control={control}
+            rules={{ validate: (value) => hasPostContent(value) || 'Nội dung không được để trống.' }}
+            render={({ field }) => (
+              <RichTextEditor
+                id="post-content"
+                value={field.value}
+                onChange={field.onChange}
+                editable={canEdit && !isBusy}
+                invalid={Boolean(errors.content)}
+                describedBy="post-content-hint"
+              />
+            )}
           />
           <p id="post-content-hint" className={styles.hint}>
-            Dòng bắt đầu bằng “## ” là tiêu đề mục. Để trống một dòng để tách đoạn.
+            Dùng thanh công cụ để chọn kiểu tiêu đề, phông, cỡ và màu chữ, căn lề, chèn ảnh (tải từ máy) hoặc
+            video YouTube. Ảnh đầu tiên trong bài được dùng làm ảnh bìa.
           </p>
         </FormField>
       </fieldset>
@@ -199,13 +228,29 @@ export default function PostEditorForm({ post }) {
             </Link>
           )}
           <div className={styles.actions}>
-            <button type="button" className="btn btn-outline" onClick={handleSubmit(save(POST_STATUS.DRAFT))}>
-              {isPublished ? 'Chuyển về nháp' : 'Lưu nháp'}
-            </button>
+            {!isPublished && (
+              <button type="button" className="btn btn-outline" onClick={handleSubmit(save(null))}>
+                Lưu nháp
+              </button>
+            )}
             <button type="submit" className="btn btn-primary">
-              {savePost.isPending ? 'Đang lưu…' : isPublished ? 'Cập nhật' : 'Xuất bản'}
+              {savePost.isPending || statusAction.isPending
+                ? 'Đang lưu…'
+                : isPublished
+                  ? 'Cập nhật'
+                  : 'Xuất bản'}
             </button>
+            {isPublished && (
+              <button
+                type="button"
+                className="btn btn-outline"
+                onClick={() => statusAction.mutate({ postId: post.postId, action: 'archive' })}
+              >
+                Lưu trữ
+              </button>
+            )}
           </div>
+          {isArchived && <p className={styles.hint}>Bài đã lưu trữ, không còn hiển thị cho khách.</p>}
         </section>
 
         <section className={styles.panel}>
@@ -225,16 +270,16 @@ export default function PostEditorForm({ post }) {
           <label className={styles.panelTitle} htmlFor="post-tag-input">
             Tag
           </label>
-          {tagNames.length > 0 && (
+          {tagIds.length > 0 && (
             <ul className={styles.chips}>
-              {tagNames.map((name) => (
-                <li key={name} className={styles.chip}>
-                  #{name}
+              {tagIds.map((tagId) => (
+                <li key={tagId} className={styles.chip}>
+                  #{tagName(tagId)}
                   <button
                     type="button"
                     className={styles.chipRemove}
-                    aria-label={`Bỏ tag ${name}`}
-                    onClick={() => setTagNames(tagNames.filter((existing) => existing !== name))}
+                    aria-label={`Bỏ tag ${tagName(tagId)}`}
+                    onClick={() => setTagIds(tagIds.filter((existing) => existing !== tagId))}
                   >
                     ✕
                   </button>
@@ -262,7 +307,7 @@ export default function PostEditorForm({ post }) {
               <option key={tag.slug} value={tag.name} />
             ))}
           </datalist>
-          <p className={styles.hint}>Tag chưa có sẽ được tạo khi lưu.</p>
+          <p className={styles.hint}>Chỉ chọn tag đã có. Thêm tag mới ở trang Danh mục & địa điểm.</p>
         </section>
 
         <section className={styles.panel}>

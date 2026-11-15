@@ -18,67 +18,31 @@ export const rentalService = {
   // Customer payments (VietQR SePay)
   createPayment: (orderId, payload = { paymentMethod: 'BankTransfer' }) =>
     axiosClient.post(API_ENDPOINTS.PAYMENTS.BY_ORDER(orderId), payload),
-  getPaymentStatus: (orderId, paymentId) =>
-    axiosClient.get(API_ENDPOINTS.PAYMENTS.BY_ID(orderId, paymentId)),
+  getPaymentStatus: (orderId, paymentId) => axiosClient.get(API_ENDPOINTS.PAYMENTS.BY_ID(orderId, paymentId)),
 
-  // 3 API Backend chưa triển khai: tạm thời giữ mock data (contract 03.1 §5.5, §5.6, §5.7)
-  getCancellationPreview: async (orderId) => {
-    try {
-      return await axiosClient.get(`/rental-orders/${orderId}/cancellation-preview`);
-    } catch {
-      return {
-        data: {
-          canCancel: true,
-          hoursBeforeStart: 48,
-          refundPolicy: { name: 'Chính sách hoàn tiền thuê thiết bị', version: 1 },
-          appliedRule: { minHoursBefore: 48, refundPercentage: 100 },
-          rules: [
-            { minHoursBefore: 48, refundPercentage: 100 },
-            { minHoursBefore: 24, refundPercentage: 50 },
-            { minHoursBefore: 0, refundPercentage: 0 },
-          ],
-          paid: { rentalFee: 378000, deposit: 0 },
-          estimatedRefund: { rentalFee: 378000, deposit: 0, total: 378000 },
-          note: 'Tiền hoàn về phương thức ban đầu sau khi Quản trị viên duyệt.',
-        },
-      };
-    }
+  // Unsupported operations must return the actual API error, never simulated financial outcomes.
+  getCancellationPreview: (orderId) =>
+    axiosClient.get(API_ENDPOINTS.RENTAL_ORDERS.CANCELLATION_PREVIEW(orderId)),
+  // Huỷ đơn đã thanh toán theo chính sách cọc (phí do server tính, khách xác nhận số tiền đã xem ở preview)
+  cancelPaid: (orderId, payload) =>
+    axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.CANCEL_PAID(orderId), payload),
+  confirmReceipt: (orderId) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.CONFIRM_RECEIPT(orderId)),
+  uploadIssuePhoto: (orderId, { file, assignmentId, note }) => {
+    const form = new FormData();
+    form.append('file', file);
+    if (assignmentId) form.append('assignmentId', assignmentId);
+    if (note) form.append('note', note);
+    return axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.ISSUE_PHOTOS(orderId), form, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
   },
-
-  cancel: async (orderId, payload) => {
-    try {
-      return await axiosClient.post(`/rental-orders/${orderId}/cancel`, payload);
-    } catch {
-      return {
-        data: {
-          orderId,
-          orderCode: 'RT-MOCK-CANCELLED',
-          status: 'Cancelled',
-          paymentStatus: 'Paid',
-          cancelledAt: new Date().toISOString(),
-          refund: {
-            paymentIds: ['ref-mock-01'],
-            status: 'PendingApproval',
-            total: payload?.expectedRefundTotal || 0,
-            message: 'Yêu cầu hoàn tiền đang chờ Quản trị viên duyệt.',
-          },
-        },
-      };
-    }
-  },
-
-  requestChargeReview: async (orderId, chargeId, payload) => {
-    try {
-      return await axiosClient.post(`/rental-orders/${orderId}/charges/${chargeId}/review-requests`, payload);
-    } catch {
-      return {
-        data: {
-          id: `rv-mock-${Date.now()}`,
-          chargeId,
-          status: 'Open',
-          createdAt: new Date().toISOString(),
-        },
-      };
-    }
-  },
+  cancel: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.CANCEL(orderId), payload),
+  quoteExtension: (orderId, payload) =>
+    axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.EXTENSION_QUOTE(orderId), payload),
+  extend: (orderId, payload) => axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.EXTENSIONS(orderId), payload),
+  getAdjustments: (orderId) => axiosClient.get(API_ENDPOINTS.RENTAL_ORDERS.ADJUSTMENTS(orderId)),
+  getActivePolicy: () => axiosClient.get(API_ENDPOINTS.RENTAL_POLICY_ACTIVE),
+  reportItemIssue: (orderId, payload) =>
+    axiosClient.post(API_ENDPOINTS.RENTAL_ORDERS.ISSUES(orderId), payload),
+  // Đã bỏ requestChargeReview: BE không có endpoint yêu cầu kiểm tra lại phí.
 };

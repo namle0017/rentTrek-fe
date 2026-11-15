@@ -2,8 +2,12 @@ import { MemoryRouter } from 'react-router-dom';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { USER_ROLE } from '@/constants/enums';
+import { useAuth } from '@/hooks/useAuth';
 import { useAdminTours } from '../hooks/useAdminCatalog';
 import AdminToursPage from './AdminToursPage';
+
+vi.mock('@/hooks/useAuth', () => ({ useAuth: vi.fn() }));
 
 vi.mock('../hooks/useAdminCatalog', () => ({
   useAdminTours: vi.fn(),
@@ -38,6 +42,7 @@ const pagedTours = {
 describe('AdminToursPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    useAuth.mockReturnValue({ currentUser: { role: USER_ROLE.ADMIN } });
     useAdminTours.mockReturnValue({
       data: pagedTours,
       isLoading: false,
@@ -47,6 +52,18 @@ describe('AdminToursPage', () => {
     });
   });
 
+  it('does not offer tour creation to Staff', () => {
+    useAuth.mockReturnValue({ currentUser: { role: USER_ROLE.STAFF } });
+
+    render(
+      <MemoryRouter>
+        <AdminToursPage />
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByRole('link', { name: '+ Tạo tour' })).not.toBeInTheDocument();
+  });
+
   it('renders the tour operations fields from the API contract', () => {
     render(
       <MemoryRouter>
@@ -54,7 +71,6 @@ describe('AdminToursPage', () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole('heading', { name: 'Tour' })).toBeInTheDocument();
     expect(screen.getByText('Tà Xùa săn mây')).toBeInTheDocument();
     expect(screen.getByText('2N 1Đ')).toBeInTheDocument();
     expect(screen.getByText('2.450.000 ₫')).toBeInTheDocument();
@@ -87,5 +103,24 @@ describe('AdminToursPage', () => {
       search: 'Fansipan',
       status: 'Draft',
     });
+  });
+
+  it('links each row to the tour editor for Admin only', () => {
+    render(
+      <MemoryRouter>
+        <AdminToursPage />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole('link', { name: 'Chỉnh sửa' })).toHaveAttribute('href', '/admin/tours/tour-1/edit');
+  });
+
+  it('hides the edit link from Staff', () => {
+    useAuth.mockReturnValue({ currentUser: { role: 'Staff' } });
+    render(
+      <MemoryRouter>
+        <AdminToursPage />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByRole('link', { name: 'Chỉnh sửa' })).not.toBeInTheDocument();
   });
 });

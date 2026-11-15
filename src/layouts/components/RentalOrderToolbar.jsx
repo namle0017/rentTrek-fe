@@ -6,7 +6,7 @@ import styles from './RentalOrderToolbar.module.css';
 const steps = [
   { key: 'handover', label: 'Giao thiết bị', route: ROUTES.OPS_HANDOVER },
   { key: 'return', label: 'Nhận lại thiết bị', route: ROUTES.OPS_RETURN },
-  { key: 'settlement', label: 'Quyết toán & Phí', route: ROUTES.OPS_SETTLEMENT },
+  { key: 'settlement', label: 'Phí & hoàn cọc', route: ROUTES.OPS_SETTLEMENT },
 ];
 
 export default function RentalOrderToolbar({ orderCode, step }) {
@@ -38,17 +38,19 @@ export default function RentalOrderToolbar({ orderCode, step }) {
           Tìm đơn
         </button>
       </form>
-      <nav className={styles.navigation} aria-label="Thao tác đơn thuê">
-        {steps.map((item) => (
-          <Link
-            key={item.key}
-            to={item.route(encodeURIComponent(orderCode))}
-            aria-current={item.key === step ? 'page' : undefined}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      {orderCode && (
+        <nav className={styles.navigation} aria-label="Thao tác đơn thuê">
+          {steps.map((item) => (
+            <Link
+              key={item.key}
+              to={item.route(encodeURIComponent(orderCode))}
+              aria-current={item.key === step ? 'page' : undefined}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      )}
     </section>
   );
 }

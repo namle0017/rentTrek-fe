@@ -16,6 +16,7 @@ vi.mock('./api/fulfillmentService', () => ({
 }));
 
 vi.mock('./utils/soundHelper', () => ({ playSuccessBeep: vi.fn(), playErrorBuzz: vi.fn() }));
+vi.mock('@/api/axiosClient', () => ({ default: { get: vi.fn(() => Promise.resolve({ data: { items: [] } })) } }));
 
 const checklist = {
   orderCode: 'RT-202611-001',
@@ -42,13 +43,13 @@ function CurrentPath() {
   return <output aria-label="Đường dẫn hiện tại">{useLocation().pathname}</output>;
 }
 
-function renderPage() {
+function renderPage(initialPath = '/ops/rentals/RT-202611-001/handover') {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
   });
   return render(
     <QueryClientProvider client={client}>
-      <MemoryRouter initialEntries={['/ops/rentals/handover']}>
+      <MemoryRouter initialEntries={[initialPath]}>
         <CurrentPath />
         <Routes>
           <Route element={<RentalFulfillmentLayout />}>
@@ -66,6 +67,13 @@ describe('HandoverChecklistPage', () => {
     vi.clearAllMocks();
     fulfillmentService.getHandoverChecklist.mockResolvedValue({ data: checklist });
     fulfillmentService.completeHandover.mockResolvedValue({ data: {} });
+  });
+
+  it('shows the waiting-for-handover worklist instead of loading a demo order when the URL has none', async () => {
+    renderPage('/ops/rentals/handover');
+    expect(await screen.findByText('Đơn chờ giao thiết bị')).toBeInTheDocument();
+    expect(await screen.findByText('Không có đơn nào đang chờ giao.')).toBeInTheDocument();
+    expect(fulfillmentService.getHandoverChecklist).not.toHaveBeenCalled();
   });
 
   it('keeps the current order while entering a different code and looks it up on submit', async () => {
@@ -132,6 +140,40 @@ describe('HandoverChecklistPage', () => {
       expect(fulfillmentService.completeHandover).toHaveBeenCalledWith('RT-202611-001', {
         incompleteReason: 'Khách không cần thiết bị còn lại',
       }),
+    );
+  });
+
+  it('blocks scanning a device that has no condition photo yet and lists photo slots per device', async () => {
+    fulfillmentService.getHandoverChecklist.mockResolvedValue({
+      data: {
+        ...checklist,
+        minPhotos: 1,
+        assets: [
+          { assignmentId: 'a-1', assetCode: 'TENT-001', displayName: 'Lều 2 người', status: 'Reserved', photos: [] },
+          {
+            assignmentId: 'a-2',
+            assetCode: 'TENT-002',
+            displayName: 'Lều 2 người',
+            status: 'Reserved',
+            photos: [{ id: 'p-1', imageUrl: 'https://cdn.test/p.jpg' }],
+          },
+        ],
+      },
+    });
+    fulfillmentService.scanHandover.mockResolvedValue({ message: 'ok' });
+    const user = userEvent.setup();
+    renderPage();
+    expect(await screen.findByText('Ảnh tình trạng trước khi giao')).toBeInTheDocument();
+    expect(screen.getByText('0/1 ảnh')).toBeInTheDocument();
+
+    const scanner = screen.getByPlaceholderText(/Quét mã barcode/);
+    await user.type(scanner, 'TENT-001{Enter}');
+    expect(await screen.findByText(/Cần chụp ít nhất 1 ảnh tình trạng cho TENT-001/)).toBeInTheDocument();
+    expect(fulfillmentService.scanHandover).not.toHaveBeenCalled();
+
+    await user.type(scanner, 'TENT-002{Enter}');
+    await waitFor(() =>
+      expect(fulfillmentService.scanHandover).toHaveBeenCalledWith('RT-202611-001', { assetCode: 'TENT-002' }),
     );
   });
 });

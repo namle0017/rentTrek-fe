@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import { TableSkeleton } from '@/components/skeleton';
 import { ROUTES } from '@/constants/routes';
@@ -161,11 +162,12 @@ export default function AdminRecurrenceRulesPage() {
     <div className={styles.page}>
       <div className={styles.headerRow}>
         <div className={styles.titleGroup}>
-          <div className={styles.breadcrumb}>
-            <Link to={ROUTES.ADMIN_TRIPS}>Quản lý Chuyến đi</Link>
-            <span>/</span>
-            <span>Lịch lặp Tour</span>
-          </div>
+          <Breadcrumb
+            items={[
+              { label: 'Quản lý Chuyến đi', to: ROUTES.ADMIN_TRIPS },
+              { label: 'Lịch lặp Tour' },
+            ]}
+          />
           <h1 className={styles.pageTitle}>Quy tắc Lịch lặp & Tự động sinh chuyến</h1>
           <p className={styles.subtitle}>Mã Tour: {tourId}</p>
         </div>

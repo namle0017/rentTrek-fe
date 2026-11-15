@@ -10,13 +10,13 @@ import {
   useCompleteOrder,
 } from './hooks/useFulfillment';
 import Spinner from '@/components/Spinner';
+import { USER_ROLE } from '@/constants/enums';
+import { useAuth } from '@/hooks/useAuth';
 import styles from './SettlementPage.module.css';
 
 export default function SettlementPage() {
-  const { orderCode: routeOrderCode } = useParams();
-
-  const defaultOrder = 'RT-202611-001';
-  const activeOrderCode = routeOrderCode || defaultOrder;
+  // Layout chỉ render trang này khi URL đã có mã đơn
+  const { orderCode: activeOrderCode } = useParams();
 
   // Create charge modal
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -36,6 +36,9 @@ export default function SettlementPage() {
   const assessChargeMutation = useAssessRentalCharge(activeOrderCode);
   const voidChargeMutation = useVoidRentalCharge(activeOrderCode);
   const completeOrderMutation = useCompleteOrder(activeOrderCode);
+  // Quyết toán cọc chỉ admin; staff gửi báo cáo kiểm tra trả đồ ở màn nhận lại
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === USER_ROLE.ADMIN;
 
   // Checklist trả đồ từ dữ liệu server
   const returnChecklist = useMemo(() => {
@@ -117,7 +120,7 @@ export default function SettlementPage() {
   const isOrderCompleted = returnChecklist?.orderStatus === 'Completed';
 
   // Điều kiện để đóng đơn: Đã thu hết thiết bị và không còn phí Draft
-  const canCloseOrder = isAllAssetsReturned && draftChargesCount === 0 && !isOrderCompleted;
+  const canCloseOrder = isAdmin && isAllAssetsReturned && draftChargesCount === 0 && !isOrderCompleted;
 
   const totalAssessedAmount = charges
     ? charges.filter((c) => c.status === 'Assessed').reduce((sum, c) => sum + Number(c.amount), 0)
@@ -187,9 +190,11 @@ export default function SettlementPage() {
                   ? 'Đang đóng đơn...'
                   : isOrderCompleted
                     ? 'Đơn thuê đã đóng (Completed)'
-                    : canCloseOrder
-                      ? 'Nghiệm thu đóng đơn thuê (Complete)'
-                      : 'Chưa đủ điều kiện đóng đơn'}
+                    : !isAdmin
+                      ? 'Admin quyết toán cọc (staff gửi báo cáo ở màn nhận lại)'
+                      : canCloseOrder
+                        ? 'Duyệt phí & quyết toán cọc'
+                        : 'Chưa đủ điều kiện quyết toán'}
               </button>
             </div>
           </div>
@@ -269,7 +274,7 @@ export default function SettlementPage() {
                             charge.status
                           )}
                         </td>
-                        <td className={styles.td}>{charge.createdByName || 'Hệ thống'}</td>
+                        <td className={styles.td}>{charge.createdByName || '—'}</td>
                         <td className={styles.td}>
                           {new Date(charge.createdAt).toLocaleDateString('vi-VN')}
                         </td>

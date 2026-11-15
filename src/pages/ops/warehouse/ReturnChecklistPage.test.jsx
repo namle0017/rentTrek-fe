@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fulfillmentService } from './api/fulfillmentService';
 import ReturnChecklistPage from './ReturnChecklistPage';
@@ -14,6 +14,7 @@ vi.mock('./api/fulfillmentService', () => ({
     completeReturn: vi.fn(),
   },
 }));
+vi.mock('@/hooks/useAuth', () => ({ useAuth: () => ({ currentUser: { role: 'Admin' } }) }));
 vi.mock('./utils/soundHelper', () => ({ playSuccessBeep: vi.fn(), playErrorBuzz: vi.fn() }));
 
 const checklist = {
@@ -23,6 +24,7 @@ const checklist = {
   rentalEndAt: '2026-11-10T10:00:00Z',
   totalIssuedCount: 2,
   returnedCount: 1,
+  minPhotos: 1,
   items: [
     {
       assignmentId: 'a-1',
@@ -40,14 +42,17 @@ const checklist = {
       productName: 'Lều cắm trại',
       variantName: '2 người',
       status: 'Issued',
+      photos: [{ id: 'p-1', stage: 'Return', imageUrl: 'https://cdn.test/p-1.jpg', assetAssignmentId: 'a-2' }],
     },
   ],
 };
 function renderPage() {
   return render(
     <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-      <MemoryRouter>
-        <ReturnChecklistPage />
+      <MemoryRouter initialEntries={['/ops/rentals/RT-202611-001/return']}>
+        <Routes>
+          <Route path="/ops/rentals/:orderCode/return" element={<ReturnChecklistPage />} />
+        </Routes>
       </MemoryRouter>
     </QueryClientProvider>,
   );

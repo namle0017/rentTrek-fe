@@ -1,7 +1,7 @@
 import { USER_ROLE } from '@/constants/enums';
 
 /**
- * Chuẩn hóa giá trị vai trò (role) về enum chuẩn: Admin, Staff, Customer, TourGuide.
+ * Chuẩn hóa giá trị vai trò (role) về enum chuẩn: Admin, Staff, Customer, Guide.
  * Xử lý mọi biến thể hoa/thường (admin, ADMIN, Administrator, staff, ...)
  */
 export function normalizeRole(rawRole) {
@@ -9,7 +9,8 @@ export function normalizeRole(rawRole) {
   const lower = rawRole.trim().toLowerCase();
   if (lower === 'admin' || lower === 'administrator') return USER_ROLE.ADMIN;
   if (lower === 'staff' || lower === 'employee') return USER_ROLE.STAFF;
-  if (lower === 'tourguide' || lower === 'tour_guide' || lower === 'guide') return USER_ROLE.TOUR_GUIDE;
+  // Token cũ từng dùng TourGuide; gom về role nghiệp vụ duy nhất là Guide.
+  if (lower === 'tourguide' || lower === 'tour_guide' || lower === 'guide') return USER_ROLE.GUIDE;
   return USER_ROLE.CUSTOMER;
 }
 
@@ -41,8 +42,12 @@ export function parseJwt(token) {
  * Hỗ trợ cả chuẩn JWT claim chuẩn (sub, email, role, name) lẫn Microsoft claim schemas
  */
 export function extractUserFromToken(token) {
-  const payload = parseJwt(token);
-  if (!payload) return null;
+  const raw = parseJwt(token);
+  if (!raw) return null;
+  // BE phát trùng claim (vd 2 claim email) → JWT serialize thành mảng; lấy phần tử đầu.
+  const payload = Object.fromEntries(
+    Object.entries(raw).map(([key, value]) => [key, Array.isArray(value) ? value[0] : value]),
+  );
 
   const rawRole =
     payload.role ||

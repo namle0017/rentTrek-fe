@@ -1,29 +1,37 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import Breadcrumb from '@/components/Breadcrumb';
 import DevClockJumps from '@/components/DevClockJumps';
 import ErrorState from '@/components/ErrorState';
+import Modal from '@/components/Modal';
 import Spinner from '@/components/Spinner';
 import { ORDER_PAYMENT_STATUS_LABEL, ORDER_STATUS_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useDevClockControls } from '@/hooks/useDevClock';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
+import EvidencePhotoGallery from '@/features/rentals/components/EvidencePhotoGallery';
 import RentalAssetsPanel from '../components/RentalAssetsPanel';
 import RentalChargesPanel from '../components/RentalChargesPanel';
 import {
+  useAdminRentalAdjustments,
   useAdminRentalOrder,
   useAssessRentalCharge,
+  useClaimRental,
   useCompleteRental,
   useCreateRentalCharge,
   useHandoverRental,
   useReturnRentalAssets,
   useVoidRentalCharge,
 } from '../hooks/useRentalOps';
+import { RENTAL_REPORT_STATUS_LABEL, RENTAL_REPORT_TYPE_LABEL } from '../constants/rentalOpsLabels';
 import styles from './RentalOps.module.css';
 
 export default function AdminRentalOrderDetailPage() {
   const { orderId } = useParams();
   const { data: order, isLoading, isError, error, refetch } = useAdminRentalOrder(orderId);
+  const [lightboxUrl, setLightboxUrl] = useState(null);
   const devClock = useDevClockControls();
   const handover = useHandoverRental();
   const returnAssets = useReturnRentalAssets();
@@ -31,8 +39,12 @@ export default function AdminRentalOrderDetailPage() {
   const assessCharge = useAssessRentalCharge();
   const voidCharge = useVoidRentalCharge();
   const complete = useCompleteRental();
+  const claim = useClaimRental();
+  const { data: adjustments } = useAdminRentalAdjustments(orderId);
 
-  const isPending = [handover, returnAssets, createCharge, assessCharge, voidCharge, complete].some((m) => m.isPending);
+  const isPending = [handover, returnAssets, createCharge, assessCharge, voidCharge, complete, claim].some(
+    (m) => m.isPending,
+  );
 
   const renderContent = () => {
     if (isLoading) return <Spinner />;
@@ -100,6 +112,17 @@ export default function AdminRentalOrderDetailPage() {
                 <dd>{order.handledByName ?? 'Chưa có'}</dd>
               </div>
             </dl>
+            <div className={styles.actions}>
+              {/* BE trả 409 nếu đơn đã có người nhận (Admin được nhận lại) */}
+              <button
+                type="button"
+                className="btn btn-secondary"
+                disabled={isPending}
+                onClick={() => claim.mutate({ orderId })}
+              >
+                Nhận phụ trách đơn
+              </button>
+            </div>
           </section>
 
           <section className={styles.panel}>
@@ -138,6 +161,21 @@ export default function AdminRentalOrderDetailPage() {
           </ul>
         </section>
 
+        <section className={styles.panel} aria-label="Các bước xử lý đơn thuê">
+          <h2 className={styles.panelTitle}>Các bước xử lý tại kho</h2>
+          <div className={styles.actions}>
+            <Link to={ROUTES.OPS_HANDOVER(order.orderCode)} className="btn btn-secondary">
+              Giao đồ
+            </Link>
+            <Link to={ROUTES.OPS_RETURN(order.orderCode)} className="btn btn-secondary">
+              Thu hồi
+            </Link>
+            <Link to={ROUTES.OPS_SETTLEMENT(order.orderCode)} className="btn btn-secondary">
+              Hoàn cọc
+            </Link>
+          </div>
+        </section>
+
         <RentalAssetsPanel
           assignments={order.assignments}
           allowedActions={allowedActions}
@@ -156,9 +194,54 @@ export default function AdminRentalOrderDetailPage() {
           onVoid={(chargeId, reason, onDone) => voidCharge.mutate({ orderId, chargeId, reason }, { onSuccess: onDone })}
         />
 
+        {order.evidencePhotos?.length > 0 && (
+          <section className={styles.panel}>
+            <EvidencePhotoGallery photos={order.evidencePhotos} onOpen={setLightboxUrl} />
+          </section>
+        )}
+
+        {order.reports?.length > 0 && (
+          <section className={styles.panel} aria-label="Báo cáo của đơn thuê">
+            <h2 className={styles.panelTitle}>Báo cáo ({order.reports.length})</h2>
+            <ul className={styles.lineList}>
+              {order.reports.map((report) => (
+                <li key={report.rentalReportId}>
+                  <span>
+                    <strong>{RENTAL_REPORT_TYPE_LABEL[report.reportType] ?? report.reportType}</strong> ·{' '}
+                    {RENTAL_REPORT_STATUS_LABEL[report.status] ?? report.status}
+                    {report.note && <span className={styles.muted}> — {report.note}</span>}
+                  </span>
+                  <span className={styles.muted}>
+                    {report.amount > 0 && `${formatCurrency(report.amount)} · `}
+                    {formatDateTime(report.createdAt)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {adjustments?.length > 0 && (
+          <section className={styles.panel}>
+            <h2 className={styles.panelTitle}>Lịch sử gia hạn</h2>
+            <ul className={styles.lineList}>
+              {adjustments.map((a) => (
+                <li key={a.id}>
+                  <span>
+                    {formatDateTime(a.oldEndAt)} → {formatDateTime(a.newEndAt)}
+                  </span>
+                  <span className={styles.muted}>
+                    +{formatCurrency(a.extraAmount)} · {a.requestedByName} · {formatDateTime(a.createdAt)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <section className={styles.panel} aria-labelledby="rental-settlement-title">
           <h2 id="rental-settlement-title" className={styles.panelTitle}>
-            Quyết toán cọc
+            Phí & hoàn cọc
           </h2>
           <dl className={styles.settlement}>
             <div>
@@ -184,9 +267,6 @@ export default function AdminRentalOrderDetailPage() {
               </dd>
             </div>
           </dl>
-          <p className={styles.hint}>
-            Số liệu tính theo PRD §8.7 (bù phí từ cọc trước). Hoàn cọc / thu thêm hiện xử lý thủ công ngoài hệ thống.
-          </p>
           <div className={styles.actions}>
             <button
               type="button"
@@ -208,14 +288,23 @@ export default function AdminRentalOrderDetailPage() {
   return (
     <section className={styles.page} aria-labelledby="rental-order-title">
       <header>
-        <p className={styles.eyebrow}>
-          <Link to={ROUTES.ADMIN_RENTAL_ORDERS}>Đơn thuê</Link> / Chi tiết
-        </p>
+        <Breadcrumb
+          items={[
+            { label: 'Quản lý Đơn thuê', to: ROUTES.ADMIN_RENTAL_ORDERS },
+            order?.orderCode ? { label: `Đơn ${order.orderCode}` } : { label: 'Chi tiết đơn thuê' },
+          ]}
+          isLoading={isLoading}
+        />
         <h1 id="rental-order-title" className={styles.title}>
           {order?.orderCode ?? 'Chi tiết đơn thuê'}
         </h1>
       </header>
       {renderContent()}
+      {lightboxUrl && (
+        <Modal title="Ảnh bằng chứng" onClose={() => setLightboxUrl(null)}>
+          <img src={lightboxUrl} alt="Ảnh bằng chứng" style={{ maxWidth: '100%' }} />
+        </Modal>
+      )}
     </section>
   );
 }

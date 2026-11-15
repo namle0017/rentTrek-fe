@@ -1,17 +1,24 @@
 import { Link, useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
-import { POST_TYPE_LABEL } from '@/constants/enums';
+import { POST_TYPE, POST_TYPE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
-import { usePost } from '../hooks/usePosts';
+import { usePost, usePosts } from '../hooks/usePosts';
 import { parsePostContent } from '../utils/postContent';
+import { isHtmlContent, sanitizePostHtml } from '../utils/postHtml';
 import styles from './PostDetailPage.module.css';
 
 export default function PostDetailPage() {
   const { slug } = useParams();
   const { data: post, isLoading, isError, error, refetch } = usePost(slug);
+  const { data: sameType } = usePosts(
+    { pageNumber: 1, pageSize: 6, postType: post?.postType },
+    Boolean(post?.postType),
+  );
+  const latestPosts = (sameType?.items ?? []).filter((item) => item.slug !== slug).slice(0, 5);
 
   if (isLoading) return <Spinner />;
   if (isError && error?.statusCode === 404) {
@@ -20,7 +27,7 @@ export default function PostDetailPage() {
         <div className="state-box">
           <p>Bài viết không tồn tại hoặc chưa được xuất bản.</p>
           <Link to={ROUTES.GUIDES} className="btn btn-outline">
-            Về cẩm nang
+            Về trang bài viết
           </Link>
         </div>
       </div>
@@ -33,11 +40,14 @@ export default function PostDetailPage() {
   return (
     <div className={`container ${styles.page}`}>
       <article className={styles.article}>
-        <nav className={styles.breadcrumb} aria-label="Đường dẫn">
-          <Link to={ROUTES.GUIDES}>Cẩm nang</Link>
-          <span aria-hidden="true"> / </span>
-          <Link to={`${ROUTES.GUIDES}?postType=${post.postType}`}>{typeLabel}</Link>
-        </nav>
+        <Breadcrumb
+          items={[
+            { label: 'Trang chủ', to: ROUTES.HOME },
+            { label: 'Bài viết', to: ROUTES.GUIDES },
+            typeLabel ? { label: typeLabel, to: `${ROUTES.GUIDES}?postType=${post.postType}` } : null,
+            { label: post.title },
+          ]}
+        />
 
         <header>
           <h1 className={styles.title}>{post.title}</h1>
@@ -48,14 +58,84 @@ export default function PostDetailPage() {
           </p>
         </header>
 
-        <div className={styles.content}>
-          {parsePostContent(post.content).map((block, index) =>
-            block.type === 'heading' ? <h2 key={index}>{block.text}</h2> : <p key={index}>{block.text}</p>,
-          )}
-        </div>
+        {isHtmlContent(post.content) ? (
+          <div
+            className={`${styles.content} ${styles.richContent}`}
+            // Nội dung đã qua DOMPurify: chỉ giữ thẻ định dạng, ảnh và iframe YouTube
+            dangerouslySetInnerHTML={{ __html: sanitizePostHtml(post.content) }}
+          />
+        ) : (
+          <div className={styles.content}>
+            {parsePostContent(post.content).map((block, index) => {
+              switch (block.type) {
+                case 'heading':
+                  return <h2 key={index}>{block.text}</h2>;
+                case 'image':
+                  return (
+                    <figure key={index} className={styles.media}>
+                      <img src={block.src} alt={block.alt} loading={index < 3 ? 'eager' : 'lazy'} />
+                      {block.alt && <figcaption>{block.alt}</figcaption>}
+                    </figure>
+                  );
+                case 'youtube':
+                  return (
+                    <div key={index} className={`${styles.media} ${styles.video}`}>
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${block.videoId}`}
+                        title={`Video YouTube trong bài ${post.title}`}
+                        loading="lazy"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  );
+                case 'video':
+                  return (
+                    <div key={index} className={`${styles.media} ${styles.video}`}>
+                      <video src={block.src} controls preload="metadata" />
+                    </div>
+                  );
+                default:
+                  return <p key={index}>{block.text}</p>;
+              }
+            })}
+          </div>
+        )}
       </article>
 
       <aside className={styles.aside}>
+        <section>
+          <h2 className={styles.asideTitle}>Danh mục</h2>
+          <ul className={styles.categoryList}>
+            {Object.values(POST_TYPE).map((type) => (
+              <li key={type}>
+                <Link
+                  to={`${ROUTES.GUIDES}?postType=${type}`}
+                  aria-current={type === post.postType ? 'true' : undefined}
+                >
+                  {POST_TYPE_LABEL[type]}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {latestPosts.length > 0 && (
+          <section>
+            <h2 className={styles.asideTitle}>Bài mới cùng danh mục</h2>
+            <ul className={styles.list}>
+              {latestPosts.map((related) => (
+                <li key={related.postId} className={styles.relatedPost}>
+                  <Link to={ROUTES.GUIDE_DETAIL(related.slug)}>{related.title}</Link>
+                  {related.publishedAt && (
+                    <span className={styles.relatedDate}>{formatDate(related.publishedAt)}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {post.tags.length > 0 && (
           <section>
             <h2 className={styles.asideTitle}>Tag</h2>
@@ -90,7 +170,8 @@ export default function PostDetailPage() {
                 <li key={tour.tourId} className={styles.tourCard}>
                   <Link to={ROUTES.TOUR_DETAIL(tour.tourId)}>{tour.name}</Link>
                   <span>
-                    {tour.durationDays} ngày {tour.durationNights} đêm · Từ {formatCurrency(tour.basePrice)}/người
+                    {tour.durationDays} ngày {tour.durationNights} đêm · Từ {formatCurrency(tour.basePrice)}
+                    /người
                   </span>
                 </li>
               ))}

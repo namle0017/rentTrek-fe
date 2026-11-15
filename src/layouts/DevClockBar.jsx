@@ -8,7 +8,7 @@ import styles from './DevClockBar.module.css';
  * Thanh đồng hồ giả lập (chỉ hiện khi BE chạy Development).
  * Khách chỉ thấy cảnh báo khi đang giả lập; Admin/Staff chỉnh được giờ.
  */
-export default function DevClockBar() {
+export default function DevClockBar({ compact = false }) {
   const { clock, isAvailable, canControl, isPending, jumpTo, reset } = useDevClockControls();
   const [value, setValue] = useState('');
 
@@ -21,7 +21,7 @@ export default function DevClockBar() {
     if (value) jumpTo(dayjs(value).toISOString());
   };
 
-  return (
+  const bar = (
     <div className={clock.isSimulated ? `${styles.bar} ${styles.active}` : styles.bar} role="status">
       <span className={styles.label}>
         <span aria-hidden="true">⏱ </span>
@@ -54,11 +54,38 @@ export default function DevClockBar() {
           </button>
           {clock.isSimulated && (
             <button type="button" disabled={isPending} onClick={reset}>
-              Về giờ thật
+              Tắt giả lập
             </button>
           )}
         </form>
       )}
     </div>
+  );
+
+  if (!compact) return bar;
+
+  return (
+    <details className={`${styles.disclosure} ${clock.isSimulated ? styles.simulated : ''}`}>
+      <summary>
+        <span>{clock.isSimulated ? `Giờ giả lập: ${formatDateTime(clock.now)}` : 'Đồng hồ thử nghiệm'}</span>
+        <span className={styles.hint}>
+          {clock.isSimulated ? 'Đang bật' : 'Giờ thực'} · Điều chỉnh
+          {clock.isSimulated && canControl && (
+            <button
+              type="button"
+              className={styles.offButton}
+              disabled={isPending}
+              onClick={(event) => {
+                event.preventDefault(); // không mở/đóng <details>
+                reset();
+              }}
+            >
+              Tắt giả lập
+            </button>
+          )}
+        </span>
+      </summary>
+      {bar}
+    </details>
   );
 }

@@ -8,7 +8,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { applyServerErrors } from '@/utils/applyServerErrors';
 import { formatCurrency } from '@/utils/formatCurrency';
 import ParticipantFields from '../components/ParticipantFields';
-import { useCreateTripBooking } from '../hooks/useTripBookings';
+import TripPolicyPanel from '../components/TripPolicyPanel';
+import { useCreateTripBooking, useTripRefundPolicy } from '../hooks/useTripBookings';
 import {
   BookingValidationError,
   normalizeBookingPayload,
@@ -46,11 +47,23 @@ export default function TripBookingCreatePage() {
   const submissionRef = useRef(null);
   const [step, setStep] = useState(0);
   const [serverMessage, setServerMessage] = useState('');
+  const [acceptedPolicy, setAcceptedPolicy] = useState(null);
   const tripId = searchParams.get('tripId') || '';
   const tourId = searchParams.get('tourId') || '';
   const initialPartySize = parsePartySize(searchParams.get('partySize'));
   const { data: tour } = useTour(tourId);
   const trip = tour?.availableTrips?.find((item) => item.id === tripId);
+  const policyQuery = useTripRefundPolicy(tripId);
+  const policyId = policyQuery.data?.refundPolicyId;
+  const policyVersion = policyQuery.data?.version;
+  const canAcceptPolicy = Boolean(
+    policyId && policyVersion > 0 && !policyQuery.isFetching && !policyQuery.isError,
+  );
+  const policyAccepted =
+    canAcceptPolicy &&
+    acceptedPolicy?.tripId === tripId &&
+    acceptedPolicy.policyId === policyId &&
+    acceptedPolicy.version === policyVersion;
 
   const {
     register,
@@ -138,6 +151,11 @@ export default function TripBookingCreatePage() {
       if (error instanceof BookingValidationError) showClientErrors(error);
       return;
     }
+    if (!policyAccepted) {
+      setServerMessage('Vui lòng đọc và đồng ý chính sách huỷ & hoàn tiền.');
+      return;
+    }
+    payload = { ...payload, acceptedRefundPolicyVersion: policyVersion };
 
     const submission = resolveBookingSubmission(submissionRef.current, payload);
     submissionRef.current = submission;
@@ -154,6 +172,11 @@ export default function TripBookingCreatePage() {
         submissionRef.current = null;
       }
       setServerMessage(error?.message || 'Không thể giữ chỗ. Vui lòng thử lại.');
+      // Chính sách vừa đổi phiên bản: tải lại và bắt khách đồng ý lại
+      if (error?.statusCode === 409 && error.errors?.code?.includes('REFUND_POLICY_CHANGED')) {
+        setAcceptedPolicy(null);
+        void policyQuery.refetch();
+      }
       applyServerErrors(error, setError);
       const fieldSteps = Object.keys(error?.errors ?? {}).map(stepOfField);
       if (fieldSteps.length) setStep(Math.min(...fieldSteps));
@@ -173,14 +196,32 @@ export default function TripBookingCreatePage() {
     ...(buyerParticipates ? [currentUser?.fullName || currentUser?.email] : []),
     ...getValues('additionalParticipants').map((participant) => participant.fullName.trim()),
   ].filter(Boolean);
+  // Đặt 1 chỗ thì bước "Người tham gia" trống, nên đưa ô ghi chú lên đó
+  const solo = fields.length === 0;
+  const noteField = (
+    <section className={styles.noteField}>
+      <label htmlFor="booking-note">Ghi chú cho ban tổ chức</label>
+      <textarea
+        id="booking-note"
+        rows="3"
+        maxLength="1000"
+        placeholder="Nhu cầu ăn uống, sức khỏe hoặc lưu ý khác..."
+        {...register('note', { maxLength: { value: 1000, message: 'Ghi chú tối đa 1000 ký tự.' } })}
+        aria-invalid={errors.note ? 'true' : 'false'}
+        aria-describedby={errors.note ? 'booking-note-error' : undefined}
+      />
+      {errors.note && (
+        <p id="booking-note-error" role="alert">
+          {errors.note.message}
+        </p>
+      )}
+    </section>
+  );
 
   return (
     <main className={styles.page}>
       <div className={styles.backNav}>
-        <Link
-          to={tourId ? ROUTES.TOUR_DETAIL(tourId) : ROUTES.TOURS}
-          className={styles.backLink}
-        >
+        <Link to={tourId ? ROUTES.TOUR_DETAIL(tourId) : ROUTES.TOURS} className={styles.backLink}>
           &larr; Quay lại {tour?.name ? `tour ${tour.name}` : 'danh sách tour'}
         </Link>
       </div>
@@ -245,8 +286,13 @@ export default function TripBookingCreatePage() {
                     onChange={() => changeBuyerParticipates(true)}
                   />
                   <span>
-                    <strong>Tôi đi cùng</strong>
-                    <small>Bạn là người tham gia đầu tiên và được tính 1 chỗ.</small>
+                    {/* Chỉ 1 chỗ (không có người đi kèm) thì "đi cùng" không hợp nghĩa */}
+                    <strong>{fields.length === 0 ? 'Tôi là người đi' : 'Tôi đi cùng'}</strong>
+                    <small>
+                      {fields.length === 0
+                        ? 'Chỗ này dành cho bạn, không cần nhập thông tin người khác.'
+                        : 'Bạn là người tham gia đầu tiên và được tính 1 chỗ.'}
+                    </small>
                   </span>
                 </label>
                 <label className={!buyerParticipates ? styles.choiceActive : undefined}>
@@ -308,24 +354,20 @@ export default function TripBookingCreatePage() {
                 </section>
               )}
 
-              <div className={styles.sectionHeading}>
-                <div>
-                  <span className={styles.kicker}>DANH SÁCH ĐOÀN</span>
-                  <h2>{buyerParticipates ? 'Người đi cùng' : 'Người tham gia'}</h2>
+              {!solo && (
+                <div className={styles.sectionHeading}>
+                  <div>
+                    <span className={styles.kicker}>DANH SÁCH ĐOÀN</span>
+                    <h2>{buyerParticipates ? 'Người đi cùng' : 'Người tham gia'}</h2>
+                  </div>
+                  {/* Số người đã chốt ở bước 1 — muốn đổi thì quay lại, không thêm/bớt tại đây */}
+                  <button type="button" className={styles.addButton} onClick={() => setStep(0)}>
+                    Đổi số người ({seats})
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className={styles.addButton}
-                  onClick={addOne}
-                  disabled={seats >= maxSeats}
-                >
-                  + Thêm người tham gia
-                </button>
-              </div>
-
-              {fields.length === 0 && (
-                <p className={styles.emptyParticipants}>Bạn đang đặt 1 chỗ. Không có người đi cùng.</p>
               )}
+
+              {solo && noteField}
               {errors.additionalParticipants?.message && (
                 <p className={styles.serverError} role="alert">
                   {errors.additionalParticipants.message}
@@ -338,7 +380,6 @@ export default function TripBookingCreatePage() {
                   index={index}
                   register={register}
                   errors={errors.additionalParticipants?.[index]}
-                  onRemove={() => remove(index)}
                 />
               ))}
             </>
@@ -370,25 +411,33 @@ export default function TripBookingCreatePage() {
                   <dd>{contactPhone}</dd>
                   <dt>Người tham gia</dt>
                   <dd>{participantNames.join(', ')}</dd>
+                  {solo && getValues('note')?.trim() && (
+                    <>
+                      <dt>Ghi chú</dt>
+                      <dd>{getValues('note')}</dd>
+                    </>
+                  )}
                 </dl>
               </section>
 
-              <section className={styles.noteField}>
-                <label htmlFor="booking-note">Ghi chú cho ban tổ chức</label>
-                <textarea
-                  id="booking-note"
-                  rows="3"
-                  maxLength="1000"
-                  placeholder="Nhu cầu ăn uống, sức khỏe hoặc lưu ý khác..."
-                  {...register('note', { maxLength: { value: 1000, message: 'Ghi chú tối đa 1000 ký tự.' } })}
-                  aria-invalid={errors.note ? 'true' : 'false'}
-                  aria-describedby={errors.note ? 'booking-note-error' : undefined}
-                />
-                {errors.note && (
-                  <p id="booking-note-error" role="alert">
-                    {errors.note.message}
-                  </p>
-                )}
+              {!solo && noteField}
+
+              <section className={styles.card} aria-labelledby="trip-policy-title">
+                <h2 id="trip-policy-title">Chính sách huỷ &amp; hoàn tiền</h2>
+                <TripPolicyPanel tripId={tripId} />
+                <label className={styles.policyConsent}>
+                  <input
+                    type="checkbox"
+                    checked={policyAccepted}
+                    disabled={!canAcceptPolicy}
+                    onChange={(event) =>
+                      setAcceptedPolicy(
+                        event.target.checked ? { tripId, policyId, version: policyVersion } : null,
+                      )
+                    }
+                  />
+                  <span>Tôi đã đọc và đồng ý</span>
+                </label>
               </section>
             </>
           )}
@@ -406,7 +455,11 @@ export default function TripBookingCreatePage() {
                 Tiếp tục
               </button>
             ) : (
-              <button type="submit" className={styles.submitButton} disabled={createBooking.isPending}>
+              <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={createBooking.isPending || !policyAccepted}
+              >
                 {createBooking.isPending ? 'Đang giữ chỗ...' : 'Xác nhận giữ chỗ'}
               </button>
             )}

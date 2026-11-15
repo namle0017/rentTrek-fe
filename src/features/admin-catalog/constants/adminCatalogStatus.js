@@ -43,3 +43,10 @@ export function normalizeTourStatus(status) {
   if (status === 'Expired') return TOUR_STATUS.ARCHIVED;
   return status;
 }
+
+// BE lưu combo chỉ Active / Inactive; gửi Draft được nhưng lưu như Inactive
+export const BUNDLE_STATUS_OPTIONS = [
+  { value: '', label: 'Tất cả trạng thái' },
+  { value: PRODUCT_STATUS.ACTIVE, label: 'Đang cho thuê' },
+  { value: PRODUCT_STATUS.INACTIVE, label: 'Ngừng cho thuê' },
+];

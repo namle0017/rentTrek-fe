@@ -10,11 +10,13 @@
 }
 .linkBox div {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 }
+/* Ô link chiếm trọn hàng để đọc được URL, nút xuống hàng dưới */
 .linkBox input {
   min-width: 0;
-  flex: 1;
+  flex: 1 1 100%;
   padding: 8px 10px;
   color: #1c3027;
   font: inherit;

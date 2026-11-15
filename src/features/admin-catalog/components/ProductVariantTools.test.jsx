@@ -1,0 +1,104 @@
+import { render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import axiosClient from '@/api/axiosClient';
+import { useWriteOperation } from '@/features/operations/hooks/useOperations';
+import ProductVariantTools from './ProductVariantTools';
+
+vi.mock('@/api/axiosClient', () => ({ default: { post: vi.fn(), patch: vi.fn() } }));
+vi.mock('@/features/operations/hooks/useOperations', () => ({
+  useWriteOperation: vi.fn(),
+}));
+const mutate = vi.fn();
+const variant = { variantId: 'variant-1', sku: 'TENT-2P', name: 'Lều 2 người', images: [], priceTiers: [] };
+const url = 'https://res.cloudinary.com/test/image/upload/photo.png';
+function renderTools(customVariant = variant) {
+  render(
+    <QueryClientProvider client={new QueryClient()}>
+      <ProductVariantTools productId="product-1" variant={customVariant} />
+    </QueryClientProvider>,
+  );
+}
+describe('product image uploads and variant tools', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    useWriteOperation.mockReturnValue({ mutate, isPending: false });
+  });
+  it('uploads multipart to the backend then attaches the secure URL to the variant', async () => {
+    axiosClient.post.mockResolvedValueOnce({ data: { imageUrl: url } }).mockResolvedValueOnce({});
+    const user = userEvent.setup();
+    renderTools();
+    await user.click(screen.getByRole('checkbox', { name: 'Đặt làm ảnh đại diện' }));
+    const file = new File(['png'], 'tent.png', { type: 'image/png' });
+    await user.upload(screen.getByLabelText('Thêm ảnh sản phẩm'), file);
+    await waitFor(() => expect(axiosClient.post).toHaveBeenCalledTimes(2));
+    expect(axiosClient.post.mock.calls[0][0]).toBe('/admin/products/images/upload');
+    expect(axiosClient.post.mock.calls[0][1].get('file')).toBe(file);
+    expect(axiosClient.post.mock.calls[1]).toEqual([
+      '/admin/variants/variant-1/images',
+      { imageUrl: url, isPrimary: true, displayOrder: 0 },
+    ]);
+  });
+  it('rejects oversized images without an upload', async () => {
+    const user = userEvent.setup();
+    renderTools();
+    const file = new File(['png'], 'tent.png', { type: 'image/png' });
+    Object.defineProperty(file, 'size', { value: 5242881 });
+    await user.upload(screen.getByLabelText('Thêm ảnh sản phẩm'), file);
+    expect(screen.getByRole('alert')).toHaveTextContent('5MB');
+    expect(axiosClient.post).not.toHaveBeenCalled();
+  });
+  it('retries attaching the existing Cloudinary URL instead of uploading the same file again', async () => {
+    axiosClient.post
+      .mockResolvedValueOnce({ data: { imageUrl: url } })
+      .mockRejectedValueOnce(new Error('Lỗi lưu ảnh'))
+      .mockResolvedValueOnce({});
+    const user = userEvent.setup();
+    renderTools();
+    await user.upload(
+      screen.getByLabelText('Thêm ảnh sản phẩm'),
+      new File(['png'], 'tent.png', { type: 'image/png' }),
+    );
+    await user.click(await screen.findByRole('button', { name: 'Thử lưu ảnh vào biến thể lại' }));
+    await waitFor(() => expect(axiosClient.post).toHaveBeenCalledTimes(3));
+    expect(axiosClient.post.mock.calls[2][0]).toBe('/admin/variants/variant-1/images');
+    expect(axiosClient.post.mock.calls.filter(([path]) => path.includes('/upload'))).toHaveLength(1);
+  });
+  it('opens confirmation dialog and soft-deletes the variant', async () => {
+    mutate.mockImplementation((_, callbacks) => callbacks.onSuccess({ data: null }));
+    const user = userEvent.setup();
+    renderTools();
+    await user.click(screen.getByRole('button', { name: 'Xóa biến thể' }));
+    const dialog = screen.getByRole('dialog', { name: 'Xóa biến thể sản phẩm' });
+    expect(dialog).toHaveTextContent('Lều 2 người');
+    expect(dialog).toHaveTextContent('SKU: TENT-2P');
+    await user.click(within(dialog).getByRole('button', { name: 'Xóa biến thể' }));
+    await waitFor(() =>
+      expect(mutate).toHaveBeenCalledWith(
+        {
+          endpoint: '/admin/variants/variant-1',
+          method: 'delete',
+          body: {},
+        },
+        expect.any(Object),
+      ),
+    );
+    expect(screen.queryByRole('dialog', { name: 'Xóa biến thể sản phẩm' })).not.toBeInTheDocument();
+  });
+  it('promotes a non-primary variant image to primary via PATCH endpoint', async () => {
+    axiosClient.patch.mockResolvedValueOnce({});
+    const user = userEvent.setup();
+    renderTools({
+      ...variant,
+      images: [
+        { imageId: 'img-1', imageUrl: 'https://img/1.png', isPrimary: true, displayOrder: 0 },
+        { imageId: 'img-2', imageUrl: 'https://img/2.png', isPrimary: false, displayOrder: 1 },
+      ],
+    });
+    await user.click(screen.getByRole('button', { name: 'Đặt ảnh Lều 2 người làm đại diện' }));
+    await waitFor(() =>
+      expect(axiosClient.patch).toHaveBeenCalledWith('/admin/variants/variant-1/images/img-2/primary'),
+    );
+  });
+});

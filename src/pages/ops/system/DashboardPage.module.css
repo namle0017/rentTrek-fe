@@ -1,0 +1,599 @@
+/* ==========================================================================
+   ADMIN OPERATIONS DASHBOARD DESIGN SYSTEM
+   Clean, Operations-First, High-Density Information Architecture
+   ========================================================================== */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-section, 24px);
+  max-width: 1440px;
+  margin: 0 auto;
+  min-width: 0;
+  width: 100%;
+  color: var(--color-text, #1e293b);
+}
+
+/* ===== 1. Dashboard Header ===== */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pageTitle {
+  margin: 0;
+  font-size: var(--font-size-page-title, 20px);
+  font-weight: 600;
+  color: var(--color-primary-heading, #0f172a);
+  letter-spacing: -0.015em;
+}
+
+.pageSubtitle {
+  margin: 0;
+  font-size: var(--font-size-body, 13px);
+  color: var(--color-text-muted, #64748b);
+  max-width: 65ch;
+  line-height: 1.5;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.headerLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  font-size: var(--font-size-label, 13px);
+  font-weight: 500;
+  color: var(--color-text, #334155);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.headerLink:hover {
+  background: var(--color-bg-subtle, #f8fafc);
+  border-color: #cbd5e1;
+  color: var(--color-primary, #1b4332);
+}
+
+.headerLinkPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  background: var(--color-primary, #1b4332);
+  border: 1px solid var(--color-primary, #1b4332);
+  border-radius: var(--radius-md, 8px);
+  font-size: var(--font-size-label, 13px);
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.headerLinkPrimary:hover {
+  background: #143527;
+  color: #ffffff;
+}
+
+/* ===== Section Headings ===== */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.headingTitleWithBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--font-size-section-title, 16px);
+  font-weight: 600;
+  color: var(--color-primary-heading, #0f172a);
+}
+
+.periodBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.sectionHint {
+  color: var(--color-text-muted, #64748b);
+  font-size: 12px;
+}
+
+/* ===== 2. KPI Metrics Grid (4 Cột đồng đều trên Desktop) ===== */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.metricCard {
+  min-width: 0;
+  min-height: 110px;
+  padding: 16px 18px;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.metricCard:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+}
+
+.metricHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.metricLabel {
+  color: var(--color-text-muted, #64748b);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.metricIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #475569;
+}
+
+.metricValue {
+  display: block;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-primary-heading, #0f172a);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.metricSub {
+  font-style: normal;
+  font-size: 16px;
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.metricMeta {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* ===== 3. Section 3: Revenue Analytics & Action Center (Grid 60% / 40%) ===== */
+.analyticsAndActionGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: var(--space-section, 24px);
+  align-items: stretch;
+}
+/* Staff: không có biểu đồ doanh thu → khối cảnh báo chiếm trọn hàng */
+.analyticsAndActionGrid.singleColumn {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.staffActionOnly {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.analyticsColumn {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.actionCenterColumn {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.actionCenterCard {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.actionCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.actionCardTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alertHeadingIcon {
+  color: #e11d48;
+}
+
+.actionCardTitle {
+  margin: 0;
+  font-size: var(--font-size-section-title, 16px);
+  font-weight: 700;
+  color: var(--color-primary-heading, #0f172a);
+}
+
+.alertCounterBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.actionCardMeta {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.actionCardLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.alertsScrollList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.alertItemCard {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid #e11d48;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.alertItemCard:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  border-left-color: #dc2626;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.alertHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.alertSeverityGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #e11d48;
+}
+
+.alertActionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary, #1b4332);
+  text-decoration: none;
+}
+
+.alertActionLink:hover {
+  text-decoration: underline;
+}
+
+.alertTitle {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.4;
+}
+
+.alertMessage {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.positiveEmptyCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-md, 10px);
+  color: #166534;
+  margin: auto 0;
+}
+
+.positiveEmptyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #15803d;
+  flex-shrink: 0;
+}
+
+.positiveEmptyText strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.positiveEmptyText p {
+  margin: 0;
+  font-size: 12px;
+  color: #15803d;
+}
+
+/* ===== 4. Operations Overview (3 Cột ngang cân bằng trên Desktop) ===== */
+.operationsGrid {
+  display: grid;
+  grid-template-columns: repeat(var(--ops-columns, 3), minmax(0, 1fr));
+  gap: 20px;
+}
+
+.operationGroupCard {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  /* các dòng đếm nằm ngay dưới tiêu đề, không bị đẩy xuống đáy thẻ */
+  justify-content: flex-start;
+}
+
+.groupCardHeader {
+  padding: 14px 18px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.groupCardHeaderTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.groupCardHeaderTitle h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary-heading, #0f172a);
+}
+
+.groupIconWrapper {
+  display: flex;
+  align-items: center;
+  color: var(--color-primary, #1b4332);
+}
+
+.counterRowsList {
+  display: flex;
+  flex-direction: column;
+}
+
+.counterItemLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 18px;
+  font-size: 13px;
+  color: #334155;
+  text-decoration: none;
+  transition: background 0.15s ease;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.counterItemLink:last-child {
+  border-bottom: none;
+}
+
+.counterItemLink:hover {
+  background: #f8fafc;
+  color: var(--color-primary, #1b4332);
+}
+
+.counterLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badgeNeutral {
+  min-width: 28px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.badgeUrgent {
+  min-width: 28px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.badgeWarning {
+  min-width: 28px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.badgeNormal {
+  min-width: 28px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.itemArrow {
+  color: #cbd5e1;
+  flex-shrink: 0;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.counterItemLink:hover .itemArrow {
+  color: var(--color-primary, #1b4332);
+  transform: translate(2px, -2px);
+}
+
+/* ===== Responsive Breakpoints ===== */
+@media (max-width: 1024px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analyticsAndActionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .operationsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .headerActions {
+    width: 100%;
+  }
+
+  .headerLink,
+  .headerLinkPrimary {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .operationsGrid {
+    grid-template-columns: 1fr;
+  }
+}

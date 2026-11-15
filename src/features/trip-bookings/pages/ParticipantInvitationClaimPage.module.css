@@ -146,3 +146,10 @@
     border-radius: 19px;
   }
 }
+
+.memberHint {
+  margin: 0 0 14px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta);
+  line-height: 1.6;
+}

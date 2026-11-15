@@ -26,11 +26,12 @@ export default function TripPaymentPanel({ orderId, onSettled }) {
   }, [startPayment, orderId]);
   const { data: status } = usePaymentStatus(orderId, payment?.paymentId);
 
-  // Thanh toán xong hoặc đơn chuyển sang cần đối soát: tải lại booking để trang tự đổi trạng thái
+  // Thanh toán xong hoặc đơn chuyển sang cần đối soát: tải lại booking để trang tự đổi trạng thái.
+  // Đơn đã Paid (thu thêm khi đổi lịch) chỉ xong khi chính giao dịch này hết Pending.
   const settled =
     status &&
     (status.status !== PAYMENT_TRANSACTION_STATUS.PENDING ||
-      status.orderPaymentStatus !== PAYMENT_STATUS.UNPAID);
+      ![PAYMENT_STATUS.UNPAID, PAYMENT_STATUS.PAID].includes(status.orderPaymentStatus));
 
   useEffect(() => {
     if (!settled) return;
@@ -60,6 +61,19 @@ export default function TripPaymentPanel({ orderId, onSettled }) {
       </section>
     );
   }
+
+  if (payment.isDemo)
+    return (
+      <section className={styles.panel}>
+        <div>
+          <strong>DEMO — KHÔNG CHUYỂN TIỀN THẬT</strong>
+          <p>
+            Tài khoản mẫu chỉ minh họa luồng thanh toán. Đơn chưa được ghi nhận đã thanh toán. Cần cấu hình
+            tài khoản SePay thật và tắt demo để hiển thị QR.
+          </p>
+        </div>
+      </section>
+    );
 
   const failed =
     status?.status === PAYMENT_TRANSACTION_STATUS.FAILED ||

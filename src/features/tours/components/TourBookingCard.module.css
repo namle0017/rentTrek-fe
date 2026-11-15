@@ -1,143 +1,138 @@
 .bookingCard {
   position: sticky;
   top: 92px;
-  padding: 24px;
+  padding: 24px 22px;
   color: #173d2d;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 16px;
-  box-shadow: 0 12px 32px rgb(16 40 28 / 0.08);
+  border-radius: 24px;
+  box-shadow: 0 12px 36px rgb(16 40 28 / 0.08);
 }
 
-.eyebrow {
-  margin-bottom: 6px;
-  color: var(--color-text-muted);
+.headerBlock {
+  margin-bottom: 20px;
+}
+
+.stepTitle {
+  margin: 0 0 12px;
+  color: #173d2d;
+  font-size: 1.35rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #8b9690;
+}
+
+.stepCircle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  color: #7b8882;
+  background: #f1f4f1;
+  border: 1px solid #d5ddd5;
+  border-radius: 9999px;
+}
+
+.stepActive .stepCircle {
+  color: #ffffff;
+  background: #d3933d;
+  border-color: #d3933d;
+}
+
+.stepActive .stepLabel {
+  color: #173d2d;
+  font-weight: var(--font-weight-semibold);
+}
+
+.stepDivider {
+  flex: 1;
+  height: 1px;
+  background: #e2e8e2;
+}
+
+.sectionBlock {
+  margin-bottom: 18px;
+}
+
+.fieldLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: #173d2d;
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.06em;
+}
+
+.required {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+.tourTypeCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #fafbfa;
+  border: 1px solid #edf0ed;
+  border-radius: 16px;
+}
+
+.tourTypeInfo {
+  min-width: 0;
+}
+
+.tourTypeName {
+  display: block;
+  color: #173d2d;
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-bold);
 }
 
 .priceRow {
   display: flex;
   gap: 4px;
   align-items: baseline;
+  margin-top: 3px;
 }
+
 .price {
-  color: #173d2d;
+  color: #55665d;
   font-size: var(--font-size-body);
-  font-weight: var(--font-weight-medium);
-}
-
-.priceUnit,
-.deposit,
-.emptyText,
-.unavailable {
-  color: #69766f;
-  font-size: var(--font-size-label);
-}
-
-.deposit,
-.emptyText,
-.unavailable {
-  margin: 4px 0 0;
-}
-
-.tripGroup {
-  padding: 18px 0 0;
-  margin: 18px 0 0;
-  border: 0;
-  border-top: 1px solid var(--color-border);
-}
-
-.label {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 0;
-  margin-bottom: 10px;
-  color: #263d33;
-  font-size: var(--font-size-label);
   font-weight: var(--font-weight-semibold);
 }
 
-/* float để legend không cắt border-top của fieldset */
-.tripGroup legend {
-  float: left;
-  width: 100%;
-}
-.label svg {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-}
-.tripList {
-  display: grid;
-  gap: 8px;
-  clear: both;
-}
-
-.tripOption {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 12px 14px;
-  cursor: pointer;
-  background: #fff;
-  border: 1px solid #d8ddd8;
-  border-radius: 10px;
-  transition:
-    border-color 0.15s ease,
-    background-color 0.15s ease;
-}
-
-.tripOption input {
-  width: 18px;
-  height: 18px;
-  margin: 0;
-  accent-color: #204b39;
-}
-.tripOption span {
-  display: grid;
-}
-.tripOption strong {
+.priceUnit {
+  color: #84928b;
   font-size: var(--font-size-meta);
 }
-.tripOption small {
-  color: #69766f;
-  font-size: var(--font-size-meta);
-}
-.tripOption:has(input:disabled) {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-.tripOption:has(input:focus-visible) {
-  outline: 2px solid #204b39;
-  outline-offset: 2px;
-}
-.tripSelected {
-  background: #edf6ee;
-  border: 1.5px solid #204b39;
-}
 
-.counterRow {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: space-between;
-  margin: 18px 0;
-}
-
-.counterRow .label {
-  margin: 0;
-}
 .counter {
   display: flex;
-  gap: 6px;
   align-items: center;
+  gap: 8px;
 }
 
 .counterBtn {
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 32px;
   height: 32px;
   padding: 0;
@@ -146,64 +141,302 @@
   font-size: var(--font-size-control);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
-  background: #fff;
-  border: 1px solid #d8ddd8;
-  border-radius: 8px;
-  place-items: center;
+  background: #ffffff;
+  border: 1px solid #d5ddd5;
+  border-radius: 9999px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+  transition: all 0.15s ease;
 }
 
 .counterBtn:hover:not(:disabled) {
-  color: #fff;
-  background: #204b39;
+  color: #204b39;
+  background: #f0f7f2;
   border-color: #204b39;
 }
+
 .counterBtn:disabled,
-.btnBook:disabled {
+.btnContinue:disabled {
   cursor: not-allowed;
-  opacity: 0.48;
+  opacity: 0.45;
 }
+
 .counterValue {
-  min-width: 28px;
+  min-width: 24px;
+  color: #173d2d;
+  font-size: 0.95rem;
   font-weight: var(--font-weight-bold);
   text-align: center;
 }
 
-.escrow {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 13px 14px;
-  margin-bottom: 14px;
-  color: #d9f3dd;
-  font-size: var(--font-size-meta);
-  font-weight: var(--font-weight-body);
-  background: #204b39;
-  border-radius: 10px;
+.tripGroup {
+  position: relative;
+  min-width: 0;
+  margin: 0 0 18px;
 }
 
-.escrow svg {
-  flex: 0 0 auto;
-  color: #e4b74f;
-}
-
-.btnBook {
+.dateSelectorField {
   width: 100%;
-  min-height: var(--control-min-height);
-  padding: 13px 18px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  background: #fafbfa;
+  border: 1px solid #edf0ed;
+  border-radius: 14px;
+  color: #173d2d;
+  font-size: var(--font-size-label);
+}
+
+.dateTextSelected {
+  font-weight: var(--font-weight-medium);
+  color: #173d2d;
+}
+
+.dateTextPlaceholder {
+  color: #8c9a92;
+}
+
+.dateSelectorField:hover,
+.dateSelectorField[aria-expanded='true'] {
+  border-color: #b9d5bf;
+}
+
+.dateSelectorField:focus-visible {
+  outline: 2px solid #204b39;
+  outline-offset: 2px;
+}
+
+.dateSelectorField svg {
+  color: #b47d28;
+  flex-shrink: 0;
+}
+
+.calendarContainer {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  z-index: 20;
+}
+
+.calendar {
+  padding: 18px 18px 14px;
+  background: #fff;
+  border: 1px solid #edf0ed;
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgb(16 40 28 / 0.14);
+}
+
+.calendarHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  color: #10241a;
+  font-size: 1.05rem;
+}
+
+.calendarNav {
+  display: flex;
+  gap: 4px;
+}
+
+.calendarNav button {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: #69766f;
+  font: inherit;
+  font-size: 1.15rem;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  border-radius: 9999px;
+}
+
+.calendarNav button:hover {
+  color: #173d2d;
+  background: #f0f4f1;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px 2px;
+}
+
+.weekday {
+  padding: 4px 0 8px;
+  color: #9aa6a0;
+  font-size: 0.72rem;
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
+
+.weekend {
+  color: #e05252;
+}
+
+.day {
+  display: grid;
+  width: 100%;
+  max-width: 40px;
+  aspect-ratio: 1;
+  justify-self: center;
+  padding: 0;
+  color: #c3cbc6;
+  font: inherit;
+  font-size: var(--font-size-meta);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  place-items: center;
+}
+
+.dayToday {
+  border-color: #d8b884;
+}
+
+.dayTrip {
+  color: #10241a;
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  background: #edf6ee;
+}
+
+.dayTrip:hover:not(:disabled) {
+  background: #d9ebdc;
+}
+
+.dayTrip:disabled {
+  color: #b5bdb8;
+  text-decoration: line-through;
+  cursor: not-allowed;
+  background: none;
+}
+
+.dayTrip:focus-visible {
+  outline: 2px solid #204b39;
+  outline-offset: 1px;
+}
+
+.daySelected,
+.daySelected:hover:not(:disabled) {
   color: #fff;
+  background: #204b39;
+}
+
+.calendarFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 12px;
+  margin-top: 10px;
+  color: #8c9a92;
+  font-size: 0.75rem;
+  border-top: 1px solid #f0f2f0;
+}
+
+.calendarFoot button {
+  padding: 0;
+  color: #a8862a;
+  font: inherit;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+.divider {
+  margin: 18px 0;
+  border: 0;
+  border-top: 1px solid #edf0ed;
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.totalBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.totalLabel {
+  font-size: 0.68rem;
+  font-weight: var(--font-weight-bold);
+  color: #7b8882;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.totalAmount {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #a36316;
+}
+
+.btnContinue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 22px;
+  color: #ffffff;
   font: inherit;
   font-size: var(--font-size-control);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
-  background: #e0674a;
+  background: #1c4333;
   border: 0;
-  border-radius: 10px;
-  transition: background-color 0.15s ease;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgb(28 67 51 / 0.22);
+  transition: all 0.2s ease;
 }
 
-.btnBook:hover:not(:disabled) {
-  background: #c9553a;
+.btnContinue:hover:not(:disabled) {
+  background: #15382a;
+  box-shadow: 0 6px 18px rgb(28 67 51 / 0.3);
+  transform: translateY(-1px);
 }
+
+.policyLink {
+  display: block;
+  padding: 0;
+  margin: 14px auto 0;
+  color: #8f5d1e;
+  font: inherit;
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+.policyLink:hover {
+  color: #6b4313;
+}
+
+.emptyText,
+.unavailable {
+  color: #69766f;
+  font-size: var(--font-size-label);
+  margin: 6px 0 0;
+}
+
 .unavailable {
   color: #a34434;
   text-align: center;

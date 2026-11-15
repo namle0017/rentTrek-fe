@@ -7,6 +7,7 @@ import { tripBookingService } from '../api/tripBookingService';
 import { tripBookingKeys } from '../api/tripBookingKeys';
 import {
   useCancelTripBooking,
+  useCancelTripParticipants,
   useCancellationPreview,
   useCreateTripBooking,
   useCustomerTripGrouping,
@@ -22,6 +23,7 @@ vi.mock('../api/tripBookingService', () => ({
     getCancellationPreview: vi.fn(),
     updateParticipant: vi.fn(),
     cancel: vi.fn(),
+    cancelParticipants: vi.fn(),
   },
 }));
 
@@ -110,6 +112,7 @@ describe('trip booking hooks', () => {
   it.each([
     ['useUpdateParticipant', useUpdateParticipant, 'updateParticipant'],
     ['useCancelTripBooking', useCancelTripBooking, 'cancel'],
+    ['useCancelTripParticipants', useCancelTripParticipants, 'cancelParticipants'],
   ])('%s replaces the cached detail and refreshes dependent lists', async (_name, useHook, method) => {
     const response = { data: { orderId: 'order-1', status: 'Cancelled' } };
     tripBookingService[method].mockResolvedValue(response);

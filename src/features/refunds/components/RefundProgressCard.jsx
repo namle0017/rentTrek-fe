@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { API_ENDPOINTS } from '@/api/endpoints';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import Spinner from '@/components/Spinner';
@@ -6,11 +8,13 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
 import { useRefundCase } from '../hooks/useRefundCases';
 import { formatRefundCode, getBankName } from '../utils/refundDisplay';
+import ProofGallery from './ProofGallery';
+import RefundBankInfoForm from './RefundBankInfoForm';
 import styles from './RefundProgressCard.module.css';
 
 const STEPS = [
   { status: REFUND_CASE_STATUS.REQUESTED, label: 'Đã tạo hồ sơ' },
-  { status: REFUND_CASE_STATUS.APPROVED, label: 'Kế toán đang xử lý' },
+  { status: REFUND_CASE_STATUS.APPROVED, label: 'Đã duyệt, chờ chuyển khoản' },
   { status: REFUND_CASE_STATUS.COMPLETED, label: 'Hoàn tất' },
 ];
 
@@ -19,12 +23,34 @@ const STEP_OF_SIDE_STATUS = {
   [REFUND_CASE_STATUS.REJECTED]: REFUND_CASE_STATUS.REQUESTED,
   [REFUND_CASE_STATUS.FAILED]: REFUND_CASE_STATUS.APPROVED,
   [REFUND_CASE_STATUS.CANCELLED]: REFUND_CASE_STATUS.REQUESTED,
+  [REFUND_CASE_STATUS.AWAITING_BANK_INFO]: REFUND_CASE_STATUS.REQUESTED,
 };
 
+function ResubmitSection({ refundCase }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const isAppeal = refundCase.status === REFUND_CASE_STATUS.REJECTED;
+  return (
+    <div className={styles.resubmit}>
+      {isAppeal && refundCase.resubmitDeadline && (
+        <p>Bạn được khiếu nại 1 lần, hạn chót {formatDateTime(refundCase.resubmitDeadline)}.</p>
+      )}
+      {!isOpen ? (
+        <button type="button" className="btn btn-primary" onClick={() => setIsOpen(true)}>
+          {isAppeal ? 'Khiếu nại và gửi lại yêu cầu hoàn tiền' : 'Nhập STK và gửi lại yêu cầu hoàn tiền'}
+        </button>
+      ) : (
+        <RefundBankInfoForm refundCaseId={refundCase.refundCaseId} mode="resubmit" requireReason={isAppeal} />
+      )}
+    </div>
+  );
+}
+
 const STATUS_NOTES = {
+  [REFUND_CASE_STATUS.AWAITING_BANK_INFO]:
+    'Vui lòng nhập số tài khoản nhận hoàn tiền để RenTrekk chuyển khoản cho bạn.',
   [REFUND_CASE_STATUS.COMPLETED]: 'Tiền hoàn đã được chuyển. Nếu chưa nhận được, vui lòng liên hệ hỗ trợ.',
-  [REFUND_CASE_STATUS.REJECTED]: 'Hồ sơ bị từ chối. Vui lòng liên hệ hỗ trợ để biết thêm chi tiết.',
-  [REFUND_CASE_STATUS.FAILED]: 'Chuyển khoản không thành công. Vui lòng liên hệ hỗ trợ.',
+  [REFUND_CASE_STATUS.REJECTED]: 'Hồ sơ bị từ chối. Nếu không đồng ý, bạn có thể khiếu nại 1 lần trong 7 ngày kèm lý do.',
+  [REFUND_CASE_STATUS.FAILED]: 'Chuyển khoản không thành công. Bạn có thể kiểm tra lại số tài khoản và gửi lại yêu cầu.',
 };
 
 const STATUS_CHIP_CLASS = {
@@ -64,6 +90,42 @@ function RefundTimeline({ refundCase }) {
   );
 }
 
+/** Biên lai chuyển khoản: mã giao dịch ngân hàng + ảnh chứng từ admin đính kèm khi hoàn tất. */
+function ReceiptSection({ refundCase }) {
+  const [copied, setCopied] = useState(false);
+  const transactionId = refundCase.providerTransactionId;
+  const copy = () => {
+    navigator.clipboard?.writeText(transactionId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <div className={styles.receiptSection}>
+      <div className={styles.receiptHeader}>
+        <OutdoorIcon name="receipt" size={16} />
+        <strong>Biên lai chuyển khoản hoàn tiền từ RenTrek</strong>
+      </div>
+      <div className={styles.receiptContent}>
+        {transactionId && (
+          <div className={styles.txCodeRow}>
+            <span className={styles.txLabel}>Mã giao dịch ngân hàng:</span>
+            <code className={styles.txCode}>{transactionId}</code>
+            <button type="button" className={styles.copyBtn} onClick={copy} title="Sao chép mã giao dịch">
+              {copied ? '✓ Đã sao chép' : 'Sao chép'}
+            </button>
+          </div>
+        )}
+        {refundCase.proofs?.length > 0 && (
+          <ProofGallery
+            proofs={refundCase.proofs}
+            buildUrl={(proofId) => API_ENDPOINTS.REFUND_CASES.PROOF(refundCase.refundCaseId, proofId)}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function RefundProgressCard({ refundCaseId }) {
   const { data: refundCase, isLoading, isError, error, refetch } = useRefundCase(refundCaseId);
 
@@ -87,7 +149,10 @@ export default function RefundProgressCard({ refundCaseId }) {
           <h2 id="refund-progress-title">Tiến độ hoàn tiền</h2>
         </div>
         <span className={`${styles.status} ${STATUS_CHIP_CLASS[refundCase.status] || styles.statusDefault}`}>
-          <OutdoorIcon name={refundCase.status === REFUND_CASE_STATUS.COMPLETED ? 'check' : 'shield'} size={14} />
+          <OutdoorIcon
+            name={refundCase.status === REFUND_CASE_STATUS.COMPLETED ? 'check' : 'shield'}
+            size={14}
+          />
           {REFUND_CASE_STATUS_LABEL[refundCase.status] || 'Đang xử lý'}
         </span>
       </header>
@@ -100,7 +165,9 @@ export default function RefundProgressCard({ refundCaseId }) {
         <div>
           <dt>Tài khoản nhận</dt>
           <dd>
-            {getBankName(REFUND_BANKS, refundCase.bankCode)} · {refundCase.maskedAccount}
+            {refundCase.bankCode
+              ? `${getBankName(REFUND_BANKS, refundCase.bankCode)} · ${refundCase.maskedAccount}`
+              : 'Chưa có'}
           </dd>
         </div>
       </dl>
@@ -108,6 +175,27 @@ export default function RefundProgressCard({ refundCaseId }) {
       <RefundTimeline refundCase={refundCase} />
 
       {note && <p className={styles.note}>{note}</p>}
+      {refundCase.status === REFUND_CASE_STATUS.FAILED && refundCase.failureReason && (
+        <p className={styles.note}>Lý do: {refundCase.failureReason}</p>
+      )}
+      {refundCase.status === REFUND_CASE_STATUS.REJECTED && refundCase.rejectionReason && (
+        <p className={styles.note}>Lý do từ chối: {refundCase.rejectionReason}</p>
+      )}
+      {refundCase.canResubmit && <ResubmitSection refundCase={refundCase} />}
+      {refundCase.status === REFUND_CASE_STATUS.AWAITING_BANK_INFO && (
+        <>
+          {refundCase.failureReason && (
+            <p className={styles.note} role="alert">
+              Lần chuyển khoản trước chưa thành công: {refundCase.failureReason}. Vui lòng kiểm tra và nhập lại
+              số tài khoản.
+            </p>
+          )}
+          <RefundBankInfoForm refundCaseId={refundCase.refundCaseId} />
+        </>
+      )}
+      {refundCase.status === REFUND_CASE_STATUS.COMPLETED &&
+        (refundCase.providerTransactionId || refundCase.proofs?.length > 0) && <ReceiptSection refundCase={refundCase} />}
+
     </section>
   );
 }

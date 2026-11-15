@@ -7,5 +7,6 @@ export const postKeys = {
   adminLists: () => [...postKeys.all, 'admin-list'],
   adminList: (params) => [...postKeys.adminLists(), params],
   adminDetail: (postId) => [...postKeys.all, 'admin-detail', postId],
+  readAnalytics: (postId) => [...postKeys.all, 'read-analytics', postId],
   tourOptions: () => [...postKeys.all, 'tour-options'],
 };

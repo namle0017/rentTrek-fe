@@ -1,0 +1,42 @@
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 4px 0 0;
+  list-style: none;
+}
+.thumbButton {
+  display: block;
+  padding: 0;
+  cursor: pointer;
+  background: var(--color-surface-muted, #f1f5f9);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.thumb {
+  display: block;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+.placeholder {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta, 12px);
+  text-align: center;
+}
+.full {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  margin: 0 auto;
+}
+.empty {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta, 12px);
+}

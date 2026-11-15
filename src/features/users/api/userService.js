@@ -10,8 +10,11 @@ export const userService = {
       headers: { 'Content-Type': 'multipart/form-data' },
     }),
   changePassword: (payload) => axiosClient.put(API_ENDPOINTS.USERS.PASSWORD, payload),
+  requestPasswordOtp: () => axiosClient.post(API_ENDPOINTS.USERS.PASSWORD_OTP),
   getSessions: () => axiosClient.get(API_ENDPOINTS.USERS.SESSIONS),
   revokeSession: (familyId) => axiosClient.delete(API_ENDPOINTS.USERS.SESSION_BY_ID(familyId)),
   revokeOtherSessions: () => axiosClient.post(API_ENDPOINTS.USERS.REVOKE_OTHER_SESSIONS),
-  getAll: (params) => axiosClient.get(API_ENDPOINTS.USERS.ROOT, { params: cleanParams(params) }),
+  getAll: (params) => axiosClient.get(API_ENDPOINTS.ADMIN.USERS, { params: cleanParams(params) }),
+  // Guide đang hoạt động; Admin và Staff đều gọi được
+  getGuides: () => axiosClient.get(API_ENDPOINTS.ADMIN.GUIDES),
 };

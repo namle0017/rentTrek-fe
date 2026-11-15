@@ -1,16 +1,18 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Breadcrumb from '@/components/Breadcrumb';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
 import { USER_ROLE } from '@/constants/enums';
+import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import {
   useAssignTripGroupGuide,
   useMoveBookingToGroup,
   usePublishTripGrouping,
   useSplitTripBooking,
-  useTourGuideOptions,
+  useGuideOptions,
   useTripGrouping,
 } from '../hooks/useTripGroups';
 import styles from './TripGroupingPage.module.css';
@@ -147,7 +149,7 @@ export default function TripGroupingPage() {
   const publishMutation = usePublishTripGrouping();
   const splitMutation = useSplitTripBooking();
   const canEdit = [USER_ROLE.ADMIN, USER_ROLE.STAFF].includes(currentUser?.role);
-  const guideQuery = useTourGuideOptions(canEdit);
+  const guideQuery = useGuideOptions(canEdit);
   const [splitBooking, setSplitBooking] = useState(null);
   const [splitReason, setSplitReason] = useState('');
   const [splitAssignments, setSplitAssignments] = useState({});
@@ -247,6 +249,12 @@ export default function TripGroupingPage() {
 
   return (
     <main className={styles.page}>
+      <Breadcrumb
+        items={[
+          { label: 'Quản lý Chuyến đi', to: ROUTES.ADMIN_TRIPS },
+          { label: `Phân nhóm chuyến #${snapshot.tripId}` },
+        ]}
+      />
       <header className={styles.pageHeader}>
         <div>
           <span className={styles.eyebrow}>TRIP {snapshot.tripId}</span>

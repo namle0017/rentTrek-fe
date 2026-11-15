@@ -1,35 +1,40 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import OutdoorIcon from '@/components/OutdoorIcon';
 import Pagination from '@/components/Pagination';
 import { CardSkeleton } from '@/components/skeleton';
 import { DEFAULT_PAGE_NUMBER } from '@/constants/config';
+import { ROUTES } from '@/constants/routes';
 import { useDebounce } from '@/hooks/useDebounce';
 import ProductCard from '../components/ProductCard';
-import { PRODUCT_OFFERING_LABEL, PRODUCT_SORT_OPTIONS } from '../constants/productCatalog';
+import {
+  PRODUCT_OFFERING_LABEL,
+  PRODUCT_PRICE_RANGE_OPTIONS,
+  PRODUCT_SORT_OPTIONS,
+} from '../constants/productCatalog';
 import { useProductCategories, useProducts } from '../hooks/useProducts';
 import styles from './ProductDiscovery.module.css';
 
 const benefits = [
   {
     icon: 'shield',
-    title: 'Ký quỹ bảo mật',
+    title: 'Giá minh bạch, không thu cọc',
     description:
-      'Tiền thuê + Tiền cọc của bạn được giữ tại tài khoản trung gian của Sàn. Chủ đồ KHÔNG nhận được cho đến khi bạn đi du lịch về an toàn.',
+      'Xem báo giá theo thời gian và số lượng trước khi xác nhận. Hệ thống hiện không thu tiền cọc; thanh toán tiền thuê bằng VietQR.',
   },
   {
     icon: 'check',
-    title: 'Kiểm định 5 bước kỹ lưỡng',
+    title: 'Kiểm tra kho theo lịch thuê',
     description:
-      'Tất cả các sản phẩm có nhãn kiểm định đều đã trải qua quy trình xác thực chống rách, chống thấm và đầy đủ linh phụ kiện dựng lều.',
+      'Chọn thời điểm nhận và trả để kiểm tra thiết bị còn trống. Kho được kiểm tra lại và giữ nguyên tử khi bạn tạo đơn.',
   },
   {
     icon: 'users',
-    title: 'Cộng đồng dã ngoại Việt Nam',
+    title: 'Nhận và trả tại cửa hàng',
     description:
-      'Kết nối trực tiếp giữa các chủ lều giàu kinh nghiệm ở địa phương và các trekker đam mê xê dịch.',
+      'Nhận thiết bị theo lịch đã đặt, cùng nhân viên kiểm tra khi bàn giao và khi trả. Theo dõi đơn và thanh toán trong tài khoản.',
   },
 ];
 
@@ -40,6 +45,10 @@ export default function ProductListPage() {
   const search = searchParams.get('search') ?? '';
   const categoryId = searchParams.get('categoryId') ?? '';
   const offeringType = searchParams.get('offeringType') ?? '';
+  const minPrice = searchParams.get('minPrice') ?? '';
+  const maxPrice = searchParams.get('maxPrice') ?? '';
+  const inStockOnly = searchParams.get('inStockOnly') === 'true';
+  const priceRangeValue = minPrice || maxPrice ? `${minPrice}:${maxPrice}` : '';
   const sortBy = searchParams.get('sortBy') ?? 'createdAt';
   const sortOrder = searchParams.get('sortOrder') ?? 'desc';
   const [draft, setDraft] = useState(null);
@@ -74,11 +83,14 @@ export default function ProductListPage() {
     search,
     categoryId,
     offeringType,
+    minPrice: minPrice ? Number(minPrice) : undefined,
+    maxPrice: maxPrice ? Number(maxPrice) : undefined,
+    inStockOnly: inStockOnly || undefined,
     sortBy,
     sortOrder,
   });
 
-  const updateFilters = (changes) => {
+  const updateFilters = (changes, shouldScroll = false) => {
     setSearchParams((previous) => {
       const next = new URLSearchParams(previous);
       Object.entries(changes).forEach(([key, value]) => {
@@ -88,6 +100,9 @@ export default function ProductListPage() {
       next.delete('pageNumber');
       return next;
     });
+    if (shouldScroll) {
+      document.getElementById('equipment')?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
   const handlePageChange = (nextPage) => {
     setSearchParams((previous) => {
@@ -144,33 +159,22 @@ export default function ProductListPage() {
       <section className={styles.hero} aria-labelledby="discovery-title">
         <div className={`container ${styles.heroInner}`}>
           <span className={styles.heroBadge}>NỀN TẢNG THUÊ ĐỒ DÃ NGOẠI CHUYÊN NGHIỆP</span>
-          <h1 id="discovery-title">
-            Chinh phục mọi cung đường - Thuê đồ dã ngoại an tâm tuyệt đối qua sàn ký quỹ
-          </h1>
+          <h1 id="discovery-title">Tất cả thiết bị cho hành trình ngoài trời</h1>
           <p>
-            Hàng ngàn lều trại, balo trợ lực và đồ trekking chuyên sâu sẵn sàng giao nhận trực tiếp hoặc vận
-            chuyển nhanh. Bảo mật dòng tiền ký quỹ 100%.
+            Chọn lều trại, balô và dụng cụ trekking. Thêm vào giỏ, chọn lịch thuê, xem tổng tiền và thanh toán
+            VietQR trong một luồng.
           </p>
+          <div className={styles.heroActions}>
+            <Link className={styles.heroChip} to={ROUTES.RENTAL_CART}>
+              Xem giỏ thuê & tính giá
+            </Link>
+            <Link className={styles.heroChip} to={ROUTES.BUNDLES}>
+              Xem combo thiết bị
+            </Link>
+          </div>
         </div>
       </section>
       <div className="container">
-        <section className={styles.benefits} id="travel-benefits" aria-labelledby="benefits-title">
-          <header className={styles.benefitsHeading}>
-            <p>KHÁC BIỆT CỦA RENTREKK</p>
-            <h2 id="benefits-title">3 Lớp Bảo Vệ Cho Trải Nghiệm Trekking An Tâm</h2>
-          </header>
-          <div className={styles.benefitGrid}>
-            {benefits.map((benefit) => (
-              <article className={styles.benefitCard} key={benefit.icon}>
-                <span className={styles.benefitIcon}>
-                  <OutdoorIcon name={benefit.icon} />
-                </span>
-                <h3>{benefit.title}</h3>
-                <p>{benefit.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
         <form
           className={styles.discoveryFilters}
           role="search"
@@ -202,7 +206,7 @@ export default function ProductListPage() {
               name="categoryId"
               value={categoryId}
               disabled={categoriesQuery.isLoading}
-              onChange={(event) => updateFilters({ categoryId: event.target.value })}
+              onChange={(event) => updateFilters({ categoryId: event.target.value }, true)}
             >
               <option value="">Tất cả dụng cụ dã ngoại</option>
               {(categoriesQuery.data ?? []).map((category) => (
@@ -217,12 +221,32 @@ export default function ProductListPage() {
             <select
               name="offeringType"
               value={offeringType}
-              onChange={(event) => updateFilters({ offeringType: event.target.value })}
+              onChange={(event) => updateFilters({ offeringType: event.target.value }, true)}
             >
               <option value="">Thuê & mua</option>
               {Object.entries(PRODUCT_OFFERING_LABEL).map(([value, label]) => (
                 <option key={value} value={value}>
                   {label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className={styles.searchField}>
+            <span>Mức giá thuê</span>
+            <select
+              name="priceRange"
+              aria-label="Mức giá thuê"
+              value={priceRangeValue}
+              onChange={(event) => {
+                const [nextMin = '', nextMax = ''] = event.target.value
+                  ? event.target.value.split(':')
+                  : ['', ''];
+                updateFilters({ minPrice: nextMin, maxPrice: nextMax }, true);
+              }}
+            >
+              {PRODUCT_PRICE_RANGE_OPTIONS.map((option) => (
+                <option key={option.value || 'all-prices'} value={option.value}>
+                  {option.label}
                 </option>
               ))}
             </select>
@@ -240,6 +264,23 @@ export default function ProductListPage() {
             </button>
           </p>
         )}
+        <section className={styles.benefits} id="travel-benefits" aria-labelledby="benefits-title">
+          <header className={styles.benefitsHeading}>
+            <p>KHÁC BIỆT CỦA RENTREKK</p>
+            <h2 id="benefits-title">3 Lớp Bảo Vệ Cho Trải Nghiệm Trekking An Tâm</h2>
+          </header>
+          <div className={styles.benefitGrid}>
+            {benefits.map((benefit) => (
+              <article className={styles.benefitCard} key={benefit.icon}>
+                <span className={styles.benefitIcon}>
+                  <OutdoorIcon name={benefit.icon} />
+                </span>
+                <h3>{benefit.title}</h3>
+                <p>{benefit.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
         <section className={styles.equipment} id="equipment" aria-labelledby="equipment-title">
           <header className={styles.equipmentHeading}>
             <div>
@@ -261,6 +302,13 @@ export default function ProductListPage() {
               >
                 Giá thuê tốt
               </button>
+              <button
+                type="button"
+                aria-pressed={inStockOnly}
+                onClick={() => updateFilters({ inStockOnly: inStockOnly ? '' : 'true' })}
+              >
+                Còn thiết bị
+              </button>
               <select
                 aria-label="Sắp xếp"
                 value={sortValue}
@@ -274,7 +322,7 @@ export default function ProductListPage() {
               </select>
             </div>
           </header>
-          {(search || categoryId || offeringType) && (
+          {(search || categoryId || offeringType || minPrice || maxPrice || inStockOnly) && (
             <div className={styles.activeFilters}>
               <span>{search ? `Kết quả cho “${search}”` : 'Đang áp dụng bộ lọc'}</span>
               <button type="button" onClick={handleReset}>

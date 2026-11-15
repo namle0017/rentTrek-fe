@@ -1,0 +1,115 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import EmptyState from '@/components/EmptyState';
+import ErrorState from '@/components/ErrorState';
+import Pagination from '@/components/Pagination';
+import Spinner from '@/components/Spinner';
+import styles from '@/features/orders/pages/MyOrdersPage.module.css';
+import AccountShell from '@/features/users/components/AccountShell';
+import { useAuth } from '@/hooks/useAuth';
+import { formatDateTime } from '@/utils/formatDate';
+import {
+  useMarkAllNotificationsRead,
+  useMarkNotificationRead,
+  useNotifications,
+} from '../hooks/useNotifications';
+import { notificationRoute } from '../utils/notificationRoute';
+
+const PAGE_SIZE = 20;
+
+export default function NotificationsPage() {
+  const [unreadOnly, setUnreadOnly] = useState(false);
+  const [page, setPage] = useState(1);
+  const { data, isLoading, isError, error, refetch } = useNotifications({
+    unreadOnly: unreadOnly || undefined,
+    page,
+    pageSize: PAGE_SIZE,
+  });
+  const markRead = useMarkNotificationRead();
+  const markAllRead = useMarkAllNotificationsRead();
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
+  // Bấm vào thông báo: đánh dấu đã đọc (nếu chưa) rồi mở đúng trang liên quan
+  const openNotification = (n) => {
+    if (!n.isRead) markRead.mutate(n.notificationId);
+    const target = notificationRoute(n, currentUser?.role);
+    if (target) navigate(target);
+  };
+
+  const changeFilter = (value) => {
+    setUnreadOnly(value);
+    setPage(1);
+  };
+
+  return (
+    <AccountShell active="notifications">
+      <div className={styles.page}>
+        <header className={styles.header}>
+          <h1>Thông báo</h1>
+          <p>Cập nhật trạng thái đơn hàng, chuyến đi và thông báo hệ thống.</p>
+        </header>
+
+      <div className={styles.tabs}>
+        <button type="button" aria-pressed={!unreadOnly} onClick={() => changeFilter(false)}>
+          Tất cả
+        </button>
+        <button type="button" aria-pressed={unreadOnly} onClick={() => changeFilter(true)}>
+          Chưa đọc
+        </button>
+        <button type="button" onClick={() => markAllRead.mutate()} disabled={markAllRead.isPending}>
+          Đánh dấu đã đọc tất cả
+        </button>
+      </div>
+
+      {isLoading ? (
+        <Spinner />
+      ) : isError ? (
+        <ErrorState message={error.message || 'Không tải được thông báo'} onRetry={refetch} />
+      ) : !data?.items?.length ? (
+        <EmptyState message="Chưa có thông báo nào." />
+      ) : (
+        <>
+          <div className={styles.list}>
+            {data.items.map((n) => (
+              <article
+                key={n.notificationId}
+                className={styles.card}
+                style={n.isRead ? undefined : { borderColor: '#204b39' }}
+              >
+                <button
+                  type="button"
+                  className={styles.cardMain}
+                  style={{ background: 'none', border: 0, padding: 0, font: 'inherit', textAlign: 'left', cursor: 'pointer' }}
+                  onClick={() => openNotification(n)}
+                  aria-label={`Mở thông báo: ${n.title}`}
+                >
+                  <span className={styles.type}>{n.type}</span>
+                  <strong>{n.title}</strong>
+                  <small>{n.content}</small>
+                </button>
+                <div className={styles.cardSide}>
+                  <small>{formatDateTime(n.createdAt)}</small>
+                  {n.isRead ? (
+                    <span className={styles.status}>Đã đọc</span>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      onClick={() => markRead.mutate(n.notificationId)}
+                      disabled={markRead.isPending}
+                    >
+                      Đánh dấu đã đọc
+                    </button>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+          <Pagination {...data} onPageChange={setPage} />
+        </>
+      )}
+    </div>
+  </AccountShell>
+);
+}

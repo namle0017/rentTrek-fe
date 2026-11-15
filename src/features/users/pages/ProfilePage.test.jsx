@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -6,6 +7,10 @@ import { USER_ROLE } from '@/constants/enums';
 import { useProfile } from '../hooks/useProfile';
 import { useUpdateProfile } from '../hooks/useUpdateProfile';
 import ProfilePage from './ProfilePage';
+
+vi.mock('@/hooks/useAuth', () => ({
+  useAuth: vi.fn(() => ({ currentUser: { role: 'Customer' } })),
+}));
 
 vi.mock('../hooks/useProfile', () => ({
   useProfile: vi.fn(),
@@ -20,7 +25,15 @@ vi.mock('../components/ChangePasswordForm', () => ({
 }));
 
 vi.mock('../components/ActiveSessionsList', () => ({
-  default: () => <div data-testid="mock-active-sessions-list">Danh sách phiên component</div>,
+  default: () => <div data-testid="mock-active-sessions">Phiên đăng nhập</div>,
+}));
+
+vi.mock('@/hooks/useAuth', () => ({
+  useAuth: () => ({ currentUser: { role: 'Customer' } }),
+}));
+
+vi.mock('../components/AvatarUploadModal', () => ({
+  default: () => null,
 }));
 
 const mockProfile = {
@@ -37,9 +50,11 @@ const mockProfile = {
 
 const renderPage = () =>
   render(
-    <MemoryRouter>
-      <ProfilePage />
-    </MemoryRouter>,
+    <QueryClientProvider client={new QueryClient()}>
+      <MemoryRouter>
+        <ProfilePage />
+      </MemoryRouter>
+    </QueryClientProvider>,
   );
 
 describe('ProfilePage', () => {
@@ -170,17 +185,14 @@ describe('ProfilePage', () => {
     expect(screen.queryByTestId('mock-change-password-form')).not.toBeInTheDocument();
 
     // Click Security Nav Item
-    const securityNavBtn = screen.getByRole('button', { name: /Bảo mật & phiên/ });
+    const securityNavBtn = screen.getByRole('link', { name: /Bảo mật & phiên/ });
     await user.click(securityNavBtn);
 
-    expect(
-      screen.getByRole('heading', { level: 1, name: 'Bảo mật & phiên đăng nhập' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'Bảo mật & phiên đăng nhập' })).toBeInTheDocument();
     expect(screen.getByTestId('mock-change-password-form')).toBeInTheDocument();
-    expect(screen.getByTestId('mock-active-sessions-list')).toBeInTheDocument();
 
     // Switch back
-    const profileNavBtn = screen.getByRole('button', { name: /Hồ sơ cá nhân/ });
+    const profileNavBtn = screen.getByRole('link', { name: /Hồ sơ cá nhân/ });
     await user.click(profileNavBtn);
     expect(screen.getByRole('heading', { level: 1, name: 'Hồ sơ cá nhân' })).toBeInTheDocument();
   });

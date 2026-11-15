@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { useGoogleLogin } from '../hooks/useGoogleLogin';
 import styles from './GoogleLoginButton.module.css';
 
@@ -8,46 +9,26 @@ import styles from './GoogleLoginButton.module.css';
 export default function GoogleLoginButton({ text = 'Tiếp tục với Google', showDivider = true }) {
   const googleMutation = useGoogleLogin();
 
-  const handleGoogleClick = () => {
-    // Nếu ứng dụng có cấu hình Google Client ID trên môi trường
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-    if (window.google?.accounts?.id && clientId) {
-      window.google.accounts.id.initialize({
-        client_id: clientId,
-        callback: (response) => {
-          if (response?.credential) {
-            googleMutation.mutate({ idToken: response.credential });
-          }
-        },
-      });
-      window.google.accounts.id.prompt();
+  // Chưa cấu hình Google Client ID thì không hiển thị nút (không có đăng nhập giả lập)
+  if (!clientId) return null;
+
+  const handleGoogleClick = () => {
+    if (!window.google?.accounts?.id) {
+      toast.error('Không tải được dịch vụ đăng nhập Google. Vui lòng thử lại sau.');
       return;
     }
 
-    // Trường hợp demo/chưa điền Client ID: Cho phép đăng nhập demo test tự động
-    const isConfirm = window.confirm(
-      'Hệ thống đang ở chế độ Dev (chưa cấu hình VITE_GOOGLE_CLIENT_ID).\n\nBạn có muốn tự động đăng nhập kiểm thử với tài khoản Google Test [google.trekker@rentrek.com] không?',
-    );
-
-    if (isConfirm) {
-      const mockToken =
-        'eyJhbGciOiJSUzI1NiIsImtpZCI6IjEyMyJ9.' +
-        btoa(
-          JSON.stringify({
-            iss: 'https://accounts.google.com',
-            sub: 'google_user_demo_123456',
-            email: 'google.trekker@rentrek.com',
-            name: 'Nguyễn Trekker Google',
-            picture: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-            email_verified: true,
-            exp: Math.floor(Date.now() / 1000) + 3600,
-          }),
-        ) +
-        '.mock_signature';
-
-      googleMutation.mutate({ idToken: mockToken });
-    }
+    window.google.accounts.id.initialize({
+      client_id: clientId,
+      callback: (response) => {
+        if (response?.credential) {
+          googleMutation.mutate({ idToken: response.credential });
+        }
+      },
+    });
+    window.google.accounts.id.prompt();
   };
 
   return (

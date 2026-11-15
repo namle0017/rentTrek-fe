@@ -18,6 +18,12 @@ vi.mock('../components/TripPaymentPanel', () => ({
   default: ({ orderId }) => <div>payment-panel-{orderId}</div>,
 }));
 
+vi.mock('../components/ReschedulePanel', () => ({
+  default: ({ orderId }) => <div>reschedule-panel-{orderId}</div>,
+}));
+vi.mock('../components/TripSuggestedBundles', () => ({ default: () => null }));
+vi.mock('@/features/customer-reports/components/OrderReportsCard', () => ({ default: () => null }));
+
 vi.mock('@/features/orders/hooks/useOrders', () => ({ useMyOrders: vi.fn() }));
 
 vi.mock('../hooks/useTripBookings', () => ({
@@ -27,6 +33,7 @@ vi.mock('../hooks/useTripBookings', () => ({
   useCustomerTripGrouping: vi.fn(),
   useUpdateParticipant: vi.fn(),
   useCancelTripBooking: vi.fn(),
+  useCancelTripParticipants: vi.fn(() => ({ mutateAsync: vi.fn(), isPending: false })),
   useCancellationPreview: vi.fn(),
 }));
 
@@ -194,14 +201,15 @@ describe('TripBookingDetailPage', () => {
     expect(screen.getByLabelText('Link xem chuyến cho nhóm')).toBeInTheDocument();
   });
 
-  it('cancels without asking for a reason when no refund is due', async () => {
+  it('cancels an unpaid booking with a simple confirm (no refund, no bank info)', async () => {
     const user = userEvent.setup();
     cancelAsync.mockResolvedValue({});
     renderPage();
 
     await user.click(screen.getByRole('button', { name: 'Hủy booking' }));
     expect(cancelAsync).not.toHaveBeenCalled();
-    await user.click(screen.getByRole('button', { name: 'Xác nhận hủy' }));
+    expect(screen.getByText(/không phát sinh hoàn tiền/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Huỷ đơn' }));
 
     expect(cancelAsync).toHaveBeenCalledWith({
       orderId: 'order-1',
@@ -307,5 +315,36 @@ describe('TripBookingDetailPage', () => {
       'aria-current',
       'step',
     );
+  });
+
+  it('customizes participant section and bill summary when booking for 1 person (solo)', () => {
+    const soloBooking = {
+      ...paidBooking,
+      participantCount: 1,
+      participants: [paidBooking.participants[0]],
+      subtotalAmount: 1500000,
+      totalAmount: 1500000,
+    };
+    showBooking(soloBooking);
+
+    renderPage();
+
+    expect(screen.getByText('THÔNG TIN THAM GIA')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Người tham gia' })).toBeInTheDocument();
+    expect(screen.queryByText('ĐOÀN CỦA BẠN')).not.toBeInTheDocument();
+    expect(screen.queryByText('Danh sách người tham gia')).not.toBeInTheDocument();
+    expect(screen.queryByText('1 người')).not.toBeInTheDocument();
+
+    expect(screen.getByText('Số lượng')).toBeInTheDocument();
+    expect(screen.getByText('1 khách')).toBeInTheDocument();
+    expect(screen.getByText('Giá tour')).toBeInTheDocument();
+    expect(screen.getByText('Tổng tiền')).toBeInTheDocument();
+    expect(screen.queryByText('Đơn giá')).not.toBeInTheDocument();
+    expect(screen.queryByText('Tạm tính')).not.toBeInTheDocument();
+
+    expect(screen.queryByLabelText('Chia sẻ chuyến đi cho nhóm')).not.toBeInTheDocument();
+    expect(
+      screen.getByText('Đã thanh toán — thông tin chuyến đi đã được chốt và bảo lưu.'),
+    ).toBeInTheDocument();
   });
 });

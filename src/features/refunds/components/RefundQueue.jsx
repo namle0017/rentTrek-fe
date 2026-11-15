@@ -3,22 +3,27 @@ import EmptyState from '@/components/EmptyState';
 import ErrorState from '@/components/ErrorState';
 import Pagination from '@/components/Pagination';
 import Spinner from '@/components/Spinner';
-import { REFUND_BANKS, REFUND_CASE_STATUS_LABEL } from '@/constants/enums';
+import { API_ENDPOINTS } from '@/api/endpoints';
+import { REFUND_BANKS, REFUND_CASE_SOURCE_LABEL, REFUND_CASE_STATUS, REFUND_CASE_STATUS_LABEL } from '@/constants/enums';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime, toIsoString } from '@/utils/formatDate';
 import { useRefundQueue } from '../hooks/useRefundCases';
 import { formatRefundCode, getBankName } from '../utils/refundDisplay';
+import { parseCancelReasonWithProofs } from '../utils/refundProofHelper';
+import ProofGallery from './ProofGallery';
 import styles from './RefundQueue.module.css';
 
 const PAGE_SIZE = 10;
 
 function formatRule(item) {
-  if (item.refundPercentage === null) return 'Không có mốc áp dụng';
+  // Hồ sơ đơn thuê tính theo chính sách cọc, không theo mốc giờ của chính sách hoàn tiền tour
+  if (item.source && item.source !== 'TripCancellation') return REFUND_CASE_SOURCE_LABEL[item.source] || item.source;
+  if (item.refundPercentage === null || item.refundPercentage === undefined) return 'Không có mốc áp dụng';
   return `Trước ≥ ${item.minHoursBefore} giờ · hoàn ${item.refundPercentage}%`;
 }
 
 /** Bộ lọc nằm trên URL để F5 hoặc gửi link không mất trạng thái. */
-export default function RefundQueue({ title, description, statuses, renderActions, toolbar }) {
+export default function RefundQueue({ statuses, renderActions, toolbar }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const status = searchParams.get('status') ?? '';
   const fromDate = searchParams.get('fromDate') ?? '';
@@ -52,12 +57,11 @@ export default function RefundQueue({ title, description, statuses, renderAction
 
   return (
     <main className={styles.page}>
-      <header className={styles.pageHeader}>
-        <span className={styles.kicker}>HOÀN TIỀN</span>
-        <h1>{title}</h1>
-        <p>{description}</p>
-        {toolbar && <div className={styles.toolbar}>{toolbar}</div>}
-      </header>
+      {toolbar && (
+        <div className={styles.pageHeader} style={{ justifyContent: 'flex-end', paddingBottom: 12 }}>
+          <div className={styles.toolbar}>{toolbar}</div>
+        </div>
+      )}
 
       <form className={styles.filters} aria-label="Lọc hồ sơ">
         <label>
@@ -110,6 +114,7 @@ export default function RefundQueue({ title, description, statuses, renderAction
                   <th scope="col">Số tiền</th>
                   <th scope="col">Tài khoản</th>
                   <th scope="col">Trạng thái</th>
+                  <th scope="col">Chứng từ</th>
                   <th scope="col">
                     <span className={styles.srOnly}>Thao tác</span>
                   </th>
@@ -123,11 +128,23 @@ export default function RefundQueue({ title, description, statuses, renderAction
                       <small>{item.orderCode}</small>
                       <small>{formatDateTime(item.createdAt)}</small>
                     </td>
-                    <td data-label="Khách / Tour">
-                      <strong>{item.customerName}</strong>
-                      <small>{item.tourName}</small>
-                      {item.cancelReason && <small>Lý do hủy: {item.cancelReason}</small>}
-                    </td>
+                    {(() => {
+                      const parsed = parseCancelReasonWithProofs(item.cancelReason);
+                      return (
+                        <td data-label="Khách / Tour">
+                          <strong>{item.customerName}</strong>
+                          <small className={!item.tourName ? styles.rentalBadge : undefined}>
+                            {item.tourName || 'Thuê thiết bị dã ngoại'}
+                          </small>
+                          {parsed.hasProofs && (
+                            <span className={styles.proofBadge}>
+                              📷 Có minh chứng ({parsed.proofUrls.length})
+                            </span>
+                          )}
+                          {parsed.detail && <small>Lý do: {parsed.detail}</small>}
+                        </td>
+                      );
+                    })()}
                     <td data-label="Số tiền">
                       <strong>{formatCurrency(item.amount)}</strong>
                       <small>
@@ -136,11 +153,37 @@ export default function RefundQueue({ title, description, statuses, renderAction
                       <small>{formatRule(item)}</small>
                     </td>
                     <td data-label="Tài khoản">
-                      <strong>{getBankName(REFUND_BANKS, item.bankCode)}</strong>
-                      <small>{item.maskedAccount}</small>
+                      {item.bankCode ? (
+                        <>
+                          <strong>{getBankName(REFUND_BANKS, item.bankCode)}</strong>
+                          <small>{item.maskedAccount}</small>
+                        </>
+                      ) : (
+                        <small>Chờ khách nhập STK</small>
+                      )}
                     </td>
                     <td data-label="Trạng thái">
                       <span className={styles.status}>{REFUND_CASE_STATUS_LABEL[item.status]}</span>
+                      {item.status === REFUND_CASE_STATUS.APPROVED && (
+                        <small>{item.exportedAt ? 'Đã gửi kế toán' : 'Chờ xuất'}</small>
+                      )}
+                      {item.appealReason && <small>Khiếu nại: {item.appealReason}</small>}
+                    </td>
+                    <td data-label="Chứng từ">
+                      {item.status === REFUND_CASE_STATUS.COMPLETED && (
+                        <>
+                          {item.providerTransactionId && <small>Mã GD: {item.providerTransactionId}</small>}
+                          <ProofGallery
+                            proofs={item.proofs}
+                            buildUrl={(proofId) =>
+                              API_ENDPOINTS.ADMIN_REFUND_CASES.PROOF(item.refundCaseId, proofId)
+                            }
+                          />
+                        </>
+                      )}
+                      {item.failureReason && (item.status === REFUND_CASE_STATUS.FAILED || item.status === REFUND_CASE_STATUS.AWAITING_BANK_INFO) && (
+                        <small>Lý do: {item.failureReason}</small>
+                      )}
                     </td>
                     <td className={styles.actions}>{renderActions(item)}</td>
                   </tr>

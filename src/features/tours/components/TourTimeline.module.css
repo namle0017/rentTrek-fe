@@ -1,89 +1,169 @@
-.timelineContainer {
-  margin-top: 24px;
+.timelineWrapper {
+  margin-top: 16px;
 }
 
-.daySection {
-  margin-bottom: 28px;
+.emptyText {
+  color: var(--color-text-muted, #64748b);
+  font-size: var(--font-size-label, 0.95rem);
+  font-style: italic;
+  margin: 8px 0;
 }
 
-.dayTitle {
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary-dark);
-  margin-bottom: 16px;
+.dayGroup {
+  margin-bottom: 14px;
+}
+
+.dayHeaderRow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  position: relative;
 }
 
-.dayBadge {
-  background: var(--color-primary);
+/* Badge hình tròn chứa chữ NGÀY và số ngày */
+.dayBadgeCircle {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.badgeActive {
+  background: var(--color-primary, #1c4333);
   color: #ffffff;
-  padding: 3px 10px;
-  border-radius: 6px;
-  font-size: var(--font-size-status);
-  font-weight: var(--font-weight-semibold);
+}
+
+.badgeInactive {
+  background: #eae5da;
+  color: #3b4e43;
+}
+
+.badgeLabel {
+  font-size: 0.65rem;
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.badgeNumber {
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+/* Thanh pill header ngang */
+.dayPillBtn {
+  flex: 1;
+  min-height: 46px;
+  margin-left: -20px;
+  padding: 8px 24px 8px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 9999px;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.pillActive {
+  background: var(--color-primary, #1c4333);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(28, 67, 51, 0.2);
+}
+
+.pillInactive {
+  background: #f6f3eb;
+  color: #173d2d;
+}
+
+.pillInactive:hover {
+  background: #eee8dc;
+}
+
+.dayPillTitle {
+  font-size: 0.98rem;
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: -0.01em;
+}
+
+.dayPillIcon {
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1;
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.pillActive .dayPillIcon {
+  color: #ffffff;
+}
+
+.pillInactive .dayPillIcon {
+  color: #718479;
+}
+
+/* Khu vực nội dung ngày khi mở */
+.dayContent {
+  margin-left: 27px;
+  padding-left: 36px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+  border-left: 2px dotted #c5d3ca;
 }
 
 .activityList {
-  position: relative;
-  padding-left: 24px;
-  border-left: 2px solid #d1fae5;
-  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .activityItem {
   position: relative;
-  margin-bottom: 20px;
 }
 
-.activityItem:last-child {
-  margin-bottom: 0;
-}
-
-.activityDot {
-  position: absolute;
-  left: -31px;
-  top: 4px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  border: 3px solid #ffffff;
-  box-shadow: 0 0 0 2px var(--color-primary);
-}
-
-.activityHeader {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
+.activityText {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #2b3831;
 }
 
 .activityTime {
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-body);
-  color: var(--color-primary);
-  background: #ecfdf5;
-  padding: 2px 8px;
-  border-radius: 4px;
+  color: var(--color-primary-dark, #173d2d);
+  font-weight: var(--font-weight-bold, 700);
+  font-size: 0.95rem;
 }
 
 .activityTitle {
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-section-title);
-  color: var(--color-text);
+  font-weight: var(--font-weight-semibold, 600);
+  color: #173d2d;
 }
 
 .activityDesc {
-  font-size: var(--font-size-meta);
-  color: var(--color-text-muted);
-  line-height: 1.5;
-  margin: 4px 0 0;
+  color: #374151;
 }
 
 .activityLocation {
-  font-size: var(--font-size-meta);
+  margin-top: 4px;
+  font-size: 0.85rem;
   color: #64748b;
-  margin-top: 2px;
+}
+
+.activityMeta {
+  margin-top: 4px;
+  font-size: 0.88rem;
+  color: #55665d;
+  font-style: italic;
 }

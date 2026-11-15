@@ -4,7 +4,7 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { formatRefundCode } from '../utils/refundDisplay';
 
 /** Admin nhập lý do từ chối hồ sơ hoặc báo chuyển khoản thất bại. */
-export default function RefundReasonDialog({ item, title, submitLabel, mutation, onClose }) {
+export default function RefundReasonDialog({ item, title, description, submitLabel, mutation, onClose }) {
   const [reason, setReason] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -34,6 +34,7 @@ export default function RefundReasonDialog({ item, title, submitLabel, mutation,
         <p>
           {formatRefundCode(item.refundCaseId)} · {formatCurrency(item.amount)}
         </p>
+        {description && <p role="note">{description}</p>}
         <label htmlFor="refund-decision-reason">Lý do</label>
         <textarea
           id="refund-decision-reason"

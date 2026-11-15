@@ -13,6 +13,7 @@ import {
 import { ROUTES } from '@/constants/routes';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateTime } from '@/utils/formatDate';
+import AccountShell from '@/features/users/components/AccountShell';
 import { useMyOrders } from '../hooks/useOrders';
 import styles from './MyOrdersPage.module.css';
 
@@ -43,11 +44,17 @@ function OrderCard({ order }) {
     </>
   );
 
-  // ponytail: đơn thuê chưa có trang chi tiết, thêm Link khi có route RENTAL_ORDER_DETAIL
-  if (order.orderType !== ORDER_TYPE.TRIP_BOOKING)
+  if (![ORDER_TYPE.TRIP_BOOKING, ORDER_TYPE.RENTAL].includes(order.orderType))
     return <article className={styles.card}>{content}</article>;
   return (
-    <Link className={styles.card} to={ROUTES.TRIP_BOOKING_DETAIL(order.id)}>
+    <Link
+      className={styles.card}
+      to={
+        order.orderType === ORDER_TYPE.RENTAL
+          ? ROUTES.RENTAL_ORDER_DETAIL(order.id)
+          : ROUTES.TRIP_BOOKING_DETAIL(order.id)
+      }
+    >
       {content}
     </Link>
   );
@@ -64,38 +71,40 @@ export default function MyOrdersPage() {
   };
 
   return (
-    <main className={styles.page}>
-      <header className={styles.header}>
-        <span className={styles.kicker}>TÀI KHOẢN</span>
-        <h1>Đơn của tôi</h1>
-      </header>
+    <AccountShell active="orders">
+      <div className={styles.page}>
+        <header className={styles.header}>
+          <h1>Đơn của tôi</h1>
+          <p>Tour đã đặt và đơn thuê thiết bị của bạn.</p>
+        </header>
 
-      <div className={styles.tabs} role="group" aria-label="Lọc loại đơn">
-        {TABS.map((tab) => (
-          <button
-            key={tab.label}
-            type="button"
-            aria-pressed={orderType === tab.orderType}
-            onClick={() => selectTab(tab.orderType)}
-          >
-            {tab.label}
-          </button>
-        ))}
+        <div className={styles.tabs} role="group" aria-label="Lọc loại đơn">
+          {TABS.map((tab) => (
+            <button
+              key={tab.label}
+              type="button"
+              aria-pressed={orderType === tab.orderType}
+              onClick={() => selectTab(tab.orderType)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {isLoading && <Spinner />}
+        {isError && <ErrorState message={error?.message || 'Không thể tải đơn hàng.'} onRetry={refetch} />}
+        {data?.items.length === 0 && <EmptyState message="Chưa có đơn nào." />}
+        {data?.items.length > 0 && (
+          <>
+            <div className={styles.list}>
+              {data.items.map((order) => (
+                <OrderCard key={order.id} order={order} />
+              ))}
+            </div>
+            <Pagination {...data} onPageChange={setPageNumber} />
+          </>
+        )}
       </div>
-
-      {isLoading && <Spinner />}
-      {isError && <ErrorState message={error?.message || 'Không thể tải đơn hàng.'} onRetry={refetch} />}
-      {data?.items.length === 0 && <EmptyState message="Chưa có đơn nào." />}
-      {data?.items.length > 0 && (
-        <>
-          <div className={styles.list}>
-            {data.items.map((order) => (
-              <OrderCard key={order.id} order={order} />
-            ))}
-          </div>
-          <Pagination {...data} onPageChange={setPageNumber} />
-        </>
-      )}
-    </main>
+    </AccountShell>
   );
 }

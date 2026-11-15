@@ -4,7 +4,6 @@ export const USER_ROLE = Object.freeze({
   STAFF: 'Staff',
   CUSTOMER: 'Customer',
   GUIDE: 'Guide',
-  TOUR_GUIDE: 'TourGuide',
 });
 
 export const USER_ROLE_LABEL = {
@@ -12,7 +11,6 @@ export const USER_ROLE_LABEL = {
   [USER_ROLE.STAFF]: 'Nhân viên điều phối',
   [USER_ROLE.CUSTOMER]: 'Khách hàng',
   [USER_ROLE.GUIDE]: 'Hướng dẫn viên',
-  [USER_ROLE.TOUR_GUIDE]: 'Hướng dẫn viên',
 };
 
 export const TRIP_STATUS = Object.freeze({
@@ -106,6 +104,7 @@ export const ORDER_STATUS_LABEL = {
   PendingPayment: 'Chờ thanh toán',
   Confirmed: 'Đã xác nhận',
   InFulfillment: 'Đang thực hiện',
+  AwaitingSettlement: 'Chờ thanh toán phí phát sinh',
   Completed: 'Hoàn tất',
   Expired: 'Hết hạn',
   Cancelled: 'Đã hủy',
@@ -120,6 +119,7 @@ export const ORDER_PAYMENT_STATUS_LABEL = {
 };
 
 export const REFUND_CASE_STATUS = Object.freeze({
+  AWAITING_BANK_INFO: 'AwaitingBankInfo',
   REQUESTED: 'Requested',
   APPROVED: 'Approved',
   COMPLETED: 'Completed',
@@ -129,12 +129,21 @@ export const REFUND_CASE_STATUS = Object.freeze({
 });
 
 export const REFUND_CASE_STATUS_LABEL = {
-  [REFUND_CASE_STATUS.REQUESTED]: 'Chờ xử lý',
-  [REFUND_CASE_STATUS.APPROVED]: 'Đã gửi kế toán',
+  [REFUND_CASE_STATUS.REQUESTED]: 'Chờ duyệt',
+  [REFUND_CASE_STATUS.AWAITING_BANK_INFO]: 'Chờ khách cung cấp tài khoản',
+  [REFUND_CASE_STATUS.APPROVED]: 'Đã duyệt, chờ chuyển khoản',
   [REFUND_CASE_STATUS.COMPLETED]: 'Hoàn tất',
   [REFUND_CASE_STATUS.REJECTED]: 'Bị từ chối',
   [REFUND_CASE_STATUS.FAILED]: 'Chuyển khoản thất bại',
   [REFUND_CASE_STATUS.CANCELLED]: 'Đã hủy',
+};
+
+// Nguồn hồ sơ hoàn tiền (refund_cases.source)
+export const REFUND_CASE_SOURCE_LABEL = {
+  TripCancellation: 'Huỷ tour',
+  RentalCancellation: 'Huỷ đơn thuê',
+  RentalNoShow: 'Không đến nhận đồ',
+  RentalDepositReturn: 'Hoàn cọc sau trả đồ',
 };
 
 // Đồng bộ whitelist RefundBankCodes ở BE
@@ -156,6 +165,8 @@ export const REFUND_BANKS = [
   { code: 'OCB', name: 'OCB' },
   { code: 'SSB', name: 'SeABank' },
 ];
+
+export const REFUND_CONSENT_VERSION = 'refund-bank-data-v1';
 
 export const REFUND_CONSENT_TEXT =
   'Tôi đồng ý cung cấp thông tin tài khoản ngân hàng để RenTrekk xử lý yêu cầu hoàn tiền này. Thông tin chỉ được dùng cho việc hoàn tiền, chỉ nhân sự có thẩm quyền được truy cập và sẽ được xóa theo thời hạn lưu trữ của hệ thống.';
@@ -229,35 +240,47 @@ export const REFUND_POLICY_TYPE_LABEL = {
 };
 
 export const REFUND_POLICY_STATUS = Object.freeze({
+  DRAFT: 'Draft',
+  SCHEDULED: 'Scheduled',
   ACTIVE: 'Active',
-  INACTIVE: 'Inactive',
   EXPIRED: 'Expired',
+  ARCHIVED: 'Archived',
 });
 
 export const REFUND_POLICY_STATUS_LABEL = {
+  [REFUND_POLICY_STATUS.DRAFT]: 'Bản nháp',
+  [REFUND_POLICY_STATUS.SCHEDULED]: 'Sắp hiệu lực',
   [REFUND_POLICY_STATUS.ACTIVE]: 'Đang áp dụng',
-  [REFUND_POLICY_STATUS.INACTIVE]: 'Tạm ngưng',
   [REFUND_POLICY_STATUS.EXPIRED]: 'Hết hiệu lực',
+  [REFUND_POLICY_STATUS.ARCHIVED]: 'Ngừng áp dụng',
 };
 
 export const POST_TYPE = Object.freeze({
   GUIDE: 'Guide',
   SKILL: 'Skill',
+  LOCATION: 'Location',
   NEWS: 'News',
+  BLOG: 'Blog',
+  RECRUITMENT: 'Recruitment',
 });
 
 export const POST_TYPE_LABEL = {
   [POST_TYPE.GUIDE]: 'Hướng dẫn',
   [POST_TYPE.SKILL]: 'Kỹ năng',
+  [POST_TYPE.LOCATION]: 'Địa điểm',
   [POST_TYPE.NEWS]: 'Tin tức',
+  [POST_TYPE.BLOG]: 'Blog',
+  [POST_TYPE.RECRUITMENT]: 'Tuyển dụng',
 };
 
 export const POST_STATUS = Object.freeze({
   DRAFT: 'Draft',
   PUBLISHED: 'Published',
+  ARCHIVED: 'Archived',
 });
 
 export const POST_STATUS_LABEL = {
   [POST_STATUS.DRAFT]: 'Nháp',
   [POST_STATUS.PUBLISHED]: 'Đã xuất bản',
+  [POST_STATUS.ARCHIVED]: 'Đã lưu trữ',
 };

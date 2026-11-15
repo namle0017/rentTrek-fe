@@ -90,14 +90,18 @@ export default function AssetListPage() {
     return { total, available, inUse, actionNeeded };
   }, [allRawItems]);
 
-  const totalItems = displayItems.length;
-  const totalPages = Math.ceil(totalItems / pageSize) || 1;
+  const isServerPaged = typeof pagedData?.totalItems === 'number';
+  const totalItems = isServerPaged ? pagedData.totalItems : displayItems.length;
+  const totalPages = pagedData?.totalPages || Math.ceil(totalItems / pageSize) || 1;
   const safePage = Math.min(Math.max(1, pageNumber), totalPages);
 
   const paginatedItems = useMemo(() => {
+    if (isServerPaged) {
+      return displayItems;
+    }
     const startIndex = (safePage - 1) * pageSize;
     return displayItems.slice(startIndex, startIndex + pageSize);
-  }, [displayItems, safePage, pageSize]);
+  }, [displayItems, isServerPaged, safePage, pageSize]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();

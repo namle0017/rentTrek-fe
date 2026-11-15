@@ -33,6 +33,7 @@ const mockProduct = {
       name: 'Lều 4P Xanh rêu',
       size: '4 người',
       color: 'Xanh rêu',
+      replacementValue: 1850000,
       status: 'Active',
       availableAssetsCount: 8,
       totalAssetsCount: 10,
@@ -84,6 +85,7 @@ describe('AdminProductDetailPage', () => {
     expect(screen.getByText('SKU: TENT-4P-GRN')).toBeInTheDocument();
     expect(screen.getByText('Cỡ: 4 người')).toBeInTheDocument();
     expect(screen.getByText('Màu: Xanh rêu')).toBeInTheDocument();
+    expect(screen.getByText(/Giá trị đền bù:.*1\.850\.000/)).toBeInTheDocument();
     expect(screen.getByText(/1–3 ngày:/)).toBeInTheDocument();
     expect(screen.getByText(/80\.000/)).toBeInTheDocument();
     expect(screen.getByText(/Từ 4 ngày:/)).toBeInTheDocument();
@@ -114,6 +116,29 @@ describe('AdminProductDetailPage', () => {
       ),
     );
     expect(await screen.findByRole('heading', { name: 'Danh sách sản phẩm sau khi xóa' })).toBeInTheDocument();
+  });
+
+  it('toggles product status via PATCH endpoint after confirmation', async () => {
+    mutate.mockImplementation((_, callbacks) => callbacks.onSuccess({ data: null }));
+    const user = userEvent.setup();
+    renderPage();
+
+    await user.click(screen.getByRole('button', { name: 'Tạm ngưng kinh doanh' }));
+    const dialog = screen.getByRole('dialog', { name: 'Tạm ngưng kinh doanh sản phẩm' });
+    expect(dialog).toHaveTextContent('Tạm ngưng (Inactive)');
+
+    await user.click(within(dialog).getByRole('button', { name: 'Xác nhận đổi trạng thái' }));
+
+    await waitFor(() =>
+      expect(mutate).toHaveBeenCalledWith(
+        {
+          endpoint: '/admin/products/prod-1/status',
+          method: 'patch',
+          body: { status: 'Inactive' },
+        },
+        expect.any(Object),
+      ),
+    );
   });
 
   it('hides delete and edit actions from staff users', () => {

@@ -5,7 +5,7 @@ import OutdoorIcon from '@/components/OutdoorIcon';
 import { POST_TYPE, POST_TYPE_LABEL, USER_ROLE, USER_ROLE_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
-import { useUnreadNotificationCount } from '@/features/notifications/hooks/useNotifications';
+import NotificationBell from '@/features/notifications/components/NotificationBell';
 import { useRentalCart } from '@/features/rentals/hooks/useRentalCart';
 import { useMyRefunds } from '@/features/refunds/hooks/useRefundCases';
 import { REFUND_ACTION_STATUSES } from '@/features/refunds/utils/refundDisplay';
@@ -20,7 +20,6 @@ export default function MainLayout() {
   const { currentUser, isAuthenticated } = useAuth();
   const rentalCart = useRentalCart();
   const cartQuantity = rentalCart.items.reduce((sum, item) => sum + item.quantity, 0);
-  const { data: unreadCount = 0 } = useUnreadNotificationCount(isAuthenticated);
   // Số hồ sơ hoàn tiền đang chờ khách nhập STK / gửi lại yêu cầu
   const refundActions = useMyRefunds(
     { status: REFUND_ACTION_STATUSES.join(','), pageSize: 1 },
@@ -104,14 +103,7 @@ export default function MainLayout() {
                   <OutdoorIcon name="bag" size={20} />
                   <span>Giỏ thuê ({cartQuantity})</span>
                 </Link>
-                <Link
-                  to={ROUTES.NOTIFICATIONS}
-                  className={styles.cartLink}
-                  aria-label={`Thông báo, ${unreadCount} chưa đọc`}
-                >
-                  <OutdoorIcon name="bell" size={20} />
-                  {unreadCount > 0 && <span>{unreadCount > 99 ? '99+' : unreadCount}</span>}
-                </Link>
+                <NotificationBell variant="navbar" />
                 <details className={styles.account}>
                   <summary aria-label="Tài khoản">
                     <span

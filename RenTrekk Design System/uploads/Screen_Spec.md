@@ -7,7 +7,7 @@
 > - Màn mới: C04P, C19, O38, O39, E01–E12 (file `RenTrekk Batch 6 - Man hinh loi.dc.html`).
 
 > Nguồn: `PRD_RenTrekk.md` (FR, §7 vòng đời, §9 danh sách màn hình) + trang **Logical ERD** trong `Conceptual.drawio`.
-> Dùng kèm `Claude_Design_Prompt.md`: khi làm từng batch trong Claude Design, dán thêm các màn hình tương ứng ở file này.
+> Dùng kèm PRD: khi thiết kế từng batch, tham chiếu các màn hình tương ứng ở file này.
 
 ## 0. Quy ước
 
@@ -18,7 +18,7 @@
 - `?` = cột nullable → UI có trạng thái rỗng "Chưa cập nhật".
 - Mọi bảng có `is_deleted` → UI dùng "Ẩn / Lưu trữ", không xóa cứng. Danh sách mặc định lọc `is_deleted = 0`.
 - Tiền: VND, `dec(18,0)`, hiển thị `1.250.000 ₫`. Ngày giờ kèm `(GMT+7)` ở bước xác nhận.
-- Tên trạng thái lấy theo PRD §7 (Phụ lục B của `Claude_Design_Prompt.md`), hiển thị nhãn tiếng Việt.
+- Tên trạng thái lấy theo PRD §7 (Phụ lục B), hiển thị nhãn tiếng Việt.
 - Hành động nhạy cảm → ghi `AUDIT_LOGS` (actor_user_id, action, entity_type, entity_id, details).
 
 ## Sitemap

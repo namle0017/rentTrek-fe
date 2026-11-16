@@ -83,4 +83,16 @@ describe('NotificationBell', () => {
     expect(screen.queryByText('Cảnh báo')).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Xem tất cả thông báo' })).toHaveAttribute('href', '/guide/notifications');
   });
+
+  it('renders navbar variant for customer and links to /notifications', async () => {
+    useAuth.mockReturnValue({ currentUser: { role: 'Customer' }, isAuthenticated: true });
+    renderBell({ variant: 'navbar' });
+    const bellBtn = screen.getByRole('button', { name: 'Thông báo, 2 mục mới' });
+    expect(bellBtn).toBeInTheDocument();
+    expect(bellBtn).toHaveTextContent('2');
+
+    await userEvent.click(bellBtn);
+    expect(screen.getByRole('link', { name: 'Xem tất cả thông báo' })).toHaveAttribute('href', '/notifications');
+    expect(screen.getByRole('link', { name: 'Xem tất cả' })).toHaveAttribute('href', '/notifications');
+  });
 });

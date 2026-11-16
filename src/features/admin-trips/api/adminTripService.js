@@ -25,8 +25,7 @@ export const adminTripService = {
   createTrip: (payload) => axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.ROOT, payload),
   getTripById: (tripId) => axiosClient.get(API_ENDPOINTS.ADMIN_TRIPS.BY_ID(tripId)),
   updateTrip: (tripId, payload) => axiosClient.put(API_ENDPOINTS.ADMIN_TRIPS.BY_ID(tripId), payload),
-  getReadinessChecklist: (tripId) =>
-    axiosClient.get(API_ENDPOINTS.ADMIN_TRIPS.READINESS_CHECKLIST(tripId)),
+  getReadinessChecklist: (tripId) => axiosClient.get(API_ENDPOINTS.ADMIN_TRIPS.READINESS_CHECKLIST(tripId)),
   openBooking: (tripId) => axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.OPEN_BOOKING(tripId)),
   closeBooking: (tripId) => axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.CLOSE_BOOKING(tripId)),
   startTrip: (tripId) => axiosClient.post(API_ENDPOINTS.ADMIN_TRIPS.START(tripId)),

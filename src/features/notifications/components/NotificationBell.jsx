@@ -16,11 +16,11 @@ const PREVIEW_SIZE = 6;
 const MAX_ALERTS = 5;
 
 /**
- * Chuông duy nhất trên header Guide/Admin/Staff (khách dùng chuông của MainLayout).
+ * Chuông thông báo dùng chung trên header (MainLayout khách, GuideLayout, BackofficeShell Admin/Staff).
  * Mở ra một danh sách gộp: cảnh báo vận hành (khi có `alertsEndpoint`) ở trên, thông báo cá nhân ở dưới.
  * Badge = số thông báo chưa đọc + số cảnh báo đang mở.
  */
-export default function NotificationBell({ alertsEndpoint }) {
+export default function NotificationBell({ alertsEndpoint, variant = 'default' }) {
   const { currentUser, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -63,25 +63,36 @@ export default function NotificationBell({ alertsEndpoint }) {
   const isLoading = notifications.isFetching || (alertsEndpoint && alerts.isPending);
   const isEmpty = !alertItems.length && !notificationItems.length;
 
+  const isNavbar = variant === 'navbar';
+
   return (
     <div className={styles.wrap} ref={wrapRef}>
       <button
         type="button"
-        className={styles.bell}
+        className={isNavbar ? styles.navbarBell : styles.bell}
         aria-label={`Thông báo, ${badgeCount} mục mới`}
         aria-expanded={open}
         aria-haspopup="true"
         onClick={() => setOpen((prev) => !prev)}
       >
-        <OutdoorIcon name="bell" size={18} />
-        {badgeCount > 0 && <span className={styles.badge}>{badgeCount > 99 ? '99+' : badgeCount}</span>}
+        <OutdoorIcon name="bell" size={isNavbar ? 20 : 18} />
+        {badgeCount > 0 && (
+          <span className={isNavbar ? styles.navbarBadge : styles.badge}>
+            {badgeCount > 99 ? '99+' : badgeCount}
+          </span>
+        )}
       </button>
 
       {open && (
         <div className={styles.panel} role="dialog" aria-label="Thông báo">
           <div className={styles.panelHeader}>
-            <strong>Thông báo</strong>
-            {unreadCount > 0 && <span>{unreadCount} chưa đọc</span>}
+            <div className={styles.panelHeaderLeft}>
+              <strong>Thông báo</strong>
+              {unreadCount > 0 && <span className={styles.unreadTag}>{unreadCount} mới</span>}
+            </div>
+            <Link to={allPath} className={styles.headerLink} onClick={() => setOpen(false)}>
+              Xem tất cả
+            </Link>
           </div>
 
           <div className={styles.list}>

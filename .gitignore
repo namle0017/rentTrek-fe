@@ -16,7 +16,6 @@ logs/
 npm-debug.log*
 
 # Editor / OS
-.claude/
 .idea/
 .vscode/*
 !.vscode/extensions.json
@@ -26,9 +25,7 @@ npm-debug.log*
 Thumbs.db
 
 # Local AI tooling / generated analysis
-CLAUDE.md
 AGENTS.md
-.claude/
 .codex/
 .agents/
 .cursor/
@@ -42,3 +39,6 @@ graphify-out/
 # Exclude sensitive work plans and design system uploads
 docs/ADMIN-WORK-PLAN.md
 docs/RenTrekk Design System*
+
+# Local code-analysis cache
+.ua/

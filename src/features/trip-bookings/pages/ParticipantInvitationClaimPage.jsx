@@ -5,21 +5,13 @@ import OutdoorIcon from '@/components/OutdoorIcon';
 import Spinner from '@/components/Spinner';
 import { ROUTES } from '@/constants/routes';
 import { formatDateTime } from '@/utils/formatDate';
+import TripActivitiesSection from '../components/TripActivitiesSection';
 import { useInvitationPreview } from '../hooks/useTripBookings';
 import row from '../components/ParticipantRow.module.css';
 import styles from './ParticipantInvitationClaimPage.module.css';
 import detail from './TripBookingDetailPage.module.css';
 
 const TIMELINE = ['Đặt chỗ', 'Thanh toán', 'Chờ khởi hành', 'Hoàn tất'];
-
-const groupByDay = (activities) => {
-  const days = new Map();
-  activities.forEach((activity) => {
-    if (!days.has(activity.dayNumber)) days.set(activity.dayNumber, []);
-    days.get(activity.dayNumber).push(activity);
-  });
-  return [...days.entries()];
-};
 
 /** Link chỉ đọc cho nhóm: token nằm sau dấu #, không cần đăng nhập, không gán tài khoản. */
 export default function ParticipantInvitationClaimPage() {
@@ -53,9 +45,7 @@ export default function ParticipantInvitationClaimPage() {
 
   return (
     <main className={detail.page}>
-      <Breadcrumb
-        items={[{ label: 'Trang chủ', to: ROUTES.HOME }, { label: 'Chuyến đi của đoàn' }]}
-      />
+      <Breadcrumb items={[{ label: 'Trang chủ', to: ROUTES.HOME }, { label: 'Chuyến đi của đoàn' }]} />
 
       <header className={detail.header}>
         <div className={detail.headerInfo}>
@@ -114,35 +104,7 @@ export default function ParticipantInvitationClaimPage() {
             </div>
           </section>
 
-          {preview.activities.length > 0 && (
-            <section className={detail.participants} aria-label="Lịch hoạt động dự kiến">
-              <div className={detail.sectionTitle}>
-                <div>
-                  <span className={detail.kicker}>LỊCH TRÌNH</span>
-                  <h2>Lịch hoạt động dự kiến</h2>
-                </div>
-              </div>
-              {groupByDay(preview.activities).map(([dayNumber, activities]) => (
-                <section key={dayNumber} className={styles.day}>
-                  <h3>{activities[0].dayTitle || `Ngày ${dayNumber}`}</h3>
-                  <ol>
-                    {activities.map((activity) => (
-                      <li key={activity.activityId} className={activity.isCurrent ? styles.current : undefined}>
-                        <time>{activity.startTime.slice(0, 5)}</time>
-                        <div>
-                          <strong>{activity.name}</strong>
-                          {activity.isCurrent && (
-                            <span className={styles.currentBadge}>Đang diễn ra theo lịch</span>
-                          )}
-                          {activity.description && <p>{activity.description}</p>}
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                </section>
-              ))}
-            </section>
-          )}
+          <TripActivitiesSection activities={preview.activities} />
         </div>
 
         <aside className={detail.sideColumn}>

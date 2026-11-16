@@ -24,6 +24,7 @@ import HoldCountdown from '../components/HoldCountdown';
 import { InviteLinkBox } from '../components/InvitationTokensPanel';
 import ParticipantRow from '../components/ParticipantRow';
 import TripPaymentPanel from '../components/TripPaymentPanel';
+import TripActivitiesSection from '../components/TripActivitiesSection';
 import TripSuggestedBundles from '../components/TripSuggestedBundles';
 import { useCustomerTripGrouping, useTripBooking } from '../hooks/useTripBookings';
 import {
@@ -312,6 +313,8 @@ export default function TripBookingDetailPage() {
               <BookingGroupingPanel groupingQuery={groupingQuery} />
             </div>
           )}
+
+          <TripActivitiesSection activities={booking.activities} />
 
           {booking.paymentStatus === PAYMENT_STATUS.PAID && booking.status === BOOKING_STATUS.CONFIRMED && (
             <div className={styles.suggestedBundlesSection}>

@@ -2,20 +2,66 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ErrorState from '@/components/ErrorState';
 import Spinner from '@/components/Spinner';
-import { ATTENDANCE_STATUS_LABEL } from '@/constants/enums';
+import { ATTENDANCE_STATUS_LABEL, TRIP_STATUS, TRIP_STATUS_LABEL } from '@/constants/enums';
 import { ROUTES } from '@/constants/routes';
-import { useGuideGroupRoster } from '../hooks/useGuidePortal';
+import { useGuideBatchAttendance, useGuideGroupRoster } from '../hooks/useGuidePortal';
 import styles from './GuidePortal.module.css';
+
+const STATUS_BUTTONS = [
+  { status: 'Present', label: 'Có mặt', activeClass: 'statusBtnPresent' },
+  { status: 'Late', label: 'Đến muộn', activeClass: 'statusBtnLate' },
+  { status: 'Absent', label: 'Vắng mặt', activeClass: 'statusBtnAbsent' },
+];
 
 export default function GuideGroupRosterPage() {
   const { tripId } = useParams();
   const [search, setSearch] = useState('');
+  const [feedback, setFeedback] = useState(null);
   const { data: roster, isLoading, isError, error, refetch } = useGuideGroupRoster(tripId, search);
+  const attendanceMutation = useGuideBatchAttendance(tripId);
 
   if (isLoading) return <Spinner />;
   if (isError || !roster) return <ErrorState message={error?.message} onRetry={refetch} />;
 
   const participants = roster.participants ?? [];
+  const activityId = roster.currentActivity?.activityId;
+  // BE chỉ nhận điểm danh khi chuyến InProgress (409 TRIP_NOT_IN_PROGRESS)
+  const isInProgress = roster.tripStatus === TRIP_STATUS.IN_PROGRESS;
+  const canTakeAttendance = isInProgress && Boolean(activityId) && !attendanceMutation.isPending;
+
+  const submit = async (payload, successText) => {
+    setFeedback(null);
+    try {
+      const res = await attendanceMutation.mutateAsync({
+        activityId,
+        clientBatchId: crypto.randomUUID(),
+        ...payload,
+      });
+      setFeedback({ type: 'success', text: `${successText} (${res.data?.progressText ?? 'đã lưu'}).` });
+    } catch (err) {
+      setFeedback({ type: 'error', text: err.message || 'Không thể lưu điểm danh.' });
+    }
+  };
+
+  const handleMarkAllPresent = () =>
+    submit({ markAllPresent: true, attendances: [] }, 'Đã đánh dấu cả nhóm có mặt');
+
+  const handleStatus = (participant, status) => {
+    const saved = participant.currentAttendanceStatus;
+    if (saved === status) return;
+
+    let reason = null;
+    if (saved) {
+      // BE bắt buộc lý do khi sửa trạng thái đã lưu (REASON_REQUIRED_FOR_UPDATE)
+      reason = window.prompt(`Lý do đổi trạng thái của ${participant.fullName}:`)?.trim();
+      if (!reason) return;
+    }
+
+    submit(
+      { markAllPresent: false, attendances: [{ participantId: participant.participantId, status, reason }] },
+      `Đã lưu ${participant.fullName}: ${ATTENDANCE_STATUS_LABEL[status] ?? status}`,
+    );
+  };
 
   return (
     <>
@@ -51,7 +97,32 @@ export default function GuideGroupRosterPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+
+        {isInProgress ? (
+          <button
+            type="button"
+            className={styles.btnAccent}
+            onClick={handleMarkAllPresent}
+            disabled={!canTakeAttendance || participants.length === 0}
+          >
+            Đánh dấu tất cả có mặt
+          </button>
+        ) : (
+          <p className={`${styles.badge} ${styles.badgeWarning}`} role="status">
+            Chuyến đang ở trạng thái {TRIP_STATUS_LABEL[roster.tripStatus] ?? roster.tripStatus}. Điểm danh sẽ
+            mở khi Điều hành đóng bán và bấm “Bắt đầu chuyến”.
+          </p>
+        )}
       </div>
+
+      {feedback && (
+        <p
+          className={`${styles.badge} ${feedback.type === 'error' ? styles.badgeDanger : styles.badgePositive}`}
+          role={feedback.type === 'error' ? 'alert' : 'status'}
+        >
+          {feedback.text}
+        </p>
+      )}
 
       {participants.length === 0 ? (
         <div className={styles.tripCard}>
@@ -79,6 +150,23 @@ export default function GuideGroupRosterPage() {
                 {ATTENDANCE_STATUS_LABEL[p.currentAttendanceStatus] ?? 'Chưa điểm danh'}
               </span>
             </div>
+
+            {isInProgress && (
+              <div className={styles.statusBtnGroup}>
+                {STATUS_BUTTONS.map(({ status, label, activeClass }) => (
+                  <button
+                    key={status}
+                    type="button"
+                    className={`${styles.statusBtn} ${p.currentAttendanceStatus === status ? styles[activeClass] : ''}`}
+                    aria-pressed={p.currentAttendanceStatus === status}
+                    onClick={() => handleStatus(p, status)}
+                    disabled={!canTakeAttendance}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            )}
 
             <div className={styles.actionGrid}>
               {p.phone ? (

@@ -84,6 +84,17 @@
   margin-bottom: 6px;
 }
 
+.headerBadge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #166534;
+  background: #dcfce7;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
 .codeTag {
   font-family: monospace;
   font-weight: var(--font-weight-body);
@@ -223,6 +234,8 @@
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: background 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btnPrimary:hover:not(:disabled) {
@@ -243,6 +256,8 @@
   font-size: var(--font-size-control);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btnSecondary:hover {

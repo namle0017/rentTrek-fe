@@ -90,14 +90,14 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLoca
         <div className={styles.header}>
           <div>
             <div className={styles.badgeLine}>
-              <span className={styles.codeTag}>Gán thiết bị cho chuyến đi</span>
+              <span className={styles.headerBadge}>Gán thiết bị cho chuyến đi</span>
             </div>
             <h3 className={styles.title}>{item.productName}</h3>
             <p className={styles.subtitle}>
               {item.variantName} • SKU: {item.sku} • Cần: {item.requiredQuantity} cái
             </p>
           </div>
-          <button type="button" className={styles.closeBtn} onClick={onClose}>
+          <button type="button" className={styles.closeBtn} onClick={onClose} title="Đóng">
             ✕
           </button>
         </div>
@@ -107,7 +107,7 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLoca
           <div className={styles.cardSection}>
             <h4 className={styles.sectionTitle}>Quét Barcode hoặc nhập mã thiết bị</h4>
             <form onSubmit={handleScanSubmit} className={styles.field}>
-              <div style={{ display: 'flex', gap: '8px' }}>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <input
                   type="text"
                   className={styles.input}
@@ -118,8 +118,13 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLoca
                     setErrorMsg('');
                   }}
                   autoFocus
+                  style={{ flex: 1 }}
                 />
-                <button type="submit" className={styles.btnPrimary}>
+                <button
+                  type="submit"
+                  className={styles.btnPrimary}
+                  style={{ minWidth: '76px', textAlign: 'center', padding: '9px 16px' }}
+                >
                   Gán
                 </button>
               </div>
@@ -194,21 +199,43 @@ export default function AssignGearDrawer({ tripId, item, isOpen, onClose, onLoca
         </div>
 
         {/* Footer */}
-        <div className={styles.footer} style={{ padding: '16px 24px', borderTop: '1px solid #e5e7eb', background: '#fafafa' }}>
-          <div style={{ marginRight: 'auto', fontSize: "var(--font-size-meta)" }}>
+        <div
+          className={styles.footer}
+          style={{
+            padding: '16px 24px',
+            borderTop: '1px solid #e5e7eb',
+            background: '#fafafa',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px',
+          }}
+        >
+          <div style={{ fontSize: 'var(--font-size-meta)', color: '#4b5563' }}>
             Đã chọn <strong>{selectedCodes.size}</strong> / {item.requiredQuantity} món
           </div>
-          <button type="button" className={styles.btnSecondary} onClick={onClose} disabled={assignMutation.isPending}>
-            Hủy
-          </button>
-          <button
-            type="button"
-            className={styles.btnPrimary}
-            onClick={handleSave}
-            disabled={assignMutation.isPending || selectedCodes.size === 0}
-          >
-            {assignMutation.isPending ? 'Đang lưu...' : `Xác nhận giữ ${selectedCodes.size} món`}
-          </button>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <button
+              type="button"
+              className={styles.btnSecondary}
+              onClick={onClose}
+              disabled={assignMutation.isPending}
+            >
+              Hủy
+            </button>
+            <button
+              type="button"
+              className={styles.btnPrimary}
+              onClick={handleSave}
+              disabled={assignMutation.isPending || selectedCodes.size === 0}
+            >
+              {assignMutation.isPending
+                ? 'Đang lưu...'
+                : selectedCodes.size > 0
+                ? `Lưu phân bổ (${selectedCodes.size})`
+                : 'Lưu phân bổ'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

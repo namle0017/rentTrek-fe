@@ -28,12 +28,42 @@ export default function AssetGanttPage() {
     isLoading,
     isFetching,
   } = useAssetGantt({
+    from: fromDate,
+    to: toDate,
     fromDate,
     toDate,
   });
 
   const ganttData = useMemo(() => {
-    return serverGanttData || { variantGroups: [] };
+    if (!serverGanttData) return { variantGroups: [], totalAssets: 0, inUseCount: 0, availableCount: 0 };
+    const rawGroups = serverGanttData.variants || serverGanttData.variantGroups || [];
+    const variantGroups = rawGroups.map((g) => ({
+      ...g,
+      productVariantId: g.productVariantId || g.variantId,
+      dailyOccupancy: (g.dailySummaries || g.dailyOccupancy || []).map((s) => ({
+        ...s,
+        occupiedCount: s.inUseCount ?? s.occupiedCount ?? 0,
+        isOverbooked: s.isOverCapacity ?? s.isOverbooked ?? false,
+      })),
+    }));
+    const totalAssets = variantGroups.reduce((acc, g) => acc + (g.totalAssets || (g.assets || []).length), 0);
+    let inUseCount = 0;
+    variantGroups.forEach((g) => {
+      (g.assets || []).forEach((a) => {
+        const blocks = a.timeline || a.assignments || [];
+        if (blocks.some((b) => b.status === 'Issued' || b.status === 'Reserved')) {
+          inUseCount++;
+        }
+      });
+    });
+    const availableCount = Math.max(0, totalAssets - inUseCount);
+    return {
+      ...serverGanttData,
+      variantGroups,
+      totalAssets: serverGanttData.totalAssets ?? totalAssets,
+      inUseCount: serverGanttData.inUseCount ?? inUseCount,
+      availableCount: serverGanttData.availableCount ?? availableCount,
+    };
   }, [serverGanttData]);
 
   // Tạo danh sách các ngày trong khoảng
@@ -258,9 +288,9 @@ export default function AssetGanttPage() {
 
                           {/* Assignment Bars Layer */}
                           <div className={styles.barsLayer}>
-                            {asset.assignments?.map((assign) => {
-                              const resStart = dayjs(assign.reservedFrom).startOf('day');
-                              const resEnd = dayjs(assign.reservedUntil).startOf('day');
+                            {(asset.timeline || asset.assignments || []).map((assign) => {
+                              const resStart = dayjs(assign.from || assign.reservedFrom).startOf('day');
+                              const resEnd = dayjs(assign.to || assign.reservedUntil).startOf('day');
                               const rangeStart = dayjs(startDateStr).startOf('day');
                               const rangeEnd = dayjs(startDateStr).add(daysCount, 'day').startOf('day');
 
@@ -282,6 +312,8 @@ export default function AssetGanttPage() {
                               if (assign.sourceType === 'TripProvided') sourceClass = styles.barTrip;
                               if (assign.sourceType === 'Promotion') sourceClass = styles.barPromo;
 
+                              const label = assign.sourceLabel || assign.sourceCode || 'Phân bổ';
+
                               return (
                                 <div
                                   key={assign.assignmentId}
@@ -293,13 +325,9 @@ export default function AssetGanttPage() {
                                     width: `${widthPercent}%`,
                                   }}
                                   onClick={() => setSelectedAssignment(assign)}
-                                  title={`${assign.sourceType}: ${assign.sourceCode} (${dayjs(
-                                    assign.reservedFrom,
-                                  ).format(
-                                    'DD/MM',
-                                  )} - ${dayjs(assign.reservedUntil).format('DD/MM')}) [${assign.status}]`}
+                                  title={`${assign.sourceType}: ${label} (${resStart.format('DD/MM')} - ${resEnd.format('DD/MM')}) [${assign.status}]`}
                                 >
-                                  <span className={styles.barText}>{assign.sourceCode}</span>
+                                  <span className={styles.barText}>{label}</span>
                                 </div>
                               );
                             })}
@@ -336,7 +364,9 @@ export default function AssetGanttPage() {
               </div>
               <div className={styles.infoRow}>
                 <span className={styles.infoLabel}>Mã tham chiếu:</span>
-                <span className={styles.codeBadge}>{selectedAssignment.sourceCode}</span>
+                <span className={styles.codeBadge}>
+                  {selectedAssignment.sourceLabel || selectedAssignment.sourceCode}
+                </span>
               </div>
               <div className={styles.infoRow}>
                 <span className={styles.infoLabel}>Trạng thái:</span>
@@ -347,8 +377,8 @@ export default function AssetGanttPage() {
               <div className={styles.infoRow}>
                 <span className={styles.infoLabel}>Khoảng ngày:</span>
                 <span>
-                  {dayjs(selectedAssignment.reservedFrom).format('DD/MM/YYYY')} →{' '}
-                  {dayjs(selectedAssignment.reservedUntil).format('DD/MM/YYYY')}
+                  {dayjs(selectedAssignment.from || selectedAssignment.reservedFrom).format('DD/MM/YYYY')} →{' '}
+                  {dayjs(selectedAssignment.to || selectedAssignment.reservedUntil).format('DD/MM/YYYY')}
                 </span>
               </div>
             </div>
